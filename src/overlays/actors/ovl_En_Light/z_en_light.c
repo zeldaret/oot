@@ -17,7 +17,7 @@
 #include "play_state.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_fire.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0

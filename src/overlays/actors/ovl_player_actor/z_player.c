@@ -53,7 +53,9 @@
 #include "save.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/player_anim_headers.h"
+#include "assets/objects/gameplay_keep/hover_boots_circle.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x33910.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
 // Some player animations are played at this reduced speed, for reasons yet unclear.
@@ -364,22 +366,22 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 
 // .bss part 1
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64" \
+                               "ique-cn:128 ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
 static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ique-cn:192 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ique-cn:128 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ique-cn:160 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ique-cn:192 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
 
@@ -10478,8 +10480,8 @@ static ColliderCylinderInit D_80854624 = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -10498,8 +10500,8 @@ static ColliderQuadInit D_80854650 = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000100, 0x00, 0x01 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000100, HIT_SPECIAL_EFFECT_NONE, 0x01 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -10518,8 +10520,8 @@ static ColliderQuadInit D_808546A0 = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00100000, 0x00, 0x00 },
-        { 0xDFCFFFFF, 0x00, 0x00 },
+        { 0x00100000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xDFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_NONE,

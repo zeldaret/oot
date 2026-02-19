@@ -21,7 +21,7 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/shopkeeper_controls_tex.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 #include "assets/objects/object_os/object_os.h"
@@ -154,8 +154,8 @@ UNUSED static ColliderCylinderInitType1 sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,

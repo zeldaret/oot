@@ -1,7 +1,7 @@
 /*
  * File: z_bg_haka_zou.c
  * Overlay: ovl_Bg_Haka_Zou
- * Description: Statue and Wall (Shadow Temple)
+ * Description: Bombable Shadow Temple themed objects
  */
 
 #include "z_bg_haka_zou.h"
@@ -21,26 +21,19 @@
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
-typedef enum ShadowTempleAssetsType {
-    /* 0x0 */ STA_GIANT_BIRD_STATUE,
-    /* 0x1 */ STA_BOMBABLE_SKULL_WALL,
-    /* 0x2 */ STA_BOMBABLE_RUBBLE,
-    /* 0x3 */ STA_UNKNOWN
-} ShadowTempleAssetsType;
-
 void BgHakaZou_Init(Actor* thisx, PlayState* play);
 void BgHakaZou_Destroy(Actor* thisx, PlayState* play);
 void BgHakaZou_Update(Actor* thisx, PlayState* play);
 void BgHakaZou_Draw(Actor* thisx, PlayState* play);
 
-void BgHakaZou_Wait(BgHakaZou* this, PlayState* play);
-void func_80882BDC(BgHakaZou* this, PlayState* play);
-void func_80883000(BgHakaZou* this, PlayState* play);
-void func_80883104(BgHakaZou* this, PlayState* play);
-void func_80883144(BgHakaZou* this, PlayState* play);
-void func_80883254(BgHakaZou* this, PlayState* play);
-void func_80883328(BgHakaZou* this, PlayState* play);
-void func_808834D8(BgHakaZou* this, PlayState* play);
+void BgHakaZou_WaitForObject(BgHakaZou* this, PlayState* play);
+void BgHakaZou_CrumbleSkullWall(BgHakaZou* this, PlayState* play);
+void BgHakaZou_WaitForHit(BgHakaZou* this, PlayState* play);
+void BgHakaZou_IdleKill(BgHakaZou* this, PlayState* play);
+void BgHakaZou_BirdStatueAnim_Explode(BgHakaZou* this, PlayState* play);
+void BgHakaZou_BirdStatueAnim_Shear(BgHakaZou* this, PlayState* play);
+void BgHakaZou_BirdStatueAnim_Topple(BgHakaZou* this, PlayState* play);
+void BgHakaZou_BirdStatueAnim_Settle(BgHakaZou* this, PlayState* play);
 void BgHakaZou_DoNothing(BgHakaZou* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
@@ -54,8 +47,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000008, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000008, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -91,7 +84,7 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
     this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
-    if (thisx->params == STA_UNKNOWN) {
+    if (thisx->params == BGHAKAZOU_TYPE_SKULL_WALL_RUBBLE) {
         Actor_SetScale(thisx, (Rand_ZeroOne() * 0.005f) + 0.025f);
 
         thisx->speed = Rand_ZeroOne();
@@ -106,36 +99,38 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
 
         DynaPolyActor_Init(&this->dyna, 0);
 
-        if (thisx->params == STA_GIANT_BIRD_STATUE) {
+        if (thisx->params == BGHAKAZOU_TYPE_GIANT_BIRD_STATUE) {
             thisx->cullingVolumeDistance = 2000.0f;
             thisx->cullingVolumeScale = 3000.0f;
             thisx->cullingVolumeDownward = 3000.0f;
         }
     }
 
-    this->requiredObjectSlot = (thisx->params == STA_BOMBABLE_RUBBLE)
+    this->requiredObjectSlot = (thisx->params == BGHAKAZOU_TYPE_BOMBABLE_RUBBLE)
                                    ? Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
                                    : Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
 
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(thisx);
-    } else if ((thisx->params != STA_UNKNOWN) && Flags_GetSwitch(play, this->switchFlag)) {
-        if (thisx->params != STA_GIANT_BIRD_STATUE) {
+    } else if (thisx->params != BGHAKAZOU_TYPE_SKULL_WALL_RUBBLE && Flags_GetSwitch(play, this->switchFlag)) {
+        if (thisx->params != BGHAKAZOU_TYPE_GIANT_BIRD_STATUE) {
+            // Object has already been destroyed
             Actor_Kill(thisx);
         } else {
+            // Initialize the statue toppled over
             thisx->shape.rot.x = -0x4000;
             thisx->world.pos.z -= 80.0f;
-            thisx->world.pos.y -= 54.0f;
+            thisx->world.pos.y -= 40 + 14;
         }
     }
 
-    this->actionFunc = BgHakaZou_Wait;
+    this->actionFunc = BgHakaZou_WaitForObject;
 }
 
 void BgHakaZou_Destroy(Actor* thisx, PlayState* play) {
     BgHakaZou* this = (BgHakaZou*)thisx;
 
-    if (this->dyna.actor.params != STA_UNKNOWN) {
+    if (this->dyna.actor.params != BGHAKAZOU_TYPE_SKULL_WALL_RUBBLE) {
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
         Collider_DestroyCylinder(play, &this->collider);
     }
@@ -166,48 +161,49 @@ void func_808828F4(BgHakaZou* this, PlayState* play) {
     }
 }
 
-void BgHakaZou_Wait(BgHakaZou* this, PlayState* play) {
-    CollisionHeader* colHeader;
+void BgHakaZou_WaitForObject(BgHakaZou* this, PlayState* play) {
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->dyna.actor.objectSlot = this->requiredObjectSlot;
         this->dyna.actor.draw = BgHakaZou_Draw;
 
-        if (this->dyna.actor.params == STA_UNKNOWN) {
-            this->actionFunc = func_80882BDC;
+        if (this->dyna.actor.params == BGHAKAZOU_TYPE_SKULL_WALL_RUBBLE) {
+            this->actionFunc = BgHakaZou_CrumbleSkullWall;
         } else {
-            Actor_SetObjectDependency(play, &this->dyna.actor);
+            CollisionHeader* colHeader;
 
+            Actor_SetObjectDependency(play, &this->dyna.actor);
             colHeader = NULL;
 
-            if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
-                CollisionHeader_GetVirtual(&object_haka_objects_Col_006F70, &colHeader);
+            if (this->dyna.actor.params == BGHAKAZOU_TYPE_GIANT_BIRD_STATUE) {
+                CollisionHeader_GetVirtual(&gShadowTempleBirdStatueCol, &colHeader);
                 this->collider.dim.radius = 80;
                 this->collider.dim.height = 100;
                 this->collider.dim.yShift = -30;
                 this->collider.dim.pos.x -= 56;
                 this->collider.dim.pos.z += 56;
                 this->dyna.actor.cullingVolumeScale = 1500.0f;
-            } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
-                CollisionHeader_GetVirtual(&object_haka_objects_Col_005E30, &colHeader);
+            } else if (this->dyna.actor.params == BGHAKAZOU_TYPE_BOMBABLE_SKULL_WALL) {
+                CollisionHeader_GetVirtual(&gShadowTempleSkullWallCol, &colHeader);
                 this->collider.dim.yShift = -50;
-            } else {
-                CollisionHeader_GetVirtual(&gBotwBombSpotCol, &colHeader);
+            } else /* BGHAKAZOU_TYPE_BOMBABLE_RUBBLE */ {
+                CollisionHeader_GetVirtual(&gBotwBombableRubbleCol, &colHeader);
                 this->collider.dim.radius = 55;
                 this->collider.dim.height = 20;
             }
 
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-            if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(play, this->switchFlag)) {
+            if ((this->dyna.actor.params == BGHAKAZOU_TYPE_GIANT_BIRD_STATUE) &&
+                Flags_GetSwitch(play, this->switchFlag)) {
                 this->actionFunc = BgHakaZou_DoNothing;
             } else {
-                this->actionFunc = func_80883000;
+                this->actionFunc = BgHakaZou_WaitForHit;
             }
         }
     }
 }
-void func_80882BDC(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_CrumbleSkullWall(BgHakaZou* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -231,7 +227,7 @@ void func_80882BDC(BgHakaZou* this, PlayState* play) {
     }
 }
 
-void func_80882CC4(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_SpawnSkullWallRubble(BgHakaZou* this, PlayState* play) {
     s32 i;
     s32 j;
     Vec3f actorSpawnPos;
@@ -249,13 +245,14 @@ void func_80882CC4(BgHakaZou* this, PlayState* play) {
             actorSpawnPos.y = this->dyna.actor.world.pos.y + (i - 1) * 55;
 
             Actor_Spawn(&play->actorCtx, play, ACTOR_BG_HAKA_ZOU, actorSpawnPos.x, actorSpawnPos.y, actorSpawnPos.z, 0,
-                        this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + 2);
+                        this->dyna.actor.shape.rot.y, 0,
+                        this->dyna.actor.params + 2); // this passes BGHAKAZOU_TYPE_SKULL_WALL_RUBBLE into params
             func_800286CC(play, &actorSpawnPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
 }
 
-void func_80882E54(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_SpawnRubbleParticles(BgHakaZou* this, PlayState* play) {
     Vec3f fragmentPos;
     s32 i;
     s32 j;
@@ -265,44 +262,44 @@ void func_80882E54(BgHakaZou* this, PlayState* play) {
     fragmentPos.y = this->collider.dim.pos.y;
     fragmentPos.z = this->collider.dim.pos.z;
 
-    EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombSpotDL);
+    EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombableRubbleDL);
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             fragmentPos.x = this->collider.dim.pos.x + (((j * 2) - 1) * num);
             fragmentPos.z = this->collider.dim.pos.z + (((i * 2) - 1) * num);
-            EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombSpotDL);
+            EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombableRubbleDL);
             func_800286CC(play, &fragmentPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
 }
 
-void func_80883000(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_WaitForHit(BgHakaZou* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         Flags_SetSwitch(play, this->switchFlag);
 
-        if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
+        if (this->dyna.actor.params == BGHAKAZOU_TYPE_GIANT_BIRD_STATUE) {
             this->timer = 20;
-            this->actionFunc = func_80883144;
+            this->actionFunc = BgHakaZou_BirdStatueAnim_Explode;
             OnePointCutscene_Init(play, 3400, 999, &this->dyna.actor, CAM_ID_MAIN);
-        } else if (this->dyna.actor.params == 2) {
-            func_80882E54(this, play);
+        } else if (this->dyna.actor.params == BGHAKAZOU_TYPE_BOMBABLE_RUBBLE) {
+            BgHakaZou_SpawnRubbleParticles(this, play);
             this->dyna.actor.draw = NULL;
             this->timer = 1;
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_EXPLOSION);
-            this->actionFunc = func_80883104;
-        } else {
-            func_80882CC4(this, play);
+            this->actionFunc = BgHakaZou_IdleKill;
+        } else /* BGHAKAZOU_TYPE_BOMBABLE_SKULL_WALL */ {
+            BgHakaZou_SpawnSkullWallRubble(this, play);
             this->timer = 1;
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
-            this->actionFunc = func_80883104;
+            this->actionFunc = BgHakaZou_IdleKill;
         }
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
-void func_80883104(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_IdleKill(BgHakaZou* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -312,7 +309,7 @@ void func_80883104(BgHakaZou* this, PlayState* play) {
     }
 }
 
-void func_80883144(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_BirdStatueAnim_Explode(BgHakaZou* this, PlayState* play) {
     Vec3f explosionPos;
 
     if (this->timer != 0) {
@@ -330,11 +327,11 @@ void func_80883144(BgHakaZou* this, PlayState* play) {
 
     if (this->timer == 0) {
         this->timer = 20;
-        this->actionFunc = func_80883254;
+        this->actionFunc = BgHakaZou_BirdStatueAnim_Shear;
     }
 }
 
-void func_80883254(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_BirdStatueAnim_Shear(BgHakaZou* this, PlayState* play) {
     f32 moveDist = (Rand_ZeroOne() * 0.5f) + 0.5f;
 
     Math_StepToF(&this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.z - 80.0f, 2.0f * moveDist);
@@ -347,14 +344,14 @@ void func_80883254(BgHakaZou* this, PlayState* play) {
         if (this->timer == 0) {
             this->timer = 60;
             this->dyna.actor.world.rot.x = 8;
-            this->actionFunc = func_80883328;
+            this->actionFunc = BgHakaZou_BirdStatueAnim_Topple;
         }
     } else {
         func_808828F4(this, play);
     }
 }
 
-void func_80883328(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_BirdStatueAnim_Topple(BgHakaZou* this, PlayState* play) {
     Vec3f effectPos;
     s32 i;
     s32 j;
@@ -378,19 +375,30 @@ void func_80883328(BgHakaZou* this, PlayState* play) {
 
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         this->timer = 25;
-        this->actionFunc = func_808834D8;
+        this->actionFunc = BgHakaZou_BirdStatueAnim_Settle;
     }
 }
 
-void func_808834D8(BgHakaZou* this, PlayState* play) {
+void BgHakaZou_BirdStatueAnim_Settle(BgHakaZou* this, PlayState* play) {
     f32 moveDist;
 
     if (this->timer != 0) {
         this->timer--;
     }
 
+    // The idea is to shake the pillar up and down on alternate frames, with the magnitude of the shaking decreasing
+    // linearly as the timer approaches zero. With an even numbered starting timer, the pillar will go up one frame,
+    // down the next with the same magnitude, cancelling out any movement (except perhaps for some miniscule rounding
+    // error). However, the starting timer is set to 25, (an odd number). This skips the increment step and shifts the
+    // pillar down an extra -14.4 units.
+    //
+    // The programmer was likely aware of a discrepancy as BgHakaZou_Init subtracts 14 units to account for this
+    // (resulting in a 0.4 unit discrepancy between post animation and the next time the actor is reloaded). Lowering
+    // the statue 14 units causes the model to clip into the ground, but it is also enough to make the pillar low enough
+    // for Link to climb on top of it if the player is missing keys.
+
     moveDist = (this->timer % 2) ? 15.0f : -15.0f;
-    this->dyna.actor.world.pos.y += ((this->timer & 0xFE) * 0.04f * moveDist);
+    this->dyna.actor.world.pos.y += ((this->timer & 0xFE) * (1.0f / 25) * moveDist);
 
     if (this->timer == 0) {
         this->actionFunc = BgHakaZou_DoNothing;
@@ -405,17 +413,17 @@ void BgHakaZou_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (this->dyna.actor.params == 3) {
+    if (this->dyna.actor.params == BGHAKAZOU_TYPE_SKULL_WALL_RUBBLE) {
         Actor_MoveXZGravity(&this->dyna.actor);
     }
 }
 
 void BgHakaZou_Draw(Actor* thisx, PlayState* play) {
     static Gfx* dLists[] = {
-        object_haka_objects_DL_0064E0,
-        object_haka_objects_DL_005CE0,
-        gBotwBombSpotDL,
-        object_haka_objects_DL_005CE0,
+        gShadowTempleBirdStatueDL,
+        gShadowTempleSkullWallDL,
+        gBotwBombableRubbleDL,
+        gShadowTempleSkullWallDL,
     };
 
     Gfx_DrawDListOpa(play, dLists[thisx->params]);

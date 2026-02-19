@@ -17,7 +17,8 @@
 #include "play_state.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_dust.h"
+#include "assets/objects/gameplay_keep/dust_textures.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]

@@ -18,7 +18,7 @@
 #include "z_lib.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_fire.h"
 #include "assets/objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
@@ -51,8 +51,8 @@ static ColliderCylinderInit sCylInitStand = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00100000, 0x00, 0x00 },
-        { 0xEE01FFFF, 0x00, 0x00 },
+        { 0x00100000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xEE01FFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -71,8 +71,8 @@ static ColliderCylinderInit sCylInitFlame = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00020820, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00020820, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,

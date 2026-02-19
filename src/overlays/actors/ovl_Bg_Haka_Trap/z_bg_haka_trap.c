@@ -1,7 +1,27 @@
 /*
  * File: z_bg_haka_trap.c
  * Overlay: ovl_Bg_Haka_Trap
- * Description: Shadow Temple Objects
+ * Description: Shadow Temple traps
+ *
+ * HAKA_TRAP_GUILLOTINE:
+ * A guillotine blade attached to a chain, drops from the ceiling.
+ *
+ * HAKA_TRAP_GUILLOTINE_FAST: (spawn only param)
+ * Enables a flag making the guillotine move faster.
+ *
+ * HAKA_TRAP_SPIKED_CRUSHER:
+ * A square shaped platform suspended by a chain with spikes underneath, intended to crush the player. A pushblock can
+ * be used to prevent it from decending completely. Rotating this actor may prevent correct hit detection of the block.
+ *
+ * HAKA_TRAP_SPIKED_WALL_EAST:
+ * HAKA_TRAP_SPIKED_WALL_WEST:
+ *
+ * Two wooden spike walls that come together to crush the player. The one to the east has extra holes to reveal the
+ * chest behind it.
+ *
+ * HAKA_TRAP_FAN_BLADE:
+ * A small fan blade that pushes the player away when turned on. `world.rot.z` is used to store the angular
+ * velocity of the fan
  */
 
 #include "z_bg_haka_trap.h"
@@ -27,20 +47,20 @@ void BgHakaTrap_Destroy(Actor* thisx, PlayState* play);
 void BgHakaTrap_Update(Actor* thisx, PlayState* play);
 void BgHakaTrap_Draw(Actor* thisx, PlayState* play);
 
-void func_8087FFC0(BgHakaTrap* this, PlayState* play);
-void func_808801B8(BgHakaTrap* this, PlayState* play);
-void func_808802D8(BgHakaTrap* this, PlayState* play);
-void func_80880484(BgHakaTrap* this, PlayState* play);
-void func_808805C0(BgHakaTrap* this, PlayState* play);
-void func_808806BC(BgHakaTrap* this, PlayState* play);
-void func_808808F4(BgHakaTrap* this, PlayState* play);
-void func_808809B0(BgHakaTrap* this, PlayState* play);
-void func_808809E4(BgHakaTrap* this, PlayState* play, s16 arg2);
-void func_80880AE8(BgHakaTrap* this, PlayState* play);
-void func_80880C0C(BgHakaTrap* this, PlayState* play);
-void func_80880D68(BgHakaTrap* this);
+void BgHakaTrap_UpdateBodyColliderPos(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_SpikedWall_CloseIn(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_SpikedWall_Burn(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_Guillotine_Fall(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_Guillotine_Lift(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_SpikedCrusher_Fall(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_SpikedCrusher_Lift(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_FanBlade_Idle(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_PushPlayer(BgHakaTrap* this, PlayState* play, s16 angularVelocity);
+void BgHakaTrap_FanBlade_ToggleFanGust(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_FanBlade_FullGust(BgHakaTrap* this, PlayState* play);
+void BgHakaTrap_SpikedWall_UpdateCollider(BgHakaTrap* this);
 
-static UNK_TYPE D_80880F30 = 0;
+static s32 sIsSpikeWallBurning = false;
 
 ActorProfile Bg_Haka_Trap_Profile = {
     /**/ ACTOR_BG_HAKA_TRAP,
@@ -65,8 +85,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x04 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -74,12 +94,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 90, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sTrisElementsInit[] = {
+static ColliderTrisElementInit sSpikedWallTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00020000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00020000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -89,8 +109,8 @@ static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00020000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00020000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -99,7 +119,7 @@ static ColliderTrisElementInit sTrisElementsInit[] = {
     },
 };
 
-static ColliderTrisInit sTrisInit = {
+static ColliderTrisInit sSpikedWallTrisInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -108,8 +128,8 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    ARRAY_COUNT(sTrisElementsInit),
-    sTrisElementsInit,
+    ARRAY_COUNT(sSpikedWallTrisElementsInit),
+    sSpikedWallTrisElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 100, MASS_IMMOVABLE };
@@ -119,7 +139,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
-    static UNK_TYPE D_80881014 = 0;
+    static s32 sSpikedCrusherFlip = false;
     BgHakaTrap* this = (BgHakaTrap*)thisx;
     STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
@@ -127,54 +147,65 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->params &= 0xFF;
 
-    if (thisx->params != HAKA_TRAP_PROPELLER) {
+    if (thisx->params != HAKA_TRAP_FAN_BLADE) {
         Collider_InitCylinder(play, &this->colliderCylinder);
         Collider_SetCylinder(play, &this->colliderCylinder, thisx, &sCylinderInit);
 
-        if ((thisx->params == HAKA_TRAP_GUILLOTINE_SLOW) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
+        if ((thisx->params == HAKA_TRAP_GUILLOTINE) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
             this->timer = 20;
             this->colliderCylinder.dim.yShift = 10;
             thisx->velocity.y = 0.1f;
 
             if (thisx->params == HAKA_TRAP_GUILLOTINE_FAST) {
-                thisx->params = HAKA_TRAP_GUILLOTINE_SLOW;
-                this->unk_16A = 1;
+                thisx->params = HAKA_TRAP_GUILLOTINE;
+                this->isGuillotineFast = true;
             }
 
-            this->actionFunc = func_80880484;
+            this->actionFunc = BgHakaTrap_Guillotine_Fall;
         } else {
             DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
             thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
-            if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
-                CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &colHeader);
+            if (thisx->params == HAKA_TRAP_SPIKED_CRUSHER) {
+                CollisionHeader_GetVirtual(&gShadowTempleSpikedCrusherCol, &colHeader);
                 this->timer = 30;
 
-                if (D_80881014 != 0) {
-                    this->actionFunc = func_808808F4;
-                    D_80881014 = 0;
+                // Instances alternate between starting off in the up or down position.
+                if (sSpikedCrusherFlip) {
+                    this->actionFunc = BgHakaTrap_SpikedCrusher_Lift;
+                    sSpikedCrusherFlip = false;
                 } else {
-                    D_80881014 = 1;
-                    this->actionFunc = func_808806BC;
+                    sSpikedCrusherFlip = true;
+                    this->actionFunc = BgHakaTrap_SpikedCrusher_Fall;
                     thisx->velocity.y = 0.5f;
                 }
 
-                thisx->floorHeight = thisx->home.pos.y - 225.0f;
-                this->unk_16A = (thisx->floorHeight + 50.0f) - 25.0f;
+                // Assign the minimum height of the crusher. The crusher intentionally clips through the floor by 25
+                // units to allow the spikes to pierce the floor
+                thisx->floorHeight = thisx->home.pos.y - (200 + 25);
+
+                // Assigns the height the crusher rises on first "tug". The final -25 offset is missing in other
+                // calculations of this variable.
+                this->spikedCrusherStepY = (thisx->floorHeight + 50.0f) - 25.0f;
 
                 this->colliderCylinder.dim.radius = 10;
                 this->colliderCylinder.dim.height = 40;
             } else {
-                if (thisx->params == HAKA_TRAP_SPIKED_WALL) {
-                    CollisionHeader_GetVirtual(&object_haka_objects_Col_0081D0, &colHeader);
+                if (thisx->params == HAKA_TRAP_SPIKED_WALL_EAST) {
+                    CollisionHeader_GetVirtual(&gShadowTempleSpikedWallEastCol, &colHeader);
+                    // Shift the home position toward the center of the room. This will become the target position that
+                    // triggers the crush.
                     thisx->home.pos.x -= 200.0f;
-                } else {
+                } else /* HAKA_TRAP_SPIKED_WALL_WEST */ {
+                    // Shift the home position toward the center of the room. This will become the target position that
+                    // triggers the crush.
                     thisx->home.pos.x += 200.0f;
-                    CollisionHeader_GetVirtual(&object_haka_objects_Col_008D10, &colHeader);
+                    CollisionHeader_GetVirtual(&gShadowTempleSpikedWallWestCol, &colHeader);
                 }
 
                 Collider_InitTris(play, &this->spikesCollider);
-                Collider_SetTris(play, &this->spikesCollider, thisx, &sTrisInit, this->spikesColliderElements);
+                Collider_SetTris(play, &this->spikesCollider, thisx, &sSpikedWallTrisInit,
+                                 this->spikesColliderElements);
 
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
@@ -182,14 +213,15 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 this->colliderCylinder.elem.atElemFlags &= ~ATELEM_SFX_NORMAL;
                 this->colliderCylinder.elem.atElemFlags |= ATELEM_SFX_WOOD;
 
-                this->actionFunc = func_808801B8;
+                this->actionFunc = BgHakaTrap_SpikedWall_CloseIn;
             }
 
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
         }
     } else {
+        // Initialize HAKA_TRAP_FAN_BLADE
         this->timer = 40;
-        this->actionFunc = func_808809B0;
+        this->actionFunc = BgHakaTrap_FanBlade_Idle;
         thisx->cullingVolumeScale = 500.0f;
     }
 
@@ -199,11 +231,11 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
 void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {
     BgHakaTrap* this = (BgHakaTrap*)thisx;
 
-    if (this->dyna.actor.params != HAKA_TRAP_PROPELLER) {
-        if (this->dyna.actor.params != HAKA_TRAP_GUILLOTINE_SLOW) {
+    if (this->dyna.actor.params != HAKA_TRAP_FAN_BLADE) {
+        if (this->dyna.actor.params != HAKA_TRAP_GUILLOTINE) {
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-            if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ||
-                (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
+            if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_EAST) ||
+                (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_WEST)) {
                 Collider_DestroyTris(play, &this->spikesCollider);
             }
         }
@@ -211,61 +243,68 @@ void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {
         Collider_DestroyCylinder(play, &this->colliderCylinder);
     }
 
-    Audio_StopSfxByPos(&this->unk_16C);
+    Audio_StopSfxByPos(&this->chainLiftSfxPos);
 }
 
-void func_8087FFC0(BgHakaTrap* this, PlayState* play) {
-    f32 cosine;
-    Vec3f sp28;
-    f32 sine;
-    f32 zNonNegative;
+// Updates body collider for HAKA_TRAP_GUILLOTINE, HAKA_TRAP_SPIKED_WALL_EAST, HAKA_TRAP_SPIKED_WALL_WEST
+void BgHakaTrap_UpdateBodyColliderPos(BgHakaTrap* this, PlayState* play) {
+    f32 cos;
+    Vec3f colOff;
+    f32 sin;
+    f32 zSign;
     Player* player = GET_PLAYER(play);
 
-    Actor_WorldToActorCoords(&this->dyna.actor, &sp28, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &colOff, &player->actor.world.pos);
 
-    sine = Math_SinS(this->dyna.actor.shape.rot.y);
-    cosine = Math_CosS(this->dyna.actor.shape.rot.y);
-    if (this->dyna.actor.params == HAKA_TRAP_GUILLOTINE_SLOW) {
-        sp28.x = CLAMP(sp28.x, -50.0f, 50.0f);
-        zNonNegative = (sp28.z >= 0.0f) ? 1.0f : -1.0f;
-        sp28.z = zNonNegative * -15.0f;
+    sin = Math_SinS(this->dyna.actor.shape.rot.y);
+    cos = Math_CosS(this->dyna.actor.shape.rot.y);
+
+    if (this->dyna.actor.params == HAKA_TRAP_GUILLOTINE) {
+        colOff.x = CLAMP(colOff.x, -50.0f, 50.0f);
+        zSign = (colOff.z >= 0.0f) ? 1.0f : -1.0f;
+        colOff.z = zSign * -15.0f;
     } else {
-        sp28.x = -CLAMP(sp28.x, -162.0f, 162.0f);
-        zNonNegative = (sp28.z >= 0.0f) ? 1.0f : -1.0f;
-        sp28.z = zNonNegative * 15.0f;
+        colOff.x = -CLAMP(colOff.x, -162.0f, 162.0f);
+        zSign = (colOff.z >= 0.0f) ? 1.0f : -1.0f;
+        colOff.z = zSign * 15.0f;
     }
 
-    this->colliderCylinder.dim.pos.x = this->dyna.actor.world.pos.x + sp28.x * cosine + sp28.z * sine;
-    this->colliderCylinder.dim.pos.z = this->dyna.actor.world.pos.z + sp28.x * sine + sp28.z * cosine;
+    this->colliderCylinder.dim.pos.x = this->dyna.actor.world.pos.x + colOff.x * cos + colOff.z * sin;
+    this->colliderCylinder.dim.pos.z = this->dyna.actor.world.pos.z + colOff.x * sin + colOff.z * cos;
 }
 
-void func_808801B8(BgHakaTrap* this, PlayState* play) {
-    static UNK_TYPE D_80881018 = 0;
+#define BGHAKATRAP_SPIKEDWALL_HITEAST (1 << 0)
+#define BGHAKATRAP_SPIKEDWALL_HITWEST (1 << 1)
+#define BGHAKATRAP_SPIKEDWALL_CRUSH_PLAYER 4
+
+void BgHakaTrap_SpikedWall_CloseIn(BgHakaTrap* this, PlayState* play) {
+    static s32 sSpikedWallFlags = 0;
     Player* player = GET_PLAYER(play);
 
-    if ((D_80880F30 == 0) && (!Player_InCsMode(play))) {
+    if (!sIsSpikeWallBurning && !Player_InCsMode(play)) {
+        // Step towards the home position. If we haven't reached it, play the sliding sfx
         if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x, 0.5f)) {
             Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
-        } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) {
-            D_80881018 |= 1;
-        } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2) {
-            D_80881018 |= 2;
+        } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_EAST) {
+            sSpikedWallFlags |= BGHAKATRAP_SPIKEDWALL_HITEAST;
+        } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_WEST) {
+            sSpikedWallFlags |= BGHAKATRAP_SPIKEDWALL_HITWEST;
         }
     }
 
-    func_8087FFC0(this, play);
+    BgHakaTrap_UpdateBodyColliderPos(this, play);
 
     if (this->spikesCollider.base.acFlags & AC_HIT) {
         this->timer = 20;
-        D_80880F30 = 1;
-        this->actionFunc = func_808802D8;
-    } else if (D_80881018 == 3) {
-        D_80881018 = 4;
+        sIsSpikeWallBurning = true;
+        this->actionFunc = BgHakaTrap_SpikedWall_Burn;
+    } else if (sSpikedWallFlags == (BGHAKATRAP_SPIKEDWALL_HITEAST | BGHAKATRAP_SPIKEDWALL_HITWEST)) {
+        sSpikedWallFlags = BGHAKATRAP_SPIKEDWALL_CRUSH_PLAYER;
         player->actor.bgCheckFlags |= BGCHECKFLAG_CRUSHED;
     }
 }
 
-void func_808802D8(BgHakaTrap* this, PlayState* play) {
+void BgHakaTrap_SpikedWall_Burn(BgHakaTrap* this, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f vector;
     f32 xScale;
@@ -280,7 +319,7 @@ void func_808802D8(BgHakaTrap* this, PlayState* play) {
     for (i = 0; i < 2; i++) {
         f32 rand = Rand_ZeroOne();
 
-        xScale = (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ? -30.0f : 30.0f;
+        xScale = (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_EAST) ? -30.0f : 30.0f;
 
         vector.x = xScale * rand + this->dyna.actor.world.pos.x;
         vector.y = Rand_ZeroOne() * 10.0f + this->dyna.actor.world.pos.y + 30.0f;
@@ -290,16 +329,16 @@ void func_808802D8(BgHakaTrap* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        D_80880F30 = 0;
+        sIsSpikeWallBurning = false;
         Actor_Kill(&this->dyna.actor);
     }
 }
 
-void func_80880484(BgHakaTrap* this, PlayState* play) {
-    s32 sp24;
+void BgHakaTrap_Guillotine_Fall(BgHakaTrap* this, PlayState* play) {
+    s32 isDoneFalling;
     s32 timer;
 
-    if (this->unk_16A) {
+    if (this->isGuillotineFast) {
         this->dyna.actor.velocity.y *= 3.0f;
     } else {
         this->dyna.actor.velocity.y *= 2.0f;
@@ -309,34 +348,35 @@ void func_80880484(BgHakaTrap* this, PlayState* play) {
         this->timer -= 1;
     }
 
-    sp24 =
+    isDoneFalling =
         Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 185.0f, this->dyna.actor.velocity.y);
     timer = this->timer;
 
-    if ((timer == 10 && !this->unk_16A) || (timer == 13 && this->unk_16A)) {
+    if ((timer == 10 && !this->isGuillotineFast) || (timer == 13 && this->isGuillotineFast)) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
     }
 
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.0f;
-        this->timer = (this->unk_16A) ? 10 : 40;
+        this->timer = (this->isGuillotineFast) ? 10 : 40;
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
-        this->actionFunc = func_808805C0;
+        this->actionFunc = BgHakaTrap_Guillotine_Lift;
     }
 
-    func_8087FFC0(this, play);
+    BgHakaTrap_UpdateBodyColliderPos(this, play);
 
-    if (sp24 == 0) {
+    if (!isDoneFalling) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder.base);
     }
 }
 
-void func_808805C0(BgHakaTrap* this, PlayState* play) {
+void BgHakaTrap_Guillotine_Lift(BgHakaTrap* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
 
-    if (this->unk_16A) {
+    if (this->isGuillotineFast) {
+
         Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 27.0f);
     } else {
         if (this->timer > 20) {
@@ -354,13 +394,13 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
         this->timer = 20;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         this->dyna.actor.velocity.y = 0.1f;
-        this->actionFunc = func_80880484;
+        this->actionFunc = BgHakaTrap_Guillotine_Fall;
     }
 
-    func_8087FFC0(this, play);
+    BgHakaTrap_UpdateBodyColliderPos(this, play);
 }
 
-void func_808806BC(BgHakaTrap* this, PlayState* play) {
+void BgHakaTrap_SpikedCrusher_Fall(BgHakaTrap* this, PlayState* play) {
     Vec3f vector;
     f32 floorHeight;
     f32 yIntersect;
@@ -373,10 +413,17 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
         this->timer--;
     }
 
+    // Perform a collision check for the "stone umbrella" block
+    // Because of the shape of the room and the size of the block we only need to check three positions,
+    // the center of the east edge, the centerpoint, and the center of the west edge of the crusher.
+    //
+    // The y coordinate is offset by 25 units, as the crusher is allowed to clip into the floor for visual effect.
+
     vector.x = this->dyna.actor.world.pos.x + 90.0f;
     vector.y = (this->dyna.actor.world.pos.y + 1.0f) + 25.0f;
     vector.z = this->dyna.actor.world.pos.z;
 
+    // actor.floorHeight is storing the minimum y position of the crusher
     floorHeight = this->dyna.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
@@ -404,77 +451,87 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.0f;
         this->timer = 30;
-        this->unk_16A = (s16)this->dyna.actor.world.pos.y + 50.0f;
-        this->unk_16A = CLAMP_MAX(this->unk_16A, this->dyna.actor.home.pos.y);
+        this->spikedCrusherStepY = (s16)this->dyna.actor.world.pos.y + 50.0f;
+        this->spikedCrusherStepY = CLAMP_MAX(this->spikedCrusherStepY, this->dyna.actor.home.pos.y);
 
-        this->actionFunc = func_808808F4;
+        this->actionFunc = BgHakaTrap_SpikedCrusher_Lift;
     }
 }
 
-void func_808808F4(BgHakaTrap* this, PlayState* play) {
+void BgHakaTrap_SpikedCrusher_Lift(BgHakaTrap* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
 
     if (this->timer > 20) {
-        this->unk_169 = Math_StepToF(&this->dyna.actor.world.pos.y, this->unk_16A, 15.0f);
+        this->isSpikedCrusherStationary = Math_StepToF(&this->dyna.actor.world.pos.y, this->spikedCrusherStepY, 15.0f);
     } else {
-        this->unk_169 = Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 20.0f);
+        this->isSpikedCrusherStationary =
+            Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 20.0f);
     }
 
     if (this->timer == 0) {
         this->timer = 30;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         this->dyna.actor.velocity.y = 0.5f;
-        this->actionFunc = func_808806BC;
+        this->actionFunc = BgHakaTrap_SpikedCrusher_Fall;
     }
 }
 
-void func_808809B0(BgHakaTrap* this, PlayState* play) {
+void BgHakaTrap_FanBlade_Idle(BgHakaTrap* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer -= 1;
     }
 
     if (this->timer == 0) {
-        this->actionFunc = func_80880AE8;
+        // this->timer = 0, which signals the fan to turn on and speed up
+        this->actionFunc = BgHakaTrap_FanBlade_ToggleFanGust;
     }
 }
 
-void func_808809E4(BgHakaTrap* this, PlayState* play, s16 arg2) {
+void BgHakaTrap_PushPlayer(BgHakaTrap* this, PlayState* play, s16 angularVelocity) {
     Player* player = GET_PLAYER(play);
-    Vec3f sp18;
+    Vec3f playerRelOff;
 
-    Actor_WorldToActorCoords(&this->dyna.actor, &sp18, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &playerRelOff, &player->actor.world.pos);
 
-    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
+    if ((fabsf(playerRelOff.x) < 70.0f) && (fabsf(playerRelOff.y) < 100.0f) && (playerRelOff.z < 500.0f) &&
         (GET_PLAYER(play)->currentBoots != PLAYER_BOOTS_IRON)) {
-        player->pushedSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 0x3A00) * (2.0f / 3.0f);
+        player->pushedSpeed =
+            ((500.0f - playerRelOff.z) * 0.06f + 5.0f) * angularVelocity * (1.0f / 0x3A00) * (2.0f / 3.0f);
         player->pushedYaw = this->dyna.actor.shape.rot.y;
     }
 }
 
-void func_80880AE8(BgHakaTrap* this, PlayState* play) {
+void BgHakaTrap_FanBlade_ToggleFanGust(BgHakaTrap* this, PlayState* play) {
+    // this->timer stores the current fan behavior.
+    // if 1, the fan is on and is ramping down to the off state.
+    // if 0, the fan is off and is ramping up to the full on state.
+
+    // world.rot.z is the current angular velocity of the fan
     if (this->timer != 0) {
+        // Fan winds down
         if (Math_ScaledStepToS(&this->dyna.actor.world.rot.z, 0, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
             this->timer = 40;
-            this->actionFunc = func_808809B0;
+            this->actionFunc = BgHakaTrap_FanBlade_Idle;
         }
     } else {
+        // Fan speeds up
         if (Math_ScaledStepToS(&this->dyna.actor.world.rot.z, 0x3A00, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
             this->timer = 100;
-            this->actionFunc = func_80880C0C;
+            this->actionFunc = BgHakaTrap_FanBlade_FullGust;
         }
     }
 
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
-    if (this->dyna.actor.world.rot.z >= 0x1801) {
+    if (this->dyna.actor.world.rot.z > 0x1800) {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     }
 
-    func_808809E4(this, play, this->dyna.actor.world.rot.z);
+    BgHakaTrap_PushPlayer(this, play, this->dyna.actor.world.rot.z);
 }
 
-void func_80880C0C(BgHakaTrap* this, PlayState* play) {
+void BgHakaTrap_FanBlade_FullGust(BgHakaTrap* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -482,12 +539,13 @@ void func_80880C0C(BgHakaTrap* this, PlayState* play) {
     Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
 
     if (this->timer == 0) {
-        this->timer = 1;
-        this->actionFunc = func_80880AE8;
+        this->timer = 1; // setting this signals the fan to turn off and slow down
+        this->actionFunc = BgHakaTrap_FanBlade_ToggleFanGust;
     }
 
+    // world.rot.z is the current angular velocity of the fan
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
-    func_808809E4(this, play, this->dyna.actor.world.rot.z);
+    BgHakaTrap_PushPlayer(this, play, this->dyna.actor.world.rot.z);
 }
 
 void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
@@ -496,14 +554,14 @@ void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if ((this->dyna.actor.params != HAKA_TRAP_PROPELLER) && (thisx->params != HAKA_TRAP_SPIKED_BOX)) {
+    if ((this->dyna.actor.params != HAKA_TRAP_FAN_BLADE) && (thisx->params != HAKA_TRAP_SPIKED_CRUSHER)) {
         this->colliderCylinder.dim.pos.y = actorPos->y;
 
-        if ((thisx->params == HAKA_TRAP_GUILLOTINE_SLOW) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
+        if ((thisx->params == HAKA_TRAP_GUILLOTINE) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder.base);
         } else {
-            if (this->actionFunc == func_808801B8) {
+            if (this->actionFunc == BgHakaTrap_SpikedWall_CloseIn) {
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->spikesCollider.base);
             }
 
@@ -512,50 +570,49 @@ void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-void func_80880D68(BgHakaTrap* this) {
-    Vec3f vec3;
-    Vec3f vec2;
-    Vec3f vec1;
+void BgHakaTrap_SpikedWall_UpdateCollider(BgHakaTrap* this) {
+    Vec3f vtx[3];
 
-    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[0], &vec1);
-    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[1], &vec2);
-    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[2], &vec3);
-    Collider_SetTrisVertices(&this->spikesCollider, 0, &vec1, &vec2, &vec3);
+    Matrix_MultVec3f(&sSpikedWallTrisElementsInit[0].dim.vtx[0], &vtx[0]);
+    Matrix_MultVec3f(&sSpikedWallTrisElementsInit[0].dim.vtx[1], &vtx[1]);
+    Matrix_MultVec3f(&sSpikedWallTrisElementsInit[0].dim.vtx[2], &vtx[2]);
+    Collider_SetTrisVertices(&this->spikesCollider, 0, &vtx[0], &vtx[1], &vtx[2]);
 
-    Matrix_MultVec3f(&sTrisElementsInit[1].dim.vtx[2], &vec2);
-    Collider_SetTrisVertices(&this->spikesCollider, 1, &vec1, &vec3, &vec2);
+    Matrix_MultVec3f(&sSpikedWallTrisElementsInit[1].dim.vtx[2], &vtx[1]);
+    Collider_SetTrisVertices(&this->spikesCollider, 1, &vtx[0], &vtx[2], &vtx[1]);
 }
 
 void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     static Gfx* sDLists[5] = {
-        object_haka_objects_DL_007610, object_haka_objects_DL_009860, object_haka_objects_DL_007EF0,
-        object_haka_objects_DL_008A20, object_haka_objects_DL_0072C0,
+        gShadowTempleGuillotineDL,     gShadowTempleSpikedCrusherDL, gShadowTempleSpikedWallEastDL,
+        gShadowTempleSpikedWallWestDL, gShadowTempleFanBladeDL,
     };
-    static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
+    static Color_RGBA8 sFogBlack = { 0, 0, 0, 0 };
     BgHakaTrap* this = (BgHakaTrap*)thisx;
     STACK_PAD(s32);
-    Vec3f sp2C;
 
-    if (this->actionFunc == func_808802D8) {
-        func_80026230(play, &D_8088103C, this->timer + 20, 0x28);
+    if (this->actionFunc == BgHakaTrap_SpikedWall_Burn) {
+        func_80026230(play, &sFogBlack, this->timer + 20, 40);
     }
 
     Gfx_DrawDListOpa(play, sDLists[this->dyna.actor.params]);
 
-    if (this->actionFunc == func_808801B8) {
-        func_80880D68(this);
+    if (this->actionFunc == BgHakaTrap_SpikedWall_CloseIn) {
+        BgHakaTrap_SpikedWall_UpdateCollider(this);
     }
 
-    if (this->actionFunc == func_808802D8) {
+    if (this->actionFunc == BgHakaTrap_SpikedWall_Burn) {
         func_80026608(play);
     }
 
-    if ((this->actionFunc == func_808808F4) && !this->unk_169) {
-        sp2C.x = this->dyna.actor.world.pos.x;
-        sp2C.z = this->dyna.actor.world.pos.z;
-        sp2C.y = this->dyna.actor.world.pos.y + 110.0f;
+    if ((this->actionFunc == BgHakaTrap_SpikedCrusher_Lift) && !this->isSpikedCrusherStationary) {
+        Vec3f sfxPos;
 
-        SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sp2C, &this->unk_16C);
-        Sfx_PlaySfxAtPos(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+        sfxPos.x = this->dyna.actor.world.pos.x;
+        sfxPos.z = this->dyna.actor.world.pos.z;
+        sfxPos.y = this->dyna.actor.world.pos.y + 110.0f;
+
+        SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sfxPos, &this->chainLiftSfxPos);
+        Sfx_PlaySfxAtPos(&this->chainLiftSfxPos, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

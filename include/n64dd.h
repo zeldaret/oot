@@ -155,7 +155,7 @@ extern vu8 D_80121214;
 
 extern s32 (*D_801D2E54)(struct_801E0D18*);
 
-extern u8 B_801DC000[];
+extern u8 gN64DDDiskReadTemporaryBuffer[];
 
 extern s32 D_801D2E90;
 extern OSMesgQueue* B_801E0D10[2];

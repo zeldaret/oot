@@ -8,7 +8,18 @@
 #include "z_lib.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gLargerCubeCol.h"
+#include "assets/objects/gameplay_keep/small_flat_block_col.h"
+#include "assets/objects/gameplay_keep/gLargerFlatBlockCol.h"
+#include "assets/objects/gameplay_keep/small_cube_col.h"
+#include "assets/objects/gameplay_keep/flat_block_model.h"
+#include "assets/objects/gameplay_keep/flat_rot_block_model.h"
+#include "assets/objects/gameplay_keep/small_cube_model.h"
+#include "assets/objects/gameplay_keep/grass_blades_model.h"
+#include "assets/objects/gameplay_keep/tree_stump_model.h"
+#include "assets/objects/gameplay_keep/rectangular_sign_model.h"
+#include "assets/objects/gameplay_keep/directional_sign_model.h"
+#include "assets/objects/gameplay_keep/rock_fragments_model.h"
 #include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -52,8 +63,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,

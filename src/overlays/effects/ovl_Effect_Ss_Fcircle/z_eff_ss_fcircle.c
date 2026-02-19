@@ -14,7 +14,7 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x173D0.h"
 
 #define rUnused regs[3] // probably supposed to be an alpha
 #define rRadius regs[8]

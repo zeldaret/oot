@@ -23,7 +23,9 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/item_drop_dl.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x3C870.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x3F140.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 

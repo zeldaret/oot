@@ -16,7 +16,7 @@
 #include "play_state.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_bomb_explosion.h"
 
 #define rScale regs[0]
 #define rTexIndex regs[1]

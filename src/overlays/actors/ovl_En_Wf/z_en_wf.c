@@ -68,8 +68,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x00, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -79,8 +79,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x00, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -90,8 +90,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK1,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFC1FFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFC1FFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
@@ -101,8 +101,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK1,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFC1FFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFC1FFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
@@ -135,8 +135,8 @@ static ColliderCylinderInit sBodyCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -155,8 +155,8 @@ static ColliderCylinderInit sTailCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,

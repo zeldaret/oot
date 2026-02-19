@@ -4,6 +4,7 @@
 #include "gfx.h"
 #include "save.h"
 #include "stack_pad.h"
+#include "tex_len.h"
 #include "transition_instances.h"
 
 typedef enum TransitionWipeDirection {
@@ -11,7 +12,19 @@ typedef enum TransitionWipeDirection {
     /* 1 */ TRANS_WIPE_DIR_OUT
 } TransitionWipeDirection;
 
-#include "assets/code/fbdemo_wipe1/code.c"
+Vtx sTransWipeVtx[25] = {
+#include "assets/code/fbdemo_wipe1/sTransWipeVtx.inc.c"
+};
+
+#define sTransWipeTex_WIDTH 64
+#define sTransWipeTex_HEIGHT 64
+u64 sTransWipeTex[TEX_LEN(u64, sTransWipeTex_WIDTH, sTransWipeTex_HEIGHT, 4)] = {
+#include "assets/code/fbdemo_wipe1/sTransWipeTex.i4.inc.c"
+};
+
+Gfx sTransWipeDL[31] = {
+#include "assets/code/fbdemo_wipe1/sTransWipeDL.inc.c"
+};
 
 // unused.
 Gfx sTransWipeSyncDL[] = {

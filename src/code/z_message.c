@@ -128,7 +128,7 @@ s32 sCharTexScale;
 
 s16 sTextFade = false; // original name: key_off_flag ?
 
-char D_8014B2F4 = 0;
+char sMessageStartFrameCount = 0;
 
 s16 sOcarinaButtonIndexBufPos = 0;
 
@@ -2568,7 +2568,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE);
     }
 
-    sMessageHasSetSfx = D_8014B2F4 = sTextboxSkipped = sTextIsCredits = 0;
+    sMessageHasSetSfx = sMessageStartFrameCount = sTextboxSkipped = sTextIsCredits = 0;
 
     if (textId >= 0x0500 && textId < 0x0600) { // text ids 0500 to 0600 are reserved for credits
         sTextIsCredits = true;
@@ -4162,17 +4162,17 @@ void Message_Update(PlayState* play) {
 
         switch (msgCtx->msgMode) {
             case MSGMODE_TEXT_START:
-                D_8014B2F4++;
+                sMessageStartFrameCount++;
 
                 var = false;
                 if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_MARKET) {
-                    if (D_8014B2F4 >= 4) {
+                    if (sMessageStartFrameCount >= 4) {
                         var = true;
                     }
                 } else if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT ||
                            play->sceneId == SCENE_CASTLE_COURTYARD_GUARDS_DAY) {
                     var = true;
-                } else if (D_8014B2F4 >= 4 || msgCtx->talkActor == NULL) {
+                } else if (sMessageStartFrameCount >= 4 || msgCtx->talkActor == NULL) {
                     var = true;
                 }
 

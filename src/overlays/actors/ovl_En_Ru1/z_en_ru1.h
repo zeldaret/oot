@@ -26,12 +26,12 @@ typedef struct EnRu1 {
     /* 0x0260 */ s16 mouth;
     /* 0x0264 */ s32 action;
     /* 0x0268 */ s32 drawConfig;
-    /* 0x026C */ f32 unk_26C;
-    /* 0x0270 */ f32 unk_270;
+    /* 0x026C */ f32 walkingFrame;
+    /* 0x0270 */ f32 treadTimer;
     /* 0x0274 */ char unk_274[0x4];
     /* 0x0278 */ DoorWarp1* blueWarp;
-    /* 0x027C */ f32 unk_27C;
-    /* 0x0280 */ s32 unk_280;
+    /* 0x027C */ f32 xzDistToPlayerInBlueWarp;
+    /* 0x0280 */ s32 isFalling;
     /* 0x0284 */ s8 roomNum1;
     /* 0x0285 */ s8 roomNum2;
     /* 0x0286 */ s8 roomNum3;
@@ -55,34 +55,34 @@ typedef struct EnRu1 {
     /* 0x0358 */ f32 bobDepth;
     /* 0x035C */ s16 bobPhase;
     /* 0x0360 */ f32 isSinking;
-    /* 0x0364 */ Vec3f unk_364;
+    /* 0x0364 */ Vec3f treadStartPos;
     /* 0x0370 */ f32 carryIdleTimer;
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 
 typedef enum EnRu1Action {
-    /*  0 */ ENRU1_ACTION_00,
-    /*  1 */ ENRU1_ACTION_01,
-    /*  2 */ ENRU1_ACTION_02,
-    /*  3 */ ENRU1_ACTION_03,
-    /*  4 */ ENRU1_ACTION_04,
-    /*  5 */ ENRU1_ACTION_05,
-    /*  6 */ ENRU1_ACTION_06,
-    /*  7 */ ENRU1_ACTION_07,
-    /*  8 */ ENRU1_ACTION_08,
-    /*  9 */ ENRU1_ACTION_09,
-    /* 10 */ ENRU1_ACTION_10,
-    /* 11 */ ENRU1_ACTION_11,
-    /* 12 */ ENRU1_ACTION_12,
-    /* 13 */ ENRU1_ACTION_13,
-    /* 14 */ ENRU1_ACTION_14,
-    /* 15 */ ENRU1_ACTION_15,
-    /* 16 */ ENRU1_ACTION_16,
-    /* 17 */ ENRU1_ACTION_17,
-    /* 18 */ ENRU1_ACTION_18,
-    /* 19 */ ENRU1_ACTION_19,
-    /* 20 */ ENRU1_ACTION_20,
-    /* 21 */ ENRU1_ACTION_21,
+    /*  0 */ ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK,
+    /*  1 */ ENRU1_ACTION_FOUNTAIN_DIVING,
+    /*  2 */ ENRU1_ACTION_FOUNTAIN_RESURFACING,
+    /*  3 */ ENRU1_ACTION_FOUNTAIN_TREADING_WATER,
+    /*  4 */ ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK,
+    /*  5 */ ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK,
+    /*  6 */ ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK,
+    /*  7 */ ENRU1_ACTION_MEETING_RANGE_CHECK,
+    /*  8 */ ENRU1_ACTION_MEETING_INIT_POSITION,
+    /*  9 */ ENRU1_ACTION_MEETING_FACING_LINK,
+    /* 10 */ ENRU1_ACTION_MEETING_TURNING_AROUND,
+    /* 11 */ ENRU1_ACTION_MEETING_WALKING_AWAY_ACCEL,
+    /* 12 */ ENRU1_ACTION_MEETING_WALKING_AWAY_CONSTANT,
+    /* 13 */ ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE,
+    /* 14 */ ENRU1_ACTION_MEETING_END,
+    /* 15 */ ENRU1_ACTION_PRE_SPAWN_BOSS_ROOM,
+    /* 16 */ ENRU1_ACTION_SPAWN_BOSS_ROOM,
+    /* 17 */ ENRU1_ACTION_RISE_THROUGH_BLUE_WARP,
+    /* 18 */ ENRU1_ACTION_WAIT_INSIDE_BLUE_WARP,
+    /* 19 */ ENRU1_ACTION_LINK_WALKS_TO_POINT_IN_BLUE_WARP,
+    /* 20 */ ENRU1_ACTION_WHAT_TOOK_YOU_SO_LONG,
+    /* 21 */ ENRU1_ACTION_WARPING_OUT,
     /* 22 */ ENRU1_ACTION_22,
     /* 23 */ ENRU1_ACTION_23,
     /* 24 */ ENRU1_ACTION_24,

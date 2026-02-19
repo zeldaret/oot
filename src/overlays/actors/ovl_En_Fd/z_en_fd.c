@@ -23,7 +23,7 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/dust_textures.h"
 #include "assets/objects/object_fw/object_fw.h"
 
 #define FLAGS                                                                                 \
@@ -69,8 +69,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040088, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040088, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
@@ -80,8 +80,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -91,8 +91,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -102,8 +102,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -113,8 +113,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -124,8 +124,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -135,8 +135,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -146,8 +146,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -157,8 +157,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -168,8 +168,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -179,8 +179,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -190,8 +190,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,

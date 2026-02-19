@@ -26,7 +26,8 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x49F20.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x4A090.h"
 #include "assets/objects/object_gnd/object_gnd.h"
 #include "assets/objects/object_goma/object_goma.h"
 #include "assets/objects/object_ydan_objects/object_ydan_objects.h"

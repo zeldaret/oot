@@ -92,8 +92,8 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000040, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000040, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -103,8 +103,8 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000040, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000040, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -130,8 +130,8 @@ static ColliderTrisElementInit sEyeTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK4,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x0001F824, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x0001F824, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -141,8 +141,8 @@ static ColliderTrisElementInit sEyeTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x0001F824, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x0001F824, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -168,8 +168,8 @@ static ColliderJntSphElementInit sCrystalJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xEFC1FFFE, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xEFC1FFFE, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,

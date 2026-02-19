@@ -23,7 +23,7 @@
 #include "player.h"
 
 #include "assets/objects/object_vm/object_vm.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_enemy_death_flame.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -62,8 +62,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -82,8 +82,8 @@ static ColliderQuadInit sQuadInit1 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x10 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x10 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -102,8 +102,8 @@ static ColliderQuadInit sQuadInit2 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,

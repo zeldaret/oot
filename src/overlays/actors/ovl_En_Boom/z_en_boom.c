@@ -16,7 +16,7 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/boomerang.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -50,8 +50,8 @@ static ColliderQuadInit sQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000010, 0x00, 0x01 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000010, HIT_SPECIAL_EFFECT_NONE, 0x01 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_NONE,

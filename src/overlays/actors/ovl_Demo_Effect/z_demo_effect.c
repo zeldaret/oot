@@ -25,7 +25,7 @@
 #include "play_state.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_flash.h"
 #include "assets/objects/object_efc_crystal_light/object_efc_crystal_light.h"
 #include "assets/objects/object_efc_fire_ball/object_efc_fire_ball.h"
 #include "assets/objects/object_efc_lgt_shower/object_efc_lgt_shower.h"

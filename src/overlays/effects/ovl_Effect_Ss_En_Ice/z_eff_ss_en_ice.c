@@ -19,7 +19,7 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_ice_fragments.h"
 
 #define rLifespan regs[0]
 #define rYaw regs[1]

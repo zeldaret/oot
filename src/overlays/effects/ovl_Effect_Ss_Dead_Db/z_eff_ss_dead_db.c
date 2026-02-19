@@ -15,7 +15,7 @@
 #include "skin_matrix.h"
 #include "stack_pad.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_enemy_death_flame.h"
 
 #define rScale regs[0]
 #define rTextIdx regs[1]

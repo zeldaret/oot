@@ -15,7 +15,7 @@
 #include "play_state.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_hitmark.h"
 
 #define rTexIndex regs[0]
 #define rType regs[1]

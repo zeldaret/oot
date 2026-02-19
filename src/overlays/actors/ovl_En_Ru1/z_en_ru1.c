@@ -39,28 +39,28 @@ void EnRu1_Destroy(Actor* thisx, PlayState* play);
 void EnRu1_Update(Actor* thisx, PlayState* play);
 void EnRu1_Draw(Actor* thisx, PlayState* play);
 
-void func_80AEC0B4(EnRu1* this, PlayState* play);
-void func_80AEC100(EnRu1* this, PlayState* play);
-void func_80AEC130(EnRu1* this, PlayState* play);
-void func_80AEC17C(EnRu1* this, PlayState* play);
-void func_80AEC1D4(EnRu1* this, PlayState* play);
-void func_80AEC244(EnRu1* this, PlayState* play);
-void func_80AEC2C0(EnRu1* this, PlayState* play);
-void func_80AECA94(EnRu1* this, PlayState* play);
-void func_80AECAB4(EnRu1* this, PlayState* play);
-void func_80AECAD4(EnRu1* this, PlayState* play);
-void func_80AECB18(EnRu1* this, PlayState* play);
-void func_80AECB60(EnRu1* this, PlayState* play);
-void func_80AECBB8(EnRu1* this, PlayState* play);
-void func_80AECC1C(EnRu1* this, PlayState* play);
-void func_80AECC84(EnRu1* this, PlayState* play);
-void func_80AED304(EnRu1* this, PlayState* play);
-void func_80AED324(EnRu1* this, PlayState* play);
-void func_80AED344(EnRu1* this, PlayState* play);
-void func_80AED374(EnRu1* this, PlayState* play);
-void func_80AED3A4(EnRu1* this, PlayState* play);
-void func_80AED3E0(EnRu1* this, PlayState* play);
-void func_80AED414(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_GazingAtLink(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_Diving(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_Resurfacing(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_TreadingWater(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_RangeCheck(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_InitPosition(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_FacingLink(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_TurningAround(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_WalkingAwayAccel(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_WalkingAwayConstant(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_FallingDownHole(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_End(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_PreSpawn(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_Spawn(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_RiseThroughBlueWarp(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_WaitInsideBlueWarp(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_LinkWalksToPointInBlueWarp(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_WhatTookYouSoLong(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_WarpingOut(EnRu1* this, PlayState* play);
 void func_80AEF29C(EnRu1* this, PlayState* play);
 void func_80AEF2AC(EnRu1* this, PlayState* play);
 void func_80AEF2D0(EnRu1* this, PlayState* play);
@@ -102,8 +102,8 @@ static ColliderCylinderInitType1 sStandingCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -121,8 +121,8 @@ static ColliderCylinderInitType1 sSittingCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000101, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000101, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_ON,
@@ -148,52 +148,52 @@ UNUSED static s32 sUnused = 0;
 static u32 D_80AF1938 = 0;
 
 static EnRu1ActionFunc sActionFuncs[] = {
-    func_80AEC0B4, // ENRU1_ACTION_00
-    func_80AEC100, // ENRU1_ACTION_01
-    func_80AEC130, // ENRU1_ACTION_02
-    func_80AEC17C, // ENRU1_ACTION_03
-    func_80AEC1D4, // ENRU1_ACTION_04
-    func_80AEC244, // ENRU1_ACTION_05
-    func_80AEC2C0, // ENRU1_ACTION_06
-    func_80AECA94, // ENRU1_ACTION_07
-    func_80AECAB4, // ENRU1_ACTION_08
-    func_80AECAD4, // ENRU1_ACTION_09
-    func_80AECB18, // ENRU1_ACTION_10
-    func_80AECB60, // ENRU1_ACTION_11
-    func_80AECBB8, // ENRU1_ACTION_12
-    func_80AECC1C, // ENRU1_ACTION_13
-    func_80AECC84, // ENRU1_ACTION_14
-    func_80AED304, // ENRU1_ACTION_15
-    func_80AED324, // ENRU1_ACTION_16
-    func_80AED344, // ENRU1_ACTION_17
-    func_80AED374, // ENRU1_ACTION_18
-    func_80AED3A4, // ENRU1_ACTION_19
-    func_80AED3E0, // ENRU1_ACTION_20
-    func_80AED414, // ENRU1_ACTION_21
-    func_80AEF29C, // ENRU1_ACTION_22
-    func_80AEF2AC, // ENRU1_ACTION_23
-    func_80AEF2D0, // ENRU1_ACTION_24
-    func_80AEF354, // ENRU1_ACTION_25
-    func_80AEF3A8, // ENRU1_ACTION_26
-    func_80AEEBD4, // ENRU1_ACTION_27
-    func_80AEEC5C, // ENRU1_ACTION_28
-    func_80AEECF0, // ENRU1_ACTION_29
-    func_80AEED58, // ENRU1_ACTION_30
-    func_80AEEDCC, // ENRU1_ACTION_31
-    func_80AEEE34, // ENRU1_ACTION_32
-    func_80AEEE9C, // ENRU1_ACTION_33
-    func_80AEEF08, // ENRU1_ACTION_34
-    func_80AEEF5C, // ENRU1_ACTION_35
-    func_80AEF9D8, // ENRU1_ACTION_36
-    func_80AEFA2C, // ENRU1_ACTION_37
-    func_80AEFAAC, // ENRU1_ACTION_38
-    func_80AEFB04, // ENRU1_ACTION_39
-    func_80AEFB68, // ENRU1_ACTION_40
-    func_80AEFCE8, // ENRU1_ACTION_41
-    func_80AEFBC8, // ENRU1_ACTION_42
-    func_80AEFC24, // ENRU1_ACTION_43
-    func_80AEFECC, // ENRU1_ACTION_44
-    func_80AEFF40, // ENRU1_ACTION_45
+    EnRu1_Fountain_GazingAtLink,               // ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK
+    EnRu1_Fountain_Diving,                     // ENRU1_ACTION_FOUNTAIN_DIVING
+    EnRu1_Fountain_Resurfacing,                // ENRU1_ACTION_FOUNTAIN_RESURFACING
+    EnRu1_Fountain_TreadingWater,              // ENRU1_ACTION_FOUNTAIN_TREADING_WATER
+    EnRu1_Fountain_StartingSwimBack,           // ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK
+    EnRu1_Fountain_SwimmingBack,               // ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK
+    EnRu1_Fountain_FinishingSwimBack,          // ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK
+    EnRu1_Meeting_RangeCheck,                  // ENRU1_ACTION_MEETING_RANGE_CHECK
+    EnRu1_Meeting_InitPosition,                // ENRU1_ACTION_MEETING_INIT_POSITION
+    EnRu1_Meeting_FacingLink,                  // ENRU1_ACTION_MEETING_FACING_LINK
+    EnRu1_Meeting_TurningAround,               // ENRU1_ACTION_MEETING_TURNING_AROUND
+    EnRu1_Meeting_WalkingAwayAccel,            // ENRU1_ACTION_MEETING_WALKING_AWAY_ACCEL
+    EnRu1_Meeting_WalkingAwayConstant,         // ENRU1_ACTION_MEETING_WALKING_AWAY_CONSTANT
+    EnRu1_Meeting_FallingDownHole,             // ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE
+    EnRu1_Meeting_End,                         // ENRU1_ACTION_MEETING_END
+    EnRu1_BossRoom_PreSpawn,                   // ENRU1_ACTION_PRE_SPAWN_BOSS_ROOM
+    EnRu1_BossRoom_Spawn,                      // ENRU1_ACTION_SPAWN_BOSS_ROOM
+    EnRu1_BossRoom_RiseThroughBlueWarp,        // ENRU1_ACTION_RISE_THROUGH_BLUE_WARP
+    EnRu1_BossRoom_WaitInsideBlueWarp,         // ENRU1_ACTION_WAIT_INSIDE_BLUE_WARP
+    EnRu1_BossRoom_LinkWalksToPointInBlueWarp, // ENRU1_ACTION_LINK_WALKS_TO_POINT_IN_BLUE_WARP
+    EnRu1_BossRoom_WhatTookYouSoLong,          // ENRU1_ACTION_WHAT_TOOK_YOU_SO_LONG
+    EnRu1_BossRoom_WarpingOut,                 // ENRU1_ACTION_WARPING_OUT
+    func_80AEF29C,                             // ENRU1_ACTION_22
+    func_80AEF2AC,                             // ENRU1_ACTION_23
+    func_80AEF2D0,                             // ENRU1_ACTION_24
+    func_80AEF354,                             // ENRU1_ACTION_25
+    func_80AEF3A8,                             // ENRU1_ACTION_26
+    func_80AEEBD4,                             // ENRU1_ACTION_27
+    func_80AEEC5C,                             // ENRU1_ACTION_28
+    func_80AEECF0,                             // ENRU1_ACTION_29
+    func_80AEED58,                             // ENRU1_ACTION_30
+    func_80AEEDCC,                             // ENRU1_ACTION_31
+    func_80AEEE34,                             // ENRU1_ACTION_32
+    func_80AEEE9C,                             // ENRU1_ACTION_33
+    func_80AEEF08,                             // ENRU1_ACTION_34
+    func_80AEEF5C,                             // ENRU1_ACTION_35
+    func_80AEF9D8,                             // ENRU1_ACTION_36
+    func_80AEFA2C,                             // ENRU1_ACTION_37
+    func_80AEFAAC,                             // ENRU1_ACTION_38
+    func_80AEFB04,                             // ENRU1_ACTION_39
+    func_80AEFB68,                             // ENRU1_ACTION_40
+    func_80AEFCE8,                             // ENRU1_ACTION_41
+    func_80AEFBC8,                             // ENRU1_ACTION_42
+    func_80AEFC24,                             // ENRU1_ACTION_43
+    func_80AEFECC,                             // ENRU1_ACTION_44
+    func_80AEFF40,                             // ENRU1_ACTION_45
 };
 
 static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
@@ -332,7 +332,7 @@ CsCmdActorCue* EnRu1_GetCue(PlayState* play, s32 cueChannel) {
     return cue;
 }
 
-s32 func_80AEAFA0(PlayState* play, u16 cueId, s32 cueChannel) {
+s32 EnRu1_CheckCueMatchingId(PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = EnRu1_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
@@ -341,7 +341,7 @@ s32 func_80AEAFA0(PlayState* play, u16 cueId, s32 cueChannel) {
     return false;
 }
 
-s32 func_80AEAFE0(PlayState* play, u16 cueId, s32 cueChannel) {
+s32 EnRu1_CheckCueNotMatchingId(PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = EnRu1_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id != cueId)) {
@@ -483,22 +483,22 @@ void func_80AEB3CC(EnRu1* this) {
 
 void EnRu1_InitOutsideJabuJabu(EnRu1* this, PlayState* play) {
     EnRu1_AnimationChange(this, &gRutoChildWaitHandsBehindBackAnim, ANIMMODE_LOOP, 0, false);
-    this->action = ENRU1_ACTION_00;
+    this->action = ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK;
     this->drawConfig = ENRU1_DRAW_OPA;
     EnRu1_SetEyes(this, ENRU1_EYES_GAZING);
     EnRu1_SetMouth(this, ENRU1_MOUTH_SMILING);
 }
 
-CsCmdActorCue* EnRu1_GetCueChannel3(PlayState* play) {
+CsCmdActorCue* EnRu1_GetFountainCue(PlayState* play) {
     return EnRu1_GetCue(play, 3);
 }
 
-s32 func_80AEB458(PlayState* play, u16 cueId) {
-    return func_80AEAFA0(play, cueId, 3);
+s32 EnRu1_CheckFountainCueMatchingId(PlayState* play, u16 cueId) {
+    return EnRu1_CheckCueMatchingId(play, cueId, 3);
 }
 
-s32 func_80AEB480(PlayState* play, u16 cueId) {
-    return func_80AEAFE0(play, cueId, 3);
+s32 EnRu1_CheckFountainCueNotMatchingId(PlayState* play, u16 cueId) {
+    return EnRu1_CheckCueNotMatchingId(play, cueId, 3);
 }
 
 void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
@@ -510,15 +510,15 @@ void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
     EffectSsGRipple_Spawn(play, &pos, 100, radiusMax, life);
 }
 
-void func_80AEB50C(EnRu1* this, PlayState* play) {
-    this->unk_270 += 1.0f;
-    if (this->unk_270 >= kREG(3) + 10.0f) {
+void EnRu1_SpawnRippleTreading(EnRu1* this, PlayState* play) {
+    this->treadTimer += 1.0f;
+    if (this->treadTimer >= kREG(3) + 10.0f) {
         EnRu1_SpawnRipple(this, play, kREG(1) + 500, 0);
-        this->unk_270 = 0.0f;
+        this->treadTimer = 0.0f;
     }
 }
 
-void func_80AEB59C(EnRu1* this, PlayState* play) {
+void EnRu1_SpawnThreeRipples(EnRu1* this, PlayState* play) {
     EnRu1_SpawnRipple(this, play, kREG(2) + 500, 0);
     EnRu1_SpawnRipple(this, play, kREG(2) + 500, kREG(3) + 10.0f);
     EnRu1_SpawnRipple(this, play, kREG(2) + 500, (kREG(3) + 10.0f) * 2.0f);
@@ -534,7 +534,10 @@ void EnRu1_SpawnSplash(EnRu1* this, PlayState* play) {
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 1, 0);
 }
 
-void func_80AEB6E0(EnRu1* this, PlayState* play) {
+/**
+ * Used twice: once to start resurfacing, and once to start swimming toward Link.
+ */
+void EnRu1_StartMovingInWater(EnRu1* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
@@ -543,7 +546,7 @@ void func_80AEB6E0(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEB738(EnRu1* this, PlayState* play) {
+void EnRu1_MoveInWater(EnRu1* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     skelAnime->baseTransl = skelAnime->jointTable[0];
@@ -554,11 +557,11 @@ void func_80AEB738(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEB7D0(EnRu1* this) {
+void EnRu1_StopMovingInWater(EnRu1* this) {
     this->skelAnime.movementFlags &= ~(ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y);
 }
 
-f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
+f32 EnRu1_GetSwimLerpFactor(CsCmdActorCue* cue, PlayState* play) {
     s32 csCurFrame = play->csCtx.curFrame;
 
     if ((csCurFrame < cue->endFrame) && (cue->endFrame - cue->startFrame > 0)) {
@@ -569,12 +572,12 @@ f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
     return 1.0f;
 }
 
-f32 func_80AEB87C(f32 arg0, s32 arg1, s32 arg2) {
-    return (((f32)arg2 - arg1) * arg0) + arg1;
+f32 EnRu1_Lerp(f32 scale, s32 startPos, s32 endPos) {
+    return (((f32)endPos - startPos) * scale) + startPos;
 }
 
-void func_80AEB89C(EnRu1* this, PlayState* play) {
-    CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
+void EnRu1_InitPositionFromFountainCue(EnRu1* this, PlayState* play) {
+    CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
 
     if (cue != NULL) {
         this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
@@ -585,68 +588,68 @@ void func_80AEB89C(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEB914(EnRu1* this, PlayState* play) {
-    func_80AEB89C(this, play);
+void EnRu1_InitPositionDivingIntoFountain(EnRu1* this, PlayState* play) {
+    EnRu1_InitPositionFromFountainCue(this, play);
 }
 
-void func_80AEB934(EnRu1* this, PlayState* play) {
-    func_80AEB89C(this, play);
+void EnRu1_InitPositionResurfacing(EnRu1* this, PlayState* play) {
+    EnRu1_InitPositionFromFountainCue(this, play);
 }
 
-void func_80AEB954(EnRu1* this, PlayState* play) {
-    func_80AEB6E0(this, play);
+void EnRu1_StartSwimmingTowardLink(EnRu1* this, PlayState* play) {
+    EnRu1_StartMovingInWater(this, play);
 }
 
-void func_80AEB974(EnRu1* this, PlayState* play) {
+void EnRu1_SwimTowardLink(EnRu1* this, PlayState* play) {
     Vec3f* thisPos;
-    f32 sp30;
-    CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
+    f32 swimProximity;
+    CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
     STACK_PAD(s32);
 
     if (cue != NULL) {
-        sp30 = func_80AEB7E0(cue, play);
+        swimProximity = EnRu1_GetSwimLerpFactor(cue, play);
         thisPos = &this->actor.world.pos;
-        thisPos->x = func_80AEB87C(sp30, cue->startPos.x, cue->endPos.x);
-        thisPos->y = func_80AEB87C(sp30, cue->startPos.y, cue->endPos.y);
-        thisPos->z = func_80AEB87C(sp30, cue->startPos.z, cue->endPos.z);
+        thisPos->x = EnRu1_Lerp(swimProximity, cue->startPos.x, cue->endPos.x);
+        thisPos->y = EnRu1_Lerp(swimProximity, cue->startPos.y, cue->endPos.y);
+        thisPos->z = EnRu1_Lerp(swimProximity, cue->startPos.z, cue->endPos.z);
     }
 }
 
-void func_80AEBA0C(EnRu1* this, PlayState* play) {
-    func_80AEB6E0(this, play);
+void EnRu1_StartSwimmingAwayFromLink(EnRu1* this, PlayState* play) {
+    EnRu1_StartMovingInWater(this, play);
 }
 
-void func_80AEBA2C(EnRu1* this, PlayState* play) {
+void EnRu1_SwimAwayFromLink(EnRu1* this, PlayState* play) {
     STACK_PAD(s32);
-    Vec3f* unk_364 = &this->unk_364;
+    Vec3f* treadStartPos = &this->treadStartPos;
     Vec3f* thisPos;
-    f32 temp_ret_2;
-    CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
+    f32 proximity;
+    CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
     STACK_PAD(s32);
 
     if (cue != NULL) {
-        temp_ret_2 = func_80AEB7E0(cue, play);
+        proximity = EnRu1_GetSwimLerpFactor(cue, play);
         thisPos = &this->actor.world.pos;
-        thisPos->x = func_80AEB87C(temp_ret_2, unk_364->x, cue->endPos.x);
-        thisPos->y = func_80AEB87C(temp_ret_2, unk_364->y, cue->endPos.y);
-        thisPos->z = func_80AEB87C(temp_ret_2, unk_364->z, cue->endPos.z);
+        thisPos->x = EnRu1_Lerp(proximity, treadStartPos->x, cue->endPos.x);
+        thisPos->y = EnRu1_Lerp(proximity, treadStartPos->y, cue->endPos.y);
+        thisPos->z = EnRu1_Lerp(proximity, treadStartPos->z, cue->endPos.z);
     }
 }
 
-void func_80AEBAFC(EnRu1* this) {
+void EnRu1_PlayDivingEntrySfx(EnRu1* this) {
     if (this->unk_298 == 0) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_DIVE_INTO_WATER);
         this->unk_298 = 1;
     }
 }
 
-void func_80AEBB3C(EnRu1* this) {
+void EnRu1_PlayResurfacingSfx(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_FACE_UP);
     }
 }
 
-void func_80AEBB78(EnRu1* this) {
+void EnRu1_PlaySwimStrokeSfx(EnRu1* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (Animation_OnFrame(skelAnime, 4.0f) || Animation_OnFrame(skelAnime, 13.0f) ||
@@ -655,13 +658,16 @@ void func_80AEBB78(EnRu1* this) {
     }
 }
 
-void func_80AEBBF4(EnRu1* this) {
+void EnRu1_PlaySubmergeSfx(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_SUBMERGE);
     }
 }
 
-void func_80AEBC30(PlayState* play) {
+/**
+ * Plays the splashing sound effect when Link falls backwards into the Zora's Fountain waters.
+ */
+void EnRu1_PlayLinkFallingSfx(PlayState* play) {
     Player* player;
 
     if (play->csCtx.curFrame == 205) {
@@ -670,85 +676,88 @@ void func_80AEBC30(PlayState* play) {
     }
 }
 
-void func_80AEBC84(EnRu1* this, PlayState* play) {
+/**
+ * Ruto giggles at Link outside of Jabu-Jabu.
+ */
+void EnRu1_PlayGiggleSfx(EnRu1* this, PlayState* play) {
     if (play->csCtx.curFrame == 130) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
 
-void func_80AEBCB8(EnRu1* this, UNK_TYPE arg1) {
-    if (arg1 != 0) {
+void EnRu1_StartBackSwimming(EnRu1* this, s32 isSwimming) {
+    if (isSwimming != 0) {
         Animation_Change(&this->skelAnime, &gRutoChildSwimOnBackAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildSwimOnBackAnim), ANIMMODE_LOOP, -8.0f);
     }
 }
 
-void func_80AEBD1C(EnRu1* this, PlayState* play) {
-    if (func_80AEB480(play, 2)) {
-        this->action = ENRU1_ACTION_01;
+void EnRu1_EnterFountainWater(EnRu1* this, PlayState* play) {
+    if (EnRu1_CheckFountainCueNotMatchingId(play, 2)) {
+        this->action = ENRU1_ACTION_FOUNTAIN_DIVING;
         this->drawConfig = ENRU1_DRAW_NOTHING;
-        func_80AEB914(this, play);
+        EnRu1_InitPositionDivingIntoFountain(this, play);
         func_80AEAECC(this, play);
         EnRu1_SpawnSplash(this, play);
-        func_80AEB59C(this, play);
+        EnRu1_SpawnThreeRipples(this, play);
     }
 }
 
-void func_80AEBD94(EnRu1* this, PlayState* play) {
+void EnRu1_Resurface(EnRu1* this, PlayState* play) {
     STACK_PADS(s32, 2);
     f32 frameCount;
 
-    if (func_80AEB480(play, 3)) {
+    if (EnRu1_CheckFountainCueNotMatchingId(play, 3)) {
         frameCount = Animation_GetLastFrame(&gRutoChildResurfaceAnim);
-        func_80AEB934(this, play);
-        func_80AEB738(this, play);
+        EnRu1_InitPositionResurfacing(this, play);
+        EnRu1_MoveInWater(this, play);
         Animation_Change(&this->skelAnime, &gRutoChildResurfaceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-        this->action = ENRU1_ACTION_02;
+        this->action = ENRU1_ACTION_FOUNTAIN_RESURFACING;
         this->drawConfig = ENRU1_DRAW_OPA;
     }
 }
 
-void func_80AEBE3C(EnRu1* this, PlayState* play, s32 arg2) {
+void EnRu1_ResurfaceProgress(EnRu1* this, PlayState* play, s32 isResurfaced) {
     STACK_PADS(s32, 2);
 
-    if (arg2 != 0) {
+    if (isResurfaced != 0) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildTreadWaterAnim);
 
-        func_80AEB7D0(this);
+        EnRu1_StopMovingInWater(this);
         Animation_Change(&this->skelAnime, &gRutoChildTreadWaterAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
-        this->action = ENRU1_ACTION_03;
+        this->action = ENRU1_ACTION_FOUNTAIN_TREADING_WATER;
     } else {
-        func_80AEB954(this, play);
+        EnRu1_StartSwimmingTowardLink(this, play);
     }
 }
 
-void func_80AEBEC8(EnRu1* this, PlayState* play) {
+void EnRu1_StopTreading(EnRu1* this, PlayState* play) {
     STACK_PADS(s32, 2);
     f32 frameCount;
 
-    if (func_80AEB458(play, 6)) {
+    if (EnRu1_CheckFountainCueMatchingId(play, 6)) {
         frameCount = Animation_GetLastFrame(&gRutoChildTransitionToSwimOnBackAnim);
-        func_80AEB738(this, play);
+        EnRu1_MoveInWater(this, play);
         Animation_Change(&this->skelAnime, &gRutoChildTransitionToSwimOnBackAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE,
                          -8.0f);
-        this->action = ENRU1_ACTION_04;
+        this->action = ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK;
     }
 }
 
-void func_80AEBF60(EnRu1* this, PlayState* play) {
-    if (func_80AEB480(play, 6)) {
+void EnRu1_TransitionToBackSwimming(EnRu1* this, PlayState* play) {
+    if (EnRu1_CheckFountainCueNotMatchingId(play, 6)) {
         STACK_PAD(s32);
 
-        func_80AEB7D0(this);
-        this->action = ENRU1_ACTION_05;
-        this->unk_364 = this->actor.world.pos;
+        EnRu1_StopMovingInWater(this);
+        this->action = ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK;
+        this->treadStartPos = this->actor.world.pos;
     } else {
-        func_80AEBA0C(this, play);
+        EnRu1_StartSwimmingAwayFromLink(this, play);
     }
 }
 
-void func_80AEBFD8(EnRu1* this, PlayState* play) {
-    CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
+void EnRu1_EndSwimBack(EnRu1* this, PlayState* play) {
+    CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
     f32 frameCount;
     u16 csCurFrame;
     u16 endFrame;
@@ -761,85 +770,85 @@ void func_80AEBFD8(EnRu1* this, PlayState* play) {
             frameCount = Animation_GetLastFrame(&gRutoChildTransitionFromSwimOnBackAnim);
             Animation_Change(&this->skelAnime, &gRutoChildTransitionFromSwimOnBackAnim, 1.0, 0, frameCount,
                              ANIMMODE_ONCE, -8.0f);
-            this->action = ENRU1_ACTION_06;
+            this->action = ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK;
         }
     }
 }
 
-void func_80AEC070(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
-    if ((func_80AEB458(play, 8)) && (arg2 != 0)) {
+void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
+    if ((EnRu1_CheckFountainCueMatchingId(play, 8)) && (arg2 != 0)) {
         Actor_Kill(&this->actor);
     }
 }
 
-void func_80AEC0B4(EnRu1* this, PlayState* play) {
-    func_80AEB89C(this, play);
+void EnRu1_Fountain_GazingAtLink(EnRu1* this, PlayState* play) {
+    EnRu1_InitPositionFromFountainCue(this, play);
     EnRu1_UpdateSkelAnime(this);
-    func_80AEBC84(this, play);
-    func_80AEBC30(play);
-    func_80AEBD1C(this, play);
+    EnRu1_PlayGiggleSfx(this, play);
+    EnRu1_PlayLinkFallingSfx(play);
+    EnRu1_EnterFountainWater(this, play);
 }
 
-void func_80AEC100(EnRu1* this, PlayState* play) {
-    func_80AEBAFC(this);
-    func_80AEBD94(this, play);
+void EnRu1_Fountain_Diving(EnRu1* this, PlayState* play) {
+    EnRu1_PlayDivingEntrySfx(this);
+    EnRu1_Resurface(this, play);
 }
 
-void func_80AEC130(EnRu1* this, PlayState* play) {
-    s32 something = EnRu1_UpdateSkelAnime(this);
+void EnRu1_Fountain_Resurfacing(EnRu1* this, PlayState* play) {
+    s32 doneAnim = EnRu1_UpdateSkelAnime(this);
 
     func_80AEAECC(this, play);
-    func_80AEBB3C(this);
-    func_80AEBE3C(this, play, something);
+    EnRu1_PlayResurfacingSfx(this);
+    EnRu1_ResurfaceProgress(this, play, doneAnim);
 }
 
-void func_80AEC17C(EnRu1* this, PlayState* play) {
-    func_80AEB974(this, play);
+void EnRu1_Fountain_TreadingWater(EnRu1* this, PlayState* play) {
+    EnRu1_SwimTowardLink(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);
-    func_80AEB50C(this, play);
-    func_80AEBEC8(this, play);
+    EnRu1_SpawnRippleTreading(this, play);
+    EnRu1_StopTreading(this, play);
 }
 
-void func_80AEC1D4(EnRu1* this, PlayState* play) {
-    s32 something;
+void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play) {
+    s32 doneAnim;
 
-    something = EnRu1_UpdateSkelAnime(this);
+    doneAnim = EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
-    func_80AEB50C(this, play);
-    func_80AEBCB8(this, something);
-    func_80AEBBF4(this);
-    func_80AEBF60(this, play);
+    EnRu1_SpawnRippleTreading(this, play);
+    EnRu1_StartBackSwimming(this, doneAnim);
+    EnRu1_PlaySubmergeSfx(this);
+    EnRu1_TransitionToBackSwimming(this, play);
 }
 
-void func_80AEC244(EnRu1* this, PlayState* play) {
-    s32 something;
+void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play) {
+    s32 doneAnim;
 
-    something = EnRu1_UpdateSkelAnime(this);
-    func_80AEBA2C(this, play);
+    doneAnim = EnRu1_UpdateSkelAnime(this);
+    EnRu1_SwimAwayFromLink(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
-    func_80AEB50C(this, play);
-    func_80AEBCB8(this, something);
-    func_80AEBB78(this);
-    func_80AEBFD8(this, play);
+    EnRu1_SpawnRippleTreading(this, play);
+    EnRu1_StartBackSwimming(this, doneAnim);
+    EnRu1_PlaySwimStrokeSfx(this);
+    EnRu1_EndSwimBack(this, play);
 }
 
-void func_80AEC2C0(EnRu1* this, PlayState* play) {
-    s32 something;
+void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play) {
+    s32 doneAnim;
 
-    something = EnRu1_UpdateSkelAnime(this);
+    doneAnim = EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
-    func_80AEB50C(this, play);
-    func_80AEC070(this, play, something);
+    EnRu1_SpawnRippleTreading(this, play);
+    EnRu1_EndGivingSapphire(this, play, doneAnim);
 }
 
 void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
-    if (!GET_INFTABLE(INFTABLE_141)) {
+    if (!GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME)) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
-        this->action = ENRU1_ACTION_07;
+        this->action = ENRU1_ACTION_MEETING_RANGE_CHECK;
         EnRu1_SetMouth(this, ENRU1_MOUTH_FROWNING);
     } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, play)) {
@@ -861,11 +870,14 @@ void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEC40C(EnRu1* this) {
-    f32 unk_26C = this->unk_26C;
+/**
+ * Accelerates Ruto forward as she starts to walk away. This lasts for eight frames.
+ */
+void EnRu1_AccelerateAway(EnRu1* this) {
+    f32 walkingFrame = this->walkingFrame;
 
-    if (unk_26C < 8.0f) {
-        this->actor.speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
+    if (walkingFrame < 8.0f) {
+        this->actor.speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * walkingFrame;
     } else {
         this->actor.speed = (kREG(3) * 0.01f) + 2.7f;
     }
@@ -873,19 +885,25 @@ void func_80AEC40C(EnRu1* this) {
     Actor_MoveXZGravity(&this->actor);
 }
 
-void func_80AEC4CC(EnRu1* this) {
+/**
+ * Moves Ruto forward at a constant speed walking away from Link.
+ */
+void EnRu1_MoveForwardConstant(EnRu1* this) {
     this->actor.velocity.y = -1.0f;
     Actor_MoveXZGravity(&this->actor);
 }
 
-void func_80AEC4F4(EnRu1* this) {
+/**
+ * Accelerate's Ruto's actor downward as she falls down the hole.
+ */
+void EnRu1_AccelerateDownHole(EnRu1* this) {
     f32* speedXZ = &this->actor.speed;
-    f32* unk_26C = &this->unk_26C;
+    f32* walkingFrame = &this->walkingFrame;
 
-    if (this->unk_26C < 8.0f) {
-        *unk_26C += 1.0f;
-        *speedXZ *= (8.0f - *unk_26C) / 8.0f;
-        this->actor.velocity.y = -*unk_26C * (((kREG(4) * 0.01f) + 13.0f) / 8.0f);
+    if (this->walkingFrame < 8.0f) {
+        *walkingFrame += 1.0f;
+        *speedXZ *= (8.0f - *walkingFrame) / 8.0f;
+        this->actor.velocity.y = -*walkingFrame * (((kREG(4) * 0.01f) + 13.0f) / 8.0f);
     } else {
         *speedXZ = 0.0f;
         this->actor.velocity.y = -((kREG(4) * 0.01f) + 13.0f);
@@ -893,7 +911,7 @@ void func_80AEC4F4(EnRu1* this) {
     Actor_MoveXZGravity(&this->actor);
 }
 
-s32 func_80AEC5FC(EnRu1* this, PlayState* play) {
+s32 EnRu1_IsPlayerInRangeForFirstEncounter(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 thisPosZ = this->actor.world.pos.z;
     f32 playerPosZ = player->actor.world.pos.z;
@@ -904,50 +922,53 @@ s32 func_80AEC5FC(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEC650(EnRu1* this) {
+void EnRu1_PlayStepSfx(EnRu1* this) {
     STACK_PADS(s32, 2);
 
-    if (this->unk_280 == 0) {
+    if (this->isFalling == 0) {
         if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
             Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
         }
     }
 }
 
-void func_80AEC6B0(EnRu1* this) {
+void EnRu1_PlayFallingSfx(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_FALL_DOWN_DIRT);
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_FALL);
 }
 
-void func_80AEC6E4(EnRu1* this, PlayState* play) {
-    if ((func_80AEAFA0(play, 4, 3)) && (this->unk_280 == 0)) {
+/**
+ * Checks if Ruto is standing over the Jabu Jabu hole and initiates her reaction to falling.
+ */
+void EnRu1_RespondToFalling(EnRu1* this, PlayState* play) {
+    if ((EnRu1_CheckCueMatchingId(play, 4, 3)) && (this->isFalling == 0)) {
         Animation_Change(&this->skelAnime, &gRutoChildBringArmsUpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildBringArmsUpAnim), ANIMMODE_ONCE, -8.0f);
-        this->unk_280 = 1;
-        func_80AEC6B0(this);
+        this->isFalling = 1;
+        EnRu1_PlayFallingSfx(this);
     }
 }
 
-void func_80AEC780(EnRu1* this, PlayState* play) {
+void EnRu1_CheckStartFirstEncounter(EnRu1* this, PlayState* play) {
     STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
-    if ((func_80AEC5FC(this, play)) && (!Play_InCsMode(play)) &&
+    if ((EnRu1_IsPlayerInRangeForFirstEncounter(this, play)) && (!Play_InCsMode(play)) &&
         (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         play->csCtx.script = gRutoFirstMeetingCs;
         gSaveContext.cutsceneTrigger = 1;
         player->speedXZ = 0.0f;
-        this->action = ENRU1_ACTION_08;
+        this->action = ENRU1_ACTION_MEETING_INIT_POSITION;
     }
 }
 
-void func_80AEC81C(EnRu1* this, PlayState* play) {
+void EnRu1_SetupPositionForFirstEncounter(EnRu1* this, PlayState* play) {
     CsCmdActorCue* cue;
     s16 newRotY;
 
-    if (func_80AEAFE0(play, 1, 3)) {
+    if (EnRu1_CheckCueNotMatchingId(play, 1, 3)) {
         cue = play->csCtx.actorCues[3];
         this->actor.world.pos.x = cue->startPos.x;
         this->actor.world.pos.y = cue->startPos.y;
@@ -955,115 +976,115 @@ void func_80AEC81C(EnRu1* this, PlayState* play) {
         newRotY = cue->rot.y;
         this->actor.shape.rot.y = newRotY;
         this->actor.world.rot.y = newRotY;
-        this->action = ENRU1_ACTION_09;
+        this->action = ENRU1_ACTION_MEETING_FACING_LINK;
         this->drawConfig = ENRU1_DRAW_OPA;
     }
 }
 
-void func_80AEC8B8(EnRu1* this, PlayState* play) {
-    if (func_80AEAFA0(play, 3, 3)) {
+void EnRu1_CheckTurnAround(EnRu1* this, PlayState* play) {
+    if (EnRu1_CheckCueMatchingId(play, 3, 3)) {
         Animation_Change(&this->skelAnime, &gRutoChildTurnAroundAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildTurnAroundAnim), ANIMMODE_ONCE, -8.0f);
-        this->action = ENRU1_ACTION_10;
+        this->action = ENRU1_ACTION_MEETING_TURNING_AROUND;
     }
 }
 
-void func_80AEC93C(EnRu1* this, UNK_TYPE arg1) {
-    if (arg1 != 0) {
+void EnRu1_StartWalkingAway(EnRu1* this, s32 doneTurning) {
+    if (doneTurning) {
         Animation_Change(&this->skelAnime, &gRutoChildWalkAnim, 1.0f, 0, Animation_GetLastFrame(&gRutoChildWalkAnim),
                          ANIMMODE_LOOP, -8.0f);
         this->actor.world.rot.y += 0x8000;
-        this->action = ENRU1_ACTION_11;
-        this->unk_26C = 0.0f;
+        this->action = ENRU1_ACTION_MEETING_WALKING_AWAY_ACCEL;
+        this->walkingFrame = 0.0f;
     }
 }
 
-void func_80AEC9C4(EnRu1* this) {
-    this->unk_26C += 1.0f;
-    if (this->unk_26C >= 8.0f) {
-        this->action = ENRU1_ACTION_12;
-        this->unk_26C = 0.0f;
+void EnRu1_AdvanceWalkingAway(EnRu1* this) {
+    this->walkingFrame += 1.0f;
+    if (this->walkingFrame >= 8.0f) {
+        this->action = ENRU1_ACTION_MEETING_WALKING_AWAY_CONSTANT;
+        this->walkingFrame = 0.0f;
         this->actor.velocity.y = -1.0f;
     }
 }
 
-void func_80AECA18(EnRu1* this) {
+void EnRu1_CheckStartFalling(EnRu1* this) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         STACK_PAD(s32);
 
-        this->action = ENRU1_ACTION_13;
-        this->unk_26C = 0.0f;
+        this->action = ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE;
+        this->walkingFrame = 0.0f;
         this->actor.velocity.y = 0.0f;
     }
 }
 
-void func_80AECA44(EnRu1* this, PlayState* play) {
-    if (func_80AEAFA0(play, 5, 3)) {
-        SET_INFTABLE(INFTABLE_141);
-        this->action = ENRU1_ACTION_14;
+void EnRu1_FinishFirstEncounter(EnRu1* this, PlayState* play) {
+    if (EnRu1_CheckCueMatchingId(play, 5, 3)) {
+        SET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME);
+        this->action = ENRU1_ACTION_MEETING_END;
     }
 }
 
-void func_80AECA94(EnRu1* this, PlayState* play) {
-    func_80AEC780(this, play);
+void EnRu1_Meeting_RangeCheck(EnRu1* this, PlayState* play) {
+    EnRu1_CheckStartFirstEncounter(this, play);
 }
 
-void func_80AECAB4(EnRu1* this, PlayState* play) {
-    func_80AEC81C(this, play);
+void EnRu1_Meeting_InitPosition(EnRu1* this, PlayState* play) {
+    EnRu1_SetupPositionForFirstEncounter(this, play);
 }
 
-void func_80AECAD4(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_FacingLink(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC8B8(this, play);
+    EnRu1_CheckTurnAround(this, play);
 }
 
-void func_80AECB18(EnRu1* this, PlayState* play) {
-    s32 something;
+void EnRu1_Meeting_TurningAround(EnRu1* this, PlayState* play) {
+    s32 doneAnim;
 
-    something = EnRu1_UpdateSkelAnime(this);
+    doneAnim = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC93C(this, something);
+    EnRu1_StartWalkingAway(this, doneAnim);
 }
 
-void func_80AECB60(EnRu1* this, PlayState* play) {
-    func_80AEC40C(this);
+void EnRu1_Meeting_WalkingAwayAccel(EnRu1* this, PlayState* play) {
+    EnRu1_AccelerateAway(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
-    func_80AEC9C4(this);
+    EnRu1_PlayStepSfx(this);
+    EnRu1_AdvanceWalkingAway(this);
 }
 
-void func_80AECBB8(EnRu1* this, PlayState* play) {
-    func_80AEC4CC(this);
-    func_80AEC6E4(this, play);
+void EnRu1_Meeting_WalkingAwayConstant(EnRu1* this, PlayState* play) {
+    EnRu1_MoveForwardConstant(this);
+    EnRu1_RespondToFalling(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
-    func_80AECA18(this);
+    EnRu1_PlayStepSfx(this);
+    EnRu1_CheckStartFalling(this);
 }
 
-void func_80AECC1C(EnRu1* this, PlayState* play) {
-    func_80AEC4F4(this);
-    func_80AEC6E4(this, play);
+void EnRu1_Meeting_FallingDownHole(EnRu1* this, PlayState* play) {
+    EnRu1_AccelerateDownHole(this);
+    EnRu1_RespondToFalling(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
-    func_80AECA44(this, play);
+    EnRu1_PlayStepSfx(this);
+    EnRu1_FinishFirstEncounter(this, play);
 }
 
-void func_80AECC84(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_End(EnRu1* this, PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         Actor_Kill(&this->actor);
     }
 }
 
-void func_80AECCB0(EnRu1* this, PlayState* play) {
+void EnRu1_SpawnBlueWarp(EnRu1* this, PlayState* play) {
     STACK_PAD(s32);
     Vec3f* pos;
     s16 yawTowardsPlayer;
@@ -1083,31 +1104,37 @@ void func_80AECCB0(EnRu1* this, PlayState* play) {
 
 void EnRu1_InitInBossRoom(EnRu1* this, PlayState* play) {
     EnRu1_AnimationChange(this, &gRutoChildWaitHandsOnHipsAnim, ANIMMODE_LOOP, 0, false);
-    this->action = ENRU1_ACTION_15;
+    this->action = ENRU1_ACTION_PRE_SPAWN_BOSS_ROOM;
     this->actor.shape.yOffset = -10000.0f;
     EnRu1_SetEyes(this, ENRU1_EYES_BLUSH);
     EnRu1_SetMouth(this, ENRU1_MOUTH_OPEN);
 }
 
-void func_80AECE04(EnRu1* this, PlayState* play) {
+/**
+ * Ruto rises up through the floor within the field of the blue warp.
+ */
+void EnRu1_Rise(EnRu1* this, PlayState* play) {
     this->actor.shape.yOffset += (250.0f / 3.0f);
 }
 
-void func_80AECE20(EnRu1* this, PlayState* play) {
+/**
+ * Ruto rises up in sync with Link as they warp out together.
+ */
+void EnRu1_RiseWithLink(EnRu1* this, PlayState* play) {
     STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f* playerPos = &player->actor.world.pos;
     s16 shapeRotY = player->actor.shape.rot.y;
     STACK_PAD(s32);
-    f32 unk_27C = this->unk_27C;
+    f32 xzDistToPlayer = this->xzDistToPlayerInBlueWarp;
     Vec3f* pos = &this->actor.world.pos;
 
-    pos->x = (Math_SinS(shapeRotY) * unk_27C) + playerPos->x;
+    pos->x = (Math_SinS(shapeRotY) * xzDistToPlayer) + playerPos->x;
     pos->y = playerPos->y;
-    pos->z = (Math_CosS(shapeRotY) * unk_27C) + playerPos->z;
+    pos->z = (Math_CosS(shapeRotY) * xzDistToPlayer) + playerPos->z;
 }
 
-void func_80AECEB4(EnRu1* this, PlayState* play) {
+void EnRu1_SetPlayerMarkInBlueWarp(EnRu1* this, PlayState* play) {
     STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f* player_unk_450 = &player->unk_450;
@@ -1118,27 +1145,31 @@ void func_80AECEB4(EnRu1* this, PlayState* play) {
     player_unk_450->z = ((kREG(2) + 30.0f) * Math_CosS(shapeRotY)) + pos->z;
 }
 
-s32 func_80AECF6C(EnRu1* this, PlayState* play) {
+/**
+ * Checks if Link is in position inside the blue warp, facing Ruto.
+ * This is the condition for when Ruto starts chiding him.
+ */
+s32 EnRu1_IsLinkInBlueWarp(EnRu1* this, PlayState* play) {
     s16* shapeRotY;
     Player* player = GET_PLAYER(play);
     Player* otherPlayer;
-    s16 temp_f16;
-    f32 temp1;
-    f32 temp2;
+    s16 targetRotY;
+    f32 dx;
+    f32 dz;
     STACK_PADS(s32, 5);
 
-    this->unk_26C += 1.0f;
-    if ((player->actor.speed == 0.0f) && (this->unk_26C >= 3.0f)) {
+    this->walkingFrame += 1.0f;
+    if ((player->actor.speed == 0.0f) && (this->walkingFrame >= 3.0f)) {
         otherPlayer = GET_PLAYER(play);
         player->actor.world.pos.x = otherPlayer->unk_450.x;
         player->actor.world.pos.y = otherPlayer->unk_450.y;
         player->actor.world.pos.z = otherPlayer->unk_450.z;
         shapeRotY = &player->actor.shape.rot.y;
-        temp1 = this->actor.world.pos.x - player->actor.world.pos.x;
-        temp2 = this->actor.world.pos.z - player->actor.world.pos.z;
-        temp_f16 = RAD_TO_BINANG(Math_FAtan2F(temp1, temp2));
-        if (*shapeRotY != temp_f16) {
-            Math_SmoothStepToS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
+        dx = this->actor.world.pos.x - player->actor.world.pos.x;
+        dz = this->actor.world.pos.z - player->actor.world.pos.z;
+        targetRotY = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
+        if (*shapeRotY != targetRotY) {
+            Math_SmoothStepToS(shapeRotY, targetRotY, 0x14, 0x1838, 0x64);
             player->actor.world.rot.y = *shapeRotY;
         } else {
             return true;
@@ -1147,108 +1178,108 @@ s32 func_80AECF6C(EnRu1* this, PlayState* play) {
     return false;
 }
 
-s32 func_80AED084(EnRu1* this, s32 state) {
+s32 EnRu1_CheckBlueWarpState(EnRu1* this, s32 state) {
     if (this->blueWarp != NULL && this->blueWarp->rutoWarpState == state) {
         return true;
     }
     return false;
 }
 
-void func_80AED0B0(EnRu1* this, s32 state) {
+void EnRu1_SetBlueWarpState(EnRu1* this, s32 state) {
     if (this->blueWarp != NULL) {
         this->blueWarp->rutoWarpState = state;
     }
 }
 
-void func_80AED0C8(EnRu1* this, PlayState* play) {
-    this->action = ENRU1_ACTION_16;
+void EnRu1_TriggerSpawnInBossRoom(EnRu1* this, PlayState* play) {
+    this->action = ENRU1_ACTION_SPAWN_BOSS_ROOM;
 }
 
-void func_80AED0D8(EnRu1* this, PlayState* play) {
-    this->action = ENRU1_ACTION_17;
+void EnRu1_SetupRiseThroughBlueWarp(EnRu1* this, PlayState* play) {
+    this->action = ENRU1_ACTION_RISE_THROUGH_BLUE_WARP;
     this->drawConfig = ENRU1_DRAW_OPA;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-    func_80AECCB0(this, play);
+    EnRu1_SpawnBlueWarp(this, play);
 }
 
-void func_80AED110(EnRu1* this) {
+void EnRu1_EndRise(EnRu1* this) {
     if (this->actor.shape.yOffset >= 0.0f) {
-        this->action = ENRU1_ACTION_18;
+        this->action = ENRU1_ACTION_WAIT_INSIDE_BLUE_WARP;
         this->actor.shape.yOffset = 0.0f;
-        func_80AED0B0(this, WARP_BLUE_RUTO_STATE_READY);
+        EnRu1_SetBlueWarpState(this, WARP_BLUE_RUTO_STATE_READY);
     }
 }
 
-void func_80AED154(EnRu1* this, PlayState* play) {
-    if (func_80AED084(this, WARP_BLUE_RUTO_STATE_ENTERED)) {
-        this->action = ENRU1_ACTION_19;
-        this->unk_26C = 0.0f;
-        func_80AECEB4(this, play);
+void EnRu1_CheckLinkEnteredBlueWarp(EnRu1* this, PlayState* play) {
+    if (EnRu1_CheckBlueWarpState(this, WARP_BLUE_RUTO_STATE_ENTERED)) {
+        this->action = ENRU1_ACTION_LINK_WALKS_TO_POINT_IN_BLUE_WARP;
+        this->walkingFrame = 0.0f;
+        EnRu1_SetPlayerMarkInBlueWarp(this, play);
     }
 }
 
-void func_80AED19C(EnRu1* this, s32 cond) {
-    if (cond) {
+void EnRu1_StartCrossingArmsAndLegs(EnRu1* this, s32 shouldStart) {
+    if (shouldStart) {
         Animation_Change(&this->skelAnime, &gRutoChildTransitionHandsOnHipToCrossArmsAndLegsAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildTransitionHandsOnHipToCrossArmsAndLegsAnim), ANIMMODE_ONCE,
                          -8.0f);
-        this->action = ENRU1_ACTION_20;
-        func_80AED0B0(this, WARP_BLUE_RUTO_STATE_3);
+        this->action = ENRU1_ACTION_WHAT_TOOK_YOU_SO_LONG;
+        EnRu1_SetBlueWarpState(this, WARP_BLUE_RUTO_STATE_3);
     }
 }
 
-void func_80AED218(EnRu1* this, UNK_TYPE arg1) {
-    if (func_80AED084(this, WARP_BLUE_RUTO_STATE_TALKING)) {
-        if (arg1 != 0) {
+void EnRu1_AdvanceAngryAnimation(EnRu1* this, s32 isTalking) {
+    if (EnRu1_CheckBlueWarpState(this, WARP_BLUE_RUTO_STATE_TALKING)) {
+        if (isTalking) {
             Animation_Change(&this->skelAnime, &gRutoChildWaitSittingAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildWaitSittingAnim), ANIMMODE_LOOP, -8.0f);
         }
-    } else if (func_80AED084(this, WARP_BLUE_RUTO_STATE_WARPING)) {
+    } else if (EnRu1_CheckBlueWarpState(this, WARP_BLUE_RUTO_STATE_WARPING)) {
         Animation_Change(&this->skelAnime, &gRutoChildWaitInBlueWarpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildWaitInBlueWarpAnim), ANIMMODE_ONCE, -8.0f);
-        this->action = ENRU1_ACTION_21;
-        this->unk_27C = this->actor.xzDistToPlayer;
+        this->action = ENRU1_ACTION_WARPING_OUT;
+        this->xzDistToPlayerInBlueWarp = this->actor.xzDistToPlayer;
     }
 }
 
-void func_80AED304(EnRu1* this, PlayState* play) {
-    func_80AED0C8(this, play);
+void EnRu1_BossRoom_PreSpawn(EnRu1* this, PlayState* play) {
+    EnRu1_TriggerSpawnInBossRoom(this, play);
 }
 
-void func_80AED324(EnRu1* this, PlayState* play) {
-    func_80AED0D8(this, play);
+void EnRu1_BossRoom_Spawn(EnRu1* this, PlayState* play) {
+    EnRu1_SetupRiseThroughBlueWarp(this, play);
 }
 
-void func_80AED344(EnRu1* this, PlayState* play) {
-    func_80AECE04(this, play);
+void EnRu1_BossRoom_RiseThroughBlueWarp(EnRu1* this, PlayState* play) {
+    EnRu1_Rise(this, play);
     EnRu1_UpdateSkelAnime(this);
-    func_80AED110(this);
+    EnRu1_EndRise(this);
 }
 
-void func_80AED374(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_WaitInsideBlueWarp(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
-    func_80AED154(this, play);
+    EnRu1_CheckLinkEnteredBlueWarp(this, play);
 }
 
-void func_80AED3A4(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_LinkWalksToPointInBlueWarp(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
-    func_80AED19C(this, func_80AECF6C(this, play));
+    EnRu1_StartCrossingArmsAndLegs(this, EnRu1_IsLinkInBlueWarp(this, play));
 }
 
-void func_80AED3E0(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_WhatTookYouSoLong(EnRu1* this, PlayState* play) {
     func_80AEAECC(this, play);
-    func_80AED218(this, EnRu1_UpdateSkelAnime(this));
+    EnRu1_AdvanceAngryAnimation(this, EnRu1_UpdateSkelAnime(this));
 }
 
-void func_80AED414(EnRu1* this, PlayState* play) {
-    func_80AECE20(this, play);
+void EnRu1_BossRoom_WarpingOut(EnRu1* this, PlayState* play) {
+    EnRu1_RiseWithLink(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);
 }
 
 void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
+    if (GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
         !GET_INFTABLE(INFTABLE_147)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
@@ -1699,7 +1730,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
             func_80AED600(this);
             this->action = ENRU1_ACTION_34;
-            this->unk_26C = 0.0f;
+            this->walkingFrame = 0.0f;
             play->csCtx.script = gRutoFoundSapphireCs;
             gSaveContext.cutsceneTrigger = 1;
         }
@@ -2043,7 +2074,7 @@ void func_80AEF624(EnRu1* this, PlayState* play) {
     CsCmdActorCue* cue2;
     s16 newRotTmp;
 
-    if (func_80AEAFE0(play, 1, 3)) {
+    if (EnRu1_CheckCueNotMatchingId(play, 1, 3)) {
         frameCount = Animation_GetLastFrame(&gRutoChildWalkToAndHoldUpSapphireAnim);
         // this weird part with the redundant variable is necessary to match for some reason
         cue2 = play->csCtx.actorCues[3];
@@ -2079,7 +2110,7 @@ void func_80AEF728(EnRu1* this, UNK_TYPE arg1) {
 }
 
 void func_80AEF79C(EnRu1* this, PlayState* play) {
-    if (func_80AEAFE0(play, 2, 3)) {
+    if (EnRu1_CheckCueNotMatchingId(play, 2, 3)) {
         Animation_Change(&this->skelAnime, &gRutoChildBringHandsDownAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildBringHandsDownAnim), ANIMMODE_ONCE, -8.0f);
         this->action = ENRU1_ACTION_39;
@@ -2294,7 +2325,7 @@ void func_80AEFF40(EnRu1* this, PlayState* play) {
 void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
+    if (GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
         (!(func_80AEB020(this, play)))) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = this->actor.room;
