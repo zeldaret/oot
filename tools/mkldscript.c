@@ -284,7 +284,7 @@ static void usage(const char *execname)
                     "SPEC_FILE    file describing the organization of object files into segments\n"
                     "LD_SCRIPT    filename of output linker script\n"
                     "MAKEROM_DIR  dir name containing makerom build objects\n"
-                    "SEGMENTS_DIR dir name containing partially linked overlay segments\n",
+                    "SEGMENTS_DIR dir name containing partially linked segments\n",
                     execname);
 }
 

@@ -99,7 +99,7 @@ static void write_overlay_rules(FILE *fout, const char *ovls_dir)
 
 static void usage(const char *execname)
 {
-    fprintf(stderr, "zelda64 overlay rules generator v0.01\n"
+    fprintf(stderr, "spec segment makefile rules generator v0.01\n"
                     "usage: %s SPEC_FILE OBJ_DIRECTORY MAKEFILE_OUT\n"
                     "SPEC_FILE      file describing the organization of object files into segments\n"
                     "OBJ_DIRECTORY  directory where object files will be stored\n"
