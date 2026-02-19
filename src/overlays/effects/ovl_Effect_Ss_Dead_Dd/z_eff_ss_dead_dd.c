@@ -15,7 +15,7 @@
 #include "play_state.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/lens_flare.h"
 
 #define rScale regs[0]
 #define rPrimColorR regs[2]

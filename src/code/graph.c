@@ -141,6 +141,13 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->overlayBuffer = pool->overlayBuffer;
     gfxCtx->workBuffer = pool->workBuffer;
 
+    //! @bug fbIdx is a signed integer that can overflow into the negatives. When compiled with a C99+ compiler or IDO,
+    //! the remainder operator will yield -1 for odd negative values of fbIdx.
+    //! This causes SysCfb_GetFbPtr to read beyond the bounds of an array when retrieving the framebuffer pointer, which
+    //! will likely crash the game.
+    //!
+    //! This isn't an issue in practice. In the worst case scenario with the game operating at a consistent 60 FPS,
+    //! it would take approximately 414.25 days of continuous operation for fbIdx to overflow.
     gfxCtx->curFrameBuffer = SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
     gfxCtx->unk_014 = 0;
 }
