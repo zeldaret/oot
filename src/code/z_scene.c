@@ -531,13 +531,13 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
 }
 
 SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
-    Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
+    Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_PLAYER_ENTRY_LIST
     Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST
     Scene_CommandUnused2,                  // SCENE_CMD_ID_UNUSED_2
     Scene_CommandCollisionHeader,          // SCENE_CMD_ID_COLLISION_HEADER
     Scene_CommandRoomList,                 // SCENE_CMD_ID_ROOM_LIST
     Scene_CommandWindSettings,             // SCENE_CMD_ID_WIND_SETTINGS
-    Scene_CommandSpawnList,                // SCENE_CMD_ID_ENTRANCE_LIST
+    Scene_CommandSpawnList,                // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandSpecialFiles,             // SCENE_CMD_ID_SPECIAL_FILES
     Scene_CommandRoomBehavior,             // SCENE_CMD_ID_ROOM_BEHAVIOR
     Scene_CommandUndefined9,               // SCENE_CMD_ID_UNDEFINED_9
