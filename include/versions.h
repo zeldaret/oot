@@ -16,9 +16,10 @@
 #define GC_EU_MQ      12
 #define GC_JP_CE      13
 #define IQUE_CN       14
+#define GC_EU_DBG     15
 
 // NTSC/PAL
-#if OOT_VERSION == PAL_1_0 || OOT_VERSION == PAL_1_1 || OOT_VERSION == GC_EU || OOT_VERSION == GC_EU_MQ || OOT_VERSION == GC_EU_MQ_DBG
+#if OOT_VERSION == PAL_1_0 || OOT_VERSION == PAL_1_1 || OOT_VERSION == GC_EU || OOT_VERSION == GC_EU_MQ || OOT_VERSION == GC_EU_MQ_DBG || OOT_VERSION == GC_EU_DBG
 #define OOT_NTSC 0
 #define OOT_PAL 1
 #else
@@ -50,7 +51,7 @@
 // Debug Assets
 // Due to asset extraction limitations, all versions will not have access to some assets present in debug ROMs
 // To allow the inclusion of debug features in any version there is a separation between DEBUG_FEATURES and DEBUG_ASSETS
-#if OOT_VERSION == GC_EU_MQ_DBG && DEBUG_FEATURES
+#if (OOT_VERSION == GC_EU_MQ_DBG || OOT_VERSION == GC_EU_DBG) && DEBUG_FEATURES
 #define DEBUG_ASSETS 1
 #else
 #define DEBUG_ASSETS 0

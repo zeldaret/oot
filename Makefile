@@ -173,6 +173,14 @@ else ifeq ($(VERSION),ique-cn)
   BUILD_DATE := 03-10-22
   BUILD_TIME := 16:23:19
   REVISION := 0
+else ifeq ($(VERSION),gc-eu-dbg)
+  REGION ?= EU
+  PLATFORM := GC
+  DEBUG_FEATURES ?= 1
+  BUILD_CREATOR := zelda@srd022j
+  BUILD_DATE := 03-02-21
+  BUILD_TIME := 00:49:18
+  REVISION := 15
 else
 $(error Unsupported version $(VERSION))
 endif

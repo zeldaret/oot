@@ -34,6 +34,8 @@
 #define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_jp_ce)
 #elif OOT_VERSION == IQUE_CN
 #define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ique_cn)
+#elif OOT_VERSION == GC_EU_DBG
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu_mq_dbg)
 #else
 #error "Unsupported OOT version"
 #endif
@@ -65,5 +67,12 @@
 // NTSC 1.0, NTSC 1.1, NTSC 1.2/PAL 1.0, iQue, Gamecube US/JP, Gamecube EU, and Gamecube CE
 #define LN5(ntsc_1_0, ntsc_1_1, other, pal_1_1, ique, gc_ntsc, gc_eu, gc_jp_ce) \
     LN(ntsc_1_0, ntsc_1_1, other, other, pal_1_1, gc_ntsc, gc_ntsc, gc_ntsc, gc_ntsc, gc_eu, gc_eu, gc_eu, gc_jp_ce, ique)
+
+// GameCube EU Debug and all the other versions
+#if OOT_VERSION == GC_EU_DBG
+#define LN6(gc_eu_dbg, other) gc_eu_dbg
+#else
+#define LN6(gc_eu_dbg, other) other
+#endif
 
 #endif
