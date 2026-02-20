@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -46,10 +47,10 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
 }
 
 void BgPushbox_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgPushbox* this = (BgPushbox*)thisx;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
@@ -84,7 +85,7 @@ void BgPushbox_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgPushbox_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_pushbox.c", 263);
 

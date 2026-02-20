@@ -13,6 +13,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -65,7 +66,7 @@ void EnExItem_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnExItem_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnExItem* this = (EnExItem*)thisx;
 
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
@@ -278,7 +279,7 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
 }
 
 void EnExItem_BowlPrize(EnExItem* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 tmpf1;
     f32 tmpf2;
     f32 tmpf3;
@@ -438,7 +439,7 @@ void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play) {
 }
 
 void EnExItem_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnExItem* this = (EnExItem*)thisx;
 
     if (this->timer != 0) {
@@ -454,7 +455,7 @@ void EnExItem_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnExItem_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnExItem* this = (EnExItem*)thisx;
     s32 magicType;
 

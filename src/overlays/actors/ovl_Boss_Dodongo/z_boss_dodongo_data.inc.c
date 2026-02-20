@@ -1,4 +1,5 @@
 #include "array_count.h"
+#include "attributes.h"
 #include "collision_check.h"
 
 static u8 D_808C7000[] = {
@@ -236,4 +237,4 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static Vec3f sUnkZeroVec = { 0.0f, 0.0f, 0.0f };
+UNUSED static Vec3f sUnkZeroVec = { 0.0f, 0.0f, 0.0f };

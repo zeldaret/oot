@@ -5,6 +5,7 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -166,7 +167,7 @@ void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 cueChannel) {
 }
 
 void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     FlexSkeletonHeader* skeleton;
     AnimationHeader* animation;
     f32 phi_f0;
@@ -288,7 +289,7 @@ void DemoIk_Type1PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 }
 
 void DemoIk_Type1Draw(DemoIk* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -304,7 +305,7 @@ void DemoIk_Type1Draw(DemoIk* this, PlayState* play) {
 }
 
 void DemoIk_Type2Init(DemoIk* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     FlexSkeletonHeader* skeleton;
     AnimationHeader* animation;
 
@@ -450,7 +451,7 @@ void DemoIk_Type2PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 }
 
 void DemoIk_Type2Draw(DemoIk* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -472,7 +473,7 @@ static DemoIkActionFunc sActionFuncs[] = {
 };
 
 void DemoIk_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
@@ -494,7 +495,7 @@ static DemoIkDrawFunc sDrawFuncs[] = {
 };
 
 void DemoIk_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
@@ -518,7 +519,7 @@ ActorProfile Demo_Ik_Profile = {
 };
 
 void DemoIk_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->actor.params == 0 || this->actor.params == 1 || this->actor.params == 2) {

@@ -9,6 +9,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "effect.h"
@@ -392,7 +393,7 @@ static s16 sPrizeRot[] = { 0x4268, 0x4268, -0x03E8, 0x0000, 0x4268, 0x0000 };
 
 void EnBomBowlMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
     s16 prizeTemp;
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_Update(&this->skelAnime);
 

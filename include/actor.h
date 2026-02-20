@@ -787,7 +787,7 @@ u8 Actor_ApplyDamage(Actor* actor);
 void Actor_SetDropFlag(Actor* actor, ColliderElement* elem, s32 freezeFlag);
 void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
-Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
+Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* arg5,
                      struct PlayState* play, s16 params, Gfx* dList);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
 s32 Flags_GetEventChkInf(s32 flag);

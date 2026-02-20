@@ -24,6 +24,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "terminal.h"
@@ -376,7 +377,7 @@ static ColliderJntSphInit sJntSphInit = {
 static f32 sFishGroupVar = 0.0f;
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
-static Vec3f sUnusedVec = { 0.0f, 0.0f, 2000.0f };
+UNUSED static Vec3f sUnusedVec = { 0.0f, 0.0f, 2000.0f };
 
 static Fishing* sFishingMain;
 static u8 sReelLock;
@@ -864,7 +865,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 #endif
 
     if (thisx->params < EN_FISH_PARAM) {
-        s32 pad;
+        STACK_PAD(s32);
 
 #if PLATFORM_N64
         // Anti-piracy check, if the check fails the line can't be reeled in if
@@ -1421,7 +1422,7 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play2) {
 }
 
 void Fishing_DrawStreamSplash(PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 2572);
 
@@ -1521,7 +1522,7 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
         }
 
         if (sLureEquipped == FS_LURE_SINKING) {
-            s32 pad;
+            STACK_PAD(s32);
 
             if (spD8 < phi_f12) {
                 phi_f12 = WATER_SURFACE_Y(play) + ((sqrtf(sqDistXZ) - 920.0f) * 0.147f);
@@ -1830,7 +1831,7 @@ void Fishing_DrawLureAndLine(PlayState* play, Vec3f* linePos, Vec3f* lineRot) {
     Vec3f hookPos[2];
     s16 i;
     s16 spooled = sRodLineSpooled;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 3287);
@@ -3641,7 +3642,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 if (((input->rel.stick_y < -50) && (sStickAdjYPrev > -40)) ||
                     CHECK_BTN_ALL(input->press.button, BTN_A)) {
                     f32 temp_f0;
-                    s32 pad;
+                    STACK_PAD(s32);
                     f32 rumbleStrength;
 
                     if (input->rel.stick_y < -50) {
@@ -4463,7 +4464,7 @@ void Fishing_DrawPondProps(PlayState* play) {
     u8 materialFlag = 0;
     FishingProp* prop = &sPondProps[0];
     s16 i;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 7704);
 
@@ -4744,7 +4745,7 @@ void Fishing_DrawGroupFishes(PlayState* play) {
     FishingGroupFish* fish = &sGroupFishes[0];
     f32 scale;
     s16 i;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (sLinkAge == LINK_AGE_CHILD) {
         scale = 0.003325f;
@@ -5288,7 +5289,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
 #if DEBUG_FEATURES
     if (KREG(0) != 0) {
-        s32 pad[3];
+        STACK_PADS(s32, 3);
 
         KREG(0) = 0;
         sLureEquipped = FS_LURE_STOCK;
@@ -5717,14 +5718,14 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         sFishingStormShade;
 
     if ((u8)sStormStrength > 0) {
-        s32 pad;
+        STACK_PAD(s32);
         Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
         s16 i;
-        s32 pad1;
+        STACK_PAD(s32);
         Vec3f pos;
         Vec3f rot;
         Vec3f projectedPos;
-        s32 pad2;
+        STACK_PAD(s32);
 
         rot.x = M_PI / 2.0f + 0.1f;
         rot.y = 1.0f;

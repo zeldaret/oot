@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -327,7 +328,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
         if (!(this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
             u8 new_var = this->unk_14E[0];
             u8 phi_v0 = 0;
-            s32 pad;
+            STACK_PAD(s32);
 
             if (this->unk_14C < 0) {
                 phi_v0 = 0x80;

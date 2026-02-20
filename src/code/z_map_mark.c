@@ -1,4 +1,5 @@
 #include "libu64/debug.h"
+#include "attributes.h"
 #include "libu64/overlay.h"
 #include "map.h"
 #include "printf.h"
@@ -74,7 +75,7 @@ void MapMark_Init(PlayState* play) {
 #endif
 }
 
-void MapMark_ClearPointers(PlayState* play) {
+void MapMark_ClearPointers(UNUSED PlayState* play) {
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_30 != NULL)) {
         B_80121220->unk_30(&sLoadedMarkDataTable);

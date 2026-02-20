@@ -14,6 +14,7 @@
 #include "rumble.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -100,7 +101,7 @@ void EnBombf_SetupAction(EnBombf* this, EnBombfActionFunc actionFunc) {
 
 void EnBombf_Init(Actor* thisx, PlayState* play) {
     f32 shapeUnk10 = 0.0f;
-    s32 pad;
+    STACK_PAD(s32);
     EnBombf* this = (EnBombf*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
@@ -157,10 +158,9 @@ void EnBombf_SetupGrowBomb(EnBombf* this, s16 params) {
 
 void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
     EnBombf* bombFlower;
-    s32 pad;
-    s32 pad1;
+    STACK_PADS(s32, 2);
     Player* player = GET_PLAYER(play);
-    s32 pad2;
+    STACK_PAD(s32);
 
     if (this->flowerBombScale >= 1.0f) {
         if (Actor_HasParent(&this->actor, play)) {
@@ -331,7 +331,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     EnBombf* this = (EnBombf*)thisx;
 
     if (this->isFuseEnabled && (this->timer != 0)) {
@@ -492,7 +492,7 @@ Gfx* EnBombf_NewMtxDList(GraphicsContext* gfxCtx, PlayState* play) {
 }
 
 void EnBombf_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnBombf* this = (EnBombf*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bombf.c", 1034);

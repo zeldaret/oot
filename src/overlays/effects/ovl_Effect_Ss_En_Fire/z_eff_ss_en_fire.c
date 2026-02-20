@@ -9,6 +9,7 @@
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -76,7 +77,7 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     f32 scale;
     s16 camYaw;
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16 intensity;
     s16 redGreen;
 

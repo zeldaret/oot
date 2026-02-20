@@ -14,6 +14,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
@@ -327,7 +328,7 @@ void EnBb_KillFlameTrail(EnBb* this) {
 
 void EnBb_Init(Actor* thisx, PlayState* play) {
     EffectBlureInit1 blureInit;
-    s32 pad;
+    STACK_PAD(s32);
     EnBb* this = (EnBb*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -419,7 +420,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnBb_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnBb* this = (EnBb*)thisx;
 
     Collider_DestroyJntSph(play, &this->collider);
@@ -486,8 +487,8 @@ void EnBb_SetupDeath(EnBb* this, PlayState* play) {
 
 void EnBb_Death(EnBb* this, PlayState* play) {
     s16 enpartType = 3;
-    Vec3f sp40 = { 0.0f, 0.5f, 0.0f };
-    Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp40 = { 0.0f, 0.5f, 0.0f };
+    UNUSED Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
 
     if (this->actor.params <= ENBB_BLUE) {
         Math_SmoothStepToF(&this->flameScaleY, 0.0f, 1.0f, 30.0f, 0.0f);
@@ -1244,10 +1245,10 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
 void EnBb_Update(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     EnBb* this = (EnBb*)thisx;
-    Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp40 = { 0.0f, -0.6f, 0.0f };
-    Color_RGBA8 sp3C = { 0, 0, 255, 255 };
-    Color_RGBA8 sp38 = { 0, 0, 0, 0 };
+    UNUSED Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp40 = { 0.0f, -0.6f, 0.0f };
+    UNUSED Color_RGBA8 sp3C = { 0, 0, 255, 255 };
+    UNUSED Color_RGBA8 sp38 = { 0, 0, 0, 0 };
     f32 sp34 = -15.0f;
 
     if (this->actor.params <= ENBB_BLUE) {
@@ -1297,7 +1298,7 @@ static Vec3f sFireIceOffsets[] = {
 };
 
 void EnBb_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnBb* this = (EnBb*)thisx;
     Vec3f blureBase1 = { 0.0f, 5000.0f, 0.0f };
     Vec3f blureBase2 = { 0.0f, 2000.0f, 0.0f };

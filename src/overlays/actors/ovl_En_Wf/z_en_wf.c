@@ -17,6 +17,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -229,7 +230,7 @@ void EnWf_SetupAction(EnWf* this, EnWfActionFunc actionFunc) {
 }
 
 void EnWf_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnWf* this = (EnWf*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -303,7 +304,7 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
 
 s32 EnWf_ChangeAction(PlayState* play, EnWf* this, s16 mustChoose) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 wallYawDiff;
     s16 playerYawDiff;
 
@@ -440,7 +441,7 @@ void EnWf_SetupWait(EnWf* this) {
 
 void EnWf_Wait(EnWf* this, PlayState* play) {
     Player* player;
-    s32 pad;
+    STACK_PAD(s32);
     s16 angle;
 
     player = GET_PLAYER(play);
@@ -513,7 +514,7 @@ void EnWf_SetupRunAtPlayer(EnWf* this, PlayState* play) {
 void EnWf_RunAtPlayer(EnWf* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
-    s32 pad;
+    STACK_PAD(s32);
     f32 baseRange = 0.0f;
     s16 playerFacingAngleDiff;
     Player* player = GET_PLAYER(play);
@@ -652,7 +653,7 @@ void EnWf_SetupRunAroundPlayer(EnWf* this) {
 void EnWf_RunAroundPlayer(EnWf* this, PlayState* play) {
     s16 angle1;
     s16 angle2;
-    s32 pad;
+    STACK_PAD(s32);
     f32 baseRange = 0.0f;
     s32 prevFrame;
     s32 beforeCurFrame;
@@ -1031,7 +1032,7 @@ void EnWf_SetupBlocking(EnWf* this) {
 
 void EnWf_Blocking(EnWf* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionTimer != 0) {
         this->actionTimer--;
@@ -1320,7 +1321,7 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
 }
 
 void EnWf_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnWf* this = (EnWf*)thisx;
 
     EnWf_UpdateDamage(this, play);
@@ -1495,7 +1496,7 @@ s32 EnWf_DodgeRanged(PlayState* play, EnWf* this) {
 
     if (actor != NULL) {
         s16 angleToFacing;
-        s16 pad;
+        STACK_PAD(s16);
         f32 dist;
 
         angleToFacing = Actor_WorldYawTowardActor(&this->actor, actor) - this->actor.shape.rot.y;

@@ -17,6 +17,7 @@
 #include "rand.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "terminal.h"
@@ -93,7 +94,7 @@ void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
 }
 
 void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
     this->dyna.actor.flags |=
         ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_CARRY_X_ROT_INFLUENCE;
@@ -304,7 +305,7 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, PlayState* play) {
         { 0.0f, 300.0f, -20.0f }, { 50.0f, 200.0f, -20.0f }, { -50.0f, 200.0f, -20.0f },
         { 0.0f, 100.0f, 30.0f },  { 0.0f, 100.0f, -70.0f },  { 0.0f, 0.0f, -20.0f },
     };
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f pos;
     f32 sinPitch;
     f32 cosPitch;
@@ -361,7 +362,7 @@ void BgHeavyBlock_Wait(BgHeavyBlock* this, PlayState* play) {
 
 void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     f32 cosYaw;
     f32 zOffset;
     f32 sinYaw;
@@ -467,7 +468,7 @@ void BgHeavyBlock_DoNothing(BgHeavyBlock* this, PlayState* play) {
 }
 
 void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, 0x8AD0, 6, 2000, 100) != 0) {
         Math_StepToF(&this->dyna.actor.speed, 0.0f, 20.0f);
@@ -504,7 +505,7 @@ void BgHeavyBlock_Draw(Actor* thisx, PlayState* play) {
     static Vec3f D_80884EC8 = { 0.0f, 0.0f, 0.0f };
     static Vec3f D_80884ED4 = { 0.0f, 400.0f, 0.0f };
     BgHeavyBlock* this = (BgHeavyBlock*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_heavy_block.c", 904);

@@ -6,6 +6,7 @@
 
 #include "z_en_zf.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
 #include "gfx.h"
@@ -15,6 +16,7 @@
 #include "regs.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -293,7 +295,7 @@ s16 EnZf_SecondaryFloorCheck(EnZf* this, PlayState* play, f32 dist) {
 }
 
 void EnZf_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnZf* this = (EnZf*)thisx;
     Player* player = GET_PLAYER(play);
     EffectBlureInit1 blureInit;
@@ -458,7 +460,7 @@ s16 EnZf_FindNextPlatformAwayFromPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, P
             continue;
         }
         if (playerPlatform == -1) {
-            s16 pad;
+            STACK_PAD(s16);
 
             if (Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[curLoopPlatform]) < playerMaxDist) {
                 continue;
@@ -730,7 +732,7 @@ void func_80B45384(EnZf* this) {
 
 void func_80B4543C(EnZf* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 angleToPlayer = (this->actor.yawTowardsPlayer - this->headRot) - this->actor.shape.rot.y;
 
     angleToPlayer = ABS(angleToPlayer);
@@ -999,7 +1001,7 @@ void func_80B4604C(EnZf* this) {
 }
 
 void func_80B46098(EnZf* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 phi_f2;
     Player* player = GET_PLAYER(play);
     s16 temp_v0;
@@ -1076,7 +1078,7 @@ void func_80B462E4(EnZf* this, PlayState* play) {
 void func_80B463E4(EnZf* this, PlayState* play) {
     s16 angleBehindPlayer;
     s16 phi_v0_3;
-    s32 pad;
+    STACK_PAD(s32);
     s32 prevFrame;
     s32 beforeCurFrame;
     s32 absPlaySpeed;
@@ -1500,10 +1502,10 @@ void EnZf_HopAway(EnZf* this, PlayState* play) {
     f32 sp74;
     f32 sp70 = 1.0f;
     f32 phi_f20 = 550.0f;
-    s32 pad;
+    STACK_PAD(s32);
     f32 phi_f20_2;
     f32 phi_f0;
-    s32 pad2;
+    STACK_PAD(s32);
     s16 sp5A;
     s32 sp54;
     s32 temp_v1_2;
@@ -1810,7 +1812,7 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
             this->actor.speed = -this->actor.speed;
         }
     } else {
-        s16 pad;
+        STACK_PAD(s16);
 
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
             !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF)) {
@@ -1903,7 +1905,7 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
             } else if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) && (D_80B4A1B4 == this->actor.params)) {
                 EnZf_SetupHopAndTaunt(this);
             } else {
-                s16 pad;
+                STACK_PAD(s16);
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
@@ -2020,7 +2022,7 @@ void EnZf_UpdateHeadRotation(EnZf* this, PlayState* play) {
 }
 
 void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 dropParams;
 
     if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action <= ENZF_ACTION_STUNNED)) {
@@ -2067,9 +2069,9 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
 }
 
 void EnZf_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnZf* this = (EnZf*)thisx;
-    s32 pad2;
+    STACK_PAD(s32);
 
     EnZf_UpdateDamage(this, play);
     if (this->actor.colChkInfo.damageReaction != ENZF_DMG_REACT_IMMUNE) {
@@ -2188,7 +2190,7 @@ s32 EnZf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 }
 
 void EnZf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    static Vec3f sUnused = { 1100.0f, -700.0f, 0.0f };
+    UNUSED static Vec3f sUnused = { 1100.0f, -700.0f, 0.0f };
     static Vec3f footOffset = { 300.0f, 0.0f, 0.0f };
     static Vec3f D_80B4A2A4 = { 300.0f, -1700.0f, 0.0f }; // Sword tip?
     static Vec3f D_80B4A2B0 = { -600.0f, 300.0f, 0.0f };  // Sword hilt?
@@ -2277,7 +2279,7 @@ static Gfx D_80B4A2F8[] = {
 };
 
 void EnZf_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnZf* this = (EnZf*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zf.c", 3533);

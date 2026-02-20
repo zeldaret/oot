@@ -12,6 +12,7 @@
 #include "one_point_cutscene.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -76,7 +77,7 @@ void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionF
 
 void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
     BgHidanKousi* this = (BgHidanKousi*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -110,7 +111,7 @@ void BgHidanKousi_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80889ACC(BgHidanKousi* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3s* rot = &this->dyna.actor.world.rot;
     f32 temp1 = D_80889E40[PARAMS_GET_U(this->dyna.actor.params, 0, 8)] * Math_SinS(rot->y);
     f32 temp2 = D_80889E40[PARAMS_GET_U(this->dyna.actor.params, 0, 8)] * Math_CosS(rot->y);

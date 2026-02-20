@@ -1,4 +1,6 @@
 #include "array_count.h"
+#include "attributes.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "z_lib.h"
 #include "printf.h"
@@ -33,7 +35,7 @@ s32 Horse_CanSpawn(s32 sceneId) {
 /**
  * Sets horseData to a neutral spawn in Hyrule Field
  */
-void Horse_ResetHorseData(PlayState* play) {
+void Horse_ResetHorseData(UNUSED PlayState* play) {
     gSaveContext.save.info.horseData.sceneId = SCENE_HYRULE_FIELD;
     gSaveContext.save.info.horseData.pos.x = -1840;
     gSaveContext.save.info.horseData.pos.y = 72;
@@ -45,7 +47,7 @@ void Horse_ResetHorseData(PlayState* play) {
  * Forces the player horse to spawn in a safe spot if the current spawn is in Lake Hylia
  * This prevents the horse from spawning underwater after obtaining the Water Medallion
  */
-void Horse_FixLakeHyliaPosition(PlayState* play) {
+void Horse_FixLakeHyliaPosition(UNUSED PlayState* play) {
     if (gSaveContext.save.info.horseData.sceneId == SCENE_LAKE_HYLIA) {
         gSaveContext.save.info.horseData.sceneId = SCENE_LAKE_HYLIA;
         gSaveContext.save.info.horseData.pos.x = -2065;
@@ -98,7 +100,7 @@ void Horse_SetupInGameplay(PlayState* play, Player* player) {
     } else if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_7) &&
                GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         // Completed Horse Race
-        Actor* horseActor =
+        UNUSED_NDEBUG Actor* horseActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, HORSE_PTYPE_1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
     } else if ((play->sceneId == gSaveContext.save.info.horseData.sceneId) &&
@@ -129,7 +131,7 @@ void Horse_SetupInGameplay(PlayState* play, Player* player) {
     } else if ((play->sceneId == SCENE_LON_LON_RANCH) &&
                !(Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED)) {
         // Player spawns in Lon-Lon Ranch without owning Epona
-        Actor* horseActor =
+        UNUSED_NDEBUG Actor* horseActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, HORSE_PTYPE_1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 443);
     } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED) {
@@ -174,7 +176,7 @@ void Horse_SetupInCutscene(PlayState* play, Player* player) {
         { SCENE_HYRULE_FIELD, CS_INDEX_6, { -4043, 313, 6933 }, 0x0000, HORSE_PTYPE_7 }, // Unused. Hopping Lon Lon
                                                                                          // Ranch North Gate
     };
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11 ||

@@ -1,4 +1,6 @@
 #include "alignment.h"
+#include "attributes.h"
+#include "stack_pad.h"
 #include "ultra64.h"
 #include "versions.h"
 #include "audio.h"
@@ -729,7 +731,7 @@ void AudioHeap_LoadFilter(s16* filter, s32 lowPassCutoff, s32 highPassCutoff) {
     }
 }
 
-void AudioHeap_UpdateReverb(SynthesisReverb* reverb) {
+void AudioHeap_UpdateReverb(UNUSED SynthesisReverb* reverb) {
 }
 
 void AudioHeap_UpdateReverbs(void) {
@@ -843,7 +845,7 @@ s32 AudioHeap_ResetStep(void) {
 }
 
 void AudioHeap_Init(void) {
-    s32 pad1[4];
+    STACK_PADS(s32, 4);
     s16* ramAddr;
     s32 persistentSize;
     s32 temporarySize;
@@ -852,7 +854,7 @@ void AudioHeap_Init(void) {
     OSIntMask intMask;
     s32 i;
     s32 j;
-    s32 pad2;
+    STACK_PAD(s32);
     AudioSpec* spec = &gAudioSpecs[gAudioCtx.specId]; // Audio Specifications
 
     gAudioCtx.sampleDmaCount = 0;
@@ -1391,7 +1393,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     Instrument* inst;
     SoundEffect* soundEffect;
     u32* fakematch;
-    s32 pad[4];
+    STACK_PADS(s32, 4);
 
     sampleBankTable = gAudioCtx.sampleBankTable;
     numFonts = gAudioCtx.soundFontTable->header.numEntries;

@@ -9,6 +9,7 @@
 #include "one_point_cutscene.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -640,9 +641,9 @@ void func_80A3F908(EnGo* this, PlayState* play) {
 
 void EnGo_Init(Actor* thisx, PlayState* play) {
     EnGo* this = (EnGo*)thisx;
-    s32 pad;
-    Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f }; // unused
-    Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
+    STACK_PAD(s32);
+    UNUSED Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f };
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
@@ -1037,7 +1038,7 @@ void func_80A40DCC(EnGo* this, PlayState* play) {
 }
 
 void EnGo_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGo* this = (EnGo*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);

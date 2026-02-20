@@ -13,6 +13,7 @@
 #include "effect.h"
 #include "play_state.h"
 #include "skin_matrix.h"
+#include "stack_pad.h"
 
 #include "assets/objects/gameplay_keep/eff_enemy_death_flame.h"
 
@@ -104,7 +105,7 @@ void EffectSsDeadDb_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsDeadDb_Update(PlayState* play, u32 index, EffectSs* this) {
     f32 w;
-    f32 pad;
+    STACK_PAD(s32);
 
     this->rTextIdx = (f32)((this->rReg11 - this->life) * 9) / this->rReg11;
     this->rScale += this->rScaleStep;

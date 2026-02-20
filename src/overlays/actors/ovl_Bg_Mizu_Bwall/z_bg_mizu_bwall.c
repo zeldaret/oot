@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mizu_bwall.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
 
 #include "libc64/qrand.h"
@@ -14,6 +15,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -183,7 +185,7 @@ void BgMizuBwall_RotateVec3f(Vec3f* out, Vec3f* in, f32 sin, f32 cos) {
 }
 
 void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMizuBwall* this = (BgMizuBwall*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -410,7 +412,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuBwall_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMizuBwall* this = (BgMizuBwall*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -453,7 +455,7 @@ void BgMizuBwall_SetAlpha(BgMizuBwall* this, PlayState* play) {
 
 void BgMizuBwall_SpawnDebris(BgMizuBwall* this, PlayState* play) {
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
     s16 rand1;
     s16 rand2;
     Vec3f* thisPos = &this->dyna.actor.world.pos;
@@ -530,7 +532,7 @@ void BgMizuBwall_DoNothing(BgMizuBwall* this, PlayState* play) {
 }
 
 void BgMizuBwall_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMizuBwall* this = (BgMizuBwall*)thisx;
 
     this->actionFunc(this, play);

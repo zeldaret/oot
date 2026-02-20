@@ -10,6 +10,7 @@
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "play_state.h"
 
@@ -152,7 +153,7 @@ void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
     Actor* actor = &this->actor;
     s32 i;
     Vec3f pos;
-    s32 pad;
+    STACK_PAD(s32);
     s32 maxChildren = ObjMure_GetMaxChildSpawns(this);
 
     for (i = 0; i < maxChildren; i++) {

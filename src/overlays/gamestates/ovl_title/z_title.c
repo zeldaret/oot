@@ -20,6 +20,7 @@
 #include "regs.h"
 #include "segment_symbols.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "sys_debug_controller.h"
 #include "sys_freeze.h"
@@ -101,15 +102,15 @@ void ConsoleLogo_SetupView(ConsoleLogoState* this, f32 x, f32 y, f32 z) {
 void ConsoleLogo_Draw(ConsoleLogoState* this) {
     static s16 sTitleRotY = 0;
     static Lights1 sTitleLights = gdSPDefLights1(100, 100, 100, 255, 255, 255, 69, 69, 69);
-
     u16 y;
     u16 idx;
-    s32 pad1;
+    STACK_PAD(s32);
     Vec3f v3;
     Vec3f v1;
     Vec3f v2;
-    s32 pad2;
-    s32 pad3;
+#if OOT_VERSION != IQUE_CN
+    STACK_PADS(s32, 2);
+#endif
 
     OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 395);
 

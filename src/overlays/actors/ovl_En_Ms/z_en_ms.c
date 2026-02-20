@@ -13,6 +13,7 @@
 #include "face_reaction.h"
 #include "play_state.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_ms/object_ms.h"
 
@@ -86,7 +87,7 @@ void EnMs_SetOfferText(EnMs* this, PlayState* play) {
 
 void EnMs_Init(Actor* thisx, PlayState* play) {
     EnMs* this = (EnMs*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         Actor_Kill(&this->actor);
@@ -175,7 +176,7 @@ void EnMs_TalkAfterPurchase(EnMs* this, PlayState* play) {
 
 void EnMs_Update(Actor* thisx, PlayState* play) {
     EnMs* this = (EnMs*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->activeTimer++;
     Actor_SetFocus(&this->actor, 20.0f);

@@ -12,6 +12,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -771,7 +772,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
 
 s16 EnHy_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnHy* this = (EnHy*)thisx;
-    s16 beggarItems[] = { ITEM_BOTTLE_BLUE_FIRE, ITEM_BOTTLE_FISH, ITEM_BOTTLE_BUG, ITEM_BOTTLE_FAIRY };
+    UNUSED s16 beggarItems[] = { ITEM_BOTTLE_BLUE_FIRE, ITEM_BOTTLE_FISH, ITEM_BOTTLE_BUG, ITEM_BOTTLE_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -1366,7 +1367,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
 
 s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHy* this = (EnHy*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3s limbRot;
     u8 headInfoIndex;
     void* eyeTex;
@@ -1414,7 +1415,7 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
 void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnHy* this = (EnHy*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f focusOffset = { 400.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2255);

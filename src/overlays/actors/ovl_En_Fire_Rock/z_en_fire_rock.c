@@ -8,6 +8,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -84,10 +85,9 @@ static ColliderCylinderInit D_80A12CCC = {
 };
 
 void EnFireRock_Init(Actor* thisx, PlayState* play) {
-    PlayState* play2 = play;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     EnFireRock* this = (EnFireRock*)thisx;
-    s16 temp;
 
     this->type = this->actor.params;
     if (this->type != FIRE_ROCK_CEILING_SPOT_SPAWNER) {
@@ -244,7 +244,6 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
     EnFireRock* spawnedFireRock;
     s32 nextRockType;
     s32 i;
-    s32 temp;
 
     nextRockType = FIRE_ROCK_SPAWNED_FALLING1;
     switch (this->type) {
@@ -399,7 +398,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
 
 void EnFireRock_Draw(Actor* thisx, PlayState* play) {
     EnFireRock* this = (EnFireRock*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fire_rock.c", 747);
     Matrix_Translate(thisx->world.pos.x + this->relativePos.x, thisx->world.pos.y + this->relativePos.y,

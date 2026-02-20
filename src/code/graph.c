@@ -1,4 +1,5 @@
 #include "libc64/malloc.h"
+#include "attributes.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
 #include "array_count.h"
@@ -16,6 +17,7 @@
 #include "regs.h"
 #include "setup_state.h"
 #include "speed_meter.h"
+#include "stack_pad.h"
 #include "sys_cfb.h"
 #include "sys_debug_controller.h"
 #include "sys_ucode.h"
@@ -191,7 +193,7 @@ void Graph_Init(GraphicsContext* gfxCtx) {
 #endif
 }
 
-void Graph_Destroy(GraphicsContext* gfxCtx) {
+void Graph_Destroy(UNUSED GraphicsContext* gfxCtx) {
 #if DEBUG_FEATURES
     func_800D3210();
     Fault_RemoveClient(&sGraphFaultClient);
@@ -453,7 +455,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     {
         OSTime timeNow = osGetTime();
-        s32 pad;
+        STACK_PAD(s32);
 
         gRSPGfxTimeTotal = gRSPGfxTimeAcc;
         gRSPAudioTimeTotal = gRSPAudioTimeAcc;
@@ -485,7 +487,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 #endif
 }
 
-void Graph_ThreadEntry(void* arg0) {
+void Graph_ThreadEntry(UNUSED void* arg) {
     GraphicsContext gfxCtx;
     GameState* gameState;
     u32 size;
@@ -533,7 +535,7 @@ void Graph_ThreadEntry(void* arg0) {
 }
 
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {
-    TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
+    UNUSED_NDEBUG TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
 
     if (HREG(59) == 1) {
         PRINTF("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,
@@ -543,7 +545,7 @@ void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {
 }
 
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
-    TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
+    UNUSED_NDEBUG TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
 
     if (HREG(59) == 1) {
         PRINTF("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,

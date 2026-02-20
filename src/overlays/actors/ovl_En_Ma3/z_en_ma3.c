@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "versions.h"
@@ -262,7 +263,7 @@ void EnMa3_ChangeAnim(EnMa3* this, s32 index) {
 
 void EnMa3_Init(Actor* thisx, PlayState* play) {
     EnMa3* this = (EnMa3*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gMalonAdultSkel, NULL, NULL, NULL, 0);
@@ -342,7 +343,7 @@ s32 EnMa3_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 inter
 
 void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3* this = (EnMa3*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -424,7 +425,7 @@ void EnMa3_Draw(Actor* thisx, PlayState* play) {
     EnMa3* this = (EnMa3*)thisx;
     Camera* activeCam;
     f32 distFromCamEye;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma3.c", 978);
 

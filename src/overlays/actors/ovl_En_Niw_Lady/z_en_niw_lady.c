@@ -9,6 +9,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
@@ -84,7 +85,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnNiwLady_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnNiwLady* this = (EnNiwLady*)thisx;
 
     this->aneObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_ANE);
@@ -169,7 +170,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, PlayState* play, s32 arg2) {
 
 void func_80AB9F24(EnNiwLady* this, PlayState* play) {
     f32 frames;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (Object_IsLoaded(&play->objectCtx, this->aneObjectSlot) &&
         Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
@@ -217,7 +218,7 @@ void func_80ABA21C(EnNiwLady* this, PlayState* play) {
 
 void func_80ABA244(EnNiwLady* this, PlayState* play) {
     EnNiw* currentCucco;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 phi_s1;
 
     this->cuccosInPen = 0;
@@ -532,7 +533,7 @@ void func_80ABAD7C(EnNiwLady* this, PlayState* play) {
 }
 
 void EnNiwLady_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnNiwLady* this = (EnNiwLady*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -596,7 +597,7 @@ Gfx* EnNiwLady_EmptyDList(GraphicsContext* gfxCtx) {
 
 s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNiwLady* this = (EnNiwLady*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (limbIndex == 15) {
         rot->x += this->headRot.y;

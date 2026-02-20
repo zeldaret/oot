@@ -11,6 +11,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -299,7 +300,7 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
     };
 
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
 
     for (i = 0; i < ARRAY_COUNT(cylinders); i++) {
         Collider_InitCylinder(play, &this->colliderCylinders[i]);
@@ -805,7 +806,7 @@ void EnSt_Sway(EnSt* this) {
 
 void EnSt_Init(Actor* thisx, PlayState* play) {
     EnSt* this = (EnSt*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 14.0f);
     SkelAnime_Init(play, &this->skelAnime, &object_st_Skel_005298, NULL, this->jointTable, this->morphTable, 30);
@@ -1033,7 +1034,7 @@ void EnSt_StartOnCeilingOrGround(EnSt* this, PlayState* play) {
 
 void EnSt_Update(Actor* thisx, PlayState* play) {
     EnSt* this = (EnSt*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
     if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {

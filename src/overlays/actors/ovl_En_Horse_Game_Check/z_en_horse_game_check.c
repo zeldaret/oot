@@ -5,6 +5,7 @@
  */
 
 #include "z_en_horse_game_check.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #include "libu64/debug.h"
@@ -14,6 +15,7 @@
 #include "sfx.h"
 #include "seqcmd.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -84,7 +86,7 @@ static f32 sFinishLine[4] = { -200.0f, 80.0f, -2300.0f, -1470.0f };
 
 static f32 sRanchExit[4] = { 800.0f, 1000.0f, -2900.0f, -2700.0f };
 
-static Vec3f sUnusedZeroVec = { 0.0f, 0.0f, 0.0f };
+UNUSED static Vec3f sUnusedZeroVec = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f sFencePos[] = {
     { 820.0f, -44.0f, -1655.0f }, { 1497.0f, -21.0f, -1198.0f },  { 1655.0f, -44.0f, -396.0f },
@@ -451,7 +453,7 @@ static EnHorseGameCheckFunc sUpdateFuncs[] = {
 };
 
 void EnHorseGameCheck_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if ((play->sceneId == SCENE_LON_LON_RANCH) &&
@@ -464,7 +466,7 @@ void EnHorseGameCheck_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnHorseGameCheck_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if (sDestroyFuncs[this->actor.params] != NULL) {
@@ -473,7 +475,7 @@ void EnHorseGameCheck_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnHorseGameCheck_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
     if (sUpdateFuncs[this->type] != NULL) {

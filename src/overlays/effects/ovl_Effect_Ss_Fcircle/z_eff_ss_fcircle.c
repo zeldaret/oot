@@ -8,6 +8,7 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -52,7 +53,7 @@ u32 EffectSsFcircle_Init(PlayState* play, u32 index, EffectSs* this, void* initP
 
 void EffectSsFcircle_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 yScale;
     f32 xzScale;
     f32 scale;

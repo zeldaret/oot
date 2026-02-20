@@ -14,6 +14,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -192,7 +193,7 @@ void EnVm_Wait(EnVm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 dist;
     s16 headRot;
-    s16 pad;
+    STACK_PAD(s16);
     s16 pitch;
 
     switch (this->unk_25E) {
@@ -481,7 +482,7 @@ void EnVm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     Vec3f sp80 = D_80B2EAF8;
     Vec3f sp74 = D_80B2EB04;
     Vec3f sp68 = D_80B2EB10;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f posResult;
     CollisionPoly* poly;
     s32 bgId;

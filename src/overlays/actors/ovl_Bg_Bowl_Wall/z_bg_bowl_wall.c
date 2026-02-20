@@ -14,6 +14,7 @@
 #include "quake.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -59,8 +60,7 @@ static s16 sTargetRot[] = { 0x0000, 0x0000, 0x3FFF, -0x3FFF };
 
 void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     BgBowlWall* this = (BgBowlWall*)thisx;
-    s32 pad1;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -88,7 +88,7 @@ void BgBowlWall_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgBowlWall_SpawnBullseyes(BgBowlWall* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnWallTubo* bullseye;
     Actor* lookForGirl;
     s16 type;
@@ -133,7 +133,7 @@ void BgBowlWall_WaitForHit(BgBowlWall* this, PlayState* play) {
 }
 
 void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play) {
-    s16 pad;
+    STACK_PAD(s16);
     Vec3f effectAccel = { 0.0f, 0.1f, 0.0f };
     Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f effectPos;

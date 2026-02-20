@@ -8,6 +8,7 @@
 #include "segment_symbols.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -276,7 +277,7 @@ void* sDCLavaFloorTextures[] = {
 
 void Scene_DrawConfigDodongosCavern(PlayState* play) {
     u32 gameplayFrames;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* displayListHead = GRAPH_ALLOC(play->state.gfxCtx, 2 * sizeof(Gfx[3]));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4905);

@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -1300,7 +1301,7 @@ void func_80A995CC(EnKo* this, PlayState* play) {
 void EnKo_Update(Actor* thisx, PlayState* play) {
     ColliderCylinder* collider;
     EnKo* this = (EnKo*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionFunc != func_80A99048) {
         if ((s32)this->modelAlpha != 0) {
@@ -1333,7 +1334,7 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     void* eyeTexture;
     Vec3s limbRot;
     u8 headId;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (limbIndex == 15) {
         gSPSegment((*gfx)++, 0x06, play->objectCtx.slots[this->headObjectSlot].segment);

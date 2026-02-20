@@ -12,6 +12,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "terminal.h"
 #include "translation.h"
@@ -142,7 +143,7 @@ void ShotSun_TriggerFairy(ShotSun* this, PlayState* play) {
 
 void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s32 params = PARAMS_GET_U(this->actor.params, 0, 8);
 
     if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
@@ -177,7 +178,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
     Vec3s cylinderPos;
     Player* player = GET_PLAYER(play);
     EnItem00* collectible;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->collider.base.acFlags & AC_HIT) {
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);

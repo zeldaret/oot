@@ -1,8 +1,10 @@
 #include "libc64/math64.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "regs.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -801,7 +803,7 @@ s32 func_8008EF44(PlayState* play, s32 ammo) {
 int Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange) {
     Player* this = GET_PLAYER(play);
     Vec3f diff;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
         Math_Vec3f_Diff(MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]), pos, &diff);
@@ -849,7 +851,7 @@ int Player_HasMirrorShieldSetToDraw(PlayState* play) {
     return (this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) && (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
 
-s32 Player_ActionToMagicSpell(Player* this, s32 itemAction) {
+s32 Player_ActionToMagicSpell(UNUSED Player* this, s32 itemAction) {
     s32 magicSpell = itemAction - PLAYER_IA_MAGIC_SPELL_15;
 
     if ((magicSpell >= 0) && (magicSpell < 6)) {
@@ -894,7 +896,7 @@ int Player_HoldsBrokenKnife(Player* this) {
            (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
 }
 
-s32 Player_ActionToBottle(Player* this, s32 itemAction) {
+s32 Player_ActionToBottle(UNUSED Player* this, s32 itemAction) {
     s32 bottle = itemAction - PLAYER_IA_BOTTLE;
 
     if ((bottle >= 0) && (bottle < 13)) {
@@ -908,7 +910,7 @@ s32 Player_GetBottleHeld(Player* this) {
     return Player_ActionToBottle(this, this->heldItemAction);
 }
 
-s32 Player_ActionToExplosive(Player* this, s32 itemAction) {
+s32 Player_ActionToExplosive(UNUSED Player* this, s32 itemAction) {
     s32 explosive = itemAction - PLAYER_IA_BOMB;
 
     if ((explosive >= 0) && (explosive < 2)) {
@@ -922,7 +924,7 @@ s32 Player_GetExplosiveHeld(Player* this) {
     return Player_ActionToExplosive(this, this->heldItemAction);
 }
 
-s32 func_8008F2BC(Player* this, s32 itemAction) {
+s32 func_8008F2BC(UNUSED Player* this, s32 itemAction) {
     s32 sword = 0;
 
     if (itemAction != PLAYER_IA_SWORD_CS) {
@@ -1205,7 +1207,7 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
 
     if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_DEAD) &&
         (Player_ActionToMagicSpell(this, this->itemAction) < 0)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         sp7C = D_80126058[(void)0, gSaveContext.save.linkAge];
         sp78 = D_80126060[(void)0, gSaveContext.save.linkAge];
@@ -1334,12 +1336,12 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
                 Matrix_RotateZ(BINANG_TO_RAD(this->upperLimbRot.z), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
-            s32 pad;
+            STACK_PAD(s32);
 
             func_8008F87C(play, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,
                           PLAYER_LIMB_L_FOOT);
         } else if (limbIndex == PLAYER_LIMB_R_THIGH) {
-            s32 pad;
+            STACK_PAD(s32);
 
             func_8008F87C(play, this, &this->skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN,
                           PLAYER_LIMB_R_FOOT);
@@ -1652,7 +1654,7 @@ Color_RGB8 sBottleColors[] = {
     { 80, 80, 255 },   // Fairy
 };
 
-void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, UNUSED Vec3s* rot, void* thisx) {
     Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
@@ -1815,7 +1817,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 if (heldActor != NULL) {
                     static Vec3f D_80126190 = { 100.0f, 1640.0f, 0.0f };
                     MtxF sp44;
-                    s32 pad;
+                    STACK_PAD(s32);
 
                     Matrix_MultVec3f(&D_80126190, &heldActor->world.pos);
                     Matrix_RotateZYX(0, -0x4000, -0x4000, MTXMODE_APPLY);
@@ -1917,7 +1919,8 @@ u8 sPauseModelGroupBySword[] = {
     PLAYER_MODELGROUP_BGS,              // PLAYER_SWORD_BIGGORON
 };
 
-s32 Player_OverrideLimbDrawPause(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
+s32 Player_OverrideLimbDrawPause(UNUSED PlayState* play, s32 limbIndex, Gfx** dList, UNUSED Vec3f* pos,
+                                 UNUSED Vec3s* rot, void* arg) {
     u8* playerSwordAndShield = arg;
     //! @bug `playerSwordAndShield[0]` can be 0 (`PLAYER_SWORD_NONE`), which indexes `sPauseModelGroupBySword[-1]`.
     //! The result happens to be 0 (`PLAYER_MODELGROUP_0`) in vanilla, but weird values are likely to cause a crash.
@@ -2000,7 +2003,7 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
 
     // Also matches if some of the previous graphics commands are moved inside this block too. Possible macro?
     if (1) {
-        s32 pad[2];
+        STACK_PADS(s32, 2);
 
         gSPLoadGeometryMode(POLY_OPA_DISP++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
     }

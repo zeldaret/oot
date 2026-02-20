@@ -1,4 +1,5 @@
 #include "fault.h"
+#include "attributes.h"
 #include "printf.h"
 #include "terminal.h"
 #include "translation.h"
@@ -112,7 +113,7 @@ void LogUtils_LogThreadId(const char* name, int line) {
 #endif
 
 void LogUtils_HungupThread(const char* name, int line) {
-    OSId threadId = osGetThreadId(NULL);
+    UNUSED_NDEBUG OSId threadId = osGetThreadId(NULL);
 
 #if PLATFORM_N64 || DEBUG_FEATURES
     osSyncPrintf("*** HungUp in thread %d, [%s:%d] ***\n", threadId, name, line);

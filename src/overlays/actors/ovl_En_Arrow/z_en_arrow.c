@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
@@ -404,7 +405,7 @@ void func_809B4640(EnArrow* this, PlayState* play) {
 }
 
 void EnArrow_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnArrow* this = (EnArrow*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -468,7 +469,7 @@ void func_809B4800(EnArrow* this, PlayState* play) {
 }
 
 void EnArrow_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnArrow* this = (EnArrow*)thisx;
     u8 alpha;
     f32 scale;

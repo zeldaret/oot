@@ -5,12 +5,14 @@
  */
 
 #include "z_en_jsjutan.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "tex_len.h"
@@ -45,7 +47,7 @@ static u8 sShadowTex[0x800];
 
 static Vec3s D_80A8EE10[0x90];
 
-static s32 sUnused[2] = { 0, 0 };
+UNUSED static u64 sForceAlignment = 0;
 
 #define sCarpetTex_WIDTH 32
 #define sCarpetTex_HEIGHT 64
@@ -103,7 +105,7 @@ static CollisionHeader sCol = {
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play) {
     EnJsjutan* this = (EnJsjutan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* header = NULL;
 
     this->dyna.actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;

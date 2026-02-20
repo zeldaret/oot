@@ -7,10 +7,12 @@
 #include "z_demo_ec.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -205,7 +207,7 @@ void func_8096D64C(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_UpdateEyes(DemoEc* this) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeTexIndex = &this->eyeTexIndex;
 
@@ -265,7 +267,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* 
                          PostLimbDraw postLimbDraw) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 565);
 
@@ -289,7 +291,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* 
 
 void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gfx* arg3, u8* color1, u8* color2,
                                     OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw) {
-    s32 pad;
+    STACK_PAD(s32);
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -325,7 +327,7 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 }
 
 void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 drawObjectSlot = this->drawObjectSlot;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
@@ -1095,7 +1097,7 @@ void DemoEc_UpdateFishingOwner(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_FishingOwnerPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    DemoEc* this = (DemoEc*)thisx;
+    UNUSED DemoEc* this = (DemoEc*)thisx;
 
     if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & HS_FISH_STOLE_HAT)) {
         gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
@@ -1142,7 +1144,7 @@ void DemoEc_DrawBombchuShopOwner(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_InitGorons(DemoEc* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     AnimationHeader* animation;
     f32 goronScale;
     Vec3f* scale = &this->actor.scale;
@@ -1271,10 +1273,10 @@ void DemoEc_InitNpc(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_InitCommon(DemoEc* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 primary;
     s32 type;
-    s16 pad2;
+    STACK_PAD(s16);
     s16 sp28;
     s32 primaryObjectSlot;
     s32 secondaryObjectSlot;

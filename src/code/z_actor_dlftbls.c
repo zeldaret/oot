@@ -1,4 +1,5 @@
 #include "fault.h"
+#include "attributes.h"
 #include "printf.h"
 #include "segment_symbols.h"
 #include "z_actor_dlftbls.h"
@@ -97,7 +98,7 @@ void ActorOverlayTable_LogPrint(void) {
 #endif
 }
 
-void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
+void ActorOverlayTable_FaultPrint(UNUSED void* arg0, UNUSED void* arg1) {
     ActorOverlay* overlayEntry;
     u32 overlaySize;
     uintptr_t ramStart;

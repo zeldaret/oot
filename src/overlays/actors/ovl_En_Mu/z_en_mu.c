@@ -8,6 +8,7 @@
 
 #include "libc64/qrand.h"
 #include "gfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -141,7 +142,7 @@ s16 EnMu_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 void EnMu_Init(Actor* thisx, PlayState* play) {
     EnMu* this = (EnMu*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 160.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &object_mu_Skel_004F70, &object_mu_Anim_0003F4, NULL, NULL, 0);
@@ -166,7 +167,7 @@ void EnMu_Pose(EnMu* this, PlayState* play) {
 
 void EnMu_Update(Actor* thisx, PlayState* play) {
     EnMu* this = (EnMu*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 talkDist;
     Vec3s pos;
 

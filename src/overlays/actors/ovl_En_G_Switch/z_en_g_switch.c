@@ -5,6 +5,7 @@
  */
 
 #include "z_en_g_switch.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
@@ -17,6 +18,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -80,7 +82,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 // Unused, but probably intended to be this
-static s16 sRupeeTypes[] = {
+UNUSED static s16 sRupeeTypes[] = {
     ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
 };
 
@@ -97,7 +99,7 @@ ActorProfile En_G_Switch_Profile = {
 };
 
 void EnGSwitch_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (play) {}
@@ -187,7 +189,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnGSwitch_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -394,7 +396,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, PlayState* play) {
             f32 rand;
             s32 phi_s0;
             s32 scale;
-            s32 pad;
+            STACK_PAD(s32);
 
             pos.x = sn * 8.0f;
             pos.y = 10.0f + Rand_CenteredFloat(5.0f);
@@ -438,7 +440,7 @@ void EnGSwitch_Kill(EnGSwitch* this, PlayState* play) {
 }
 
 void EnGSwitch_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     this->actionFunc(this, play);
@@ -571,7 +573,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, PlayState* play) {
     EnGSwitchEffect* effect = this->effects;
     s16 i;
     f32 scale;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_en_g_switch.c", 1073);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

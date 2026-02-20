@@ -14,6 +14,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -329,7 +330,7 @@ void func_80A8FBB8(EnKakasi* this, PlayState* play) {
 
 void EnKakasi_Update(Actor* thisx, PlayState* play) {
     EnKakasi* this = (EnKakasi*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     this->unk_198++;

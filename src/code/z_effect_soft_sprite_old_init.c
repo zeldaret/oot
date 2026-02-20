@@ -1,11 +1,13 @@
 #include "libc64/qrand.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -60,7 +62,7 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     MtxF mfScale;
     MtxF mfResult;
     MtxF mfTransBillboard;
-    s32 pad1;
+    STACK_PAD(s32);
     Mtx* mtx;
     void* objectPtr = play->objectCtx.slots[this->rgObjectSlot].segment;
 
@@ -692,8 +694,8 @@ void EffectSsSibuki_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* a
 
 void EffectSsSibuki_SpawnBurst(PlayState* play, Vec3f* pos) {
     s16 i;
-    Vec3f unusedZeroVec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f unusedZeroVec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s16 randDirection = Rand_ZeroOne() * 1.99f;
 

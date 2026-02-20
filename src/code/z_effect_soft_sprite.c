@@ -1,5 +1,6 @@
 #include "libu64/overlay.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
@@ -43,7 +44,7 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
     }
 }
 
-void EffectSs_ClearAll(PlayState* play) {
+void EffectSs_ClearAll(UNUSED PlayState* play) {
     u32 i;
     EffectSs* effectSs;
     EffectSsOverlay* overlay;

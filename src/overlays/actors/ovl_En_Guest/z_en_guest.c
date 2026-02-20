@@ -12,6 +12,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -94,7 +95,7 @@ void EnGuest_Destroy(Actor* thisx, PlayState* play) {
 
 void EnGuest_Update(Actor* thisx, PlayState* play) {
     EnGuest* this = (EnGuest*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
@@ -160,7 +161,7 @@ void func_80A5057C(EnGuest* this, PlayState* play) {
 
 void func_80A505CC(Actor* thisx, PlayState* play) {
     EnGuest* this = (EnGuest*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player;
 
     player = GET_PLAYER(play);
@@ -236,7 +237,7 @@ void EnGuest_Draw(Actor* thisx, PlayState* play) {
         gHylianMan2MustachedEyeClosedTex,
     };
     EnGuest* this = (EnGuest*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_guest.c", 404);
 

@@ -6,6 +6,7 @@
 
 #include "z_en_m_fire1.h"
 
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -49,7 +50,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnMFire1_Init(Actor* thisx, PlayState* play) {
     EnMFire1* this = (EnMFire1*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actor.params < 0) {
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
@@ -67,7 +68,7 @@ void EnMFire1_Destroy(Actor* thisx, PlayState* play) {
 
 void EnMFire1_Update(Actor* thisx, PlayState* play) {
     EnMFire1* this = (EnMFire1*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (Math_StepToF(&this->timer, 1.0f, 0.2f)) {
         Actor_Kill(&this->actor);

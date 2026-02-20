@@ -10,6 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "play_state.h"
@@ -135,7 +136,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
         { 60.0f, 1800.0f, -310.0f },
     };
     BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
-    s32 puzzleSolved;
+    STACK_PAD(s32);
     s32 lightBeamToggles[3];
     s32 i;
     s32 mirRayObjectSlot;

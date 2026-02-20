@@ -6,6 +6,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -681,7 +682,7 @@ static EnFzSpawnIceSmokeFunc iceSmokeSpawnFuncs[] = {
 
 void EnFz_Update(Actor* thisx, PlayState* play) {
     EnFz* this = (EnFz*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->counter++;
 
@@ -730,7 +731,7 @@ void EnFz_Draw(Actor* thisx, PlayState* play) {
         gFreezardHeadChippedDL,         // Entire head chipped off     (1 or 2 health)
     };
     EnFz* this = (EnFz*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 index;
 
     index = (6 - this->actor.colChkInfo.health) >> 1;

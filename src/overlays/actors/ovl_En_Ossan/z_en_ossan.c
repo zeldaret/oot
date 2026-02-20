@@ -1,4 +1,5 @@
 #include "z_en_ossan.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_GirlA/z_en_girla.h"
 #include "overlays/actors/ovl_En_Tana/z_en_tana.h"
@@ -12,6 +13,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -142,8 +144,7 @@ ActorProfile En_Ossan_Profile = {
     /**/ NULL,
 };
 
-// Unused collider
-static ColliderCylinderInitType1 sCylinderInit = {
+UNUSED static ColliderCylinderInitType1 sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -168,8 +169,7 @@ static s16 sMaskPaymentPrice[] = { 10, 30, 20, 50 };
 // item yaw offsets
 static s16 sItemShelfRot[] = { 0xEAAC, 0xEAAC, 0xEAAC, 0xEAAC, 0x1554, 0x1554, 0x1554, 0x1554 };
 
-// unused values?
-static s16 D_80AC8904[] = { 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
+UNUSED static s16 D_80AC8904[] = { 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
 
 #if DEBUG_FEATURES
 static char* sShopkeeperPrintName[] = {
@@ -594,7 +594,7 @@ s32 EnOssan_TryGetObjBankIndices(EnOssan* this, PlayState* play, s16* objectIds)
 
 void EnOssan_Init(Actor* thisx, PlayState* play) {
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s16* objectIds;
 
     if (this->actor.params == OSSAN_TYPE_TALON && (LINK_AGE_IN_YEARS != YEARS_CHILD)) {
@@ -914,7 +914,7 @@ void EnOssan_State_StartConversation(EnOssan* this, PlayState* play, Player* pla
 
     if (this->actor.params == OSSAN_TYPE_MASK && dialogState == TEXT_STATE_CHOICE) {
         if (!EnOssan_TestEndInteraction(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
-            s32 pad;
+            STACK_PAD(s32);
 
             switch (play->msgCtx.choiceIndex) {
                 case 0:
@@ -1256,7 +1256,7 @@ void EnOssan_State_BrowseLeftShelf(EnOssan* this, PlayState* play, Player* playe
 }
 
 void EnOssan_State_BrowseRightShelf(EnOssan* this, PlayState* play, Player* player) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     u8 prevIndex;
     u8 nextIndex;
 
@@ -1718,7 +1718,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
             selectedItem = this->shelfSlots[this->cursorIndex];
             selectedItem->updateStockedItemFunc(play, selectedItem);
             if (!EnOssan_TestEndInteraction(this, play, &play->state.input[0])) {
-                s32 pad;
+                STACK_PAD(s32);
 
                 switch (play->msgCtx.choiceIndex) {
                     case 0:
@@ -2364,7 +2364,7 @@ void EnOssan_DrawStickDirectionPrompts(PlayState* play, EnOssan* this) {
 void EnOssan_DrawBazaarShopkeeper(Actor* thisx, PlayState* play) {
     static void* sBazaarShopkeeperEyeTextures[] = { gOssanEyeOpenTex, gOssanEyeHalfTex, gOssanEyeClosedTex };
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4320);
 
@@ -2386,7 +2386,7 @@ s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(PlayState* play, s32 limbIndex, Gfx
         gKokiriShopkeeperEyeOpenTex,
     };
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4354);
 
@@ -2419,7 +2419,7 @@ Gfx* EnOssan_SetEnvColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 void EnOssan_DrawKokiriShopkeeper(Actor* thisx, PlayState* play) {
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4409);
 
@@ -2440,7 +2440,7 @@ void EnOssan_DrawKokiriShopkeeper(Actor* thisx, PlayState* play) {
 void EnOssan_DrawGoronShopkeeper(Actor* thisx, PlayState* play) {
     static void* sGoronShopkeeperEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4455);
 
@@ -2468,7 +2468,7 @@ s32 EnOssan_OverrideLimbDrawZoraShopkeeper(PlayState* play, s32 limbIndex, Gfx**
 void EnOssan_DrawZoraShopkeeper(Actor* thisx, PlayState* play) {
     static void* sZoraShopkeeperEyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4506);
 
@@ -2492,7 +2492,7 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
         gPotionShopkeeperEyeClosedTex,
     };
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4544);
 
@@ -2509,7 +2509,7 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
 void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
     static void* sHappyMaskShopkeeperEyeTextures[] = { gHappyMaskSalesmanEyeClosedTex, gHappyMaskSalesmanEyeOpenTex };
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4578);
 
@@ -2532,7 +2532,7 @@ void EnOssan_DrawBombchuShopkeeper(Actor* thisx, PlayState* play) {
         gBombchuShopkeeperEyeClosedTex,
     };
     EnOssan* this = (EnOssan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4611);
 

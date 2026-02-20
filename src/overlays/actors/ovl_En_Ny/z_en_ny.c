@@ -9,6 +9,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_en_item00.h"
@@ -539,7 +540,7 @@ static Vec3f sFireOffsets[] = {
 };
 
 void EnNy_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnNy* this = (EnNy*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ny.c", 837);

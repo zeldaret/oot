@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -44,7 +45,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgVbSima_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgVbSima* this = (BgVbSima*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -55,7 +56,7 @@ void BgVbSima_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgVbSima_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgVbSima* this = (BgVbSima*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -81,7 +82,7 @@ void BgVbSima_SpawnEmber(BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
 void BgVbSima_Update(Actor* thisx, PlayState* play) {
     static Color_RGBA8 colorYellow = { 255, 255, 0, 255 };
     static Color_RGBA8 colorRed = { 255, 10, 0, 255 };
-    s32 pad;
+    STACK_PAD(s32);
     BgVbSima* this = (BgVbSima*)thisx;
     BossFd* bossFd = (BossFd*)this->dyna.actor.parent;
     f32 minus1 = -1.0f;

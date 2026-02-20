@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "play_state.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 
@@ -37,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgMenkuriKaiten_Init(Actor* thisx, PlayState* play) {
     BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
