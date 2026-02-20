@@ -7,35 +7,35 @@
 
 // The "LN" macros defined here are not meant to be used directly. See the wrapper macros below.
 #if OOT_VERSION == NTSC_1_0
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ntsc_1_0)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ntsc_1_0)
 #elif OOT_VERSION == NTSC_1_1
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ntsc_1_1)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ntsc_1_1)
 #elif OOT_VERSION == PAL_1_0
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (pal_1_0)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (pal_1_0)
 #elif OOT_VERSION == NTSC_1_2
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ntsc_1_2)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ntsc_1_2)
 #elif OOT_VERSION == PAL_1_1
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (pal_1_1)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (pal_1_1)
 #elif OOT_VERSION == GC_JP
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_jp)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_jp)
 #elif OOT_VERSION == GC_JP_MQ
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_jp_mq)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_jp_mq)
 #elif OOT_VERSION == GC_US
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_us)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_us)
 #elif OOT_VERSION == GC_US_MQ
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_us_mq)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_us_mq)
 #elif OOT_VERSION == GC_EU_MQ_DBG
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu_mq_dbg)
-#elif OOT_VERSION == GC_EU
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu)
-#elif OOT_VERSION == GC_EU_MQ
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu_mq)
-#elif OOT_VERSION == GC_JP_CE
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_jp_ce)
-#elif OOT_VERSION == IQUE_CN
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ique_cn)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu_mq_dbg)
 #elif OOT_VERSION == GC_EU_DBG
-#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu_mq_dbg)
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu_dbg)
+#elif OOT_VERSION == GC_EU
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu)
+#elif OOT_VERSION == GC_EU_MQ
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_eu_mq)
+#elif OOT_VERSION == GC_JP_CE
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (gc_jp_ce)
+#elif OOT_VERSION == IQUE_CN
+#define LN(ntsc_1_0, ntsc_1_1, pal_1_0, ntsc_1_2, pal_1_1, gc_jp, gc_jp_mq, gc_us, gc_us_mq, gc_eu_mq_dbg, gc_eu_dbg, gc_eu, gc_eu_mq, gc_jp_ce, ique_cn) (ique_cn)
 #else
 #error "Unsupported OOT version"
 #endif
@@ -50,29 +50,26 @@
 
 // NTSC 1.0 and all the other versions
 #define LN1(ntsc_1_0, other) \
-    LN(ntsc_1_0, other, other, other, other, other, other, other, other, other, other, other, other, other)
+    LN(ntsc_1_0, other, other, other, other, other, other, other, other, other, other, other, other, other, other)
 
 // NTSC 1.0, NTSC 1.1, and all the other versions
 #define LN2(ntsc_1_0, ntsc_1_1, other) \
-    LN(ntsc_1_0, ntsc_1_1, other, other, other, other, other, other, other, other, other, other, other, other)
+    LN(ntsc_1_0, ntsc_1_1, other, other, other, other, other, other, other, other, other, other, other, other, other)
 
 // NTSC 1.0, iQue, GameCube, and all the other versions
 #define LN3(ntsc_1_0, other, ique, gc) \
-    LN(ntsc_1_0, other, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, ique)
+    LN(ntsc_1_0, other, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, gc, ique)
 
 // NTSC 1.0, NTSC 1.1, iQue, GameCube, and all the other versions
 #define LN4(ntsc_1_0, ntsc_1_1, other, ique, gc) \
-    LN(ntsc_1_0, ntsc_1_1, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, ique)
+    LN(ntsc_1_0, ntsc_1_1, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, gc, ique)
 
-// NTSC 1.0, NTSC 1.1, NTSC 1.2/PAL 1.0, iQue, Gamecube US/JP, Gamecube EU, and Gamecube CE
+// NTSC 1.0, NTSC 1.1, NTSC 1.2/PAL 1.0, iQue, GameCube US/JP, GameCube EU, and GameCube CE
 #define LN5(ntsc_1_0, ntsc_1_1, other, pal_1_1, ique, gc_ntsc, gc_eu, gc_jp_ce) \
-    LN(ntsc_1_0, ntsc_1_1, other, other, pal_1_1, gc_ntsc, gc_ntsc, gc_ntsc, gc_ntsc, gc_eu, gc_eu, gc_eu, gc_jp_ce, ique)
+    LN(ntsc_1_0, ntsc_1_1, other, other, pal_1_1, gc_ntsc, gc_ntsc, gc_ntsc, gc_ntsc, gc_eu, gc_eu, gc_eu, gc_eu, gc_jp_ce, ique)
 
 // GameCube EU Debug and all the other versions
-#if OOT_VERSION == GC_EU_DBG
-#define LN6(gc_eu_dbg, other) gc_eu_dbg
-#else
-#define LN6(gc_eu_dbg, other) other
-#endif
+#define LN6(other, gc_eu_dbg) \
+    LN(other, other, other, other, other, other, other, other, other, other, gc_eu_dbg, other, other, other, other)
 
 #endif
