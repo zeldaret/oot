@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "sys_ucode.h"
 
-#if PLATFORM_N64
+#ifndef F3DEX_GBI_PL
 u64* sDefaultGSPUCodeText = gspF3DZEX2_NoN_fifoTextStart;
 u64* sDefaultGSPUCodeData = gspF3DZEX2_NoN_fifoDataStart;
 #else

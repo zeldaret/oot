@@ -13,7 +13,7 @@ glabel aspMainTextStart
     .incbin "incbin/aspMainText"
 glabel aspMainTextEnd
 
-#if PLATFORM_N64
+#ifndef F3DEX_GBI_PL
 glabel gspF3DZEX2_NoN_fifoTextStart
     .incbin "incbin/gspF3DZEX2_NoN_fifoText"
 glabel gspF3DZEX2_NoN_fifoTextEnd

@@ -13,7 +13,7 @@ glabel aspMainDataStart
     .incbin "incbin/aspMainData"
 glabel aspMainDataEnd
 
-#if PLATFORM_N64
+#ifndef F3DEX_GBI_PL
 glabel gspF3DZEX2_NoN_fifoDataStart
     .incbin "incbin/gspF3DZEX2_NoN_fifoData"
 glabel gspF3DZEX2_NoN_fifoDataEnd
