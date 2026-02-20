@@ -44,10 +44,10 @@ For example, `baseroms/gc-eu/config.yml` contains
 ```yml
 assets:
 - name: objects/gameplay_keep
-  xml_path: assets/xml/objects/gameplay_keep_pal.xml
+  xml_path: assets/xml/objects/gameplay_keep.xml
 ```
 
-then `<ExternalFile OutPath="assets/objects/gameplay_keep/"/>` refers to that gameplay_keep entry, which uses the `gameplay_keep_pal.xml` xml file when extracting assets for version gc-eu.
+then `<ExternalFile OutPath="assets/objects/gameplay_keep/"/>` refers to that gameplay_keep entry, which uses the `gameplay_keep.xml` xml file when extracting assets for version gc-eu.
 
 
 # Resource elements

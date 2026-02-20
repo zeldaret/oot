@@ -63,6 +63,9 @@ def handler_DList(symbol_name, offset, collection, reselem: Element):
 class BlobResourceDesc(ResourceDesc):
     size: int
 
+    def get_size(self) -> int:
+        return self.size
+
 
 def handler_Blob(symbol_name, offset, collection, reselem: Element):
     xml_errors.check_attrib(reselem, {"Name", "Size"}, {"Offset"} | STATIC_ATTRIB)

@@ -74,7 +74,7 @@ assets:
 - name: objects/gameplay_field_keep
   xml_path: assets/xml/objects/gameplay_field_keep.xml
 - name: objects/gameplay_keep
-  xml_path: assets/xml/objects/gameplay_keep_pal.xml
+  xml_path: assets/xml/objects/gameplay_keep.xml
 - name: objects/object_ahg
   xml_path: assets/xml/objects/object_ahg.xml
 - name: objects/object_am
