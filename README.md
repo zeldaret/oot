@@ -39,6 +39,7 @@ It builds the following versions:
 | gc-us        | 02-12-19 13:28:09 | GameCube US                               | `cd09029edcfb7c097ac01986a0f83d3f` |
 | gc-us-mq     | 02-12-19 14:05:42 | GameCube US Master Quest                  | `da35577fe54579f6a266931cc75f512d` |
 | gc-eu-mq-dbg | 03-02-21 00:16:31 | GameCube Europe/PAL Master Quest Debug    | `75e344f41c26ec2ec5ad92caa9e25629`<br>`8ca71e87de4ce5e9f6ec916202a623e9`<br>`f751d1a097764e2337b1ac9ba1e27699`<br>`dde376d47187b931820d5b2957cded14` |
+| gc-eu-dbg    | 03-02-21 00:49:18 | GameCube Europe/PAL Debug                 | `3c10b67a76616ae2c162def7528724cf`<br>`382dc484e317d6522745c95387e7d5b9` |
 | gc-eu        | 03-02-21 20:12:23 | GameCube Europe/PAL                       | `2c27b4e000e85fd78dbca551f1b1c965` |
 | gc-eu-mq     | 03-02-21 20:37:19 | GameCube Europe/PAL Master Quest          | `1618403427e4344a57833043db5ce3c3` |
 | gc-jp-ce     | 03-10-08 21:53:00 | GameCube Japan (Collector's Edition Disc) | `0c13e0449a28ea5b925cdb8af8d29768` |
