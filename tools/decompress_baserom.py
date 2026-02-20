@@ -233,7 +233,7 @@ def main():
 
     # Check to see if the ROM is a "vanilla" ROM
     str_hash = get_str_hash(file_content)
-    if version == "gc-eu-mq-dbg":
+    if version in {"gc-eu-mq-dbg", "gc-eu-dbg"}:
         correct_str_hashes = decompressed_str_hashes
     else:
         correct_str_hashes = compressed_str_hashes
