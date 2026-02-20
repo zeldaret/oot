@@ -59,11 +59,11 @@ void EnRu1_BossRoom_WaitInsideBlueWarp(EnRu1* this, PlayState* play);
 void EnRu1_BossRoom_LinkWalksToPointInBlueWarp(EnRu1* this, PlayState* play);
 void EnRu1_BossRoom_WhatTookYouSoLong(EnRu1* this, PlayState* play);
 void EnRu1_BossRoom_WarpingOut(EnRu1* this, PlayState* play);
-void func_80AEF29C(EnRu1* this, PlayState* play);
-void func_80AEF2AC(EnRu1* this, PlayState* play);
-void func_80AEF2D0(EnRu1* this, PlayState* play);
-void func_80AEF354(EnRu1* this, PlayState* play);
-void func_80AEF3A8(EnRu1* this, PlayState* play);
+void EnRu1_SpeakableJabu_PreSpawn(EnRu1* this, PlayState* play);
+void EnRu1_SpeakableJabu_Spawn(EnRu1* this, PlayState* play);
+void EnRu1_SpeakableJabu_Idle(EnRu1* this, PlayState* play);
+void EnRu1_SpeakableJabu_Talking(EnRu1* this, PlayState* play);
+void EnRu1_SpeakableJabu_TakingSeat(EnRu1* this, PlayState* play);
 void func_80AEEBD4(EnRu1* this, PlayState* play);
 void func_80AEEC5C(EnRu1* this, PlayState* play);
 void func_80AEECF0(EnRu1* this, PlayState* play);
@@ -81,8 +81,8 @@ void func_80AEFB68(EnRu1* this, PlayState* play);
 void func_80AEFCE8(EnRu1* this, PlayState* play);
 void func_80AEFBC8(EnRu1* this, PlayState* play);
 void func_80AEFC24(EnRu1* this, PlayState* play);
-void func_80AEFECC(EnRu1* this, PlayState* play);
-void func_80AEFF40(EnRu1* this, PlayState* play);
+void EnRu1_ThroneRoom_Idle(EnRu1* this, PlayState* play);
+void EnRu1_ThroneRoom_Talk(EnRu1* this, PlayState* play);
 
 void EnRu1_PreLimbDraw(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot);
 
@@ -168,11 +168,11 @@ static EnRu1ActionFunc sActionFuncs[] = {
     EnRu1_BossRoom_LinkWalksToPointInBlueWarp, // ENRU1_ACTION_LINK_WALKS_TO_POINT_IN_BLUE_WARP
     EnRu1_BossRoom_WhatTookYouSoLong,          // ENRU1_ACTION_WHAT_TOOK_YOU_SO_LONG
     EnRu1_BossRoom_WarpingOut,                 // ENRU1_ACTION_WARPING_OUT
-    func_80AEF29C,                             // ENRU1_ACTION_22
-    func_80AEF2AC,                             // ENRU1_ACTION_23
-    func_80AEF2D0,                             // ENRU1_ACTION_24
-    func_80AEF354,                             // ENRU1_ACTION_25
-    func_80AEF3A8,                             // ENRU1_ACTION_26
+    EnRu1_SpeakableJabu_PreSpawn,              // ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN
+    EnRu1_SpeakableJabu_Spawn,                 // ENRU1_ACTION_SPEAK_JABU_SPAWN
+    EnRu1_SpeakableJabu_Idle,                  // ENRU1_ACTION_SPEAK_JABU_IDLE
+    EnRu1_SpeakableJabu_Talking,               // ENRU1_ACTION_SPEAK_JABU_TALKING
+    EnRu1_SpeakableJabu_TakingSeat,            // ENRU1_ACTION_SPEAK_JABU_SIT_DOWN
     func_80AEEBD4,                             // ENRU1_ACTION_27
     func_80AEEC5C,                             // ENRU1_ACTION_28
     func_80AEECF0,                             // ENRU1_ACTION_29
@@ -190,8 +190,8 @@ static EnRu1ActionFunc sActionFuncs[] = {
     func_80AEFCE8,                             // ENRU1_ACTION_41
     func_80AEFBC8,                             // ENRU1_ACTION_42
     func_80AEFC24,                             // ENRU1_ACTION_43
-    func_80AEFECC,                             // ENRU1_ACTION_44
-    func_80AEFF40,                             // ENRU1_ACTION_45
+    EnRu1_ThroneRoom_Idle,                     // ENRU1_ACTION_THRONE_IDLE
+    EnRu1_ThroneRoom_Talk,                     // ENRU1_ACTION_THRONE_TALK
 };
 
 static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
@@ -357,7 +357,7 @@ s32 func_80AEB020(EnRu1* this, PlayState* play) {
             someEnRu1 = (EnRu1*)actorIt;
             if (someEnRu1 != this) {
                 if ((someEnRu1->action == ENRU1_ACTION_31) || (someEnRu1->action == ENRU1_ACTION_32) ||
-                    (someEnRu1->action == ENRU1_ACTION_24)) {
+                    (someEnRu1->action == ENRU1_ACTION_SPEAK_JABU_IDLE)) {
                     return true;
                 }
             }
@@ -407,7 +407,7 @@ Actor* func_80AEB124(PlayState* play) {
     return NULL;
 }
 
-int func_80AEB174(PlayState* play) {
+int EnRu1_MessageShouldAdvance(PlayState* play) {
     return (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play);
 }
 
@@ -855,7 +855,7 @@ void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
 
             EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
             actorRoom = this->actor.room;
-            this->action = ENRU1_ACTION_22;
+            this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
             this->actor.room = -1;
             this->drawConfig = ENRU1_DRAW_NOTHING;
             this->roomNum1 = actorRoom;
@@ -1285,7 +1285,7 @@ void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
 
             EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
             actorRoom = this->actor.room;
-            this->action = ENRU1_ACTION_22;
+            this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
             this->actor.room = -1;
             this->roomNum1 = actorRoom;
             this->roomNum3 = actorRoom;
@@ -1609,13 +1609,13 @@ void EnRu1_UpdateWaterState(EnRu1* this) {
     }
 }
 
-s32 func_80AEE264(EnRu1* this, PlayState* play) {
+s32 EnRu1_TalkOfferAccepted(EnRu1* this, PlayState* play) {
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
-        if (GET_INFTABLE(INFTABLE_143)) {
+        if (GET_INFTABLE(INFTABLE_BECAME_CARRIER_FOR_RUTO)) {
             this->actor.textId = 0x404E;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
-        } else if (GET_INFTABLE(INFTABLE_142)) {
+        } else if (GET_INFTABLE(INFTABLE_LEARNED_WHY_RUTO_IN_JABU_JABU)) {
             this->actor.textId = 0x404D;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         } else {
@@ -1909,7 +1909,7 @@ void func_80AEEF08(EnRu1* this, PlayState* play) {
 void func_80AEEF5C(EnRu1* this, PlayState* play) {
 }
 
-void func_80AEEF68(EnRu1* this, PlayState* play) {
+void EnRu1_TurnUpperBodyTowardPlayer(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingPreset;
 
@@ -1919,7 +1919,7 @@ void func_80AEEF68(EnRu1* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, trackingPreset, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
-void func_80AEEFEC(EnRu1* this, PlayState* play) {
+void EnRu1_TurnFullBodyTowardPlayer(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingPreset;
 
@@ -1930,45 +1930,45 @@ void func_80AEEFEC(EnRu1* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 
-void func_80AEF080(EnRu1* this) {
+void EnRu1_PlaySittingSfx(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
     }
 }
 
-s32 func_80AEF0BC(EnRu1* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_142)) {
+s32 EnRu1_BecomingCarrier(EnRu1* this, PlayState* play) {
+    if (GET_INFTABLE(INFTABLE_LEARNED_WHY_RUTO_IN_JABU_JABU)) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildSitAnim);
 
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
-        this->action = ENRU1_ACTION_26;
+        this->action = ENRU1_ACTION_SPEAK_JABU_SIT_DOWN;
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
         return true;
     }
     return false;
 }
 
-void func_80AEF170(EnRu1* this, PlayState* play, s32 cond) {
-    if (cond) {
-        this->action = ENRU1_ACTION_25;
+void EnRu1_CheckJabuTalk(EnRu1* this, PlayState* play, s32 isTalking) {
+    if (isTalking) {
+        this->action = ENRU1_ACTION_SPEAK_JABU_TALKING;
     }
 }
 
-void func_80AEF188(EnRu1* this, PlayState* play) {
-    if (func_80AEB174(play) && !func_80AEF0BC(this, play)) {
+void EnRu1_EndJabuTalk(EnRu1* this, PlayState* play) {
+    if (EnRu1_MessageShouldAdvance(play) && !EnRu1_BecomingCarrier(this, play)) {
         Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_142);
-        this->action = ENRU1_ACTION_24;
+        SET_INFTABLE(INFTABLE_LEARNED_WHY_RUTO_IN_JABU_JABU);
+        this->action = ENRU1_ACTION_SPEAK_JABU_IDLE;
     }
 }
 
-void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
-    if (arg2 != 0) {
+void EnRu1_HoldSittingPose(EnRu1* this, PlayState* play, s32 isFullySeated) {
+    if (isFullySeated) {
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, 0.0f);
         Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_143);
+        SET_INFTABLE(INFTABLE_BECAME_CARRIER_FOR_RUTO);
         func_80AED6DC(this, play);
         Actor_OfferCarry(&this->actor, play);
         this->action = ENRU1_ACTION_27;
@@ -1976,46 +1976,46 @@ void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
     }
 }
 
-void func_80AEF29C(EnRu1* this, PlayState* play) {
-    this->action = ENRU1_ACTION_23;
+void EnRu1_SpeakableJabu_PreSpawn(EnRu1* this, PlayState* play) {
+    this->action = ENRU1_ACTION_SPEAK_JABU_SPAWN;
 }
 
-void func_80AEF2AC(EnRu1* this, PlayState* play) {
-    this->action = ENRU1_ACTION_24;
+void EnRu1_SpeakableJabu_Spawn(EnRu1* this, PlayState* play) {
+    this->action = ENRU1_ACTION_SPEAK_JABU_IDLE;
     this->drawConfig = ENRU1_DRAW_OPA;
     this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
 }
 
-void func_80AEF2D0(EnRu1* this, PlayState* play) {
-    s32 cond;
+void EnRu1_SpeakableJabu_Idle(EnRu1* this, PlayState* play) {
+    s32 isTalking;
 
-    func_80AEEF68(this, play);
+    EnRu1_TurnUpperBodyTowardPlayer(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_UpdateStandingOC(this, play);
     func_80AEAECC(this, play);
-    cond = func_80AEE264(this, play);
+    isTalking = EnRu1_TalkOfferAccepted(this, play);
     func_80AED624(this, play);
-    func_80AEF170(this, play, cond);
+    EnRu1_CheckJabuTalk(this, play, isTalking);
 }
 
-void func_80AEF354(EnRu1* this, PlayState* play) {
-    func_80AEEFEC(this, play);
+void EnRu1_SpeakableJabu_Talking(EnRu1* this, PlayState* play) {
+    EnRu1_TurnFullBodyTowardPlayer(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEF188(this, play);
+    EnRu1_EndJabuTalk(this, play);
 }
 
-void func_80AEF3A8(EnRu1* this, PlayState* play) {
-    s32 something;
+void EnRu1_SpeakableJabu_TakingSeat(EnRu1* this, PlayState* play) {
+    s32 doneAnim;
 
     func_80AED83C(this);
-    something = EnRu1_UpdateSkelAnime(this);
-    func_80AEF080(this);
+    doneAnim = EnRu1_UpdateSkelAnime(this);
+    EnRu1_PlaySittingSfx(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEF1F0(this, play, something);
+    EnRu1_HoldSittingPose(this, play, doneAnim);
 }
 
 void func_80AEF40C(EnRu1* this) {
@@ -2261,14 +2261,14 @@ void EnRu1_InitBesideKingZora(EnRu1* this, PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_37) && LINK_IS_CHILD) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
-        this->action = ENRU1_ACTION_44;
+        this->action = ENRU1_ACTION_THRONE_IDLE;
         this->drawConfig = ENRU1_DRAW_OPA;
     } else {
         Actor_Kill(&this->actor);
     }
 }
 
-s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
+s32 EnRu1_ThroneRoomTalkOfferAccepted(EnRu1* this, PlayState* play) {
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
@@ -2281,7 +2281,7 @@ s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
     return true;
 }
 
-s32 func_80AEFE38(EnRu1* this, PlayState* play) {
+s32 EnRu1_IsThroneRoomTextClosing(EnRu1* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
         return true;
@@ -2289,33 +2289,33 @@ s32 func_80AEFE38(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEFE84(EnRu1* this, PlayState* play, s32 cond) {
-    if (cond) {
-        this->action = ENRU1_ACTION_45;
+void EnRu1_StartThroneRoomTalk(EnRu1* this, PlayState* play, s32 isTalking) {
+    if (isTalking) {
+        this->action = ENRU1_ACTION_THRONE_TALK;
     }
 }
 
-void func_80AEFE9C(EnRu1* this, PlayState* play) {
-    if (func_80AEFE38(this, play)) {
-        this->action = ENRU1_ACTION_44;
+void EnRu1_EndThroneRoomTalk(EnRu1* this, PlayState* play) {
+    if (EnRu1_IsThroneRoomTextClosing(this, play)) {
+        this->action = ENRU1_ACTION_THRONE_IDLE;
     }
 }
 
-void func_80AEFECC(EnRu1* this, PlayState* play) {
-    func_80AEEF68(this, play);
+void EnRu1_ThroneRoom_Idle(EnRu1* this, PlayState* play) {
+    EnRu1_TurnUpperBodyTowardPlayer(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_UpdateStandingOC(this, play);
     func_80AEAECC(this, play);
-    func_80AEFE84(this, play, func_80AEFDC0(this, play));
+    EnRu1_StartThroneRoomTalk(this, play, EnRu1_ThroneRoomTalkOfferAccepted(this, play));
 }
 
-void func_80AEFF40(EnRu1* this, PlayState* play) {
-    func_80AEEFEC(this, play);
+void EnRu1_ThroneRoom_Talk(EnRu1* this, PlayState* play) {
+    EnRu1_TurnFullBodyTowardPlayer(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEFE9C(this, play);
+    EnRu1_EndThroneRoomTalk(this, play);
 }
 
 /**
@@ -2328,7 +2328,7 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
         (!(func_80AEB020(this, play)))) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = this->actor.room;
-        this->action = ENRU1_ACTION_22;
+        this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
         this->actor.room = -1;
         this->drawConfig = ENRU1_DRAW_NOTHING;
         this->roomNum1 = actorRoom;
