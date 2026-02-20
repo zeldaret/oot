@@ -362,7 +362,7 @@ ifeq ($(DEBUG_FEATURES),1)
   GBI_DEFINES += -DGBI_DEBUG
 endif
 
-CPPFLAGS += -P -xc -fno-dollars-in-identifiers $(CPP_DEFINES)
+CPPFLAGS += -P -xc -fno-dollars-in-identifiers $(CPP_DEFINES) $(GBI_DEFINES)
 ASFLAGS += -march=vr4300 -32 -no-pad-sections -Iinclude -I$(EXTRACTED_DIR)
 
 ifeq ($(COMPILER),gcc)
