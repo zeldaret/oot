@@ -50,13 +50,21 @@ OSTime sGraphPrevTaskTimeStart;
 FaultClient sGraphFaultClient;
 
 UCodeInfo D_8012D230[3] = {
+#if PLATFORM_N64
+    { UCODE_TYPE_F3DZEX, gspF3DZEX2_NoN_fifoTextStart },
+#else
     { UCODE_TYPE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
+#endif
     { UCODE_TYPE_UNK, NULL },
     { UCODE_TYPE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
 
 UCodeInfo D_8012D248[3] = {
+#if PLATFORM_N64
+    { UCODE_TYPE_F3DZEX, gspF3DZEX2_NoN_fifoTextStart },
+#else
     { UCODE_TYPE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
+#endif
     { UCODE_TYPE_UNK, NULL },
     { UCODE_TYPE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
@@ -81,7 +89,11 @@ void Graph_DisassembleUCode(Gfx* workBuf) {
         disassembler.enableLog = R_UCODE_DISAS_LOG_LEVEL;
 
         UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D230), D_8012D230);
+#if PLATFORM_N64
+        UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_fifoTextStart);
+#else
         UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_PosLight_fifoTextStart);
+#endif
 
         UCodeDisas_Disassemble(&disassembler, workBuf);
 
@@ -120,7 +132,11 @@ void Graph_UCodeFaultClient(Gfx* workBuf) {
     UCodeDisas_Init(&disassembler);
     disassembler.enableLog = true;
     UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D248), D_8012D248);
+#if PLATFORM_N64
+    UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_fifoTextStart);
+#else
     UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_PosLight_fifoTextStart);
+#endif
     UCodeDisas_Disassemble(&disassembler, workBuf);
     UCodeDisas_Destroy(&disassembler);
 }

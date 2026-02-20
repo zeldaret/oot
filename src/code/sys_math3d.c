@@ -7,8 +7,8 @@
 #include "z_lib.h"
 #include "z_math.h"
 
-#pragma increment_block_number "gc-eu:76 gc-eu-mq:76 gc-jp:76 gc-jp-ce:76 gc-jp-mq:76 gc-us:76 gc-us-mq:76 ique-cn:66" \
-                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
+#pragma increment_block_number "gc-eu:72 gc-eu-mq:72 gc-jp:72 gc-jp-ce:72 gc-jp-mq:72 gc-us:72 gc-us-mq:72 ique-cn:62" \
+                               "ntsc-1.0:48 ntsc-1.1:48 ntsc-1.2:48 pal-1.0:48 pal-1.1:48"
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);

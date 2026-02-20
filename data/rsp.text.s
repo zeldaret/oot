@@ -14,9 +14,9 @@ glabel aspMainTextStart
 glabel aspMainTextEnd
 
 #if PLATFORM_N64
-glabel gspF3DZEX2_NoN_PosLight_fifoTextStart
-    .incbin "incbin/gspF3DZEX2_NoN_PosLight_fifoText"
-glabel gspF3DZEX2_NoN_PosLight_fifoTextEnd
+glabel gspF3DZEX2_NoN_fifoTextStart
+    .incbin "incbin/gspF3DZEX2_NoN_fifoText"
+glabel gspF3DZEX2_NoN_fifoTextEnd
 #endif
 
 glabel gspS2DEX2d_fifoTextStart
