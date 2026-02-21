@@ -19,7 +19,7 @@
 
         <!-- limbs -->
         <Limb Name="gGoronRootLimb" LimbType="Standard" EnumName="GORON_LIMB_ROOT" Offset="0xFDE0"/>
-        <Limb Name="gGoronWaistLimb" LimbType="Standard" EnumName="GORON_LIMB_WAIST" Offset="0xFDEC"/> <!-- drives bottom submesh -->
+        <Limb Name="gGoronLegsRootLimb" LimbType="Standard" EnumName="GORON_LIMB_LEGS_ROOT" Offset="0xFDEC"/> <!-- drives bottom submesh -->
         <Limb Name="gGoronLegsLimb" LimbType="Standard" EnumName="GORON_LIMB_LEGS" Offset="0xFDF8"/>
         <Limb Name="gGoronLeftThighLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_THIGH" Offset="0xFE04"/>
         <Limb Name="gGoronLeftShinLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_SHIN" Offset="0xFE10"/>
