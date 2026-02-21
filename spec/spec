@@ -4626,7 +4626,75 @@ beginseg
     name "title_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/textures/title_static/title_static.o"
+    // A lot of assets where reordered between NTSC and PAL as well as N64 vs GC for PAL due to the language select
+#if OOT_NTSC
+    include "$(BUILD_DIR)/assets/textures/title_static/ntsc_jpn_texs_1.o"
+#endif
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelConnectorTex.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/medallion_texs.o"
+#if OOT_NTSC
+    include "$(BUILD_DIR)/assets/textures/title_static/ntsc_jpn_texs_2.o"
+#endif
+#if OOT_NTSC || OOT_PAL_N64
+    include "$(BUILD_DIR)/assets/textures/title_static/options_texs.o"
+#endif
+    include "$(BUILD_DIR)/assets/textures/title_static/file_sel_window_texs.o"
+#if OOT_NTSC
+    include "$(BUILD_DIR)/assets/textures/title_static/ntsc_jpn_texs_3.o"
+#endif
+    include "$(BUILD_DIR)/assets/textures/title_static/char_set_texs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelENDButtonTexs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelBackspaceButtonTex.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelNameBoxTex.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelFileInfoBoxTexs.o"
+#if OOT_NTSC
+    include "$(BUILD_DIR)/assets/textures/title_static/ntsc_jpn_texs_4.o"
+#endif
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelDISKButtonTex.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelOptionsDividerTex.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelBrightnessCheckTex.o"
+#if OOT_NTSC
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelSaveXJPNTex.o"
+#endif
+    include "$(BUILD_DIR)/assets/textures/title_static/highlight_texs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/stone_texs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/texs_1.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/texs_2.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/texs_3.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/texs_4.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelOptionsTexs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelNameTexs.o"
+#if OOT_PAL
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelControlsTexs.o"
+#endif
+#if OOT_NTSC
+    include "$(BUILD_DIR)/assets/textures/title_static/options_texs_2_ntsc.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelControlsTexs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/ntsc_gFileSelCheckBrightnessENGTex.o"
+#endif
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelCopyButtonTexs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelFileButtonTexs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelYesButtonTexs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelEraseButtonTexs.o"
+#if OOT_PAL && PLATFORM_GC
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelQuitButtonTexs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/options_texs.o"
+#endif
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelOptionsButtonTexs.o"
+#if OOT_NTSC || OOT_PAL_N64
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelQuitButtonTexs.o"
+#endif
+#if OOT_PAL_N64
+    include "$(BUILD_DIR)/assets/textures/title_static/pal_n64_ger_texs.o"
+    include "$(BUILD_DIR)/assets/textures/title_static/pal_n64_fra_texs.o"
+#endif
+#if !OOT_PAL_N64
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelSaveXTexs.o"
+#endif
+#if OOT_PAL_N64
+    include "$(BUILD_DIR)/assets/textures/title_static/initial_language_choice.o"
+#endif
+    include "$(BUILD_DIR)/assets/textures/title_static/gFileSelWindowDLs.o"
     number 1
 endseg
 
