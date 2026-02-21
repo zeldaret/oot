@@ -24,6 +24,7 @@ from ..extase.cdata_resources import (
 )
 
 from .. import oot64_data
+from . import actor_params
 
 
 VERBOSE_SPAWN_LIST_LENGTH_GUESSING = False
@@ -37,7 +38,8 @@ class ActorEntryListResource(CDataArrayNamedLengthResource):
         f.write("{\n")
 
         f.write(wctx.line_prefix + INDENT)
-        f.write(oot64_data.get_actor_id_name(v["id"]))
+        actor_id_name = oot64_data.get_actor_id_name(v["id"])
+        f.write(actor_id_name)
         f.write(",\n")
 
         f.write(wctx.line_prefix + INDENT)
@@ -52,9 +54,16 @@ class ActorEntryListResource(CDataArrayNamedLengthResource):
 
         f.write(wctx.line_prefix + INDENT)
         params = v["params"]
-        f.write(fmt_hex_s(params, 4))
         if params < 0:
             params_u16 = params + 0x1_0000
+        else:
+            params_u16 = params
+        fmt_params = actor_params.PARAMS_FMT.get(actor_id_name)
+        if fmt_params is None:
+            f.write(fmt_hex_s(params, 4))
+        else:
+            f.write(fmt_params(params_u16))
+        if params < 0 or fmt_params is not None:
             f.write(f" /* 0x{params_u16:04X} */")
         f.write(", // params\n")
 
@@ -76,7 +85,14 @@ class ActorEntryListResource(CDataArrayNamedLengthResource):
         return f"ActorEntry {self.symbol_name}[{self.length_name}]"
 
     def get_c_includes(self):
-        return ("actor.h",)
+        includes = ["actor.h"]
+        for elem in self.cdata_unpacked:
+            actor_id = elem["id"]
+            actor_id_name = oot64_data.get_actor_id_name(actor_id)
+            actor_params_includes = actor_params.INCLUDES.get(actor_id_name)
+            if actor_params_includes is not None:
+                includes.extend(actor_params_includes)
+        return includes
 
     def get_h_includes(self):
         return ("scene.h",)
@@ -344,7 +360,8 @@ class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
         f.write("}, // sides\n")
 
         f.write(wctx.line_prefix + INDENT)
-        f.write(oot64_data.get_actor_id_name(v["id"]))
+        actor_id_name = oot64_data.get_actor_id_name(v["id"])
+        f.write(actor_id_name)
         f.write(",\n")
 
         f.write(wctx.line_prefix + INDENT)
@@ -358,9 +375,16 @@ class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
 
         f.write(wctx.line_prefix + INDENT)
         params = v["params"]
-        f.write(fmt_hex_s(params, 4))
         if params < 0:
             params_u16 = params + 0x1_0000
+        else:
+            params_u16 = params
+        fmt_params = actor_params.PARAMS_FMT.get(actor_id_name)
+        if fmt_params is None:
+            f.write(fmt_hex_s(params, 4))
+        else:
+            f.write(fmt_params(params_u16))
+        if params < 0 or fmt_params is not None:
             f.write(f" /* 0x{params_u16:04X} */")
         f.write(", // params\n")
 
@@ -394,7 +418,14 @@ class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
         return f"TransitionActorEntry {self.symbol_name}[{self.length_name}]"
 
     def get_c_includes(self):
-        return ("actor.h",)
+        includes = ["actor.h"]
+        for elem in self.cdata_unpacked:
+            actor_id = elem["id"]
+            actor_id_name = oot64_data.get_actor_id_name(actor_id)
+            actor_params_includes = actor_params.INCLUDES.get(actor_id_name)
+            if actor_params_includes is not None:
+                includes.extend(actor_params_includes)
+        return includes
 
     def get_h_includes(self):
         return ("scene.h",)
