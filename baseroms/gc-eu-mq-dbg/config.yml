@@ -82,7 +82,7 @@ assets:
 - name: objects/gameplay_field_keep
   xml_path: assets/xml/objects/gameplay_field_keep.xml
 - name: objects/gameplay_keep
-  xml_path: assets/xml/objects/gameplay_keep_pal.xml
+  xml_path: assets/xml/objects/gameplay_keep.xml
 - name: objects/object_ahg
   xml_path: assets/xml/objects/object_ahg.xml
 - name: objects/object_am
@@ -220,7 +220,7 @@ assets:
 - name: objects/object_fa
   xml_path: assets/xml/objects/object_fa.xml
 - name: objects/object_fd
-  xml_path: assets/xml/objects/object_fd_pal.xml
+  xml_path: assets/xml/objects/object_fd.xml
 - name: objects/object_fd2
   xml_path: assets/xml/objects/object_fd2.xml
 - name: objects/object_fhg
@@ -430,7 +430,7 @@ assets:
 - name: objects/object_gol
   xml_path: assets/xml/objects/object_gol.xml
 - name: objects/object_goma
-  xml_path: assets/xml/objects/object_goma_pal.xml
+  xml_path: assets/xml/objects/object_goma.xml
 - name: objects/object_goroiwa
   xml_path: assets/xml/objects/object_goroiwa.xml
 - name: objects/object_gr
@@ -498,7 +498,7 @@ assets:
 - name: objects/object_kibako2
   xml_path: assets/xml/objects/object_kibako2.xml
 - name: objects/object_kingdodongo
-  xml_path: assets/xml/objects/object_kingdodongo_pal.xml
+  xml_path: assets/xml/objects/object_kingdodongo.xml
 - name: objects/object_km1
   xml_path: assets/xml/objects/object_km1.xml
 - name: objects/object_kusa
@@ -522,7 +522,7 @@ assets:
 - name: objects/object_ma2
   xml_path: assets/xml/objects/object_ma2.xml
 - name: objects/object_mag
-  xml_path: assets/xml/objects/object_mag_v3_mq.xml
+  xml_path: assets/xml/objects/object_mag.xml
 - name: objects/object_mamenoki
   xml_path: assets/xml/objects/object_mamenoki.xml
 - name: objects/object_mastergolon
@@ -566,7 +566,7 @@ assets:
 - name: objects/object_mm
   xml_path: assets/xml/objects/object_mm.xml
 - name: objects/object_mo
-  xml_path: assets/xml/objects/object_mo_pal.xml
+  xml_path: assets/xml/objects/object_mo.xml
 - name: objects/object_mori_hineri1
   xml_path: assets/xml/objects/object_mori_hineri1.xml
 - name: objects/object_mori_hineri1a
@@ -796,7 +796,7 @@ assets:
 - name: objects/object_tsubo
   xml_path: assets/xml/objects/object_tsubo.xml
 - name: objects/object_tw
-  xml_path: assets/xml/objects/object_tw_pal.xml
+  xml_path: assets/xml/objects/object_tw.xml
 - name: objects/object_umajump
   xml_path: assets/xml/objects/object_umajump.xml
 - name: objects/object_vali
@@ -816,7 +816,7 @@ assets:
 - name: objects/object_wood02
   xml_path: assets/xml/objects/object_wood02.xml
 - name: objects/object_xc
-  xml_path: assets/xml/objects/object_xc_pal.xml
+  xml_path: assets/xml/objects/object_xc.xml
 - name: objects/object_yabusame_point
   xml_path: assets/xml/objects/object_yabusame_point.xml
 - name: objects/object_ydan_objects

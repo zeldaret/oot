@@ -44,20 +44,27 @@ For example, `baseroms/gc-eu/config.yml` contains
 ```yml
 assets:
 - name: objects/gameplay_keep
-  xml_path: assets/xml/objects/gameplay_keep_pal.xml
+  xml_path: assets/xml/objects/gameplay_keep.xml
 ```
 
-then `<ExternalFile OutPath="assets/objects/gameplay_keep/"/>` refers to that gameplay_keep entry, which uses the `gameplay_keep_pal.xml` xml file when extracting assets for version gc-eu.
+then `<ExternalFile OutPath="assets/objects/gameplay_keep/"/>` refers to that gameplay_keep entry, which uses the `gameplay_keep.xml` xml file when extracting assets for version gc-eu.
 
 
 # Resource elements
 
 Resource elements describe resources. Resources are pieces of data corresponding to a symbol each.
 
-Two attributes are required on all resource elements: `Name` and `Offset`.
+One attribute is required on all resource elements: `Name`.
 
 - `Name` is the name of the symbol associated to the resource.
-- `Offset` is the location in bytes from the start of the file data.
+
+Another attribute, optional, is common to all resource elements: `Offset`.
+
+If `Offset` is set to a (hexadecimal) number such as `Offset="0x421"`, it specifies the location of the resource in bytes from the start of the file data.
+
+If `Offset` is not set, the resource is assumed to start where the previous resource ended, or at 0 if the resource is the first in the `<File>`.
+
+`Offset` can also be set to be a relative offset like `Offset=".+0x421"`, which makes the resource location be that many bytes after the end of the previous resource.
 
 ## `Blob`
 
@@ -74,12 +81,14 @@ Unstructured binary data.
 ## `DList`
 
 ```xml
-<DList Name="gNameDL" Offset="0x1230" Ucode="f3dex2" RawPointers="0x08000000,0x09000000"/>
+<DList Name="gNameDL" Offset="0x1230" Length="123" Ucode="f3dex2" RawPointers="0x08000000,0x09000000"/>
 ```
 
 A display list.
 
-- Optional attributes: `Ucode`, `RawPointers`
+- Optional attributes: `Length`, `Ucode`, `RawPointers`
+
+`Length` can be set to indicate the length (amount of `Gfx` double-words) of the dlist. If not set, the dlist length is automatic.
 
 `Ucode` (defaults to `f3dex2`) picks the graphics microcode for which to disassemble the dlist. It may be `f3dex` or `f3dex2`.
 
@@ -97,6 +106,7 @@ A fixed-point matrix.
 
 ```xml
 <Texture Name="gNameTex" Format="rgba16" Width="16" Height="16" Offset="0x1230"/>
+<Texture Name="gNameTex" Format="ci8" Width="16" Height="16" Offset="0x1230" Tlut="gNameTLUT"/>
 <Texture Name="gNameTex" Format="ci8" Width="16" Height="16" Offset="0x1230" TlutOffset="0x2340"/>
 <Texture Name="gNameTex" Format="ci8" Width="16" Height="16" Offset="0x1230" ExternalTlut="baserom_file" ExternalTlutOffset="0x2340"/>
 ```
@@ -104,13 +114,13 @@ A fixed-point matrix.
 A texture, an image in one of the native N64 formats.
 
 - Required attributes for all formats: `Format`, `Width`, `Height`
-- Required attributes for CI formats (`ci4`, `ci8`): `TlutOffset`, or `ExternalTlut` and `ExternalTlutOffset`
+- Required attributes for CI formats (`ci4`, `ci8`): `Tlut`, or `TlutOffset`, or `ExternalTlut` and `ExternalTlutOffset`
 
 `Format` is the format of the texture, one of `rgba32`, `rgba16`, `i4`, `i8`, `ia4`, `ia8`, `ia16`, `ci4` or `ci8`.
 
 `Width` and `Height` specify the dimensions of the texture.
 
-For CI formats, the TLUT (Texture Look Up Table, or palette) must be specified with either `TlutOffset` if the TLUT is in the same file as the texture, or both of `ExternalTlut` and `ExternalTlutOffset` if the TLUT is in a different file. `ExternalTlut` is the name of the baserom file where the TLUT is. In both cases, the TLUT must also be declared as a resource.
+For CI formats, the TLUT (Texture Look Up Table, or palette) must be specified with either `Tlut` or `TlutOffset` if the TLUT is in the same file as the texture, or both of `ExternalTlut` and `ExternalTlutOffset` if the TLUT is in a different file. `ExternalTlut` is the name of the baserom file where the TLUT is. In both cases, the TLUT must also be declared as a resource.
 
 ## `Array`
 
