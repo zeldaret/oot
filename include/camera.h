@@ -848,8 +848,8 @@ typedef struct KeepOn3 {
 typedef struct KeepOn4ReadOnlyData {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 eyeDist;
-    /* 0x08 */ f32 pitchTarget; // degrees
-    /* 0x0C */ f32 yawTarget; // degrees
+    /* 0x08 */ f32 pitchTarget; // degrees, usage varies with KEEPON4_FLAG_EYE_ flags
+    /* 0x0C */ f32 yawTarget; // degrees, usage varies with KEEPON4_FLAG_EYE_ flags
     /* 0x10 */ f32 atOffsetPlayerForwards; // distance to offset `at` by, in the player's forwards direction
     /* 0x14 */ f32 unk_14; // scale for stepping yaw and pitch of "at to eye" to target
     /* 0x18 */ f32 fovTarget;
@@ -889,13 +889,13 @@ typedef struct KeepOn4 {
     /* 0x20 */ KeepOn4ReadWriteData rwData;
 } KeepOn4; // size = 0x38
 
-#define KEEPON4_FLAG_0 (1 << 0)
-#define KEEPON4_FLAG_1 (1 << 1)
-#define KEEPON4_FLAG_2 (1 << 2)
-#define KEEPON4_FLAG_3 (1 << 3)
+#define KEEPON4_FLAG_NO_CHECK_COL (1 << 0) // If set, disables checking for colliders and collision to place the camera eye. Unused
+#define KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER (1 << 1) // pitch: provided, yaw: offset from behind player
+#define KEEPON4_FLAG_EYE_ABS (1 << 2) // pitch: provided, yaw: provided. Unused
+#define KEEPON4_FLAG_EYE_FROM_TARGET (1 << 3) // pitch and yaw: depends on x/y rotations of the camera `target`, plus offsets
 #define KEEPON4_FLAG_4 (1 << 4)
-#define KEEPON4_FLAG_5 (1 << 5)
-#define KEEPON4_FLAG_6 (1 << 6)
+#define KEEPON4_FLAG_NOOP (1 << 5) // No effect. Only set for CAM_ITEM_TYPE_11
+#define KEEPON4_FLAG_EYE_KEEP_YAW (1 << 6) // pitch: provided, yaw: retain current yaw
 #define KEEPON4_FLAG_7 (1 << 7)
 
 #define CAM_FUNCDATA_KEEP4(yOffset, eyeDist, pitchTarget, yawTarget, atOffsetPlayerForwards, fov, interfaceField, unk_14, initTimer) \
