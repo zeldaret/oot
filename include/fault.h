@@ -81,10 +81,6 @@ void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
 
 void func_800AE1F8(void);
 
-// Not implemented. Silently noop-ing is fine, these are not essential for functionality.
-#define Fault_SetFontColor(color) (void)0
-#define Fault_SetCharPad(padW, padH) (void)0
-
 #else
 
 void Fault_InitDrawer(void);
