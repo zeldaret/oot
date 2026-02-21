@@ -2191,8 +2191,8 @@ void func_80902348(BossGanon2* this, PlayState* play) {
                     phi_v0_2 = 0;
                 }
 
-                Actor_SetPlayerKnockbackLarge(play, &this->actor, 15.0f, this->actor.yawTowardsPlayer + phi_v0_2, 2.0f,
-                                              0);
+                Actor_SetPlayerBumpKnockdown(play, &this->actor, 15.0f, this->actor.yawTowardsPlayer + phi_v0_2, 2.0f,
+                                             0);
                 sZelda->unk_3C8 = 8;
                 this->unk_316 = 10;
                 break;
@@ -2218,7 +2218,7 @@ void func_80902348(BossGanon2* this, PlayState* play) {
             }
 
             player->bodyIsBurning = true;
-            Actor_SetPlayerKnockbackLarge(play, &this->actor, 10.0f, Math_Atan2S(temp_f12, temp_f2), 0.0f, 0x10);
+            Actor_SetPlayerBumpKnockdown(play, &this->actor, 10.0f, Math_Atan2S(temp_f12, temp_f2), 0.0f, 0x10);
             sZelda->unk_3C8 = 8;
         }
     }

@@ -128,7 +128,7 @@ void EnBubble_DamagePlayer(EnBubble* this, PlayState* play) {
     s32 damage = -this->colliderJntSph.elements[0].base.atDmgInfo.damage;
 
     play->damagePlayer(play, damage);
-    Actor_SetPlayerKnockbackSmallNoDamage(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
+    Actor_SetPlayerBumpKnockbackNoDamage(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
 }
 
 s32 EnBubble_Explosion(EnBubble* this, PlayState* play) {
