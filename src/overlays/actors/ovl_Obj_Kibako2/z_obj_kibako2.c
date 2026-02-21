@@ -17,6 +17,8 @@
 #include "effect.h"
 #include "play_state.h"
 
+#include "overlays/actors/ovl_En_Sw/z_en_sw.h"
+
 #include "assets/objects/object_kibako2/object_kibako2.h"
 
 #define FLAGS 0
@@ -171,7 +173,7 @@ void ObjKibako2_Kill(ObjKibako2* this, PlayState* play) {
 
     if (PARAMS_GET_NOSHIFT(params, 15, 1) == 0) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
-                    this->dyna.actor.world.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | 0x8000);
+                    this->dyna.actor.world.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | EN_SW_PARAM_GOLD_SOIL);
     }
     ObjKibako2_SpawnCollectible(this, play);
     Actor_Kill(&this->dyna.actor);
