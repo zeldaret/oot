@@ -1226,7 +1226,7 @@ void EnGo2_SetupUncurledFlags_Default(EnGo2* this) {
 }
 
 void EnGo2_SetupUncurledFlags_NearTracking(EnGo2* this) {
-    // always false: this functions if for `GORON_FIRE_GENERIC` and `GORON_CITY_LINK`
+    // always false: this function is for `GORON_FIRE_GENERIC` and `GORON_CITY_LINK`
     // see `EnGo2_SetupUncurledFlags_Biggoron` for `GORON_DMT_BIGGORON`'s variant
     f32 xyzDist = (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) ? 800.0f : 200.0f;
     s32 isTrue = true;
