@@ -193,6 +193,7 @@ struct PlayState;
 #define R_B_LABEL_DD                             WREG(0)
 #define R_PAUSE_PAGES_Y_ORIGIN_2                 WREG(2) // Complements PauseContext.pagesYOrigin1
 #define R_PAUSE_DEPTH_OFFSET                     WREG(3) // Offset position of all pages away from the camera
+#define R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION       WREG(4)
 #define R_PAUSE_UI_ANIMS_DURATION                WREG(6)
 #if OOT_NTSC
 #define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
@@ -222,6 +223,8 @@ struct PlayState;
 #endif
 #define R_DGN_MINIMAP_X                          WREG(68)
 #define R_DGN_MINIMAP_Y                          WREG(69)
+#define R_PAUSE_NAME_DISPLAY_TIMER_MAX_          WREG(88)
+#define R_PAUSE_NAME_DISPLAY_TIMER_THRESHOLD_    WREG(89)
 #define R_TEXTBOX_X                              VREG(0)
 #define R_TEXTBOX_Y                              VREG(1)
 #define R_TEXTBOX_CLEF_XPOS                      VREG(7)
