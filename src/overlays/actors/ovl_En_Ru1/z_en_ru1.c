@@ -2371,7 +2371,8 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     EnRu1* this = (EnRu1*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     EnRu1_InitColliders(&this->actor, play);
     switch (EnRu1_GetType(this)) {
         case ENRU1_TYPE_BOSS_ROOM:

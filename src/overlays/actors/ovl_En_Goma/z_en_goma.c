@@ -10,6 +10,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -160,7 +161,7 @@ void EnGoma_Init(Actor* thisx, PlayState* play) {
     } else { // Egg
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
         SkelAnime_Init(play, &this->skelanime, &gObjectGolSkel, &gObjectGolStandAnim, this->jointTable,
-                       this->morphTable, GOMA_LIMB_MAX);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
         Animation_PlayLoop(&this->skelanime, &gObjectGolStandAnim);
         this->actor.colChkInfo.health = 2;
 

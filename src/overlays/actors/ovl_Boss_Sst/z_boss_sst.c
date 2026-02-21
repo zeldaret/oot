@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -303,7 +304,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
         sFloor = (BgSstFloor*)Actor_Spawn(&play->actorCtx, play, ACTOR_BG_SST_FLOOR, sRoomCenter.x, sRoomCenter.y,
                                           sRoomCenter.z, 0, 0, 0, BONGOFLOOR_REST);
         SkelAnime_InitFlex(play, &this->skelAnime, &gBongoHeadSkel, &gBongoHeadEyeOpenIdleAnim, this->jointTable,
-                           this->morphTable, 45);
+                           this->morphTable, ARRAY_COUNT(this->jointTable));
         ActorShape_Init(&this->actor.shape, 70000.0f, ActorShadow_DrawCircle, 95.0f);
         Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitHead, this->colliderJntSphElements);
         Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInitHead);

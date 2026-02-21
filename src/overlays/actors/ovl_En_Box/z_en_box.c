@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -192,7 +193,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
 
     //! @bug Flex skeleton is used as normal skeleton
     SkelAnime_Init(play, &this->skelanime, (SkeletonHeader*)&gTreasureChestSkel, anim, this->jointTable,
-                   this->morphTable, 5);
+                   this->morphTable, ARRAY_COUNT(this->jointTable));
     Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, ANIMMODE_ONCE, 0.0f);
 
     switch (this->type) {

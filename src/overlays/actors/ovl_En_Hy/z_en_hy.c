@@ -6,6 +6,7 @@
 
 #include "z_en_hy.h"
 
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -1163,7 +1164,7 @@ void EnHy_WaitForObjects(EnHy* this, PlayState* play) {
         gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime,
                            sSkeletonInfo[sModelInfo[ENHY_GET_TYPE(&this->actor)].lowerSkelInfoIndex].skeleton, NULL,
-                           this->jointTable, this->morphTable, ENHY_LIMB_MAX);
+                           this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotOsAnime].segment);
         Collider_InitCylinder(play, &this->collider);

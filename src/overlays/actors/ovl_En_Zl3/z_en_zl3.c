@@ -2720,7 +2720,8 @@ void EnZl3_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     shape->shadowAlpha = 0;
     func_80B533B0(thisx, play);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gZelda2Skel, NULL, this->jointTable, this->morphTable, 15);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gZelda2Skel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
 
     switch (func_80B54DD4(this)) {
         case 1:

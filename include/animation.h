@@ -184,9 +184,9 @@ typedef struct SkelAnime {
 // Init
 
 BAD_RETURN(s32) SkelAnime_Init(struct PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 tableLength);
 BAD_RETURN(s32) SkelAnime_InitFlex(struct PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 tableLength);
 BAD_RETURN(s32) SkelAnime_InitSkin(struct PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                                    AnimationHeader* animation);
 

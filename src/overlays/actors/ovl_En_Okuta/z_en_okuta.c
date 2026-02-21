@@ -1,6 +1,7 @@
 #include "z_en_okuta.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -139,7 +140,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
     thisx->params &= 0xFF;
     if (thisx->params == 0) {
         SkelAnime_Init(play, &this->skelAnime, &gOctorokSkel, &gOctorokAppearAnim, this->jointTable, this->morphTable,
-                       38);
+                       ARRAY_COUNT(this->jointTable));
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, thisx, &sOctorockColliderInit);
         CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
