@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "overlays/actors/ovl_En_Go/z_en_go.h"
 
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 
@@ -75,6 +74,19 @@ typedef enum GoronType {
 
 #define EN_GO2_EFFECT_COUNT 10
 
+typedef struct EnGo2Effect {
+    /* 0x0000 */ u8 type;
+    /* 0x0001 */ u8 timer;
+    /* 0x0002 */ u8 initialTimer;
+    /* 0x0004 */ f32 scale;
+    /* 0x0008 */ f32 scaleStep;
+    /* 0x000C */ Color_RGBA8 color;
+    /* 0x0010 */ char unk_10[4];
+    /* 0x0014 */ Vec3f pos;
+    /* 0x0020 */ Vec3f velocity;
+    /* 0x002C */ Vec3f accel;
+} EnGo2Effect; // size = 0x38
+
 typedef struct EnGo2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
@@ -100,7 +112,7 @@ typedef struct EnGo2 {
     /* 0x0226 */ s16 fidgetTableY[GORON_LIMB_MAX];
     /* 0x024A */ s16 fidgetTableZ[GORON_LIMB_MAX];
     /* 0x026E */ u16 trackingMode;
-    /* 0x0270 */ EnGoEffect effects[EN_GO2_EFFECT_COUNT];
+    /* 0x0270 */ EnGo2Effect effects[EN_GO2_EFFECT_COUNT];
     /* 0x04A0 */ Vec3f subCamEye;
     /* 0x04AC */ Vec3f subCamAt;
     /* 0x04B8 */ Vec3s jointTable[GORON_LIMB_MAX];
