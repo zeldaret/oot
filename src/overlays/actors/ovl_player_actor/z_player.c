@@ -5823,10 +5823,10 @@ void func_8083AA10(Player* this, PlayState* play) {
     s32 sp5C;
     CollisionPoly* sp58;
     s32 sp54;
-    WaterBox* sp50;
+    WaterBox* waterBox;
     Vec3f sp44;
     f32 sp40;
-    f32 sp3C;
+    f32 waterSurfaceY;
 
     this->fallDistance = this->fallStartHeight - (s32)this->actor.world.pos.y;
 
@@ -5871,10 +5871,11 @@ void func_8083AA10(Player* this, PlayState* play) {
                         !(this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR)) {
 
                         sp40 = func_808396F4(play, this, &D_8085451C, &sp44, &sp58, &sp54);
-                        sp3C = this->actor.world.pos.y;
+                        waterSurfaceY = this->actor.world.pos.y;
 
-                        if (WaterBox_GetSurface1(play, &play->colCtx, sp44.x, sp44.z, &sp3C, &sp50) &&
-                            ((sp3C - sp40) > 50.0f)) {
+                        if (BgCheck_GetWaterSurfaceAllHack(play, &play->colCtx, sp44.x, sp44.z, &waterSurfaceY,
+                                                           &waterBox) &&
+                            ((waterSurfaceY - sp40) > 50.0f)) {
                             func_808389E8(this, &gPlayerAnim_link_normal_run_jump_water_fall, 6.0f, play);
                             Player_SetupAction(play, this, Player_Action_80844A44, 0);
                             return;
@@ -6681,12 +6682,12 @@ void func_8083C8DC(Player* this, PlayState* play, s16 arg2) {
 }
 
 s32 Player_SetStartingMovement(PlayState* play, Player* this, f32 arg2) {
-    WaterBox* sp2C;
+    WaterBox* waterBox;
     f32 sp28;
 
     sp28 = this->actor.world.pos.y;
-    if (WaterBox_GetSurface1(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &sp28, &sp2C) !=
-        0) {
+    if (BgCheck_GetWaterSurfaceAllHack(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &sp28,
+                                       &waterBox)) {
         sp28 -= this->actor.world.pos.y;
         if (this->ageProperties->unk_24 <= sp28) {
             Player_SetupAction(play, this, Player_Action_8084D7C4, 0);
@@ -6817,24 +6818,24 @@ void func_8083CF5C(Player* this, PlayState* play) {
 
 s32 func_8083CFA8(PlayState* play, Player* this, f32 arg2, s32 splashScale) {
     f32 sp3C = fabsf(arg2);
-    WaterBox* sp38;
-    f32 sp34;
+    WaterBox* waterBox;
+    f32 waterSurfaceY;
     Vec3f splashPos;
     s32 splashType;
 
     if (sp3C > 2.0f) {
         splashPos.x = this->bodyPartsPos[PLAYER_BODYPART_WAIST].x;
         splashPos.z = this->bodyPartsPos[PLAYER_BODYPART_WAIST].z;
-        sp34 = this->actor.world.pos.y;
-        if (WaterBox_GetSurface1(play, &play->colCtx, splashPos.x, splashPos.z, &sp34, &sp38)) {
+        waterSurfaceY = this->actor.world.pos.y;
+        if (BgCheck_GetWaterSurfaceAllHack(play, &play->colCtx, splashPos.x, splashPos.z, &waterSurfaceY, &waterBox)) {
 #if OOT_VERSION < PAL_1_0
-            if ((sp34 - this->actor.world.pos.y) < 80.0f)
+            if ((waterSurfaceY - this->actor.world.pos.y) < 80.0f)
 #else
-            if ((sp34 - this->actor.world.pos.y) < 100.0f)
+            if ((waterSurfaceY - this->actor.world.pos.y) < 100.0f)
 #endif
             {
                 splashType = (sp3C <= 10.0f) ? 0 : 1;
-                splashPos.y = sp34;
+                splashPos.y = waterSurfaceY;
                 EffectSsGSplash_Spawn(play, &splashPos, NULL, NULL, splashType, splashScale);
                 return 1;
             }

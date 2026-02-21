@@ -1490,8 +1490,8 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
         sp64.y = actor->prevPos.y;
         func_8002E2AC(play, actor, &sp64, flags);
         waterBoxYSurface = actor->world.pos.y;
-        if (WaterBox_GetSurface1(play, &play->colCtx, actor->world.pos.x, actor->world.pos.z, &waterBoxYSurface,
-                                 &waterBox)) {
+        if (BgCheck_GetWaterSurfaceAllHack(play, &play->colCtx, actor->world.pos.x, actor->world.pos.z,
+                                           &waterBoxYSurface, &waterBox)) {
             actor->depthInWater = waterBoxYSurface - actor->world.pos.y;
             if (actor->depthInWater < 0.0f) {
                 actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
