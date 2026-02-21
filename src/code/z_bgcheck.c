@@ -243,7 +243,7 @@ void CollisionPoly_GetNormalF(CollisionPoly* poly, f32* nx, f32* ny, f32* nz) {
 /**
  * Compute transform matrix mapping +y (up) to the collision poly's normal
  */
-void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest) {
+void CollisionPoly_GetGroundMtxF(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest) {
     f32 nx;
     f32 ny;
     f32 nz;
@@ -3919,7 +3919,10 @@ void CollisionHeader_GetVirtual(void* colHeader, CollisionHeader** dest) {
 }
 
 /**
- * SEGMENT_TO_VIRTUAL all active BgActor CollisionHeaders
+ * SEGMENTED_TO_VIRTUAL all active BgActor CollisionHeaders
+ *
+ * When the game is paused, object data is clobbered to make space for the pause menu assets.
+ * Once the object data is restored, pointers in the CollisionHeader must be linked again before the game can resume.
  */
 void func_800418D0(CollisionContext* colCtx, PlayState* play) {
     DynaCollisionContext* dyna = &colCtx->dyna;

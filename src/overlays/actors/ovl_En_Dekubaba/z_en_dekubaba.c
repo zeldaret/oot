@@ -1267,7 +1267,8 @@ void EnDekubaba_DrawBaseShadow(EnDekubaba* this, PlayState* play) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
 
-    func_80038A28(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mtx);
+    CollisionPoly_GetGroundMtxF(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y,
+                                this->actor.home.pos.z, &mtx);
     Matrix_Mult(&mtx, MTXMODE_NEW);
 
     horizontalScale = this->size * 0.15f;

@@ -103,7 +103,8 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist,
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
         }
 
-        func_80038A28(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z, &sp60);
+        CollisionPoly_GetGroundMtxF(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z,
+                                    &sp60);
         Matrix_Put(&sp60);
 
         if (dlist != gCircleShadowDL) {
@@ -4059,7 +4060,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
     yIntersect = BgCheck_EntityRaycastDown2(play, &play->colCtx, &groundPoly, &checkPos);
 
     if (groundPoly != NULL) {
-        func_80038A28(groundPoly, arg0->x, yIntersect, arg0->z, &sp60);
+        CollisionPoly_GetGroundMtxF(groundPoly, arg0->x, yIntersect, arg0->z, &sp60);
         Matrix_Put(&sp60);
     } else {
         Matrix_Translate(arg0->x, arg0->y, arg0->z, MTXMODE_NEW);
