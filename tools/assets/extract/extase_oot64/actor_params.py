@@ -36,7 +36,7 @@ def params_en_door(params: int):
         unused_mask &= ~0b0011_1111
         data = bits(params, 0, 6)
         assert data == 0x3F
-        params_str = f"ENDOOR_PARAMS({type_name}, {cbool(isDoubleDoor)})"
+        params_str = f"ENDOOR_PARAMS_NODATA({type_name}, {cbool(isDoubleDoor)})"
     assert (params & unused_mask) == 0, (f"{params:#06X}", params_str)
     return params_str
 
