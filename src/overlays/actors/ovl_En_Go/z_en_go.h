@@ -4,31 +4,11 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+
 struct EnGo;
 
 typedef void (*EnGoActionFunc)(struct EnGo*, struct PlayState*);
-
-typedef enum GoronLimb {
-    /*  0 */ GORON_LIMB_NONE, // skeleton itself
-    /*  1 */ GORON_LIMB_ROOT,
-    /*  2 */ GORON_LIMB_WAIST, // drives bottom submesh
-    /*  3 */ GORON_LIMB_LEGS,
-    /*  4 */ GORON_LIMB_LEFT_THIGH,
-    /*  5 */ GORON_LIMB_LEFT_SHIN,
-    /*  6 */ GORON_LIMB_LEFT_FOOT,
-    /*  7 */ GORON_LIMB_RIGHT_THIGH,
-    /*  8 */ GORON_LIMB_RIGHT_SHIN,
-    /*  9 */ GORON_LIMB_RIGHT_FOOT,
-    /* 10 */ GORON_LIMB_TORSO, // drives top submesh
-    /* 11 */ GORON_LIMB_LEFT_ARM,
-    /* 12 */ GORON_LIMB_LEFT_FOREARM,
-    /* 13 */ GORON_LIMB_LEFT_HAND,
-    /* 14 */ GORON_LIMB_RIGHT_ARM,
-    /* 15 */ GORON_LIMB_RIGHT_FOREARM,
-    /* 16 */ GORON_LIMB_RIGHT_HAND,
-    /* 17 */ GORON_LIMB_HEAD,
-    /* 18 */ GORON_LIMB_MAX
-} GoronLimb;
 
 typedef enum EnGoType {
     ENGO_TYPE_CITY_LINK         = (0 << 4),

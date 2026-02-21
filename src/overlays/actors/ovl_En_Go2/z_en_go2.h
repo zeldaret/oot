@@ -5,6 +5,8 @@
 #include "actor.h"
 #include "overlays/actors/ovl_En_Go/z_en_go.h"
 
+#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+
 struct EnGo2;
 
 typedef void (*EnGo2ActionFunc)(struct EnGo2*, struct PlayState*);

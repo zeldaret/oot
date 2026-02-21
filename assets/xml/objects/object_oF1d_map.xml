@@ -15,26 +15,26 @@
         <Animation Name="gGoronSidestepAnim" Offset="0x10590"/>
 
         <!-- skeleton, limb none -->
-        <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" Offset="0xFEF0"/>
+        <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" LimbNone="GORON_LIMB_NONE" LimbMax="GORON_LIMB_MAX" EnumName="GoronLimb" Offset="0xFEF0"/>
 
         <!-- limbs -->
-        <Limb Name="gGoronRootLimb" LimbType="Standard" Offset="0xFDE0"/>
-        <Limb Name="gGoronWaistLimb" LimbType="Standard" Offset="0xFDEC"/>
-        <Limb Name="gGoronLegsLimb" LimbType="Standard" Offset="0xFDF8"/>
-        <Limb Name="gGoronLeftThighLimb" LimbType="Standard" Offset="0xFE04"/>
-        <Limb Name="gGoronLeftShinLimb" LimbType="Standard" Offset="0xFE10"/>
-        <Limb Name="gGoronLeftFootLimb" LimbType="Standard" Offset="0xFE1C"/>
-        <Limb Name="gGoronRightThighLimb" LimbType="Standard" Offset="0xFE28"/>
-        <Limb Name="gGoronRightShinLimb" LimbType="Standard" Offset="0xFE34"/>
-        <Limb Name="gGoronRightFootLimb" LimbType="Standard" Offset="0xFE40"/>
-        <Limb Name="gGoronTorsoLimb" LimbType="Standard" Offset="0xFE4C"/>
-        <Limb Name="gGoronLeftArmLimb" LimbType="Standard" Offset="0xFE58"/>
-        <Limb Name="gGoronLeftForearmLimb" LimbType="Standard" Offset="0xFE64"/>
-        <Limb Name="gGoronLeftHandLimb" LimbType="Standard" Offset="0xFE70"/>
-        <Limb Name="gGoronRightArmLimb" LimbType="Standard" Offset="0xFE7C"/>
-        <Limb Name="gGoronRightForearmLimb" LimbType="Standard" Offset="0xFE88"/>
-        <Limb Name="gGoronRightHandLimb" LimbType="Standard" Offset="0xFE94"/>
-        <Limb Name="gGoronHeadLimb" LimbType="Standard" Offset="0xFEA0"/>
+        <Limb Name="gGoronRootLimb" LimbType="Standard" EnumName="GORON_LIMB_ROOT" Offset="0xFDE0"/>
+        <Limb Name="gGoronWaistLimb" LimbType="Standard" EnumName="GORON_LIMB_WAIST" Offset="0xFDEC"/> <!-- drives bottom submesh -->
+        <Limb Name="gGoronLegsLimb" LimbType="Standard" EnumName="GORON_LIMB_LEGS" Offset="0xFDF8"/>
+        <Limb Name="gGoronLeftThighLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_THIGH" Offset="0xFE04"/>
+        <Limb Name="gGoronLeftShinLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_SHIN" Offset="0xFE10"/>
+        <Limb Name="gGoronLeftFootLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_FOOT" Offset="0xFE1C"/>
+        <Limb Name="gGoronRightThighLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_THIGH" Offset="0xFE28"/>
+        <Limb Name="gGoronRightShinLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_SHIN" Offset="0xFE34"/>
+        <Limb Name="gGoronRightFootLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_FOOT" Offset="0xFE40"/>
+        <Limb Name="gGoronTorsoLimb" LimbType="Standard" EnumName="GORON_LIMB_TORSO" Offset="0xFE4C"/> <!-- drives top submesh -->
+        <Limb Name="gGoronLeftArmLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_ARM" Offset="0xFE58"/>
+        <Limb Name="gGoronLeftForearmLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_FOREARM" Offset="0xFE64"/>
+        <Limb Name="gGoronLeftHandLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_HAND" Offset="0xFE70"/>
+        <Limb Name="gGoronRightArmLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_ARM" Offset="0xFE7C"/>
+        <Limb Name="gGoronRightForearmLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_FOREARM" Offset="0xFE88"/>
+        <Limb Name="gGoronRightHandLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_HAND" Offset="0xFE94"/>
+        <Limb Name="gGoronHeadLimb" LimbType="Standard" EnumName="GORON_LIMB_HEAD" Offset="0xFEA0"/>
 
         <!-- limb display lists -->
         <DList Name="gGoronWaistDL" Offset="0x8708"/>
