@@ -1890,25 +1890,27 @@ u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime)
     u32 size;
     void* ptr;
 
+    // Note that since gameplay_keep is typically a compressed segment and due to constraints in the DMA manager,
+    // the entire segment is loaded even when only the first bytes up to PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE
+    // are kept for later use.
     size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
-    ptr = segment + PAUSE_EQUIP_BUFFER_SIZE;
+    ptr = PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment);
     DMA_REQUEST_SYNC(ptr, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, "../z_player_lib.c", 2982);
 
     size = gObjectTable[linkObjectId].vromEnd - gObjectTable[linkObjectId].vromStart;
-    ptr = segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE;
+    ptr = PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment);
     DMA_REQUEST_SYNC(ptr, gObjectTable[linkObjectId].vromStart, size, "../z_player_lib.c", 2988);
 
+    // Joint tables are placed after the link object
     ptr = (void*)ALIGN16((uintptr_t)ptr + size);
 
-    gSegments[4] = OS_K0_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE);
-    gSegments[6] =
-        OS_K0_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE);
+    gSegments[4] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment));
+    gSegments[6] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment));
 
     SkelAnime_InitLink(play, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.save.linkAge],
                        &gPlayerAnim_link_normal_wait, 9, ptr, ptr, PLAYER_LIMB_MAX);
 
-    return PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE + size +
-           sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]);
+    return PAUSE_PLAYER_SEGMENT_TOTAL_SIZE(size);
 }
 
 u8 sPauseModelGroupBySword[] = {
@@ -2078,9 +2080,8 @@ void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f*
     Vec3s* srcTable;
     s32 i;
 
-    gSegments[4] = OS_K0_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE);
-    gSegments[6] =
-        OS_K0_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE);
+    gSegments[4] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment));
+    gSegments[6] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment));
 
     if (!LINK_IS_ADULT) {
         if (shield == PLAYER_SHIELD_DEKU) {
@@ -2104,9 +2105,9 @@ void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f*
         *destTable++ = *srcTable++;
     }
 
-    Player_DrawPauseImpl(play, segment + PAUSE_EQUIP_BUFFER_SIZE,
-                         segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE, skelAnime,
-                         pos, rot, scale, sword, tunic, shield, boots, PAUSE_EQUIP_PLAYER_WIDTH,
-                         PAUSE_EQUIP_PLAYER_HEIGHT, &eye, &at, 60.0f, play->state.gfxCtx->curFrameBuffer,
+    Player_DrawPauseImpl(play, PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment),
+                         PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment), skelAnime, pos, rot, scale, sword, tunic, shield,
+                         boots, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, &eye, &at, 60.0f,
+                         play->state.gfxCtx->curFrameBuffer,
                          play->state.gfxCtx->curFrameBuffer + (PAUSE_EQUIP_PLAYER_WIDTH * PAUSE_EQUIP_PLAYER_HEIGHT));
 }
