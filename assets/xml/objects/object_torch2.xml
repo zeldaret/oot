@@ -8,6 +8,60 @@
         <!-- Dark Link DLists -->
         <DList Name="sDarkLinkSheathDL" Offset="0x3748"/>
 
+        <Array Name="object_torch2_Vtx_000000" Count="21" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_000150" Count="27" Offset="0x150">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_000300" Count="34" Offset="0x300">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_000520" Count="21" Offset="0x520">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_000670" Count="27" Offset="0x670">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_000820" Count="34" Offset="0x820">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_000A40" Count="20" Offset="0xA40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_000B80" Count="21" Offset="0xB80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_000CD0" Count="101" Offset="0xCD0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_001320" Count="142" Offset="0x1320">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_001C00" Count="31" Offset="0x1C00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_001DF0" Count="27" Offset="0x1DF0">
+            <Vtx/>
+        </Array>
+        <Array Name="sDarkLinkSheathVtx" Count="28" Offset="0x1FA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_002160" Count="79" Offset="0x2160">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_002650" Count="32" Offset="0x2650">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_002850" Count="27" Offset="0x2850">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_002A00" Count="21" Offset="0x2A00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_torch2_Vtx_002B50" Count="8" Offset="0x2B50">
+            <Vtx/>
+        </Array>
         <DList Name="object_torch2_002BD0_DL" Offset="0x2BD0"/>
         <DList Name="object_torch2_002CD0_DL" Offset="0x2CD0"/>
         <DList Name="object_torch2_002E10_DL" Offset="0x2E10"/>

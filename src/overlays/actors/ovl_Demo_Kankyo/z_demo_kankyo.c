@@ -18,12 +18,14 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/dust_textures.h"
+#include "assets/objects/gameplay_keep/eff_dust.h"
+#include "assets/objects/gameplay_keep/eff_flash.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -274,8 +276,7 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                Audio_PlaySfxGeneral(NA_SE_EV_SARIA_MELODY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_EV_SARIA_MELODY);
             }
             break;
         case DEMOKANKYO_SPARKLES:
@@ -390,8 +391,7 @@ void DemoKankyo_DoNothing(DemoKankyo* this, PlayState* play) {
 
 void DemoKankyo_UpdateWarpIn(DemoKankyo* this, PlayState* play) {
 #if OOT_VERSION < PAL_1_0
-    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_CENTERED(NA_SE_EV_LINK_WARP_OUT);
 #endif
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
@@ -824,8 +824,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                     }
                 } else {
 #if OOT_VERSION >= PAL_1_0
-                    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG);
 #endif
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
                                       &this->unk_150[i].unk_1C) != 0) {

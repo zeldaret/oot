@@ -155,7 +155,7 @@ extern vu8 D_80121214;
 
 extern s32 (*D_801D2E54)(struct_801E0D18*);
 
-extern u8 B_801DC000[];
+extern u8 gN64DDDiskReadTemporaryBuffer[];
 
 extern s32 D_801D2E90;
 extern OSMesgQueue* B_801E0D10[2];
@@ -167,7 +167,7 @@ extern s32 B_801E0F64;
 extern void (*D_801D2EB4)(void*, void*, void*);
 
 // Error messages
-extern const char* D_801D2ED0[];        // "Error Number    " array
+extern const char* gN64DDLocalizedErrorNumberHeaders[]; // "Error Number    " array
 extern const char* D_801D2EE0[2][8][4]; // Array of error message strings
 
 // Error textures

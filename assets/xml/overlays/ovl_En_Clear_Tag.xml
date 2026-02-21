@@ -1,14 +1,38 @@
 <Root>
     <File Name="ovl_En_Clear_Tag">
         <DList Name="gArwingDL" Offset="0x0"/>
+        <Array Name="gArwingVtx" Count="148" Offset="0x2D8">
+            <Vtx/>
+        </Array>
         <DList Name="gArwingLaserDL" Offset="0x3C98"/>
+        <Array Name="gArwingLaserVtx" Count="6" Offset="0x3D08">
+            <Vtx/>
+        </Array>
+        <Array Name="gArwingBackfireVtx" Count="3" Offset="0x3F68">
+            <Vtx/>
+        </Array>
         <DList Name="gArwingBackfireDL" Offset="0x3F98"/>
+        <Array Name="gArwingDebrisEffectVtx" Count="3" Offset="0x4318">
+            <Vtx/>
+        </Array>
         <DList Name="gArwingDebrisEffectMaterialDL" Offset="0x4348"/>
         <DList Name="gArwingDebrisEffectDL" Offset="0x43C8"/>
+        <Array Name="gArwingFireEffectVtx" Count="3" Offset="0x49E0">
+            <Vtx/>
+        </Array>
         <DList Name="gArwingFireEffectMaterialDL" Offset="0x4A10"/>
         <DList Name="gArwingFireEffectDL" Offset="0x4AB8"/>
+        <Array Name="gArwingFlashEffectVtx" Count="4" Offset="0x5AD8">
+            <Vtx/>
+        </Array>
         <DList Name="gArwingFlashEffectDL" Offset="0x5B18"/>
+        <Array Name="gArwingFlashEffectGroundVtx" Count="3" Offset="0x5D98">
+            <Vtx/>
+        </Array>
         <DList Name="gArwingFlashEffectGroundDL" Offset="0x5DC8"/>
+        <Array Name="gArwingShadowVtx" Count="3" Offset="0x6250">
+            <Vtx/>
+        </Array>
         <DList Name="gArwingShadowDL" Offset="0x6280"/>
     </File>
 </Root>

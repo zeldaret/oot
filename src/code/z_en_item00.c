@@ -19,7 +19,13 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/rupee.h"
+#include "assets/objects/gameplay_keep/drop_recovery_heart_tex.h"
+#include "assets/objects/gameplay_keep/item_drop_dl.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x3C870.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x3F140.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x3B1E0.h"
+#include "assets/objects/gameplay_keep/heart_piece_interior_model.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-eu-mq-dbg:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128" \
                                "gc-us-mq:128 ique-cn:128 ntsc-1.0:128 ntsc-1.2:128"
@@ -64,9 +70,9 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000010, 0x00, 0x00 },
-        ATELEM_NONE | ATELEM_SFX_NORMAL,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000010, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
     },
@@ -965,8 +971,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     }
 
     if ((*params <= ITEM00_RUPEE_RED) || (*params == ITEM00_RUPEE_ORANGE)) {
-        Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_GET_RUPY);
     } else if (getItemId != GI_NONE) {
         if (Actor_HasParent(&this->actor, play)) {
             Flags_SetCollectible(play, this->collectibleFlag);
@@ -974,8 +979,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
         }
         return;
     } else {
-        Audio_PlaySfxGeneral(NA_SE_SY_GET_ITEM, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_GET_ITEM);
     }
 
     Flags_SetCollectible(play, this->collectibleFlag);

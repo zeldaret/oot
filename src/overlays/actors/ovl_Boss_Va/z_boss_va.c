@@ -26,7 +26,7 @@
 #include "play_state.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x55DB0.h"
 #include "assets/objects/object_bv/object_bv.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:0" \
@@ -236,8 +236,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFEF, 0x03, 0x08 },
-        { 0x00000010, 0x00, 0x00 },
+        { 0xFFCFFFEF, HIT_SPECIAL_EFFECT_ELECTRIC, 0x08 },
+        { 0x00000010, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -245,12 +245,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 85, 120, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementsInitSupport[1] = {
+static ColliderJntSphElementInit sJntSphElementsInitSupport[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00000010, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00000010, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -272,12 +272,12 @@ static ColliderJntSphInit sJntSphInitSupport = {
     sJntSphElementsInitSupport,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInitBari[1] = {
+static ColliderJntSphElementInit sJntSphElementsInitBari[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x03, 0x04 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_ELECTRIC, 0x04 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_NONE,
@@ -310,8 +310,8 @@ static ColliderQuadInit sQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x20000000, 0x03, 0x04 },
-        { 0x00000010, 0x00, 0x00 },
+        { 0x20000000, HIT_SPECIAL_EFFECT_ELECTRIC, 0x04 },
+        { 0x00000010, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
         ACELEM_ON,
         OCELEM_NONE,
@@ -3897,8 +3897,7 @@ void BossVa_SpawnTumor(PlayState* play, BossVaEffect* effect, BossVa* this, Vec3
             effect->scale = 0.0f;
 
             if (((i % 4) == 0) || (mode == 2)) {
-                Audio_PlaySfxGeneral(NA_SE_EN_BALINADE_BREAK, &effect->pos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&effect->pos, NA_SE_EN_BALINADE_BREAK);
             }
             break;
         }

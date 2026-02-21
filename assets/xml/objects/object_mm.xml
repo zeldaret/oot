@@ -22,6 +22,51 @@
         <Texture Name="object_mm_001030_Tex" Format="ci8" Width="16" Height="16" Offset="0x1030" TlutOffset="0x730"/>
         <Texture Name="object_mm_001130_Tex" Format="ci8" Width="32" Height="16" Offset="0x1130" TlutOffset="0x730"/>
         <Texture Name="object_mm_001330_Tex" Format="ci8" Width="16" Height="16" Offset="0x1330" TlutOffset="0x730"/>
+        <Array Name="object_mm_Vtx_001430" Count="158" Offset="0x1430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_001E10" Count="44" Offset="0x1E10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_0020D0" Count="36" Offset="0x20D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_002310" Count="26" Offset="0x2310">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_0024B0" Count="44" Offset="0x24B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_002770" Count="36" Offset="0x2770">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_0029B0" Count="26" Offset="0x29B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_002B50" Count="72" Offset="0x2B50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_002FD0" Count="38" Offset="0x2FD0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003230" Count="47" Offset="0x3230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003520" Count="37" Offset="0x3520">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003770" Count="38" Offset="0x3770">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_0039D0" Count="47" Offset="0x39D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003CC0" Count="37" Offset="0x3CC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003F10" Count="16" Offset="0x3F10">
+            <Vtx/>
+        </Array>
         <DList Name="object_mm_004010_DL" Offset="0x4010"/>
         <DList Name="object_mm_004348_DL" Offset="0x4348"/>
         <DList Name="object_mm_004A68_DL" Offset="0x4A68"/>

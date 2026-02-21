@@ -50,8 +50,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0xFFCFFFFF, 0x03, 0x04 },
-        { 0xFFCFFFFF, 0x01, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_ELECTRIC, 0x04 },
+        { 0xFFCFFFFF, HIT_BACKLASH_ELECTRIC, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_NONE,
@@ -70,8 +70,8 @@ static ColliderQuadInit sQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x03, 0x04 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_ELECTRIC, 0x04 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_NONE,

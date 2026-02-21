@@ -3,6 +3,7 @@
  */
 
 #include "include/versions.h"
+#include "include/region.h"
 
 beginseg
     name "makerom"
@@ -996,7 +997,147 @@ beginseg
     name "gameplay_keep"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/hilite_textures.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/link_textures.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/player_pause_joint_tables.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/player_anim_headers.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/debug_models.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gArrow1_Anim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gArrow2_Anim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/arrow_skel.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unk_eff_blure_tex.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/bomb_body.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/bomb_cap.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/bombchu_body.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_bomb_explosion.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_fragments_1.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/boomerang.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/compass_arrow.o"
+#if OOT_REGION != REGION_EU
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0xC880.o"
+#endif
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/lock_on_arrow.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/hilite3_tex.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_fragments_2_model.o"
+#if OOT_REGION != REGION_EU
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0xCE60.o"
+#endif
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/shopkeeper_controls_tex.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/rock_fragments_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/rock_fragments_tex.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gDoorChildOpeningLeftAnim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gDoorChildOpeningRightAnim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gDoorAdultOpeningLeftAnim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/door_skel.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gDoorAdultOpeningRightAnim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_dust.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_flash.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/spin_attack.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x13700.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/fairy_anim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/fairy_skel.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x16A50.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/hilite4_tex.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x173D0.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gFishOutOfWaterAnim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x18610.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gFishInWaterAnim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_shockwave.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_bubble.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_fire_footprint.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_bubbles.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/lens_mask_tex.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_hitmark.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x21810.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_magma_bubble.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_water_ripple.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_spark_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_water_splash.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unknown_eff_stone.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_lightning.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_enemy_death_flame.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x32090.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x33090.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_ice_fragments.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x33910.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gBugCrawlAnim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/bug_skel.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/cuttable_shrub.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/lens_flare.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_sparkles.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/hover_boots_circle.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/moon.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x38FB0.o"
+#if OOT_REGION != REGION_EU
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x39850.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_bomb_icon_model_ntsc.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_heart_icon_model_ntsc.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_arrow_icon_model_ntsc.o"
+#endif
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gLargerCubeCol.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/liftable_rock_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x39710.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gWideTallBlockCol.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/flat_block_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gTallBlockCol.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x39DF0.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/small_flat_block_col.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/flat_rot_block_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gLargerFlatBlockCol.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/small_cube_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/small_cube_col.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/tree_stump_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/grass_blades_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x3AC30.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/heart_piece_interior_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x3B1E0.o"
+#if OOT_REGION != REGION_EU
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x3C610.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_heart_container_icon_model_ntsc.o"
+#endif
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/rectangular_sign_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/directional_sign_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x3C870.o"
+#if OOT_REGION != REGION_EU
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x3FD80.o"
+#endif
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/drop_recovery_heart_tex.o"
+#if OOT_REGION != REGION_EU
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_heart_piece_icon_tex_ntsc.o"
+#endif
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/item_drop_dl.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x3F140.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/rupee.o"
+#if OOT_REGION != REGION_EU
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/item_drops_ntsc.o"
+#endif
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/rupee_light_red_tex.o"
+#if OOT_REGION != REGION_EU
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x46A40.o"
+#endif
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x42530.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x43530.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x44530.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x45530.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x45D30.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/sign_textures.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/raindrop_model.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/shadow_foot.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/shadow_circle.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/shadow_horse.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x49F20.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x4A090.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/sun_textures.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/sun_evening_textures.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x4D160.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/lock_on_reticle.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_fire.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x4E660.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x515B0.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/dust_textures.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/circle_glow_textures.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x55DB0.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_spark_textures.o"
     number 4
 endseg
 
@@ -1707,7 +1848,8 @@ beginseg
     name "object_yukabyun"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_yukabyun/object_yukabyun.o"
+    include "$(BUILD_DIR)/assets/objects/object_yukabyun/gFloorTileEnemyDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_yukabyun/gFloorTileEnemyFragmentDL.o"
     number 6
 endseg
 
@@ -1923,7 +2065,7 @@ beginseg
     name "object_vase"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_vase/object_vase.o"
+    include "$(BUILD_DIR)/assets/objects/object_vase/gUnusedVaseDL.o"
     number 6
 endseg
 
@@ -2859,7 +3001,15 @@ beginseg
     name "object_zo"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_zo/object_zo.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraHandsOnHipsTappingFootAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraOpenArmsAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraThrowRupeesAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_bubbles.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_splashes.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraSurfaceAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraIdleAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraSkel.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_ripples.o"
     number 6
 endseg
 
@@ -2875,7 +3025,8 @@ beginseg
     name "object_umajump"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_umajump/object_umajump.o"
+    include "$(BUILD_DIR)/assets/objects/object_umajump/gJumpableHorseFenceDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_umajump/gJumpableHorseFenceCol.o"
     number 6
 endseg
 
@@ -3547,7 +3698,8 @@ beginseg
     name "object_zg"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_zg/object_zg.o"
+    include "$(BUILD_DIR)/assets/objects/object_zg/gTowerCollapseBarsDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_zg/gTowerCollapseBarsCol.o"
     number 6
 endseg
 
@@ -3875,7 +4027,15 @@ beginseg
     name "object_ganon_anime3"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/object_ganon_anime3.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfShowTriforceStartAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfBurstOutAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformEndAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfFloatingHeavyBreathingAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformStartAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformLoopAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfShowTriforceLoopAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanonUncurlAndFlailAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanonRoarAnim.o"
     number 6
 endseg
 

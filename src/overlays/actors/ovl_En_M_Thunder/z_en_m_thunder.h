@@ -20,11 +20,11 @@ typedef struct EnMThunder {
     /* 0x01B0 */ f32 unk_1B8;
     /* 0x01BC */ f32 unk_1BC;
     /* 0x01C0 */ EnMThunderActionFunc actionFunc;
-    /* 0x01C4 */ u16 unk_1C4;
-    /* 0x01C6 */ u8 unk_1C6;
-    /* 0x01C7 */ u8 unk_1C7;
-    /* 0x01C8 */ u8 unk_1C8;
-    /* 0x01C9 */ u8 unk_1C9;
+    /* 0x01C4 */ u16 followPlayerTimer;
+    /* 0x01C6 */ u8 attackStrength; // see `EnMThunderAttackStrength`
+    /* 0x01C7 */ u8 swordType;      // see `EnMThunderSwordType`
+    /* 0x01C8 */ u8 chargeAlpha;
+    /* 0x01C9 */ u8 targetScale;
     /* 0x01CA */ u8 unk_1CA;
 } EnMThunder; // size = 0x01CC
 

@@ -7,6 +7,12 @@
         <Texture Name="sMouthTex" Format="rgba16" Width="32" Height="16" Offset="0xA00"/>
         <Texture Name="sEar2Tex" Format="rgba16" Width="8" Height="8" Offset="0xE00"/>
         <Texture Name="sHair2Tex" Format="rgba16" Width="8" Height="16" Offset="0xE80"/>
+        <Array Name="ovl_En_Sth_Vtx_000F80" Count="121" Offset="0xF80">
+            <Vtx/>
+        </Array>
+        <Array Name="ovl_En_Sth_Vtx_001710" Count="81" Offset="0x1710">
+            <Vtx/>
+        </Array>
         <DList Name="D_80B0A050" Offset="0x1C20"/>
         <DList Name="D_80B0A3C0" Offset="0x1F90"/>
         <Animation Name="sChildDanceAnim" Offset="0x2730"/>

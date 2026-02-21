@@ -35,11 +35,14 @@
 #include "save.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/shadow_circle.h"
+#include "assets/objects/gameplay_keep/eff_water_ripple.h"
+#include "assets/objects/gameplay_keep/eff_shockwave.h"
+#include "assets/objects/gameplay_keep/dust_textures.h"
 #include "assets/objects/object_mo/object_mo.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:128" \
+                               "ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -745,9 +748,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                         player->actor.parent = &this->actor;
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_GRAB;
                         Sfx_PlaySfxAtPos(&this->tentTipPos, NA_SE_EN_MOFER_CATCH);
-                        Audio_PlaySfxGeneral(NA_SE_VO_LI_DAMAGE_S, &player->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
+                        SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_VO_LI_DAMAGE_S);
                     } else {
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                         this->tentMaxAngle = .001f;

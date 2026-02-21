@@ -3,7 +3,13 @@
         <Texture Name="gFloorTileEnemyBottomTex" Format="rgba16" Width="32" Height="32" Offset="0x0"/>
         <Texture Name="gFloorTileEnemyTopTex" Format="rgba16" Width="32" Height="32" Offset="0xAF0"/>
         <Texture Name="gFloorTileEnemyFragmentTex" Format="rgba16" Width="16" Height="16" Offset="0x12F0"/>
+        <Array Name="gFloorTileEnemyVtx" Count="23" Offset="0x800">
+            <Vtx/>
+        </Array>
         <DList Name="gFloorTileEnemyDL" Offset="0x970"/>
+        <Array Name="gFloorTileEnemyFragmentVtx" Count="3" Offset="0xA30">
+            <Vtx/>
+        </Array>
         <DList Name="gFloorTileEnemyFragmentDL" Offset="0xA60"/>
     </File>
 </Root>

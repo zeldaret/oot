@@ -19,7 +19,7 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/shopkeeper_controls_tex.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 #include "assets/objects/object_os/object_os.h"
@@ -153,9 +153,9 @@ static ColliderCylinderInitType1 sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
-        ATELEM_NONE | ATELEM_SFX_NORMAL,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
     },
@@ -569,7 +569,7 @@ void EnOssan_TalkHappyMaskShopkeeper(PlayState* play) {
 
 void EnOssan_UpdateCameraDirection(EnOssan* this, PlayState* play, f32 cameraFaceAngle) {
     this->cameraFaceAngle = cameraFaceAngle;
-    Camera_SetCameraData(GET_ACTIVE_CAM(play), 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
+    Camera_SetCameraData(GET_ACTIVE_CAM(play), CAM_DATA_SET_2 | CAM_DATA_SET_3, NULL, NULL, cameraFaceAngle, 0, 0);
 }
 
 s32 EnOssan_TryGetObjBankIndices(EnOssan* this, PlayState* play, s16* objectIds) {

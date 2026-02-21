@@ -129,7 +129,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
     DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
 
     this->movementFlags = 0;
-    this->type = PARAMS_GET_U(thisx->params, 12, 4);
+    this->type = ENBOX_GET_TYPE(thisx);
     this->iceSmokeTimer = 0;
     this->unk_1FB = ENBOX_STATE_0;
     this->dyna.actor.gravity = -5.5f;
@@ -138,7 +138,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
 
     if (play) {} // helps the compiler store play2 into s1
 
-    if (Flags_GetTreasure(play, PARAMS_GET_U(this->dyna.actor.params, 0, 5))) {
+    if (Flags_GetTreasure(play, ENBOX_GET_TREASURE_FLAG(&this->dyna.actor))) {
         this->alpha = 255;
         this->iceSmokeTimer = 100;
         EnBox_SetupAction(this, EnBox_Open);
@@ -273,8 +273,7 @@ void EnBox_Fall(EnBox* this, PlayState* play) {
             EnBox_SetupAction(this, EnBox_WaitOpen);
             OnePointCutscene_EndCutscene(play, this->subCamId);
         }
-        Audio_PlaySfxGeneral(NA_SE_EV_COFFIN_CAP_BOUND, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->dyna.actor.projectedPos, NA_SE_EV_COFFIN_CAP_BOUND);
         EnBox_SpawnDust(this, play);
     }
     yDiff = this->dyna.actor.world.pos.y - this->dyna.actor.floorHeight;
@@ -286,7 +285,7 @@ void EnBox_Fall(EnBox* this, PlayState* play) {
 }
 
 void EnBox_FallOnSwitchFlag(EnBox* this, PlayState* play) {
-    s32 treasureFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 5);
+    s32 treasureFlag = ENBOX_GET_TREASURE_FLAG(&this->dyna.actor);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
         Actor_SetClosestSecretDistance(&this->dyna.actor, play);
@@ -305,7 +304,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, PlayState* play) {
 
 // used for types 9, 10
 void func_809C9700(EnBox* this, PlayState* play) {
-    s32 treasureFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 5);
+    s32 treasureFlag = ENBOX_GET_TREASURE_FLAG(&this->dyna.actor);
     Player* player = GET_PLAYER(play);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
@@ -342,7 +341,7 @@ void func_809C9700(EnBox* this, PlayState* play) {
 }
 
 void EnBox_AppearOnSwitchFlag(EnBox* this, PlayState* play) {
-    s32 treasureFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 5);
+    s32 treasureFlag = ENBOX_GET_TREASURE_FLAG(&this->dyna.actor);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
         Actor_SetClosestSecretDistance(&this->dyna.actor, play);
@@ -356,7 +355,7 @@ void EnBox_AppearOnSwitchFlag(EnBox* this, PlayState* play) {
 }
 
 void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play) {
-    s32 treasureFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 5);
+    s32 treasureFlag = ENBOX_GET_TREASURE_FLAG(&this->dyna.actor);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
         Actor_SetClosestSecretDistance(&this->dyna.actor, play);
@@ -383,8 +382,7 @@ void EnBox_AppearInit(EnBox* this, PlayState* play) {
         this->unk_1A8 = 0;
         Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
                     this->dyna.actor.home.pos.z, 0, 0, 0, DEMOKANKYO_SPARKLES);
-        Audio_PlaySfxGeneral(NA_SE_EV_TRE_BOX_APPEAR, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->dyna.actor.projectedPos, NA_SE_EV_TRE_BOX_APPEAR);
     }
 }
 
@@ -439,16 +437,16 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
                     Audio_PlayFanfare(NA_BGM_OPEN_TRE_BOX | 0x900);
             }
         }
-        PRINTF("Actor_Environment_Tbox_On() %d\n", PARAMS_GET_U(this->dyna.actor.params, 0, 5));
-        Flags_SetTreasure(play, PARAMS_GET_U(this->dyna.actor.params, 0, 5));
+        PRINTF("Actor_Environment_Tbox_On() %d\n", ENBOX_GET_TREASURE_FLAG(&this->dyna.actor));
+        Flags_SetTreasure(play, ENBOX_GET_TREASURE_FLAG(&this->dyna.actor));
     } else {
         player = GET_PLAYER(play);
         Actor_WorldToActorCoords(&this->dyna.actor, &sp4C, &player->actor.world.pos);
         if (sp4C.z > -50.0f && sp4C.z < 0.0f && fabsf(sp4C.y) < 10.0f && fabsf(sp4C.x) < 20.0f &&
             Player_IsFacingActor(&this->dyna.actor, 0x3000, play)) {
-            Actor_OfferGetItemNearby(&this->dyna.actor, play, -PARAMS_GET_U(this->dyna.actor.params, 5, 7));
+            Actor_OfferGetItemNearby(&this->dyna.actor, play, -ENBOX_GET_GET_ITEM_ID(&this->dyna.actor));
         }
-        if (Flags_GetTreasure(play, PARAMS_GET_U(this->dyna.actor.params, 0, 5))) {
+        if (Flags_GetTreasure(play, ENBOX_GET_TREASURE_FLAG(&this->dyna.actor))) {
             EnBox_SetupAction(this, EnBox_Open);
         }
     }
@@ -486,8 +484,7 @@ void EnBox_Open(EnBox* this, PlayState* play) {
         }
 
         if (sfxId != 0) {
-            Audio_PlaySfxGeneral(sfxId, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&this->dyna.actor.projectedPos, sfxId);
         }
 
         if (this->skelanime.jointTable[3].z > 0) {
@@ -559,7 +556,7 @@ void EnBox_Update(Actor* thisx, PlayState* play) {
             Actor_SetFocus(&this->dyna.actor, 40.0f);
     }
 
-    if (PARAMS_GET_U(this->dyna.actor.params, 5, 7) == GI_ICE_TRAP && this->actionFunc == EnBox_Open &&
+    if (ENBOX_GET_GET_ITEM_ID(&this->dyna.actor) == GI_ICE_TRAP && this->actionFunc == EnBox_Open &&
         this->skelanime.curFrame > 45 && this->iceSmokeTimer < 100) {
         EnBox_SpawnIceSmoke(this, play);
     }

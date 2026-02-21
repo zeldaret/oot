@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_geldb" Segment="6">
         <!-- Red-clothed Gerudo skeleton -->
-        <Skeleton Name="gGerudoRedSkel" Type="Flex" LimbType="Standard" Offset="0xA458"/>
+        <Skeleton Name="gGerudoRedSkel" Type="Flex" LimbType="Standard" LimbNone="GERUDO_RED_LIMB_NONE" LimbMax="GERUDO_RED_LIMB_MAX" EnumName="GerudoRedLimb" Offset="0xA458"/>
 
         <!-- Red-clothed Gerudo animations -->
         <Animation Name="gGerudoRedJumpAnim" Offset="0xADF8"/>
@@ -120,28 +120,28 @@
         <DList Name="object_geldb_0099A8_DL" Offset="0x99A8"/>
         <DList Name="object_geldb_009A60_DL" Offset="0x9A60"/>
         <DList Name="object_geldb_009B50_DL" Offset="0x9B50"/>
-        <Limb Name="object_geldb_00A2E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A2E8" Offset="0xA2E8"/>
-        <Limb Name="object_geldb_00A2F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A2F4" Offset="0xA2F4"/>
-        <Limb Name="object_geldb_00A300_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A300" Offset="0xA300"/>
-        <Limb Name="object_geldb_00A30C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A30C" Offset="0xA30C"/>
-        <Limb Name="object_geldb_00A318_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A318" Offset="0xA318"/>
-        <Limb Name="object_geldb_00A324_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A324" Offset="0xA324"/>
-        <Limb Name="object_geldb_00A330_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A330" Offset="0xA330"/>
-        <Limb Name="object_geldb_00A33C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A33C" Offset="0xA33C"/>
-        <Limb Name="object_geldb_00A348_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A348" Offset="0xA348"/>
-        <Limb Name="object_geldb_00A354_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A354" Offset="0xA354"/>
-        <Limb Name="object_geldb_00A360_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A360" Offset="0xA360"/>
-        <Limb Name="object_geldb_00A36C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A36C" Offset="0xA36C"/>
-        <Limb Name="object_geldb_00A378_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A378" Offset="0xA378"/>
-        <Limb Name="object_geldb_00A384_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A384" Offset="0xA384"/>
-        <Limb Name="object_geldb_00A390_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A390" Offset="0xA390"/>
-        <Limb Name="object_geldb_00A39C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A39C" Offset="0xA39C"/>
-        <Limb Name="object_geldb_00A3A8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3A8" Offset="0xA3A8"/>
-        <Limb Name="object_geldb_00A3B4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3B4" Offset="0xA3B4"/>
-        <Limb Name="object_geldb_00A3C0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3C0" Offset="0xA3C0"/>
-        <Limb Name="object_geldb_00A3CC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3CC" Offset="0xA3CC"/>
-        <Limb Name="object_geldb_00A3D8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3D8" Offset="0xA3D8"/>
-        <Limb Name="object_geldb_00A3E4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3E4" Offset="0xA3E4"/>
-        <Limb Name="object_geldb_00A3F0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3F0" Offset="0xA3F0"/>
+        <Limb Name="object_geldb_00A2E8_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_ROOT" Offset="0xA2E8"/>
+        <Limb Name="object_geldb_00A2F4_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_TORSO" Offset="0xA2F4"/>
+        <Limb Name="object_geldb_00A300_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_NECK" Offset="0xA300"/>
+        <Limb Name="object_geldb_00A30C_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_PONYTAIL" Offset="0xA30C"/>
+        <Limb Name="object_geldb_00A318_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_VEIL" Offset="0xA318"/>
+        <Limb Name="object_geldb_00A324_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_HEAD" Offset="0xA324"/>
+        <Limb Name="object_geldb_00A330_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_UPPER_ARM" Offset="0xA330"/>
+        <Limb Name="object_geldb_00A33C_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_FOREARM" Offset="0xA33C"/>
+        <Limb Name="object_geldb_00A348_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_WRIST" Offset="0xA348"/>
+        <Limb Name="object_geldb_00A354_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_HAND" Offset="0xA354"/>
+        <Limb Name="object_geldb_00A360_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_SWORD" Offset="0xA360"/>
+        <Limb Name="object_geldb_00A36C_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_UPPER_ARM" Offset="0xA36C"/>
+        <Limb Name="object_geldb_00A378_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_FOREARM" Offset="0xA378"/>
+        <Limb Name="object_geldb_00A384_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_WRIST" Offset="0xA384"/>
+        <Limb Name="object_geldb_00A390_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_HAND" Offset="0xA390"/>
+        <Limb Name="object_geldb_00A39C_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_SWORD" Offset="0xA39C"/>
+        <Limb Name="object_geldb_00A3A8_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_THIGH" Offset="0xA3A8"/>
+        <Limb Name="object_geldb_00A3B4_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_SHIN" Offset="0xA3B4"/>
+        <Limb Name="object_geldb_00A3C0_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_FOOT" Offset="0xA3C0"/>
+        <Limb Name="object_geldb_00A3CC_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_THIGH" Offset="0xA3CC"/>
+        <Limb Name="object_geldb_00A3D8_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_SHIN" Offset="0xA3D8"/>
+        <Limb Name="object_geldb_00A3E4_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_FOOT" Offset="0xA3E4"/>
+        <Limb Name="object_geldb_00A3F0_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_WAIST" Offset="0xA3F0"/>
     </File>
 </Root>

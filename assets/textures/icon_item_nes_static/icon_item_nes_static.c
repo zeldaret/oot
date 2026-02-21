@@ -52,19 +52,19 @@ u64 gPauseToPlayMelodyENGTex[TEX_LEN(u64, gPauseToPlayMelodyENGTex_WIDTH, gPause
 #include "assets/textures/icon_item_nes_static/gPauseToPlayMelodyENGTex.ia8.inc.c"
 };
 
-u64 gPauseToSelectItemENGTex[TEX_LEN(u64, gPauseToSelectItemENGTex_WIDTH, gPauseToSelectItemENGTex_HEIGHT, 8)] = {
+u64 gPauseToSelectItemENGTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_nes_static/gPauseToSelectItemENGTex.ia8.inc.c"
 };
 
-u64 gPauseToMapENGTex[TEX_LEN(u64, gPauseToMapENGTex_WIDTH, gPauseToMapENGTex_HEIGHT, 8)] = {
+u64 gPauseToMapENGTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_nes_static/gPauseToMapENGTex.ia8.inc.c"
 };
 
-u64 gPauseToQuestStatusENGTex[TEX_LEN(u64, gPauseToQuestStatusENGTex_WIDTH, gPauseToQuestStatusENGTex_HEIGHT, 8)] = {
+u64 gPauseToQuestStatusENGTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_nes_static/gPauseToQuestStatusENGTex.ia8.inc.c"
 };
 
-u64 gPauseToEquipmentENGTex[TEX_LEN(u64, gPauseToEquipmentENGTex_WIDTH, gPauseToEquipmentENGTex_HEIGHT, 8)] = {
+u64 gPauseToEquipmentENGTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_nes_static/gPauseToEquipmentENGTex.ia8.inc.c"
 };
 

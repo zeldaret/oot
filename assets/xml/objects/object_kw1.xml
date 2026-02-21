@@ -59,5 +59,51 @@
         <DList Name="object_kw1_DL_006478" Offset="0x6478"/>
         <DList Name="object_kw1_DL_006620" Offset="0x6620"/>
         <DList Name="object_kw1_DL_0067C0" Offset="0x67C0"/>
+
+        <Array Name="object_kw1_Vtx_002210" Count="160" Offset="0x2210">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_003448" Count="33" Offset="0x3448">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_003658" Count="32" Offset="0x3658">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_003858" Count="29" Offset="0x3858">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_003A28" Count="33" Offset="0x3A28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_003C38" Count="32" Offset="0x3C38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_003E38" Count="29" Offset="0x3E38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_004008" Count="39" Offset="0x4008">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_004278" Count="23" Offset="0x4278">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_0043E8" Count="25" Offset="0x43E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_004578" Count="39" Offset="0x4578">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_0047E8" Count="23" Offset="0x47E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_004958" Count="25" Offset="0x4958">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_004AE8" Count="98" Offset="0x4AE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_kw1_Vtx_005108" Count="47" Offset="0x5108">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

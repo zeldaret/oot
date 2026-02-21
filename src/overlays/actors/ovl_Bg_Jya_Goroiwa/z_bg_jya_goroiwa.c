@@ -7,6 +7,7 @@
 
 #include "z_bg_jya_goroiwa.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
 #include "z_lib.h"
@@ -46,8 +47,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x00, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_NONE,
             OCELEM_ON,
@@ -65,7 +66,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

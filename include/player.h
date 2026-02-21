@@ -647,16 +647,16 @@ typedef enum PlayerKnockbackType {
     /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
     /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
     /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
-    /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
+    /* 3 */ PLAYER_KNOCKBACK_LARGE_ELECTRIFIED // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
 } PlayerKnockbackType;
 
-typedef enum PlayerDamageResponseType {
+typedef enum PlayerHitResponseType {
     /* 0 */ PLAYER_HIT_RESPONSE_NONE,
     /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
     /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
-    /* 3 */ PLAYER_HIT_RESPONSE_ICE_TRAP,
-    /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK
-} PlayerDamageResponseType;
+    /* 3 */ PLAYER_HIT_RESPONSE_FROZEN,
+    /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIFIED
+} PlayerHitResponseType;
 
 typedef struct PlayerAgeProperties {
     /* 0x00 */ f32 ceilingCheckHeight;
@@ -694,10 +694,13 @@ typedef struct PlayerAgeProperties {
     /* 0xCC */ LinkAnimationHeader* unk_CC[2];
 } PlayerAgeProperties; // size = 0xD4
 
+#define MELEE_WEAPON_INFO_TIP(weaponInfo) (&(weaponInfo)->posA)
+#define MELEE_WEAPON_INFO_BASE(weaponInfo) (&(weaponInfo)->posB)
+
 typedef struct WeaponInfo {
     /* 0x00 */ s32 active;
-    /* 0x04 */ Vec3f tip;
-    /* 0x10 */ Vec3f base;
+    /* 0x04 */ Vec3f posA; // For melee weapons, this is the tip (furthest from the player hand)
+    /* 0x10 */ Vec3f posB; // For melee weapons, this is the base (near the player hand)
 } WeaponInfo; // size = 0x1C
 
 #define LEDGE_DIST_MAX 399.96002f
@@ -1033,7 +1036,7 @@ s32 Player_OverrideLimbDrawGameplayFirstPerson(struct PlayState* play, s32 limbI
                                                Vec3s* rot, void* thisx);
 s32 Player_OverrideLimbDrawGameplayCrawling(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                             void* thisx);
-u8 func_80090480(struct PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
+u8 Player_UpdateWeaponInfo(struct PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newPosA, Vec3f* newPosB);
 void Player_DrawGetItem(struct PlayState* play, Player* this);
 void Player_PostLimbDrawGameplay(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 u32 Player_InitPauseDrawData(struct PlayState* play, u8* segment, SkelAnime* skelAnime);

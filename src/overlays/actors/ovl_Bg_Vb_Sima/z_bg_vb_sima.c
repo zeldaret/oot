@@ -95,8 +95,7 @@ void BgVbSima_Update(Actor* thisx, PlayState* play) {
             this->dyna.actor.world.pos.z += 2.0f * Math_CosS(this->shakeTimer * 0x8000);
             this->dyna.actor.shape.rot.x = (s16)Math_SinS(this->shakeTimer * 0x7000) * 0x37;
             this->dyna.actor.shape.rot.z = (s16)Math_SinS(this->shakeTimer * 0x5000) * 0x37;
-            Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&this->dyna.actor.projectedPos, NA_SE_EV_BLOCKSINK - SFX_FLAG);
         } else if (signal == VBSIMA_KILL) {
             Actor_Kill(&this->dyna.actor);
         }
