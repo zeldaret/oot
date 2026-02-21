@@ -2085,6 +2085,9 @@ class MessageEntry:
         assert any(selection)
 
         out = ""
+
+        out += f"#ifndef MESSAGE_0x{self.text_id:04X}\n"
+
         if all(selection):
             shared_box_type = unique_or_none([data.box_type for data in self.data if data is not None])
             shared_box_pos = unique_or_none([data.box_pos for data in self.data if data is not None])
@@ -2110,6 +2113,8 @@ class MessageEntry:
         else:
             # Other unimplemented cases
             assert False
+
+        out += "#endif\n"
 
         return out
 
