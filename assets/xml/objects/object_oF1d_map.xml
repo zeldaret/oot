@@ -37,7 +37,7 @@
         <Limb Name="gGoronHeadLimb" LimbType="Standard" EnumName="GORON_LIMB_HEAD" Offset="0xFEA0"/>
 
         <!-- limb display lists -->
-        <DList Name="gGoronWaistDL" Offset="0x8708"/>
+        <DList Name="gGoronLegsRootDL" Offset="0x8708"/>
         <DList Name="gGoronLeftThighDL" Offset="0x8C80"/>
         <DList Name="gGoronLeftShinDL" Offset="0x8D70"/>
         <DList Name="gGoronLeftFootDL" Offset="0x8EC0"/>
