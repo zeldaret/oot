@@ -1,26 +1,67 @@
 <Root>
+    <!-- Goron -->
     <File Name="object_oF1d_map" Segment="6">
         <!-- animations -->
-        <Animation Name="gGoronAnim_000750" Offset="0x750"/>
-        <Animation Name="gGoronAnim_000D5C" Offset="0xD5C"/>
-        <Animation Name="gGoronAnim_00161C" Offset="0x161C"/>
-        <Animation Name="gGoronAnim_001A00" Offset="0x1A00"/>
-        <Animation Name="gGoronAnim_0021D0" Offset="0x21D0"/>
-        <Animation Name="gGoronAnim_0029A8" Offset="0x29A8"/>
-        <Animation Name="gGoronAnim_002D80" Offset="0x2D80"/>
-        <Animation Name="gGoronAnim_003768" Offset="0x3768"/>
-        <Animation Name="gGoronAnim_0038E4" Offset="0x38E4"/>
-        <Animation Name="gGoronAnim_004930" Offset="0x4930"/>
-        <Animation Name="gGoronAnim_010590" Offset="0x10590"/>
+        <Animation Name="gGoronSobbingAnim" Offset="0x750"/>
+        <Animation Name="gGoronShakingAnim" Offset="0xD5C"/>
+        <Animation Name="gGoronUncurlToProneAnim" Offset="0x161C"/>
+        <Animation Name="gGoronProneAnim" Offset="0x1A00"/>
+        <Animation Name="gGoronScratchingAnim" Offset="0x21D0"/>
+        <Animation Name="gGoronWalkingAnim" Offset="0x29A8"/>
+        <Animation Name="gGoronEyedropsTakenAnim" Offset="0x2D80"/>
+        <Animation Name="gGoronCryingAnim" Offset="0x3768"/>
+        <Animation Name="gGoronEyedropsAnim" Offset="0x38E4"/>
+        <Animation Name="gGoronUncurlSitStandAnim" Offset="0x4930"/>
+        <Animation Name="gGoronSidestepAnim" Offset="0x10590"/>
 
-        <DList Name="gGoronDL_00BD80" Offset="0xBD80"/>
-        <DList Name="gGoronDL_00C140" Offset="0xC140"/>
+        <!-- skeleton, limb none -->
+        <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" LimbNone="GORON_LIMB_NONE" LimbMax="GORON_LIMB_MAX" EnumName="GoronLimb" Offset="0xFEF0"/>
 
-        <DList Name="gGoronDL_00FD40" Offset="0xFD40"/>
-        <DList Name="gGoronDL_00FD50" Offset="0xFD50"/>
+        <!-- limbs -->
+        <Limb Name="gGoronRootLimb" LimbType="Standard" EnumName="GORON_LIMB_ROOT" Offset="0xFDE0"/>
+        <Limb Name="gGoronLegsRootLimb" LimbType="Standard" EnumName="GORON_LIMB_LEGS_ROOT" Offset="0xFDEC"/> <!-- drives bottom submesh -->
+        <Limb Name="gGoronLegsLimb" LimbType="Standard" EnumName="GORON_LIMB_LEGS" Offset="0xFDF8"/>
+        <Limb Name="gGoronLeftThighLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_THIGH" Offset="0xFE04"/>
+        <Limb Name="gGoronLeftShinLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_SHIN" Offset="0xFE10"/>
+        <Limb Name="gGoronLeftFootLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_FOOT" Offset="0xFE1C"/>
+        <Limb Name="gGoronRightThighLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_THIGH" Offset="0xFE28"/>
+        <Limb Name="gGoronRightShinLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_SHIN" Offset="0xFE34"/>
+        <Limb Name="gGoronRightFootLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_FOOT" Offset="0xFE40"/>
+        <Limb Name="gGoronTorsoLimb" LimbType="Standard" EnumName="GORON_LIMB_TORSO" Offset="0xFE4C"/> <!-- drives top submesh -->
+        <Limb Name="gGoronLeftArmLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_ARM" Offset="0xFE58"/>
+        <Limb Name="gGoronLeftForearmLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_FOREARM" Offset="0xFE64"/>
+        <Limb Name="gGoronLeftHandLimb" LimbType="Standard" EnumName="GORON_LIMB_LEFT_HAND" Offset="0xFE70"/>
+        <Limb Name="gGoronRightArmLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_ARM" Offset="0xFE7C"/>
+        <Limb Name="gGoronRightForearmLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_FOREARM" Offset="0xFE88"/>
+        <Limb Name="gGoronRightHandLimb" LimbType="Standard" EnumName="GORON_LIMB_RIGHT_HAND" Offset="0xFE94"/>
+        <Limb Name="gGoronHeadLimb" LimbType="Standard" EnumName="GORON_LIMB_HEAD" Offset="0xFEA0"/>
 
-        <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" Offset="0xFEF0"/>
+        <!-- limb display lists -->
+        <DList Name="gGoronWaistDL" Offset="0x8708"/>
+        <DList Name="gGoronLeftThighDL" Offset="0x8C80"/>
+        <DList Name="gGoronLeftShinDL" Offset="0x8D70"/>
+        <DList Name="gGoronLeftFootDL" Offset="0x8EC0"/>
+        <DList Name="gGoronRightThighDL" Offset="0x87D0"/>
+        <DList Name="gGoronRightShinDL" Offset="0x88C0"/>
+        <DList Name="gGoronRightFootDL" Offset="0x8A10"/>
+        <DList Name="gGoronTorsoDL" Offset="0x6F90"/>
+        <DList Name="gGoronLeftArmDL" Offset="0x8218"/>
+        <DList Name="gGoronLeftForearmDL" Offset="0x83A0"/>
+        <DList Name="gGoronLeftHandDL" Offset="0x84E0"/>
+        <DList Name="gGoronRightArmDL" Offset="0x7D28"/>
+        <DList Name="gGoronRightForearmDL" Offset="0x7EB0"/>
+        <DList Name="gGoronRightHandDL" Offset="0x7FF0"/>
+        <DList Name="gGoronHeadDL" Offset="0x7458"/>
 
+        <!-- states display lists -->
+        <DList Name="gGoronCurledUpDL" Offset="0xBD80"/>
+        <DList Name="gGoronRollingDL" Offset="0xC140"/>
+
+        <!-- effects display lists -->
+        <DList Name="gGoronParticleMaterialDL" Offset="0xFD40"/>
+        <DList Name="gGoronParticleDL" Offset="0xFD50"/>
+
+        <!-- palettes -->
         <Texture Name="object_oF1d_map_TLUT_00C640" Format="rgba16" Width="16" Height="16" Offset="0xC640"/>
 
         <!-- Eye textures -->
@@ -33,21 +74,6 @@
         <Texture Name="gGoronCsMouthNeutralTex" Format="ci8" Width="64" Height="32" Offset="0xDE80" TlutOffset="0xC640"/>
         <Texture Name="gGoronCsMouthSmileTex" Format="ci8" Width="64" Height="32" Offset="0xE680" TlutOffset="0xC640"/>
 
-        <DList Name="object_oF1d_map_006F90_DL" Offset="0x6F90"/>
-        <DList Name="object_oF1d_map_007458_DL" Offset="0x7458"/>
-        <DList Name="object_oF1d_map_007D28_DL" Offset="0x7D28"/>
-        <DList Name="object_oF1d_map_007EB0_DL" Offset="0x7EB0"/>
-        <DList Name="object_oF1d_map_007FF0_DL" Offset="0x7FF0"/>
-        <DList Name="object_oF1d_map_008218_DL" Offset="0x8218"/>
-        <DList Name="object_oF1d_map_0083A0_DL" Offset="0x83A0"/>
-        <DList Name="object_oF1d_map_0084E0_DL" Offset="0x84E0"/>
-        <DList Name="object_oF1d_map_008708_DL" Offset="0x8708"/>
-        <DList Name="object_oF1d_map_0087D0_DL" Offset="0x87D0"/>
-        <DList Name="object_oF1d_map_0088C0_DL" Offset="0x88C0"/>
-        <DList Name="object_oF1d_map_008A10_DL" Offset="0x8A10"/>
-        <DList Name="object_oF1d_map_008C80_DL" Offset="0x8C80"/>
-        <DList Name="object_oF1d_map_008D70_DL" Offset="0x8D70"/>
-        <DList Name="object_oF1d_map_008EC0_DL" Offset="0x8EC0"/>
         <Texture Name="object_oF1d_map_009130_TLUT" Format="rgba16" Width="160" Height="1" Offset="0x9130"/>
         <Texture Name="object_oF1d_map_009270_Tex" Format="ci8" Width="8" Height="8" Offset="0x9270" TlutOffset="0x9130"/>
         <Texture Name="object_oF1d_map_0092B0_Tex" Format="ci8" Width="8" Height="8" Offset="0x92B0" TlutOffset="0x9130"/>
@@ -66,22 +92,5 @@
         <Texture Name="object_oF1d_map_00F7C0_Tex" Format="ci8" Width="16" Height="16" Offset="0xF7C0" TlutOffset="0xC440"/>
         <Texture Name="object_oF1d_map_00F8C0_Tex" Format="ci8" Width="32" Height="32" Offset="0xF8C0" TlutOffset="0xC440"/>
         <Texture Name="object_oF1d_map_00FCC0_Tex" Format="ci8" Width="8" Height="16" Offset="0xFCC0" TlutOffset="0xC440"/>
-        <Limb Name="object_oF1d_map_00FDE0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FDE0" Offset="0xFDE0"/>
-        <Limb Name="object_oF1d_map_00FDEC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FDEC" Offset="0xFDEC"/>
-        <Limb Name="object_oF1d_map_00FDF8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FDF8" Offset="0xFDF8"/>
-        <Limb Name="object_oF1d_map_00FE04_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE04" Offset="0xFE04"/>
-        <Limb Name="object_oF1d_map_00FE10_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE10" Offset="0xFE10"/>
-        <Limb Name="object_oF1d_map_00FE1C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE1C" Offset="0xFE1C"/>
-        <Limb Name="object_oF1d_map_00FE28_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE28" Offset="0xFE28"/>
-        <Limb Name="object_oF1d_map_00FE34_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE34" Offset="0xFE34"/>
-        <Limb Name="object_oF1d_map_00FE40_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE40" Offset="0xFE40"/>
-        <Limb Name="object_oF1d_map_00FE4C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE4C" Offset="0xFE4C"/>
-        <Limb Name="object_oF1d_map_00FE58_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE58" Offset="0xFE58"/>
-        <Limb Name="object_oF1d_map_00FE64_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE64" Offset="0xFE64"/>
-        <Limb Name="object_oF1d_map_00FE70_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE70" Offset="0xFE70"/>
-        <Limb Name="object_oF1d_map_00FE7C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE7C" Offset="0xFE7C"/>
-        <Limb Name="object_oF1d_map_00FE88_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE88" Offset="0xFE88"/>
-        <Limb Name="object_oF1d_map_00FE94_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE94" Offset="0xFE94"/>
-        <Limb Name="object_oF1d_map_00FEA0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FEA0" Offset="0xFEA0"/>
     </File>
 </Root>

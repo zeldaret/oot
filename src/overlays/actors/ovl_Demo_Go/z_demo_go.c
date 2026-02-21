@@ -266,7 +266,7 @@ void func_8097CEEC(DemoGo* this, PlayState* play) {
 }
 
 void func_8097CF20(DemoGo* this, PlayState* play, s32 arg2) {
-    AnimationHeader* animation = &gGoronAnim_0029A8;
+    AnimationHeader* animation = &gGoronWalkingAnim;
     if (arg2 != 0) {
         Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
                          -8.0f);
@@ -341,7 +341,7 @@ void DemoGo_Update(Actor* thisx, PlayState* play) {
 
 void DemoGo_Init(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
-    AnimationHeader* animation = &gGoronAnim_004930;
+    AnimationHeader* animation = &gGoronUncurlSitStandAnim;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
