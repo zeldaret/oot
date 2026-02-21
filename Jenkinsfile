@@ -127,6 +127,13 @@ pipeline {
                 }
             }
         }
+        stage('Build gc-eu-dbg') {
+            steps {
+                script {
+                    build('gc-eu-dbg', 'oot-gc-eu-dbg.z64')
+                }
+            }
+        }
         stage('Generate patch') {
             when {
                 not {
