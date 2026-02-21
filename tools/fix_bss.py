@@ -217,6 +217,13 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
 
     mapfile = mapfile_parser.mapfile.MapFile()
     mapfile.readMapFile(mapfile_path)
+    def resolver(x: Path) -> Path|None:
+        if x.suffix == ".plf":
+            plf_map_path = x.with_suffix(".map")
+            if plf_map_path.exists():
+                return plf_map_path
+        return None
+    mapfile = mapfile.resolvePartiallyLinkedFiles(resolver)
 
     # Segments built from source code (filtering out assets)
     source_code_segments = []
