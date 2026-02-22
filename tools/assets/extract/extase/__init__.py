@@ -854,7 +854,7 @@ class Resource(abc.ABC):
         TODO figure out what to do with this, for now thinking debugging"""
 
     @abc.abstractmethod
-    def try_parse_data(self, memory_context: "MemoryContext"):
+    def try_parse_data(self, memory_context: "MemoryContext") -> object:
         """Parse this resource's data bytes
 
         This can typically result in finding more resources,
@@ -895,7 +895,7 @@ class Resource(abc.ABC):
         """
         ...
 
-    def get_c_expression_length(self, resource_offset: int):
+    def get_c_expression_length(self, resource_offset: int) -> str:
         """Get a C expression for referencing the length of data in this resource
 
         The offset `resource_offset` is relative to the resource, as in get_c_reference.
