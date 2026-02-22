@@ -86,14 +86,13 @@ The build process has the following package requirements:
 * python3
 * python3-pip
 * python3-venv
-* libpng-dev
 * libxml2-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu curl python3 python3-pip python3-venv libpng-dev libxml2-dev
+sudo apt-get install git build-essential binutils-mips-linux-gnu curl python3 python3-pip python3-venv libxml2-dev
 ```
 
 If you are using GCC as the compiler for Ocarina of Time, you will also need:
