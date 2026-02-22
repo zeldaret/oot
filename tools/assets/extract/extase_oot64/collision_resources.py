@@ -448,7 +448,14 @@ class CollisionWaterBoxesResource(CDataResource):
         lightIndex = (v >> 8) & 0x1F
         room = (v >> 13) & 0x3F
         setFlag19 = (v >> 19) & 1
-        return f"WATERBOX_PROPERTIES(/* bgCamIndex */ {bgCamIndex}, /* lightIndex */ {lightIndex}, /* room */ {room}, /* setFlag19 */ {'true' if setFlag19 else 'false'})"
+        return (
+            "WATERBOX_PROPERTIES("
+            f"/* bgCamIndex */ {bgCamIndex}, "
+            f"/* lightIndex */ {lightIndex}, "
+            f"/* room */ {room}, "
+            f"/* setFlag19 */ {'true' if setFlag19 else 'false'}"
+            ")"
+        )
 
     elem_cdata_ext = CDataExt_Struct(
         (
