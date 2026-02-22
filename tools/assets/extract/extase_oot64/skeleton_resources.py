@@ -231,7 +231,6 @@ class SkeletonResourceBaseABC(CDataResource):
         )
         h.write(f"}} {self.enum_name};\n")
         super().write_c_declaration(h)
-        return True
 
     @abc.abstractmethod
     def get_skeleton_header_cdata_unpacked(self) -> dict: ...

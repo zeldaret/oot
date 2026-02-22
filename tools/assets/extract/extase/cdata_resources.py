@@ -168,6 +168,20 @@ class CDataExt_Value(CData_Value, CDataExt):
         else:
             return False
 
+    s8: "CDataExt_Value"
+    u8: "CDataExt_Value"
+    s16: "CDataExt_Value"
+    u16: "CDataExt_Value"
+    s32: "CDataExt_Value"
+    u32: "CDataExt_Value"
+    f32: "CDataExt_Value"
+    f64: "CDataExt_Value"
+    pointer: "CDataExt_Value"
+
+    pad8: "CDataExt_Value"
+    pad16: "CDataExt_Value"
+    pad32: "CDataExt_Value"
+
 
 CDataExt_Value.s8 = CDataExt_Value("b").freeze()
 CDataExt_Value.u8 = CDataExt_Value("B").freeze()

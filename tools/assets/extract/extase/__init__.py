@@ -8,7 +8,7 @@ import enum
 import reprlib
 
 import io
-from typing import TYPE_CHECKING, Sequence, Optional, Union, Any, Iterable
+from typing import TYPE_CHECKING, Sequence, Optional, Union, Any, Iterable, Generator
 
 from pprint import pprint
 
@@ -1065,7 +1065,7 @@ class Resource(abc.ABC):
             + ")"
         )
 
-    def __rich_repr__(self):
+    def __rich_repr__(self) -> Generator[str | tuple[str, Any], None, None]:
         yield self.name
         yield (
             f"0x{self.range_start:08X}-"

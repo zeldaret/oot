@@ -338,7 +338,7 @@ class BgCamFuncDataResource(CDataResource):
 
 class CollisionBgCamListResource(CDataResource):
     def write_bgCamFuncData(
-        resource: "CollisionSurfaceTypeListResource",
+        resource: "CollisionBgCamListResource",
         memory_context: "MemoryContext",
         v,
         wctx: CDataExtWriteContext,

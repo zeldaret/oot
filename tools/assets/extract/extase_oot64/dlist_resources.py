@@ -652,7 +652,7 @@ class TextureSplitTlutResource(TextureResource):
             assert all(_b < 128 for _b in data)
         else:
             assert all(_b >= 128 for _b in data)
-            data = bytes(_b - 128 for _b in data)
+            data = memoryview(bytes(_b - 128 for _b in data))
 
         tlut_data = self.resource_tlut.file.data[
             self.resource_tlut.range_start : self.resource_tlut.range_end
@@ -1024,9 +1024,9 @@ class ColorIndexedTexturesManager:
         texs: list["ColorIndexedTexturesManager.Tex"]
 
     def __init__(self, *, HACK_late_SetTextureLUT=False):
-        self.cur_tlut_mode: G_TT = None
+        self.cur_tlut_mode: G_TT | None = None
 
-        self.cur_tluts_count: int = None
+        self.cur_tluts_count: int | None = None
         self.cur_tluts: dict[int, ColorIndexedTexturesManager.Tlut] = dict()
         self.cur_texs: list[ColorIndexedTexturesManager.Tex] = []
 
