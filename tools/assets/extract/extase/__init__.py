@@ -654,11 +654,12 @@ class File:
         self.source_h_path = source_path / f"{file_name}.h"
 
     def write_source(self):
-        def strip_extracted_prefix(path : Path) -> Path:
+        def strip_extracted_prefix(path: Path) -> Path:
             parts = path.parts
             if parts[0] == "extracted":
                 return Path(*parts[2:])  # Skip first two parts
             return path  # Return original path if condition not met
+
         assert hasattr(
             self, "source_c_path"
         ), "set_source_path must be called before write_source"
@@ -678,7 +679,9 @@ class File:
                         referenced_file,
                     )
                     assert hasattr(referenced_file, "source_h_path")
-                    file_include_paths_complete.append(strip_extracted_prefix(referenced_file.source_h_path))
+                    file_include_paths_complete.append(
+                        strip_extracted_prefix(referenced_file.source_h_path)
+                    )
 
                 # Same as file_include_paths_complete,
                 # but paths that can be are made relative to the source C.
