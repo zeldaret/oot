@@ -291,6 +291,7 @@ class CDataResource(Resource):
         self._is_cdata_processed = False
 
     def try_parse_data(self, memory_context: "MemoryContext"):
+        assert self.file.data is not None
         if self.can_size_be_unknown:
             assert hasattr(self, "cdata_ext") and self.cdata_ext is not None, (
                 "Subclasses with can_size_be_unknown=True should redefine try_parse_data"

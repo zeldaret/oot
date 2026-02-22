@@ -162,6 +162,7 @@ class CollisionPolyListResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"CollisionPoly {self.symbol_name}[{self.cdata_ext.length}]"
         return f"CollisionPoly {self.symbol_name}[]"
 
@@ -293,6 +294,7 @@ class CollisionSurfaceTypeListResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"SurfaceType {self.symbol_name}[{self.cdata_ext.length}]"
         return f"SurfaceType {self.symbol_name}[]"
 
@@ -319,6 +321,7 @@ class BgCamFuncDataResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"Vec3s {self.symbol_name}[{self.cdata_ext.length}]"
         return f"Vec3s {self.symbol_name}[]"
 
@@ -420,6 +423,7 @@ class CollisionBgCamListResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"BgCamInfo {self.symbol_name}[{self.cdata_ext.length}]"
         return f"BgCamInfo {self.symbol_name}[]"
 
@@ -439,6 +443,7 @@ class CollisionBgCamListResource(CDataResource):
 class CollisionWaterBoxesResource(CDataResource):
 
     def write_properties(v):
+        assert isinstance(v, int)
         bgCamIndex = (v >> 0) & 0xFF
         lightIndex = (v >> 8) & 0x1F
         room = (v >> 13) & 0x3F

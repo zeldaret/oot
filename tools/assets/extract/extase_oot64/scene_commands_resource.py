@@ -111,6 +111,7 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
         self.exit_list_length = None
 
     def try_parse_data(self, memory_context: "MemoryContext"):
+        assert self.file.data is not None
         data = self.file.data[self.range_start :]
 
         new_progress_done = []
@@ -422,6 +423,7 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
         return f"SceneCmd {self.symbol_name}[]"
 
     def write_extracted(self, memory_context):
+        assert self.file.data is not None
         data = self.file.data[self.range_start : self.range_end]
         with self.extract_to_path.open("w") as f:
             if not self.braces_in_source:
@@ -676,6 +678,7 @@ class AltHeadersResource(CDataArrayResource):
     )  # SceneCmd*
 
     def try_parse_data(self, memory_context):
+        assert self.file.data is not None
         length = 0
         for i, (v,) in enumerate(
             struct.iter_unpack(">I", self.file.data[self.range_start :])
