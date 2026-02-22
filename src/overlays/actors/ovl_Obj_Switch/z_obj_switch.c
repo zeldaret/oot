@@ -623,7 +623,7 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
     this->crystalColor.r = 0;
     this->crystalColor.g = 0;
     this->crystalColor.b = 0;
-    this->crystalSubtype1texture = gCrstalSwitchRedTex;
+    this->crystalSubtype1texture = gCrystalSwitchRedTex;
     this->actionFunc = ObjSwitch_CrystalOff;
 }
 
@@ -678,7 +678,7 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this) {
     this->crystalColor.r = 255;
     this->crystalColor.g = 255;
     this->crystalColor.b = 255;
-    this->crystalSubtype1texture = gCrstalSwitchBlueTex;
+    this->crystalSubtype1texture = gCrystalSwitchBlueTex;
     this->actionFunc = ObjSwitch_CrystalOn;
 }
 
