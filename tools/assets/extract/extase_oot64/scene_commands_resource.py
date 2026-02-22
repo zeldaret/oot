@@ -265,7 +265,6 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                 new_progress_done.append(("reported ActorEntryListResource", cmd_id))
 
             if cmd_id == SceneCmdId.SCENE_CMD_ID_EXIT_LIST:
-                # TODO length from collision
                 assert data1 == 0
                 resource = memory_context.report_resource_at_segmented(
                     self,
@@ -431,9 +430,11 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                 (cmd_id_int, data1, pad2, data2_I) = struct.unpack_from(
                     ">BBHI", data, offset
                 )
-                (_, data2_H0, data2_H1) = struct.unpack_from(">IHH", data, offset)
                 (_, data2_B0, data2_B1, data2_B2, data2_B3) = struct.unpack_from(
                     ">IBBBB", data, offset
+                )
+                (_, data2_b0, data2_b1, data2_b2, data2_b3) = struct.unpack_from(
+                    ">Ibbbb", data, offset
                 )
                 cmd_id = SceneCmdId(cmd_id_int)
                 f.write(" " * 4)
@@ -468,10 +469,9 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                     f.write(memory_context.get_c_reference_at_segmented(address))
                 if cmd_id == SceneCmdId.SCENE_CMD_ID_WIND_SETTINGS:
                     assert data1 == 0
-                    # TODO cast x,y,z to s8
-                    xDir = data2_B0
-                    yDir = data2_B1
-                    zDir = data2_B2
+                    xDir = data2_b0
+                    yDir = data2_b1
+                    zDir = data2_b2
                     strength = data2_B3
                     f.write(f"{xDir}, {yDir}, {zDir}, {strength}")
                 if cmd_id == SceneCmdId.SCENE_CMD_ID_SPAWN_LIST:

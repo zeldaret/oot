@@ -1070,13 +1070,15 @@ class ZeroPaddingResource(Resource):
         *,
         include_in_source=True,
     ):
-        # TODO move to try_parse_data ?
-        assert set(file.data[range_start:range_end]) == {0}
         super().__init__(file, range_start, range_end, name)
         self.include_in_source = include_in_source
 
     def try_parse_data(self, memory_context):
-        # Nothing specific to do
+        # Check the data is 0s
+        assert self.file.data is not None
+        if set(self.file.data[self.range_start : self.range_end]) != {0}:
+            raise ResourceParseImpossible("Not zero padding")
+
         return RESOURCE_PARSE_SUCCESS
 
     def get_c_reference(self, resource_offset):
