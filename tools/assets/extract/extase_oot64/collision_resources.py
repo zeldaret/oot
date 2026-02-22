@@ -42,6 +42,7 @@ class CollisionVtxListResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"Vec3s {self.symbol_name}[{self.cdata_ext.length}]"
         return f"Vec3s {self.symbol_name}[]"
 
