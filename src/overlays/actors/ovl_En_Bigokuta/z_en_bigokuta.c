@@ -663,7 +663,8 @@ void func_809BE26C(EnBigokuta* this, PlayState* play) {
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xB0);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_11, false));
             Actor_Kill(&this->actor);
         }
     }
