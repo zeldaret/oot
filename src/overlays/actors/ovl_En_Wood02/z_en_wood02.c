@@ -354,7 +354,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
 
             if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
                 Item_DropCollectibleRandom(play, &this->actor, &dropsSpawnPt,
-                                           COLLECTIBLE_DROP_RANDOM_PARAMS(this->stateVar, false));
+                                           COLLECTIBLE_DROP_RANDOM_PARAMS(this->unk_14C, false));
             } else {
                 if (this->actor.home.rot.z != 0) {
                     this->actor.home.rot.z &= 0x1FFF;
