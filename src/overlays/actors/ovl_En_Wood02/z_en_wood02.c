@@ -155,8 +155,8 @@ void EnWood02_SpawnOffspring(EnWood02* this, PlayState* play) {
                 if (this->spawnedChildrenFlags[i] & 0x80) { // If child i has already dropped its collectible
                     childParams = ENWOOD02_PARAMS(this->actor.params + 1, 0xFF);
                 } else {
-                    childParams = ENWOOD02_PARAMS_DATA_PRESHIFTED(
-                        this->actor.params + 1, (this->drawType & 0xF0) << (ENWOOD02_DATA_SHIFT - 4));
+                    childParams = ENWOOD02_PARAMS_DATA_PRESHIFTED(this->actor.params + 1,
+                                                                  (this->drawType & 0xF0) << (ENWOOD02_DATA_SHIFT - 4));
                 }
                 childEnWood02 = (EnWood02*)Actor_SpawnAsChild(
                     &play->actorCtx, &this->actor, play, ACTOR_EN_WOOD02, childPos.x, childPos.y, childPos.z,
