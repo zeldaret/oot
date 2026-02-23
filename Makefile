@@ -987,7 +987,7 @@ $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
 	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
-	$(N64TEXCONV) JFIF "" $< $@
+	$(N64TEXCONV) JFIF u64 $< $@
 
 # Assets from extracted/
 
@@ -998,7 +998,7 @@ $(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
 	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
-	$(N64TEXCONV) JFIF "" $< $@
+	$(N64TEXCONV) JFIF u64 $< $@
 
 # Audio
 

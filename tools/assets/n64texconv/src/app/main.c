@@ -30,8 +30,9 @@ usage(const char *progname)
 {
     fprintf(stderr,
             "n64texconv: Convert an input png to N64 data in the desired format.\n"
-            "Usage: %s <type> <in.png> <out.c> [pal_out.c]\n"
-            "    Valid types: i4 / i8 / ci4 / ci8 / ia4 / ia8 / ia16 / rgba16 / rgba32 / JFIF\n",
+            "Usage: %s <type> <array format> <in.png> <out.c> [pal_out.c]\n"
+            "    Valid types: i4 / i8 / ci4 / ci8 / ia4 / ia8 / ia16 / rgba16 / rgba32 / JFIF\n"
+            "    Valid array formats: u32 / u64\n",
             progname);
     exit(EXIT_FAILURE);
 }
@@ -41,7 +42,7 @@ static const struct fmt_info {
     int fmt;
     int siz;
 } fmt_map[] = {
-  // clang-format off
+    // clang-format off
     { "i4",     G_IM_FMT_I,    G_IM_SIZ_4b,  },
     { "i8",     G_IM_FMT_I,    G_IM_SIZ_8b,  },
     { "ci4",    G_IM_FMT_CI,   G_IM_SIZ_4b,  },
@@ -51,7 +52,7 @@ static const struct fmt_info {
     { "ia16",   G_IM_FMT_IA,   G_IM_SIZ_16b, },
     { "rgba16", G_IM_FMT_RGBA, G_IM_SIZ_16b, },
     { "rgba32", G_IM_FMT_RGBA, G_IM_SIZ_32b, },
-  // clang-format on
+    // clang-format on
 };
 
 int
@@ -73,7 +74,13 @@ main(int argc, char **argv)
     out = argv[4];
     pal_out = (argc > 5) ? argv[5] : NULL;
 
-    unsigned int byte_width = (strequ(array_fmt, "u32") ? 4 : 8);
+    unsigned int byte_width;
+    if (strequ(array_fmt, "u64"))
+        byte_width = 8;
+    else if (strequ(array_fmt, "u32"))
+        byte_width = 4;
+    else
+        usage(progname);
 
     if (!is_regular_file(in)) {
         fprintf(stderr, "Could not open input file %s\n", in);
