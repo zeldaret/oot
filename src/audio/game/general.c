@@ -140,8 +140,8 @@ f32 sBehindScreenZ[2] = { -15.0f, -65.0f };
 u8 sAudioIncreasingTranspose = 0;
 u8 gMorphaTransposeTable[16] = { 0, 0, 0, 1, 1, 2, 4, 6, 8, 8, 8, 8, 8, 8, 8, 8 };
 u8 sPrevChargeLevel = 0;
-f32 gSfxSwordChargeFreqLevels[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/12)
-f32 gSfxSwordChargeFreq = 1.0f;
+f32 sSfxSwordChargeFreqLevels[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/12)
+f32 sSfxSwordChargeFreq = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
 #if DEBUG_FEATURES
@@ -2822,14 +2822,14 @@ void Audio_PlaySfxRandom(Vec3f* pos, u16 baseSfxId, u8 randLim) {
 void Audio_PlaySwordChargeSfx(Vec3f* pos, u8 level) {
     level &= 3;
     if (level != sPrevChargeLevel) {
-        gSfxSwordChargeFreq = gSfxSwordChargeFreqLevels[level];
+        sSfxSwordChargeFreq = sSfxSwordChargeFreqLevels[level];
         switch (level) {
             case 1:
-                Audio_PlaySfxGeneral(NA_SE_PL_SWORD_CHARGE, pos, 4, &gSfxSwordChargeFreq, &gSfxDefaultFreqAndVolScale,
+                Audio_PlaySfxGeneral(NA_SE_PL_SWORD_CHARGE, pos, 4, &sSfxSwordChargeFreq, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultReverb);
                 break;
             case 2:
-                Audio_PlaySfxGeneral(NA_SE_PL_SWORD_CHARGE, pos, 4, &gSfxSwordChargeFreq, &gSfxDefaultFreqAndVolScale,
+                Audio_PlaySfxGeneral(NA_SE_PL_SWORD_CHARGE, pos, 4, &sSfxSwordChargeFreq, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultReverb);
                 break;
         }
@@ -2838,7 +2838,7 @@ void Audio_PlaySwordChargeSfx(Vec3f* pos, u8 level) {
     }
 
     if (level != 0) {
-        Audio_PlaySfxGeneral(NA_SE_IT_SWORD_CHARGE - SFX_FLAG, pos, 4, &gSfxSwordChargeFreq,
+        Audio_PlaySfxGeneral(NA_SE_IT_SWORD_CHARGE - SFX_FLAG, pos, 4, &sSfxSwordChargeFreq,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
