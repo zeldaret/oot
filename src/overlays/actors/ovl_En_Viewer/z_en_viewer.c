@@ -216,7 +216,7 @@ static s16 sTimer = 0;
 void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
     u8 type = PARAMS_GET_NOMASK(this->actor.params, 8);
     u16 csCurFrame;
-    s32 animationEnded;
+    s32 animFinished;
 
     if (type == ENVIEWER_TYPE_2_ZELDA) {
         if (gSaveContext.sceneLayer == 5) {
@@ -295,7 +295,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
     EnViewer_UpdatePosition(this, play);
     Actor_MoveXZGravity(&this->actor); // has no effect, speed/velocity and gravity are 0
 
-    animationEnded = SkelAnime_Update(&this->skin.skelAnime);
+    animFinished = SkelAnime_Update(&this->skin.skelAnime);
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF) {
         if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[1] != NULL) {
             if (play->csCtx.actorCues[1]->id == 2 && sTimer == 0) {
@@ -325,7 +325,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                         }
                         break;
                     case 1:
-                        if (animationEnded) {
+                        if (animFinished) {
                             Animation_MorphToLoop(&this->skin.skelAnime, &gYoungGanondorfHorsebackLookSidewaysLoopAnim,
                                                   -5.0f);
                             this->state++;
@@ -339,7 +339,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                         }
                         break;
                     case 3:
-                        if (animationEnded) {
+                        if (animFinished) {
                             Animation_MorphToLoop(&this->skin.skelAnime, &gYoungGanondorfHorsebackMagicChargeUpLoopAnim,
                                                   -5.0f);
                             this->state++;
@@ -440,7 +440,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                     }
                     break;
                 case 2:
-                    if (animationEnded) {
+                    if (animFinished) {
                         Animation_MorphToLoop(&this->skin.skelAnime, &object_opening_demo1_Anim_0048FC, -5.0f);
                         this->state++;
                     }
@@ -460,7 +460,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                 }
                 break;
             case 1:
-                if (animationEnded) {
+                if (animFinished) {
                     Animation_MorphToLoop(&this->skin.skelAnime, &gYoungGanondorfLaughLoopAnim, -5.0f);
                     this->state++;
                 }
@@ -483,7 +483,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                 }
                 break;
             case 2:
-                if (animationEnded) {
+                if (animFinished) {
                     Animation_MorphToLoop(&this->skin.skelAnime, &gYoungGanondorfKneelLoopAnim, -5.0f);
                     this->state++;
                 }
