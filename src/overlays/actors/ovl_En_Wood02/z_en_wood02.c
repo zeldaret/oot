@@ -113,17 +113,17 @@ static f32 sSpawnCos;
 static f32 sSpawnSin;
 
 s32 EnWood02_SpawnZoneCheck(EnWood02* this, PlayState* play, Vec3f* pos) {
-    f32 phi_f12;
+    f32 invW;
 
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, pos, &this->actor.projectedPos, &this->actor.projectedW);
 
-    phi_f12 = ((this->actor.projectedW == 0.0f) ? 1000.0f : fabsf(1.0f / this->actor.projectedW));
+    invW = ((this->actor.projectedW == 0.0f) ? 1000.0f : fabsf(1.0f / this->actor.projectedW));
 
     if ((-this->actor.cullingVolumeScale < this->actor.projectedPos.z) &&
         (this->actor.projectedPos.z < (this->actor.cullingVolumeDistance + this->actor.cullingVolumeScale)) &&
-        (((fabsf(this->actor.projectedPos.x) - this->actor.cullingVolumeScale) * phi_f12) < 1.0f) &&
-        (((this->actor.projectedPos.y + this->actor.cullingVolumeDownward) * phi_f12) > -1.0f) &&
-        (((this->actor.projectedPos.y - this->actor.cullingVolumeScale) * phi_f12) < 1.0f)) {
+        (((fabsf(this->actor.projectedPos.x) - this->actor.cullingVolumeScale) * invW) < 1.0f) &&
+        (((this->actor.projectedPos.y + this->actor.cullingVolumeDownward) * invW) > -1.0f) &&
+        (((this->actor.projectedPos.y - this->actor.cullingVolumeScale) * invW) < 1.0f)) {
         return true;
     }
     return false;
@@ -132,7 +132,7 @@ s32 EnWood02_SpawnZoneCheck(EnWood02* this, PlayState* play, Vec3f* pos) {
 /** Spawns similar-looking trees or bushes only when the player is sufficiently close. Presumably done this way to keep
  * memory usage down in Hyrule Field. */
 void EnWood02_SpawnOffspring(EnWood02* this, PlayState* play) {
-    EnWood02* childWood;
+    EnWood02* childEnWood02;
     s16* childSpawnAngle;
     Vec3f childPos;
     s16 extraRot;
@@ -140,7 +140,7 @@ void EnWood02_SpawnOffspring(EnWood02* this, PlayState* play) {
     s32 i;
 
     for (i = 4; i >= 0; i--) {
-        if ((this->unk_14E[i] & 0x7F) == 0) {
+        if ((this->spawnedChildrenFlags[i] & 0x7F) == 0) { // If child i isn't spawned
             extraRot = 0;
             if (this->actor.params == WOOD_BUSH_GREEN_LARGE_SPAWNER) {
                 extraRot = 0x4000;
@@ -152,20 +152,21 @@ void EnWood02_SpawnOffspring(EnWood02* this, PlayState* play) {
             childPos.y = this->actor.home.pos.y;
             childPos.z = (sSpawnDistance[i] * sSpawnCos) + this->actor.home.pos.z;
             if (EnWood02_SpawnZoneCheck(this, play, &childPos)) {
-                if ((this->unk_14E[i] & 0x80) != 0) {
-                    childParams = (0xFF00 | (this->actor.params + 1));
+                if (this->spawnedChildrenFlags[i] & 0x80) { // If child i has already dropped its collectible
+                    childParams = ENWOOD02_PARAMS(this->actor.params + 1, 0xFF);
                 } else {
-                    childParams = (((this->drawType & 0xF0) << 4) | (this->actor.params + 1));
+                    childParams = ENWOOD02_PARAMS_DATA_PRESHIFTED(
+                        this->actor.params + 1, (this->drawType & 0xF0) << (ENWOOD02_DATA_SHIFT - 4));
                 }
-                childWood = (EnWood02*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_WOOD02,
-                                                          childPos.x, childPos.y, childPos.z, this->actor.world.rot.x,
-                                                          *childSpawnAngle, 0, childParams);
-                if (childWood != NULL) {
-                    childWood->unk_14E[0] = i;
-                    this->unk_14E[i] |= 1;
-                    childWood->actor.projectedPos = this->actor.projectedPos;
+                childEnWood02 = (EnWood02*)Actor_SpawnAsChild(
+                    &play->actorCtx, &this->actor, play, ACTOR_EN_WOOD02, childPos.x, childPos.y, childPos.z,
+                    this->actor.world.rot.x, *childSpawnAngle, 0, childParams);
+                if (childEnWood02 != NULL) {
+                    ENWOOD02_SPAWNED_CHILD_INDEX(childEnWood02) = i;
+                    this->spawnedChildrenFlags[i] |= 1; // Mark child i as spawned
+                    childEnWood02->actor.projectedPos = this->actor.projectedPos;
                 } else {
-                    this->unk_14E[i] &= 0x80;
+                    this->spawnedChildrenFlags[i] &= 0x80;
                 }
             }
         }
@@ -184,17 +185,17 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
 
     spawnType = WOOD_SPAWN_NORMAL;
     actorScale = 1.0f;
-    this->unk_14C = PARAMS_GET_U(this->actor.params, 8, 8);
+    this->stateVar = ENWOOD02_GET_DATA(&this->actor);
 
-    if (this->actor.home.rot.z != 0) {
-        this->actor.home.rot.z = (this->actor.home.rot.z << 8) | this->unk_14C;
-        this->unk_14C = -1;
+    if (this->actor.home.rot.z != 0) { // Skulltula-hiding tree
+        this->actor.home.rot.z = (this->actor.home.rot.z << 8) | this->stateVar;
+        this->stateVar = -1;
         this->actor.world.rot.z = this->actor.shape.rot.z = 0;
-    } else if (this->unk_14C & 0x80) {
-        this->unk_14C = -1;
+    } else if (this->stateVar & 0x80) { // No collectible
+        this->stateVar = -1;
     }
 
-    this->actor.params &= 0xFF;
+    this->actor.params = ENWOOD02_GET_TYPE(&this->actor);
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) {
@@ -205,10 +206,11 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
     switch (this->actor.params) {
         case WOOD_BUSH_GREEN_LARGE_SPAWNER:
         case WOOD_BUSH_BLACK_LARGE_SPAWNER:
-            spawnType = 1;
+            spawnType = WOOD_SPAWN_SPAWNER - 1;
             FALLTHROUGH;
         case WOOD_BUSH_GREEN_LARGE_SPAWNED:
         case WOOD_BUSH_BLACK_LARGE_SPAWNED:
+            // WOOD_SPAWN_SPAWNER for spawner types or WOOD_SPAWN_SPAWNED for spawned types
             spawnType++;
             FALLTHROUGH;
         case WOOD_TREE_CONICAL_LARGE:
@@ -219,18 +221,20 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
             this->actor.cullingVolumeScale = 2000.0f;
             this->actor.cullingVolumeDownward = 2400.0f;
             break;
+
         case WOOD_TREE_CONICAL_SPAWNER:
         case WOOD_TREE_OVAL_YELLOW_SPAWNER:
         case WOOD_TREE_OVAL_GREEN_SPAWNER:
         case WOOD_BUSH_GREEN_SMALL_SPAWNER:
         case WOOD_BUSH_BLACK_SMALL_SPAWNER:
-            spawnType = 1;
+            spawnType = WOOD_SPAWN_SPAWNER - 1;
             FALLTHROUGH;
         case WOOD_TREE_CONICAL_SPAWNED:
         case WOOD_TREE_OVAL_YELLOW_SPAWNED:
         case WOOD_TREE_OVAL_GREEN_SPAWNED:
         case WOOD_BUSH_GREEN_SMALL_SPAWNED:
         case WOOD_BUSH_BLACK_SMALL_SPAWNED:
+            // WOOD_SPAWN_SPAWNER for spawner types or WOOD_SPAWN_SPAWNED for spawned types
             spawnType++;
             FALLTHROUGH;
         case WOOD_TREE_CONICAL_MEDIUM:
@@ -242,15 +246,17 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
             this->actor.cullingVolumeScale = 800.0f;
             this->actor.cullingVolumeDownward = 1800.0f;
             break;
+
         case WOOD_TREE_CONICAL_SMALL:
             actorScale = 0.6f;
             this->actor.cullingVolumeDistance = 4000.0f;
             this->actor.cullingVolumeScale = 400.0f;
             this->actor.cullingVolumeDownward = 1000.0f;
             break;
+
         case WOOD_LEAF_GREEN:
         case WOOD_LEAF_YELLOW:
-            this->unk_14E[0] = 0x4B;
+            ENWOOD02_LEAF_TIMER(this) = 75;
             actorScale = 0.02f;
             this->actor.velocity.x = Rand_CenteredFloat(6.0f);
             this->actor.velocity.z = Rand_CenteredFloat(6.0f);
@@ -283,7 +289,10 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
         }
 
         if (spawnType == WOOD_SPAWN_SPAWNER) {
-            this->drawType |= this->unk_14C << 4;
+            // Store the collectible drop table in the high nibble of drawType,
+            // as stateVar will be re-used by this tree/bush when dropping its own collectible
+            this->drawType |= this->stateVar << 4;
+
             EnWood02_SpawnOffspring(this, play);
             sSpawnCos = Math_CosS(sSpawnAngle[5] + this->actor.world.rot.y + extraRot);
             sSpawnSin = Math_SinS(sSpawnAngle[5] + this->actor.world.rot.y + extraRot);
@@ -322,18 +331,20 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
     EnWood02* this = (EnWood02*)thisx;
     f32 wobbleAmplitude;
 
-    // Despawn extra trees in a group if out of range
+    // Despawn extra trees/bushes in a group if out of range
     if ((this->spawnType == WOOD_SPAWN_SPAWNED) && (this->actor.parent != NULL)) {
         if (!(this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
-            u8 new_var = this->unk_14E[0];
-            u8 phi_v0 = 0;
+            u8 spawnedIndex = ENWOOD02_SPAWNED_CHILD_INDEX(this);
+            u8 flag = 0;
             s32 pad;
 
-            if (this->unk_14C < 0) {
-                phi_v0 = 0x80;
+            // If the collectible has been dropped, set a flag to not forget about it on a future respawn
+            if (this->stateVar < 0) {
+                flag = 0x80;
             }
 
-            ((EnWood02*)this->actor.parent)->unk_14E[new_var] = phi_v0;
+            // Mark as despawned
+            ((EnWood02*)this->actor.parent)->spawnedChildrenFlags[spawnedIndex] = flag;
             Actor_Kill(&this->actor);
             return;
         }
@@ -341,38 +352,39 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
         EnWood02_SpawnOffspring(this, play);
     }
 
-    if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) {
+    if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) { // Tree
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
             Actor_PlaySfx(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
 
-        if (this->actor.home.rot.y != 0) {
+        if (this->actor.home.rot.y != 0) { // Player bonked the tree (see Player_Action_Roll)
             Vec3f dropsSpawnPt = this->actor.world.pos;
 
             dropsSpawnPt.y += 200.0f;
 
-            if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
+            if ((this->stateVar >= 0) && (this->stateVar < 0x64)) { // If no collectible has been dropped yet
                 Item_DropCollectibleRandom(play, &this->actor, &dropsSpawnPt,
                                            COLLECTIBLE_DROP_RANDOM_PARAMS(this->stateVar, false));
+                // The collectible is marked as dropped below with stateVar being set to a negative value
             } else {
-                if (this->actor.home.rot.z != 0) {
+                if (this->actor.home.rot.z != 0) { // If EnSw hasn't been spawned already
                     this->actor.home.rot.z &= 0x1FFF;
                     this->actor.home.rot.z |= 0xE000;
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, dropsSpawnPt.x, dropsSpawnPt.y, dropsSpawnPt.z, 0,
                                 this->actor.world.rot.y, 0, this->actor.home.rot.z);
-                    this->actor.home.rot.z = 0;
+                    this->actor.home.rot.z = 0; // Do not spawn EnSw again on subsequent bonks
                 }
             }
 
             // Spawn falling leaves
-            if (this->unk_14C >= -1) {
+            if (this->stateVar >= -1) {
                 s32 i;
-                s32 leavesParams = WOOD_LEAF_GREEN;
+                s32 leavesParams = ENWOOD02_PARAMS(WOOD_LEAF_GREEN, 0);
 
                 if ((this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNER) ||
                     (this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNED)) {
-                    leavesParams = WOOD_LEAF_YELLOW;
+                    leavesParams = ENWOOD02_PARAMS(WOOD_LEAF_YELLOW, 0);
                 }
                 Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
 
@@ -381,7 +393,11 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                                 0, Rand_CenteredFloat(65535.0f), 0, leavesParams);
                 }
             }
-            this->unk_14C = -0x15;
+
+            // Wobble for 20 frames
+            this->stateVar = -21;
+
+            // Clear the "bonk flag"
             this->actor.home.rot.y = 0;
         }
 
@@ -390,39 +406,42 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         }
-    } else if (this->actor.params < 0x17) { // Bush
+    } else if (this->actor.params <= WOOD_BUSH_BLACK_LARGE_SPAWNED) { // Bush
         Player* player = GET_PLAYER(play);
 
-        if (this->unk_14C >= -1) {
+        if (this->stateVar >= -1) {
             if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0) &&
                  (player->speedXZ != 0.0f)) ||
                 ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0) &&
                  (player->rideActor->speed != 0.0f))) {
-                if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
+                if ((this->stateVar >= 0) && (this->stateVar < 0x64)) {
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
-                                               COLLECTIBLE_DROP_RANDOM_PARAMS(this->unk_14C, true));
+                                               COLLECTIBLE_DROP_RANDOM_PARAMS(this->stateVar, true));
                 }
-                this->unk_14C = -0x15;
+
+                // Wobble for 20 frames and mark collectible dropped
+                this->stateVar = -21;
+
                 Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
             }
         }
     } else { // Leaves
-        this->unk_14C++;
+        this->stateVar++;
         Math_ApproachF(&this->actor.velocity.x, 0.0f, 1.0f, 5 * 0.01f);
         Math_ApproachF(&this->actor.velocity.z, 0.0f, 1.0f, 5 * 0.01f);
         Actor_UpdatePos(&this->actor);
-        this->actor.shape.rot.z = Math_SinS(3000 * this->unk_14C) * 0x4000;
-        this->unk_14E[0]--;
+        this->actor.shape.rot.z = Math_SinS(3000 * this->stateVar) * 0x4000;
+        ENWOOD02_LEAF_TIMER(this)--;
 
-        if (this->unk_14E[0] == 0) {
+        if (ENWOOD02_LEAF_TIMER(this) == 0) {
             Actor_Kill(&this->actor);
         }
     }
 
     // Wobble from impact
-    if (this->unk_14C < -1) {
-        this->unk_14C++;
-        wobbleAmplitude = Math_SinS((this->unk_14C ^ 0xFFFF) * 0x3332) * 250.0f;
+    if (this->stateVar < -1) {
+        this->stateVar++;
+        wobbleAmplitude = Math_SinS((this->stateVar ^ 0xFFFF) * 0x3332) * 250.0f;
         this->actor.shape.rot.x = (Math_CosS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y) * wobbleAmplitude);
         this->actor.shape.rot.z = (Math_SinS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y) * wobbleAmplitude);
     }
