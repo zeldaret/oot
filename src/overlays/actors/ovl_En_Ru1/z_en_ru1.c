@@ -811,6 +811,7 @@ void EnRu1_Fountain_TreadingWater(EnRu1* this, PlayState* play) {
 
 void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play) {
     s32 animFinished = EnRu1_UpdateSkelAnime(this);
+
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
     EnRu1_SpawnRippleTreading(this, play);
@@ -821,6 +822,7 @@ void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play) {
 
 void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play) {
     s32 animFinished = EnRu1_UpdateSkelAnime(this);
+
     EnRu1_SwimAwayFromLink(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
@@ -832,6 +834,7 @@ void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play) {
 
 void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play) {
     s32 animFinished = EnRu1_UpdateSkelAnime(this);
+
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
     EnRu1_SpawnRippleTreading(this, play);
@@ -1035,6 +1038,7 @@ void EnRu1_Meeting_FacingLink(EnRu1* this, PlayState* play) {
 
 void EnRu1_Meeting_TurningAround(EnRu1* this, PlayState* play) {
     s32 animFinished = EnRu1_UpdateSkelAnime(this);
+
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
     EnRu1_StartWalkingAway(this, animFinished);
