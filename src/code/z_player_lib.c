@@ -1718,7 +1718,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
         if (this->actor.scale.y >= 0.0f) {
             if (!Player_HoldsHookshot(this) && ((heldActor = this->heldActor) != NULL)) {
-                if (this->stateFlags1 & PLAYER_STATE1_9) {
+                if (this->stateFlags1 & PLAYER_STATE1_RANGED_WEAPON_LOADED) {
                     static Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
 
                     Matrix_MultVec3f(&D_80126128, &heldActor->world.pos);
@@ -1750,8 +1750,10 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT) ||
                    (this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT_2)) {
+            // Draw the string for Bow and Slingshot
+            // Get display list for Adult Bow or Child Slingshot + neutral string positions
             static BowSlingshotStringData sBowSlingshotStringData[] = {
-                { gLinkAdultBowStringDL, { 0.0f, -360.4f, 0.0f } },        // Bow
+                { gLinkAdultBowStringDL, { 0.0f, -360.4f, 0.0f } },        // Bow. String is to be drawn proximally of Link's right hand
                 { gLinkChildSlingshotStringDL, { 606.0f, 236.0f, 0.0f } }, // Slingshot
             };
             BowSlingshotStringData* stringData = &sBowSlingshotStringData[gSaveContext.save.linkAge];
@@ -1761,7 +1763,14 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_Push();
             Matrix_Translate(stringData->pos.x, stringData->pos.y, stringData->pos.z, MTXMODE_APPLY);
 
-            if ((this->stateFlags1 & PLAYER_STATE1_9) && (this->unk_860 >= 0) && (this->unk_834 <= 10)) {
+            // This part makes a fully drawn string for the Bow and Slingshot.
+            // This will run if the weapon is currently loaded, unk_860 is positive (= has been loaded at least once since changing weapon),
+            // and if unk_834 is 10 or lower.
+            // - When spawning arrow/seed, unk_834 is set to 14 and reduced by 1 each frame. Presumably this is to delay drawing
+            // of a drawn string until the loading animation is finished. It is then held at 10 as long as the weapon is loaded.
+            // - If unk_860 was not a condition, this would run when changing weapon into/going into aiming mode with Bow/Slingshot,
+            // as due to how the ranged setup works, this player state1 (9) is set briefly after changing weapon/starting aiming even if the weapon is not loaded
+            if ((this->stateFlags1 & PLAYER_STATE1_RANGED_WEAPON_LOADED) && (this->unk_860 >= 0) && (this->unk_834 <= 10)) {
                 Vec3f sp90;
                 f32 distXYZ;
 
@@ -1770,19 +1779,26 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
                 this->unk_858 = distXYZ - 3.0f;
                 if (distXYZ < 3.0f) {
-                    this->unk_858 = 0.0f;
+                    this->unk_858 = 0.0f;   // Neutral
                 } else {
                     this->unk_858 *= 1.6f;
                     if (this->unk_858 > 1.0f) {
-                        this->unk_858 = 1.0f;
+                        this->unk_858 = 1.0f;   // Fully drawn
                     }
                 }
 
                 this->unk_85C = -0.5f;
             }
 
+            // In Player_UpdateCommon, if player is holding a ranged weapon, Player_StringReboundCalculation is run (before this function).
+            // This sets unk_858 depending on previous value (and unk_85C).
+            // If the weapon is not loaded, this value for unk_858 is used for drawing and creates a string rebound effect.
+
+            // Set the position of the middle of the string, depending on either rebound calculation or calculation above.
+            // 0.0f = neutral, 1.0f = fully drawn
             Matrix_Scale(1.0f, this->unk_858, 1.0f, MTXMODE_APPLY);
 
+            // For Slingshot, pull the string downwards (closer to Link, along the Slingshot)
             if (!LINK_IS_ADULT) {
                 Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
             }
@@ -1790,6 +1806,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2804);
             gSPDisplayList(POLY_XLU_DISP++, stringData->dList);
 
+            // Remove string calculation matrix
             Matrix_Pop();
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2809);
@@ -1823,7 +1840,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_MtxFToYXZRotS(&sp44, &heldActor->world.rot, 0);
                     heldActor->shape.rot = heldActor->world.rot;
 
-                    if (func_8002DD78(this)) {
+                    if (Player_IsAimingRanged(this)) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
                         Player_DrawHookshotReticle(play, this,
                                                    (this->heldItemAction == PLAYER_IA_HOOKSHOT) ? 38600.0f : 77600.0f);
@@ -1831,7 +1848,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 }
             }
 
-            if ((this->unk_862 != 0) || ((func_8002DD6C(this) == 0) && (heldActor != NULL))) {
+            if ((this->unk_862 != 0) || ((Player_IsHoldingRanged(this) == 0) && (heldActor != NULL))) {
                 if (!(this->stateFlags1 & PLAYER_STATE1_10) && (this->unk_862 != 0) &&
                     (this->exchangeItemId != EXCH_ITEM_NONE)) {
                     Math_Vec3f_Copy(&sGetItemRefPos, &this->leftHandPos);

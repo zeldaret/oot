@@ -708,13 +708,13 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_0 (1 << 0)
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1) // Bottle is swung; Bottle is active and can catch things
 #define PLAYER_STATE1_2 (1 << 2)
-#define PLAYER_STATE1_3 (1 << 3)
+#define PLAYER_STATE1_USING_RANGED (1 << 3)    // Held item is Bow, Slingshot or Hookshot (ranged), in any phase (walking, aiming, loading, shooting).
 #define PLAYER_STATE1_HOSTILE_LOCK_ON (1 << 4) // Currently locked onto a hostile actor. Triggers a "battle" variant of many actions.
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_TALKING (1 << 6) // Currently talking to an actor. This includes item exchanges.
 #define PLAYER_STATE1_DEAD (1 << 7) // Player has died. Note that this gets set when the death cutscene has started, after landing from the air.
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
-#define PLAYER_STATE1_9 (1 << 9)
+#define PLAYER_STATE1_RANGED_WEAPON_LOADED (1 << 9) // Bow, Slingshot or Hookshot is ready to fire. This is also set for a few frames after switching to these weapons.
 #define PLAYER_STATE1_10 (1 << 10)
 #define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
 #define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charging a spin attack (by holding down the B button)
@@ -725,7 +725,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_PARALLEL (1 << 17) // "Parallel" mode, Z-Target without an actor lock-on
 #define PLAYER_STATE1_18 (1 << 18)
 #define PLAYER_STATE1_19 (1 << 19)
-#define PLAYER_STATE1_20 (1 << 20)
+#define PLAYER_STATE1_FIRST_PERSON (1 << 20)    // Player is in first person camera (either with a first person weapon or unarmed)
 #define PLAYER_STATE1_21 (1 << 21)
 #define PLAYER_STATE1_SHIELDING (1 << 22) // Shielding in any form (regular, hylian shield as child, "shielding" with a two handed sword, etc.)
 #define PLAYER_STATE1_23 (1 << 23)
