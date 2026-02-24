@@ -6333,8 +6333,8 @@ s32 Camera_Demo5(Camera* camera) {
             camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
         }
     } else if (eyeTargetDist < 300.0f && eyePlayerGeo.r < 30.0f) {
-        // distance from the camera's current positon and the target is less than 300 units
-        // and the distance fromthe camera's current position to the player is less than 30 units
+        // distance from the camera's current position and the target is less than 300 units
+        // and the distance from the camera's current position to the player is less than 30 units
         static OnePointCsFull D_8011D83C[] = {
             {
                 ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
@@ -7237,7 +7237,7 @@ s32 Camera_Special6(Camera* camera) {
     sCameraInterfaceField = roData->interfaceField;
 
     if (eyeNext->x != bgCamPos.x || eyeNext->y != bgCamPos.y || eyeNext->z != bgCamPos.z || camera->animState == 0) {
-        // A change in the current scene's camera positon has been detected,
+        // A change in the current scene's camera position has been detected,
         // Change "screens"
         camera->player->actor.freezeTimer = 12;
         // Overwrite hud visibility to CAM_HUD_VISIBILITY_HEARTS_FORCE
