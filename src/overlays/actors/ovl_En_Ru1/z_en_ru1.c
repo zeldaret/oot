@@ -1437,7 +1437,7 @@ void EnRu1_ResetBgCheckFlags(EnRu1* this, PlayState* play) {
     }
 }
 
-void EnRu1_UpdateBgCheckFlags(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateBgCheckInfo(EnRu1* this, PlayState* play) {
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
@@ -1546,7 +1546,7 @@ void EnRu1_UpdateSpeedXZ(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_UpdatePosition(EnRu1* this, PlayState* play) {
-    EnRu1_UpdateBgCheckFlags(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateSpeedXZ(this, play);
     Actor_MoveXZGravity(&this->actor);
 }
