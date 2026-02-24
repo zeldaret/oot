@@ -30,4 +30,20 @@ typedef struct EnSa {
     /* 0x0286 */ Vec3s morphTable[17];
 } EnSa; // size = 0x02EC
 
+typedef enum SariaEyes {
+    /* 0 */ SARIA_EYE_OPEN,
+    /* 1 */ SARIA_EYE_HALF,
+    /* 2 */ SARIA_EYE_CLOSED,
+    /* 3 */ SARIA_EYE_SURPRISED,
+    /* 4 */ SARIA_EYE_SAD,
+} SariaEyes;
+
+typedef enum SariaMouth {
+    /* 0 */ SARIA_MOUTH_CLOSED2,
+    /* 1 */ SARIA_MOUTH_SURPRISED,
+    /* 2 */ SARIA_MOUTH_CLOSED,
+    /* 3 */ SARIA_MOUTH_SMILING_OPEN,
+    /* 4 */ SARIA_MOUTH_FROWNING
+} SariaMouth;
+
 #endif
