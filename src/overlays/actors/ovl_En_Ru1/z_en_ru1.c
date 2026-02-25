@@ -847,12 +847,12 @@ void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
-    if (!GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME)) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = ENRU1_ACTION_MEETING_RANGE_CHECK;
         EnRu1_SetMouth(this, ENRU1_MOUTH_FROWNING);
-    } else if (GET_INFTABLE(INFTABLE_BROUGHT_RUTO_BACK_TO_HOLES_ROOM) &&
-               !GET_INFTABLE(INFTABLE_PLACED_RUTO_ON_SWITCH) && !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE)) {
+    } else if (GET_INFTABLE(INFTABLE_RUTO_BROUGHT_BACK_TO_HOLES_ROOM) &&
+               !GET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH) && !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE)) {
         if (!EnRu1_IsAssistingLink(this, play)) {
             s8 actorRoom;
 
@@ -1022,7 +1022,7 @@ void EnRu1_CheckStartFalling(EnRu1* this) {
 
 void EnRu1_FinishFirstEncounter(EnRu1* this, PlayState* play) {
     if (EnRu1_CheckCueMatchingId(play, 5, 3)) {
-        SET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME);
+        SET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME);
         this->action = ENRU1_ACTION_MEETING_END;
     }
 }
@@ -1280,8 +1280,8 @@ void EnRu1_BossRoom_WarpingOut(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME) && !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) &&
-        !GET_INFTABLE(INFTABLE_PLACED_RUTO_ON_SWITCH) && !GET_INFTABLE(INFTABLE_BROUGHT_RUTO_BACK_TO_HOLES_ROOM)) {
+    if (GET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME) && !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) &&
+        !GET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH) && !GET_INFTABLE(INFTABLE_RUTO_BROUGHT_BACK_TO_HOLES_ROOM)) {
         if (!EnRu1_IsAssistingLink(this, play)) {
             s8 actorRoom;
 
@@ -1356,10 +1356,10 @@ void EnRu1_UpdateLastSittingRoomNum(EnRu1* this, PlayState* play) {
 void EnRu1_CheckIfBackInHolesRoom(PlayState* play) {
     s8 curRoomNum;
 
-    if (!GET_INFTABLE(INFTABLE_BROUGHT_RUTO_BACK_TO_HOLES_ROOM)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_BROUGHT_BACK_TO_HOLES_ROOM)) {
         curRoomNum = play->roomCtx.curRoom.num;
         if (curRoomNum == 2) {
-            SET_INFTABLE(INFTABLE_BROUGHT_RUTO_BACK_TO_HOLES_ROOM);
+            SET_INFTABLE(INFTABLE_RUTO_BROUGHT_BACK_TO_HOLES_ROOM);
         }
     }
 }
@@ -1615,10 +1615,10 @@ void EnRu1_UpdateWaterState(EnRu1* this) {
 s32 EnRu1_TalkOfferAccepted(EnRu1* this, PlayState* play) {
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
-        if (GET_INFTABLE(INFTABLE_BECAME_CARRIER_FOR_RUTO)) {
+        if (GET_INFTABLE(INFTABLE_RUTO_LET_LINK_CARRY)) {
             this->actor.textId = 0x404E;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
-        } else if (GET_INFTABLE(INFTABLE_LEARNED_WHY_RUTO_IN_JABU_JABU)) {
+        } else if (GET_INFTABLE(INFTABLE_RUTO_EXPLAINED_WHY_IN_JABU)) {
             this->actor.textId = 0x404D;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         } else {
@@ -1639,12 +1639,12 @@ void EnRu1_CheckForDoorSwitch(EnRu1* this, PlayState* play) {
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, floorBgId);
         if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_BG_BDAN_SWITCH)) {
             if (PARAMS_GET_U(dynaPolyActor->actor.params, 8, 6) == 0x38) {
-                SET_INFTABLE(INFTABLE_PLACED_RUTO_ON_SWITCH);
+                SET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH);
                 return;
             }
         }
     }
-    CLEAR_INFTABLE(INFTABLE_PLACED_RUTO_ON_SWITCH);
+    CLEAR_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH);
 }
 
 s32 EnRu1_IsOnSapphirePlatform(EnRu1* this, PlayState* play) {
@@ -1717,7 +1717,7 @@ void EnRu1_EndSeeingSapphireAnimation(EnRu1* this, PlayState* play) {
     if (EnRu1_IsCsStateIdle(play)) {
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, -8.0f);
-        SET_INFTABLE(INFTABLE_BROUGHT_RUTO_TO_SAPPHIRE_ROOM);
+        SET_INFTABLE(INFTABLE_RUTO_BROUGHT_TO_SAPPHIRE_ROOM);
         this->action = ENRU1_ACTION_SITTING_CARRIED;
     }
     this->lastCarryRoomNum = curRoomNum;
@@ -1727,7 +1727,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
     s32 pad;
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
-    if (!GET_INFTABLE(INFTABLE_BROUGHT_RUTO_TO_SAPPHIRE_ROOM) && (func_80AEB124(play) != NULL)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_BROUGHT_TO_SAPPHIRE_ROOM) && (func_80AEB124(play) != NULL)) {
         if (!Player_InCsMode(play)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
@@ -1941,7 +1941,7 @@ void EnRu1_PlaySittingSfx(EnRu1* this) {
 }
 
 s32 EnRu1_BecomingCarrier(EnRu1* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_LEARNED_WHY_RUTO_IN_JABU_JABU)) {
+    if (GET_INFTABLE(INFTABLE_RUTO_EXPLAINED_WHY_IN_JABU)) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildSitAnim);
 
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
@@ -1962,7 +1962,7 @@ void EnRu1_CheckJabuTalk(EnRu1* this, PlayState* play, s32 isTalking) {
 void EnRu1_EndJabuTalk(EnRu1* this, PlayState* play) {
     if (EnRu1_MessageShouldAdvance(play) && !EnRu1_BecomingCarrier(this, play)) {
         Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_LEARNED_WHY_RUTO_IN_JABU_JABU);
+        SET_INFTABLE(INFTABLE_RUTO_EXPLAINED_WHY_IN_JABU);
         this->action = ENRU1_ACTION_SPEAK_JABU_IDLE;
     }
 }
@@ -1972,7 +1972,7 @@ void EnRu1_HoldSittingPose(EnRu1* this, PlayState* play, s32 isFullySeated) {
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, 0.0f);
         Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_BECAME_CARRIER_FOR_RUTO);
+        SET_INFTABLE(INFTABLE_RUTO_LET_LINK_CARRY);
         EnRu1_UpdateLastSittingRoomNum(this, play);
         Actor_OfferCarry(&this->actor, play);
         this->action = ENRU1_ACTION_SITTING_IDLE;
@@ -2331,7 +2331,7 @@ void EnRu1_ThroneRoom_Talk(EnRu1* this, PlayState* play) {
 void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME) && GET_INFTABLE(INFTABLE_PLACED_RUTO_ON_SWITCH) &&
+    if (GET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME) && GET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH) &&
         !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) && (!(EnRu1_IsAssistingLink(this, play)))) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = this->actor.room;
