@@ -1676,8 +1676,9 @@ s32 EnRu1_IsOnSapphirePlatform(EnRu1* this, PlayState* play) {
 void EnRu1_UpdateSittingAction(EnRu1* this, PlayState* play) {
     s8 curRoomNum;
 
+    // Test if Link is picking Ruto up
     if (Actor_HasParent(&this->actor, play)) {
-        // If Ruto is currently being carried
+        // Ruto has been picked up
         curRoomNum = play->roomCtx.curRoom.num;
         this->lastCarryRoomNum = curRoomNum;
         this->action = ENRU1_ACTION_SITTING_CARRIED;
