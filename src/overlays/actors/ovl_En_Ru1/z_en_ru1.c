@@ -404,8 +404,7 @@ Actor* func_80AEB124(PlayState* play) {
     Actor* actorIter = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIter != NULL) {
-        if ((actorIter->id == ACTOR_DEMO_EFFECT) &&
-            (PARAMS_GET_U(actorIter->params, 0, 8) == DEMO_EFFECT_JEWEL_ZORA)) {
+        if ((actorIter->id == ACTOR_DEMO_EFFECT) && (PARAMS_GET_U(actorIter->params, 0, 8) == DEMO_EFFECT_JEWEL_ZORA)) {
             return actorIter;
         }
         actorIter = actorIter->next;
