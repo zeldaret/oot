@@ -1149,17 +1149,17 @@ f32 func_8002DCE4(Player* player) {
 }
 
 /**
- * @return 1 if player's held weapon is Bow, Slingshot, Hookshot/Longshot
+ * @return 1 if player's held item is Bow, Slingshot, Hookshot/Longshot
  */
 int Player_IsHoldingRanged(Player* player) {
-    return player->stateFlags1 & PLAYER_STATE1_USING_RANGED;
+    return player->stateFlags1 & PLAYER_STATE1_HOLDING_RANGED;
 }
 
 /**
- * @return 1 if player's held weapon is Bow, Slingshot, Hookshot/Longshot and is aiming
+ * @return 1 if player's held item is Bow, Slingshot, Hookshot/Longshot and is aiming
  */
 int Player_IsAimingRanged(Player* player) {
-    return Player_IsHoldingRanged(player) && (player->unk_834 != 0);
+    return Player_IsHoldingRanged(player) && (player->rangedAimingOrLoaded != 0);
 }
 
 int func_8002DDA8(PlayState* play) {

@@ -793,7 +793,10 @@ s32 func_8008EF30(PlayState* play) {
     return (this->stateFlags1 & PLAYER_STATE1_23);
 }
 
-s32 func_8008EF44(PlayState* play, s32 ammo) {
+/**
+ * Shooting Gallery ammo. Is set to (total)+1 as the game ends when 1 is reached.
+ */
+s32 Player_SetShootingGalleryAmmo(PlayState* play, s32 ammo) {
     play->shootingGalleryStatus = ammo + 1;
     return 1;
 }
@@ -922,13 +925,19 @@ s32 Player_GetExplosiveHeld(Player* this) {
     return Player_ActionToExplosive(this, this->heldItemAction);
 }
 
-s32 func_8008F2BC(Player* this, s32 itemAction) {
+/**
+ * Is player holding a sword, and in that case, which one?
+ * 0 = Master Sword, 1 = Kokiri, 2 = Biggoron
+ * @return 0-2 if player is holding a sword, otherwise -1
+ */
+s32 Player_GetSwordInHand(Player* this, s32 itemAction) {
     s32 sword = 0;
 
+    // SWORD_CS is equal to Master Sword, return 0
     if (itemAction != PLAYER_IA_SWORD_CS) {
         sword = itemAction - PLAYER_IA_SWORD_MASTER;
         if ((sword < 0) || (sword >= 3)) {
-            goto return_neg;
+            goto return_neg;    // Not wielding a sword
         }
     }
 
@@ -1760,17 +1769,17 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2783);
 
+            // New matrix for string calculation
             Matrix_Push();
             Matrix_Translate(stringData->pos.x, stringData->pos.y, stringData->pos.z, MTXMODE_APPLY);
 
-            // This part makes a fully drawn string for the Bow and Slingshot.
-            // This will run if the weapon is currently loaded, unk_860 is positive (= has been loaded at least once since changing weapon),
-            // and if unk_834 is 10 or lower.
-            // - When spawning arrow/seed, unk_834 is set to 14 and reduced by 1 each frame. Presumably this is to delay drawing
-            // of a drawn string until the loading animation is finished. It is then held at 10 as long as the weapon is loaded.
-            // - If unk_860 was not a condition, this would run when changing weapon into/going into aiming mode with Bow/Slingshot,
-            // as due to how the ranged setup works, this player state1 (9) is set briefly after changing weapon/starting aiming even if the weapon is not loaded
-            if ((this->stateFlags1 & PLAYER_STATE1_RANGED_WEAPON_LOADED) && (this->unk_860 >= 0) && (this->unk_834 <= 10)) {
+            // This part makes a fully withdrawn string be drawn for the Bow and Slingshot if the weapon is loaded.
+            // - When spawning arrow/seed in Player_LoadRangedWeapon, rangedAimingOrLoaded is set to 14 and reduced by 1 each frame. Presumably this is to delay drawing
+            // of a drawn string until the loading animation is finished. rangedAimingOrLoaded is then held at 10 as long as the weapon is loaded.
+            // - Positive unk_860 means the weapon has actually been loaded since entering aiming mode (it is set negative on init and exiting aiming).
+            // If this was not a condition, this part would run when changing weapon into/going into aiming mode with Bow/Slingshot (the string is fully drawn
+            // and instantly let go) as due to how the ranged setup works, PLAYER_STATE1_RANGED_WEAPON_LOADED is set briefly after entering aiming even if the weapon is not loaded
+            if ((this->stateFlags1 & PLAYER_STATE1_RANGED_WEAPON_LOADED) && (this->unk_860 >= 0) && (this->rangedAimingOrLoaded <= 10)) {
                 Vec3f sp90;
                 f32 distXYZ;
 
@@ -1792,7 +1801,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             // In Player_UpdateCommon, if player is holding a ranged weapon, Player_StringReboundCalculation is run (before this function).
             // This sets unk_858 depending on previous value (and unk_85C).
-            // If the weapon is not loaded, this value for unk_858 is used for drawing and creates a string rebound effect.
+            // If the weapon is not loaded and unk_858 set above, this value for unk_858 is used for drawing and creates a string rebound effect.
 
             // Set the position of the middle of the string, depending on either rebound calculation or calculation above.
             // 0.0f = neutral, 1.0f = fully drawn

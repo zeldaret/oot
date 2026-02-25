@@ -117,7 +117,7 @@ void EnSyatekiItm_Idle(EnSyatekiItm* this, PlayState* play) {
         player->yaw = player->actor.world.rot.y = player->actor.shape.rot.y = 0x7F03;
         player->actor.world.rot.x = player->actor.shape.rot.x = player->actor.world.rot.z = player->actor.shape.rot.z =
             0;
-        func_8008EF44(play, 15);
+        Player_SetShootingGalleryAmmo(play, 15);
         this->roundNum = this->hitCount = 0;
         for (i = 0; i < 6; i++) {
             this->roundFlags[i] = false;
