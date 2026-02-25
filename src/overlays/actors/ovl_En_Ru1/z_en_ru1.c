@@ -2333,7 +2333,7 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
     if (GET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME) && GET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH) &&
-        !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) && (!(EnRu1_IsAssistingLink(this, play)))) {
+        !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) && !(EnRu1_IsAssistingLink(this, play))) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = this->actor.room;
         this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
