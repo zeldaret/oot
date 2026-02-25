@@ -319,7 +319,6 @@ MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 BIN2C      := tools/bin2c
-N64TEXCONV := tools/assets/n64texconv/n64texconv
 FADO       := tools/fado/fado.elf
 PYTHON     ?= $(VENV)/bin/python3
 
@@ -987,7 +986,7 @@ $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
 	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
-	$(N64TEXCONV) JFIF u64 $< $@
+	tools/assets/build_jfif/build_jfif $< $@
 
 # Assets from extracted/
 
@@ -998,7 +997,7 @@ $(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
 	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
-	$(N64TEXCONV) JFIF u64 $< $@
+	tools/assets/build_jfif/build_jfif $< $@
 
 # Audio
 
