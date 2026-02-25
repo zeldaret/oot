@@ -353,12 +353,12 @@ s32 EnRu1_CheckCueNotMatchingId(PlayState* play, u16 cueId, s32 cueChannel) {
  * be spawned waiting in places where she normally would be, such as in the holes room.
  */
 s32 EnRu1_IsAssistingLink(EnRu1* this, PlayState* play) {
-    Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_NPC].head;
+    Actor* actorIter = play->actorCtx.actorLists[ACTORCAT_NPC].head;
     EnRu1* someEnRu1;
 
-    while (actorIt != NULL) {
-        if (actorIt->id == ACTOR_EN_RU1) {
-            someEnRu1 = (EnRu1*)actorIt;
+    while (actorIter != NULL) {
+        if (actorIter->id == ACTOR_EN_RU1) {
+            someEnRu1 = (EnRu1*)actorIter;
             if (someEnRu1 != this) {
                 if ((someEnRu1->action == ENRU1_ACTION_SITTING_CARRIED) ||
                     (someEnRu1->action == ENRU1_ACTION_SITTING_LOSING_BALANCE) ||
@@ -367,19 +367,19 @@ s32 EnRu1_IsAssistingLink(EnRu1* this, PlayState* play) {
                 }
             }
         }
-        actorIt = actorIt->next;
+        actorIter = actorIter->next;
     }
     return false;
 }
 
 BgBdanObjects* EnRu1_FindBigOctoPlatform(PlayState* play) {
-    Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BG].head;
+    Actor* actorIter = play->actorCtx.actorLists[ACTORCAT_BG].head;
 
-    while (actorIt != NULL) {
-        if (actorIt->id == ACTOR_BG_BDAN_OBJECTS && actorIt->params == 0) {
-            return (BgBdanObjects*)actorIt;
+    while (actorIter != NULL) {
+        if (actorIter->id == ACTOR_BG_BDAN_OBJECTS && actorIter->params == 0) {
+            return (BgBdanObjects*)actorIter;
         }
-        actorIt = actorIt->next;
+        actorIter = actorIter->next;
     }
     PRINTF(VT_FGCOL(RED) T("お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n", "There is no stand!!!!!!!!!!!!!!!!!!!!!!!!!\n")
                VT_RST);
@@ -401,13 +401,14 @@ s32 EnRu1_GetPlatformCamSetting(EnRu1* this) {
 }
 
 Actor* func_80AEB124(PlayState* play) {
-    Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
+    Actor* actorIter = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
-    while (actorIt != NULL) {
-        if ((actorIt->id == ACTOR_DEMO_EFFECT) && (PARAMS_GET_U(actorIt->params, 0, 8) == DEMO_EFFECT_JEWEL_ZORA)) {
-            return actorIt;
+    while (actorIter != NULL) {
+        if ((actorIter->id == ACTOR_DEMO_EFFECT) &&
+            (PARAMS_GET_U(actorIter->params, 0, 8) == DEMO_EFFECT_JEWEL_ZORA)) {
+            return actorIter;
         }
-        actorIt = actorIt->next;
+        actorIter = actorIter->next;
     }
     return NULL;
 }
