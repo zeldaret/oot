@@ -135,7 +135,7 @@ void EnXc_BgCheck(EnXc* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
-s32 EnXc_AnimIsFinished(EnXc* this) {
+s32 EnXc_UpdateSkelAnime(EnXc* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -939,7 +939,7 @@ void EnXc_ActionFunc1(EnXc* this, PlayState* play) {
 }
 
 void EnXc_GracefulFall(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+    s32 animFinished = EnXc_UpdateSkelAnime(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
@@ -951,7 +951,7 @@ void EnXc_GracefulFall(EnXc* this, PlayState* play) {
 
 void EnXc_Accelerate(EnXc* this, PlayState* play) {
     EnXc_CalcXZAccel(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -960,7 +960,7 @@ void EnXc_Accelerate(EnXc* this, PlayState* play) {
 
 void EnXc_Walk(EnXc* this, PlayState* play) {
     func_80B3D644(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -969,7 +969,7 @@ void EnXc_Walk(EnXc* this, PlayState* play) {
 
 void EnXc_Stopped(EnXc* this, PlayState* play) {
     EnXc_CalcXZSpeed(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -977,14 +977,14 @@ void EnXc_Stopped(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc6(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     func_80B3DAF0(this, play);
 }
 
 void EnXc_ActionFunc7(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+    s32 animFinished = EnXc_UpdateSkelAnime(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
@@ -992,7 +992,7 @@ void EnXc_ActionFunc7(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc8(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+    s32 animFinished = EnXc_UpdateSkelAnime(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
@@ -1000,21 +1000,21 @@ void EnXc_ActionFunc8(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc9(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     func_80B3DCA8(this, play);
 }
 
 void EnXc_ActionFunc10(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetupHarpPutawayAction(this, play);
 }
 
 void EnXc_ActionFunc11(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+    s32 animFinished = EnXc_UpdateSkelAnime(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
@@ -1022,7 +1022,7 @@ void EnXc_ActionFunc11(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc12(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+    s32 animFinished = EnXc_UpdateSkelAnime(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
@@ -1030,7 +1030,7 @@ void EnXc_ActionFunc12(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc13(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_InitFlame(this, play);
@@ -1039,7 +1039,7 @@ void EnXc_ActionFunc13(EnXc* this, PlayState* play) {
 
 void EnXc_ReverseAccelerate(EnXc* this, PlayState* play) {
     func_80B3D6F0(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -1049,7 +1049,7 @@ void EnXc_ReverseAccelerate(EnXc* this, PlayState* play) {
 
 void EnXc_ActionFunc15(EnXc* this, PlayState* play) {
     func_80B3D710(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -1059,7 +1059,7 @@ void EnXc_ActionFunc15(EnXc* this, PlayState* play) {
 
 void EnXc_HaltAndWaitToThrowNut(EnXc* this, PlayState* play) {
     func_80B3D730(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -1068,7 +1068,7 @@ void EnXc_HaltAndWaitToThrowNut(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ThrowNut(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetNutThrowSFX(this, play);
@@ -1077,7 +1077,7 @@ void EnXc_ThrowNut(EnXc* this, PlayState* play) {
 }
 
 void EnXc_Delete(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_InitFlame(this, play);
@@ -1222,7 +1222,7 @@ void EnXc_ActionFunc21(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc22(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     func_80B3EC90(this, play);
@@ -1230,7 +1230,7 @@ void EnXc_ActionFunc22(EnXc* this, PlayState* play) {
 
 void EnXc_ActionFunc23(EnXc* this, PlayState* play) {
     func_80B3D6F0(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -1382,7 +1382,7 @@ void EnXc_ActionFunc39(EnXc* this, PlayState* play) {
 
 void EnXc_ActionFunc40(EnXc* this, PlayState* play) {
     func_80B3D710(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -1531,7 +1531,7 @@ void EnXc_ActionFunc46(EnXc* this, PlayState* play) {
 
 void EnXc_ActionFunc47(EnXc* this, PlayState* play) {
     func_80B3F534(play);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     func_80B3C588(this, play, 4);
     func_80B3F668(this, play);
@@ -1544,7 +1544,7 @@ void EnXc_ActionFunc48(EnXc* this, PlayState* play) {
 
 void EnXc_ActionFunc49(EnXc* this, PlayState* play) {
     func_80B3D710(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
@@ -1552,7 +1552,7 @@ void EnXc_ActionFunc49(EnXc* this, PlayState* play) {
 }
 
 void EnXc_Kneel(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     func_80B3F59C(this, play);
     func_80B3C588(this, play, 4);
@@ -1560,7 +1560,7 @@ void EnXc_Kneel(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc51(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     func_80B3F59C(this, play);
     func_80B3C620(this, play, 4);
@@ -1709,7 +1709,7 @@ void EnXc_ActionFunc53(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc54(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetupShowTriforceAction(this, play);
@@ -1719,7 +1719,7 @@ void EnXc_ActionFunc54(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ShowTriforce(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+    s32 animFinished = EnXc_UpdateSkelAnime(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
@@ -1732,7 +1732,7 @@ void EnXc_ShowTriforce(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ShowTriforceIdle(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_CalcTriforce(&this->actor, play);
@@ -2061,13 +2061,13 @@ void EnXc_InitialNocturneAction(EnXc* this, PlayState* play) {
 
 void EnXc_IdleInNocturne(EnXc* this, PlayState* play) {
     func_80B3C588(this, play, 4);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetupNocturneState(&this->actor, play);
 }
 
 void EnXc_DefenseStance(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetupNocturneState(&this->actor, play);
@@ -2075,7 +2075,7 @@ void EnXc_DefenseStance(EnXc* this, PlayState* play) {
 
 void EnXc_Contort(EnXc* this, PlayState* play) {
     EnXc_SetCrySFX(this, play);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_SetEyePattern(this);
     if (!EnXc_SetupNocturneState(&this->actor, play)) {
         func_80B3C924(this, play);
@@ -2084,7 +2084,7 @@ void EnXc_Contort(EnXc* this, PlayState* play) {
 }
 
 void EnXc_FallInNocturne(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_SetEyePattern(this);
     EnXc_SetThrownAroundSFX(this);
     if (!EnXc_SetupNocturneState(&this->actor, play)) {
@@ -2100,7 +2100,7 @@ void EnXc_HitGroundInNocturne(EnXc* this, PlayState* play) {
 }
 
 void EnXc_ActionFunc63(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_PlayLinkScreamSFX(this, play);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
@@ -2108,7 +2108,7 @@ void EnXc_ActionFunc63(EnXc* this, PlayState* play) {
 }
 
 void EnXc_KneelInNocturneCS(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetupNocturneState(&this->actor, play);
@@ -2162,7 +2162,7 @@ void EnXc_ReverseAccelInNocturneCS(EnXc* this, PlayState* play) {
 
 void EnXc_ReverseWalkInNocturneCS(EnXc* this, PlayState* play) {
     func_80B3D710(this);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetupReverseHaltInNocturneCS(this);
@@ -2250,7 +2250,7 @@ void EnXc_BlockingPedestalAction(EnXc* this, PlayState* play) {
     EnXc_BgCheck(this, play);
     EnXc_UpdateCollider(&this->actor, play);
     EnXc_CalculateHeadTurn(this, play);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_SetEyePattern(this);
     EnXc_SetupDialogueAction(this, play);
 }
@@ -2259,7 +2259,7 @@ void EnXc_ActionFunc80(EnXc* this, PlayState* play) {
     EnXc_BgCheck(this, play);
     EnXc_UpdateCollider(&this->actor, play);
     EnXc_CalculateHeadTurn(this, play);
-    EnXc_AnimIsFinished(this);
+    EnXc_UpdateSkelAnime(this);
     EnXc_SetEyePattern(this);
     func_80B41798(this, play);
 }

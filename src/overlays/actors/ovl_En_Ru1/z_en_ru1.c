@@ -794,11 +794,11 @@ void EnRu1_Fountain_Diving(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_Fountain_Resurfacing(EnRu1* this, PlayState* play) {
-    s32 doneAnim = EnRu1_UpdateSkelAnime(this);
+    s32 animFinished = EnRu1_UpdateSkelAnime(this);
 
     func_80AEAECC(this, play);
     EnRu1_PlayResurfacingSfx(this);
-    EnRu1_ResurfaceProgress(this, play, doneAnim);
+    EnRu1_ResurfaceProgress(this, play, animFinished);
 }
 
 void EnRu1_Fountain_TreadingWater(EnRu1* this, PlayState* play) {
@@ -810,38 +810,35 @@ void EnRu1_Fountain_TreadingWater(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play) {
-    s32 doneAnim;
+    s32 animFinished = EnRu1_UpdateSkelAnime(this);
 
-    doneAnim = EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
     EnRu1_SpawnRippleTreading(this, play);
-    EnRu1_StartBackSwimming(this, doneAnim);
+    EnRu1_StartBackSwimming(this, animFinished);
     EnRu1_PlaySubmergeSfx(this);
     EnRu1_TransitionToBackSwimming(this, play);
 }
 
 void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play) {
-    s32 doneAnim;
+    s32 animFinished = EnRu1_UpdateSkelAnime(this);
 
-    doneAnim = EnRu1_UpdateSkelAnime(this);
     EnRu1_SwimAwayFromLink(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
     EnRu1_SpawnRippleTreading(this, play);
-    EnRu1_StartBackSwimming(this, doneAnim);
+    EnRu1_StartBackSwimming(this, animFinished);
     EnRu1_PlaySwimStrokeSfx(this);
     EnRu1_EndSwimBack(this, play);
 }
 
 void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play) {
-    s32 doneAnim;
+    s32 animFinished = EnRu1_UpdateSkelAnime(this);
 
-    doneAnim = EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, play);
     EnRu1_UpdateEyes(this);
     EnRu1_SpawnRippleTreading(this, play);
-    EnRu1_EndGivingSapphire(this, play, doneAnim);
+    EnRu1_EndGivingSapphire(this, play, animFinished);
 }
 
 void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
@@ -1040,12 +1037,11 @@ void EnRu1_Meeting_FacingLink(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_Meeting_TurningAround(EnRu1* this, PlayState* play) {
-    s32 doneAnim;
+    s32 animFinished = EnRu1_UpdateSkelAnime(this);
 
-    doneAnim = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    EnRu1_StartWalkingAway(this, doneAnim);
+    EnRu1_StartWalkingAway(this, animFinished);
 }
 
 void EnRu1_Meeting_WalkingAwayAccel(EnRu1* this, PlayState* play) {
@@ -2008,14 +2004,14 @@ void EnRu1_SpeakableJabu_Talking(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SpeakableJabu_TakingSeat(EnRu1* this, PlayState* play) {
-    s32 doneAnim;
+    s32 animFinished;
 
     func_80AED83C(this);
-    doneAnim = EnRu1_UpdateSkelAnime(this);
+    animFinished = EnRu1_UpdateSkelAnime(this);
     EnRu1_PlaySittingSfx(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    EnRu1_HoldSittingPose(this, play, doneAnim);
+    EnRu1_HoldSittingPose(this, play, animFinished);
 }
 
 void EnRu1_PlayStepSoundNearSapphire(EnRu1* this) {
@@ -2174,16 +2170,16 @@ void EnRu1_SapphireRoom_ThrownOntoPlatform(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SapphireRoom_Retrieving(EnRu1* this, PlayState* play) {
-    s32 doneAnim;
+    s32 animFinished;
 
     func_80AED83C(this);
     EnRu1_WalkTowardSapphire(this, play);
     func_80AEAECC(this, play);
-    doneAnim = EnRu1_UpdateSkelAnime(this);
+    animFinished = EnRu1_UpdateSkelAnime(this);
     EnRu1_PlayLaughingSfx(this);
     EnRu1_LookUpAtSapphire(this);
     EnRu1_PlayStepSoundNearSapphire(this);
-    EnRu1_HoldUpSapphire(this, doneAnim);
+    EnRu1_HoldUpSapphire(this, animFinished);
 #if DEBUG_FEATURES
     func_80AEB220(this, play);
 #endif
@@ -2200,13 +2196,13 @@ void EnRu1_SapphireRoom_Holding(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SapphireRoom_DoneHolding(EnRu1* this, PlayState* play) {
-    s32 doneAnim;
+    s32 animFinished;
 
     func_80AED83C(this);
     func_80AEAECC(this, play);
-    doneAnim = EnRu1_UpdateSkelAnime(this);
+    animFinished = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    EnRu1_KeepArmsDown(this, doneAnim);
+    EnRu1_KeepArmsDown(this, animFinished);
 #if DEBUG_FEATURES
     func_80AEB220(this, play);
 #endif
