@@ -25,15 +25,15 @@ typedef enum EnSyatekiManGameResult {
     /* 0 */ SYATEKI_RESULT_NONE,
     /* 1 */ SYATEKI_RESULT_WINNER,
     /* 2 */ SYATEKI_RESULT_ALMOST,
-    /* 3 */ SYATEKI_RESULT_FAILURE,
-    /* 4 */ SYATEKI_RESULT_REFUSE
+    /* 3 */ SYATEKI_RESULT_LOST,
+    /* 4 */ SYATEKI_RESULT_DIDNT_SHOOT
 } EnSyatekiManGameResult;
 
 typedef enum EnSyatekiManTextIdx {
     /* 0 */ SYATEKI_TEXT_CHOICE,
     /* 1 */ SYATEKI_TEXT_START_GAME,
     /* 2 */ SYATEKI_TEXT_NO_RUPEES,
-    /* 3 */ SYATEKI_TEXT_REFUSE
+    /* 3 */ SYATEKI_TEXT_DONT_PLAY
 } EnSyatekiManTextIdx;
 
 void EnSyatekiMan_Init(Actor* thisx, PlayState* play);
@@ -200,9 +200,12 @@ void EnSyatekiMan_Start(EnSyatekiMan* this, PlayState* play) {
     this->actionFunc = EnSyatekiMan_SetupIdle;
 }
 
+
 void EnSyatekiMan_SetupIdle(EnSyatekiMan* this, PlayState* play) {
-    if (this->gameResult == SYATEKI_RESULT_REFUSE) {
-        this->textIdx = SYATEKI_TEXT_REFUSE;
+    // If player already played once and didn't shoot,
+    // don't offer a new game
+    if (this->gameResult == SYATEKI_RESULT_DIDNT_SHOOT) {
+        this->textIdx = SYATEKI_TEXT_DONT_PLAY;
     }
 
     this->actor.textId = sTextIds[this->textIdx];
@@ -210,6 +213,9 @@ void EnSyatekiMan_SetupIdle(EnSyatekiMan* this, PlayState* play) {
     this->actionFunc = EnSyatekiMan_Idle;
 }
 
+/**
+ * Waiting for player to start talking
+ */
 void EnSyatekiMan_Idle(EnSyatekiMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
@@ -219,16 +225,24 @@ void EnSyatekiMan_Idle(EnSyatekiMan* this, PlayState* play) {
     }
 }
 
+/**
+ * Offer to start playing the game
+ */
 void EnSyatekiMan_Talk(EnSyatekiMan* this, PlayState* play) {
     s16 nextState = 0;
 
     SkelAnime_Update(&this->skelAnime);
     if (this->cameraHold) {
+        // If in post-game cutscene camera, we are still kind of in game mode,
+        // so set to -2 to prevent exiting the Gallery player action function.
         play->shootingGalleryStatus = -2;
     }
+    
     if ((this->numTextBox == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+        // Want to play?
         if (this->textIdx == SYATEKI_TEXT_CHOICE) {
             switch (play->msgCtx.choiceIndex) {
+                // Yes
                 case 0:
                     if (gSaveContext.save.info.playerData.rupees >= 20) {
                         Rupees_ChangeBy(-20);
@@ -241,9 +255,10 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, PlayState* play) {
                     this->actor.textId = sTextIds[this->textIdx];
                     this->numTextBox = sTextBoxCount[this->textIdx];
                     break;
+                // No
                 case 1:
-                    this->actor.textId = sTextIds[SYATEKI_TEXT_REFUSE];
-                    this->numTextBox = sTextBoxCount[SYATEKI_TEXT_REFUSE];
+                    this->actor.textId = sTextIds[SYATEKI_TEXT_DONT_PLAY];
+                    this->numTextBox = sTextBoxCount[SYATEKI_TEXT_DONT_PLAY];
                     nextState = 2;
                     break;
             }
@@ -272,6 +287,8 @@ void EnSyatekiMan_StopTalk(EnSyatekiMan* this, PlayState* play) {
     }
     if ((this->numTextBox == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         if (this->cameraHold) {
+            // End cutscene if postgame talk. This will cause shootingGalleryStatus to return to 0
+            // in the player action function to leave the Gallery playing state.
             OnePointCutscene_EndCutscene(play, this->subCamId);
             this->subCamId = CAM_ID_NONE;
             this->cameraHold = false;
@@ -290,11 +307,13 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, PlayState* play) {
     }
     if ((this->numTextBox == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         if (this->cameraHold) {
+            // Remove post game cutscene if still active
             OnePointCutscene_EndCutscene(play, this->subCamId);
             this->subCamId = CAM_ID_NONE;
             this->cameraHold = false;
         }
         Message_CloseTextbox(play);
+        // Signal to Gallery actor to start and run the game, while this actor waits for game to end
         gallery = ((EnSyatekiItm*)this->actor.parent);
         if (gallery->actor.update != NULL) {
             gallery->signal = ENSYATEKI_START;
@@ -303,17 +322,25 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, PlayState* play) {
     }
 }
 
+/**
+ * Waits for a running Shooting Gallery game to end. Starts post-game cutscene state.
+ */
 void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, PlayState* play) {
     EnSyatekiItm* gallery;
 
     SkelAnime_Update(&this->skelAnime);
 
+    // The Shooting Gallery man is child of the Gallery game actor
+    // Keep waiting until Gallery actor flags that game has ended
     gallery = ((EnSyatekiItm*)this->actor.parent);
     if ((gallery->actor.update == NULL) || (gallery->signal != ENSYATEKI_END)) {
         return;
     }
 
+    // Game finished, start cutscene overlooking the game area. Causes the player action
+    // to not be run and shootingGalleryStatus is kept at -2 below.
     this->subCamId = OnePointCutscene_Init(play, 8002, -99, &this->actor, CAM_ID_MAIN);
+    // Check number of hits, set correct end state and select text
     switch (gallery->hitCount) {
         case 10:
             this->gameResult = SYATEKI_RESULT_WINNER;
@@ -325,25 +352,32 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, PlayState* play) {
             this->actor.textId = 0x71AE;
             break;
         default:
-            this->gameResult = SYATEKI_RESULT_FAILURE;
+            this->gameResult = SYATEKI_RESULT_LOST;
             this->actor.textId = 0x71AD;
+            // Player didn't shoot any arrows/seeds
             if (play->shootingGalleryStatus == 15 + 1) {
-                this->gameResult = SYATEKI_RESULT_REFUSE;
+                this->gameResult = SYATEKI_RESULT_DIDNT_SHOOT;
                 this->actor.textId = 0x2D;
             }
             break;
     }
+    // Set to -2 as when the player action function starts running again it
+    // will decrement it every frame and change the action function if becomes 0.
     play->shootingGalleryStatus = -2;
     Message_StartTextbox(play, this->actor.textId, NULL);
     this->actionFunc = EnSyatekiMan_EndGame;
 }
 
+/**
+ * Handles outcomes of game. Selecting prize. If lost, ask to play again.
+ */
 void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
     EnSyatekiItm* gallery;
 
     SkelAnime_Update(&this->skelAnime);
     if ((this->numTextBox == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
-        if (this->gameResult != SYATEKI_RESULT_FAILURE) {
+        if (this->gameResult != SYATEKI_RESULT_LOST) {
+            // If didn't lose the game, end the cutscene to receive prize
             OnePointCutscene_EndCutscene(play, this->subCamId);
             this->subCamId = CAM_ID_NONE;
         }
@@ -352,10 +386,12 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
         if (gallery->actor.update != NULL) {
             gallery->signal = ENSYATEKI_RESULTS;
             this->textIdx = 0;
+            // Set reward
             switch (this->gameResult) {
                 case SYATEKI_RESULT_WINNER:
                     this->tempGallery = this->actor.parent;
                     this->actor.parent = NULL;
+                    // Win Slingshot bullet bag upgrade
                     if (!LINK_IS_ADULT) {
                         if (!GET_ITEMGETINF(ITEMGETINF_0D)) {
                             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST,
@@ -369,6 +405,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                             this->getItemId = GI_RUPEE_PURPLE;
                         }
                     } else {
+                        // Win Bow quiver upgrade
                         if (!GET_ITEMGETINF(ITEMGETINF_0E)) {
                             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST, CUR_UPG_VALUE(UPG_QUIVER));
                             switch (CUR_UPG_VALUE(UPG_QUIVER)) {
@@ -394,10 +431,14 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                     Player_SetShootingGalleryAmmo(play, 15);
                     this->actionFunc = EnSyatekiMan_RestartGame;
                     break;
-                default:
-                    if (this->gameResult == SYATEKI_RESULT_REFUSE) {
+                default:    // Lost or didn't shoot
+                    if (this->gameResult == SYATEKI_RESULT_DIDNT_SHOOT) {
+                        // If didn't shoot, don't ask if wants to play when game ends
+                        // and don't let player play again if tried to talk
                         this->actionFunc = EnSyatekiMan_SetupIdle;
                     } else {
+                        // Still in cutscene camera. Keep Shooting Gallery status as if playing.
+                        // Ask if player wants to play again
                         this->cameraHold = true;
                         this->actor.textId = sTextIds[this->textIdx];
                         this->numTextBox = sTextBoxCount[this->textIdx];
@@ -507,7 +548,7 @@ s32 EnSyatekiMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
     if (limbIndex == 8) {
         *dList = gObjectOssanEnSyatekiManDL_007E28;
         turnDirection = 1;
-        if (this->gameResult == SYATEKI_RESULT_REFUSE) {
+        if (this->gameResult == SYATEKI_RESULT_DIDNT_SHOOT) {
             turnDirection = -1;
         }
         rot->x += this->headRot.y * turnDirection;

@@ -169,19 +169,19 @@ void Player_InitBoomerangIA(PlayState* play, Player* this);
 s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play);
 s32 func_8083485C(Player* this, PlayState* play);
 s32 Player_UpperAction_Sword(Player* this, PlayState* play);
-s32 func_80834B5C(Player* this, PlayState* play);
+s32 Player_UpperAction_80834B5C(Player* this, PlayState* play);
 s32 Player_UpperAction_80834C74(Player* this, PlayState* play);
 s32 Player_UpperAction_RangedNotAiming(Player* this, PlayState* play);
 s32 Player_UpperAction_RangedLoaded(Player* this, PlayState* play);
 s32 Player_UpperAction_RangedNotLoaded(Player* this, PlayState* play);
-s32 Player_WaitForRangedPutDownAnim(Player* this, PlayState* play);
+s32 Player_UpperAction_RangedWaitForPutDownAnim(Player* this, PlayState* play);
 s32 Player_UpperAction_CarryActor(Player* this, PlayState* play);
-s32 func_80835800(Player* this, PlayState* play);
+s32 Player_UpperAction_80835800(Player* this, PlayState* play);
 s32 Player_UpperAction_BoomerangWaitLoadAnim(Player* this, PlayState* play);
 s32 Player_UpperAction_BoomerangLoaded(Player* this, PlayState* play);
 s32 Player_UpperAction_BoomerangThrow(Player* this, PlayState* play);
 s32 Player_UpperAction_BoomerangWaitReturn(Player* this, PlayState* play);
-s32 func_80835C08(Player* this, PlayState* play);
+s32 Player_UpperAction_80835C08(Player* this, PlayState* play);
 
 void Player_UseItem(PlayState* play, Player* this, s32 item);
 void func_80839F90(Player* this, PlayState* play);
@@ -349,7 +349,7 @@ void Player_Action_BlueWarpArrive(Player* this, PlayState* play);
 void Player_Action_8084F88C(Player* this, PlayState* play);
 void Player_Action_TryOpeningDoor(Player* this, PlayState* play);
 void Player_Action_ExitGrotto(Player* this, PlayState* play);
-void Player_Action_8084FA54(Player* this, PlayState* play);
+void Player_Action_InShootingGallery(Player* this, PlayState* play);
 void Player_Action_8084FB10(Player* this, PlayState* play);
 void Player_Action_8084FBF4(Player* this, PlayState* play);
 void Player_Action_808502D0(Player* this, PlayState* play);
@@ -1390,7 +1390,7 @@ static s32 (*sItemActionUpdateFuncs[])(Player* this, PlayState* play) = {
     Player_UpperAction_RangedNotAiming,                 // PLAYER_IA_LONGSHOT
     Player_UpperAction_CarryActor, // PLAYER_IA_BOMB
     Player_UpperAction_CarryActor, // PLAYER_IA_BOMBCHU
-    func_80835800,                 // PLAYER_IA_BOOMERANG
+    Player_UpperAction_80835800,                 // PLAYER_IA_BOOMERANG
     func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_15
     func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_16
     func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_17
@@ -2306,7 +2306,6 @@ LinkAnimationHeader* func_80833438(Player* this) {
 /**
  * @return 1 if player is currently aiming Boomerang
  */
-
 int Player_IsAimingBoomerang(Player* this) {
     return Player_IsHoldingBoomerang(this) && (this->rangedAimingOrLoaded != 0);
 }
@@ -2327,7 +2326,7 @@ LinkAnimationHeader* func_80833528(Player* this) {
     }
 }
 
-LinkAnimationHeader* Player_SetRangedSideWalkAnim(Player* this) {
+LinkAnimationHeader* Player_Ranged_SetSideWalkAnim(Player* this) {
     if (Player_IsAimingRanged(this)) {
         return &gPlayerAnim_link_bow_side_walk;
     } else {
@@ -2353,7 +2352,7 @@ LinkAnimationHeader* func_808335F4(Player* this) {
 
 void Player_SetUpperActionFunc(Player* this, UpperActionFunc upperActionFunc) {
     this->upperActionFunc = upperActionFunc;
-    this->unk_836 = 0;
+    this->rangedAnimPullLoadDone = 0;
     this->upperAnimInterpWeight = 0.0f;
     func_808326F0(this);
 }
@@ -2816,18 +2815,19 @@ s32 Player_ReturnItemAmmo(PlayState* play, Player* this, s32* itemPtr, s32* type
     }
 }
 /** 
- * Has multiple purposes when using a ranged weapon (Bow, Slingshot, Hookshot). Always done:
+ * Has multiple purposes when using a ranged weapon (Bow, Slingshot, Hookshot). Run when
+ * pulling out a weapon or loading it. Always done:
  * - Set next action to Player_UpperAction_RangedLoaded "loaded weapon"
  * - Set player state to loaded weapon (maintained by the upper action function)
  * - Set rangedAimingOrLoaded to 14 for delay in drawing drawn string (for Bow/Slingshot)
- * If weapon is loaded:
+ * If weapon is loaded here:
  * - Play sound for weapon loading
  * - Set type of arrow (normal or magic)
  * - Spawn arrow/seed
  * The unk_860 >= 0 requirement prevents firing instantly when entering aimed mode.
  * @return 0 if trying to use magic arrow when magic is already in use, otherwise 1
  */
-s32 Player_LoadRangedWeapon(Player* this, PlayState* play) {
+s32 Player_Ranged_LoadWeapon(Player* this, PlayState* play) {
     s32 item;
     s32 arrowType;
     s32 magicArrowType;
@@ -2916,7 +2916,7 @@ void func_80834644(PlayState* play, Player* this) {
 }
 
 LinkAnimationHeader* func_808346C4(PlayState* play, Player* this) {
-    Player_SetUpperActionFunc(this, func_80834B5C);
+    Player_SetUpperActionFunc(this, Player_UpperAction_80834B5C);
     Player_DetachHeldActor(play, this);
 
     if (this->unk_870 < 0.5f) {
@@ -3025,7 +3025,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
     return true;
 }
 
-s32 func_80834B5C(Player* this, PlayState* play) {
+s32 Player_UpperAction_80834B5C(Player* this, PlayState* play) {
     LinkAnimation_Update(play, &this->upperSkelAnime);
 
     if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
@@ -3038,7 +3038,7 @@ s32 func_80834B5C(Player* this, PlayState* play) {
     }
 }
 
-s32 func_80834BD4(Player* this, PlayState* play) {
+s32 Player_UpperAction_80834BD4(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
     f32 frame;
 
@@ -3083,7 +3083,7 @@ s32 Player_Ranged_InitAnimations(Player* this, PlayState* play) {
     if (this->heldItemAction != PLAYER_IA_BOOMERANG) {
         // Next upper action function is set here (Player_UpperAction_RangedLoaded).
         // (Even though this is a function for loading ranged weapon, here it is used for initialization)
-        if (!Player_LoadRangedWeapon(this, play)) {
+        if (!Player_Ranged_LoadWeapon(this, play)) {
             return 0;
         }
 
@@ -3113,15 +3113,16 @@ s32 Player_Ranged_InitAnimations(Player* this, PlayState* play) {
 }
 
 /**
- * Check for Bow/Slingshot. If shooting gallery is active, B is used to load/fire.
+ * Check for Bow/Slingshot. If shooting gallery is active, B is used to load.
  */
 int Player_ShootingGalleryPressB(PlayState* play) {
     return (play->shootingGalleryStatus > 0) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B);
 }
 
 /**
- * Check for Bow/Slingshot. If shooting gallery is active (not 0), and the game is over
- * (<0; force fire) or any of the following buttons are held, keep weapon loaded.
+ * Check for Bow/Slingshot. If shooting gallery is active (not 0), and the game is over (<0)
+ * or any of the following buttons are held, keep weapon loaded.
+ * This prevents firing arrows/seeds after game end and and arrows/seeds not fully loaded at game end
  */
 int Player_ShootingGalleryKeepLoaded(PlayState* play) {
     return (play->shootingGalleryStatus != 0) &&
@@ -3217,7 +3218,7 @@ s32 Player_UpperAction_RangedNotAiming(Player* this, PlayState* play) {
  * fixes actor-child relationships.
  * @return 1 if successful firing, otherwise 0
  */
-s32 Player_FireRangedWeapon(PlayState* play, Player* this) {
+s32 Player_Ranged_FireWeapon(PlayState* play, Player* this) {
     s32 item;
     s32 arrowType;
 
@@ -3283,20 +3284,20 @@ s32 Player_UpperAction_RangedLoaded(Player* this, PlayState* play) {
     Math_ScaledStepToS(&this->upperLimbRot.z, 1200, 400);
     this->unk_6AE_rotFlags |= UNK6AE_ROT_UPPER_Z;
 
-    // unk_836 is set to 0 by Player_SetUpperActionFunc.
-    if ((this->unk_836 == 0) && (Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) &&
+    // rangedAnimPullLoadDone is set to 0 when changing upper action function (in Player_SetUpperActionFunc).
+    if ((this->rangedAnimPullLoadDone == 0) && (Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) &&
         (this->skelAnime.animation == &gPlayerAnim_link_bow_side_walk)) {
         LinkAnimation_PlayOnce(play, &this->upperSkelAnime, D_808543CC[HoldsHookshot]);
-        this->unk_836 = -1;
+        this->rangedAnimPullLoadDone = -1;
     // This LinkAnimation_Update animation will be set in earlier function to either pull up weapon or (for Bow/Slingshot) load weapon.
-    // If finished, this sets to loop "wait" animation (weapon is loaded, waiting to fire). unk_836 signals that loading has finished.
-    // Hookshot only runs this when pulling up the weapon, as there is no load animation for Hookshot.
+    // If finished, this sets to loop "wait" animation (weapon is loaded, waiting to fire). rangedAnimPullLoadDone signals that loading has finished.
+    // Hookshot only runs this when pulling up the weapon to set wait animation, as there is no load animation for Hookshot.
     } else if (LinkAnimation_Update(play, &this->upperSkelAnime)) {
         LinkAnimation_PlayLoop(play, &this->upperSkelAnime, D_808543D4[HoldsHookshot]);
-        this->unk_836 = 1;
+        this->rangedAnimPullLoadDone = 1;
     // This value doesn't seem to get checked for anywhere.
-    } else if (this->unk_836 == 1) {
-        this->unk_836 = 2;
+    } else if (this->rangedAnimPullLoadDone == 1) {
+        this->rangedAnimPullLoadDone = 2;
     }
 
     // If rangedAimingOrLoaded > 10, it must be decreased to eventually reach 10 to allow drawing the drawn string in Player_PostLimbDrawGameplay.
@@ -3310,9 +3311,9 @@ s32 Player_UpperAction_RangedLoaded(Player* this, PlayState* play) {
     // Likewise, player cannot exit to regular camera for a few frames after entering aiming.
     Player_Ranged_CheckNotFirstPerson(this, play);
 
-    // If unk_836 > 0 the play once animation has finished (or nor set in other function, if Hookshot).
+    // If rangedAnimPullLoadDone > 0 the weapon pull out or loading animation has finished.
     // If unk_860 < 0 the weapon has not been loaded yet since pulling it up.
-    if ((this->unk_836 > 0) && ((this->unk_860 < 0) || (!sHeldItemButtonIsHeldDown && !Player_ShootingGalleryKeepLoaded(play)))) {
+    if ((this->rangedAnimPullLoadDone > 0) && ((this->unk_860 < 0) || (!sHeldItemButtonIsHeldDown && !Player_ShootingGalleryKeepLoaded(play)))) {
         // Set Player_UpperAction_RangedNotLoaded to next Upper Action function, as the weapon either is not
         // currently loaded (unk_860 < 0), or will be fired (below).
         Player_SetUpperActionFunc(this, Player_UpperAction_RangedNotLoaded);
@@ -3320,12 +3321,12 @@ s32 Player_UpperAction_RangedLoaded(Player* this, PlayState* play) {
         if (this->unk_860 >= 0) {
             if (HoldsHookshot == 0) {
                 // Could not fire due to no child actor - i.e. no ammo. Play flick sound
-                if (!Player_FireRangedWeapon(play, this)) {
+                if (!Player_Ranged_FireWeapon(play, this)) {
                     Player_PlaySfx(this, sBowSlingshotFlick[ABS(this->unk_860) - 1]);    // Sound 0 = Bow, 1 = Slingshot
                 }
                 // If using Hookshot, fire if we are on ground
             } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-                Player_FireRangedWeapon(play, this);
+                Player_Ranged_FireWeapon(play, this);
             }
         }
         // If the Bow or Slingshot are loaded, rangedAimingOrLoaded needs to be 10 to draw the drawn string is correct position.
@@ -3333,8 +3334,8 @@ s32 Player_UpperAction_RangedLoaded(Player* this, PlayState* play) {
         Player_ZeroSpeedXZ(this);
     } else {
         // Set flag that our weapon is currently loaded. When first changing item to ranged weapon or going into aiming mode,
-        // this flag will be set for a few frames while the changing animations are played (when unk_836 == 0),
-        // and then the action function will be swapped above as unk_836 > 0 (animation done) yet unk_860 < 0 = (weapon never loaded)
+        // this flag will be set for a few frames while the changing animations are played (when rangedAnimPullLoadDone == 0),
+        // and then the action function will be swapped above as rangedAnimPullLoadDone > 0 yet unk_860 < 0 = (weapon never loaded)
         this->stateFlags1 |= PLAYER_STATE1_RANGED_WEAPON_LOADED;
     }
 
@@ -3359,10 +3360,10 @@ s32 Player_UpperAction_RangedNotLoaded(Player* this, PlayState* play) {
         // Set positive unk_860 to flag loaded weapon
         this->unk_860 = ABS(this->unk_860);
 
-        if (Player_LoadRangedWeapon(this, play)) {
+        if (Player_Ranged_LoadWeapon(this, play)) {
             if (Player_HoldsHookshot(this)) {
                 // See next upper action. No special animation for loading Hookshot, set 1 already
-                this->unk_836 = 1;
+                this->rangedAnimPullLoadDone = 1;
             } else {
                 // Play loading animation for Bow/Slingshot
                 LinkAnimation_PlayOnce(play, &this->upperSkelAnime, &gPlayerAnim_link_bow_bow_shoot_next);
@@ -3390,7 +3391,7 @@ s32 Player_UpperAction_RangedNotLoaded(Player* this, PlayState* play) {
         if (Player_HoldsHookshot(this)) {
             Player_SetUpperActionFunc(this, Player_UpperAction_RangedNotAiming);
         } else {
-            Player_SetUpperActionFunc(this, Player_WaitForRangedPutDownAnim);
+            Player_SetUpperActionFunc(this, Player_UpperAction_RangedWaitForPutDownAnim);
             // Play animation for putting down Bow/Slingshot
             LinkAnimation_PlayOnce(play, &this->upperSkelAnime, &gPlayerAnim_link_bow_bow_shoot_end);
         }
@@ -3407,7 +3408,7 @@ s32 Player_UpperAction_RangedNotLoaded(Player* this, PlayState* play) {
  * If player is not on the ground (= animation cannot be played) or the animation is finished
  * (LinkAnimation_Update returns true), set next upper action function
  */
-s32 Player_WaitForRangedPutDownAnim(Player* this, PlayState* play) {
+s32 Player_UpperAction_RangedWaitForPutDownAnim(Player* this, PlayState* play) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || LinkAnimation_Update(play, &this->upperSkelAnime)) {
         Player_SetUpperActionFunc(this, Player_UpperAction_RangedNotAiming);
     }
@@ -3490,7 +3491,7 @@ void func_808357E8(Player* this, Gfx** dLists) {
     this->leftHandDLists = dLists + gSaveContext.save.linkAge;
 }
 
-s32 func_80835800(Player* this, PlayState* play) {
+s32 Player_UpperAction_80835800(Player* this, PlayState* play) {
     if (func_80834758(play, this)) {
         return true;
     }
@@ -3582,7 +3583,7 @@ s32 Player_UpperAction_BoomerangWaitReturn(Player* this, PlayState* play) {
 
     // PLAYER_STATE1_BOOMERANG_THROWN is removed by the Boomerang actor
     if (!(this->stateFlags1 & PLAYER_STATE1_BOOMERANG_THROWN)) {
-        Player_SetUpperActionFunc(this, func_80835C08);
+        Player_SetUpperActionFunc(this, Player_UpperAction_80835C08);
         LinkAnimation_PlayOnce(play, &this->upperSkelAnime, &gPlayerAnim_link_boom_catch);
         func_808357E8(this, gPlayerLeftHandBoomerangDLs);
         Player_PlaySfx(this, NA_SE_PL_CATCH_BOOMERANG);
@@ -3594,9 +3595,9 @@ s32 Player_UpperAction_BoomerangWaitReturn(Player* this, PlayState* play) {
     return false;
 }
 
-s32 func_80835C08(Player* this, PlayState* play) {
-    if (!func_80835800(this, play) && LinkAnimation_Update(play, &this->upperSkelAnime)) {
-        Player_SetUpperActionFunc(this, func_80835800);
+s32 Player_UpperAction_80835C08(Player* this, PlayState* play) {
+    if (!Player_UpperAction_80835800(this, play) && LinkAnimation_Update(play, &this->upperSkelAnime)) {
+        Player_SetUpperActionFunc(this, Player_UpperAction_80835800);
     }
 
     return true;
@@ -5080,7 +5081,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                         }
 
                         if (!(this->av1.actionVar1 = sp54)) {
-                            Player_SetUpperActionFunc(this, func_80834BD4);
+                            Player_SetUpperActionFunc(this, Player_UpperAction_80834BD4);
 
                             if (this->unk_870 < 0.5f) {
                                 anim = D_808543BC[Player_HoldsTwoHandedWeapon(this)];
@@ -8288,7 +8289,7 @@ void Player_Action_80840450(Player* this, PlayState* play) {
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList1, true)) {
         if (!Player_UpdateHostileLockOn(this) &&
-            (!Player_FriendlyLockOnOrParallel(this) || (func_80834B5C != this->upperActionFunc))) {
+            (!Player_FriendlyLockOnOrParallel(this) || (Player_UpperAction_80834B5C != this->upperActionFunc))) {
             func_8083CF10(this, play);
             return;
         }
@@ -8365,7 +8366,7 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
             return;
         }
 
-        if (func_80834B5C == this->upperActionFunc) {
+        if (Player_UpperAction_80834B5C == this->upperActionFunc) {
             func_8083CEAC(this, play);
             return;
         }
@@ -8567,7 +8568,7 @@ void Player_Action_80840DE4(Player* this, PlayState* play) {
     this->skelAnime.mode = 0;
     LinkAnimation_SetUpdateFunction(&this->skelAnime);
 
-    this->skelAnime.animation = Player_SetRangedSideWalkAnim(this);
+    this->skelAnime.animation = Player_Ranged_SetSideWalkAnim(this);
 
     if (this->skelAnime.animation == &gPlayerAnim_link_bow_side_walk) {
         frames = 24.0f;
@@ -9467,7 +9468,7 @@ void Player_Action_808435C4(Player* this, PlayState* play) {
     if (this->av1.actionVar1 == 0) {
         sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
 
-        if ((func_80834B5C == this->upperActionFunc) ||
+        if ((Player_UpperAction_80834B5C == this->upperActionFunc) ||
             (Player_TryActionInterrupt(play, this, &this->upperSkelAnime, 4.0f) >= PLAYER_INTERRUPT_MOVE)) {
             Player_SetupAction(play, this, Player_Action_80840450, 1);
         }
@@ -12740,9 +12741,10 @@ void Player_Action_InFirstPerson(Player* this, PlayState* play) {
 
 s32 func_8084B3CC(PlayState* play, Player* this) {
     if (play->shootingGalleryStatus != 0) {
-        func_80832564(play, this);
-        Player_SetupAction(play, this, Player_Action_8084FA54, 0);
+        func_80832564(play, this);  // Some general reset/init function
+        Player_SetupAction(play, this, Player_Action_InShootingGallery, 0);
 
+        // If not already holding Bow/Slingshot, use Bow
         if (!Player_IsHoldingRanged(this) || Player_HoldsHookshot(this)) {
             Player_UseItem(play, this, 3);
         }
@@ -14646,7 +14648,10 @@ void Player_Action_ExitGrotto(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8084FA54(Player* this, PlayState* play) {
+/**
+ * Action looping during shooting gallery game
+ */
+void Player_Action_InShootingGallery(Player* this, PlayState* play) {
     // Player will be first person with a ranged weapon
     this->unk_6AD = 2;
 
@@ -14658,6 +14663,11 @@ void Player_Action_8084FA54(Player* this, PlayState* play) {
     this->upperLimbRot.y = func_8084ABD8(play, this, true, 0) - this->actor.shape.rot.y;
     this->unk_6AE_rotFlags |= UNK6AE_ROT_UPPER_Y;
 
+    // Game ends at status 1, status is then set to -10 by Player_Ranged_FireWeapon
+    // so it is increased to 0 to end the game
+    // If an arrow/seed had not spawned yet when game ended, this small break
+    // allows for the projectile to spawn and then removed
+    // The shooting man re-sets status -2 as long as post-game cutscene camera is active
     if (play->shootingGalleryStatus < 0) {
         play->shootingGalleryStatus++;
         if (play->shootingGalleryStatus == 0) {

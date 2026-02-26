@@ -111,12 +111,14 @@ void EnSyatekiItm_Idle(EnSyatekiItm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->signal == ENSYATEKI_START) {
+        // Move player to correct position
         player->actor.world.pos.x = -12.0f;
         player->actor.world.pos.y = 20.0f;
         player->actor.world.pos.z = 182.0f;
         player->yaw = player->actor.world.rot.y = player->actor.shape.rot.y = 0x7F03;
         player->actor.world.rot.x = player->actor.shape.rot.x = player->actor.world.rot.z = player->actor.shape.rot.z =
             0;
+        // Set ammo and reset number of hits etc
         Player_SetShootingGalleryAmmo(play, 15);
         this->roundNum = this->hitCount = 0;
         for (i = 0; i < 6; i++) {
@@ -177,6 +179,8 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, PlayState* play) {
     s32 i;
     s32 roundIdx;
 
+    // If starting ammo+1 reaches 1, status is set to -10 by Player_Ranged_FireWeapon
+    // and incremented every frame by Player_Action_InShootingGallery.
     if (play->shootingGalleryStatus == -1) {
         player->actor.freezeTimer = 10;
         this->signal = ENSYATEKI_END;

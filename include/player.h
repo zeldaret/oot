@@ -897,7 +897,7 @@ typedef struct Player {
     /* 0x082C */ UpperActionFunc upperActionFunc;
     /* 0x0830 */ f32 upperAnimInterpWeight;
     /* 0x0834 */ s16 rangedAimingOrLoaded;  // Used by Bow, Slingshot, Boomerang, Hookshot. 0 = not aiming a ranged weapon. >0 = aiming. 10 = loaded and ready to fire.
-    /* 0x0836 */ s8 unk_836;
+    /* 0x0836 */ s8 rangedAnimPullLoadDone;    // Used by Bow, Slingshot, Hookshot. Flag that the weapon has finished pull out or loading animation.
     /* 0x0837 */ u8 putAwayCooldownTimer;
     /* 0x0838 */ f32 speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
     /* 0x083C */ s16 yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
