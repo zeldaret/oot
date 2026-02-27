@@ -3,9 +3,9 @@
 
 #include "tex_len.h"
 #include "ultra64.h"
-#include "region.h"
+#include "versions.h"
 
-#if OOT_REGION != REGION_EU
+#if OOT_NTSC
 #define gUnusedHeartPieceIconTex_WIDTH 32
 #define gUnusedHeartPieceIconTex_HEIGHT 32
 extern u64 gUnusedHeartPieceIconTex[TEX_LEN(u64, gUnusedHeartPieceIconTex_WIDTH, gUnusedHeartPieceIconTex_HEIGHT, 16)];

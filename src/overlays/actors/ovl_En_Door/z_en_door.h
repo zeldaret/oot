@@ -33,6 +33,12 @@
 
 #define ENDOOR_GET_CHECKABLE_TEXT_ID(thisx)     PARAMS_GET_U((thisx)->params, 0, 6)
 
+#define ENDOOR_PARAMS(type, isDoubleDoor, data) (((type) << 7) | (((isDoubleDoor) ? 1 : 0) << 6) | (data))
+#define ENDOOR_PARAMS_NODATA(type, isDoubleDoor) (ENDOOR_PARAMS(type, isDoubleDoor, 0x3F))
+#define ENDOOR_PARAMS_LOCKED(isDoubleDoor, switchFlag) (ENDOOR_PARAMS(DOOR_LOCKED, isDoubleDoor, switchFlag))
+#define ENDOOR_PARAMS_CHECKABLE(isDoubleDoor, textIdMinus0x0200) (ENDOOR_PARAMS(DOOR_CHECKABLE, isDoubleDoor, textIdMinus0x0200))
+#define ENDOOR_PARAMS_EVENING(isDoubleDoor, textIdMinus0x0200) (ENDOOR_PARAMS(DOOR_EVENING, isDoubleDoor, textIdMinus0x0200))
+
 typedef enum EnDoorType {
     /* 0x00 */ DOOR_ROOMLOAD,  // loads rooms
     /* 0x01 */ DOOR_LOCKED,    // small key locked door

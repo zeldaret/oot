@@ -470,12 +470,12 @@ void EnRu2_SageOfWaterDialog(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_RaiseArms(EnRu2* this, PlayState* play) {
-    s32 animDone;
+    s32 animFinished;
 
     EnRu2_UpdateBgCheckInfo(this, play);
-    animDone = EnRu2_UpdateSkelAnime(this);
+    animFinished = EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
-    EnRu2_HoldArmsUp(this, animDone);
+    EnRu2_HoldArmsUp(this, animFinished);
 }
 
 void EnRu2_AwaitWaterMedallion(EnRu2* this, PlayState* play) {
@@ -739,12 +739,12 @@ void EnRu2_CreditsVisible(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_CreditsTurnHeadDownLeft(EnRu2* this, PlayState* play) {
-    s32 animDone;
+    s32 animFinished;
 
     EnRu2_UpdateBgCheckInfo(this, play);
-    animDone = EnRu2_UpdateSkelAnime(this);
+    animFinished = EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
-    EnRu2_HoldLookingDownLeftPose(this, animDone);
+    EnRu2_HoldLookingDownLeftPose(this, animFinished);
 }
 
 void EnRu2_SetEncounterSwitchFlag(EnRu2* this, PlayState* play) {
