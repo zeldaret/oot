@@ -2086,7 +2086,7 @@ class MessageEntry:
 
         out = ""
 
-        out += f"#ifndef MESSAGE_0x{self.text_id:04X}\n"
+        out += f"#ifndef OVERRIDE_MESSAGE_0x{self.text_id:04X}\n"
 
         if all(selection):
             shared_box_type = unique_or_none([data.box_type for data in self.data if data is not None])
