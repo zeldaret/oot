@@ -1336,7 +1336,7 @@ s32 EnRu1_CheckDespawn(EnRu1* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return false;
     } else if (((this->initRoomNum != curRoomNum) || (this->currentRoomNum != curRoomNum)) &&
-               //! @bug ? This currentRoomNum check has already been proven false
+               // currentRoomNum is always curRoomNum here
                (this->actor.depthInWater > kREG(16) + 50.0f) && (this->action != ENRU1_ACTION_SITTING_DISAPPEARING)) {
         this->action = ENRU1_ACTION_SITTING_DISAPPEARING;
         this->drawConfig = ENRU1_DRAW_XLU;
