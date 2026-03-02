@@ -207,7 +207,8 @@ void EnInsect_Init(Actor* thisx, PlayState* play2) {
 
     type = PARAMS_GET_U(this->actor.params, 0, 2);
 
-    SkelAnime_Init(play, &this->skelAnime, &gBugSkel, &gBugCrawlAnim, this->jointTable, this->morphTable, 24);
+    SkelAnime_Init(play, &this->skelAnime, &gBugSkel, &gBugCrawlAnim, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
 

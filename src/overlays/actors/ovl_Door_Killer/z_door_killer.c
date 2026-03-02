@@ -139,7 +139,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             // `jointTable` is used for both the `jointTable` and `morphTable` args here. Because this actor doesn't
             // play any animations it does not cause problems, but it would need to be changed otherwise.
             SkelAnime_InitFlex(play, &this->skelAnime, &object_door_killer_Skel_001BC8, NULL, this->jointTable,
-                               this->jointTable, 9);
+                               this->jointTable, ARRAY_COUNT(this->jointTable));
             this->actionFunc = DoorKiller_WaitForObject;
             DoorKiller_WaitForObject(this, play);
 

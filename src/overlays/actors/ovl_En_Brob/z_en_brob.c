@@ -7,6 +7,7 @@
 #include "z_en_brob.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
@@ -70,7 +71,8 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
     EnBrob* this = (EnBrob*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &gBrobSkel, &gBrobMoveUpAnim, this->jointTable, this->morphTable, 10);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBrobSkel, &gBrobMoveUpAnim, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gBrobCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);

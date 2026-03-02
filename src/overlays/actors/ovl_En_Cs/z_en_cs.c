@@ -2,6 +2,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
@@ -145,7 +146,8 @@ void EnCs_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 19.0f);
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &gGraveyardKidSkel, NULL, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGraveyardKidSkel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

@@ -1,6 +1,7 @@
 #include "z_en_skj.h"
 #include "overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -427,7 +428,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
 
             EnSkj_SetNaviId(this);
             SkelAnime_InitFlex(play, &this->skelAnime, &gSkullKidSkel, &gSkullKidPlayFluteAnim, this->jointTable,
-                               this->morphTable, 19);
+                               this->morphTable, ARRAY_COUNT(this->jointTable));
             if ((type >= 0) && (type < 3)) {
                 this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
                 this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
