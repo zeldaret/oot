@@ -431,7 +431,8 @@ void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxP) {
 
 /**
  * Draws a full-screen image to the current framebuffer, that sources the rgb channel from `this->fbufSave` and
- * the alpha channel from `this->cvgSave` modulated by environment color.
+ * the alpha channel from `this->cvgSave` modulated by environment color. The alpha channel becomes the framebuffer's
+ * coverage content.
  */
 void func_800C213C(PreRender* this, Gfx** gfxP) {
     Gfx* gfx;
@@ -450,6 +451,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
         gDPSetEnvColor(gfx++, 255, 255, 255, 32);
         // Effectively disable blending in both cycles. It's 2-cycle so that TEXEL1 can be used to point to a different
         // texture tile.
+        // CVG_X_ALPHA in this mode transfers combined alpha to coverage.
         gDPSetOtherMode(gfx++,
                         G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
@@ -460,7 +462,11 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
         // Set up the color combiner: first cycle: TEXEL0, TEXEL1 + ENVIRONMENT; second cycle: G_CC_PASS2
         gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 1, 0, TEXEL1, ENVIRONMENT, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
-        nRows = 4;
+        // 0xB00 bytes of TMEM are reserved for framebuffer data (TEXEL0, RGBA16)
+        // The remaining 0x500 of TMEM is for coverage data (TEXEL1, I8)
+        // In total it needs to simultaneously fit
+        // SCREEN_WIDTH * (RGBA16 pixel + I8 pixel) = SCREEN_WIDTH * (2 bytes + 1 byte)
+        nRows = TMEM_SIZE / (3 * SCREEN_WIDTH);
 
         rowsRemaining = this->height;
         curRow = 0;
@@ -486,9 +492,10 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
             rtile = rtile; // Fake match?
 
             // Load the coverage line
-            gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height,
-                             uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            gDPLoadMultiTile(gfx++, this->cvgSave, (TMEM_SIZE - (SCREEN_WIDTH * (TMEM_SIZE / (3 * SCREEN_WIDTH)))) / 8,
+                             rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls, ult, lrs, lrt, 0,
+                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                             G_TX_NOLOD);
 
             rtile = rtile; // Fake match?
 

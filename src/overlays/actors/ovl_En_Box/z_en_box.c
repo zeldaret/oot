@@ -605,9 +605,7 @@ Gfx* func_809CA4A0(GraphicsContext* gfxCtx) {
     ASSERT(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1546);
 
     dList = dListHead;
-    gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A,
-                     AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
-                         GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA));
+    gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2 | Z_UPD);
     gSPEndDisplayList(dListHead++);
 
     return dList;
