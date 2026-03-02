@@ -16,7 +16,7 @@ incbins:
     segment: code
     vram: 0x800E3600
     size: 0xFB0
-  - name: gspF3DZEX2_NoN_PosLight_fifoText
+  - name: gspF3DZEX2_NoN_fifoText
     segment: code
     vram: 0x800E45B0
     size: 0x1390
@@ -32,7 +32,7 @@ incbins:
     segment: code
     vram: 0x80114990
     size: 0x2E0
-  - name: gspF3DZEX2_NoN_PosLight_fifoData
+  - name: gspF3DZEX2_NoN_fifoData
     segment: code
     vram: 0x80114C70
     size: 0x420

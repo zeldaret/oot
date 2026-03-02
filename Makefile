@@ -364,7 +364,7 @@ ifeq ($(DEBUG_FEATURES),1)
   GBI_DEFINES += -DGBI_DEBUG
 endif
 
-CPPFLAGS += -P -xc -fno-dollars-in-identifiers $(CPP_DEFINES)
+CPPFLAGS += -P -xc -fno-dollars-in-identifiers $(CPP_DEFINES) $(GBI_DEFINES)
 ASFLAGS += -march=vr4300 -32 -no-pad-sections -Iinclude -I$(EXTRACTED_DIR)
 
 ifeq ($(COMPILER),gcc)
@@ -760,7 +760,7 @@ $(BUILD_DIR)/src/makerom/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
 $(BUILD_DIR)/src/makerom/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
 endif
 
-ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
+ifeq ($(PERMUTER),)  # permuter + preprocess.sh misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
 # Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
 $(BUILD_DIR)/src/%.o: PREPROCESS := ./tools/preprocess.sh -v $(VERSION) -i $(ICONV) --
 endif

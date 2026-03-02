@@ -1,10 +1,17 @@
 #include "transition_triforce.h"
 
+#include "gfx.h"
 #include "printf.h"
 #include "z_math.h"
 #include "transition_instances.h"
 
-#include "assets/code/fbdemo_triforce/code.c"
+Gfx sTransTriforceDL[6] = {
+#include "assets/code/fbdemo_triforce/sTransTriforceDL.inc.c"
+};
+
+Vtx sTransTriforceVtx[10] = {
+#include "assets/code/fbdemo_triforce/sTransTriforceVtx.inc.c"
+};
 
 void TransitionTriforce_Start(void* thisx) {
     TransitionTriforce* this = (TransitionTriforce*)thisx;

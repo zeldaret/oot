@@ -31,7 +31,13 @@
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/shadow_circle.h"
+#include "assets/objects/gameplay_keep/shadow_horse.h"
+#include "assets/objects/gameplay_keep/shadow_foot.h"
+#include "assets/objects/gameplay_keep/lock_on_reticle.h"
+#include "assets/objects/gameplay_keep/lock_on_arrow.h"
+#include "assets/objects/gameplay_keep/eff_flash.h"
+#include "assets/objects/gameplay_keep/lens_mask_tex.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
@@ -4505,9 +4511,7 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
 
     displayList = displayListHead = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
-    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A,
-                     AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
-                         GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA));
+    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, Z_UPD | G_RM_AA_ZB_XLU_SURF2);
 
     gSPEndDisplayList(displayListHead++);
 
@@ -4559,10 +4563,10 @@ s16 Actor_UpdateAlphaByDistance(Actor* actor, PlayState* play, s16 alpha, f32 ra
 
     if (radius < distance) {
         actor->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        Math_SmoothStepToS(&alpha, 0, 6, 0x14, 1);
+        Math_SmoothStepToS(&alpha, 0, 6, 20, 1);
     } else {
         actor->flags |= ACTOR_FLAG_ATTENTION_ENABLED;
-        Math_SmoothStepToS(&alpha, 0xFF, 6, 0x14, 1);
+        Math_SmoothStepToS(&alpha, 255, 6, 20, 1);
     }
 
     return alpha;

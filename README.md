@@ -67,8 +67,8 @@ Some of these may also be out of date or unmaintained; usually our contributors 
 ### Windows
 
 For Windows 10 or 11, install WSL and a distribution by following this
-[WSL Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install).
-We recommend using Ubuntu 20.04 as the Linux distribution.
+[WSL Installation Guide](https://learn.microsoft.com/en-us/windows/wsl/install).
+We recommend using Ubuntu as the Linux distribution.
 
 For older versions of Windows, install a Linux VM or refer to [Docker](docs/BUILDING_DOCKER.md) instructions.
 
@@ -86,19 +86,26 @@ The build process has the following package requirements:
 * python3
 * python3-pip
 * python3-venv
-* libpng-dev
 * libxml2-dev
+
+Python 3.10+ is required.
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu curl python3 python3-pip python3-venv libpng-dev libxml2-dev
+sudo apt-get install git build-essential binutils-mips-linux-gnu curl python3 python3-pip python3-venv libxml2-dev
 ```
 
 If you are using GCC as the compiler for Ocarina of Time, you will also need:
 
 * gcc-mips-linux-gnu
+
+which can be installed under Debian / Ubuntu with:
+
+```bash
+sudo apt-get install gcc-mips-linux-gnu
+```
 
 #### 2. Clone the repository
 
@@ -119,7 +126,12 @@ cd oot
 
 #### 3. Prepare a base ROM
 
-Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
+First, pick the version of the game you want to build.
+The supported versions and ROM checksums can be found in the table above.
+As an example, the `ntsc-1.0` version will be used in these instructions.
+
+Place a copy of the ROM inside the `baseroms/<the-version>/` folder for your version of choice.
+For example for `ntsc-1.0`, inside the `baseroms/ntsc-1.0/` folder.
 If you are under WSL, you can run the command `explorer.exe .` to open the current directory in the Windows file explorer.
 
 Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
@@ -129,11 +141,15 @@ Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on t
 Setup and extract everything from your ROM with the following command:
 
 ```bash
-make setup
+make setup VERSION=<the-version>
 ```
 
+For example for `ntsc-1.0`, run `make setup VERSION=ntsc-1.0`.
+
 This downloads some dependencies (from pip), and compiles tools for the build process.
-Then it generates a new ROM `baseroms/gc-eu-mq-dbg/baserom-decompressed.z64` that will have the overdump removed and the header patched.
+Then it generates a new ROM `baseroms/<the-version>/baserom-decompressed.z64`.
+For retail (non-debug) versions, that ROM will be the decompressed equivalent of the ROM.
+For the `gc-eu-mq-dbg` version, that ROM will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM
@@ -142,19 +158,21 @@ Run make to build the ROM.
 Make sure your path to the project is not too long, otherwise this process may error.
 
 ```bash
-make
+make VERSION=<the-version>
 ```
 
-If all goes well, a new ROM should be built at `build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.z64`, and the following text printed:
+For example for `ntsc-1.0`, run `make VERSION=ntsc-1.0`
 
-```bash
-build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.z64: OK
+If all goes well, a new ROM should be built at `build/<the-version>/oot-<the-version>.z64` (for example `build/ntsc-1.0/oot-ntsc-1.0.z64`), and the following text printed:
+
+```
+build/<the-version>/oot-<the-version>.z64: OK
 ```
 
 If you instead see the following:
 
-```bash
-build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.z64: FAILED
+```
+build/<the-version>/oot-<the-version>.z64: FAILED
 md5sum: WARNING: 1 computed checksum did NOT match
 ```
 
@@ -169,7 +187,10 @@ Both of these have the disadvantage that the ordering of the terminal output is 
 
 ## Changing build options
 
-The project Makefile is fairly configurable and can be used to build other versions of the game or prepare the repo for modding.
+By default, if you don't specify a version to build with `VERSION=<the-version>` in the make commands, the `gc-eu-mq-dbg` version is used.
+This default can be changed in the Makefile.
+
+The project Makefile is fairly configurable and can also be used to prepare the repo for modding.
 See the options outlined at the top of the Makefile for more information.
 
 ## Contributing
