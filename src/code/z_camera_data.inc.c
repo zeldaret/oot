@@ -2572,7 +2572,7 @@ s32 sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISI
 s32 sCameraHudVisibilityMode = HUD_VISIBILITY_NOTHING_ALT;
 s32 sCameraLetterboxSize = 32;
 
-s32 D_8011D3AC = -1;
+s32 sCameraFocusActorCategory = -1; // only applicable to CAM_FUNC_DEMO5, CAM_FUNC_UNIQ9
 
 // Used in Camera_KeepOn3 and Camera_KeepOn4 to check around an `at` position for an `eye` position such that the
 // `at`-`eye` segment is not obstructed by collision or colliders.

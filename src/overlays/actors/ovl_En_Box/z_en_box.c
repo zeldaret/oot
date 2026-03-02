@@ -377,7 +377,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play) {
  * The chest is ready to appear, possibly waiting for camera/cutscene-related stuff to happen
  */
 void EnBox_AppearInit(EnBox* this, PlayState* play) {
-    if (func_8005B198() == this->dyna.actor.category || this->unk_1A8 != 0) {
+    if (Camera_GetFocusActorCategory() == this->dyna.actor.category || this->unk_1A8 != 0) {
         EnBox_SetupAction(this, EnBox_AppearAnimation);
         this->unk_1A8 = 0;
         Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
