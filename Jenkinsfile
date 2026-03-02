@@ -127,6 +127,13 @@ pipeline {
                 }
             }
         }
+        stage('Build gc-eu-dbg-proto') {
+            steps {
+                script {
+                    build('gc-eu-dbg-proto', 'oot-gc-eu-dbg-proto.z64')
+                }
+            }
+        }
         stage('Build gc-eu-dbg') {
             steps {
                 script {
