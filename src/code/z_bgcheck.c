@@ -4247,7 +4247,14 @@ u32 func_80042108(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 /**
  * Zora's Domain WaterBox in King Zora's Room
  */
-WaterBox sZorasDomainWaterBox = { -348, 877, -1746, 553, 780, 0x2104 };
+WaterBox sZorasDomainWaterBox = {
+    -348,  // xMin
+    877,   // ySurface
+    -1746, // zMin
+    553,   // xLength
+    780,   // zLength
+    WATERBOX_PROPERTIES(/* bgCamIndex */ 4, /* lightIndex */ 1, /* roomIndex */ 1, /* isDisabled */ false),
+};
 
 /**
  * WaterBox's effective bounding box
@@ -4260,31 +4267,38 @@ f32 sZorasDomainWaterBoxMaxY = 977.0f;
 f32 sZorasDomainWaterBoxMaxZ = -967.0f;
 
 /**
- * Public. Get the water surface at point (`x`, `ySurface`, `z`). `ySurface` doubles as position y input
- * returns true if point is within the xz boundaries of an active water box, else false
- * `ySurface` returns the water box's surface, while `outWaterBox` returns a pointer to the WaterBox
+ * Get the water surface at point (`x`, `y`, `z`). `y` doubles as `outWaterSurface` result
+ * returns true if point is within the xz boundaries of an active WaterBox, else false
+ * `y` returns the WaterBox's surface
+ * `outWaterBox` returns a pointer to the WaterBox
+ *
+ * This performs a special case check on a custom waterbox in Zora's Domain that has a finite depth
+ * Otherwise, the search performed assumes waterboxes cannot overlap, as water has effectively infinite depth
  */
-s32 WaterBox_GetSurface1(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
-                         WaterBox** outWaterBox) {
+s32 BgCheck_GetWaterSurfaceAllHack(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* y,
+                                   WaterBox** outWaterBox) {
     if (play->sceneId == SCENE_ZORAS_DOMAIN) {
         s32 pad;
 
-        if (sZorasDomainWaterBoxMinX < x && x < sZorasDomainWaterBoxMaxX && sZorasDomainWaterBoxMinY < *ySurface &&
-            *ySurface < sZorasDomainWaterBoxMaxY && sZorasDomainWaterBoxMinZ < z && z < sZorasDomainWaterBoxMaxZ) {
+        if (sZorasDomainWaterBoxMinX < x && x < sZorasDomainWaterBoxMaxX && sZorasDomainWaterBoxMinY < *y &&
+            *y < sZorasDomainWaterBoxMaxY && sZorasDomainWaterBoxMinZ < z && z < sZorasDomainWaterBoxMaxZ) {
             *outWaterBox = &sZorasDomainWaterBox;
-            *ySurface = sZorasDomainWaterBox.ySurface;
+            *y = sZorasDomainWaterBox.ySurface;
             return true;
         }
     }
-    return WaterBox_GetSurfaceImpl(play, colCtx, x, z, ySurface, outWaterBox);
+    return BgCheck_GetWaterSurface(play, colCtx, x, z, y, outWaterBox);
 }
 
 /**
- * Internal. Get the water surface at point (`x`, `ySurface`, `z`). `ySurface` doubles as position y input
- * returns true if point is within the xz boundaries of an active water box, else false
- * `ySurface` returns the water box's surface, while `outWaterBox` returns a pointer to the WaterBox
+ * Get the water surface at point (`x`, `z`).
+ * returns true if point is within the xz boundaries of an active WaterBox, else false
+ * `outWaterSurface` returns the WaterBox's surface
+ * `outWaterBox` returns a pointer to the WaterBox
+ *
+ * The search performed assumes waterboxes cannot overlap, as water has effectively infinite depth
  */
-s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
+s32 BgCheck_GetWaterSurface(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* outWaterSurface,
                             WaterBox** outWaterBox) {
     CollisionHeader* colHeader = colCtx->colHeader;
     s32 room;
@@ -4296,15 +4310,18 @@ s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f3
 
     for (waterBox = colHeader->waterBoxes; waterBox < colHeader->waterBoxes + colHeader->numWaterBoxes; waterBox++) {
         room = WATERBOX_ROOM(waterBox->properties);
-        if (room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
-            if (!(waterBox->properties & WATERBOX_FLAG_19)) {
-                if (waterBox->xMin < x && x < waterBox->xMin + waterBox->xLength) {
-                    if (waterBox->zMin < z && z < waterBox->zMin + waterBox->zLength) {
-                        *outWaterBox = waterBox;
-                        *ySurface = waterBox->ySurface;
-                        return true;
-                    }
-                }
+        if (room != play->roomCtx.curRoom.num && room != WATERBOX_ROOM_ALL) {
+            continue;
+        }
+        if (waterBox->properties & WATERBOX_IS_DISABLED) {
+            continue;
+        }
+        //! @bug: WaterBox bounds check issue.
+        if (waterBox->xMin < x && x < waterBox->xMin + waterBox->xLength) {
+            if (waterBox->zMin < z && z < waterBox->zMin + waterBox->zLength) {
+                *outWaterBox = waterBox;
+                *outWaterSurface = waterBox->ySurface;
+                return true;
             }
         }
     }
@@ -4312,12 +4329,12 @@ s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f3
 }
 
 /**
- * Gets the first active WaterBox at `pos` with WATERBOX_FLAG_19 not set
+ * Gets the first active WaterBox at `pos`, within +- `surfaceChkDist`
  * `surfaceChkDist` is the absolute y distance from the water surface to check
  * returns the index of the waterbox found, or -1 if no waterbox is found
  * `outWaterBox` returns the pointer to the waterbox found, or NULL if none is found
  */
-s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, f32 surfaceChkDist,
+s32 BgCheck_FindWaterBox(PlayState* play, CollisionContext* colCtx, Vec3f* pos, f32 surfaceChkDist,
                          WaterBox** outWaterBox) {
     CollisionHeader* colHeader = colCtx->colHeader;
     s32 room;
@@ -4334,16 +4351,18 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
         waterBox = &colHeader->waterBoxes[i];
 
         room = WATERBOX_ROOM(waterBox->properties);
-        if (room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
-            if (!(waterBox->properties & WATERBOX_FLAG_19)) {
-                if (waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength) {
-                    if (waterBox->zMin < pos->z && pos->z < waterBox->zMin + waterBox->zLength) {
-                        if (pos->y - surfaceChkDist < waterBox->ySurface &&
-                            waterBox->ySurface < pos->y + surfaceChkDist) {
-                            *outWaterBox = waterBox;
-                            return i;
-                        }
-                    }
+        if (room != play->roomCtx.curRoom.num && room != WATERBOX_ROOM_ALL) {
+            continue;
+        }
+        if (waterBox->properties & WATERBOX_IS_DISABLED) {
+            continue;
+        }
+        //! @bug: WaterBox bounds check issue. See BgCheck_GetWaterSurface for more details.
+        if ((waterBox->xMin < pos->x) && (pos->x < waterBox->xMin + waterBox->xLength)) {
+            if ((waterBox->zMin < pos->z) && (pos->z < waterBox->zMin + waterBox->zLength)) {
+                if (pos->y - surfaceChkDist < waterBox->ySurface && waterBox->ySurface < pos->y + surfaceChkDist) {
+                    *outWaterBox = waterBox;
+                    return i;
                 }
             }
         }
@@ -4386,12 +4405,15 @@ u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox) {
 }
 
 /**
- * Get the water surface at point (`x`, `ySurface`, `z`). `ySurface` doubles as position y input
- * same as WaterBox_GetSurfaceImpl, but tests if WATERBOX_FLAG_19 is set
- * returns true if point is within the xz boundaries of an active water box, else false
- * `ySurface` returns the water box's surface, while `outWaterBox` returns a pointer to the WaterBox
+ * Unused. Gets the water surface? at point (`x`, `z`) for disabled? waterboxes only.
+ * returns true if point is within the xz boundaries of a disabled? WaterBox, else false
+ * `outWaterSurface` returns the WaterBox's surface
+ * `outWaterBox` returns a pointer to the WaterBox
+ *
+ * The search performed assumes waterboxes cannot overlap
  */
-s32 func_800425B0(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox) {
+s32 func_800425B0(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* outWaterSurface,
+                  WaterBox** outWaterBox) {
     CollisionHeader* colHeader = colCtx->colHeader;
     s32 room;
     WaterBox* waterBox;
@@ -4402,15 +4424,18 @@ s32 func_800425B0(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* 
 
     for (waterBox = colHeader->waterBoxes; waterBox < colHeader->waterBoxes + colHeader->numWaterBoxes; waterBox++) {
         room = WATERBOX_ROOM(waterBox->properties);
-        if ((room == play->roomCtx.curRoom.num) || (room == WATERBOX_ROOM_ALL)) {
-            if (waterBox->properties & WATERBOX_FLAG_19) {
-                if (waterBox->xMin < x && x < (waterBox->xMin + waterBox->xLength)) {
-                    if (waterBox->zMin < z && z < (waterBox->zMin + waterBox->zLength)) {
-                        *outWaterBox = waterBox;
-                        *ySurface = waterBox->ySurface;
-                        return true;
-                    }
-                }
+        if ((room != play->roomCtx.curRoom.num) && (room != WATERBOX_ROOM_ALL)) {
+            continue;
+        }
+        if (!(waterBox->properties & WATERBOX_IS_DISABLED)) {
+            continue;
+        }
+        //! @bug: WaterBox bounds check issue. See BgCheck_GetWaterSurface for more details.
+        if (waterBox->xMin < x && x < (waterBox->xMin + waterBox->xLength)) {
+            if (waterBox->zMin < z && z < (waterBox->zMin + waterBox->zLength)) {
+                *outWaterBox = waterBox;
+                *outWaterSurface = waterBox->ySurface;
+                return true;
             }
         }
     }

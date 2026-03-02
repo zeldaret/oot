@@ -685,8 +685,8 @@ s32 Camera_GetWaterBoxBgCamIndex(Camera* camera, f32* waterY) {
     playerPosRot = Actor_GetWorldPosShapeRot(&camera->player->actor);
     *waterY = playerPosRot.pos.y;
 
-    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, playerPosRot.pos.x, playerPosRot.pos.z, waterY,
-                              &waterBox)) {
+    if (!BgCheck_GetWaterSurfaceAllHack(camera->play, &camera->play->colCtx, playerPosRot.pos.x, playerPosRot.pos.z,
+                                        waterY, &waterBox)) {
         // player's position is not within the x/z boundaries of a water box.
         *waterY = BGCHECK_Y_MIN;
         return -1;
@@ -722,7 +722,8 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* lightIndex) {
     playerPosRot = Actor_GetWorldPosShapeRot(&camera->player->actor);
     waterY = playerPosRot.pos.y;
 
-    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, chkPos->x, chkPos->z, &waterY, &waterBox)) {
+    if (!BgCheck_GetWaterSurfaceAllHack(camera->play, &camera->play->colCtx, chkPos->x, chkPos->z, &waterY,
+                                        &waterBox)) {
         // chkPos is not within the x/z boundaries of a water box.
         return BGCHECK_Y_MIN;
     }
