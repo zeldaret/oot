@@ -1,6 +1,7 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "attributes.h"
 #include "regs.h"
 #include "sys_matrix.h"
 #include "z_kaleido_scope.h"
@@ -31,7 +32,7 @@ static PauseMapMarkInfo sMapMarkInfoTable[] = {
 
 extern PauseMapMarksData gPauseMapMarkDataTable[];
 
-void PauseMapMark_Init(PlayState* play) {
+void PauseMapMark_Init(UNUSED PlayState* play) {
     gBossMarkState = 0;
     gBossMarkScale = 1.0f;
     gLoadedPauseMarkDataTable = gPauseMapMarkDataTable;
@@ -42,7 +43,7 @@ void PauseMapMark_Init(PlayState* play) {
 #endif
 }
 
-void PauseMapMark_Clear(PlayState* play) {
+void PauseMapMark_Clear(UNUSED PlayState* play) {
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_38 != NULL)) {
         B_80121220->unk_38(&gLoadedPauseMarkDataTable);

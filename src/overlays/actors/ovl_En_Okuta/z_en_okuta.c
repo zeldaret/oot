@@ -5,6 +5,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -129,7 +130,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnOkuta_Init(Actor* thisx, PlayState* play) {
     EnOkuta* this = (EnOkuta*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     WaterBox* outWaterBox;
     f32 ySurface;
     s32 floorBgId;
@@ -303,7 +304,7 @@ void EnOkuta_WaitToAppear(EnOkuta* this, PlayState* play) {
 }
 
 void EnOkuta_Appear(EnOkuta* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.xzDistToPlayer < 160.0f) {
@@ -328,7 +329,7 @@ void EnOkuta_Appear(EnOkuta* this, PlayState* play) {
 }
 
 void EnOkuta_Hide(EnOkuta* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f, 30.0f);
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -717,7 +718,7 @@ s32 EnOkuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
 
 void EnOkuta_Draw(Actor* thisx, PlayState* play) {
     EnOkuta* this = (EnOkuta*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 

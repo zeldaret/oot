@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_dodoago.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "array_count.h"
@@ -15,6 +16,7 @@
 #include "rand.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -94,7 +96,7 @@ static s16 sFirstExplosiveFlag = false;
 
 static u8 sDisableBombCatcher;
 
-static u8 sUnused[90]; // unknown length
+UNUSED static u8 sUnused[90]; // unknown length
 
 static s32 sTimer;
 
@@ -127,7 +129,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgDodoago_Init(Actor* thisx, PlayState* play) {
     BgDodoago* this = (BgDodoago*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

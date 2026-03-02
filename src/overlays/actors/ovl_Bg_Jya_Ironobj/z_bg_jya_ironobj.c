@@ -5,12 +5,14 @@
  */
 
 #include "z_bg_jya_ironobj.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Ik/z_en_ik.h"
 
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -33,7 +35,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play);
 void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
 void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
 
-static int sUnused = 0;
+UNUSED static int sUnused = 0;
 
 ActorProfile Bg_Jya_Ironobj_Profile = {
     /**/ ACTOR_BG_JYA_IRONOBJ,
@@ -91,7 +93,7 @@ static InitChainEntry sInitChain[] = {
 static CollisionHeader* sCollisionHeaders[] = { &gPillarCol, &gThroneCol };
 
 void BgJyaIronobj_InitCylinder(BgJyaIronobj* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitCylinder(play, &this->colliderCylinder);
     Collider_SetCylinder(play, &this->colliderCylinder, &this->dyna.actor, &sCylinderInit);
@@ -115,7 +117,7 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk
     f32 coss;
     s16 rotY;
     f32 sins;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
 #if DEBUG_FEATURES
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
@@ -182,7 +184,7 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
     f32 coss;
     s16 rotY;
     f32 sins;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
 #if DEBUG_FEATURES
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
@@ -234,7 +236,7 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 void BgJyaIronobj_Init(Actor* thisx, PlayState* play) {
     BgJyaIronobj* this = (BgJyaIronobj*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

@@ -16,6 +16,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_lib.h"
@@ -257,7 +258,7 @@ void EnKanban_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnKanban_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnKanban* this = (EnKanban*)thisx;
 
     if (this->actionState == ENKANBAN_SIGN) {
@@ -821,7 +822,7 @@ static f32 sCutAngles[] = {
     /* CUT_VERT_R */ 0.00f * M_PI,
 };
 
-static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
+UNUSED static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
 static Vtx sShadowVtx[] = {
 #include "assets/overlays/ovl_En_Kanban/sShadowVtx.inc.c"

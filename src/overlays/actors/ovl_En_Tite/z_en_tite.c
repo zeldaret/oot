@@ -16,6 +16,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -910,7 +911,7 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
 
 void EnTite_Update(Actor* thisx, PlayState* play) {
     EnTite* this = (EnTite*)thisx;
-    char pad[0x4];
+    STACK_PAD(s32);
     CollisionPoly* floorPoly;
     WaterBox* waterBox;
     f32 waterSurfaceY;

@@ -2,6 +2,7 @@
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
+#include "attributes.h"
 
 extern vu16 LEOrw_flags;
 
@@ -17,7 +18,7 @@ u32 leoChk_mecha_int(void);
 void leosetup_BM(void);
 u32 leochk_err_reg(void);
 
-void leointerrupt(void* arg) {
+void leointerrupt(UNUSED void* arg) {
     u32 result;
     u32 tg_blocks;
 

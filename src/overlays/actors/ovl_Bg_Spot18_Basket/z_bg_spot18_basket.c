@@ -12,6 +12,7 @@
 #include "one_point_cutscene.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "terminal.h"
 #include "translation.h"
@@ -150,7 +151,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -330,7 +331,7 @@ void BgSpot18Basket_SetupStopping(BgSpot18Basket* this) {
 }
 
 void BgSpot18Basket_Stopping(BgSpot18Basket* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 tempAltitude;
     s16 stoppedRotY;
 
@@ -448,7 +449,7 @@ void BgSpot18Basket_GivingPrize(BgSpot18Basket* this, PlayState* play) {
 }
 
 void BgSpot18Basket_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
     s32 bgId;
 

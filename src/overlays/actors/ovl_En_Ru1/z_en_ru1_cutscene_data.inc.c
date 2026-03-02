@@ -1,4 +1,5 @@
 #include "z_en_ru1.h"
+#include "attributes.h"
 #include "cutscene_commands.h"
 
 // clang-format off
@@ -110,7 +111,7 @@ static CutsceneData gRutoFirstMeetingCs[] = {
     CS_END_OF_SCRIPT(),
 };
 
-static u32 D_80AF10A0 = 0;
+UNUSED static u32 D_80AF10A0 = 0;
 
 static CutsceneData gRutoObtainingSapphireCs[] = {
     CS_HEADER(14, 1299),
@@ -199,7 +200,7 @@ static CutsceneData gRutoObtainingSapphireCs[] = {
     CS_END_OF_SCRIPT(),
 };
 
-static u32 D_80AF1724 = 0;
+UNUSED static u32 D_80AF1724 = 0;
 
 static CutsceneData gRutoFoundSapphireCs[] = {
     CS_HEADER(7, 1160),

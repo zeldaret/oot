@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_en_item00.h"
@@ -515,7 +516,7 @@ void EnDns_PostBurrow(EnDns* this, PlayState* play) {
 
 void EnDns_Update(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
-    s16 pad;
+    STACK_PAD(s16);
 
     this->dustTimer++;
     this->actor.textId = sStartingTextIds[DNS_GET_TYPE(&this->actor)];

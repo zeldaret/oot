@@ -2,6 +2,7 @@
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "ultra64.h"
 
 u16 leoLba_to_phys(u32 lba) {
@@ -10,7 +11,7 @@ u16 leoLba_to_phys(u32 lba) {
     u16 zone_scyl;
     u16 zone_tk;
     u16 bad_tk_num;
-    u32 counter;
+    UNUSED u32 counter;
     u16 def_offset;
     u16 defect;
     u8 def_zone_no;

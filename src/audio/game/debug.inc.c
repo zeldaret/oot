@@ -84,7 +84,7 @@ char* AudioDebug_ToStringBinary(u32 num, u8 bits) {
 }
 
 void AudioDebug_Draw(GfxPrint* printer) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     u8 i;
     u8 j;
     u8 ctr;

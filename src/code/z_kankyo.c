@@ -4,6 +4,7 @@
 #include "libc64/qrand.h"
 #include "libu64/gfxprint.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "buffers.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -17,6 +18,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
@@ -278,14 +280,14 @@ u16 Environment_GetPixelDepth(s32 x, s32 y) {
     return pixelDepth;
 }
 
-void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param) {
+void Environment_GraphCallback(UNUSED GraphicsContext* gfxCtx, void* param) {
     PlayState* play = (PlayState*)param;
 
     sSunScreenDepth = Environment_GetPixelDepth(sSunDepthTestX, sSunDepthTestY);
     Lights_GlowCheck(play);
 }
 
-void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) {
+void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, UNUSED s32 arg2) {
     u8 i;
     PlayState* play = play2;
 
@@ -635,7 +637,7 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
     return ret;
 }
 
-void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
+void Environment_UpdateStorm(EnvironmentContext* envCtx, UNUSED u8 arg1) {
     if (envCtx->stormRequest != STORM_REQUEST_NONE) {
         switch (envCtx->stormState) {
             case STORM_STATE_OFF:
@@ -865,9 +867,9 @@ void Environment_DisableUnderwaterLights(PlayState* play) {
 }
 
 #if DEBUG_FEATURES
-void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
+void Environment_PrintDebugInfo(UNUSED PlayState* play, Gfx** gfx) {
     GfxPrint printer;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *gfx);
@@ -925,7 +927,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play);
 void Environment_UpdateRain(PlayState* play);
 
 void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
-                        MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
+                        MessageContext* msgCtx, GameOverContext* gameOverCtx, UNUSED GraphicsContext* gfxCtx) {
     f32 timeChangeBlend;
     f32 configChangeBlend = 0.0f;
     u16 i;
@@ -1512,8 +1514,8 @@ void Environment_DrawSunAndMoon(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 2429);
 }
 
-void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
-                                  Vec3f pos, s32 unused) {
+void Environment_DrawSunLensFlare(PlayState* play, UNUSED EnvironmentContext* envCtx, UNUSED View* view,
+                                  UNUSED GraphicsContext* gfxCtx, Vec3f pos, UNUSED s32 arg5) {
     if ((play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) && (play->envCtx.skyboxConfig == 0)) {
         Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, 2000, 370,
                                   Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400,
@@ -1530,7 +1532,7 @@ typedef enum LensFlareType {
 } LensFlareType;
 
 void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
-                               Vec3f pos, s32 unused, s16 scale, f32 colorIntensity, s16 glareStrength, u8 isSun) {
+                               Vec3f pos, UNUSED s32 arg5, s16 scale, f32 colorIntensity, s16 glareStrength, u8 isSun) {
     s16 i;
     f32 tempX;
     f32 tempY;
@@ -1550,7 +1552,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
     f32 halfPosY;
     f32 halfPosZ;
     f32 cosAngle;
-    s32 pad;
+    STACK_PAD(s32);
     f32 lensFlareAlphaScaleTarget;
     u32 isOffScreen = false;
     f32 alpha;
@@ -1743,7 +1745,7 @@ f32 Environment_RandCentered(void) {
 
 void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) {
     s16 i;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f vec;
     f32 temp1;
     f32 temp2;
@@ -1756,7 +1758,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
     f32 z50;
     f32 x280;
     f32 z280;
-    Vec3f unused = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(play);
 
@@ -2001,7 +2003,7 @@ void Environment_UpdateLightningStrike(PlayState* play) {
  * Request the number of lightning bolts specified by `num`
  * Note: only 3 lightning bolts can be active at the same time.
  */
-void Environment_AddLightningBolts(PlayState* play, u8 num) {
+void Environment_AddLightningBolts(UNUSED PlayState* play, u8 num) {
     s16 boltsAdded = 0;
     s16 i;
 
@@ -2020,7 +2022,7 @@ void Environment_AddLightningBolts(PlayState* play, u8 num) {
 /**
  * Draw any active lightning bolt entries contained in `sLightningBolts`
  */
-void Environment_DrawLightning(PlayState* play, s32 unused) {
+void Environment_DrawLightning(PlayState* play, UNUSED s32 arg1) {
     static void* lightningTextures[] = {
         gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex,
         gEffLightning4Tex, gEffLightning5Tex, gEffLightning6Tex,
@@ -2031,9 +2033,9 @@ void Environment_DrawLightning(PlayState* play, s32 unused) {
     f32 dz;
     f32 x;
     f32 z;
-    s32 pad[2];
-    Vec3f unused1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f unused2 = { 0.0f, 0.0f, 0.0f };
+    STACK_PADS(s32, 2);
+    UNUSED Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 3253);
 
@@ -2263,7 +2265,7 @@ void Environment_DrawCustomLensFlare(PlayState* play) {
 }
 
 void Environment_InitGameOverLights(PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     sGameOverLightsIntensity = 0;
@@ -2423,7 +2425,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
     s32 envA = play->envCtx.sandstormEnvA;
     Color_RGBA8 primColor;
     Color_RGBA8 envColor;
-    s32 pad;
+    STACK_PAD(s32);
     f32 sp98;
 
     switch (sandstormState) {

@@ -13,6 +13,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -580,7 +581,7 @@ void EnGs_Update(Actor* thisx, PlayState* play2) {
 
 void EnGs_Draw(Actor* thisx, PlayState* play) {
     EnGs* this = (EnGs*)thisx;
-    s32 tmp;
+    STACK_PAD(s32);
     u32 frames;
 
     if (!(this->unk_19E & 8)) {

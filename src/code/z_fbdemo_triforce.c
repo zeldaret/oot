@@ -1,7 +1,9 @@
 #include "transition_triforce.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "z_math.h"
 #include "transition_instances.h"
 
@@ -41,7 +43,7 @@ void* TransitionTriforce_Init(void* thisx) {
     return this;
 }
 
-void TransitionTriforce_Destroy(void* thisx) {
+void TransitionTriforce_Destroy(UNUSED void* thisx) {
 }
 
 void TransitionTriforce_Update(void* thisx, s32 updateRate) {
@@ -85,7 +87,7 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     Mtx* modelView;
     f32 scale;
     TransitionTriforce* this = (TransitionTriforce*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 rotation = this->transPos * 360.0f;
 
     modelView = this->modelView[this->frame];

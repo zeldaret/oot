@@ -8,6 +8,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -311,7 +312,6 @@ void DoorWarp1_BlueCrystal(DoorWarp1* this, PlayState* play) {
 }
 
 void func_80999214(DoorWarp1* this, PlayState* play) {
-    s32 temp_f4;
     f32 darkness;
     s16 i;
 
@@ -891,7 +891,7 @@ void DoorWarp1_Update(Actor* thisx, PlayState* play) {
 }
 
 void DoorWarp1_DrawBlueCrystal(DoorWarp1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_door_warp1.c", 2078);
 
@@ -909,7 +909,7 @@ void DoorWarp1_DrawBlueCrystal(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_DrawPurpleCrystal(DoorWarp1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f eye;
 
     eye.x = -(Math_SinS(play->state.frames * 200) * 120.0f) * 80.0f;
@@ -933,8 +933,7 @@ void DoorWarp1_DrawPurpleCrystal(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
-    s32 pad;
-    u32 pad1;
+    STACK_PADS(s32, 2);
     u32 spEC = play->state.frames * 10;
     f32 spE8 = (this->unk_194 >= 1.0f) ? 0.0f : 1.0f - this->unk_194;
     f32 spE4 = (this->unk_198 >= 1.0f) ? 0.0f : 1.0f - this->unk_198;

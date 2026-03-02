@@ -4,6 +4,7 @@
 
 #include "gfx.h"
 #include "printf.h"
+#include "stack_pad.h"
 
 // how big to draw the characters on screen
 #define DISP_CHAR_WIDTH 8
@@ -61,7 +62,7 @@ void Moji_SetPosition(s32 gridX, s32 gridY) {
 }
 
 void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     OPEN_DISPS(gfxCtx, "../z_moji.c", 86);
 

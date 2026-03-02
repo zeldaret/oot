@@ -5,11 +5,13 @@
  */
 
 #include "z_bg_spot11_bakudankabe.h"
+#include "attributes.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -61,7 +63,7 @@ static Vec3f D_808B272C = { 2259.0f, 108.0f, -1550.0f };
 static Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
 
 void func_808B2180(BgSpot11Bakudankabe* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -118,7 +120,7 @@ void func_808B2218(BgSpot11Bakudankabe* this, PlayState* play) {
 
 void BgSpot11Bakudankabe_Init(Actor* thisx, PlayState* play) {
     BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -155,7 +157,7 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgSpot11Bakudankabe_Draw(Actor* thisx, PlayState* play) {
-    BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
+    UNUSED BgSpot11Bakudankabe* this = (BgSpot11Bakudankabe*)thisx;
 
     Gfx_DrawDListOpa(play, gDesertColossusBombableWallDL);
 }

@@ -14,6 +14,7 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "ichain.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -195,7 +196,7 @@ static Vec3f D_80ADD7F8 = { 1000.0f, -1700.0f, 0.0f };
 
 void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     EnPoSisters* this = (EnPoSisters*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 50.0f);
@@ -417,8 +418,7 @@ void func_80AD9AA8(EnPoSisters* this, PlayState* play) {
                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x800);
     Actor* actor3 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,
                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xC00);
-    s32 pad;
-    s32 pad1;
+    STACK_PADS(s32, 2);
 
     if (actor1 == NULL || actor2 == NULL || actor3 == NULL) {
         if (actor1 != NULL) {
@@ -682,7 +682,7 @@ void func_80ADA7F0(EnPoSisters* this, PlayState* play) {
 }
 
 void func_80ADA8C0(EnPoSisters* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
@@ -954,9 +954,6 @@ void func_80ADB51C(EnPoSisters* this, PlayState* play) {
 }
 
 void func_80ADB770(EnPoSisters* this, PlayState* play) {
-    s32 temp_v0;
-    s32 phi_a0;
-
     if (this->unk_19A != 0) {
         this->unk_19A--;
     }
@@ -1192,7 +1189,7 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
 }
 
 void EnPoSisters_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnPoSisters* this = (EnPoSisters*)thisx;
     s16 temp;
 
@@ -1319,7 +1316,7 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
     EnPoSisters* this = (EnPoSisters*)thisx;
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8 && limbIndex == 9) {
         MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_po_sisters.c", 2876);
@@ -1359,13 +1356,13 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 
 void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     EnPoSisters* this = (EnPoSisters*)thisx;
-    s32 pad1;
+    STACK_PAD(s32);
     f32 phi_f20;
     s32 i;
     u8 phi_s5;
     Color_RGBA8* temp_s1 = &D_80ADD700[this->unk_194];
     Color_RGBA8* temp_s7 = &D_80ADD6F0[this->unk_194];
-    s32 pad2;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 2989);
     func_80ADC55C(this);

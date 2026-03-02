@@ -6,6 +6,7 @@
 
 #include "z_en_ik.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
 #include "gfx.h"
@@ -15,6 +16,7 @@
 #include "rumble.h"
 #include "sfx.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -218,7 +220,7 @@ void EnIk_SetupAction(EnIk* this, EnIkActionFunc actionFunc) {
 
 void EnIk_InitImpl(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     EffectBlureInit1 blureInit;
 
     thisx->update = EnIk_UpdateEnemy;
@@ -730,7 +732,6 @@ void EnIk_Die(EnIk* this, PlayState* play) {
 }
 
 void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
-
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
         return;
     }
@@ -745,9 +746,9 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         this->shieldCollider.base.acFlags &= ~AC_BOUNCED;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
-        s16 pad;
+        STACK_PAD(s16);
         u8 prevHealth;
-        s32 damageReaction;
+        STACK_PAD(s32);
         Vec3f sparksPos = this->actor.world.pos;
 
         sparksPos.y += 50.0f;
@@ -822,7 +823,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
 
 void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     u8 prevInvincibilityTimer;
 
@@ -920,8 +921,7 @@ s32 EnIk_OverrideLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
     return false;
 }
 
-// unused
-static Vec3f D_80A78470 = { 300.0f, 0.0f, 0.0f };
+UNUSED static Vec3f D_80A78470 = { 300.0f, 0.0f, 0.0f };
 
 static Vec3f D_80A7847C[] = {
     { 800.0f, -200.0f, -5200.0f },
@@ -1090,7 +1090,7 @@ void EnIk_SpawnAxeSmoke(EnIk* this, PlayState* play, Vec3f* pos) {
     };
 
     if (!this->isAxeSummoned) {
-        s32 pad;
+        STACK_PAD(s32);
         Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
         Vec3f effectAccel = { 0.0f, 0.3f, 0.0f };
         s32 i;
@@ -1196,7 +1196,7 @@ void EnIk_PlayArmorFallSfx(EnIk* this) {
 
 void EnIk_PlayDeathSfx(EnIk* this, PlayState* play) {
     static Vec3f D_80A78FA0;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 wDest;
 
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->actor.world.pos, &D_80A78FA0, &wDest);
@@ -1205,7 +1205,7 @@ void EnIk_PlayDeathSfx(EnIk* this, PlayState* play) {
 
 // Cutscene: starts after final hit to Nabooru
 void EnIk_SetupCsAction3(EnIk* this, PlayState* play) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     f32 endFrame = Animation_GetLastFrame(&gIronKnuckleNabooruDeathAnim);
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gIronKnuckleDefeatSkel, NULL, this->jointTable, this->morphTable,
@@ -1315,7 +1315,7 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
 void EnIk_CsDrawDefeat(EnIk* this, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 322);
 
@@ -1479,7 +1479,7 @@ void EnIk_CsDrawNothing(EnIk* this, PlayState* play) {
 void EnIk_CsDrawIntro(EnIk* this, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 630);
 
