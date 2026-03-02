@@ -715,7 +715,8 @@ void EnIk_Die(EnIk* this, PlayState* play) {
             }
 
             if (this->animationTimer == 0) {
-                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xB0);
+                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                           COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_11, false));
 
                 if (this->switchFlag != 0xFF) {
                     Flags_SetSwitch(play, this->switchFlag);

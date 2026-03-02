@@ -607,7 +607,8 @@ void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play) {
 
 void EnDodojr_DropItem(EnDodojr* this, PlayState* play) {
     if (DECR(this->timer) == 0) {
-        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x40);
+        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false));
         Actor_Kill(&this->actor);
     }
 }

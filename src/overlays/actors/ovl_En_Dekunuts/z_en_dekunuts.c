@@ -443,7 +443,8 @@ void EnDekunuts_Die(EnDekunuts* this, PlayState* play) {
                              150, 150, 1, 13, 1);
         effectPos.y = this->actor.world.pos.y + 10.0f;
         EffectSsHahen_SpawnBurst(play, &effectPos, 3.0f, 0, 12, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x30);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_3, false));
         if (this->actor.child != NULL) {
             Actor_ChangeCategory(play, &play->actorCtx, this->actor.child, ACTORCAT_PROP);
         }

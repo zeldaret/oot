@@ -302,9 +302,12 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, PlayState* play) {
         Vec3f itemDropPos = this->actor.world.pos;
 
         itemDropPos.y += 70.0f;
-        Item_DropCollectibleRandom(play, &this->actor, &itemDropPos, 0x40);
-        Item_DropCollectibleRandom(play, &this->actor, &itemDropPos, 0x40);
-        Item_DropCollectibleRandom(play, &this->actor, &itemDropPos, 0x40);
+        Item_DropCollectibleRandom(play, &this->actor, &itemDropPos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false));
+        Item_DropCollectibleRandom(play, &this->actor, &itemDropPos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false));
+        Item_DropCollectibleRandom(play, &this->actor, &itemDropPos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false));
         this->unk_2D4 = 240;
     } else {
         s32 i;
@@ -607,7 +610,8 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, PlayState* play) {
             if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_PIHAT_SM_DEAD, 1, 1, 40);
             }
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x20);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_2, false));
             Actor_Kill(&this->actor);
         }
     }
@@ -888,9 +892,12 @@ void EnPeehat_StateExplode(EnPeehat* this, PlayState* play) {
     }
     this->animTimer--;
     if (this->animTimer == 0) {
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x40);
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x40);
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x40);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false));
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false));
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false));
         Actor_Kill(&this->actor);
     }
 }
