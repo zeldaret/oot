@@ -32,9 +32,9 @@ typedef struct EnRu1 {
     /* 0x0278 */ DoorWarp1* blueWarp;
     /* 0x027C */ f32 xzDistToPlayerInBlueWarp;
     /* 0x0280 */ s32 isFalling;
-    /* 0x0284 */ s8 roomNum1;
-    /* 0x0285 */ s8 roomNum2;
-    /* 0x0286 */ s8 roomNum3;
+    /* 0x0284 */ s8 initRoomNum;
+    /* 0x0285 */ s8 currentRoomNum;
+    /* 0x0286 */ s8 carryRoomNum;
     /* 0x0288 */ f32 unk_288;
     /* 0x028C */ BgBdanObjects* bigOctoPlatform;
     /* 0x0290 */ s32 preLimbDrawIndex;
@@ -43,7 +43,7 @@ typedef struct EnRu1 {
     /* 0x029C */ char unk_29C[0x2];
     /* 0x029E */ s16 headTurnSpeed;
     /* 0x02A0 */ char unk_2A0[0x4];
-    /* 0x02A4 */ f32 unk_2A4;
+    /* 0x02A4 */ f32 sinkTimer;
     /* 0x02A8 */ s32 alpha;
     /* 0x02AC */ s16 headRotTimer;
     /* 0x02B0 */ s32 headRotDirection;
@@ -88,15 +88,15 @@ typedef enum EnRu1Action {
     /* 24 */ ENRU1_ACTION_SPEAK_JABU_IDLE,
     /* 25 */ ENRU1_ACTION_SPEAK_JABU_TALKING,
     /* 26 */ ENRU1_ACTION_SPEAK_JABU_SIT_DOWN,
-    /* 27 */ ENRU1_ACTION_27,
-    /* 28 */ ENRU1_ACTION_28,
-    /* 29 */ ENRU1_ACTION_29,
-    /* 30 */ ENRU1_ACTION_30,
-    /* 31 */ ENRU1_ACTION_31,
-    /* 32 */ ENRU1_ACTION_32,
-    /* 33 */ ENRU1_ACTION_33,
-    /* 34 */ ENRU1_ACTION_34,
-    /* 35 */ ENRU1_ACTION_35,
+    /* 27 */ ENRU1_ACTION_SITTING_IDLE,
+    /* 28 */ ENRU1_ACTION_SITTING_RELEASED,
+    /* 29 */ ENRU1_ACTION_SITTING_ENTERING_WATER,
+    /* 30 */ ENRU1_ACTION_SITTING_SINKING,
+    /* 31 */ ENRU1_ACTION_SITTING_CARRIED,
+    /* 32 */ ENRU1_ACTION_SITTING_LOSING_BALANCE,
+    /* 33 */ ENRU1_ACTION_SITTING_DISAPPEARING,
+    /* 34 */ ENRU1_ACTION_SITTING_SEES_SAPPHIRE,
+    /* 35 */ ENRU1_ACTION_UNUSED,
     /* 36 */ ENRU1_ACTION_THROWN_ONTO_SAPPHIRE_PLATFORM,
     /* 37 */ ENRU1_ACTION_RETRIEVING_SAPPHIRE,
     /* 38 */ ENRU1_ACTION_HOLDING_SAPPHIRE,
