@@ -53,8 +53,32 @@ typedef enum PauseMenuPage {
 #define PAUSE_EQUIP_PLAYER_FRAG_HEIGHT (TMEM_SIZE / (PAUSE_EQUIP_PLAYER_WIDTH * G_IM_SIZ_16b_BYTES))
 #define PAUSE_EQUIP_PLAYER_FRAG_NUM (((PAUSE_EQUIP_PLAYER_HEIGHT - 1) / PAUSE_EQUIP_PLAYER_FRAG_HEIGHT) + 1)
 
-#define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
+// The pause player segment consists of:
+//  PAUSE_PLAYER_RENDER_TEX_SIZE                    RGBA16 texture / framebuffer for rendering the player into
+//  PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE  First bytes of gameplay_keep for accessing player-related data
+//  sizeof(link object)                             Link object
+//  sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]))           Joint table
+
+#define PAUSE_PLAYER_SEGMENT_TEX_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
+
+#define PAUSE_PLAYER_SEGMENT_TEXTURE(playerSegment) \
+        (playerSegment)
+
+// Note that only the first chunk of gameplay_keep is loaded, the data relevant to rendering the player
+// is expected to be within this first chunk. The size of this first chunk is determined by
+// PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE.
+#define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(playerSegment) \
+        ((playerSegment) + PAUSE_PLAYER_SEGMENT_TEX_SIZE)
+
+#define PAUSE_PLAYER_SEGMENT_LINK_OBJECT(playerSegment) \
+        ((playerSegment) + PAUSE_PLAYER_SEGMENT_TEX_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE)
+
+#define PAUSE_PLAYER_SEGMENT_TOTAL_SIZE(linkObjectSize) \
+   (PAUSE_PLAYER_SEGMENT_TEX_SIZE +                     \
+    PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE +    \
+    (linkObjectSize) +                                  \
+    sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]))
 
 typedef enum PauseState {
     /*  0 */ PAUSE_STATE_OFF,
