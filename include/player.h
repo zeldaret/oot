@@ -741,7 +741,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_0 (1 << 0)
 #define PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER (1 << 1) // Can accept a talk offer. "Speak" or "Check" is shown on the A button.
 #define PLAYER_STATE2_2 (1 << 2)
-#define PLAYER_STATE2_3 (1 << 3)
+#define PLAYER_STATE2_MAKING_NOISE (1 << 3) // Set for one frame by Player_PlayItemNoise for melee attacks, changing items, using masks. Also when fast walking. Allows detection by certain enemies
 #define PLAYER_STATE2_4 (1 << 4)
 #define PLAYER_STATE2_5 (1 << 5)
 #define PLAYER_STATE2_6 (1 << 6)
@@ -755,7 +755,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_14 (1 << 14)
 #define PLAYER_STATE2_15 (1 << 15)
 #define PLAYER_STATE2_DO_ACTION_ENTER (1 << 16) // Sets the "Enter On A" DoAction
-#define PLAYER_STATE2_17 (1 << 17)
+#define PLAYER_STATE2_RELEASE_SPIN_ATTACK (1 << 17) // Set when a spin attack release starts, to signal the En_M_Thunder actor. Remains set for spin duration if non-magic spin attack (for sword collision).
 #define PLAYER_STATE2_CRAWLING (1 << 18) // Crawling through a crawlspace
 #define PLAYER_STATE2_19 (1 << 19)
 #define PLAYER_STATE2_NAVI_ACTIVE (1 << 20) // Navi is visible and active. Could be hovering idle near Link or hovering over other actors.
@@ -905,8 +905,8 @@ typedef struct Player {
     /* 0x0840 */ u16 underwaterTimer;
     /* 0x0842 */ s8 meleeWeaponAnimation;
     /* 0x0843 */ s8 meleeWeaponState;
-    /* 0x0844 */ s8 unk_844;
-    /* 0x0845 */ u8 unk_845;
+    /* 0x0844 */ s8 spinAttackStartTimer;
+    /* 0x0845 */ u8 tripleSlashCount;
     /* 0x0846 */ u8 controlStickDataIndex; // cycles between 0 - 3. Used to index `controlStickSpinAngles` and `controlStickDirections`
     /* 0x0847 */ s8 controlStickSpinAngles[4]; // Stores a modified version of the control stick angle for the last 4 frames. Used for checking spins.
     /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction (relative to shape yaw) for the last 4 frames. See `PlayerStickDirection`.
@@ -938,7 +938,7 @@ typedef struct Player {
     /* 0x0862 */ s8 unk_862; // get item draw ID + 1
     /* 0x0864 */ f32 unk_864;
     /* 0x0868 */ f32 unk_868;
-    /* 0x086C */ f32 unk_86C;
+    /* 0x086C */ f32 unused_86C;
     /* 0x0870 */ f32 unk_870;
     /* 0x0874 */ f32 unk_874;
     /* 0x0878 */ f32 unk_878;

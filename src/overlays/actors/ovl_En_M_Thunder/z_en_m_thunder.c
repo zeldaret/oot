@@ -99,7 +99,9 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, 0.1f);
     this->isUsingMagic = false;
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    // Quickspin
+    if (player->stateFlags2 & PLAYER_STATE2_RELEASE_SPIN_ATTACK) {
+        // Don't reset the player state if not magic spin, this allows for regular sword collision to be used
         if (!gSaveContext.save.info.playerData.isMagicAcquired || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             (PARAMS_GET_S(this->actor.params, 8, 8) &&
              !(Magic_RequestChange(play, PARAMS_GET_S(this->actor.params, 8, 8), MAGIC_CONSUME_NOW)))) {
@@ -109,7 +111,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
             return;
         }
 
-        player->stateFlags2 &= ~PLAYER_STATE2_17;
+        player->stateFlags2 &= ~PLAYER_STATE2_RELEASE_SPIN_ATTACK;
         this->isUsingMagic = true;
         this->collider.elem.atDmgInfo.dmgFlags = sSpinAttackDmgFlags[this->swordType];
         this->attackStrength = M_THUNDER_ATTACK_WEAK;
@@ -143,7 +145,7 @@ void EnMThunder_AdjustEnvLights(PlayState* play, f32 intensity) {
 void EnMThunder_EmptySpinAttack(EnMThunder* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    if (player->stateFlags2 & PLAYER_STATE2_RELEASE_SPIN_ATTACK) {
         if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
             SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_ROLLING_CUT);
             SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_SWORD_SWING_HARD);
@@ -187,7 +189,7 @@ void EnMThunder_ChargingSpinAttack(EnMThunder* this, PlayState* play) {
         Rumble_Request(0.0f, (s32)(player->unk_858 * 150.0f), 2, (s32)(player->unk_858 * 150.0f));
     }
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    if (player->stateFlags2 & PLAYER_STATE2_RELEASE_SPIN_ATTACK) {
         if ((child != NULL) && (child->update != NULL)) {
             child->parent = NULL;
         }
@@ -200,7 +202,7 @@ void EnMThunder_ChargingSpinAttack(EnMThunder* this, PlayState* play) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            player->stateFlags2 &= ~PLAYER_STATE2_17;
+            player->stateFlags2 &= ~PLAYER_STATE2_RELEASE_SPIN_ATTACK;
             if (PARAMS_GET_S(this->actor.params, 8, 8)) {
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
             }

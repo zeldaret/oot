@@ -350,7 +350,7 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
     s32 phi_v1 = false;
 
     if (this->actor.xyzDistToPlayerSq < SQ(400.0f) && PARAMS_GET_S(this->actor.params, 13, 3) == 0 &&
-        play->actorCtx.unk_02 != 0) {
+        play->actorCtx.hammerHit != 0) {
 
         this->actor.colChkInfo.damage = this->actor.colChkInfo.health;
         phi_v1 = true;

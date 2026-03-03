@@ -1542,7 +1542,7 @@ void Player_UpdateMeleeWeaponInfo(PlayState* play, Player* this, Vec3f* newTipPo
     }
 
     if ((this->meleeWeaponState > 0) &&
-        ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_17))) {
+        ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_RELEASE_SPIN_ATTACK))) {
         Player_UpdateWeaponInfo(play, &this->meleeWeaponQuads[0], &this->meleeWeaponInfo[1], &newTipPositions[1],
                                 &newBasePositions[1]);
         Player_UpdateWeaponInfo(play, &this->meleeWeaponQuads[1], &this->meleeWeaponInfo[2], &newTipPositions[2],
@@ -1580,9 +1580,9 @@ void Player_DrawGetItem(PlayState* play, Player* this) {
 void Player_CalcMeleeWeaponTipPositions(Player* this, Vec3f* tipPositions) {
     sMeleeWeaponTipOffsetFromLeftHand1.x = sMeleeWeaponTipOffsetFromLeftHand0.x;
 
-    if (this->unk_845 >= 3) {
-        this->unk_845++;
-        sMeleeWeaponTipOffsetFromLeftHand1.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
+    if (this->tripleSlashCount >= 3) {
+        this->tripleSlashCount++;
+        sMeleeWeaponTipOffsetFromLeftHand1.x *= 1.0f + ((9 - this->tripleSlashCount) * 0.1f);
     }
 
     sMeleeWeaponTipOffsetFromLeftHand1.x += 1200.0f;
@@ -1774,7 +1774,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_Translate(stringData->pos.x, stringData->pos.y, stringData->pos.z, MTXMODE_APPLY);
 
             // This part makes a fully withdrawn string be drawn for the Bow and Slingshot if the weapon is loaded.
-            // - When spawning arrow/seed in Player_LoadRangedWeapon, rangedAimingOrLoaded is set to 14 and reduced by 1 each frame. Presumably this is to delay drawing
+            // - When spawning arrow/seed in Player_Ranged_LoadWeapon, rangedAimingOrLoaded is set to 14 and reduced by 1 each frame. Presumably this is to delay drawing
             // of a drawn string until the loading animation is finished. rangedAimingOrLoaded is then held at 10 as long as the weapon is loaded.
             // - Positive unk_860 means the weapon has actually been loaded since entering aiming mode (it is set negative on init and exiting aiming).
             // If this was not a condition, this part would run when changing weapon into/going into aiming mode with Bow/Slingshot (the string is fully drawn

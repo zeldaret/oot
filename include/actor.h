@@ -487,7 +487,7 @@ typedef struct ActorContextSceneFlags {
 typedef struct ActorContext {
     /* 0x000 */ u8 freezeFlashTimer;
     /* 0x001 */ char unk_01[0x01];
-    /* 0x002 */ u8 unk_02;
+    /* 0x002 */ u8 hammerHit;
     /* 0x003 */ u8 lensActive;
     /* 0x004 */ char unk_04[0x04];
     /* 0x008 */ u8 total; // total number of actors loaded
@@ -659,7 +659,7 @@ f32 Player_GetHeight(struct Player* player);
 f32 func_8002DCE4(struct Player* player);
 int Player_IsHoldingRanged(struct Player* player);
 int Player_IsAimingRanged(struct Player* player);
-s32 func_8002DDE4(struct PlayState* play);
+s32 Player_IsMakingNoise(struct PlayState* play);
 s32 func_8002DDF4(struct PlayState* play);
 void Actor_SwapHookshotAttachment(struct PlayState* play, Actor* srcActor, Actor* destActor);
 void Actor_RequestHorseCameraSetting(struct PlayState* play, struct Player* player);
@@ -717,7 +717,7 @@ void Actor_PlaySfx_FlaggedCentered1(Actor* actor, u16 sfxId);
 void Actor_PlaySfx_FlaggedCentered2(Actor* actor, u16 sfxId);
 void Actor_PlaySfx_Flagged(Actor* actor, u16 sfxId);
 void Actor_PlaySfx_FlaggedTimer(Actor* actor, s32 timer);
-s32 func_8002F9EC(struct PlayState* play, Actor* actor, struct CollisionPoly* poly, s32 bgId, Vec3f* pos);
+s32 Actor_TryHitJabuSurface(struct PlayState* play, Actor* actor, struct CollisionPoly* poly, s32 bgId, Vec3f* pos);
 void Actor_DisableLens(struct PlayState* play);
 void Actor_InitContext(struct PlayState* play, ActorContext* actorCtx, struct ActorEntry* playerEntry);
 void Actor_UpdateAll(struct PlayState* play, ActorContext* actorCtx);

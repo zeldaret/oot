@@ -302,7 +302,8 @@ void EnRd_Idle(EnRd* this, PlayState* play) {
         }
 
         this->isMourning = false;
-        if ((this->actor.xzDistToPlayer <= 150.0f) && func_8002DDE4(play)) {
+        // Possible to sneak by as long as not running, using items etc
+        if ((this->actor.xzDistToPlayer <= 150.0f) && Player_IsMakingNoise(play)) {
             if ((this->actor.params != REDEAD_TYPE_CRYING) && !this->isMourning) {
                 EnRd_SetupAttemptPlayerFreeze(this);
             } else {
@@ -839,8 +840,8 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
 
         if (this->action != REDEAD_ACTION_RISE_FROM_COFFIN) {
             Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-            if (player->unk_844 != 0) {
-                this->unk_31D = player->unk_845;
+            if (player->spinAttackStartTimer != 0) {
+                this->unk_31D = player->tripleSlashCount;
             }
 
             if ((this->damageReaction != REDEAD_DMG_REACT_NONE) &&
@@ -916,7 +917,7 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
     if ((this->actor.colChkInfo.health > 0) && (this->action != REDEAD_ACTION_GRAB)) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-        if ((this->action != REDEAD_ACTION_DAMAGED) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
+        if ((this->action != REDEAD_ACTION_DAMAGED) || ((player->spinAttackStartTimer != 0) && (player->tripleSlashCount != this->unk_31D))) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
     }

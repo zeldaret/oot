@@ -1168,10 +1168,10 @@ int func_8002DDA8(PlayState* play) {
     return (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) || Player_IsAimingRanged(player);
 }
 
-s32 func_8002DDE4(PlayState* play) {
+s32 Player_IsMakingNoise(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    return player->stateFlags2 & PLAYER_STATE2_3;
+    return player->stateFlags2 & PLAYER_STATE2_MAKING_NOISE;
 }
 
 s32 func_8002DDF4(PlayState* play) {
@@ -2120,8 +2120,11 @@ void Actor_PlaySfx_FlaggedTimer(Actor* actor, s32 timer) {
     }
 }
 
-// Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
-s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
+/**
+ * Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true.
+ * @return 1 if hit a Jabu Jabu surface, otherwise 0
+ */
+s32 Actor_TryHitJabuSurface(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (SurfaceType_GetFloorType(&play->colCtx, poly, bgId) == FLOOR_TYPE_8) {
         play->roomCtx.drawParams[0] = 1;
         CollisionCheck_BlueBlood(play, NULL, pos);
@@ -2429,8 +2432,9 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         play->numActorEntries = 0;
     }
 
-    if (actorCtx->unk_02 != 0) {
-        actorCtx->unk_02--;
+    // Hammer hit sets this to 4. If set, decrease
+    if (actorCtx->hammerHit != 0) {
+        actorCtx->hammerHit--;
     }
 
 #if DEBUG_FEATURES
@@ -4653,7 +4657,7 @@ s32 func_80035124(Actor* actor, PlayState* play) {
 u8 func_800353E8(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    return player->unk_845;
+    return player->tripleSlashCount;
 }
 
 /**
