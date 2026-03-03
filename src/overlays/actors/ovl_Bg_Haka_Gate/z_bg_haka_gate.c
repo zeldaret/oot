@@ -4,7 +4,8 @@
  * Description: Truth Spinner Puzzle actors (Shadow Temple)
  *
  * BGHAKAGATE_STATUE:
- * A bird statue that can be pushed or pulled by the player, rotating it in place. It must be pointed at the "Skull of Truth" to solve the puzzle.
+ * A bird statue that can be pushed or pulled by the player, rotating it in place. It must be pointed at the
+ * "Skull of Truth" to solve the puzzle.
  *
  * BGHAKAGATE_FLOOR_TRAP:
  * A floor that opens up to drop the player should the puzzle not be solved correctly. Responsible for checking if the
