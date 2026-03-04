@@ -222,7 +222,7 @@ s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
 
 #if PLATFORM_N64
     if (D_80121212) {
-        while (D_80121214) {
+        while (n64dd_hasMusicBeenStopped) {
             Sleep_Msec(1000);
         }
     }

@@ -101,7 +101,7 @@ s32 func_801C963C(s32* arg0, int* dx, int* dy, int* cy, u8 arg4) {
     return temp_v1;
 }
 
-s32 func_801C969C(void* arg0, int* dx, int* dy, int* cy, u8* arg4) {
+s32 n64dd_printTextOnTexture(void* arg0, int* dx, int* dy, int* cy, u8* arg4) {
     s32 sp24;
     s32 phi_v1;
 
@@ -183,7 +183,7 @@ s32 func_801C97C4(u8** arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8* arg5, s
     return arg2;
 }
 
-void func_801C9954(u8* bytes, s32* arg1, s32* arg2) {
+void n64dd_parseSomeCrapIDK(u8* bytes, s32* arg1, s32* arg2) {
     u8 prevCh;
     u8 nextCh;
 
@@ -231,7 +231,7 @@ void func_801C9954(u8* bytes, s32* arg1, s32* arg2) {
 }
 
 // displays error code on screen???
-void func_801C9A10(u8* arg0, s32 arg1, u8* errorStr) {
+void n64dd_displayStringOnScreen(u8* arg0, s32 arg1, u8* errorStr) {
     u8 sp80[0xA0];
     u8* temp_s1;
     int dx;
@@ -246,8 +246,8 @@ void func_801C9A10(u8* arg0, s32 arg1, u8* errorStr) {
     var_s2 = 1;
     if (errorStr != NULL) {
         while (*errorStr != '\0') {
-            func_801C9954(str, &sp68, &sp64);
-            temp_v1 = func_801C969C(temp_s1, &dx, &dy, &cy, str);
+            n64dd_parseSomeCrapIDK(str, &sp68, &sp64);
+            temp_v1 = n64dd_printTextOnTexture(temp_s1, &dx, &dy, &cy, str);
             if (dx & 1) {
                 dx++;
             }

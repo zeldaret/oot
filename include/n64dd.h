@@ -125,22 +125,22 @@ void func_801C83A0(n64dd_CommPacket* arg0);
 void func_801C8414(n64dd_CommPacket* arg0);
 s32 func_801C873C(n64dd_CommPacket* arg0);
 
-void func_801C8AA8(void);
+void n64dd_printDiskErrors(void);
 s32 func_801C91E0(n64dd_CommPacket*);
 s32 func_801C9260(n64dd_CommPacket*);
 s32 func_801C9334(n64dd_CommPacket*);
 s32 func_801C93C4(n64dd_CommPacket*);
 
 void func_801C94F8(u8* arg0, u16 arg1);
-void func_801C9A10(u8* arg0, s32 arg1, u8* str);
+void n64dd_displayStringOnScreen(u8* arg0, s32 arg1, u8* str);
 void func_801C9B50(s32 arg0, void (*arg1)(void*, uintptr_t, size_t));
 
 u8* n64ddError_GetPtrToErrorCodeTexture(s32 errorNum);
-u8* n64dd_clearUnkU8Buf2(void);
+u8* n64dd_clearErrorCodeTexBuf(void);
 u8* n64ddError_GetErrorMsgTexture(s32 errorNum);
-u8* n64dd_clearUnkU8Buf1(void);
-u8* n64ddError_ClearUnkU8Buf0AndPrintErr(s32 errorNum);
-u8* n64dd_clearUnkU8Buf0(void);
+u8* n64dd_clearErrorMsgTexBuf(void);
+u8* n64dd_clearErrorMsgAndCodeBufAndPrintErr(s32 errorNum);
+u8* n64dd_clearErrorMsgAndCodeBuf(void);
 
 void func_801CA1F0(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth);
 
@@ -150,8 +150,8 @@ extern n64ddStruct_80121220* B_80121220;
 extern u8 D_80121210;
 extern u8 n64dd_isDiskDrivePresent;
 extern u8 D_80121212;
-extern vu8 D_80121213;
-extern vu8 D_80121214;
+extern vu8 n64dd_unk1;
+extern vu8 n64dd_hasMusicBeenStopped;
 
 extern s32 (*ptr_n64dd_CheckIfDiskIsValid)(n64dd_CommPacket*);
 
@@ -168,7 +168,7 @@ extern void (*D_801D2EB4)(void*, void*, void*);
 
 // Error messages
 extern const char* D_801D2ED0[];        // "Error Number    " array
-extern const char* D_801D2EE0[2][8][4]; // Array of error message strings
+extern const char* n64dd_allErrorMsgs[2][8][4]; // Array of error message strings
 
 // Error textures
 extern u64 gN64DDError41Texs[2][0x600 / sizeof(u64)];

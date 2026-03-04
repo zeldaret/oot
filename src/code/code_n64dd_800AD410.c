@@ -6,8 +6,8 @@
 u8 D_80121210;
 u8 n64dd_isDiskDrivePresent;
 u8 D_80121212;
-vu8 D_80121213;
-vu8 D_80121214; // unused here
+vu8 n64dd_unk1;
+vu8 n64dd_hasMusicBeenStopped; // unused here
 
 void func_800AD410(void) {
     if (!D_80121210) {

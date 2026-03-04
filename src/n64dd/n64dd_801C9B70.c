@@ -2,9 +2,9 @@
 #include "n64dd.h"
 #include "z_locale.h"
 
-u8 unk_u8buf2[0x600]; // maybe is to hold the error code texture?
-u8 unk_u8buf1[0x2800]; // maybe this is to hold the error body texture?
-u8 unk_u8buf0[0x1400];
+u8 errorCodeTexBuf[0x600]; // maybe is to hold the error code texture?
+u8 errorMsgTexture[0x2800]; // maybe this is to hold the error body texture?
+u8 errorMsgAndCodeTex[0x1400];
 
 /**
  * Converts a number in decimal to a hexadecimal number with the same digits, e.g. 1234 -> 0x1234.
@@ -47,24 +47,24 @@ s32 n64ddError_ConvertDecToSameDigitHex(s32 decNumber) {
     return accumulatedHexDigits;
 }
 
-// n64ddError_GetLanguage
+
 s32 n64ddError_GetLanguage(void) {
     return (gCurrentRegion == 1) ? 0 : 1;
 }
 
-// n64ddError_Memset
+
 void n64ddError_Memset(u8* dest, u8 value, u32 count) {
     while (count--) {
         *dest++ = value;
     }
 }
 
-// n64ddError_GetErrorHeader
+
 const char* n64ddError_GetErrorHeader(void) {
     return D_801D2ED0[n64ddError_GetLanguage()];
 }
 
-// n64ddError_WriteNumberJP
+
 // Writes a 2-digit number to the char buffer provided
 // Character indices for numbers in the error code (EUC-JP)
 void n64ddError_WriteNumberJP(u8* buf, s32 number) {
@@ -82,7 +82,7 @@ void n64ddError_WriteNumberJP(u8* buf, s32 number) {
     func_801C94F8(buf, ((temp_v0 & 0xF) + 0xA3B0)); // '０'
 }
 
-// n64ddError_WriteNumberEN
+
 // Writes a 2-digit number to the char buffer provided
 // Character indices for numbers in the error code (ASCII)
 void n64ddError_WriteNumberEN(u8* buf, s32 number) {
@@ -107,11 +107,11 @@ void n64ddError_GetLocalizedErrorByLocale(u8* arg0, s32 errorNum) {
     } else {
         n64ddError_WriteNumberEN(&errorHeader[13], errorNum);
     }
-    func_801C9A10(arg0, 192, errorHeader);
+    n64dd_displayStringOnScreen(arg0, 192, errorHeader);
 }
 
 u8* n64ddError_GetPtrToErrorCodeTexture(s32 errorNum) {
-    n64dd_clearUnkU8Buf2();
+    n64dd_clearErrorCodeTexBuf();
 
     if (errorNum == 41) {
         return (u8*)gN64DDError41Texs[n64ddError_GetLanguage()]; // get a localized version of the text
@@ -119,55 +119,55 @@ u8* n64ddError_GetPtrToErrorCodeTexture(s32 errorNum) {
     }
 
     // 31,32, 37,38,39,40
+    // generic error msgs?
     if (((errorNum >= 37) && (errorNum < 41)) || (errorNum == 31) || (errorNum == 32)) {
-        return unk_u8buf2;
+        return errorCodeTexBuf;
     } else {
-        n64ddError_GetLocalizedErrorByLocale(unk_u8buf2, errorNum);
-        return unk_u8buf2;
+        n64ddError_GetLocalizedErrorByLocale(errorCodeTexBuf, errorNum);
+        return errorCodeTexBuf;
     }
 }
 
 // Clear something
-u8* n64dd_clearUnkU8Buf2(void) {
-    n64ddError_Memset(unk_u8buf2, 0, 0x600);
-    return unk_u8buf2;
+u8* n64dd_clearErrorCodeTexBuf(void) {
+    n64ddError_Memset(errorCodeTexBuf, 0, 0x600);
+    return errorCodeTexBuf;
 }
 
-// Prints the error message body (?)
-void n64ddError_PrintErrorMsgBody(u8* arg0, s32 errorNum, s32 lineCount) {
+
+void n64ddError_PrintErrorMsgBody(u8* errMsgCodeTex, s32 errorNum, s32 lineCount) {
     s32 i;
 
-    for (i = 0; i < lineCount; i++, arg0 += 0xA00) {
-        u8* line = (u8*)D_801D2EE0[n64ddError_GetLanguage()][errorNum][i];
+    for (i = 0; i < lineCount; i++, errMsgCodeTex += 0xA00) {
+        u8* line = (u8*)n64dd_allErrorMsgs[n64ddError_GetLanguage()][errorNum][i];
 
         if (1) {}
-        func_801C9A10(arg0, 320, line);
+        n64dd_displayStringOnScreen(errMsgCodeTex, 320, line);
     }
 }
 
 u8* n64ddError_GetErrorMsgTexture(s32 errorNum) {
-    n64dd_clearUnkU8Buf1();
+    n64dd_clearErrorMsgTexBuf();
     if (errorNum == 3) {
         return (u8*)gN64DDPleaseReadManualTexs[n64ddError_GetLanguage()]; // ptrs to localized texts?
     }
-    n64ddError_PrintErrorMsgBody(unk_u8buf1, errorNum, 4);
-    return unk_u8buf1;
+    n64ddError_PrintErrorMsgBody(errorMsgTexture, errorNum, 4);
+    return errorMsgTexture;
+}
+
+u8* n64dd_clearErrorMsgTexBuf(void) {
+    n64ddError_Memset(errorMsgTexture, 0, 0x2800);
+    return errorMsgTexture;
+}
+
+u8* n64dd_clearErrorMsgAndCodeBufAndPrintErr(s32 errorNum) {
+    n64dd_clearErrorMsgAndCodeBuf();
+    n64ddError_PrintErrorMsgBody(errorMsgAndCodeTex, errorNum, 2);
+    return errorMsgAndCodeTex;
 }
 
 // Clear something
-u8* n64dd_clearUnkU8Buf1(void) {
-    n64ddError_Memset(unk_u8buf1, 0, 0x2800);
-    return unk_u8buf1;
-}
-
-u8* n64ddError_ClearUnkU8Buf0AndPrintErr(s32 errorNum) {
-    n64dd_clearUnkU8Buf0();
-    n64ddError_PrintErrorMsgBody(unk_u8buf0, errorNum, 2);
-    return unk_u8buf0;
-}
-
-// Clear something
-u8* n64dd_clearUnkU8Buf0(void) {
-    n64ddError_Memset(unk_u8buf0, 0, 0x1400);
-    return unk_u8buf0;
+u8* n64dd_clearErrorMsgAndCodeBuf(void) {
+    n64ddError_Memset(errorMsgAndCodeTex, 0, 0x1400);
+    return errorMsgAndCodeTex;
 }

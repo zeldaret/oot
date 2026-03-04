@@ -74,43 +74,43 @@ void func_801C6EA0(Gfx** gfxP) { // hook? see game.c
 }
 
 void n64dd_StopMusic(void) {
-    if (D_80121214 == 0) { // music stop hook???
+    if (n64dd_hasMusicBeenStopped == 0) { // music stop hook???
         Audio_StopSequencesAndWaitForNoteEnd();
-        D_80121214 = 1;
+        n64dd_hasMusicBeenStopped = 1;
     }
 }
 
-s32 func_801C6EF0(void) {
-    return D_80121214 != 0;
+s32 n64dd_hasMusicBeenStoppedWrapper(void) {
+    return n64dd_hasMusicBeenStopped != 0;
 }
 
-s32 func_801C6F08(void) {
-    if (D_80121214 != 0) {
+s32 n64dd_hasMusicBeenStoppedWrapper2(void) {
+    if (n64dd_hasMusicBeenStopped != 0) {
         return 1;
     }
     return 1;
 }
 
-void func_801C6F30(void) {
+void n64dd_waitForMusicToStop(void) {
     n64dd_StopMusic();
-    while (func_801C6F08() == 0) {
+    while (n64dd_hasMusicBeenStoppedWrapper2() == 0) {
         Sleep_Usec(16666); // 100000 / 6
     }
 }
 
 void func_801C6F78(void) {
-    if (D_80121214 != 0) {
-        D_80121214 = 0;
+    if (n64dd_hasMusicBeenStopped != 0) {
+        n64dd_hasMusicBeenStopped = 0;
         func_800F6B3C();
     }
 }
 
 // boolean
 s32 func_801C6FAC(void) {
-    if (D_80121213 == 0) {
+    if (n64dd_unk1 == 0) {
         return false;
     } else {
-        D_80121213 = 0;
+        n64dd_unk1 = 0;
         return true;
     }
 }
@@ -122,12 +122,12 @@ void func_801C6FD8(void) {
 }
 
 // Adds a HungupAndCrash
-void func_801C7018(void) {
-    if (D_80121213 != 0) {
+void crashIf_n64dd_unk1_IsNonzero(void) {
+    if (n64dd_unk1 != 0) {
         Fault_AddHungupAndCrash("../z_n64dd.c", LN2(503, 551, 573));
     }
 
-    D_80121213 = 1;
+    n64dd_unk1 = 1;
 }
 
 s32 func_801C7064(void) {
@@ -186,9 +186,9 @@ void n64dd_EnqueueDiskTransfers(void* queuedDiskTransfers) {
                 pNextFramebuf = osViGetNextFramebuffer();
                 if (pSomeFramebuf != pNextFramebuf) {
                     pSomeFramebuf = pNextFramebuf;
-                    NewFramebufAvailable = 1; // Not 100% sure
+                    NewFramebufAvailable = 1;
                 }
-                func_801C8AA8(); // Print an error on screen?
+                n64dd_printDiskErrors();
                 break;
             case 4:
                 LeoReset();
@@ -202,7 +202,8 @@ void n64dd_EnqueueDiskTransfers(void* queuedDiskTransfers) {
 }
 
 #if OOT_VERSION >= NTSC_1_1
-void func_801C7B28_ne2(void) {
+// seems to be waiting out the rest of the frame.
+void n64dd_throttleFramerate(void) {
     s32 temp;
 
     if (currentTime != 0) {
@@ -219,9 +220,9 @@ void func_801C7268(void) {
     s32 sp20;
     s32 sp1C;
 
-    sp20 = func_801C6EF0();
+    sp20 = n64dd_hasMusicBeenStoppedWrapper();
     if (sp20 == 0) {
-        func_801C6F30();
+        n64dd_waitForMusicToStop();
     }
     NewFramebufAvailable = 1;
     currentTime = 0;
@@ -247,7 +248,7 @@ void func_801C7268(void) {
     if (D_801D2EA8 == 1 || isErrorTexDisplayed == 1 || B_801E0F64 == 1) {
         currentTime = osGetTime();
     }
-    func_801C7B28_ne2();
+    n64dd_throttleFramerate();
 #endif
     if (sp20 == 0) {
         func_801C6F78();
@@ -341,7 +342,7 @@ s32 func_801C7658(void) {
 
     (&func_801C8000)(&B_801D9D50);
 
-    D_80121213 = 1;
+    n64dd_unk1 = 1;
     func_801C6FD8();
 
     B_801D9D50.unk_00 = 2;
@@ -380,7 +381,7 @@ s32 func_801C7818(void) {
     if (D_801D2EA8 == 1 || isErrorTexDisplayed == 1 || B_801E0F64 == 1) {
         currentTime = osGetTime();
     }
-    func_801C7B28_ne2();
+    n64dd_throttleFramerate();
 #endif
 
     if (func_801C81C4() != 2) {
@@ -389,7 +390,7 @@ s32 func_801C7818(void) {
         return -3;
     }
 
-    func_801C7018();
+    crashIf_n64dd_unk1_IsNonzero();
     D_80121212 = 1;
     return 0;
 }
@@ -510,7 +511,7 @@ void func_801C7C1C(void* dest, s32 offset, s32 size) {
     s32 temp_v1_2;
 
     func_801C6FD8();
-    func_801C6F30();
+    n64dd_waitForMusicToStop();
     NewFramebufAvailable = 1;
     currentTime = 0;
     func_801C7B48(offset, &sp5C, &sp54);
@@ -542,9 +543,9 @@ void func_801C7C1C(void* dest, s32 offset, s32 size) {
         }
     }
 #else
-    func_801C7B28_ne2();
+    n64dd_throttleFramerate();
 #endif
-    func_801C7018();
+    crashIf_n64dd_unk1_IsNonzero();
     func_801C6F78();
 }
 

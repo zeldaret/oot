@@ -7,70 +7,70 @@
 s32 D_801D2EA0 = 0;
 u8* pErrorCodeTexture = NULL;
 s32 isErrorCodeDisplayed = 0;
-u8* pErrorMsgTexture = NULL; // maybe?????
-u8* D_801D2EB0 = NULL;
-void (*D_801D2EB4)(void*, void*, void*) = NULL;
+u8* pErrorMsgTexture = NULL; 
+u8* pErrScreenTexture = NULL;
+void (*pSomeFun)(void*, void*, void*) = NULL; // what is this?
 
 s32 isErrorTexDisplayed;
-s32 B_801E0F64;
+s32 isErrorScreenDisplayed;
 
-// Set error message title texture?
+
 void n64ddError_SetErrorCodeTexture(s32 errorNum) {
     pErrorCodeTexture = n64ddError_GetPtrToErrorCodeTexture(errorNum);
     isErrorCodeDisplayed = 1;
 }
 
-// Clear error message title texture?
+
 void n64ddError_ClearErrorMsgTexture(void) {
     if (isErrorCodeDisplayed == 1) {
-        pErrorCodeTexture = n64dd_clearUnkU8Buf2();
+        pErrorCodeTexture = n64dd_clearErrorCodeTexBuf();
         isErrorCodeDisplayed = 0;
     }
 }
 
-// Set error message something
+
 void n64ddError_SetErrorMsgTexture(s32 errorNum) {
     pErrorMsgTexture = n64ddError_GetErrorMsgTexture(errorNum);
     isErrorTexDisplayed = 1;
 }
 
-// Clear error message something
+
 void n64ddError_ClearErrorMsgTexBuf(void) {
     if (isErrorTexDisplayed == 1) {
-        pErrorMsgTexture = n64dd_clearUnkU8Buf1();
+        pErrorMsgTexture = n64dd_clearErrorMsgTexBuf();
         isErrorTexDisplayed = 0;
     }
 }
 
-// Set error message something
+
 void func_801C8A30(s32 errorNum) {
-    D_801D2EB0 = n64ddError_ClearUnkU8Buf0AndPrintErr(errorNum);
-    B_801E0F64 = 1;
+    pErrScreenTexture = n64dd_clearErrorMsgAndCodeBufAndPrintErr(errorNum);
+    isErrorScreenDisplayed = 1;
 }
 
 // Clear error message something
 void func_801C8A64(void) {
-    if (B_801E0F64 == 1) {
-        D_801D2EB0 = n64dd_clearUnkU8Buf0();
-        B_801E0F64 = 0;
+    if (isErrorScreenDisplayed == 1) {
+        pErrScreenTexture = n64dd_clearErrorMsgAndCodeBuf();
+        isErrorScreenDisplayed = 0;
     }
 }
 
 // Wait for OS message and print an error?
-void func_801C8AA8(void) {
+void n64dd_printDiskErrors(void) {
     osRecvMesg(pAllMessageQueues[1], NULL, OS_MESG_NOBLOCK); // yields the thread until there is a message on the queue
 
-    if ((D_801D2EB4 != NULL) && (D_801D2EA0 == 0)) {
+    if ((pSomeFun != NULL) && (D_801D2EA0 == 0)) {
         u32 interruptStatus = osSetIntMask(OS_IM_NONE); // disable all interrupts
-        void* sp20 = pErrorCodeTexture;
-        void* sp1C = pErrorMsgTexture;
-        void* sp18 = D_801D2EB0;
+        void* cpyPtrErrorCodeTex = pErrorCodeTexture;
+        void* cpyErrorMsgTex = pErrorMsgTexture;
+        void* cpyErrScreenTex = pErrScreenTexture;
 
         pErrorCodeTexture = NULL;
         pErrorMsgTexture = NULL;
-        D_801D2EB0 = NULL;
+        pErrScreenTexture = NULL;
         osSetIntMask(interruptStatus); // set interrupt status to what it was
-        D_801D2EB4(sp20, sp1C, sp18);
+        pSomeFun(cpyPtrErrorCodeTex, cpyErrorMsgTex, cpyErrScreenTex);
     }
 }
 

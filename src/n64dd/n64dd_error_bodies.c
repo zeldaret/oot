@@ -1,6 +1,6 @@
 #include "n64dd.h"
 
-const char* D_801D2EE0[2][8][4] = {
+const char* n64dd_allErrorMsgs[2][8][4] = {
     {
         { "　　メモリー拡張パックが正しく差し込", "　　んでありますか？　　　　　　　　", NULL, NULL },
         { "　　間違ったディスクが差し込まれてい", "　　る可能性があります。正しいディス",
