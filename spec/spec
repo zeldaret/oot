@@ -1255,7 +1255,8 @@ beginseg
     name "object_niw"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_niw/object_niw.o"
+    include "$(BUILD_DIR)/assets/objects/object_niw/gCuccoAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_niw/gCuccoSkel.o"
     number 6
 endseg
 

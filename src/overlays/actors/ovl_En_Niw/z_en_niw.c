@@ -280,14 +280,14 @@ void func_80AB5BF8(EnNiw* this, PlayState* play, s16 arg2) {
     }
     if (this->timer1 == 0) {
         if (arg2 == 0) {
-            this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y] = 0.0f;
+            this->niwFwork1[OBJECT_NIW_UPPER_BODY_ROOT_TARGET_ROT_Y] = 0.0f;
         } else {
-            this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y] = -10000.0f * factor;
+            this->niwFwork1[OBJECT_NIW_UPPER_BODY_ROOT_TARGET_ROT_Y] = -10000.0f * factor;
         }
         this->unk_298++;
         this->timer1 = 3;
         if (!(this->unk_298 & 1)) {
-            this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y] = 0.0f;
+            this->niwFwork1[OBJECT_NIW_UPPER_BODY_ROOT_TARGET_ROT_Y] = 0.0f;
 
             if (arg2 == 0) {
                 this->timer1 = Rand_ZeroFloat(30.0f);
@@ -300,36 +300,41 @@ void func_80AB5BF8(EnNiw* this, PlayState* play, s16 arg2) {
 
         switch (arg2) {
             case 0:
-                this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] = 0.0f;
+                this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Z] =
+                    this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Z] = 0.0f;
                 break;
             case 1:
                 this->timer2 = 3;
-                this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] =
-                    7000.0f * factor;
+                this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Z] =
+                    this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Z] = 7000.0f * factor;
 
                 if (this->unk_29C == 0) {
-                    this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] = 0.0f;
+                    this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Z] =
+                        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Z] = 0.0f;
                 }
                 break;
             case 2:
                 this->timer2 = 2;
-                this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] =
-                    -10000.0f;
-                this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 25000.0f;
-                this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = 6000.0f;
+                this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Z] =
+                    this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Z] = -10000.0f;
+                this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+                    this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] = 25000.0f;
+                this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X] =
+                    this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X] = 6000.0f;
 
                 if (this->unk_29C == 0) {
-                    this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] =
-                        8000.0f;
+                    this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] =
+                        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] = 8000.0f;
                 }
                 break;
             case 3:
                 this->timer2 = 2;
-                this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 10000.0f;
+                this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+                    this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] = 10000.0f;
 
                 if (this->unk_29C == 0) {
-                    this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
-                        3000.0f;
+                    this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+                        this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] = 3000.0f;
                 }
                 break;
             case 4:
@@ -337,37 +342,45 @@ void func_80AB5BF8(EnNiw* this, PlayState* play, s16 arg2) {
                 break;
             case 5:
                 this->timer2 = 5;
-                this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 14000.0f;
+                this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+                    this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] = 14000.0f;
                 if (this->unk_29C == 0) {
-                    this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
-                        10000.0f;
+                    this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+                        this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] = 10000.0f;
                 }
                 break;
         }
     }
-    if (this->limb15RotY != this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y]) {
-        Math_ApproachF(&this->limb15RotY, this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y], 0.5f, 4000.0f);
+    if (this->limbHeadRotY != this->niwFwork1[OBJECT_NIW_HEAD_TARGET_ROT_Y]) {
+        Math_ApproachF(&this->limbHeadRotY, this->niwFwork1[OBJECT_NIW_HEAD_TARGET_ROT_Y], 0.5f, 4000.0f);
     }
-    if (this->limb13RotY != this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y]) {
-        Math_ApproachF(&this->limb13RotY, this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y], 0.5f, 4000.0f);
+    if (this->limbUpperBodyRootRotY != this->niwFwork1[OBJECT_NIW_UPPER_BODY_ROOT_TARGET_ROT_Y]) {
+        Math_ApproachF(&this->limbUpperBodyRootRotY, this->niwFwork1[OBJECT_NIW_UPPER_BODY_ROOT_TARGET_ROT_Y], 0.5f,
+                       4000.0f);
     }
-    if (this->limb7RotZ != this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z]) {
-        Math_ApproachF(&this->limb7RotZ, this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z], 0.8f, 7000.0f);
+    if (this->limbLeftWingRootRotZ != this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Z]) {
+        Math_ApproachF(&this->limbLeftWingRootRotZ, this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Z], 0.8f,
+                       7000.0f);
     }
-    if (this->limb7RotY != this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y]) {
-        Math_ApproachF(&this->limb7RotY, this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y], 0.8f, 7000.0f);
+    if (this->limbLeftWingRootRotY != this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y]) {
+        Math_ApproachF(&this->limbLeftWingRootRotY, this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y], 0.8f,
+                       7000.0f);
     }
-    if (this->limb7RotX != this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X]) {
-        Math_ApproachF(&this->limb7RotX, this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X], 0.8f, 7000.0f);
+    if (this->limbLeftWingRootRotX != this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X]) {
+        Math_ApproachF(&this->limbLeftWingRootRotX, this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X], 0.8f,
+                       7000.0f);
     }
-    if (this->limb11RotZ != this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z]) {
-        Math_ApproachF(&this->limb11RotZ, this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z], 0.8f, 7000.0f);
+    if (this->limbRightWingRootRotZ != this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Z]) {
+        Math_ApproachF(&this->limbRightWingRootRotZ, this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Z], 0.8f,
+                       7000.0f);
     }
-    if (this->limb11RotY != this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y]) {
-        Math_ApproachF(&this->limb11RotY, this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y], 0.8f, 7000.0f);
+    if (this->limbRightWingRootRotY != this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y]) {
+        Math_ApproachF(&this->limbRightWingRootRotY, this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y], 0.8f,
+                       7000.0f);
     }
-    if (this->limb11RotX != this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X]) {
-        Math_ApproachF(&this->limb11RotX, this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X], 0.8f, 7000.0f);
+    if (this->limbRightWingRootRotX != this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X]) {
+        Math_ApproachF(&this->limbRightWingRootRotX, this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X], 0.8f,
+                       7000.0f);
     }
 }
 
@@ -467,9 +480,11 @@ void EnNiw_SuperCuccoFallingIntoPosition(EnNiw* this, PlayState* play) {
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
 
-        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
-            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] =
-                this->actor.speed = this->unk_2FC = this->unk_300 = 0.0f;
+        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+            this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] =
+                this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X] =
+                    this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X] = this->actor.speed = this->unk_2FC =
+                        this->unk_300 = 0.0f;
 
         this->actionFunc = EnNiw_IdleWalk;
     } else {
@@ -541,7 +556,7 @@ void EnNiw_IdleWalk(EnNiw* this, PlayState* play) {
             this->unk_2E6++;
             this->unk_2E6 &= 1;
         }
-        Math_ApproachF(&this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y], D_80AB8604[this->unk_2E6], 0.5f, 4000.0f);
+        Math_ApproachF(&this->niwFwork1[OBJECT_NIW_HEAD_TARGET_ROT_Y], D_80AB8604[this->unk_2E6], 0.5f, 4000.0f);
     }
 
     if (this->timer5 == 0 && this->timer4 == 0) {
@@ -591,7 +606,7 @@ void EnNiw_IdleWalk(EnNiw* this, PlayState* play) {
     }
 
     if (this->timer4 != 0) {
-        Math_ApproachZeroF(&this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y], 0.5f, 4000.0f);
+        Math_ApproachZeroF(&this->niwFwork1[OBJECT_NIW_HEAD_TARGET_ROT_Y], 0.5f, 4000.0f);
         tmp = 1;
         Math_ApproachF(&this->actor.world.pos.x, this->unk_2B8.x, 1.0f, this->unk_2FC);
         Math_ApproachF(&this->actor.world.pos.z, this->unk_2B8.z, 1.0f, this->unk_2FC);
@@ -629,9 +644,11 @@ void func_80AB6A38(EnNiw* this, PlayState* play) {
         this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
-        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
-            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] =
-                this->actor.speed = this->unk_2FC = this->unk_300 = 0.0f;
+        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+            this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] =
+                this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X] =
+                    this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X] = this->actor.speed = this->unk_2FC =
+                        this->unk_300 = 0.0f;
         this->actionFunc = EnNiw_ResetAction;
     } else {
         path = &play->pathList[pathIndex];
@@ -691,9 +708,11 @@ void EnNiw_PlayerReleased(EnNiw* this, PlayState* play) {
             this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
             this->timer5 = this->timer4 = this->unk_29E = 0;
 
-            this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
-                this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] =
-                    this->actor.speed = this->unk_2FC = this->unk_300 = 0.0f;
+            this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+                this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] =
+                    this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X] =
+                        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X] = this->actor.speed = this->unk_2FC =
+                            this->unk_300 = 0.0f;
 
             this->actionFunc = EnNiw_ResetAction;
             return;
@@ -817,13 +836,13 @@ void func_80AB714C(EnNiw* this, PlayState* play) {
     this->sfxTimer1 = 100;
 
     if (this->timer5 == 40) {
-        this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y] = 10000.0f;
-        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = 14000.0f;
-        this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 14000.0f;
-        this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = 0.0f;
-        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] = 0.0f;
-        this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = 0.0f;
-        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] = 0.0f;
+        this->niwFwork1[OBJECT_NIW_UPPER_BODY_ROOT_TARGET_ROT_Y] = 10000.0f;
+        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] = 14000.0f;
+        this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] = 14000.0f;
+        this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X] = 0.0f;
+        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X] = 0.0f;
+        this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Z] = 0.0f;
+        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Z] = 0.0f;
         this->timer1 = 10;
         Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
     }
@@ -867,9 +886,11 @@ void EnNiw_FleePlayer(EnNiw* this, PlayState* play) {
         this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
-        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
-            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] =
-                this->actor.speed = this->unk_2FC = this->unk_300 = 0.0f;
+        this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] =
+            this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] =
+                this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X] =
+                    this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X] = this->actor.speed = this->unk_2FC =
+                        this->unk_300 = 0.0f;
         if (this->actor.params == EN_NIW_TYPE_KAKARIKO_CRATE) {
             this->actor.params = EN_NIW_TYPE_0;
         }
@@ -925,7 +946,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     this->unk_294++;
 
     if (this->actionFunc != EnNiw_IdleWalk) {
-        this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y] = 0.0f;
+        this->niwFwork1[OBJECT_NIW_HEAD_TARGET_ROT_Y] = 0.0f;
     }
     if (this->unk_2A6) {
         featherCount = 20;
@@ -1034,19 +1055,19 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         this->unk_2F0.z = 0.0f;
         this->unk_2F0.y = 0.0f;
         this->unk_2F0.x = 0.0f;
-        this->limb11RotX = 0.0f;
-        this->limb11RotY = 0.0f;
-        this->limb11RotZ = 0.0f;
-        this->limb7RotX = 0.0f;
-        this->limb7RotY = 0.0f;
-        this->limb7RotZ = 0.0f;
-        this->limb13RotY = 0.0f;
-        this->limb15RotY = 0.0f;
+        this->limbRightWingRootRotX = 0.0f;
+        this->limbRightWingRootRotY = 0.0f;
+        this->limbRightWingRootRotZ = 0.0f;
+        this->limbLeftWingRootRotX = 0.0f;
+        this->limbLeftWingRootRotY = 0.0f;
+        this->limbLeftWingRootRotZ = 0.0f;
+        this->limbUpperBodyRootRotY = 0.0f;
+        this->limbHeadRotY = 0.0f;
         this->isAngry = this->unk_294 = this->unk_298 = this->unk_2A6 = this->unk_29E = this->unk_2A0 = this->unk_2A2 =
             0;
 
-        for (i = 0; i < ARRAY_COUNT(this->unk_26C); i++) {
-            this->unk_26C[i] = 0;
+        for (i = 0; i < ARRAY_COUNT(this->niwFwork1); i++) {
+            this->niwFwork1[i] = 0;
         }
 
         this->isAngry = false;
@@ -1081,10 +1102,10 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
             thisx->speed = 0.0f;
             this->unk_2FC = 0.0f;
             this->unk_300 = 0.0f;
-            this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = 0.0f;
-            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 0.0f;
-            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = 0.0f;
-            this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] = 0.0f;
+            this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_Y] = 0.0f;
+            this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_Y] = 0.0f;
+            this->niwFwork1[OBJECT_NIW_RIGHT_WING_ROOT_TARGET_ROT_X] = 0.0f;
+            this->niwFwork1[OBJECT_NIW_LEFT_WING_ROOT_TARGET_ROT_X] = 0.0f;
             this->sfxTimer1 = 10000;
             this->isAngry = true;
             this->unk_2AC.x = this->unk_2B8.x = thisx->world.pos.x;
@@ -1097,9 +1118,9 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
 
     dist = 20.0f;
 
+#if OOT_VERSION < NTSC_1_1
     //! @bug In certain scenarios like getting cornered against the wall, the PLAYER_STATE1_26 will be flushed before
     //! the player has regained control of Link. This can result in the player being softlocked by a Cucco attack.
-#if OOT_VERSION < NTSC_1_1
     if (this->isAngry && thisx->xyzDistToPlayerSq < SQ(dist) && !(player->stateFlags1 & PLAYER_STATE1_26))
 #else
     if (this->isAngry && thisx->xyzDistToPlayerSq < SQ(dist) && player->invincibilityTimer == 0)
@@ -1143,20 +1164,20 @@ s32 EnNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
-        rot->y += (s16)this->limb13RotY;
+        rot->y += (s16)this->limbUpperBodyRootRotY;
     }
     if (limbIndex == 15) {
-        rot->y += (s16)this->limb15RotY;
+        rot->y += (s16)this->limbHeadRotY;
     }
     if (limbIndex == 11) {
-        rot->x += (s16)this->limb11RotX;
-        rot->y += (s16)this->limb11RotY;
-        rot->z += (s16)this->limb11RotZ;
+        rot->x += (s16)this->limbRightWingRootRotX;
+        rot->y += (s16)this->limbRightWingRootRotY;
+        rot->z += (s16)this->limbRightWingRootRotZ;
     }
     if (limbIndex == 7) {
-        rot->x += (s16)this->limb7RotX;
-        rot->y += (s16)this->limb7RotY;
-        rot->z += (s16)this->limb7RotZ;
+        rot->x += (s16)this->limbLeftWingRootRotX;
+        rot->y += (s16)this->limbLeftWingRootRotY;
+        rot->z += (s16)this->limbLeftWingRootRotZ;
     }
 
     return false;
