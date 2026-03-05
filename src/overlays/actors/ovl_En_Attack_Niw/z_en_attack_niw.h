@@ -22,15 +22,7 @@ typedef struct EnAttackNiw {
     /* 0x025E */ s16 unk_25E;
     /* 0x0260 */ s16 unk_260;
     /* 0x0262 */ s16 unk_262;
-    /* 0x0264 */ f32 unk_264;
-    /* 0x0268 */ f32 unk_268;
-    /* 0x026C */ f32 unk_26C;
-    /* 0x0270 */ char unk_270[0x8];
-    /* 0x0278 */ f32 unk_278;
-    /* 0x027C */ f32 unk_27C;
-    /* 0x0280 */ f32 unk_280;
-    /* 0x0284 */ f32 unk_284;
-    /* 0x0284 */ f32 unk_288;
+    /* 0x0264 */ f32 niwFwork1[10]; // ObjectNiwFwork1
     /* 0x028C */ s16 unk_28C;
     /* 0x028E */ s16 unk_28E;
     /* 0x0290 */ char unk_290[0x2];
@@ -38,10 +30,14 @@ typedef struct EnAttackNiw {
     /* 0x0294 */ char unk_294[0x2];
     /* 0x0296 */ s16 unk_296;
     /* 0x0298 */ Vec3f unk_298;
-    /* 0x02A4 */ Vec3f unk_2A4;
-    /* 0x02B0 */ Vec3f unk_2B0;
-    /* 0x02BC */ f32 unk_2BC;
-    /* 0x02C0 */ f32 unk_2C0;
+    /* 0x02A4 */ f32 limbLeftWingRootRotZ;
+    /* 0x02A8 */ f32 limbLeftWingRootRotY;
+    /* 0x02AC */ f32 limbLeftWingRootRotX;
+    /* 0x02B0 */ f32 limbRightWingRootRotZ;
+    /* 0x02B4 */ f32 limbRightWingRootRotY;
+    /* 0x02B8 */ f32 limbRightWingRootRotX;
+    /* 0x02BC */ f32 limbUpperBodyRootRotY;
+    /* 0x02C0 */ f32 limbHeadRotY;
     /* 0x02C4 */ char unk_2C4[0xC];
     /* 0x02D0 */ f32 unk_2D0;
     /* 0x02D4 */ f32 unk_2D4;

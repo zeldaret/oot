@@ -754,7 +754,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, struct PlayState* play, f32 distanc
 s32 Actor_IsLockedOn(struct PlayState* play, Actor* actor);
 s32 Actor_OtherIsLockedOn(struct PlayState* play, Actor* actor);
 f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
-void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, struct PlayState* play);
+void func_80033C30(Vec3f* pos, Vec3f* scale, u8 alpha, struct PlayState* play);
 void Actor_RequestQuake(struct PlayState* play, s16 y, s16 duration);
 void Actor_RequestQuakeWithSpeed(struct PlayState* play, s16 y, s16 duration, s16 speed);
 void Actor_RequestQuakeAndRumble(Actor* actor, struct PlayState* play, s16 quakeY, s16 quakeDuration);

@@ -4040,8 +4040,8 @@ f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 ar
     return ret;
 }
 
-void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
-    MtxF sp60;
+void func_80033C30(Vec3f* pos, Vec3f* scale, u8 alpha, PlayState* play) {
+    MtxF shadowMtxF;
     f32 yIntersect;
     Vec3f checkPos;
     CollisionPoly* groundPoly;
@@ -4052,20 +4052,20 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, alpha);
 
-    checkPos.x = arg0->x;
-    checkPos.y = arg0->y + 1.0f;
-    checkPos.z = arg0->z;
+    checkPos.x = pos->x;
+    checkPos.y = pos->y + 1.0f;
+    checkPos.z = pos->z;
 
     yIntersect = BgCheck_EntityRaycastDown2(play, &play->colCtx, &groundPoly, &checkPos);
 
     if (groundPoly != NULL) {
-        func_80038A28(groundPoly, arg0->x, yIntersect, arg0->z, &sp60);
-        Matrix_Put(&sp60);
+        func_80038A28(groundPoly, pos->x, yIntersect, pos->z, &shadowMtxF);
+        Matrix_Put(&shadowMtxF);
     } else {
-        Matrix_Translate(arg0->x, arg0->y, arg0->z, MTXMODE_NEW);
+        Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_NEW);
     }
 
-    Matrix_Scale(arg1->x, 1.0f, arg1->z, MTXMODE_APPLY);
+    Matrix_Scale(scale->x, 1.0f, scale->z, MTXMODE_APPLY);
 
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 8149);
     gSPDisplayList(POLY_OPA_DISP++, gCircleShadowDL);
