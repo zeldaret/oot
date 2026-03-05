@@ -34,13 +34,13 @@ struct_801D2E68 D_801D2E68[5] = {
 s32 D_801D2E90 = 0;
 
 OSMesgQueue* pAllMessageQueues[2];
-n64dd_CommPacket B_801E0D18;
+n64dd_CommPacket ddPacket;
 OSMesg B_801E0D88[1];
 OSMesg B_801E0D90[8];
 OSThread B_801E0DB0;
 
-s32 func_801C8000(n64dd_drivePacketData* arg0) {
-    switch (arg0->unk_00) {
+s32 n64dd_parsePacketData(n64dd_drivePacketData* ddPacket) {
+    switch (ddPacket->cmdType) {
         case 0:
             if (func_801C8844() != 0) {
                 return 1;
@@ -48,33 +48,33 @@ s32 func_801C8000(n64dd_drivePacketData* arg0) {
             func_801C8554();
             break;
         case 1:
-            func_801C8578(arg0->unk_1C, arg0->unk_20, arg0->unk_24, arg0->unk_28, arg0->unk_2C);
+            func_801C8578(ddPacket->pCmdParam1, ddPacket->pCmdParam2, ddPacket->unk_24, ddPacket->unk_28, ddPacket->unk_2C);
             break;
         case 2:
-            func_801C8638(arg0->unk_0C, arg0->unk_10, arg0->unk_14);
+            func_801C8638(ddPacket->unk_0C, ddPacket->unk_10, ddPacket->unk_14);
             break;
         case 3:
             if (func_801C8844() != 0) {
                 return 1;
             }
-            func_801C868C(arg0->unk_18, arg0->unk_1C, arg0->unk_20, 1);
+            func_801C868C(ddPacket->unk_18, ddPacket->pCmdParam1, ddPacket->pCmdParam2, 1);
             break;
         case 4:
             if (func_801C8844() != 0) {
                 return 1;
             }
-            func_801C868C(arg0->unk_18, arg0->unk_1C, arg0->unk_20, 2);
+            func_801C868C(ddPacket->unk_18, ddPacket->pCmdParam1, ddPacket->pCmdParam2, 2);
             break;
         case 5:
-            arg0->unk_08 = func_801C8770();
-            return arg0->unk_08;
+            ddPacket->unk_08 = func_801C8770();
+            return ddPacket->unk_08;
         case 7:
             return func_801C87FC();
         case 6:
             return func_801C8844();
         case 8:
-            arg0->unk_04 = func_801C87C0();
-            return arg0->unk_04;
+            ddPacket->unk_04 = func_801C87C0();
+            return ddPacket->unk_04;
         case 9:
             return func_801C885C();
         case 10:
@@ -222,9 +222,9 @@ void func_801C8638(void (*arg0)(void*, void*, void*), s32 arg1, void (*arg2)(voi
 
     func_801C9B50(arg1, arg2);
     D_801D2EB4 = arg0;
-    B_801E0D18.unk_64 = var0;
-    B_801E0D18.unk_65 = var0;
-    func_801C85F0(&B_801E0D18, 0);
+    ddPacket.unk_64 = var0;
+    ddPacket.unk_65 = var0;
+    func_801C85F0(&ddPacket, 0);
 }
 
 void func_801C868C(void* arg0, void* arg1, void* arg2, u8 arg3) {
@@ -236,18 +236,18 @@ void func_801C868C(void* arg0, void* arg1, void* arg2, u8 arg3) {
 
     if (D_801D2E90 == 1) {
         D_801D2E90 = 0;
-        B_801E0D18.unk_64 = var4;
-        func_801C85F0(&B_801E0D18, 1);
-        if (B_801E0D18.unk_6C == 3 || B_801E0D18.unk_6C == 4) {
+        ddPacket.unk_64 = var4;
+        func_801C85F0(&ddPacket, 1);
+        if (ddPacket.unk_6C == 3 || ddPacket.unk_6C == 4) {
             return;
         }
     }
 
-    B_801E0D18.unk_58 = var0;
-    B_801E0D18.unk_5C = var1;
-    B_801E0D18.unk_60 = var2;
-    B_801E0D18.unk_64 = var3;
-    func_801C85F0(&B_801E0D18, 0);
+    ddPacket.unk_58 = var0;
+    ddPacket.unk_5C = var1;
+    ddPacket.unk_60 = var2;
+    ddPacket.unk_64 = var3;
+    func_801C85F0(&ddPacket, 0);
 }
 
 s32 func_801C873C(n64dd_CommPacket* arg0) {
@@ -258,9 +258,9 @@ s32 func_801C873C(n64dd_CommPacket* arg0) {
 }
 
 s8 func_801C8770(void) {
-    s32 temp = func_801C873C(&B_801E0D18);
+    s32 temp = func_801C873C(&ddPacket);
 
-    if (B_801E0D18.unk_68 == LEO_ERROR_BUSY) {
+    if (ddPacket.unk_68 == LEO_ERROR_BUSY) {
         return 0;
     }
 
@@ -273,8 +273,8 @@ s8 func_801C8770(void) {
 
 s32 func_801C87C0(void) {
     if (func_801C8844() == 0) {
-        if (B_801E0D18.unk_68 != 0) {
-            return B_801E0D18.unk_68;
+        if (ddPacket.unk_68 != 0) {
+            return ddPacket.unk_68;
         }
     }
 
@@ -282,11 +282,11 @@ s32 func_801C87C0(void) {
 }
 
 s32 func_801C87FC(void) {
-    s32* new_var = &B_801E0D18.unk_68;
+    s32* new_var = &ddPacket.unk_68;
     s32 temp_v0;
 
     if (func_801C8844() == 0) {
-        temp_v0 = B_801E0D18.unk_6C;
+        temp_v0 = ddPacket.unk_6C;
 
         if ((temp_v0 == 3) || (temp_v0 == 4)) {
             return *new_var;
@@ -297,37 +297,37 @@ s32 func_801C87FC(void) {
 }
 
 s32 func_801C8844(void) {
-    return B_801E0D18.unk_66 == 1;
+    return ddPacket.unk_66 == 1;
 }
 
 s32 func_801C885C(void) {
-    B_801E0D18.unk_64 = 3;
-    func_801C85F0(&B_801E0D18, 1);
+    ddPacket.unk_64 = 3;
+    func_801C85F0(&ddPacket, 1);
 
 #if OOT_VERSION >= NTSC_1_1
     D_801D2E90 = 0;
 #endif
 
-    if ((B_801E0D18.unk_6C == 3) || (B_801E0D18.unk_6C == 4)) {
+    if ((ddPacket.unk_6C == 3) || (ddPacket.unk_6C == 4)) {
         return -1;
     }
-    return B_801E0D18.unk_6C == 0;
+    return ddPacket.unk_6C == 0;
 }
 
 s32 func_801C88AC(void) {
     s32 phi_v0;
 
-    B_801E0D18.unk_64 = 4;
-    func_801C85F0(&B_801E0D18, 1);
+    ddPacket.unk_64 = 4;
+    func_801C85F0(&ddPacket, 1);
 
 #if OOT_VERSION >= NTSC_1_1
     D_801D2E90 = 0;
 #endif
 
-    if ((B_801E0D18.unk_6C == 3) || (B_801E0D18.unk_6C == 4)) {
+    if ((ddPacket.unk_6C == 3) || (ddPacket.unk_6C == 4)) {
         return -1;
     }
-    return B_801E0D18.unk_6C == 0;
+    return ddPacket.unk_6C == 0;
 }
 
 s32 func_801C88FC(void) {
@@ -342,7 +342,7 @@ s32 func_801C88FC(void) {
 
     temp = phi_v1 == temp;
 
-    B_801E0D18.unk_68 = phi_v1;
+    ddPacket.unk_68 = phi_v1;
 
     return temp;
 }

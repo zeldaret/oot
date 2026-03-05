@@ -83,15 +83,15 @@ typedef struct n64dd_CommPacket {
 } n64dd_CommPacket; // size = 0x70
 
 typedef struct n64dd_drivePacketData {
-    /* 0x00 */ u8 unk_00; // command enum
+    /* 0x00 */ u8 cmdType; // command enum
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ u8 unk_08;
     /* 0x0C */ void (*unk_0C)(void*, void*, void*);
     /* 0x10 */ s32 unk_10;
     /* 0x14 */ void (*unk_14)(void*, uintptr_t, size_t);
     /* 0x18 */ void* unk_18;
-    /* 0x1C */ void* unk_1C; // either OSMesgQueue* (command 0) or integer LBA (commands 2 and 3)
-    /* 0x20 */ void* unk_20; // either OSMesgQueue* (command 0) or integer byte size (commands 3 and 4)
+    /* 0x1C */ void* pCmdParam1; // either OSMesgQueue* (command 0) or integer LBA (commands 2 and 3)
+    /* 0x20 */ void* pCmdParam2; // either OSMesgQueue* (command 0) or integer byte size (commands 3 and 4)
     /* 0x24 */ OSId unk_24;
     /* 0x28 */ void* unk_28;
     /* 0x2C */ OSPri unk_2C;
@@ -112,10 +112,10 @@ void func_801C7268(void);
 s32 func_801C7658(void);
 s32 func_801C7818(void);
 void n64dd_loadData(void* dest, s32 offset, s32 size);
-void func_801C7E78(void);
+void n64dd_doNothing(void);
 void n64dd_SetDiskVersion(s32 arg0);
 
-s32 func_801C8000(n64dd_drivePacketData* arg0);
+s32 n64dd_parsePacketData(n64dd_drivePacketData* ddPacket);
 s32 func_801C81C4(void);
 void func_801C81EC(n64dd_CommPacket* arg0);
 void func_801C8298(n64dd_CommPacket* arg0);
@@ -132,7 +132,7 @@ s32 func_801C9334(n64dd_CommPacket*);
 s32 func_801C93C4(n64dd_CommPacket*);
 
 void func_801C94F8(u8* arg0, u16 arg1);
-void n64dd_displayStringOnScreen(u8* arg0, s32 arg1, u8* str);
+void n64dd_displayStringOnScreen(u8* arg0, s32 arg1, u8* errorStr);
 void func_801C9B50(s32 arg0, void (*arg1)(void*, uintptr_t, size_t));
 
 u8* n64ddError_GetPtrToErrorCodeTexture(s32 errorNum);
@@ -150,7 +150,7 @@ extern n64dd_hookList* B_80121220;
 extern u8 D_80121210;
 extern u8 n64dd_isDiskDrivePresent;
 extern u8 n64dd_isDiskContentRunning;
-extern vu8 n64dd_unk1;
+extern vu8 n64dd_isDriveReady;
 extern vu8 n64dd_hasMusicBeenStopped;
 
 extern s32 (*ptr_n64dd_CheckIfDiskIsValid)(n64dd_CommPacket*);

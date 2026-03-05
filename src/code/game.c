@@ -154,7 +154,7 @@ void func_800C4344(GameState* gameState) {
 
 #if PLATFORM_N64
     if (n64dd_isDiskContentRunning != 0) {
-        func_801C7E78();
+        n64dd_doNothing();
     }
 #endif
 }
@@ -302,7 +302,7 @@ void GameState_Update(GameState* gameState) {
 
 #if PLATFORM_N64
     if (n64dd_isDiskContentRunning != 0) {
-        func_801C7E78();
+        n64dd_doNothing();
     }
     if ((B_80121220 != NULL) && (B_80121220->unk_74 != NULL)) {
         B_80121220->unk_74(gameState);

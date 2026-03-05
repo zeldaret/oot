@@ -6,7 +6,7 @@
 u8 D_80121210;
 u8 n64dd_isDiskDrivePresent;
 u8 n64dd_isDiskContentRunning;
-vu8 n64dd_unk1; // unused here
+vu8 n64dd_isDriveReady; // unused here
 vu8 n64dd_hasMusicBeenStopped; // unused here
 
 void func_800AD410(void) {
