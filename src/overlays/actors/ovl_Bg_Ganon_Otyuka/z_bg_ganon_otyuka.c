@@ -185,7 +185,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
     f32 dz;
     Vec3f center;
 
-    if (this->isFalling || ((play->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
+    if (this->isFalling || ((play->actorCtx.hammerHit != 0) && (this->dyna.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
         PRINTF("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {

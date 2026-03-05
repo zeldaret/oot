@@ -7789,7 +7789,7 @@ s32 Camera_UpdateWater(Camera* camera) {
 
     // Process player diving in water
     if (camera->stateFlags & CAM_STATE_PLAYER_IN_WATER) {
-        if (player->stateFlags2 & PLAYER_STATE2_11) {
+        if (player->stateFlags2 & PLAYER_STATE2_DIVING) {
             Camera_RequestSettingImpl(camera, CAM_SET_PIVOT_WATER_SURFACE,
                                       CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX | CAM_REQUEST_SETTING_IGNORE_PRIORITY);
             camera->stateFlags |= CAM_STATE_PLAYER_DIVING;

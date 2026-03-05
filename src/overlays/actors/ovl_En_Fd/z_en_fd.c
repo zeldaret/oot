@@ -287,7 +287,8 @@ s32 EnFd_CheckHammer(EnFd* this, PlayState* play) {
     if (this->actionFunc == EnFd_Reappear || this->actionFunc == EnFd_SpinAndGrow ||
         this->actionFunc == EnFd_JumpToGround || this->actionFunc == EnFd_WaitForCore) {
         return false;
-    } else if (play->actorCtx.unk_02 != 0 && this->actor.xzDistToPlayer < 300.0f && this->actor.yDistToPlayer < 60.0f) {
+    } else if (play->actorCtx.hammerHit != 0 && this->actor.xzDistToPlayer < 300.0f &&
+               this->actor.yDistToPlayer < 60.0f) {
         return true;
     } else {
         return false;

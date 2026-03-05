@@ -1692,7 +1692,7 @@ u8 Item_Give(PlayState* play, u8 item) {
             AMMO(ITEM_BOW) = CUR_CAPACITY(UPG_QUIVER);
         }
 
-        PRINTF(T("%d本  Item_MaxGet=%d\n", "%d books  Item_MaxGet=%d\n"), AMMO(ITEM_BOW), CUR_CAPACITY(UPG_QUIVER));
+        PRINTF(T("%d本  Item_MaxGet=%d\n", "%d arrow(s)  Item_MaxGet=%d\n"), AMMO(ITEM_BOW), CUR_CAPACITY(UPG_QUIVER));
 
         return ITEM_BOW;
     } else if (item == ITEM_SLINGSHOT) {

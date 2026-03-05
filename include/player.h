@@ -668,10 +668,10 @@ typedef struct PlayerAgeProperties {
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C;
     /* 0x20 */ f32 unk_20;
-    /* 0x24 */ f32 unk_24;
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ f32 unk_2C;
-    /* 0x30 */ f32 unk_30;
+    /* 0x24 */ f32 stopSwimDepth;   // player exits water to ground
+    /* 0x28 */ f32 surfaceSwimDepth;    // player swimming on the surface will be approximately this deep
+    /* 0x2C */ f32 startSwimDepth;  // player starts swimming
+    /* 0x30 */ f32 diveResurfaceDepth;  // player starts to resurface from a dive
     /* 0x34 */ f32 unk_34;
     /* 0x38 */ f32 wallCheckRadius;
     /* 0x3C */ f32 unk_3C;
@@ -708,13 +708,13 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_0 (1 << 0)
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1) // Bottle is swung; Bottle is active and can catch things
 #define PLAYER_STATE1_2 (1 << 2)
-#define PLAYER_STATE1_3 (1 << 3)
+#define PLAYER_STATE1_HOLDING_RANGED (1 << 3)    // Held item is Bow, Slingshot or Hookshot/Longshot (ranged), in any phase (aiming, unloaded, loaded, shooting, walking in non-aimed state).
 #define PLAYER_STATE1_HOSTILE_LOCK_ON (1 << 4) // Currently locked onto a hostile actor. Triggers a "battle" variant of many actions.
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_TALKING (1 << 6) // Currently talking to an actor. This includes item exchanges.
 #define PLAYER_STATE1_DEAD (1 << 7) // Player has died. Note that this gets set when the death cutscene has started, after landing from the air.
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
-#define PLAYER_STATE1_9 (1 << 9)
+#define PLAYER_STATE1_RANGED_WEAPON_LOADED (1 << 9) // Bow, Slingshot or Hookshot is ready to fire. This is also set for a few frames after entering aiming mode even if weapon is not loaded.
 #define PLAYER_STATE1_10 (1 << 10)
 #define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
 #define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charging a spin attack (by holding down the B button)
@@ -725,11 +725,11 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_PARALLEL (1 << 17) // "Parallel" mode, Z-Target without an actor lock-on
 #define PLAYER_STATE1_18 (1 << 18)
 #define PLAYER_STATE1_19 (1 << 19)
-#define PLAYER_STATE1_20 (1 << 20)
+#define PLAYER_STATE1_FIRST_PERSON (1 << 20)    // Player is in first person camera (either with a first person weapon or unarmed)
 #define PLAYER_STATE1_21 (1 << 21)
 #define PLAYER_STATE1_SHIELDING (1 << 22) // Shielding in any form (regular, hylian shield as child, "shielding" with a two handed sword, etc.)
 #define PLAYER_STATE1_23 (1 << 23)
-#define PLAYER_STATE1_USING_BOOMERANG (1 << 24) // Currently using the boomerang. This includes all phases (aiming, throwing, and catching).
+#define PLAYER_STATE1_HOLDING_BOOMERANG (1 << 24) // Held item is Boomerang. This includes all phases (aiming, throwing, catching, and walking in non-aimed state).
 #define PLAYER_STATE1_BOOMERANG_THROWN (1 << 25) // Boomerang has been thrown and is flying in the air
 #define PLAYER_STATE1_26 (1 << 26)
 #define PLAYER_STATE1_27 (1 << 27)
@@ -741,7 +741,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_0 (1 << 0)
 #define PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER (1 << 1) // Can accept a talk offer. "Speak" or "Check" is shown on the A button.
 #define PLAYER_STATE2_2 (1 << 2)
-#define PLAYER_STATE2_3 (1 << 3)
+#define PLAYER_STATE2_MAKING_NOISE (1 << 3) // Set for one frame by Player_PlayItemNoise for melee attacks, changing items, using masks. Also when fast walking. Allows detection by certain enemies
 #define PLAYER_STATE2_4 (1 << 4)
 #define PLAYER_STATE2_5 (1 << 5)
 #define PLAYER_STATE2_6 (1 << 6)
@@ -749,13 +749,13 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_8 (1 << 8)
 #define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9) // Forces sand footstep sounds regardless of current floor type
 #define PLAYER_STATE2_10 (1 << 10)
-#define PLAYER_STATE2_11 (1 << 11)
+#define PLAYER_STATE2_DIVING (1 << 11)  // Dive action
 #define PLAYER_STATE2_12 (1 << 12)
 #define PLAYER_STATE2_LOCK_ON_WITH_SWITCH (1 << 13) // Actor lock-on is active, specifically with Switch Targeting. Hold Targeting checks the state of the Z button instead of this flag.
 #define PLAYER_STATE2_14 (1 << 14)
 #define PLAYER_STATE2_15 (1 << 15)
 #define PLAYER_STATE2_DO_ACTION_ENTER (1 << 16) // Sets the "Enter On A" DoAction
-#define PLAYER_STATE2_17 (1 << 17)
+#define PLAYER_STATE2_RELEASE_SPIN_ATTACK (1 << 17) // Set when a spin attack release starts, to signal the En_M_Thunder actor. Remains set for spin duration if non-magic spin attack (for sword collision).
 #define PLAYER_STATE2_CRAWLING (1 << 18) // Crawling through a crawlspace
 #define PLAYER_STATE2_19 (1 << 19)
 #define PLAYER_STATE2_NAVI_ACTIVE (1 << 20) // Navi is visible and active. Could be hovering idle near Link or hovering over other actors.
@@ -883,7 +883,7 @@ typedef struct Player {
     /* 0x06A4 */ f32 closestSecretDistSq;
     /* 0x06A8 */ Actor* unk_6A8;
     /* 0x06AC */ s8 idleType;
-    /* 0x06AD */ u8 unk_6AD;
+    /* 0x06AD */ u8 unk_6AD;    // Camera related. 1 = first person without weapon, 2 = first person with weapon. 0, 3, 4 = ?
     /* 0x06AE */ u16 unk_6AE_rotFlags; // See `UNK6AE_ROT_` macros. If its flag isn't set, a rot steps to 0.
     /* 0x06B0 */ s16 upperLimbYawSecondary;
     /* 0x06B2 */ char unk_6B4[0x004];
@@ -896,8 +896,8 @@ typedef struct Player {
     /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x082C */ UpperActionFunc upperActionFunc;
     /* 0x0830 */ f32 upperAnimInterpWeight;
-    /* 0x0834 */ s16 unk_834;
-    /* 0x0836 */ s8 unk_836;
+    /* 0x0834 */ s16 rangedAimingOrLoaded;  // Used by Bow, Slingshot, Boomerang, Hookshot. 0 = not aiming a ranged weapon. >0 = aiming. 10 = loaded and ready to fire.
+    /* 0x0836 */ s8 rangedAnimPullLoadDone;    // Used by Bow, Slingshot, Hookshot. Flag that the weapon has finished pull out or loading animation.
     /* 0x0837 */ u8 putAwayCooldownTimer;
     /* 0x0838 */ f32 speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
     /* 0x083C */ s16 yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
@@ -905,8 +905,8 @@ typedef struct Player {
     /* 0x0840 */ u16 underwaterTimer;
     /* 0x0842 */ s8 meleeWeaponAnimation;
     /* 0x0843 */ s8 meleeWeaponState;
-    /* 0x0844 */ s8 unk_844;
-    /* 0x0845 */ u8 unk_845;
+    /* 0x0844 */ s8 spinAttackStartTimer;
+    /* 0x0845 */ u8 tripleSlashCount;
     /* 0x0846 */ u8 controlStickDataIndex; // cycles between 0 - 3. Used to index `controlStickSpinAngles` and `controlStickDirections`
     /* 0x0847 */ s8 controlStickSpinAngles[4]; // Stores a modified version of the control stick angle for the last 4 frames. Used for checking spins.
     /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction (relative to shape yaw) for the last 4 frames. See `PlayerStickDirection`.
@@ -932,13 +932,13 @@ typedef struct Player {
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
-    /* 0x0858 */ f32 unk_858;
-    /* 0x085C */ f32 unk_85C; // stick length among other things (TODO: probably part of an "fwork" array)
-    /* 0x0860 */ s16 unk_860; // stick flame timer among other things
+    /* 0x0858 */ f32 unk_858;   // Used in Bow/Slingshot string rebound calculations among other things.
+    /* 0x085C */ f32 unk_85C; // stick length among other things (TODO: probably part of an "fwork" array). Used in Bow/Slingshot string rebound calculations.
+    /* 0x0860 */ s16 unk_860; // stick flame timer among other things. Flag for which ranged weapon is used, negative if not loaded yet.
     /* 0x0862 */ s8 unk_862; // get item draw ID + 1
     /* 0x0864 */ f32 unk_864;
     /* 0x0868 */ f32 unk_868;
-    /* 0x086C */ f32 unk_86C;
+    /* 0x086C */ f32 unused_86C;
     /* 0x0870 */ f32 unk_870;
     /* 0x0874 */ f32 unk_874;
     /* 0x0878 */ f32 unk_878;
@@ -1005,7 +1005,7 @@ void Player_UpdateBottleHeld(struct PlayState* play, Player* this, s32 item, s32
 void Player_ReleaseLockOn(Player* this);
 void Player_ClearZTargeting(Player* this);
 void Player_SetAutoLockOnActor(struct PlayState* play, Actor* actor);
-s32 func_8008EF44(struct PlayState* play, s32 ammo);
+s32 Player_SetShootingGalleryAmmo(struct PlayState* play, s32 ammo);
 int Player_IsBurningStickInRange(struct PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange);
 s32 Player_GetStrength(void);
 u8 Player_GetMask(struct PlayState* play);
@@ -1023,7 +1023,7 @@ s32 Player_ActionToBottle(Player* this, s32 itemAction);
 s32 Player_GetBottleHeld(Player* this);
 s32 Player_ActionToExplosive(Player* this, s32 itemAction);
 s32 Player_GetExplosiveHeld(Player* this);
-s32 func_8008F2BC(Player* this, s32 itemAction);
+s32 Player_GetSwordInHand(Player* this, s32 itemAction);
 s32 Player_GetEnvironmentalHazard(struct PlayState* play);
 void Player_DrawImpl(struct PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
                      s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,

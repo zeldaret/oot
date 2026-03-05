@@ -533,7 +533,7 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play) {
     DECR(this->timer);
 
     if (((this->timer == 0) || ((thisx->xzDistToPlayer < 150.0f) && (thisx->yDistToPlayer < 50.0f)) ||
-         (func_8002DD78(player) && (thisx->xzDistToPlayer < 320.0f) &&
+         (Player_IsAimingRanged(player) && (thisx->xzDistToPlayer < 320.0f) &&
           ((this->index != 2) ? (thisx->yDistToPlayer < 100.0f) : (thisx->yDistToPlayer < 0.0f)) &&
           Player_IsFacingActor(thisx, 0x2000, play))) &&
         ((thisx->parent != NULL) || (thisx->child != NULL))) {

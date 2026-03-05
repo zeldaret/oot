@@ -513,8 +513,8 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
                 AT_NONE; // also ATELEM_NONE
             this->colliderJntSph.elements[0].base.atDmgInfo.dmgFlags =
                 this->colliderJntSph.elements[0].base.atDmgInfo.damage = 0;
-            if (player->unk_844 != 0) {
-                this->unk_258 = player->unk_845;
+            if (player->spinAttackStartTimer != 0) {
+                this->unk_258 = player->tripleSlashCount;
             }
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
             lastHealth = this->actor.colChkInfo.health;
@@ -555,7 +555,7 @@ void EnDh_Update(Actor* thisx, PlayState* play) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider1.base);
         }
         if (((this->curAction != DH_DAMAGE) && (this->actor.shape.yOffset == 0.0f)) ||
-            ((player->unk_844 != 0) && (player->unk_845 != this->unk_258))) {
+            ((player->spinAttackStartTimer != 0) && (player->tripleSlashCount != this->unk_258))) {
 
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);

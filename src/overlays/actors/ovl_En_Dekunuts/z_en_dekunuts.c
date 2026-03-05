@@ -472,7 +472,7 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, PlayState* play) {
         } else {
             EnDekunuts_SetupBeginRun(this);
         }
-    } else if ((this->actor.colChkInfo.mass == MASS_IMMOVABLE) && (play->actorCtx.unk_02 != 0)) {
+    } else if ((this->actor.colChkInfo.mass == MASS_IMMOVABLE) && (play->actorCtx.hammerHit != 0)) {
         EnDekunuts_SetupBeginRun(this);
     }
 }
