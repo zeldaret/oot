@@ -917,7 +917,8 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
     if ((this->actor.colChkInfo.health > 0) && (this->action != REDEAD_ACTION_GRAB)) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-        if ((this->action != REDEAD_ACTION_DAMAGED) || ((player->spinAttackStartTimer != 0) && (player->tripleSlashCount != this->unk_31D))) {
+        if ((this->action != REDEAD_ACTION_DAMAGED) ||
+            ((player->spinAttackStartTimer != 0) && (player->tripleSlashCount != this->unk_31D))) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
     }

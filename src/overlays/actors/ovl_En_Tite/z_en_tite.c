@@ -897,8 +897,8 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
             }
         }
         // If hammer has recently hit the floor and player is close to tektite, flip over
-    } else if ((thisx->colChkInfo.health != 0) && (play->actorCtx.hammerHit != 0) && (thisx->xzDistToPlayer <= 400.0f) &&
-               (thisx->bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    } else if ((thisx->colChkInfo.health != 0) && (play->actorCtx.hammerHit != 0) &&
+               (thisx->xzDistToPlayer <= 400.0f) && (thisx->bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->flipState == TEKTITE_FLIPPED) {
             EnTite_SetupFlipUpright(this);
         } else if ((this->action >= TEKTITE_IDLE) || (this->action >= TEKTITE_IDLE)) {

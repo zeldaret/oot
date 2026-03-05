@@ -713,7 +713,14 @@ void Player_SetModelGroup(Player* this, s32 modelGroup) {
 void func_8008EC70(Player* this) {
     this->itemAction = this->heldItemAction;
     Player_SetModelGroup(this, Player_ActionToModelGroup(this, this->heldItemAction));
-    this->unk_6AD = 0;
+    this->unk_6AD = 0; // This prevents cutscene items from doing erroneous things when the item
+                       // is pressed for instance in the air - Ocarina items with cutscene items.
+                       // OI is caused by unk_6AD remaining 4 after using a cutscene item during an
+                       // action that doesn't clear the flag during the movement and changing held
+                       // item, which causes the wrong item action to be used for the cutscene.
+                       // This function fixes inconsistent item action, models and unk_6AD.
+                       // OI works because held item and item action are consistent throughout
+                       // the item change, so this function is not run.
 }
 
 void Player_SetEquipmentData(PlayState* play, Player* this) {
@@ -937,7 +944,7 @@ s32 Player_GetSwordInHand(Player* this, s32 itemAction) {
     if (itemAction != PLAYER_IA_SWORD_CS) {
         sword = itemAction - PLAYER_IA_SWORD_MASTER;
         if ((sword < 0) || (sword >= 3)) {
-            goto return_neg;    // Not wielding a sword
+            goto return_neg; // Not wielding a sword
         }
     }
 
@@ -1541,8 +1548,8 @@ void Player_UpdateMeleeWeaponInfo(PlayState* play, Player* this, Vec3f* newTipPo
                               &this->meleeWeaponInfo[0].posB);
     }
 
-    if ((this->meleeWeaponState > 0) &&
-        ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_RELEASE_SPIN_ATTACK))) {
+    if ((this->meleeWeaponState > 0) && ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) ||
+                                         (this->stateFlags2 & PLAYER_STATE2_RELEASE_SPIN_ATTACK))) {
         Player_UpdateWeaponInfo(play, &this->meleeWeaponQuads[0], &this->meleeWeaponInfo[1], &newTipPositions[1],
                                 &newBasePositions[1]);
         Player_UpdateWeaponInfo(play, &this->meleeWeaponQuads[1], &this->meleeWeaponInfo[2], &newTipPositions[2],
@@ -1762,7 +1769,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             // Draw the string for Bow and Slingshot
             // Get display list for Adult Bow or Child Slingshot + neutral string positions
             static BowSlingshotStringData sBowSlingshotStringData[] = {
-                { gLinkAdultBowStringDL, { 0.0f, -360.4f, 0.0f } },        // Bow. String is to be drawn proximally of Link's right hand
+                { gLinkAdultBowStringDL,
+                  { 0.0f, -360.4f, 0.0f } }, // Bow. String is to be drawn proximally of Link's right hand
                 { gLinkChildSlingshotStringDL, { 606.0f, 236.0f, 0.0f } }, // Slingshot
             };
             BowSlingshotStringData* stringData = &sBowSlingshotStringData[gSaveContext.save.linkAge];
@@ -1774,12 +1782,16 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_Translate(stringData->pos.x, stringData->pos.y, stringData->pos.z, MTXMODE_APPLY);
 
             // This part makes a fully withdrawn string be drawn for the Bow and Slingshot if the weapon is loaded.
-            // - When spawning arrow/seed in Player_Ranged_LoadWeapon, rangedAimingOrLoaded is set to 14 and reduced by 1 each frame. Presumably this is to delay drawing
-            // of a drawn string until the loading animation is finished. rangedAimingOrLoaded is then held at 10 as long as the weapon is loaded.
-            // - Positive unk_860 means the weapon has actually been loaded since entering aiming mode (it is set negative on init and exiting aiming).
-            // If this was not a condition, this part would run when changing weapon into/going into aiming mode with Bow/Slingshot (the string is fully drawn
-            // and instantly let go) as due to how the ranged setup works, PLAYER_STATE1_RANGED_WEAPON_LOADED is set briefly after entering aiming even if the weapon is not loaded
-            if ((this->stateFlags1 & PLAYER_STATE1_RANGED_WEAPON_LOADED) && (this->unk_860 >= 0) && (this->rangedAimingOrLoaded <= 10)) {
+            // - When spawning arrow/seed in Player_Ranged_LoadWeapon, rangedAimingOrLoaded is set to 14 and reduced by
+            // 1 each frame. Presumably this is to delay drawing of a drawn string until the loading animation is
+            // finished. rangedAimingOrLoaded is then held at 10 as long as the weapon is loaded.
+            // - Positive unk_860 means the weapon has actually been loaded since entering aiming mode (it is set
+            // negative on init and exiting aiming). If this was not a condition, this part would run when changing
+            // weapon into/going into aiming mode with Bow/Slingshot (the string is fully drawn and instantly let go) as
+            // due to how the ranged setup works, PLAYER_STATE1_RANGED_WEAPON_LOADED is set briefly after entering
+            // aiming even if the weapon is not loaded
+            if ((this->stateFlags1 & PLAYER_STATE1_RANGED_WEAPON_LOADED) && (this->unk_860 >= 0) &&
+                (this->rangedAimingOrLoaded <= 10)) {
                 Vec3f sp90;
                 f32 distXYZ;
 
@@ -1788,23 +1800,24 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
                 this->unk_858 = distXYZ - 3.0f;
                 if (distXYZ < 3.0f) {
-                    this->unk_858 = 0.0f;   // Neutral
+                    this->unk_858 = 0.0f; // Neutral
                 } else {
                     this->unk_858 *= 1.6f;
                     if (this->unk_858 > 1.0f) {
-                        this->unk_858 = 1.0f;   // Fully drawn
+                        this->unk_858 = 1.0f; // Fully drawn
                     }
                 }
 
                 this->unk_85C = -0.5f;
             }
 
-            // In Player_UpdateCommon, if player is holding a ranged weapon, Player_StringReboundCalculation is run (before this function).
-            // This sets unk_858 depending on previous value (and unk_85C).
-            // If the weapon is not loaded and unk_858 set above, this value for unk_858 is used for drawing and creates a string rebound effect.
+            // In Player_UpdateCommon, if player is holding a ranged weapon, Player_StringReboundCalculation is run
+            // (before this function). This sets unk_858 depending on previous value (and unk_85C). If the weapon is not
+            // loaded and unk_858 set above, this value for unk_858 is used for drawing and creates a string rebound
+            // effect.
 
-            // Set the position of the middle of the string, depending on either rebound calculation or calculation above.
-            // 0.0f = neutral, 1.0f = fully drawn
+            // Set the position of the middle of the string, depending on either rebound calculation or calculation
+            // above. 0.0f = neutral, 1.0f = fully drawn
             Matrix_Scale(1.0f, this->unk_858, 1.0f, MTXMODE_APPLY);
 
             // For Slingshot, pull the string downwards (closer to Link, along the Slingshot)

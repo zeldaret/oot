@@ -200,7 +200,6 @@ void EnSyatekiMan_Start(EnSyatekiMan* this, PlayState* play) {
     this->actionFunc = EnSyatekiMan_SetupIdle;
 }
 
-
 void EnSyatekiMan_SetupIdle(EnSyatekiMan* this, PlayState* play) {
     // If player already played once and didn't shoot,
     // don't offer a new game
@@ -237,7 +236,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, PlayState* play) {
         // so set to -2 to prevent exiting the Gallery player action function.
         play->shootingGalleryStatus = -2;
     }
-    
+
     if ((this->numTextBox == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         // Want to play?
         if (this->textIdx == SYATEKI_TEXT_CHOICE) {
@@ -431,7 +430,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                     Player_SetShootingGalleryAmmo(play, 15);
                     this->actionFunc = EnSyatekiMan_RestartGame;
                     break;
-                default:    // Lost or didn't shoot
+                default: // Lost or didn't shoot
                     if (this->gameResult == SYATEKI_RESULT_DIDNT_SHOOT) {
                         // If didn't shoot, don't ask if wants to play when game ends
                         // and don't let player play again if tried to talk

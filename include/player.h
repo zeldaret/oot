@@ -668,10 +668,10 @@ typedef struct PlayerAgeProperties {
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C;
     /* 0x20 */ f32 unk_20;
-    /* 0x24 */ f32 unk_24;
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ f32 unk_2C;
-    /* 0x30 */ f32 unk_30;
+    /* 0x24 */ f32 stopSwimDepth;   // player exits water to ground
+    /* 0x28 */ f32 surfaceSwimDepth;    // player swimming on the surface will be approximately this deep
+    /* 0x2C */ f32 startSwimDepth;  // player starts swimming
+    /* 0x30 */ f32 diveResurfaceDepth;  // player starts to resurface from a dive
     /* 0x34 */ f32 unk_34;
     /* 0x38 */ f32 wallCheckRadius;
     /* 0x3C */ f32 unk_3C;
@@ -749,7 +749,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_8 (1 << 8)
 #define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9) // Forces sand footstep sounds regardless of current floor type
 #define PLAYER_STATE2_10 (1 << 10)
-#define PLAYER_STATE2_11 (1 << 11)
+#define PLAYER_STATE2_DIVING (1 << 11)  // Dive action
 #define PLAYER_STATE2_12 (1 << 12)
 #define PLAYER_STATE2_LOCK_ON_WITH_SWITCH (1 << 13) // Actor lock-on is active, specifically with Switch Targeting. Hold Targeting checks the state of the Z button instead of this flag.
 #define PLAYER_STATE2_14 (1 << 14)
