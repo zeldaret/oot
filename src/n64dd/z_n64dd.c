@@ -70,7 +70,7 @@ u32 n64dd_CheckIfDriveExists(void) {
 #endif
 }
 
-void func_801C6EA0(Gfx** gfxP) { // hook? see game.c
+void n64dd_gfxHook(Gfx** gfxP) { // hook? see game.c
 }
 
 void n64dd_StopMusic(void) {
@@ -101,7 +101,7 @@ void n64dd_waitForMusicToStop(void) {
 void func_801C6F78(void) {
     if (n64dd_hasMusicBeenStopped != 0) {
         n64dd_hasMusicBeenStopped = 0;
-        func_800F6B3C();
+        Audio_PlaySfx();
     }
 }
 

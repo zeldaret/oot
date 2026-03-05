@@ -1209,7 +1209,7 @@ void Audio_SetCutsceneFlag(s8 flag);
 void Audio_PlaySfxIfNotInCutscene(u16 sfxId);
 void func_800F6964(u16);
 void Audio_StopBgmAndFanfare(u16 fadeOutDuration);
-void func_800F6B3C(void);
+void Audio_PlaySfx(void);
 void Audio_StopSequencesAndWaitForNoteEnd(void);
 void Audio_PreNMI(void);
 void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData);
@@ -1217,7 +1217,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
 void Audio_Init(void);
 void Audio_InitSound(void);
 void func_800F7170(void);
-void func_800F71BC(s32 arg0);
+void Audio_ResetAll(s32 arg0);
 
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
@@ -1251,7 +1251,7 @@ extern u8 gAudioDebugPrintSeqCmd;
 
 extern u8 gSoundOutputModes[];
 extern u8 gAudioSpecId;
-extern u8 D_80133418;
+extern u8 hasAllAudioBeingReset;
 extern AudioSpec gAudioSpecs[18];
 
 extern TempoData gTempoData;

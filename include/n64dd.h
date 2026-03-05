@@ -106,7 +106,7 @@ void func_800AD590(void);
 void func_800AD598(s32 arg0, s32 arg1, s32 arg2);
 
 u32 n64dd_CheckIfDriveExists(void);
-void func_801C6EA0(Gfx** gfxP);
+void n64dd_gfxHook(Gfx** gfxP);
 s32 n64dd_checkIfGameDiskIsCorrect(void);
 void func_801C7268(void);
 s32 func_801C7658(void);

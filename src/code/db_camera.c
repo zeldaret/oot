@@ -30,7 +30,7 @@ char* D_8012CEE8 = GFXP_HIRAGANA "ｻｲｾｲﾃﾞｷﾏｾﾝ";
 char* D_8012CEEC = GFXP_HIRAGANA "ｻｲｾｲｼｭｳﾘｮｳ";
 char* D_8012CEF0 = GFXP_HIRAGANA "ｻｲｾｲﾁｭｳ!";
 
-char* D_8012CEF4 = "DEMO CAMERA TOOL";
+char* demoCameraToolTxt = "DEMO CAMERA TOOL";
 char* D_8012CEF8[] = { GFXP_HIRAGANA "ﾓｳﾊｲﾘﾏｾﾝ", GFXP_HIRAGANA "ﾄｳﾛｸ   ﾃﾝﾒ", GFXP_HIRAGANA "ﾍﾝｺｳ   /  " };
 char* D_8012CF04 = ">            >";
 char* D_8012CF08 = "<            <";
@@ -43,7 +43,7 @@ char* D_8012CF24[] = { GFXP_HIRAGANA "Pｼﾞｶﾝ  MAX", GFXP_KATAKANA "ﾘﾝ
                        GFXP_KATAKANA "ﾘﾝｸ" GFXP_HIRAGANA "     ﾑｼ" };
 char* D_8012CF30 = GFXP_HIRAGANA "*ﾐﾃﾙｲﾁ*";
 char* D_8012CF34 = GFXP_KATAKANA "*ｶﾒﾗ" GFXP_HIRAGANA "ｲﾁ*";
-char* D_8012CF38 = "DEBUG CAMERA";
+char* dbCameraTxt = "DEBUG CAMERA";
 char* D_8012CF3C = GFXP_KATAKANA "ｾﾝﾀ-/ﾛｯｸ";
 char* D_8012CF40 = GFXP_KATAKANA "ｾﾝﾀ-/ﾌﾘ-";
 
@@ -58,8 +58,8 @@ char* D_8012CF68 = GFXP_KATAKANA "ﾛｰﾄﾞ";          // "Load"
 char* D_8012CF6C = GFXP_KATAKANA "ｸﾘｱ-";          // "Clear"
 char* D_8012CF70 = GFXP_HIRAGANA "ｦﾇｶﾅｲﾃﾞﾈ";
 
-char* D_8012CF74 = "FREE      BYTE";
-char* D_8012CF78 = "NEED      BYTE";
+char* freeByteTxt = "FREE      BYTE";
+char* needByteTxt = "NEED      BYTE";
 char* D_8012CF7C = GFXP_KATAKANA "*ﾒﾓﾘ-ﾊﾟｯｸ*";
 char* D_8012CF80 = GFXP_HIRAGANA "ｦﾐﾂｹﾗﾚﾏｾﾝ";
 char* D_8012CF84 = GFXP_KATAKANA "ﾌｧｲﾙ " GFXP_HIRAGANA "ｦ";
@@ -995,7 +995,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
 
     if (debugCam->unk_00 == 1) {
         OREG(0) = 8;
-        DebugCamera_ScreenTextColored(12, 5, DEBUG_CAM_TEXT_YELLOW, D_8012CEF4);
+        DebugCamera_ScreenTextColored(12, 5, DEBUG_CAM_TEXT_YELLOW, demoCameraToolTxt);
         if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_CRIGHT) &&
             !CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
             func_800B44E0(debugCam, cam);
@@ -1446,7 +1446,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
             debugCam->unk_38 = -1;
         }
 
-        DebugCamera_ScreenTextColored(14, 5, DEBUG_CAM_TEXT_YELLOW, D_8012CF38);
+        DebugCamera_ScreenTextColored(14, 5, DEBUG_CAM_TEXT_YELLOW, dbCameraTxt);
         DebugCamera_ScreenTextColored(9, 6, (debugCam->unk_78 == 0) ? DEBUG_CAM_TEXT_GREEN : DEBUG_CAM_TEXT_GOLD,
                                       D_8012CFD0);
         DebugCamera_ScreenTextColored(17, 6, (debugCam->unk_78 == 1) ? DEBUG_CAM_TEXT_GREEN : DEBUG_CAM_TEXT_GOLD,
@@ -2052,10 +2052,10 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
 
                         DebugCamera_ScreenTextColored(16 + (sCurFileIdx * 2), 7, DEBUG_CAM_TEXT_GREEN, "_"); // cursor
                         DebugCamera_SetTextValue(DebugCamera_GetMempakAllocSize(), sp74, 6);
-                        DebugCamera_ScreenTextColored(13, 9, DEBUG_CAM_TEXT_BLUE, D_8012CF78); // NEED      BYTE
+                        DebugCamera_ScreenTextColored(13, 9, DEBUG_CAM_TEXT_BLUE, needByteTxt); // NEED      BYTE
                         DebugCamera_ScreenTextColored(17, 9, DEBUG_CAM_TEXT_GOLD, sp74);
                         DebugCamera_SetTextValue(Mempak_GetFreeBytes(DEBUG_CAM_CONTROLLER_PORT), sp74, 6);
-                        DebugCamera_ScreenTextColored(13, 10, DEBUG_CAM_TEXT_BLUE, D_8012CF74); // FREE      BYTE
+                        DebugCamera_ScreenTextColored(13, 10, DEBUG_CAM_TEXT_BLUE, freeByteTxt); // FREE      BYTE
                         DebugCamera_ScreenTextColored(17, 10, DEBUG_CAM_TEXT_GOLD, sp74);
                         if (sMempakFilesize != 0) {
                             DebugCamera_SetTextValue(sMempakFilesize, sp74, 6);

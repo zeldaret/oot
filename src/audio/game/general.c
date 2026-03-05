@@ -3885,7 +3885,8 @@ void Audio_StopBgmAndFanfare(u16 fadeOutDuration) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0x7F, 0);
 }
 
-void func_800F6B3C(void) {
+// what sfx though?
+void Audio_PlaySfx(void) {
     Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0xFF, 5);
 }
 
@@ -3915,7 +3916,7 @@ void Audio_PreNMI(void) {
     AudioThread_PreNMIInternal();
 }
 
-void func_800F6C34(void) {
+void Audio_StopSequences(void) {
     sPrevSeqMode = 0;
     D_8016B7A8 = 1.0f;
     D_8016B7B0 = 1.0f;
@@ -4063,7 +4064,7 @@ void Audio_Init(void) {
 }
 
 void Audio_InitSound(void) {
-    func_800F6C34();
+    Audio_StopSequences();
     AudioOcarina_ResetStaffs();
     Audio_ResetSfxChannelState();
     Audio_ResetActiveSequencesAndVolume();
@@ -4078,19 +4079,20 @@ void func_800F7170(void) {
     AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
 }
 
-void func_800F71BC(s32 arg0) {
-    D_80133418 = 1;
-    func_800F6C34();
+void Audio_ResetAll(s32 arg0) {
+    hasAllAudioBeingReset = 1;
+    Audio_StopSequences();
     AudioOcarina_ResetStaffs();
     Audio_ResetSfxChannelState();
     Audio_ResetActiveSequences();
     Audio_ResetSfx();
 }
 
-void func_800F7208(void) {
+// unused
+void Audio_Restart(void) {
     Audio_ResetActiveSequences();
     AUDIOCMD_GLOBAL_UNMUTE(1);
-    func_800F6C34();
+    Audio_StopSequences();
     Audio_ResetSfxChannelState();
     Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 1);
 }

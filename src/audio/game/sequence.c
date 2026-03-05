@@ -392,7 +392,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             oldSpecId = gAudioSpecId;
             gAudioSpecId = specId;
             AudioThread_ResetAudioHeap(specId);
-            func_800F71BC(oldSpecId);
+            Audio_ResetAll(oldSpecId);
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
             break;
     }
@@ -772,22 +772,22 @@ void Audio_UpdateActiveSequences(void) {
 }
 
 u8 func_800FAD34(void) {
-    if (D_80133418 != 0) {
-        if (D_80133418 == 1) {
+    if (hasAllAudioBeingReset != 0) {
+        if (hasAllAudioBeingReset == 1) {
             if (func_800E5EDC() == 1) {
-                D_80133418 = 0;
+                hasAllAudioBeingReset = 0;
                 AUDIOCMD_SEQPLAYER_SET_IO(SEQ_PLAYER_SFX, 0, gSfxChannelLayout);
                 func_800F7170();
             }
-        } else if (D_80133418 == 2) {
+        } else if (hasAllAudioBeingReset == 2) {
             while (func_800E5EDC() != 1) {}
-            D_80133418 = 0;
+            hasAllAudioBeingReset = 0;
             AUDIOCMD_SEQPLAYER_SET_IO(SEQ_PLAYER_SFX, 0, gSfxChannelLayout);
             func_800F7170();
         }
     }
 
-    return D_80133418;
+    return hasAllAudioBeingReset;
 }
 
 void Audio_ResetActiveSequences(void) {

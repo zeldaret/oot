@@ -276,7 +276,7 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
 
 #if PLATFORM_N64
     if (D_80121212 != 0) {
-        func_801C6EA0(&newDlist);
+        n64dd_gfxHook(&newDlist);
     }
 #endif
 
