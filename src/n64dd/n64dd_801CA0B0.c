@@ -6,6 +6,7 @@
 #include "color.h"
 
 // Draws text to framebuffer
+// is this a textbox?
 typedef struct struct_801CA704 {
     /* 0x00 */ PrintCallback callback;
     /* 0x04 */ void* charTexBuf;
@@ -24,7 +25,8 @@ typedef struct struct_801CA704 {
 } struct_801CA704;
 
 // clang-format off
-u32 D_801D8BE0[0x5F] = {
+// disk addresses for individual character texture into the font?
+u32 ASCIICharTexAddr[0x5F] = {
     0x00009D14, 0x00232A14, 0x00296314, 0x002F8A14, 0x00457E18, 0x0063CA14, 0x0084AA14, 0x00A03314,
     0x00A45E14, 0x00BB4E14, 0x00CA6514, 0x00D3770E, 0x00E33302, 0x00E78108, 0x00EB2102, 0x00EC6C14,
     0x01008A14, 0x01163A14, 0x01217A14, 0x01377A14, 0x014D8A14, 0x01638A14, 0x01798A14, 0x018F7A14,
@@ -41,16 +43,17 @@ u32 D_801D8BE0[0x5F] = {
 // clang-format on
 
 // Loads character texture to buffer
-s32 func_801CA0B0(s32 charCode, void* charTexBuf, int* dx, int* dy, int* cy) {
+s32 n64dd_loadCharTexToBuf(s32 charCode, void* charTexBuf, int* dx, int* dy, int* cy) {
     s32 offset;
     OSPiHandle* handle;
     OSMesgQueue queue;
     OSMesg msgBuf[1];
     OSIoMesg mesg;
 
+    //! @bug handle is never null-checked.
     handle = osDriveRomInit();
     if (charCode >= 0x20 && charCode < 0x7F) { // ASCII
-        offset = LeoGetAAdr2(D_801D8BE0[charCode - 0x20], dx, dy, cy);
+        offset = LeoGetAAdr2(ASCIICharTexAddr[charCode - 0x20], dx, dy, cy);
     } else if (charCode >= 0x8140) { // Shift-JIS
         offset = LeoGetKAdr(charCode);
         *dx = 16;
@@ -77,17 +80,18 @@ s32 func_801CA0B0(s32 charCode, void* charTexBuf, int* dx, int* dy, int* cy) {
     return 0;
 }
 
-const u16 D_801D9390[16] = {
+const u16 intensityColorMap[16] = {
     0x0001, 0x1085, 0x2109, 0x318D, 0x4211, 0x5295, 0x6319, 0x739D,
     0x8C63, 0x9CE7, 0xAD6B, 0xBDEF, 0xCE73, 0xDEF7, 0xEF7B, 0xFFFF,
 };
 
 // Maps 4-bit intensity to a 16-bit color
-u16 func_801CA1D4(u32 arg0) {
-    return D_801D9390[arg0 % ARRAY_COUNT(D_801D9390)];
+u16 n64dd_mapIntensityToColor(u32 arg0) {
+    return intensityColorMap[arg0 % ARRAY_COUNT(intensityColorMap)];
 }
 
-void func_801CA1F0(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth) {
+// writing characters into a fb
+void n64dd_writeCharsToFB(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth) {
     s32 intensity;
     s32 x;
     s32 y;
@@ -102,7 +106,7 @@ void func_801CA1F0(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy,
                 intensity = *src & 0xF;
                 src++;
             }
-            dst[posX + x + ((posY + (11 - cy) + y) * screenWidth)] = func_801CA1D4(intensity);
+            dst[posX + x + ((posY + (11 - cy) + y) * screenWidth)] = n64dd_mapIntensityToColor(intensity);
         }
         if (dx & 1) {
             src++;
@@ -158,7 +162,7 @@ void func_801CA3CC(struct_801CA704* arg0, char c) {
     }
 
     arg0->sjisPrevByte = 0;
-    if (func_801CA0B0(charCode, arg0->charTexBuf, &dx, &dy, &cy) == 0) {
+    if (n64dd_loadCharTexToBuf(charCode, arg0->charTexBuf, &dx, &dy, &cy) == 0) {
         if (arg0->posX + dx > arg0->endX) {
             arg0->posX = arg0->baseX;
             if (arg0->posY + 16 > arg0->endY) {
@@ -167,7 +171,7 @@ void func_801CA3CC(struct_801CA704* arg0, char c) {
                 arg0->posY += 16;
             }
         }
-        func_801CA1F0(arg0->charTexBuf, arg0->posX, arg0->posY, dx, dy, cy, arg0->frameBuf, arg0->screenWidth);
+        n64dd_writeCharsToFB(arg0->charTexBuf, arg0->posX, arg0->posY, dx, dy, cy, arg0->frameBuf, arg0->screenWidth);
         arg0->posX += (dx == 16 ? dx : dx + 2);
     }
 }

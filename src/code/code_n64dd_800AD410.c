@@ -5,8 +5,8 @@
 
 u8 D_80121210;
 u8 n64dd_isDiskDrivePresent;
-u8 D_80121212;
-vu8 n64dd_unk1;
+u8 n64dd_isDiskContentRunning;
+vu8 n64dd_unk1; // unused here
 vu8 n64dd_hasMusicBeenStopped; // unused here
 
 void func_800AD410(void) {
@@ -21,7 +21,7 @@ void func_800AD410(void) {
 }
 
 void func_800AD488(void) {
-    if (D_80121210 && (D_80121212 == 0)) {
+    if (D_80121210 && (n64dd_isDiskContentRunning == 0)) {
         D_80121210 = false;
     }
 }

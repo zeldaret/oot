@@ -225,7 +225,7 @@ typedef enum NatureAmimalId {
 
 // functions in sequence.c
 
-void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration);
+void Audio_StartSFXSeq(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration);
 void Audio_StopSequence(u8 seqPlayerIndex, u16 fadeOutDuration);
 void Audio_QueueSeqCmd(u32 cmd);
 void Audio_ProcessSeqCmds(void);

@@ -39,7 +39,7 @@ OSMesg B_801E0D88[1];
 OSMesg B_801E0D90[8];
 OSThread B_801E0DB0;
 
-s32 func_801C8000(struct_801D9D50* arg0) {
+s32 func_801C8000(n64dd_drivePacketData* arg0) {
     switch (arg0->unk_00) {
         case 0:
             if (func_801C8844() != 0) {

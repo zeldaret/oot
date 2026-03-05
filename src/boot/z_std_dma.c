@@ -221,7 +221,7 @@ s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
 #if PLATFORM_N64
-    if (D_80121212) {
+    if (n64dd_isDiskContentRunning) {
         while (n64dd_hasMusicBeenStopped) {
             Sleep_Msec(1000);
         }

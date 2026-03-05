@@ -555,7 +555,7 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
                 SFX_PLAY_CENTERED(NA_SE_SY_FSEL_ERROR);
             } else {
 #if PLATFORM_N64
-                if (D_80121212 != 0) {
+                if (n64dd_isDiskContentRunning != 0) {
                     func_801C7268();
                     // Setting ioData to 1 and writing it to ioPort 7 will skip the harp intro
                     Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, NA_BGM_FILE_SELECT, 0, 7, 1);
@@ -1953,7 +1953,7 @@ void FileSelect_LoadGame(GameState* thisx) {
     }
 
 #if PLATFORM_N64
-    if (D_80121212 != 0) {
+    if (n64dd_isDiskContentRunning != 0) {
         s32 fileNum = gSaveContext.fileNum;
 
         n64dd_SetDiskVersion(this->n64ddFlags[fileNum]);
@@ -2044,7 +2044,7 @@ void FileSelect_Main(GameState* thisx) {
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2898);
 
 #if PLATFORM_N64
-    if ((D_80121212 != 0) && (n64dd_checkIfGameDiskIsCorrect() != 0)) {
+    if ((n64dd_isDiskContentRunning != 0) && (n64dd_checkIfGameDiskIsCorrect() != 0)) {
         this->n64ddFlag = 1;
     } else {
         this->n64ddFlag = 0;
@@ -2334,7 +2334,7 @@ void FileSelect_Init(GameState* thisx) {
     u32 size = (uintptr_t)_title_staticSegmentRomEnd - (uintptr_t)_title_staticSegmentRomStart;
 
 #if PLATFORM_N64
-    if (D_80121212 != 0) {
+    if (n64dd_isDiskContentRunning != 0) {
         func_801C7268();
     }
 #endif

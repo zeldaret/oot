@@ -3887,7 +3887,7 @@ void Audio_StopBgmAndFanfare(u16 fadeOutDuration) {
 
 // what sfx though?
 void Audio_PlaySfx(void) {
-    Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0xFF, 5);
+    Audio_StartSFXSeq(SEQ_PLAYER_SFX, 0, 0xFF, 5);
 }
 
 void Audio_DisableAllSeq(void) {
@@ -4069,11 +4069,11 @@ void Audio_InitSound(void) {
     Audio_ResetSfxChannelState();
     Audio_ResetActiveSequencesAndVolume();
     Audio_ResetSfx();
-    Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 10);
+    Audio_StartSFXSeq(SEQ_PLAYER_SFX, 0, 0x70, 10);
 }
 
 void func_800F7170(void) {
-    Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 1);
+    Audio_StartSFXSeq(SEQ_PLAYER_SFX, 0, 0x70, 1);
     AUDIOCMD_GLOBAL_UNMUTE(1);
     AudioThread_ScheduleProcessCmds();
     AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
@@ -4094,5 +4094,5 @@ void Audio_Restart(void) {
     AUDIOCMD_GLOBAL_UNMUTE(1);
     Audio_StopSequences();
     Audio_ResetSfxChannelState();
-    Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 1);
+    Audio_StartSFXSeq(SEQ_PLAYER_SFX, 0, 0x70, 1);
 }

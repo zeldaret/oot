@@ -7,7 +7,7 @@
 #include "save.h"
 
 n64ddStruct_800FEE70_pointers D_800FEE70 = {
-    func_801C7C1C,
+    n64dd_loadData,
     NULL,
     NULL,
     Fault_RemoveClient,
@@ -53,9 +53,9 @@ n64ddStruct_800FEE70_pointers D_800FEE70 = {
     NULL,
 };
 
-n64ddStruct_80121220* B_80121220;
+n64dd_hookList* B_80121220;
 
-n64ddStruct_80121220* func_800AD4C0(n64ddStruct_80121220* arg0) {
+n64dd_hookList* func_800AD4C0(n64dd_hookList* arg0) {
     n64ddStruct_800FEE70_pointers* temp_a0 = func_800AD560();
 
     if (arg0 != NULL && arg0->unk_00 != NULL) {

@@ -61,7 +61,7 @@ void n64ddError_Memset(u8* dest, u8 value, u32 count) {
 
 
 const char* n64ddError_GetErrorHeader(void) {
-    return D_801D2ED0[n64ddError_GetLanguage()];
+    return n64dd_errorNumbers[n64ddError_GetLanguage()];
 }
 
 

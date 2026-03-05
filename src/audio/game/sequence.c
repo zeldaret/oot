@@ -40,7 +40,7 @@ u8 sNumSeqRequests[4];
 u32 sAudioSeqCmds[0x100];
 ActiveSequence gActiveSeqs[4];
 
-void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration) {
+void Audio_StartSFXSeq(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration) {
     u8 channelIndex;
     u16 skipTicks;
     s32 pad;
@@ -123,10 +123,10 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
             // `fadeTimer` is only shifted 13 bits instead of 16 bits.
-            // `fadeTimer` continues to be scaled in `Audio_StartSequence`
+            // `fadeTimer` continues to be scaled in `Audio_StartSFXSeq`
             fadeTimer = (cmd & 0xFF0000) >> 13;
             if (!gActiveSeqs[seqPlayerIndex].isWaitingForFonts && (seqArgs < 0x80)) {
-                Audio_StartSequence(seqPlayerIndex, seqId, seqArgs, fadeTimer);
+                Audio_StartSFXSeq(seqPlayerIndex, seqId, seqArgs, fadeTimer);
             }
             break;
 
@@ -148,7 +148,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             for (i = 0; i < sNumSeqRequests[seqPlayerIndex]; i++) {
                 if (sSeqRequests[seqPlayerIndex][i].seqId == seqId) {
                     if (i == 0) {
-                        Audio_StartSequence(seqPlayerIndex, seqId, seqArgs, fadeTimer);
+                        Audio_StartSFXSeq(seqPlayerIndex, seqId, seqArgs, fadeTimer);
                     }
                     return;
                 }
@@ -182,7 +182,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
             // The sequence is first in queue, so start playing.
             if (found == 0) {
-                Audio_StartSequence(seqPlayerIndex, seqId, seqArgs, fadeTimer);
+                Audio_StartSFXSeq(seqPlayerIndex, seqId, seqArgs, fadeTimer);
             }
             break;
 
@@ -213,7 +213,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             if (found == 0) {
                 Audio_StopSequence(seqPlayerIndex, fadeTimer);
                 if (sNumSeqRequests[seqPlayerIndex] != 0) {
-                    Audio_StartSequence(seqPlayerIndex, sSeqRequests[seqPlayerIndex][0].seqId,
+                    Audio_StartSFXSeq(seqPlayerIndex, sSeqRequests[seqPlayerIndex][0].seqId,
                                         sSeqRequests[seqPlayerIndex][0].priority, fadeTimer);
                 }
             }
@@ -496,7 +496,7 @@ void Audio_UpdateActiveSequences(void) {
 
         // The setup for this block of code was not fully implemented until Majora's Mask.
         // The intent was to load soundfonts asynchronously before playing a
-        // sequence in `Audio_StartSequence` using `(seqArgs & 0x80)`.
+        // sequence in `Audio_StartSFXSeq` using `(seqArgs & 0x80)`.
         // Checks if the requested sequence is finished loading fonts
         if (gActiveSeqs[seqPlayerIndex].isWaitingForFonts) {
             switch (func_800E5E20(&retMsg)) {

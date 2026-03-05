@@ -221,7 +221,7 @@ void ConsoleLogo_Init(GameState* thisx) {
     ConsoleLogoState* this = (ConsoleLogoState*)thisx;
 
 #if PLATFORM_N64
-    if ((D_80121210 != 0) && (n64dd_isDiskDrivePresent != 0) && (D_80121212 == 0)) {
+    if ((D_80121210 != 0) && (n64dd_isDiskDrivePresent != 0) && (n64dd_isDiskContentRunning == 0)) {
         if (func_801C7658() != 0) {
             func_800D31A0();
         }

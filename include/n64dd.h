@@ -28,8 +28,8 @@ typedef struct n64ddStruct_800FEE70_pointers {
     void* unk_8C[9];
 } n64ddStruct_800FEE70_pointers; // size = 0xB0
 
-typedef struct n64ddStruct_80121220 {
-    void (*unk_00)(n64ddStruct_800FEE70_pointers*, struct n64ddStruct_80121220*);
+typedef struct n64dd_hookList {
+    void (*unk_00)(n64ddStruct_800FEE70_pointers*, struct n64dd_hookList*); // linked list
     void (*unk_04)(void);
     void (*unk_08)(struct PlayState* play, struct RoomContext* roomCtx, s32 roomNum);
     void (*unk_0C)(struct PlayState* play);
@@ -66,7 +66,7 @@ typedef struct n64ddStruct_80121220 {
     s32 (*unk_70)(struct DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
     void (*unk_74)(struct GameState*);
     s32 (*unk_78)(struct PlayState*, void*, void*);
-} n64ddStruct_80121220; // size = ?
+} n64dd_hookList; // size = ?
 
 typedef struct n64dd_CommPacket {
     /* 0x00 */ LEOCmd unk_00;
@@ -82,7 +82,7 @@ typedef struct n64dd_CommPacket {
     /* 0x6C */ s32 unk_6C;
 } n64dd_CommPacket; // size = 0x70
 
-typedef struct struct_801D9D50 {
+typedef struct n64dd_drivePacketData {
     /* 0x00 */ u8 unk_00; // command enum
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ u8 unk_08;
@@ -95,11 +95,11 @@ typedef struct struct_801D9D50 {
     /* 0x24 */ OSId unk_24;
     /* 0x28 */ void* unk_28;
     /* 0x2C */ OSPri unk_2C;
-} struct_801D9D50; // size = 0x30
+} n64dd_drivePacketData; // size = 0x30
 
 void func_800AD410(void);
 void func_800AD488(void);
-n64ddStruct_80121220* func_800AD4C0(n64ddStruct_80121220* arg0);
+n64dd_hookList* func_800AD4C0(n64dd_hookList* arg0);
 void func_800AD51C(void);
 n64ddStruct_800FEE70_pointers* func_800AD560(void);
 void func_800AD590(void);
@@ -111,11 +111,11 @@ s32 n64dd_checkIfGameDiskIsCorrect(void);
 void func_801C7268(void);
 s32 func_801C7658(void);
 s32 func_801C7818(void);
-void func_801C7C1C(void* dest, s32 offset, s32 size);
+void n64dd_loadData(void* dest, s32 offset, s32 size);
 void func_801C7E78(void);
 void n64dd_SetDiskVersion(s32 arg0);
 
-s32 func_801C8000(struct_801D9D50* arg0);
+s32 func_801C8000(n64dd_drivePacketData* arg0);
 s32 func_801C81C4(void);
 void func_801C81EC(n64dd_CommPacket* arg0);
 void func_801C8298(n64dd_CommPacket* arg0);
@@ -142,14 +142,14 @@ u8* n64dd_clearErrorMsgTexBuf(void);
 u8* n64dd_clearErrorMsgAndCodeBufAndPrintErr(s32 errorNum);
 u8* n64dd_clearErrorMsgAndCodeBuf(void);
 
-void func_801CA1F0(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth);
+void n64dd_writeCharsToFB(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth);
 
 extern n64ddStruct_800FEE70_pointers D_800FEE70;
-extern n64ddStruct_80121220* B_80121220;
+extern n64dd_hookList* B_80121220;
 
 extern u8 D_80121210;
 extern u8 n64dd_isDiskDrivePresent;
-extern u8 D_80121212;
+extern u8 n64dd_isDiskContentRunning;
 extern vu8 n64dd_unk1;
 extern vu8 n64dd_hasMusicBeenStopped;
 
@@ -167,7 +167,7 @@ extern s32 B_801E0F64;
 extern void (*D_801D2EB4)(void*, void*, void*);
 
 // Error messages
-extern const char* D_801D2ED0[];        // "Error Number    " array
+extern const char* n64dd_errorNumbers[];        // "Error Number    " array
 extern const char* n64dd_allErrorMsgs[2][8][4]; // Array of error message strings
 
 // Error textures
