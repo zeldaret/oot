@@ -131,7 +131,7 @@ void n64dd_writeCharsToFB(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, 
 }
 
 /**
- * Change the colors of the textbox.
+ * Change the colors of a textbox.
  * @param ddTextbox The textbox
  * @param r Red channel value
  * @param g Green channel value
@@ -145,31 +145,62 @@ void n64dd_changeTextboxColors(n64dd_Textbox* ddTextbox, u32 r, u32 g, u32 b, u3
     ddTextbox->color.a = a;
 }
 
-void n64dd_moveTextbox(n64dd_Textbox* ddTextbox, s32 arg1, s32 arg2) {
-    ddTextbox->posX = ddTextbox->baseX + arg1;
-    ddTextbox->posY = ddTextbox->baseY + arg2;
+/**
+ * Move a textbox on the screen.
+ * @param ddTextbox The textbox
+ * @param xDelta How much to move the textbox horizontally
+ * @param yDelta How much to move the textbox vertically
+ * @remark Unused
+ */
+void n64dd_moveTextbox(n64dd_Textbox* ddTextbox, s32 xDelta, s32 yDelta) {
+    ddTextbox->posX = ddTextbox->baseX + xDelta;
+    ddTextbox->posY = ddTextbox->baseY + yDelta;
 }
 
-void func_801CA334(n64dd_Textbox* ddTextbox, s32 baseX, s32 baseY, s32 endX, s32 endY) {
+
+/**
+ * Changes a textbox's base coordinates (where it spawns) and the end coordinates (where is the end of the textbox).
+ * End coords (I think) are the point diagonal to the spawn point of the textbox (since textboxes are rectangles)
+ * @param ddTextbox The textbox
+ * @param baseX The base X coordinate
+ * @param baseY The base Y coordinate
+ * @param endX The end X coordinate
+ * @param endY The end Y coordinate
+*/
+void n64dd_setTextboxBaseCoords(n64dd_Textbox* ddTextbox, s32 baseX, s32 baseY, s32 endX, s32 endY) {
     ddTextbox->baseX = baseX;
     ddTextbox->baseY = baseY;
     ddTextbox->endX = endX;
     ddTextbox->endY = endY;
 }
 
-void func_801CA350(n64dd_Textbox* ddTextbox, void* frameBuf, s32 screenWidth, s32 screenHeight) {
+/**
+ * Initializes a textbox.
+ * @param ddTextbox The textbox
+ * @param frameBuf The current framebuffer (the textbox will be drawn on the next framebuffer)
+ * @param screenWidth The width of the screen
+ * @param screenHeight The height of the screen
+ * @remark Unused
+ */
+void n64dd_initTextbox(n64dd_Textbox* ddTextbox, void* frameBuf, s32 screenWidth, s32 screenHeight) {
     ddTextbox->frameBuf = (u8*)frameBuf + 0x20000000;
     ddTextbox->screenWidth = screenWidth;
     ddTextbox->screenHeight = screenHeight;
-    func_801CA334(ddTextbox, 0, 0, screenWidth - 1, screenHeight - 1);
+    n64dd_setTextboxBaseCoords(ddTextbox, 0, 0, screenWidth - 1, screenHeight - 1);
 }
 
+// Attaches buffer for character texture to a textbox; what is arg2 though?
 void func_801CA3B4(n64dd_Textbox* ddTextbox, void* charTexBuf, s32 arg2) {
     ddTextbox->charTexBuf = (u8*)charTexBuf + 0x20000000;
     ddTextbox->unk_08 = arg2;
 }
 
-void func_801CA3CC(n64dd_Textbox* ddTextbox, char c) {
+/**
+ * Prints a single character inside a textbox. Does not run sanity checks on the input character.
+ * @param ddTextbox The textbox
+ * @param c The character to print
+*/
+void n64dd_printCharacterToTextboxInternal(n64dd_Textbox* ddTextbox, char c) {
     s32 charCode;
     int dx;
     int dy;
@@ -200,9 +231,14 @@ void func_801CA3CC(n64dd_Textbox* ddTextbox, char c) {
     }
 }
 
-void func_801CA4F4(n64dd_Textbox* ddTextbox, char c) {
+/**
+ * Prints a single character inside a textbox. Does run sanity checks on the input character, and deals with tabs and newlines.
+ * @param ddTextbox The textbox
+ * @param c The character to print
+*/
+void n64dd_printCharacterToTextbox(n64dd_Textbox* ddTextbox, char c) {
     if (c >= ' ' && c <= 0xFF) {
-        func_801CA3CC(ddTextbox, c);
+        n64dd_printCharacterToTextboxInternal(ddTextbox, c);
     } else {
         switch (c) {
             case '\n':
@@ -213,7 +249,7 @@ void func_801CA4F4(n64dd_Textbox* ddTextbox, char c) {
                 break;
             case '\t':
                 do {
-                    func_801CA3CC(ddTextbox, ' ');
+                    n64dd_printCharacterToTextboxInternal(ddTextbox, ' ');
                 } while ((ddTextbox->posX - ddTextbox->baseX) % 256);
                 break;
             case '\0':
@@ -222,29 +258,55 @@ void func_801CA4F4(n64dd_Textbox* ddTextbox, char c) {
     }
 }
 
-void func_801CA5BC(n64dd_Textbox* ddTextbox, const char* str, s32 arg2, size_t count) {
+/**
+ * Prints a string in a textbox.
+ * @param ddTextbox The textbox
+ * @param str The string to print
+ * @param strlen The length of the string
+ * @param count sizeof(char)
+ */
+void n64dd_printStringToTextboxInternal(n64dd_Textbox* ddTextbox, const char* str, s32 strlen, size_t count) {
+    //! @bug str and s are never null checked
     const char* s = str;
-    s32 n = arg2 * count;
+    s32 n = strlen * count;
 
     while (n != 0) {
-        func_801CA4F4(ddTextbox, *s++);
+        n64dd_printCharacterToTextbox(ddTextbox, *s++);
         n--;
     }
 }
 
-void func_801CA618(n64dd_Textbox* ddTextbox, const char* str) {
+/**
+ * Prints a string in a textbox, character by character.
+ * @param ddTextbox The textbox
+ * @param str The string
+ * @remark Duplicate function. Also unused.
+*/
+void n64dd_printStringToTextboxInternal2(n64dd_Textbox* ddTextbox, const char* str) {
     while (*str != 0) {
-        func_801CA4F4(ddTextbox, *str++);
+        n64dd_printCharacterToTextbox(ddTextbox, *str++);
     }
 }
 
-void* func_801CA670(void* arg, const char* str, size_t count) {
-    func_801CA5BC(arg, str, 1, count);
-    return arg;
+
+/**
+ * This is used to get a callback pointer to the textbox itself. No idea what that means.
+ * @param ddTextbox The textbox
+ * @param str Any string
+ * @param count sizeof(char)
+ * @remark void* ddTextbox should be n64dd_Textbox* ddTextbox
+*/
+void* n64dd_printCharToTextboxCallback(void* ddTextbox, const char* str, size_t count) {
+    n64dd_printStringToTextboxInternal(ddTextbox, str, 1, count);
+    return ddTextbox;
 }
 
-void func_801CA6A0(n64dd_Textbox* ddTextbox) {
-    ddTextbox->callback = &func_801CA670;
+/**
+ * Initialize a textbox properly.
+ * @param ddTextbox The textbox
+*/
+void n64dd_initTextboxProperly(n64dd_Textbox* ddTextbox) {
+    ddTextbox->callback = &n64dd_printCharToTextboxCallback;
     ddTextbox->posX = 0;
     ddTextbox->posY = 0;
     ddTextbox->baseX = 0;
@@ -256,19 +318,35 @@ void func_801CA6A0(n64dd_Textbox* ddTextbox) {
     ddTextbox->charTexBuf = NULL;
 }
 
-void func_801CA6D8(n64dd_Textbox* ddTextbox) {
+void n64dd_emptyFunction(n64dd_Textbox* ddTextbox) {
 }
 
-s32 func_801CA6E4(n64dd_Textbox* ddTextbox, const char* fmt, va_list args) {
+/**
+ * Prints the callback pointer value somewhere, probably debug console.
+ * Same as POSIX vprintf().
+ * @param ddTextbox The textbox
+ * @param fmt The format of the text
+ * @param args Pointer to a variable amount of arguments for PrintUtils_VPrintf
+ * @returns 0 if PrintUtils_VPrintf was successful, < 0 if it wasn't
+*/
+s32 n64dd_debugVPrintf(n64dd_Textbox* ddTextbox, const char* fmt, va_list args) {
     return PrintUtils_VPrintf(&ddTextbox->callback, fmt, args);
 }
 
-s32 func_801CA704(n64dd_Textbox* ddTextbox, const char* fmt, ...) {
+/**
+ * Prints the callback pointer value somewhere, probably debug console.
+ * Same as POSIX vprintf().
+ * Wrapper for n64dd_debugVPrintf().
+ * @param ddTextbox The textbox
+ * @param fmt The format of the text
+ * @returns 0 if n64dd_debugVPrintf was successful, < 0 if it wasn't
+*/
+s32 n64dd_debugPrintTextbox(n64dd_Textbox* ddTextbox, const char* fmt, ...) {
     s32 ret;
     va_list args;
 
     va_start(args, fmt);
-    ret = func_801CA6E4(ddTextbox, fmt, args);
+    ret = n64dd_debugVPrintf(ddTextbox, fmt, args);
     va_end(args);
 
     return ret;
