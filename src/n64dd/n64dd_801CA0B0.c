@@ -7,7 +7,7 @@
 
 // Draws text to framebuffer
 // is this a textbox?
-typedef struct struct_801CA704 {
+typedef struct n64dd_Textbox {
     /* 0x00 */ PrintCallback callback;
     /* 0x04 */ void* charTexBuf;
     /* 0x08 */ u16 unk_08;
@@ -22,11 +22,11 @@ typedef struct struct_801CA704 {
     /* 0x20 */ void* frameBuf;
     /* 0x24 */ u16 screenWidth;
     /* 0x26 */ u16 screenHeight;
-} struct_801CA704;
+} n64dd_Textbox;
 
 // clang-format off
 // disk addresses for individual character texture into the font?
-u32 ASCIICharTexAddr[0x5F] = {
+u32 n64dd_ASCIICharTexAddr[0x5F] = {
     0x00009D14, 0x00232A14, 0x00296314, 0x002F8A14, 0x00457E18, 0x0063CA14, 0x0084AA14, 0x00A03314,
     0x00A45E14, 0x00BB4E14, 0x00CA6514, 0x00D3770E, 0x00E33302, 0x00E78108, 0x00EB2102, 0x00EC6C14,
     0x01008A14, 0x01163A14, 0x01217A14, 0x01377A14, 0x014D8A14, 0x01638A14, 0x01798A14, 0x018F7A14,
@@ -42,7 +42,7 @@ u32 ASCIICharTexAddr[0x5F] = {
 };
 // clang-format on
 
-// Loads character texture to buffer
+// Loads character textures from DD ROM?
 s32 n64dd_loadCharTexToBuf(s32 charCode, void* charTexBuf, int* dx, int* dy, int* cy) {
     s32 offset;
     OSPiHandle* handle;
@@ -50,10 +50,10 @@ s32 n64dd_loadCharTexToBuf(s32 charCode, void* charTexBuf, int* dx, int* dy, int
     OSMesg msgBuf[1];
     OSIoMesg mesg;
 
-    //! @bug handle is never null-checked.
+    //! @bug handle is never null-checked. Though it should never be null.
     handle = osDriveRomInit();
     if (charCode >= 0x20 && charCode < 0x7F) { // ASCII
-        offset = LeoGetAAdr2(ASCIICharTexAddr[charCode - 0x20], dx, dy, cy);
+        offset = LeoGetAAdr2(n64dd_ASCIICharTexAddr[charCode - 0x20], dx, dy, cy);
     } else if (charCode >= 0x8140) { // Shift-JIS
         offset = LeoGetKAdr(charCode);
         *dx = 16;
@@ -85,12 +85,28 @@ const u16 intensityColorMap[16] = {
     0x8C63, 0x9CE7, 0xAD6B, 0xBDEF, 0xCE73, 0xDEF7, 0xEF7B, 0xFFFF,
 };
 
-// Maps 4-bit intensity to a 16-bit color
-u16 n64dd_mapIntensityToColor(u32 arg0) {
-    return intensityColorMap[arg0 % ARRAY_COUNT(intensityColorMap)];
+
+/**
+ * Maps 4-bit intensity to a 16-bit color.
+ * @param intensity The intensity
+ * @returns The color
+*/
+u16 n64dd_mapIntensityToColor(u32 intensity) {
+    return intensityColorMap[intensity % ARRAY_COUNT(intensityColorMap)];
 }
 
-// writing characters into a fb
+
+/**
+ * Puts characters onto the framebuffer at a given position.
+ * @param charTexBuf A buffer that contains the textures to all the needed characters
+ * @param posX X position of the text
+ * @param posY Y position of the text
+ * @param dx Not sure
+ * @param dy Not sure
+ * @param cy Not sure
+ * @param frameBuf A pointer to the framebuffer
+ * @param screenWidth The width of the framebuffer (used to scale the position of each character?)
+ */
 void n64dd_writeCharsToFB(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth) {
     s32 intensity;
     s32 x;
@@ -114,83 +130,91 @@ void n64dd_writeCharsToFB(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, 
     }
 }
 
-void func_801CA2F8(struct_801CA704* arg0, u32 r, u32 g, u32 b, u32 a) {
-    arg0->color.r = r;
-    arg0->color.g = g;
-    arg0->color.b = b;
-    arg0->color.a = a;
+/**
+ * Change the colors of the textbox.
+ * @param ddTextbox The textbox
+ * @param r Red channel value
+ * @param g Green channel value
+ * @param b Blue channel value
+ * @param a Alpha channel value
+ */
+void n64dd_changeTextboxColors(n64dd_Textbox* ddTextbox, u32 r, u32 g, u32 b, u32 a) {
+    ddTextbox->color.r = r;
+    ddTextbox->color.g = g;
+    ddTextbox->color.b = b;
+    ddTextbox->color.a = a;
 }
 
-void func_801CA314(struct_801CA704* arg0, s32 arg1, s32 arg2) {
-    arg0->posX = arg0->baseX + arg1;
-    arg0->posY = arg0->baseY + arg2;
+void n64dd_moveTextbox(n64dd_Textbox* ddTextbox, s32 arg1, s32 arg2) {
+    ddTextbox->posX = ddTextbox->baseX + arg1;
+    ddTextbox->posY = ddTextbox->baseY + arg2;
 }
 
-void func_801CA334(struct_801CA704* arg0, s32 baseX, s32 baseY, s32 endX, s32 endY) {
-    arg0->baseX = baseX;
-    arg0->baseY = baseY;
-    arg0->endX = endX;
-    arg0->endY = endY;
+void func_801CA334(n64dd_Textbox* ddTextbox, s32 baseX, s32 baseY, s32 endX, s32 endY) {
+    ddTextbox->baseX = baseX;
+    ddTextbox->baseY = baseY;
+    ddTextbox->endX = endX;
+    ddTextbox->endY = endY;
 }
 
-void func_801CA350(struct_801CA704* arg0, void* frameBuf, s32 screenWidth, s32 screenHeight) {
-    arg0->frameBuf = (u8*)frameBuf + 0x20000000;
-    arg0->screenWidth = screenWidth;
-    arg0->screenHeight = screenHeight;
-    func_801CA334(arg0, 0, 0, screenWidth - 1, screenHeight - 1);
+void func_801CA350(n64dd_Textbox* ddTextbox, void* frameBuf, s32 screenWidth, s32 screenHeight) {
+    ddTextbox->frameBuf = (u8*)frameBuf + 0x20000000;
+    ddTextbox->screenWidth = screenWidth;
+    ddTextbox->screenHeight = screenHeight;
+    func_801CA334(ddTextbox, 0, 0, screenWidth - 1, screenHeight - 1);
 }
 
-void func_801CA3B4(struct_801CA704* arg0, void* charTexBuf, s32 arg2) {
-    arg0->charTexBuf = (u8*)charTexBuf + 0x20000000;
-    arg0->unk_08 = arg2;
+void func_801CA3B4(n64dd_Textbox* ddTextbox, void* charTexBuf, s32 arg2) {
+    ddTextbox->charTexBuf = (u8*)charTexBuf + 0x20000000;
+    ddTextbox->unk_08 = arg2;
 }
 
-void func_801CA3CC(struct_801CA704* arg0, char c) {
+void func_801CA3CC(n64dd_Textbox* ddTextbox, char c) {
     s32 charCode;
     int dx;
     int dy;
     int cy;
 
-    if (arg0->sjisPrevByte != 0) {
-        charCode = (arg0->sjisPrevByte << 8) | c;
+    if (ddTextbox->sjisPrevByte != 0) {
+        charCode = (ddTextbox->sjisPrevByte << 8) | c;
     } else {
         if (c >= 0x80 && c < 0x99) {
-            arg0->sjisPrevByte = c;
+            ddTextbox->sjisPrevByte = c;
             return;
         }
         charCode = c;
     }
 
-    arg0->sjisPrevByte = 0;
-    if (n64dd_loadCharTexToBuf(charCode, arg0->charTexBuf, &dx, &dy, &cy) == 0) {
-        if (arg0->posX + dx > arg0->endX) {
-            arg0->posX = arg0->baseX;
-            if (arg0->posY + 16 > arg0->endY) {
-                arg0->posY = arg0->baseY;
+    ddTextbox->sjisPrevByte = 0;
+    if (n64dd_loadCharTexToBuf(charCode, ddTextbox->charTexBuf, &dx, &dy, &cy) == 0) {
+        if (ddTextbox->posX + dx > ddTextbox->endX) {
+            ddTextbox->posX = ddTextbox->baseX;
+            if (ddTextbox->posY + 16 > ddTextbox->endY) {
+                ddTextbox->posY = ddTextbox->baseY;
             } else {
-                arg0->posY += 16;
+                ddTextbox->posY += 16;
             }
         }
-        n64dd_writeCharsToFB(arg0->charTexBuf, arg0->posX, arg0->posY, dx, dy, cy, arg0->frameBuf, arg0->screenWidth);
-        arg0->posX += (dx == 16 ? dx : dx + 2);
+        n64dd_writeCharsToFB(ddTextbox->charTexBuf, ddTextbox->posX, ddTextbox->posY, dx, dy, cy, ddTextbox->frameBuf, ddTextbox->screenWidth);
+        ddTextbox->posX += (dx == 16 ? dx : dx + 2);
     }
 }
 
-void func_801CA4F4(struct_801CA704* arg0, char c) {
+void func_801CA4F4(n64dd_Textbox* ddTextbox, char c) {
     if (c >= ' ' && c <= 0xFF) {
-        func_801CA3CC(arg0, c);
+        func_801CA3CC(ddTextbox, c);
     } else {
         switch (c) {
             case '\n':
-                arg0->posY += 32;
+                ddTextbox->posY += 32;
                 FALLTHROUGH;
             case '\r':
-                arg0->posX = arg0->baseX;
+                ddTextbox->posX = ddTextbox->baseX;
                 break;
             case '\t':
                 do {
-                    func_801CA3CC(arg0, ' ');
-                } while ((arg0->posX - arg0->baseX) % 256);
+                    func_801CA3CC(ddTextbox, ' ');
+                } while ((ddTextbox->posX - ddTextbox->baseX) % 256);
                 break;
             case '\0':
                 break;
@@ -198,19 +222,19 @@ void func_801CA4F4(struct_801CA704* arg0, char c) {
     }
 }
 
-void func_801CA5BC(struct_801CA704* arg0, const char* str, s32 arg2, size_t count) {
+void func_801CA5BC(n64dd_Textbox* ddTextbox, const char* str, s32 arg2, size_t count) {
     const char* s = str;
     s32 n = arg2 * count;
 
     while (n != 0) {
-        func_801CA4F4(arg0, *s++);
+        func_801CA4F4(ddTextbox, *s++);
         n--;
     }
 }
 
-void func_801CA618(struct_801CA704* arg0, const char* str) {
+void func_801CA618(n64dd_Textbox* ddTextbox, const char* str) {
     while (*str != 0) {
-        func_801CA4F4(arg0, *str++);
+        func_801CA4F4(ddTextbox, *str++);
     }
 }
 
@@ -219,32 +243,32 @@ void* func_801CA670(void* arg, const char* str, size_t count) {
     return arg;
 }
 
-void func_801CA6A0(struct_801CA704* arg0) {
-    arg0->callback = &func_801CA670;
-    arg0->posX = 0;
-    arg0->posY = 0;
-    arg0->baseX = 0;
-    arg0->baseY = 0;
-    arg0->endX = 0;
-    arg0->endY = 0;
-    arg0->color.rgba = 0;
-    arg0->sjisPrevByte = 0;
-    arg0->charTexBuf = NULL;
+void func_801CA6A0(n64dd_Textbox* ddTextbox) {
+    ddTextbox->callback = &func_801CA670;
+    ddTextbox->posX = 0;
+    ddTextbox->posY = 0;
+    ddTextbox->baseX = 0;
+    ddTextbox->baseY = 0;
+    ddTextbox->endX = 0;
+    ddTextbox->endY = 0;
+    ddTextbox->color.rgba = 0;
+    ddTextbox->sjisPrevByte = 0;
+    ddTextbox->charTexBuf = NULL;
 }
 
-void func_801CA6D8(struct_801CA704* arg0) {
+void func_801CA6D8(n64dd_Textbox* ddTextbox) {
 }
 
-s32 func_801CA6E4(struct_801CA704* arg0, const char* fmt, va_list args) {
-    return PrintUtils_VPrintf(&arg0->callback, fmt, args);
+s32 func_801CA6E4(n64dd_Textbox* ddTextbox, const char* fmt, va_list args) {
+    return PrintUtils_VPrintf(&ddTextbox->callback, fmt, args);
 }
 
-s32 func_801CA704(struct_801CA704* arg0, const char* fmt, ...) {
+s32 func_801CA704(n64dd_Textbox* ddTextbox, const char* fmt, ...) {
     s32 ret;
     va_list args;
 
     va_start(args, fmt);
-    ret = func_801CA6E4(arg0, fmt, args);
+    ret = func_801CA6E4(ddTextbox, fmt, args);
     va_end(args);
 
     return ret;
