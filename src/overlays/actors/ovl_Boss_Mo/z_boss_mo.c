@@ -371,7 +371,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
         Flags_SetSwitch(play, 0x14);
         sMorphaCore = this;
         MO_WATER_LEVEL(play) = this->waterLevel = MO_WATER_LEVEL(play);
-        play->roomCtx.drawParams[0] = 0xA0;
+        play->roomCtx.drawParams[0] = 160; // Alpha for Morpha room texture layer
         play->specialEffects = sEffects;
         for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++) {
             sEffects[i].type = MO_FX_NONE;
@@ -391,7 +391,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, -280.0f, 0.0f, 0, 0, 0,
                                WARP_DUNGEON_ADULT);
             Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, -200.0f, -280.0f, 0.0f, 0, 0, 0, 0);
-            play->roomCtx.drawParams[0] = 0xFF;
+            play->roomCtx.drawParams[0] = 255;
             MO_WATER_LEVEL(play) = -500;
             return;
         }
@@ -513,7 +513,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 if ((this->sfxTimer % 32) == 0) {
                     Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
                     Rumble_Request(0, 100, 5, 2);
-                    Player_PlaySfx(player, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
+                    Player_PlaySfx(player, NA_SE_VO_LI_FREEZE + player->ageProperties->ageVoiceSfxOffset);
                 }
             } else {
                 maxSwingRateX = 2000.0f;
@@ -527,7 +527,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 if ((this->sfxTimer % 16) == 0) {
                     Audio_PlaySfxIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
                     Rumble_Request(0, 160, 5, 4);
-                    Player_PlaySfx(player, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
+                    Player_PlaySfx(player, NA_SE_VO_LI_FREEZE + player->ageProperties->ageVoiceSfxOffset);
                 }
             }
         } else if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_RETREAT) {
@@ -1723,7 +1723,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
                     this->subCamId = SUB_CAM_ID_DONE;
                     Cutscene_StopManual(play, &play->csCtx);
                     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
-                    sMorphaTent1->actor.world.pos.y = -1000.0f;
+                    sMorphaTent1->actor.world.pos.y = -1000.0f; // Remains underground after death
                 }
             } else {
                 Math_ApproachF(&this->subCamDist, 150.0f, 0.05f, this->subCamSpeed);
@@ -1745,8 +1745,8 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
     }
     if (sMorphaCore->waterLevel < -200.0f) {
         play->roomCtx.drawParams[0]++;
-        if (play->roomCtx.drawParams[0] >= 0xFF) {
-            play->roomCtx.drawParams[0] = 0xFF;
+        if (play->roomCtx.drawParams[0] >= 255) {
+            play->roomCtx.drawParams[0] = 255;
         }
     }
     if (sMorphaCore->waterLevel < -250.0f) {
@@ -2317,8 +2317,9 @@ void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->tentPos[40], &this->tentTipPos,
                                  &this->actor.projectedW);
     PRINTF("MO : Move mode = <%d>\n", this->work[MO_TENT_ACTION_STATE]);
-    Math_ApproachS(&player->actor.shape.rot.x, 0, 5, 0x3E8);
-    Math_ApproachS(&player->actor.shape.rot.z, 0, 5, 0x3E8);
+    Math_ApproachS(&player->actor.shape.rot.x, 0, 5, 1000);
+    Math_ApproachS(&player->actor.shape.rot.z, 0, 5,
+                   1000); // These turn player upright as long as first tentacle actor exists
     this->work[MO_TENT_VAR_TIMER]++;
     this->sfxTimer++;
     this->work[MO_TENT_MOVE_TIMER]++;

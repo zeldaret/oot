@@ -346,7 +346,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
         if ((this->touchedPoly =
                  BgCheck_ProjectileLineTest(&play->colCtx, &this->actor.prevPos, &this->actor.world.pos, &hitPoint,
                                             &this->actor.wallPoly, true, true, true, true, &bgId))) {
-            Actor_TryHitJabuSurface(play, &this->actor, this->actor.wallPoly, bgId, &hitPoint);
+            Actor_HitJabuSurface(play, &this->actor, this->actor.wallPoly, bgId, &hitPoint);
             Math_Vec3f_Copy(&posCopy, &this->actor.world.pos);
             Math_Vec3f_Copy(&this->actor.world.pos, &hitPoint);
         }

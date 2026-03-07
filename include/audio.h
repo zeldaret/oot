@@ -1159,7 +1159,7 @@ void Audio_PlayCutsceneEffectsSequence(u8 csEffectType);
 void func_800F4010(Vec3f* pos, u16 sfxId, f32);
 void Audio_PlaySfxRandom(Vec3f* pos, u16 baseSfxId, u8 randLim);
 void func_800F4138(Vec3f* pos, u16 sfxId, f32);
-void func_800F4190(Vec3f* pos, u16 sfxId);
+void Audio_PlayDarkLinkVoiceSfx(Vec3f* pos, u16 sfxId);
 void func_800F436C(Vec3f* pos, u16 sfxId, f32 arg2);
 void func_800F4414(Vec3f* pos, u16 sfxId, f32);
 void func_800F44EC(s8 arg0, s8 arg1);

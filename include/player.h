@@ -681,7 +681,7 @@ typedef struct PlayerAgeProperties {
     /* 0x62 */ Vec3s unk_62[4];
     /* 0x7A */ Vec3s unk_7A[2];
     /* 0x86 */ Vec3s unk_86[2];
-    /* 0x92 */ u16 unk_92;
+    /* 0x92 */ u16 ageVoiceSfxOffset; // offset for playing voice effects (+0x20 for child Link)
     /* 0x94 */ u16 unk_94;
     /* 0x98 */ LinkAnimationHeader* unk_98;
     /* 0x9C */ LinkAnimationHeader* timeTravelStartAnim;
@@ -776,7 +776,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE3_2 (1 << 2)
 #define PLAYER_STATE3_3 (1 << 3)
 #define PLAYER_STATE3_4 (1 << 4)
-#define PLAYER_STATE3_5 (1 << 5)
+#define PLAYER_STATE3_OCARINA_GAME (1 << 5)
 #define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
 #define PLAYER_STATE3_FLYING_WITH_HOOKSHOT (1 << 7) // Flying in the air with the hookshot as it pulls Player toward its destination
 
@@ -939,8 +939,8 @@ typedef struct Player {
     /* 0x0864 */ f32 unk_864;
     /* 0x0868 */ f32 unk_868;
     /* 0x086C */ f32 unused_86C;
-    /* 0x0870 */ f32 unk_870;
-    /* 0x0874 */ f32 unk_874;
+    /* 0x0870 */ f32 forwardFootWeight; // See below. Serves same function, but is changed by intervals and so also used to weight animations.
+    /* 0x0874 */ f32 forwardFoot; // 0 = right. Which foot is forward/more anterior when sidewalking and throwing Boomerang
     /* 0x0878 */ f32 unk_878;
     /* 0x087C */ s16 unk_87C;
     /* 0x087E */ s16 turnRate; // Amount angle is changed every frame when turning in place
@@ -1014,7 +1014,7 @@ s32 Player_HasMirrorShieldEquipped(struct PlayState* play);
 int Player_HasMirrorShieldSetToDraw(struct PlayState* play);
 s32 Player_ActionToMagicSpell(Player* this, s32 itemAction);
 int Player_HoldsHookshot(Player* this);
-int func_8008F128(Player* this);
+int Player_HasFiredHookshot(Player* this);
 s32 Player_ActionToMeleeWeapon(s32 itemAction);
 s32 Player_GetMeleeWeaponHeld(Player* this);
 s32 Player_HoldsTwoHandedWeapon(Player* this);

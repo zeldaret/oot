@@ -717,7 +717,7 @@ void Actor_PlaySfx_FlaggedCentered1(Actor* actor, u16 sfxId);
 void Actor_PlaySfx_FlaggedCentered2(Actor* actor, u16 sfxId);
 void Actor_PlaySfx_Flagged(Actor* actor, u16 sfxId);
 void Actor_PlaySfx_FlaggedTimer(Actor* actor, s32 timer);
-s32 Actor_TryHitJabuSurface(struct PlayState* play, Actor* actor, struct CollisionPoly* poly, s32 bgId, Vec3f* pos);
+s32 Actor_HitJabuSurface(struct PlayState* play, Actor* actor, struct CollisionPoly* poly, s32 bgId, Vec3f* pos);
 void Actor_DisableLens(struct PlayState* play);
 void Actor_InitContext(struct PlayState* play, ActorContext* actorCtx, struct ActorEntry* playerEntry);
 void Actor_UpdateAll(struct PlayState* play, ActorContext* actorCtx);

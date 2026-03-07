@@ -846,7 +846,7 @@ s32 BossTw_BeamHitPlayerCheck(BossTw* this, PlayState* play) {
                 }
 
                 player->bodyIsBurning = true;
-                Player_PlaySfx(player, player->ageProperties->unk_92 + NA_SE_VO_LI_DEMO_DAMAGE);
+                Player_PlaySfx(player, player->ageProperties->ageVoiceSfxOffset + NA_SE_VO_LI_DEMO_DAMAGE);
             }
         }
 
@@ -1709,7 +1709,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
             }
 
             if (this->timers[3] == 16) {
-                Player_PlaySfx(player, player->ageProperties->unk_92 + NA_SE_VO_LI_SURPRISE);
+                Player_PlaySfx(player, player->ageProperties->ageVoiceSfxOffset + NA_SE_VO_LI_SURPRISE);
             }
 
             if ((this->timers[3] != 0) && (this->timers[3] < 20)) {
@@ -4066,7 +4066,7 @@ void BossTw_BlastFire(BossTw* this, PlayState* play) {
                     player->bodyIsBurning = true;
 
                     if (this->work[BURN_TMR] == 0) {
-                        Player_PlaySfx(player, player->ageProperties->unk_92 + NA_SE_VO_LI_DEMO_DAMAGE);
+                        Player_PlaySfx(player, player->ageProperties->ageVoiceSfxOffset + NA_SE_VO_LI_DEMO_DAMAGE);
                         this->work[BURN_TMR] = 40;
                     }
 

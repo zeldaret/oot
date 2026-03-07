@@ -2124,7 +2124,7 @@ void Actor_PlaySfx_FlaggedTimer(Actor* actor, s32 timer) {
  * Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true.
  * @return 1 if hit a Jabu Jabu surface, otherwise 0
  */
-s32 Actor_TryHitJabuSurface(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
+s32 Actor_HitJabuSurface(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (SurfaceType_GetFloorType(&play->colCtx, poly, bgId) == FLOOR_TYPE_8) {
         play->roomCtx.drawParams[0] = 1;
         CollisionCheck_BlueBlood(play, NULL, pos);
@@ -4654,7 +4654,8 @@ s32 func_80035124(Actor* actor, PlayState* play) {
 
 #include "z_cheap_proc.inc.c"
 
-u8 func_800353E8(PlayState* play) {
+// Unused function
+u8 unused_func_800353E8(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     return player->tripleSlashCount;

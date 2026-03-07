@@ -2810,7 +2810,7 @@ void func_800F4138(Vec3f* pos, u16 sfxId, f32 arg2) {
     Audio_PlaySfxGeneral(sfxId, pos, 4, &D_8016B7B0, &D_8016B7A8, &gSfxDefaultReverb);
 }
 
-void func_800F4190(Vec3f* pos, u16 sfxId) {
+void Audio_PlayDarkLinkVoiceSfx(Vec3f* pos, u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, pos, 4, &D_801305B0, &gSfxDefaultFreqAndVolScale, &D_801305B4);
 }
 void Audio_PlaySfxRandom(Vec3f* pos, u16 baseSfxId, u8 randLim) {

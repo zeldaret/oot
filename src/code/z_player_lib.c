@@ -873,7 +873,7 @@ int Player_HoldsHookshot(Player* this) {
     return (this->heldItemAction == PLAYER_IA_HOOKSHOT) || (this->heldItemAction == PLAYER_IA_LONGSHOT);
 }
 
-int func_8008F128(Player* this) {
+int Player_HasFiredHookshot(Player* this) {
     return Player_HoldsHookshot(this) && (this->heldActor == NULL);
 }
 

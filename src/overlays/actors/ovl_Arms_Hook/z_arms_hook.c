@@ -290,7 +290,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
         if (BgCheck_EntityLineTest1(&play->colCtx, &sp60, &this->unk_1E8, &intersectPos, &poly, true, true, true, true,
                                     &bgId) &&
-            !Actor_TryHitJabuSurface(play, &this->actor, poly, bgId, &intersectPos)) {
+            !Actor_HitJabuSurface(play, &this->actor, poly, bgId, &intersectPos)) {
             f32 polyNormalX = COLPOLY_GET_NORMAL(poly->normal.x);
             f32 polyNormalZ = COLPOLY_GET_NORMAL(poly->normal.z);
             s32 pad;

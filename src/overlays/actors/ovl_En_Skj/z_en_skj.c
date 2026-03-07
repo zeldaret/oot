@@ -1534,7 +1534,8 @@ void EnSkj_WaitForOfferResponse(EnSkj* this, PlayState* play) {
             case 0: { // yes
                 Player* player = GET_PLAYER(play);
 
-                player->stateFlags3 |= PLAYER_STATE3_5; // makes player take ocarina out right away after closing box
+                player->stateFlags3 |=
+                    PLAYER_STATE3_OCARINA_GAME; // makes player take ocarina out right away after closing box
                 this->actionFunc = EnSkj_SetupWaitForOcarina;
                 break;
             }
