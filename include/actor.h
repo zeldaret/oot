@@ -659,7 +659,7 @@ f32 Player_GetHeight(struct Player* player);
 f32 func_8002DCE4(struct Player* player);
 int func_8002DD6C(struct Player* player);
 int func_8002DD78(struct Player* player);
-s32 func_8002DDE4(struct PlayState* play);
+s32 Player_IsMakingNoise(struct PlayState* play);
 s32 func_8002DDF4(struct PlayState* play);
 void Actor_SwapHookshotAttachment(struct PlayState* play, Actor* srcActor, Actor* destActor);
 void Actor_RequestHorseCameraSetting(struct PlayState* play, struct Player* player);

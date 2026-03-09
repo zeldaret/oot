@@ -1162,7 +1162,7 @@ int func_8002DDA8(PlayState* play) {
     return (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) || func_8002DD78(player);
 }
 
-s32 func_8002DDE4(PlayState* play) {
+s32 Player_IsMakingNoise(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     return player->stateFlags2 & PLAYER_STATE2_MAKING_NOISE;

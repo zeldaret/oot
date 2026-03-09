@@ -302,7 +302,7 @@ void EnRd_Idle(EnRd* this, PlayState* play) {
         }
 
         this->isMourning = false;
-        if ((this->actor.xzDistToPlayer <= 150.0f) && func_8002DDE4(play)) {
+        if ((this->actor.xzDistToPlayer <= 150.0f) && Player_IsMakingNoise(play)) {
             if ((this->actor.params != REDEAD_TYPE_CRYING) && !this->isMourning) {
                 EnRd_SetupAttemptPlayerFreeze(this);
             } else {

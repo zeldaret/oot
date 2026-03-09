@@ -1950,7 +1950,12 @@ void Player_PlayLandingSfx(Player* this) {
     Player_PlaySfx(this, sfxId);
 }
 
-void func_808328EC(Player* this, u16 sfxId) {
+/**
+ * Plays a item sound: equip or mask change, or melee attack.
+ * Certain enemies will react to this noise (like Redeads) if the
+ * player is close enough.
+ */
+void Player_PlayItemNoise(Player* this, u16 sfxId) {
     Player_PlaySfx(this, sfxId);
     this->stateFlags2 |= PLAYER_STATE2_MAKING_NOISE;
 }
@@ -2514,7 +2519,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
         }
 
         if (itemSfx != 0) {
-            func_808328EC(this, itemSfx);
+            Player_PlayItemNoise(this, itemSfx);
         }
 
         if (!((this->meleeWeaponAnimation >= PLAYER_MWA_FLIPSLASH_START) &&
@@ -2833,18 +2838,18 @@ s32 func_8083442C(Player* this, PlayState* play) {
 void Player_FinishItemChange(PlayState* play, Player* this) {
     if (this->heldItemAction != PLAYER_IA_NONE) {
         if (func_8008F2BC(this, this->heldItemAction) >= 0) {
-            func_808328EC(this, NA_SE_IT_SWORD_PUTAWAY);
+            Player_PlayItemNoise(this, NA_SE_IT_SWORD_PUTAWAY);
         } else {
-            func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
+            Player_PlayItemNoise(this, NA_SE_PL_CHANGE_ARMS);
         }
     }
 
     Player_UseItem(play, this, this->heldItemId);
 
     if (func_8008F2BC(this, this->heldItemAction) >= 0) {
-        func_808328EC(this, NA_SE_IT_SWORD_PICKOUT);
+        Player_PlayItemNoise(this, NA_SE_IT_SWORD_PICKOUT);
     } else if (this->heldItemAction != PLAYER_IA_NONE) {
-        func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
+        Player_PlayItemNoise(this, NA_SE_PL_CHANGE_ARMS);
     }
 }
 
@@ -3594,7 +3599,7 @@ void Player_UseItem(PlayState* play, Player* this, s32 item) {
                     this->currentMask = itemAction - PLAYER_IA_MASK_KEATON + 1;
                 }
 
-                func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
+                Player_PlayItemNoise(this, NA_SE_PL_CHANGE_ARMS);
             } else if (((itemAction >= PLAYER_IA_OCARINA_FAIRY) && (itemAction <= PLAYER_IA_OCARINA_OF_TIME)) ||
                        (itemAction >= PLAYER_IA_BOTTLE_FISH)) {
                 // Handle "cutscene items"
@@ -8023,7 +8028,7 @@ s32 func_80840058(Player* this, f32* arg1, s16* arg2, PlayState* play) {
  * Another variable will increase/decrease to this value.
  * This smoothening is used when changing side walk direction to ensure smooth animation.
  */
-void func_80840138(Player* this, f32 speedTarget, s16 yawTarget) {
+void Player_SetForwardFoot(Player* this, f32 speedTarget, s16 yawTarget) {
     s16 yawDiff = yawTarget - this->actor.shape.rot.y;
 
     if (speedTarget > 0.0f) {
@@ -8159,7 +8164,7 @@ void Player_Action_IdleHostile(Player* this, PlayState* play) {
         }
 
         func_8084029C(this, (this->speedXZ * 0.3f) + 1.0f);
-        func_80840138(this, speedTarget, yawTarget);
+        Player_SetForwardFoot(this, speedTarget, yawTarget);
 
         temp2 = this->unk_868;
         if ((temp2 < 6) || ((temp2 - 0xE) < 6)) {
@@ -8711,7 +8716,7 @@ void Player_Action_FastSidewalk(Player* this, PlayState* play) {
             s16 yawDiff;
             s32 absDiff;
 
-            func_80840138(this, speedTarget, yawTarget);
+            Player_SetForwardFoot(this, speedTarget, yawTarget);
 
             yawDiff = yawTarget - this->yaw;
             absDiff = ABS(yawDiff);
