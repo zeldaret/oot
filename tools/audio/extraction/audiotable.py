@@ -11,7 +11,7 @@ from .audio_tables import AudioCodeTableEntry
 from .audiobank_structs import AudioSampleCodec, SoundFontSample, AdpcmBook, AdpcmLoop
 from .extraction_xml import SampleBankExtractionDescription
 from .tuning import pitch_names, note_z64_to_midi, recalc_tuning, rate_from_tuning, rank_rates_notes, BAD_FLOATS
-from .util import align, error, XMLWriter, f32_to_u32
+from .util import align, XMLWriter, f32_to_u32
 
 class AIFCFile:
 
@@ -205,7 +205,7 @@ class AudioTableSample(AudioTableData):
         return ext
 
     def base_note_number(self):
-        return note_z64_to_midi(pitch_names.index(self.base_note))
+        return note_z64_to_midi(self.base_note)
 
     def resolve_basenote_rate(self, extraction_sample_info : Optional[Dict[str,str]]):
         assert len(self.notes_rates) != 0
@@ -287,7 +287,7 @@ class AudioTableSample(AudioTableData):
         if extraction_sample_info is not None:
             assert "SampleRate" in extraction_sample_info and "BaseNote" in extraction_sample_info
             final_rate = int(extraction_sample_info["SampleRate"])
-            final_note = extraction_sample_info["BaseNote"]
+            final_note = pitch_names.index(extraction_sample_info["BaseNote"])
 
         # print("     ",len(FINAL_NOTES_RATES), FINAL_NOTES_RATES)
         # if rate_3ds is not None and len(FINAL_NOTES_RATES) == 1:
@@ -644,7 +644,7 @@ class AudioTableFile:
                     "Name"       : sample.name,
                     "FileName"   : sample.filename.replace(sample.codec_file_extension_compressed(), ""),
                     "SampleRate" : sample.sample_rate,
-                    "BaseNote"   : sample.base_note,
+                    "BaseNote"   : pitch_names[sample.base_note],
                 }
                 xml.write_element("Sample", attrs)
             else:
