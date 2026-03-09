@@ -1165,7 +1165,7 @@ int func_8002DDA8(PlayState* play) {
 s32 func_8002DDE4(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    return player->stateFlags2 & PLAYER_STATE2_3;
+    return player->stateFlags2 & PLAYER_STATE2_MAKING_NOISE;
 }
 
 s32 func_8002DDF4(PlayState* play) {

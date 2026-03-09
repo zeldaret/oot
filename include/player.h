@@ -741,7 +741,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_0 (1 << 0)
 #define PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER (1 << 1) // Can accept a talk offer. "Speak" or "Check" is shown on the A button.
 #define PLAYER_STATE2_2 (1 << 2)
-#define PLAYER_STATE2_3 (1 << 3)
+#define PLAYER_STATE2_MAKING_NOISE (1 << 3) // Set for one frame by Player_PlayItemNoise for melee attacks, changing items, using masks. Also when fast walking. Allows detection by certain enemies
 #define PLAYER_STATE2_4 (1 << 4)
 #define PLAYER_STATE2_5 (1 << 5)
 #define PLAYER_STATE2_6 (1 << 6)
@@ -939,8 +939,8 @@ typedef struct Player {
     /* 0x0864 */ f32 unk_864;
     /* 0x0868 */ f32 unk_868;
     /* 0x086C */ f32 unk_86C;
-    /* 0x0870 */ f32 unk_870;
-    /* 0x0874 */ f32 unk_874;
+    /* 0x0870 */ f32 forwardFootWeight; // See below. Serves same function, but is changed by intervals and so also used to weight animations.
+    /* 0x0874 */ f32 forwardFoot; // 0 = right. Which foot is forward/more anterior when sidewalking and throwing Boomerang
     /* 0x0878 */ f32 unk_878;
     /* 0x087C */ s16 unk_87C;
     /* 0x087E */ s16 turnRate; // Amount angle is changed every frame when turning in place
