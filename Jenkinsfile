@@ -127,10 +127,10 @@ pipeline {
                 }
             }
         }
-        stage('Build gc-eu-dbg-proto') {
+        stage('Build gc-eu-dbg-2') {
             steps {
                 script {
-                    build('gc-eu-dbg-proto', 'oot-gc-eu-dbg-proto.z64')
+                    build('gc-eu-dbg-2', 'oot-gc-eu-dbg-proto.z64')
                 }
             }
         }
