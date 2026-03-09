@@ -152,6 +152,7 @@ This downloads some dependencies (from pip), and compiles tools for the build pr
 Then it generates a new ROM `baseroms/<the-version>/baserom-decompressed.z64`.
 For retail (non-debug) versions, that ROM will be the decompressed equivalent of the ROM.
 For the `gc-eu-mq-dbg` version, that ROM will have the overdump removed and the header patched.
+The other debug ROMs `gc-eu-dbg-proto` and `gc-eu-dbg` will also have the overdump removed.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM
