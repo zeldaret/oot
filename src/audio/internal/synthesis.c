@@ -1,3 +1,6 @@
+/**
+ * original name: driver.c
+ */
 #include "alignment.h"
 #include "ultra64.h"
 #include "audio.h"
@@ -59,6 +62,9 @@ u8 sNumSamplesPerWavePeriod[] = {
     WAVE_SAMPLE_COUNT / 8, // 8th harmonic
 };
 
+/**
+ * original name: Nas_CpuFX
+ */
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
     s32 pad[3];
@@ -130,6 +136,9 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) 
     }
 }
 
+/**
+ * original name: __Nas_PushDrvReg
+ */
 void func_800DB03C(s32 updateIndex) {
     NoteSubEu* subEu;
     NoteSubEu* subEu2;
@@ -150,6 +159,9 @@ void func_800DB03C(s32 updateIndex) {
     }
 }
 
+/**
+ * original name: Nas_smzAudioFrame
+ */
 Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen) {
     s32 chunkLen;
     s16* aiBufP;
@@ -200,6 +212,9 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
     return cmdP;
 }
 
+/**
+ * original name: __Nas_WaveTerminateProcess
+ */
 void func_800DB2C0(s32 updateIndex, s32 noteIndex) {
     NoteSubEu* noteSubEu;
     s32 i;
@@ -214,6 +229,9 @@ void func_800DB2C0(s32 updateIndex, s32 noteIndex) {
     }
 }
 
+/**
+ * original name: Nas_LoadAux2nd
+ */
 Acmd* AudioSynth_LoadRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][updateIndex];
 
@@ -225,6 +243,9 @@ Acmd* AudioSynth_LoadRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 u
     return cmd;
 }
 
+/**
+ * original name: Nas_SaveAux2nd
+ */
 Acmd* AudioSynth_SaveRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][updateIndex];
 
@@ -238,6 +259,8 @@ Acmd* AudioSynth_SaveRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 u
 
 /**
  * Leak some audio from the left reverb channel into the right reverb channel and vice versa (pan)
+ *
+ * original name: Nas_CrossMix
  */
 Acmd* AudioSynth_LeakReverb(Acmd* cmd, SynthesisReverb* reverb) {
     aDMEMMove(cmd++, DMEM_WET_LEFT_CH, DMEM_WET_SCRATCH, DMEM_1CH_SIZE);
@@ -246,6 +269,9 @@ Acmd* AudioSynth_LeakReverb(Acmd* cmd, SynthesisReverb* reverb) {
     return cmd;
 }
 
+/**
+ * original name: Nas_LoadAuxBufferC
+ */
 Acmd* func_800DB4E4(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* item = &reverb->items[reverb->curFrame][updateIndex];
     s16 offsetA;
@@ -266,6 +292,9 @@ Acmd* func_800DB4E4(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 update
     return cmd;
 }
 
+/**
+ * original name: Nas_SaveAuxBufferCH
+ */
 Acmd* func_800DB680(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][updateIndex];
 
@@ -291,6 +320,9 @@ Acmd* func_800DB680(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
     return cmd;
 }
 
+/**
+ * original name: Nas_LoadAuxBufferCH
+ */
 Acmd* func_800DB828(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* item = &reverb->items[reverb->curFrame][updateIndex];
     s16 offsetA;
@@ -315,6 +347,8 @@ Acmd* func_800DB828(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 update
 
 /**
  * Apply a filter (convolution) to each reverb channel.
+ *
+ * original name: Nas_DelayFilter
  */
 Acmd* AudioSynth_FilterReverb(Acmd* cmd, s32 size, SynthesisReverb* reverb) {
     if (reverb->filterLeft != NULL) {
@@ -329,6 +363,9 @@ Acmd* AudioSynth_FilterReverb(Acmd* cmd, s32 size, SynthesisReverb* reverb) {
     return cmd;
 }
 
+/**
+ * original name: Nas_SendLine
+ */
 Acmd* AudioSynth_MaybeMixRingBuffer1(Acmd* cmd, SynthesisReverb* reverb, s32 updateIndex) {
     SynthesisReverb* temp_a3;
 
@@ -341,43 +378,43 @@ Acmd* AudioSynth_MaybeMixRingBuffer1(Acmd* cmd, SynthesisReverb* reverb, s32 upd
     return cmd;
 }
 
-void func_800DBB94(void) {
+void AudioSynth_Stub_800DBB94(void) {
 }
 
 void AudioSynth_ClearBuffer(Acmd* cmd, s32 dmem, s32 size) {
     aClearBuffer(cmd, dmem, size);
 }
 
-void func_800DBBBC(void) {
+void AudioSynth_Stub_800DBBBC(void) {
 }
 
-void func_800DBBC4(void) {
+void AudioSynth_Stub_800DBBC4(void) {
 }
 
-void func_800DBBCC(void) {
+void AudioSynth_Stub_800DBBCC(void) {
 }
 
 void AudioSynth_Mix(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     aMix(cmd, arg1, arg2, arg3, arg4);
 }
 
-void func_800DBC08(void) {
+void AudioSynth_Stub_800DBC08(void) {
 }
 
-void func_800DBC10(void) {
+void AudioSynth_Stub_800DBC10(void) {
 }
 
-void func_800DBC18(void) {
+void AudioSynth_Stub_800DBC18(void) {
 }
 
 void AudioSynth_SetBuffer(Acmd* cmd, s32 flags, s32 dmemIn, s32 dmemOut, u32 size) {
     aSetBuffer(cmd, flags, dmemIn, dmemOut, size);
 }
 
-void func_800DBC54(void) {
+void AudioSynth_Stub_800DBC54(void) {
 }
 
-void func_800DBC5C(void) {
+void AudioSynth_Stub_800DBC5C(void) {
 }
 
 // possible fake match?
@@ -386,16 +423,16 @@ void AudioSynth_DMemMove(Acmd* cmd, s32 dmemIn, s32 dmemOut, u32 size) {
     cmd->words.w1 = _SHIFTL(dmemOut, 16, 16) | _SHIFTL(size, 0, 16);
 }
 
-void func_800DBC90(void) {
+void AudioSynth_Stub_800DBC90(void) {
 }
 
-void func_800DBC98(void) {
+void AudioSynth_Stub_800DBC98(void) {
 }
 
-void func_800DBCA0(void) {
+void AudioSynth_Stub_800DBCA0(void) {
 }
 
-void func_800DBCA8(void) {
+void AudioSynth_Stub_800DBCA8(void) {
 }
 
 void AudioSynth_InterL(Acmd* cmd, s32 dmemIn, s32 dmemOut, s32 numSamples) {
@@ -407,7 +444,7 @@ void AudioSynth_EnvSetup1(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     aEnvSetup1(cmd, arg1, arg2, arg3, arg4);
 }
 
-void func_800DBD08(void) {
+void AudioSynth_Stub_800DBD08(void) {
 }
 
 void AudioSynth_LoadBuffer(Acmd* cmd, s32 dmemDest, s32 size, void* addrSrc) {
@@ -423,13 +460,13 @@ void AudioSynth_EnvSetup2(Acmd* cmd, s32 volLeft, s32 volRight) {
     cmd->words.w1 = _SHIFTL(volLeft, 16, 16) | _SHIFTL(volRight, 0, 16);
 }
 
-void func_800DBD7C(void) {
+void AudioSynth_Stub_800DBD7C(void) {
 }
 
-void func_800DBD84(void) {
+void AudioSynth_Stub_800DBD84(void) {
 }
 
-void func_800DBD8C(void) {
+void AudioSynth_Stub_800DBD8C(void) {
 }
 
 void AudioSynth_S8Dec(Acmd* cmd, s32 flags, s16* state) {
@@ -446,16 +483,16 @@ void AudioSynth_UnkCmd19(Acmd* cmd, s32 arg1, s32 arg2, s32 size, s32 arg4) {
     cmd->words.w1 = _SHIFTL(arg1, 16, 16) | _SHIFTL(arg2, 0, 16);
 }
 
-void func_800DBE18(void) {
+void AudioSynth_Stub_800DBE18(void) {
 }
 
-void func_800DBE20(void) {
+void AudioSynth_Stub_800DBE20(void) {
 }
 
-void func_800DBE28(void) {
+void AudioSynth_Stub_800DBE28(void) {
 }
 
-void func_800DBE30(void) {
+void AudioSynth_Stub_800DBE30(void) {
 }
 
 void AudioSynth_UnkCmd3(Acmd* cmd, s32 arg1, s32 arg2, s32 size) {
@@ -463,13 +500,13 @@ void AudioSynth_UnkCmd3(Acmd* cmd, s32 arg1, s32 arg2, s32 size) {
     cmd->words.w1 = _SHIFTL(arg1, 16, 16) | _SHIFTL(arg2, 0, 16);
 }
 
-void func_800DBE5C(void) {
+void AudioSynth_Stub_800DBE5C(void) {
 }
 
-void func_800DBE64(void) {
+void AudioSynth_Stub_800DBE64(void) {
 }
 
-void func_800DBE6C(void) {
+void AudioSynth_Stub_800DBE6C(void) {
 }
 
 void AudioSynth_LoadFilterBuffer(Acmd* cmd, s32 flags, s32 buf, void* addr) {
@@ -480,6 +517,9 @@ void AudioSynth_LoadFilterSize(Acmd* cmd, s32 size, void* addr) {
     aFilter(cmd, 2, size, addr);
 }
 
+/**
+ * original name: Nas_LoadAuxBuffer1
+ */
 Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* ringBufferItem = &reverb->items[reverb->curFrame][updateIndex];
 
@@ -494,6 +534,9 @@ Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 aiBufLen, SynthesisReverb* rever
     return cmd;
 }
 
+/**
+ * original name: Nas_LoadAuxBuffer1_B
+ */
 Acmd* AudioSynth_LoadRingBuffer2(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][updateIndex];
 
@@ -505,23 +548,35 @@ Acmd* AudioSynth_LoadRingBuffer2(Acmd* cmd, s32 aiBufLen, SynthesisReverb* rever
     return cmd;
 }
 
+/**
+ * original name: __LoadAuxBuf
+ */
 Acmd* AudioSynth_LoadRingBufferPart(Acmd* cmd, u16 dmem, u16 startPos, s32 size, SynthesisReverb* reverb) {
     aLoadBuffer(cmd++, &reverb->leftRingBuf[startPos], dmem, size);
     aLoadBuffer(cmd++, &reverb->rightRingBuf[startPos], dmem + DMEM_1CH_SIZE, size);
     return cmd;
 }
 
+/**
+ * original name: __SaveAuxBuf
+ */
 Acmd* AudioSynth_SaveRingBufferPart(Acmd* cmd, u16 dmem, u16 startPos, s32 size, SynthesisReverb* reverb) {
     aSaveBuffer(cmd++, dmem, &reverb->leftRingBuf[startPos], size);
     aSaveBuffer(cmd++, dmem + DMEM_1CH_SIZE, &reverb->rightRingBuf[startPos], size);
     return cmd;
 }
 
+/**
+ * original name: Nas_SaveBufferAuto
+ */
 Acmd* AudioSynth_SaveBufferOffset(Acmd* cmd, u16 dmem, u16 offset, s32 size, s16* buf) {
     aSaveBuffer(cmd++, dmem, &buf[offset], size);
     return cmd;
 }
 
+/**
+ * original name: Nas_LoadAuxBuffer_B
+ */
 Acmd* AudioSynth_MaybeLoadRingBuffer2(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     if (reverb->downsampleRate == 1) {
         cmd = AudioSynth_LoadRingBuffer2(cmd, aiBufLen, reverb, updateIndex);
@@ -530,6 +585,9 @@ Acmd* AudioSynth_MaybeLoadRingBuffer2(Acmd* cmd, s32 aiBufLen, SynthesisReverb* 
     return cmd;
 }
 
+/**
+ * original name: Nas_LoadAuxBuffer
+ */
 Acmd* AudioSynth_LoadReverbSamples(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     // Sets DMEM_WET_{LEFT,RIGHT}_CH, clobbers DMEM_TEMP
     if (reverb->downsampleRate == 1) {
@@ -544,6 +602,9 @@ Acmd* AudioSynth_LoadReverbSamples(Acmd* cmd, s32 aiBufLen, SynthesisReverb* rev
     return cmd;
 }
 
+/**
+ * original name: Nas_SaveAuxBuffer
+ */
 Acmd* AudioSynth_SaveReverbSamples(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][updateIndex];
 
@@ -570,6 +631,9 @@ Acmd* AudioSynth_SaveReverbSamples(Acmd* cmd, SynthesisReverb* reverb, s16 updat
     return cmd;
 }
 
+/**
+ * original name: Nas_SaveAuxBuffer_B
+ */
 Acmd* AudioSynth_SaveRingBuffer2(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][updateIndex];
 
@@ -581,6 +645,9 @@ Acmd* AudioSynth_SaveRingBuffer2(Acmd* cmd, SynthesisReverb* reverb, s16 updateI
     return cmd;
 }
 
+/**
+ * original name: Nas_DriveRsp
+ */
 Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
     u8 noteIndices[0x5C];
     s16 count;
@@ -707,6 +774,9 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     return cmd;
 }
 
+/**
+ * original name: Nas_SynthMain
+ */
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
     s32 pad1[3];
@@ -1146,6 +1216,9 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     return cmd;
 }
 
+/**
+ * original name: Nas_Synth_Resample
+ */
 Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 size, u16 pitch, u16 inpDmem,
                                s32 resampleFlags) {
     if (pitch == 0) {
@@ -1157,6 +1230,9 @@ Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 si
     return cmd;
 }
 
+/**
+ * original name: Nas_Synth_Envelope
+ */
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen,
                                  u16 dmemSrc, s32 haasEffectDelaySide, s32 flags) {
     u32 dmemDests;
@@ -1285,6 +1361,8 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
  * The Haas Effect gives directionality to sound by applying a small (< 35ms) delay to either the left or right channel.
  * The delay is small enough that the sound is still perceived as one sound, but the channel that is not delayed will
  * reach our ear first and give a sense of directionality. The sound is directed towards the opposite side of the delay.
+ *
+ * original name: Nas_Synth_Delay
  */
 Acmd* AudioSynth_ApplyHaasEffect(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 size, s32 flags,
                                  s32 haasEffectDelaySide) {

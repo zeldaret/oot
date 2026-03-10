@@ -1,6 +1,12 @@
+/**
+ * original filename: channel.c
+ */
 #include "ultra64.h"
 #include "audio.h"
 
+/**
+ * original name: Nas_smzSetParam
+ */
 void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     f32 volLeft;
     f32 volRight;
@@ -106,6 +112,9 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     sub->reverbVol = reverbVol;
 }
 
+/**
+ * original name: Nas_smzSetPitch
+ */
 void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) {
     f32 resamplingRate = 0.0f;
 
@@ -124,6 +133,9 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
     noteSubEu->resamplingRateFixedPoint = (s32)(resamplingRate * 32768.0f);
 }
 
+/**
+ * original name: Nas_StartVoice
+ */
 void Audio_NoteInit(Note* note) {
     if (note->playbackState.parentLayer->adsr.decayIndex == 0) {
         Audio_AdsrInit(&note->playbackState.adsr, note->playbackState.parentLayer->channel->adsr.envelope,
@@ -138,6 +150,9 @@ void Audio_NoteInit(Note* note) {
     note->noteSubEu = gDefaultNoteSub;
 }
 
+/**
+ * original name: Nas_StopVoice
+ */
 void Audio_NoteDisable(Note* note) {
     if (note->noteSubEu.bitField0.needsInit == true) {
         note->noteSubEu.bitField0.needsInit = false;
@@ -152,6 +167,9 @@ void Audio_NoteDisable(Note* note) {
     note->playbackState.adsr.current = 0;
 }
 
+/**
+ * original name: Nas_UpdateChannel
+ */
 void Audio_ProcessNotes(void) {
     s32 pad[2];
     NoteAttributes* attrs;
@@ -295,6 +313,9 @@ void Audio_ProcessNotes(void) {
     }
 }
 
+/**
+ * original name: NoteToVoice
+ */
 TunedSample* Audio_GetInstrumentTunedSample(Instrument* instrument, s32 semitone) {
     TunedSample* tunedSample;
 
@@ -308,6 +329,9 @@ TunedSample* Audio_GetInstrumentTunedSample(Instrument* instrument, s32 semitone
     return tunedSample;
 }
 
+/**
+ * original name: ProgToVp
+ */
 Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId) {
     Instrument* inst;
 
@@ -334,6 +358,9 @@ Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId) {
     return inst;
 }
 
+/**
+ * original name: PercToPp
+ */
 Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
     Drum* drum;
 
@@ -362,6 +389,9 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
     return drum;
 }
 
+/**
+ * original name: VpercToVep
+ */
 SoundEffect* Audio_GetSoundEffect(s32 fontId, s32 sfxId) {
     SoundEffect* soundEffect;
 
@@ -396,6 +426,9 @@ SoundEffect* Audio_GetSoundEffect(s32 fontId, s32 sfxId) {
     return soundEffect;
 }
 
+/**
+ * original name: OverwriteBank
+ */
 s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* value) {
     if (fontId == 0xFF) {
         return -1;
@@ -431,6 +464,9 @@ s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* val
     return 0;
 }
 
+/**
+ * original name: __Nas_Release_Channel_Main
+ */
 void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
     Note* note;
     NoteAttributes* attrs;
@@ -523,10 +559,16 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
     }
 }
 
+/**
+ * original name: Nas_Release_Channel
+ */
 void Audio_SeqLayerNoteDecay(SequenceLayer* layer) {
     Audio_SeqLayerDecayRelease(layer, ADSR_STATE_DECAY);
 }
 
+/**
+ * original name: Nas_Release_Channel_Force
+ */
 void Audio_SeqLayerNoteRelease(SequenceLayer* layer) {
     Audio_SeqLayerDecayRelease(layer, ADSR_STATE_RELEASE);
 }
@@ -597,12 +639,18 @@ void Audio_InitSyntheticWave(Note* note, SequenceLayer* layer) {
     }
 }
 
+/**
+ * original name: __Nas_InitList
+ */
 void Audio_InitNoteList(AudioListItem* list) {
     list->prev = list;
     list->next = list;
     list->u.count = 0;
 }
 
+/**
+ * original name: Nas_InitChNode
+ */
 void Audio_InitNoteLists(NotePool* pool) {
     Audio_InitNoteList(&pool->disabled);
     Audio_InitNoteList(&pool->decaying);
@@ -614,6 +662,9 @@ void Audio_InitNoteLists(NotePool* pool) {
     pool->active.pool = pool;
 }
 
+/**
+ * original name: Nas_InitChannelList
+ */
 void Audio_InitNoteFreeList(void) {
     s32 i;
 
@@ -625,6 +676,9 @@ void Audio_InitNoteFreeList(void) {
     }
 }
 
+/**
+ * original name: Nas_DeAllocAllVoices
+ */
 void Audio_NotePoolClear(NotePool* pool) {
     s32 i;
     AudioListItem* source;
@@ -665,6 +719,9 @@ void Audio_NotePoolClear(NotePool* pool) {
     }
 }
 
+/**
+ * original name: Nas_AllocVoices
+ */
 void Audio_NotePoolFill(NotePool* pool, s32 count) {
     s32 i;
     s32 j;
@@ -712,6 +769,9 @@ void Audio_NotePoolFill(NotePool* pool, s32 count) {
     }
 }
 
+/**
+ * original name: Nas_AddListHead
+ */
 void Audio_AudioListPushFront(AudioListItem* list, AudioListItem* item) {
     // add 'item' to the front of the list given by 'list', if it's not in any list
     if (item->prev == NULL) {
@@ -724,6 +784,9 @@ void Audio_AudioListPushFront(AudioListItem* list, AudioListItem* item) {
     }
 }
 
+/**
+ * original name: Nas_CutList
+ */
 void Audio_AudioListRemove(AudioListItem* item) {
     // remove 'item' from the list it's in, if any
     if (item->prev != NULL) {
@@ -733,6 +796,9 @@ void Audio_AudioListRemove(AudioListItem* item) {
     }
 }
 
+/**
+ * original name: __Nas_GetLowerPrio
+ */
 Note* Audio_FindNodeWithPrioLessThan(AudioListItem* list, s32 limit) {
     AudioListItem* cur = list->next;
     AudioListItem* best;
@@ -758,6 +824,9 @@ Note* Audio_FindNodeWithPrioLessThan(AudioListItem* list, s32 limit) {
     return best->u.value;
 }
 
+/**
+ * original name: Nas_EntryTrack
+ */
 void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     s32 pad[3];
     s16 instId;
@@ -796,12 +865,18 @@ void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     sub->bitField1.reverbIndex = layer->channel->reverbIndex & 3;
 }
 
+/**
+ * original name: __Nas_InterTrack
+ */
 void func_800E82C0(Note* note, SequenceLayer* layer) {
     // similar to Audio_NoteReleaseAndTakeOwnership, hard to say what the difference is
     Audio_SeqLayerNoteRelease(note->playbackState.parentLayer);
     note->playbackState.wantedParentLayer = layer;
 }
 
+/**
+ * original name: __Nas_InterReleaseTrack
+ */
 void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceLayer* layer) {
     note->playbackState.wantedParentLayer = layer;
     note->playbackState.priority = layer->channel->notePriority;
@@ -828,6 +903,9 @@ Note* Audio_AllocNoteFromDecaying(NotePool* pool, SequenceLayer* layer) {
     return note;
 }
 
+/**
+ * original name: __Nas_ChLookRelWait
+ */
 Note* Audio_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
     Note* rNote;
     Note* aNote;
@@ -863,6 +941,9 @@ Note* Audio_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
     return rNote;
 }
 
+/**
+ * original name: Nas_AllocationOnRequest
+ */
 Note* Audio_AllocNote(SequenceLayer* layer) {
     Note* note;
     u32 policy = layer->channel->noteAllocPolicy;
@@ -926,6 +1007,9 @@ null_return:
     return NULL;
 }
 
+/**
+ * original name: Nas_ChannelInit
+ */
 void Audio_NoteInitAll(void) {
     Note* note;
     s32 i;
