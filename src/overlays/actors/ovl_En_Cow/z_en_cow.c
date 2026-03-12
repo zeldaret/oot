@@ -6,6 +6,7 @@
 
 #include "z_en_cow.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
@@ -128,7 +129,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
     switch (COW_GET_TYPE(this)) {
         case COW_TYPE_BODY:
             SkelAnime_InitFlex(play, &this->skelAnime, &gCowBodySkel, NULL, this->jointTable, this->morphTable,
-                               COW_LIMB_MAX);
+                               ARRAY_COUNT(this->jointTable));
             Animation_PlayLoop(&this->skelAnime, &gCowBodyChewAnim);
 
             Collider_InitCylinder(play, &this->colliders[COW_COLLIDER_FRONT]);
@@ -164,7 +165,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
 
         case COW_TYPE_TAIL:
             SkelAnime_InitFlex(play, &this->skelAnime, &gCowTailSkel, NULL, this->jointTable, this->morphTable,
-                               COW_TAIL_LIMB_MAX);
+                               ARRAY_COUNT(this->jointTable));
             Animation_PlayLoop(&this->skelAnime, &gCowTailIdleAnim);
             this->actor.update = EnCow_UpdateTail;
             this->actor.draw = EnCow_DrawTail;
