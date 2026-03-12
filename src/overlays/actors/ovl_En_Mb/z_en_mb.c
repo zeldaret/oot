@@ -6,6 +6,7 @@
 
 #include "z_en_mb.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
 #include "gfx.h"
@@ -15,6 +16,7 @@
 #include "rumble.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_en_item00.h"
@@ -275,7 +277,7 @@ void EnMb_SetupAction(EnMb* this, EnMbActionFunc actionFunc) {
 
 void EnMb_Init(Actor* thisx, PlayState* play) {
     EnMb* this = (EnMb*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s16 relYawFromPlayer;
 
@@ -695,7 +697,7 @@ void EnMb_SpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
  * Slow down and resume walking.
  */
 void EnMb_SpearEndChargeQuick(EnMb* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.5f, 1.0f, 0.0f);
     if (this->actor.speed > 1.0f) {
@@ -841,7 +843,7 @@ void EnMb_SpearGuardPrepareAndCharge(EnMb* this, PlayState* play) {
 
 void EnMb_ClubAttack(EnMb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f effSpawnPos;
     Vec3f effWhiteShockwaveDynamics = { 0.0f, 0.0f, 0.0f };
     f32 flamesParams[] = { 18.0f, 18.0f, 0.0f };
@@ -1109,7 +1111,7 @@ void EnMb_ClubDamagedWhileKneeling(EnMb* this, PlayState* play) {
             this->timer3--;
             if (this->timer3 == 0) {
                 if (this->timer1 == 0) {
-                    s32 pad;
+                    STACK_PAD(s32);
 
                     Animation_Change(&this->skelAnime, &gEnMbClubStandUpAnim, 3.0f, 0.0f,
                                      Animation_GetLastFrame(&gEnMbClubStandUpAnim), ANIMMODE_ONCE_INTERP, 0.0f);
@@ -1167,8 +1169,7 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
 void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
-    s32 pad1;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     Player* player = GET_PLAYER(play);
     s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     s16 yawTowardsHome;
@@ -1283,7 +1284,7 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
 
 void EnMb_ClubWaitPlayerNear(EnMb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 relYawFromPlayer = this->actor.world.rot.y - this->actor.yawTowardsPlayer;
 
     SkelAnime_Update(&this->skelAnime);
@@ -1483,7 +1484,7 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
 
 void EnMb_Update(Actor* thisx, PlayState* play) {
     EnMb* this = (EnMb*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     EnMb_CheckColliding(this, play);
     if (thisx->colChkInfo.damageReaction != ENMB_DMG_REACT_FREEZE) {
@@ -1513,7 +1514,7 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnMb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f unused = { 1100.0f, -700.0f, 0.0f };
+    UNUSED static Vec3f unused = { 1100.0f, -700.0f, 0.0f };
     static Vec3f feetPos = { 0.0f, 0.0f, 0.0f };
     static Vec3f effSpawnOffsetFromLeftHand = { 0.0f, -8000.0f, 0.0f };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };

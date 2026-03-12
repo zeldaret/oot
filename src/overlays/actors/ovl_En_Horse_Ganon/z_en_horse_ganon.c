@@ -12,6 +12,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -279,9 +280,9 @@ void func_80A68DB0(EnHorseGanon* this, PlayState* play) {
 }
 
 void func_80A68E14(EnHorseGanon* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionPoly* poly;
-    s32 pad2;
+    STACK_PAD(s32);
     Vec3f checkPos;
     s32 bgId;
 
@@ -294,7 +295,7 @@ void func_80A68E14(EnHorseGanon* this, PlayState* play) {
 
 void EnHorseGanon_Update(Actor* thisx, PlayState* play) {
     EnHorseGanon* this = (EnHorseGanon*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     sActionFuncs[this->action](this, play);
     Actor_MoveXZGravity(&this->actor);

@@ -1,4 +1,5 @@
 #include "file_select.h"
+#include "attributes.h"
 #include "file_select_state.h"
 
 #include "controller.h"
@@ -367,7 +368,7 @@ void FileSelect_ExitToCopySource1(GameState* thisx) {
  */
 void FileSelect_ExitToCopySource2(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
-    SramContext* sramCtx = &this->sramCtx;
+    UNUSED SramContext* sramCtx = &this->sramCtx;
     s16 i;
     s16 yStep;
 #if PLATFORM_IQUE
@@ -768,7 +769,9 @@ void FileSelect_CopyAnim3(GameState* thisx) {
  */
 void FileSelect_CopyAnim4(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
+#if PLATFORM_IQUE
     s16* array;
+#endif
 
 #if !PLATFORM_IQUE
     this->fileInfoAlpha[this->selectedFileIndex] -= 25;

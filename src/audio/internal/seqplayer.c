@@ -18,6 +18,7 @@
 #include "array_count.h"
 #include "assert.h"
 #include "attributes.h"
+#include "stack_pad.h"
 #include "ultra64.h"
 #include "audio.h"
 
@@ -323,7 +324,7 @@ void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
  */
 s32 AudioSeq_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIndex) {
     SequenceLayer* layer;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (channel->layers[layerIndex] == NULL) {
         layer = AudioSeq_AudioListPopBack(&gAudioCtx.layerFreeList);
@@ -432,7 +433,7 @@ void AudioSeq_SequencePlayerSetupChannels(SequencePlayer* seqPlayer, u16 channel
 /**
  * original name: Nas_DeAllocSub
  */
-void AudioSeq_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelBitsUnused) {
+void AudioSeq_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, UNUSED u16 channelBits) {
     SequenceChannel* channel;
     s32 i;
 
@@ -476,9 +477,9 @@ void AudioSeq_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
  * original name: Nas_ReleaseGroup
  */
 void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
     s32 finished = 0;
 
-#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
     if (seqPlayer->finished == 1) {
         finished = 1;
     }
@@ -1828,7 +1829,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     u8* data;
     u8* data2;
     u8* data3;
-    s32 pad;
+    STACK_PAD(s32);
     s32 dummy;
     s32 delay;
 

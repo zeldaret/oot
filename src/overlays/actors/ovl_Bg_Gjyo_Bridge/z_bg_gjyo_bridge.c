@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "play_state.h"
 #include "player.h"
@@ -48,7 +49,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
     BgGjyoBridge* this = (BgGjyoBridge*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader;
 
     colHeader = NULL;

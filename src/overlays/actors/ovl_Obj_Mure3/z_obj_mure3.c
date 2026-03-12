@@ -7,6 +7,7 @@
 #include "z_obj_mure3.h"
 
 #include "ichain.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -148,7 +149,7 @@ void func_80B9ADCC(ObjMure3* this, PlayState* play) {
 }
 
 void ObjMure3_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     ObjMure3* this = (ObjMure3*)thisx;
 
     if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6))) {

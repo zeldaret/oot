@@ -6,6 +6,7 @@
 
 #include "z_bg_haka_megane.h"
 
+#include "attributes.h"
 #include "ichain.h"
 #include "play_state.h"
 
@@ -134,7 +135,7 @@ void BgHakaMegane_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgHakaMegane_Draw(Actor* thisx, PlayState* play) {
-    BgHakaMegane* this = (BgHakaMegane*)thisx;
+    UNUSED BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     if (ACTOR_FLAGS_CHECK_ALL(thisx, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, sDLists[thisx->params]);

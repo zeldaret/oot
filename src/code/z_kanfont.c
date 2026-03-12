@@ -1,4 +1,5 @@
 #include "kanread.h"
+#include "attributes.h"
 #include "message_data_static.h"
 #include "printf.h"
 #include "segment_symbols.h"
@@ -12,11 +13,13 @@
  * Loads a texture from kanji for the requested `character` into the character texture buffer
  * at `codePointIndex`. The value of `character` is the SHIFT-JIS encoding of the character.
  */
-void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex) {
 #if OOT_NTSC
+void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex) {
     DMA_REQUEST_SYNC(&font->charTexBuf[codePointIndex],
                      (uintptr_t)_kanjiSegmentRomStart + Kanji_OffsetFromShiftJIS(character), FONT_CHAR_TEX_SIZE,
                      "../z_kanfont.c", UNK_LINE);
+#else
+void Font_LoadCharWide(UNUSED Font* font, UNUSED u16 character, UNUSED u16 codePointIndex) {
 #endif
 }
 
@@ -63,7 +66,9 @@ void Font_LoadOrderedFont(Font* font) {
     s32 fontBufIndex;
     u32 offset;
     const char* messageDataStart;
+#if PLATFORM_IQUE
     u16* msgBufWide;
+#endif
 
 #if OOT_NTSC && !PLATFORM_IQUE
     messageDataStart = (const char*)_jpn_message_data_staticSegmentStart;

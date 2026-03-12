@@ -13,6 +13,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "effect.h"
@@ -43,7 +44,7 @@ static Gfx sShockDL[15];
 
 u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 objectSlot;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f farAwayVec = { 0.0f, -1000.0f, 0.0f };
@@ -99,7 +100,7 @@ static Color_RGB8 sLightBallColors[] = {
 
 void EffectSsFhgFlash_DrawLightBall(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     void* objectPtr;
 
@@ -127,7 +128,7 @@ void EffectSsFhgFlash_DrawLightBall(PlayState* play, u32 index, EffectSs* this) 
 
 void EffectSsFhgFlash_DrawShock(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale;
 
     scale = this->rScale / 100.0f;
@@ -203,7 +204,7 @@ void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (this->life < 100) {
-        s32 pad;
+        STACK_PAD(s32);
 
         this->rAlpha -= 50;
 

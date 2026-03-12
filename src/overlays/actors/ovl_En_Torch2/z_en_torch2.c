@@ -14,6 +14,7 @@
 #include "rand.h"
 #include "sfx.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -149,7 +150,7 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
 }
 
 void EnTorch2_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* this = (Player*)thisx;
 
     Effect_Delete(play, this->meleeWeaponEffectIndex);
@@ -225,11 +226,10 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     Camera* mainCam;
     s16 sp66;
     s8 stickY;
-    u32 pad54;
+    u32 temp;
     Actor* attackItem;
-    s16 sp5A;
+    s16 sp5A = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-    sp5A = player->actor.shape.rot.y - this->actor.shape.rot.y;
     input->cur.button = 0;
     mainCam = Play_GetCamera(play, CAM_ID_MAIN);
     attackItem = EnTorch2_GetAttackItem(play, this);
@@ -575,12 +575,12 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     // Updates Dark Link's "controller". The conditional seems to cause him to
     // stop targeting and hold shield if he's been holding it long enough.
 
-    pad54 = input->prev.button ^ input->cur.button;
-    input->press.button = input->cur.button & pad54;
+    temp = input->prev.button ^ input->cur.button;
+    input->press.button = input->cur.button & temp;
     if (CHECK_BTN_ANY(input->cur.button, BTN_R)) {
         input->cur.button = ((sCounterState == 0) && (this->meleeWeaponState == 0)) ? BTN_R : input->cur.button ^ BTN_R;
     }
-    input->rel.button = input->prev.button & pad54;
+    input->rel.button = input->prev.button & temp;
     input->prev.button = input->cur.button & (u16) ~(BTN_A | BTN_B);
     PadUtils_UpdateRelXY(input);
 
@@ -773,7 +773,7 @@ void EnTorch2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
 void EnTorch2_Draw(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     Player* this = (Player*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_torch2.c", 1050);
     func_80093C80(play);

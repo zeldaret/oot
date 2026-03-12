@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -179,7 +180,7 @@ void EnFish_SetYOffset(EnFish* this) {
 }
 
 s32 EnFish_InBottleRange(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f sp1C;
 
@@ -242,7 +243,7 @@ void EnFish_Respawning_SetupFollowChild(EnFish* this) {
 }
 
 void EnFish_Respawning_FollowChild(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speed, 1.8f, 0.08f, 0.4f, 0.0f);
@@ -278,8 +279,8 @@ void EnFish_Respawning_SetupFleePlayer(EnFish* this) {
 }
 
 void EnFish_Respawning_FleePlayer(EnFish* this, PlayState* play) {
-    s32 pad;
-    s16 pad2;
+    STACK_PAD(s32);
+    STACK_PAD(s16);
     s16 frames;
     s16 yaw;
     s16 playerClose;
@@ -333,9 +334,9 @@ void EnFish_Respawning_SetupApproachPlayer(EnFish* this) {
 }
 
 void EnFish_Respawning_ApproachPlayer(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
-    s32 pad2;
+    STACK_PAD(s32);
     Vec3f sp38;
     s16 yaw;
     s16 temp_a0_2;
@@ -412,7 +413,7 @@ void EnFish_Dropped_Fall(EnFish* this, PlayState* play) {
  * height and whether the sound should play again.
  */
 void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 randomFloat;
     s32 playSfx;
 
@@ -447,7 +448,7 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
 }
 
 void EnFish_Dropped_FlopOnGround(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 frames = play->state.frames;
     s16 targetXRot;
 
@@ -499,7 +500,7 @@ void EnFish_Dropped_SetupSwimAway(EnFish* this) {
 }
 
 void EnFish_Dropped_SwimAway(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Math_SmoothStepToF(&this->actor.speed, 2.8f, 0.1f, 0.4f, 0.0f);
 
@@ -552,9 +553,9 @@ void EnFish_Unique_SwimIdle(EnFish* this, PlayState* play) {
     f32 playSpeed;
     u32 frames = play->gameplayFrames;
     f32* speed;
-    s32 pad2;
+    STACK_PAD(s32);
     f32 extraPlaySpeed;
-    s32 pad3;
+    STACK_PAD(s32);
 
     if (this->actor.xzDistToPlayer < 60.0f) {
         if (this->timer < 12) {
@@ -620,7 +621,7 @@ void EnFish_Cutscene_FlopOnGround(EnFish* this, PlayState* play) {
 }
 
 void EnFish_Cutscene_WiggleFlyingThroughAir(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 sp28 = Math_SinS(this->slowPhase);
     f32 sp24 = Math_SinS(this->fastPhase);
 
@@ -632,8 +633,7 @@ void EnFish_Cutscene_WiggleFlyingThroughAir(EnFish* this, PlayState* play) {
 }
 
 void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     CsCmdActorCue* cue = play->csCtx.actorCues[1];
     Vec3f startPos;
     Vec3f endPos;

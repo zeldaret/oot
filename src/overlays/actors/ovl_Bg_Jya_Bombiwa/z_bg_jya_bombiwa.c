@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "effect.h"
@@ -73,7 +74,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    s32 pad1;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, flag);
@@ -82,7 +83,7 @@ void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHe
 
 #if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        s32 pad2;
+        STACK_PAD(s32);
 
         PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
                  "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
@@ -92,7 +93,7 @@ void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHe
 }
 
 void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);

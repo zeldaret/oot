@@ -14,6 +14,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -87,9 +88,9 @@ void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, PlayState* play
         &gFireTempleBombableWallCol,
         &gFireTempleLargeBombableWallCol,
     };
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    STACK_PAD(s32);
 
     if (collisionHeaders[PARAMS_GET_U(this->dyna.actor.params, 0, 8)] != NULL) {
         DynaPolyActor_Init(&this->dyna, 0);
@@ -103,7 +104,7 @@ void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, PlayState* play
 void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, PlayState* play) {
     static s16 sphereRadii[] = { 80, 45, 80 };
     static s16 sphereYPositions[] = { 0, 500, 500 };
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
@@ -161,7 +162,7 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgHidanKowarerukabe_SpawnDust(BgHidanKowarerukabe* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f pos;
 
     pos = this->dyna.actor.world.pos;
@@ -316,7 +317,7 @@ void BgHidanKowarerukabe_Break(BgHidanKowarerukabe* this, PlayState* play) {
 
 void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play) {
     BgHidanKowarerukabe* this = (BgHidanKowarerukabe*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (Actor_GetCollidedExplosive(play, &this->collider.base) != NULL) {
         BgHidanKowarerukabe_Break(this, play);

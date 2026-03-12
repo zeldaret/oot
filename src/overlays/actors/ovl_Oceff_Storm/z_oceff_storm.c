@@ -6,6 +6,7 @@
 
 #include "z_oceff_storm.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sys_matrix.h"
@@ -66,7 +67,7 @@ void OceffStorm_Init(Actor* thisx, PlayState* play) {
 }
 
 void OceffStorm_Destroy(Actor* thisx, PlayState* play) {
-    OceffStorm* this = (OceffStorm*)thisx;
+    UNUSED OceffStorm* this = (OceffStorm*)thisx;
     Player* player = GET_PLAYER(play);
 
     Magic_Reset(play);

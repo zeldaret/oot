@@ -17,6 +17,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
@@ -127,7 +128,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnOwl_Init(Actor* thisx, PlayState* play) {
     EnOwl* this = (EnOwl*)thisx;
-    ColliderCylinder* collider;
+    STACK_PAD(s32);
     s32 owlType;
     s32 switchFlag;
 
@@ -939,8 +940,6 @@ void func_80ACBF50(EnOwl* this, PlayState* play) {
 
 void func_80ACC00C(EnOwl* this, PlayState* play) {
     s32 owlType;
-    s32 temp_v0;
-    s32 temp_v0_2;
 
     Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x384, 0x258);
     this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -1094,7 +1093,7 @@ s32 func_80ACC624(EnOwl* this, PlayState* play) {
 }
 
 void EnOwl_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnOwl* this = (EnOwl*)thisx;
     s16 phi_a1;
 
@@ -1332,7 +1331,7 @@ void EnOwl_PostLimbUpdate(PlayState* play, s32 limbIndex, Gfx** gfx, Vec3s* rot,
 void EnOwl_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = { gObjOwlEyeOpenTex, gObjOwlEyeHalfTex, gObjOwlEyeClosedTex };
     EnOwl* this = (EnOwl*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_owl.c", 2247);
 

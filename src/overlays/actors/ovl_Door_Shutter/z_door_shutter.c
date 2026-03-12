@@ -16,6 +16,7 @@
 #include "rumble.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "quake.h"
 #include "versions.h"
@@ -427,7 +428,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     DoorShutter* this = (DoorShutter*)thisx;
     PlayState* play = play2;
     s32 styleType;
-    s32 pad;
+    STACK_PAD(s32);
     s32 objectSlot;
     s32 i;
 
@@ -525,7 +526,7 @@ void DoorShutter_WaitForObject(DoorShutter* this, PlayState* play) {
  * or returns the max float value if the player is too far left/right (`maxDistSides`) or above/below (`maxDistY`).
  */
 f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offsetY, f32 maxDistSides, f32 maxDistY) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f playerPos;
     Vec3f relPlayerPos;
     Player* player = GET_PLAYER(play);
@@ -1015,7 +1016,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
 
     if (this->dyna.actor.objectSlot == this->requiredObjectSlot &&
         (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_ShouldDraw(this, play))) {
-        s32 pad[2];
+        STACK_PADS(s32, 2);
         DoorShutterGfxInfo* gfxInfo = &sGfxInfo[this->gfxType];
 
         OPEN_DISPS(play->state.gfxCtx, "../z_door_shutter.c", 2048);

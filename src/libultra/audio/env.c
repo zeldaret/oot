@@ -3,6 +3,7 @@
 #include "stdbool.h"
 #include "stddef.h"
 #include "ultra64/convert.h"
+#include "attributes.h"
 
 #define EQPOWER_LENGTH 128
 static s16 eqpower[EQPOWER_LENGTH] = {
@@ -20,7 +21,7 @@ static Acmd* _pullSubFrame(void* filter, s16* inp, s16* outp, s32 outCount, s32 
 static s16 _getRate(f64 vol, f64 tgt, s32 count, u16* ratel);
 static f32 _getVol(f32 ivol, s32 samples, s16 ratem, u16 ratel);
 
-Acmd* alEnvmixerPull(void* filter, s16* outp, s32 outCount, s32 sampleOffset, Acmd* p) {
+Acmd* alEnvmixerPull(void* filter, UNUSED s16* outp, s32 outCount, s32 sampleOffset, Acmd* p) {
     Acmd* ptr = p;
     ALEnvMixer* e = (ALEnvMixer*)filter;
     s16 inp;

@@ -6,6 +6,7 @@
 
 #include "z_bg_mizu_water.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -14,6 +15,7 @@
 #include "regs.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -55,8 +57,8 @@ ActorProfile Bg_Mizu_Water_Profile = {
     /**/ BgMizuWater_Draw,
 };
 
-static f32 sUnused1 = 0;
-static f32 sUnused2 = 110.0f;
+UNUSED static f32 sUnused1 = 0;
+UNUSED static f32 sUnused2 = 110.0f;
 
 static u32 sWaterBoxIndices[] = { 2, 3, 5, 7, 12, 20, 21, 22 };
 
@@ -182,7 +184,7 @@ void BgMizuWater_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuWater_WaitForAction(BgMizuWater* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 waterLevelActionIndex;
     s16 prevSwitchFlag;
 
@@ -231,7 +233,7 @@ void BgMizuWater_WaitForAction(BgMizuWater* this, PlayState* play) {
 }
 
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 prevSwitchFlag;
     s32 waterLevelActionIndex;
     WaterBox* waterBoxes;
@@ -313,7 +315,7 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
     s32 posY;
     s32 unk0;
     s32 unk1;
-    s32 pad;
+    STACK_PAD(s32);
 
 #if DEBUG_FEATURES
     if (bREG(15) == 0) {
@@ -345,7 +347,7 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuWater_Draw(Actor* thisx, PlayState* play) {
-    BgMizuWater* this = (BgMizuWater*)thisx;
+    UNUSED BgMizuWater* this = (BgMizuWater*)thisx;
     s32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_water.c", 738);

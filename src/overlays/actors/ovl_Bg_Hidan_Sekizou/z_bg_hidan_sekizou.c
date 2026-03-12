@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -158,7 +159,7 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
 }
 
 void BgHidanSekizou_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgHidanSekizou* this = (BgHidanSekizou*)thisx;
     s32 i;
     CollisionHeader* colHeader = NULL;
@@ -342,7 +343,7 @@ Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* mtx, f
 }
 
 Gfx* func_8088DC50(PlayState* play, BgHidanSekizou* this, s16 arg2, s16 arg3, Gfx* arg4) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 temp_v1;
     s32 phi_s1;
     s32 phi_s2;
