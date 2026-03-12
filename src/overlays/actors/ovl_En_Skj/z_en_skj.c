@@ -656,7 +656,7 @@ s32 func_80AFEDF8(EnSkj* this, PlayState* play) {
     s16 yawDiff;
 
     if (this->actor.xzDistToPlayer < this->unk_2EC) {
-        if (func_8002DDE4(play) != 0) {
+        if (Player_IsMakingNoise(play) != 0) {
             return 1;
         }
     }

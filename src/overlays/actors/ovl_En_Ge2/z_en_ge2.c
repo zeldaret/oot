@@ -205,7 +205,7 @@ s32 Ge2_DetectPlayerInAction(PlayState* play, EnGe2* this) {
         return 2;
     }
 
-    if (func_8002DDE4(play)) {
+    if (Player_IsMakingNoise(play)) {
         return 1;
     }
     return 0;
