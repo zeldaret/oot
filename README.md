@@ -38,6 +38,7 @@ It builds the following versions:
 | gc-jp-mq     | 02-10-30 00:15:15 | GameCube Japan Master Quest               | `69895c5c78442260f6eafb2506dc482a` |
 | gc-us        | 02-12-19 13:28:09 | GameCube US                               | `cd09029edcfb7c097ac01986a0f83d3f` |
 | gc-us-mq     | 02-12-19 14:05:42 | GameCube US Master Quest                  | `da35577fe54579f6a266931cc75f512d` |
+| gc-eu-dbg-2  | 03-02-13 19:46:49 | GameCube Europe/PAL Debug (earlier build) | `ab1ca59d0039e3b34d82db650b54d7b9`<br>`2814fde8d6cfe23a220de6be955b4196` |
 | gc-eu-mq-dbg | 03-02-21 00:16:31 | GameCube Europe/PAL Master Quest Debug    | `75e344f41c26ec2ec5ad92caa9e25629`<br>`8ca71e87de4ce5e9f6ec916202a623e9`<br>`f751d1a097764e2337b1ac9ba1e27699`<br>`dde376d47187b931820d5b2957cded14` |
 | gc-eu-dbg    | 03-02-21 00:49:18 | GameCube Europe/PAL Debug                 | `3c10b67a76616ae2c162def7528724cf`<br>`382dc484e317d6522745c95387e7d5b9` |
 | gc-eu        | 03-02-21 20:12:23 | GameCube Europe/PAL                       | `2c27b4e000e85fd78dbca551f1b1c965` |
@@ -151,6 +152,7 @@ This downloads some dependencies (from pip), and compiles tools for the build pr
 Then it generates a new ROM `baseroms/<the-version>/baserom-decompressed.z64`.
 For retail (non-debug) versions, that ROM will be the decompressed equivalent of the ROM.
 For the `gc-eu-mq-dbg` version, that ROM will have the overdump removed and the header patched.
+The other debug ROMs `gc-eu-dbg-2` and `gc-eu-dbg` will also have the overdump removed.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM

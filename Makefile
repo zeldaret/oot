@@ -133,6 +133,14 @@ else ifeq ($(VERSION),gc-us-mq)
   BUILD_DATE := 02-12-19
   BUILD_TIME := 14:05:42
   REVISION := 15
+else ifeq ($(VERSION),gc-eu-dbg-2)
+  REGION ?= EU
+  PLATFORM := GC
+  DEBUG_FEATURES ?= 1
+  BUILD_CREATOR := zelda@srd022j
+  BUILD_DATE := 03-02-13
+  BUILD_TIME := 19:46:49
+  REVISION := 15
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
   PLATFORM := GC
