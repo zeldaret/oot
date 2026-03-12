@@ -63,7 +63,7 @@ u32 EffectSsGRipple_Init(PlayState* play, u32 index, EffectSs* this, void* initP
     this->rEnvColorG = 255;
     this->rEnvColorB = 255;
     this->rEnvColorA = 255;
-    this->rWaterBoxNum = WaterBox_GetSurface2(play, &play->colCtx, &initParams->pos, 3.0f, &waterBox);
+    this->rWaterBoxNum = BgCheck_FindWaterBox(play, &play->colCtx, &initParams->pos, 3.0f, &waterBox);
 
     return 1;
 }

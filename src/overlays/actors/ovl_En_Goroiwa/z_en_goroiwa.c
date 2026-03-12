@@ -436,7 +436,7 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
         this->actor.world.pos.y = nextPointY - ((this->actor.world.pos.y - nextPointY) * 0.3f);
     }
     if (this->bounceCount == 0 &&
-        WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &ySurface,
+        BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &ySurface,
                                 &waterBox) &&
         this->actor.world.pos.y <= ySurface) {
         this->stateFlags |= ENGOROIWA_IN_WATER;

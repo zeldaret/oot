@@ -360,7 +360,7 @@ void EnFr_IsDivingIntoWater(EnFr* this, PlayState* play) {
     WaterBox* waterBox;
     f32 waterSurface;
 
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
+    if (BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
                                 &waterBox)) {
         this->isBelowWaterSurfacePrevious = this->isBelowWaterSurfaceCurrent;
         this->isBelowWaterSurfaceCurrent = this->actor.world.pos.y <= waterSurface ? true : false;

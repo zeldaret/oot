@@ -1974,8 +1974,8 @@ s32 func_800C0DB4(PlayState* this, Vec3f* pos) {
 
     waterSurfacePos = *pos;
 
-    if (WaterBox_GetSurface1(this, &this->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
-                             &waterBox) == true &&
+    if (BgCheck_GetWaterSurfaceAllHack(this, &this->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
+                                       &waterBox) == true &&
         pos->y < waterSurfacePos.y &&
         BgCheck_EntityRaycastDown3(&this->colCtx, &poly, &bgId, &waterSurfacePos) != BGCHECK_Y_MIN) {
         return true;
