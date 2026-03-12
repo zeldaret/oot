@@ -522,9 +522,9 @@ void Regs_InitDataImpl(void) {
     XREG(95) = 200;
     R_PAUSE_PAGES_Y_ORIGIN_2 = -6080;
     R_PAUSE_DEPTH_OFFSET = 9355;
-    WREG(4) = 8;
+    R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION = 8;
     WREG(5) = 3;
-    WREG(6) = 8;
+    R_PAUSE_UI_ANIMS_DURATION = 8;
     WREG(7) = 0;
 
 #if OOT_NTSC
@@ -605,8 +605,8 @@ void Regs_InitDataImpl(void) {
     R_DGN_MINIMAP_X = 204;
     R_DGN_MINIMAP_Y = 140;
     WREG(87) = 80;
-    WREG(88) = 70;
-    WREG(89) = 40;
+    R_PAUSE_NAME_DISPLAY_TIMER_MAX_ = 70;
+    R_PAUSE_NAME_DISPLAY_TIMER_THRESHOLD_ = 40;
     WREG(90) = 320;
     WREG(91) = 40;
     WREG(92) = 3;
