@@ -348,13 +348,17 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
         gDPSetOtherMode(gfx++, tlutMode | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(gfx++, bg);
-
     } else {
         bg->s.frameW = width * (1 << 2);
         bg->s.frameH = height * (1 << 2);
         bg->s.scaleW = 1 << 10;
         bg->s.scaleH = 1 << 10;
         bg->s.imageYorig = bg->b.imageY;
+        // The render mode used here is like TEX_EDGE modes except it doesn't blend against memcolor, it instead blends
+        // against the current blend color which is 0 here. Since this is in 1-Cycle mode, AA_EN is set, and FORCE_BL
+        // is unset, blending only occurs on partially covered edge pixels. The image is specified in whole-pixel units
+        // so no partially covered edges arise in rendering, the odd blending formula is not used. If there were edge
+        // pixels, the alpha value sent to the blender would be the coverage value.
         gDPSetOtherMode(gfx++,
                         tlutMode | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
