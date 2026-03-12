@@ -42,6 +42,7 @@ class CollisionVtxListResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"Vec3s {self.symbol_name}[{self.cdata_ext.length}]"
         return f"Vec3s {self.symbol_name}[]"
 
@@ -161,6 +162,7 @@ class CollisionPolyListResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"CollisionPoly {self.symbol_name}[{self.cdata_ext.length}]"
         return f"CollisionPoly {self.symbol_name}[]"
 
@@ -292,6 +294,7 @@ class CollisionSurfaceTypeListResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"SurfaceType {self.symbol_name}[{self.cdata_ext.length}]"
         return f"SurfaceType {self.symbol_name}[]"
 
@@ -318,6 +321,7 @@ class BgCamFuncDataResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"Vec3s {self.symbol_name}[{self.cdata_ext.length}]"
         return f"Vec3s {self.symbol_name}[]"
 
@@ -337,7 +341,7 @@ class BgCamFuncDataResource(CDataResource):
 
 class CollisionBgCamListResource(CDataResource):
     def write_bgCamFuncData(
-        resource: "CollisionSurfaceTypeListResource",
+        resource: "CollisionBgCamListResource",
         memory_context: "MemoryContext",
         v,
         wctx: CDataExtWriteContext,
@@ -419,6 +423,7 @@ class CollisionBgCamListResource(CDataResource):
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
+            assert isinstance(self.cdata_ext, CDataExt_Array)
             return f"BgCamInfo {self.symbol_name}[{self.cdata_ext.length}]"
         return f"BgCamInfo {self.symbol_name}[]"
 
@@ -438,11 +443,19 @@ class CollisionBgCamListResource(CDataResource):
 class CollisionWaterBoxesResource(CDataResource):
 
     def write_properties(v):
+        assert isinstance(v, int)
         bgCamIndex = (v >> 0) & 0xFF
         lightIndex = (v >> 8) & 0x1F
         room = (v >> 13) & 0x3F
         setFlag19 = (v >> 19) & 1
-        return f"WATERBOX_PROPERTIES(/* bgCamIndex */ {bgCamIndex}, /* lightIndex */ {lightIndex}, /* room */ {room}, /* setFlag19 */ {'true' if setFlag19 else 'false'})"
+        return (
+            "WATERBOX_PROPERTIES("
+            f"/* bgCamIndex */ {bgCamIndex}, "
+            f"/* lightIndex */ {lightIndex}, "
+            f"/* room */ {room}, "
+            f"/* setFlag19 */ {'true' if setFlag19 else 'false'}"
+            ")"
+        )
 
     elem_cdata_ext = CDataExt_Struct(
         (
