@@ -114,7 +114,7 @@ DEFINE_SEQUENCE    (Sequence_90,        NA_BGM_OWL,              MEDIUM_CART, CA
 DEFINE_SEQUENCE    (Sequence_91,        NA_BGM_SHADOW_TEMPLE,    MEDIUM_CART, CACHE_LOAD_TEMPORARY,  SEQ_FLAG_ENEMY                         ) // shadow_temple
 DEFINE_SEQUENCE    (Sequence_92,        NA_BGM_WATER_TEMPLE,     MEDIUM_CART, CACHE_LOAD_TEMPORARY,  SEQ_FLAG_ENEMY                         ) // water_temple
 DEFINE_SEQUENCE    (Sequence_93,        NA_BGM_BRIDGE_TO_GANONS, MEDIUM_CART, CACHE_LOAD_PERSISTENT, SEQ_FLAG_FANFARE                       ) // bridge_to_ganons
-DEFINE_SEQUENCE    (Sequence_94,        NA_BGM_OCARINA_OF_TIME,  MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // ocarina_of_time
+DEFINE_SEQUENCE    (Sequence_94,        NA_BGM_SEAL_OF_SAGES,    MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // seal_of_sages
 DEFINE_SEQUENCE    (Sequence_95,        NA_BGM_GERUDO_VALLEY,    MEDIUM_CART, CACHE_LOAD_TEMPORARY,  SEQ_FLAG_RESUME | SEQ_FLAG_ENEMY       ) // gerudo_valley
 DEFINE_SEQUENCE    (Sequence_96,        NA_BGM_POTION_SHOP,      MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // potion_shop
 DEFINE_SEQUENCE    (Sequence_97,        NA_BGM_KOTAKE_KOUME,     MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // kotake_koume
@@ -122,7 +122,7 @@ DEFINE_SEQUENCE    (Sequence_98,        NA_BGM_ESCAPE,           MEDIUM_CART, CA
 DEFINE_SEQUENCE    (Sequence_99,        NA_BGM_UNDERGROUND,      MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // underground
 DEFINE_SEQUENCE    (Sequence_100,       NA_BGM_GANONDORF_BOSS,   MEDIUM_CART, CACHE_LOAD_TEMPORARY,  SEQ_FLAG_NO_AMBIENCE                   ) // ganondorf_boss
 DEFINE_SEQUENCE    (Sequence_101,       NA_BGM_GANON_BOSS,       MEDIUM_CART, CACHE_LOAD_TEMPORARY,  SEQ_FLAG_NO_AMBIENCE                   ) // ganon_boss
-DEFINE_SEQUENCE    (Sequence_102,       NA_BGM_END_DEMO,         MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // end_demo
+DEFINE_SEQUENCE    (Sequence_102,       NA_BGM_OCARINA_OF_TIME,  MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // ocarina_of_time
 DEFINE_SEQUENCE    (Sequence_103,       NA_BGM_STAFF_1,          MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // staff_1
 DEFINE_SEQUENCE    (Sequence_104,       NA_BGM_STAFF_2,          MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // staff_2
 DEFINE_SEQUENCE    (Sequence_105,       NA_BGM_STAFF_3,          MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // staff_3

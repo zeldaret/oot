@@ -13,7 +13,8 @@
 #include "save.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/player_pause_joint_tables.h"
+#include "assets/objects/gameplay_keep/player_anim_headers.h"
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
@@ -1006,7 +1007,7 @@ PlayerFaceIndices sPlayerFaces[PLAYER_FACE_MAX] = {
 void* sEyeTextures[PLAYER_EYES_MAX] = {
     gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
     gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
-    gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
+    gLinkAdultEyesClosedTex,  // PLAYER_EYES_CLOSED
     gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
     gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
     gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
@@ -1026,7 +1027,7 @@ void* sEyeTextures[][PLAYER_EYES_MAX] = {
     {
         gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
         gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
-        gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
+        gLinkAdultEyesClosedTex,  // PLAYER_EYES_CLOSED
         gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
         gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
         gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
@@ -1034,9 +1035,9 @@ void* sEyeTextures[][PLAYER_EYES_MAX] = {
         gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
     },
     {
-        gLinkChildEyesOpenTex,    // PLAYER_EYES_OPEN
-        gLinkChildEyesHalfTex,    // PLAYER_EYES_HALF
-        gLinkChildEyesClosedfTex, // PLAYER_EYES_CLOSED
+        gLinkChildEyesOpenTex,   // PLAYER_EYES_OPEN
+        gLinkChildEyesHalfTex,   // PLAYER_EYES_HALF
+        gLinkChildEyesClosedTex, // PLAYER_EYES_CLOSED
         /*
         Note `PLAYER_EYES_RIGHT` corresponds to the "left" eyes texture, and vice-versa with the "right" eyes textures.
         This is because on the textures Link appears to look left/right as if facing outwards the screen,

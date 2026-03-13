@@ -3,6 +3,6 @@
 
 #include "attributes.h"
 
-NORETURN void func_800D31A0(void);
+NORETURN void Freeze_CurrentThread(void);
 
 #endif

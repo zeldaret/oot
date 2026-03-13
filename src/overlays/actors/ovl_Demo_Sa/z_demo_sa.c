@@ -631,12 +631,12 @@ void DemoSa_Action_CreditsLookDownAtDarunia(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_Action_CreditsLookBackUp(DemoSa* this, PlayState* play) {
-    s32 doneAnimation;
+    s32 animFinished;
 
     DemoSa_UpdateBgCheckInfo(this, play);
-    doneAnimation = DemoSa_UpdateSkelAnime(this);
+    animFinished = DemoSa_UpdateSkelAnime(this);
     DemoSa_Blink(this);
-    DemoSa_Credits_LookForward(this, doneAnimation);
+    DemoSa_Credits_LookForward(this, animFinished);
 }
 
 void DemoSa_InitBridge(DemoSa* this, PlayState* play) {
