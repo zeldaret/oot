@@ -242,6 +242,7 @@ void DemoSa_AnimationChange(DemoSa* this, AnimationHeader* animHeaderSeg, u8 mod
 }
 
 void DemoSa_InitChamberOfSages(DemoSa* this, PlayState* play) {
+    // action is DEMOSA_ACTION_SETUP_FOREST_MEDALLION_CS from the Actor struct being zero'd
     SkelAnime_InitFlex(play, &this->skelAnime, &gSariaSkel, &gSariaWaitArmsToSideAnim, NULL, NULL, 0);
     this->actor.shape.yOffset = -10000.0f;
     DemoSa_SetEyes(this, SARIA_EYE_HALF);
