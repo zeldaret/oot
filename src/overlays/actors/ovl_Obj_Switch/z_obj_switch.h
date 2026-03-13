@@ -12,6 +12,8 @@
 #define OBJSWITCH_FROZEN_FLAG (1 << 7)
 
 #define OBJSWITCH_PARAMS(type, subType, switchFlag) ((type) | ((subType) << 4) | ((switchFlag) << 8))
+// Same as OBJSWITCH_PARAMS but also sets two unused bits
+#define OBJSWITCH_PARAMS_ALT(type, subType, switchFlag) (OBJSWITCH_PARAMS(type, subType, switchFlag) | (0xC000))
 #define OBJSWITCH_PARAMS_EYE(subType, switchFlag, isFrozen) (OBJSWITCH_PARAMS(OBJSWITCH_TYPE_EYE, subType, switchFlag) | ((isFrozen) ? OBJSWITCH_FROZEN_FLAG : 0))
 
 struct ObjSwitch;
