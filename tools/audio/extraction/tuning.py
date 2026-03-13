@@ -62,8 +62,14 @@ def note_z64_to_midi(note : int) -> int:
     """
     return (21 + note) % 128
 
-def recalc_tuning(rate : int, note : str) -> float:
-    return f32(f32(rate / 32000.0) * u32_to_f32(g_pitch_frequencies[pitch_names.index(note)]))
+def recalc_tuning(rate : int, note : int) -> float:
+    # The tuning formula t(r,n) for n a midi note number is
+    #   t = (r / 32000) * 2^{60 - n}
+    # We use a lookup table for the power of 2 calculation for z a z64 note number
+    #   t = (r / 32000) * frequencies[78 - z]
+    # The offset by 78 comes from 2*(60 - 21) where 21 relates the z64 and midi note numbers
+    #   n = 21 + z
+    return f32(f32(rate / 32000.0) * u32_to_f32(g_pitch_frequencies[(78 - note) % 128]))
 
 def rate_from_tuning(tuning : float) -> Tuple[Tuple[str,int]]:
     """
@@ -86,14 +92,16 @@ def rate_from_tuning(tuning : float) -> Tuple[Tuple[str,int]]:
         diff : int = abs(f32_to_u32(tuning2) - tuning_bits)
 
         if diff == 0:
-            matches.append((pitch_names[note_val], nominal_rate))
+            matches.append((note_val, nominal_rate))
         else:
-            diffs.append((diff, (pitch_names[note_val], nominal_rate)))
+            diffs.append((diff, (note_val, nominal_rate)))
 
     # search gPitchFrequencies LUT one by one. We don't exit as soon as a match is found as in general this procedure
     # only recovers the correct (rate,note) pair up to multiples of 2, to get the final value we want to select the
     # "best" of these pairs by an essentially arbitrary ranking (cf `rank_rates_notes`)
-    for note_val,freq_bits in enumerate(g_pitch_frequencies):
+    for i,freq_bits in enumerate(g_pitch_frequencies):
+        # Reflect the note value as in recalc_tuning
+        note_val = (78 - i) % 128
         freq : float = u32_to_f32(freq_bits)
 
         # compute the "nominal" samplerate for a given basenote by R = 32000 * (t / f)
@@ -122,32 +130,68 @@ def rank_rates_notes(layouts):
         """
         rank = 0
 
-        if 'C4' in notes and rate > 10000:
+        notes_named = [pitch_names[note] for note in notes]
+
+        if 'C4' in notes_named and rate > 10000:
             rank += 10000
-        elif 'C2' in notes and rate > 10000:
+        elif 'C2' in notes_named and rate > 10000:
             rank += 9500
-        elif 'D3' in notes and rate > 10000:
+        elif 'D3' in notes_named and rate > 10000:
             rank += 8500
-        elif 'D4' in notes and rate > 10000:
+        elif 'D4' in notes_named and rate > 10000:
             rank += 8000
-        elif 'G3' in notes:
+        elif 'C3' in notes_named and rate > 10000:
+            rank += 4000
+        elif 'C5' in notes_named and rate > 10000:
+            rank += 4000
+        elif 'D0' in notes_named:
+            rank += 3500
+        elif 'A9' in notes_named:
+            rank += 3000
+        elif 'A3' in notes_named:
+            rank += 2750
+        elif 'C6' in notes_named:
+            rank += 2750
+        elif 'C8' in notes_named:
+            rank += 2500
+        elif 'C1' in notes_named:
+            rank += 2500
+        elif 'A4' in notes_named:
+            rank += 2500
+        elif 'A0' in notes_named:
+            rank += 2250
+        elif 'B0' in notes_named:
+            rank += 2250
+        elif 'AF9' in notes_named:
             rank += 2000
-        elif 'F3' in notes:
-            rank += 25
-        elif 'C0' in notes:
+        elif 'AF0' in notes_named:
+            rank += 2000
+        elif 'G3' in notes_named:
+            rank += 2000
+        elif 'GF4' in notes_named:
+            rank += 100
+        elif 'F9' in notes_named:
             rank += 50
-        elif 'BF2' in notes:
+        elif 'F3' in notes_named:
+            rank += 25
+        elif 'C0' in notes_named:
+            rank += 50
+        elif 'BF2' in notes_named:
             rank += 30
-        elif 'B3' in notes:
+        elif 'B3' in notes_named:
             rank += 25
-        elif 'BF1' in notes:
+        elif 'BF1' in notes_named:
             rank += 25
-        elif 'E2' in notes:
+        elif 'E2' in notes_named:
             rank += 20
-        elif 'F6' in notes:
+        elif 'F6' in notes_named:
             rank += 15
-        elif 'GF2' in notes:
+        elif 'GF2' in notes_named:
             rank += 10
+        elif 'BF3' in notes_named:
+            rank += 1
+        elif 'AF2' in notes_named:
+            rank += 1
 
         rank += {
             32000 : 200,
@@ -176,7 +220,7 @@ def rank_rates_notes(layouts):
     ranked = list(sorted(layouts, key=lambda L : rank_rate_note(*L), reverse=True))
 
     # Ensure the ranking produced a unique best option
-    assert rank_rate_note(*ranked[0]) != rank_rate_note(*ranked[1]) , ranked
+    assert rank_rate_note(*ranked[0]) != rank_rate_note(*ranked[1]) , [(rate,tuple(pitch_names[note] for note in notes)) for rate,notes in ranked]
 
     # Output best
     return ranked[0]
@@ -185,7 +229,7 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description="Given either a (rate,note) or a tuning, compute all matching rates/notes.")
-    parser.add_argument("-t", dest="tuning", required=False, default=None, type=float, help="Tuning value (float)")
+    parser.add_argument("-t", dest="tuning", required=False, default=None, help="Tuning value (float or hex)")
     parser.add_argument("-r", dest="rate", required=False, default=None, type=int, help="Sample rate (integer)")
     parser.add_argument("-n", dest="note", required=False, default=None, type=str, help="Base note (note name)")
     parser.add_argument("--show-result", required=False, default=False, action="store_true", help="Show recalculated tuning value")
@@ -193,10 +237,10 @@ if __name__ == '__main__':
 
     if args.tuning is not None:
         # Take input tuning
-        tuning = args.tuning
+        tuning : float = u32_to_f32(int(args.tuning,16)) if args.tuning.startswith("0x") else float(args.tuning)
     elif args.rate is not None and args.note is not None:
         # Calculate target tuning from input rate and note
-        tuning : float = recalc_tuning(args.rate, args.note)
+        tuning : float = recalc_tuning(args.rate, pitch_names.index(args.note))
     else:
         # Insufficient arguments
         parser.print_help()
@@ -206,6 +250,6 @@ if __name__ == '__main__':
 
     for note,rate in notes_rates:
         if args.show_result:
-            print(rate, note, "->", recalc_tuning(rate, note))
+            print(rate, pitch_names[note], "->", recalc_tuning(rate, note))
         else:
-            print(rate, note)
+            print(rate, pitch_names[note])

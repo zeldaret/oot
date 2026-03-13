@@ -356,7 +356,7 @@ void func_80A69F5C(EnHorseLinkChild* this, PlayState* play) {
 void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     Player* player;
     f32 distFromLink;
-    s32 animationEnded;
+    s32 animFinished;
     s32 newAnimationIdx;
 
     func_80A69F5C(this, play);
@@ -377,8 +377,8 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     }
 
     newAnimationIdx = this->animationIdx;
-    animationEnded = SkelAnime_Update(&this->skin.skelAnime);
-    if (animationEnded || (this->animationIdx == 1) || (this->animationIdx == 0)) {
+    animFinished = SkelAnime_Update(&this->skin.skelAnime);
+    if (animFinished || (this->animationIdx == 1) || (this->animationIdx == 0)) {
         if (GET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH)) {
             f32 distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
             f32 distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos);
@@ -397,9 +397,9 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
                 } else {
                     this->actor.speed = 0.0f;
                     if (this->animationIdx == 0) {
-                        newAnimationIdx = animationEnded == true ? 1 : 0;
+                        newAnimationIdx = animFinished == true ? 1 : 0;
                     } else {
-                        newAnimationIdx = animationEnded == true ? 0 : 1;
+                        newAnimationIdx = animFinished == true ? 0 : 1;
                     }
                 }
             } else {
@@ -416,23 +416,23 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
                 } else {
                     this->actor.speed = 0.0f;
                     if (this->animationIdx == 0) {
-                        newAnimationIdx = animationEnded == true ? 1 : 0;
+                        newAnimationIdx = animFinished == true ? 1 : 0;
                     } else {
-                        newAnimationIdx = animationEnded == true ? 0 : 1;
+                        newAnimationIdx = animFinished == true ? 0 : 1;
                     }
                 }
             }
         } else {
             this->actor.speed = 0.0f;
             if (this->animationIdx == 0) {
-                newAnimationIdx = animationEnded == true ? 1 : 0;
+                newAnimationIdx = animFinished == true ? 1 : 0;
             } else {
-                newAnimationIdx = animationEnded == true ? 0 : 1;
+                newAnimationIdx = animFinished == true ? 0 : 1;
             }
         }
     }
 
-    if ((this->animationIdx != newAnimationIdx) || (animationEnded == true)) {
+    if ((this->animationIdx != newAnimationIdx) || (animFinished == true)) {
         this->animationIdx = newAnimationIdx;
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
                          Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
