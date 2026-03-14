@@ -1,10 +1,12 @@
 #include "z_efc_erupc.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
 #include "sfx.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "audio.h"
@@ -174,7 +176,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
 void EfcErupc_DrawEffects(EfcErupcEffect* effect, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_efc_erupc.c", 368);
     for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effect++) {
@@ -194,7 +196,7 @@ void EfcErupc_DrawEffects(EfcErupcEffect* effect, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_efc_erupc.c", 399);
 }
 
-static Color_RGB8 D_8099D770[] = {
+UNUSED static Color_RGB8 D_8099D770[] = {
     { 255, 128, 0 },
     { 255, 0, 0 },
     { 255, 255, 0 },

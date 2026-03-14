@@ -10,6 +10,7 @@
 #include "regs.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -135,7 +136,7 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
     Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f arrowHitPos;
     Vec3f distanceFromCenter;
-    s32 pad;
+    STACK_PAD(s32);
     s32 scoreIndex;
     f32 scoreDistance100;
     f32 scoreDistance60;

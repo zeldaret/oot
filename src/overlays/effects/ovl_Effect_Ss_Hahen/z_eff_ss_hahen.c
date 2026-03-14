@@ -10,6 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "effect.h"
 #include "play_state.h"
@@ -79,7 +80,7 @@ u32 EffectSsHahen_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 
 void EffectSsHahen_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale = this->rScale * 0.001f;
 
     OPEN_DISPS(gfxCtx, "../z_eff_hahen.c", 208);
@@ -102,7 +103,7 @@ void EffectSsHahen_Draw(PlayState* play, u32 index, EffectSs* this) {
 // in the original game this function is hardcoded to be used only by the skull pots in Shadow Temple
 void EffectSsHahen_DrawGray(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale = this->rScale * 0.001f;
 
     OPEN_DISPS(gfxCtx, "../z_eff_hahen.c", 253);

@@ -12,10 +12,11 @@
  * @note Original filename is likely z_vibrate.c or similar as it is ordered after z_ss_sram.c and before z_view.c
  */
 #include "rumble.h"
+#include "attributes.h"
 #include "padmgr.h"
 #include "z_math.h"
 
-static s32 sUnused[4];
+UNUSED static s32 sUnused[4];
 RumbleMgr sRumbleMgr;
 
 /**
@@ -23,7 +24,7 @@ RumbleMgr sRumbleMgr;
  *
  * Unlike every other function in this file, this runs on the padmgr thread.
  */
-void Rumble_Update(PadMgr* padMgr, void* arg) {
+void Rumble_Update(PadMgr* padMgr, UNUSED void* arg) {
     RumbleMgr_Update(&sRumbleMgr);
     PadMgr_RumbleSet(padMgr, sRumbleMgr.rumbleEnable);
 }

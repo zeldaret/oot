@@ -25,10 +25,10 @@ s32 currentCommand;
 
 u8 leoRead_system_area(void);
 
-void leomain(void* arg0) {
+void leomain(UNUSED void* arg0) {
     u32 cur_status;
     u32 sense_code;
-    u8 disktype_bak;
+    UNUSED u8 disktype_bak;
 
     ((u8*)&LEO_country_code)[0] = *(vu8*)OS_PHYSICAL_TO_K1(0x10);
     ((u8*)&LEO_country_code)[1] = *(vu8*)OS_PHYSICAL_TO_K1(0x90);

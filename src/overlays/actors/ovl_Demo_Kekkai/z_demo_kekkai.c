@@ -12,6 +12,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -89,7 +90,7 @@ s32 DemoKekkai_CheckEventFlag(s32 params) {
 }
 
 void DemoKekkai_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     DemoKekkai* this = (DemoKekkai*)thisx;
 
     this->sfxFlag = 0;
@@ -140,7 +141,7 @@ void DemoKekkai_Init(Actor* thisx, PlayState* play) {
 }
 
 void DemoKekkai_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     DemoKekkai* this = (DemoKekkai*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider1);
@@ -219,7 +220,7 @@ void DemoKekkai_Update(Actor* thisx, PlayState* play2) {
 
 void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
     static u16 csFrames[] = { 0, 280, 280, 280, 280, 280, 280 };
-    s32 pad;
+    STACK_PAD(s32);
     DemoKekkai* this = (DemoKekkai*)thisx;
 
     if (play->csCtx.curFrame == csFrames[this->actor.params]) {
@@ -257,7 +258,7 @@ static CutsceneData* sSageCutscenes[] = {
 };
 
 void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     DemoKekkai* this = (DemoKekkai*)thisx;
 
     if (this->collider1.base.atFlags & AT_HIT) {
@@ -338,7 +339,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
 }
 
 void DemoKekkai_DrawTowerBarrier(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     DemoKekkai* this = (DemoKekkai*)thisx;
     s32 scroll;
 

@@ -13,6 +13,7 @@
 #include "rumble.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -95,7 +96,7 @@ static void* sFireballsTexs[] = {
 
 void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
     s32 i;
 
@@ -220,7 +221,7 @@ void func_8088E90C(BgHidanSima* this) {
 
 void BgHidanSima_Update(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->actionFunc(this, play);
     if (this->dyna.actor.params != 0) {
@@ -244,7 +245,7 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     s32 phi_s5;
     f32 cos;
     f32 sin;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     Matrix_MtxFCopy(&mtxF, &gIdentityMtxF);
     cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);

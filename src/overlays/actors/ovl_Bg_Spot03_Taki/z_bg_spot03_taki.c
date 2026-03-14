@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "audio.h"
 #include "play_state.h"
@@ -54,7 +55,7 @@ void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
 
 void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
     BgSpot03Taki* this = (BgSpot03Taki*)thisx;
-    s16 pad;
+    STACK_PAD(s16);
     CollisionHeader* colHeader = NULL;
 
     this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 6);
@@ -125,7 +126,7 @@ void BgSpot03Taki_Update(Actor* thisx, PlayState* play) {
 
 void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
     BgSpot03Taki* this = (BgSpot03Taki*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot03_taki.c", 321);

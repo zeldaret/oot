@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "effect.h"
 #include "play_state.h"
@@ -33,7 +34,7 @@ EffectSsProfile Effect_Ss_Extra_Profile = {
 
 u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_YABUSAME_POINT);
 
     if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
@@ -65,7 +66,7 @@ static void* sTextures[] = {
 };
 
 void EffectSsExtra_Draw(PlayState* play, u32 index, EffectSs* this) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale = this->rScale / 100.0f;
     void* objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
 

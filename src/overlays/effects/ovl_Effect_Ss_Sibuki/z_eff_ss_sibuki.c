@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "regs.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -92,7 +93,7 @@ void EffectSsSibuki_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsSibuki_Update(PlayState* play, u32 index, EffectSs* this) {
     Player* player = GET_PLAYER(play);
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 xzVelScale;
 
     if (this->pos.y <= player->actor.floorHeight) {

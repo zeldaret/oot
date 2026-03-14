@@ -6,9 +6,11 @@
 
 #include "z_en_dog.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 #include "save.h"
@@ -250,7 +252,7 @@ s32 EnDog_Orient(EnDog* this, PlayState* play) {
 void EnDog_Init(Actor* thisx, PlayState* play) {
     EnDog* this = (EnDog*)thisx;
     s16 followingDog;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gDogSkel, NULL, this->jointTable, this->morphTable, 13);
@@ -311,7 +313,7 @@ void EnDog_Destroy(Actor* thisx, PlayState* play) {
 
 void EnDog_FollowPath(EnDog* this, PlayState* play) {
     s32 behaviors[] = { DOG_SIT, DOG_BOW, DOG_BARK };
-    s32 unused[] = { 40, 80, 20 };
+    UNUSED s32 unused[] = { 40, 80, 20 };
     f32 speedXZ;
     s32 frame;
 
@@ -457,7 +459,7 @@ void EnDog_Wait(EnDog* this, PlayState* play) {
 
 void EnDog_Update(Actor* thisx, PlayState* play) {
     EnDog* this = (EnDog*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_Update(&this->skelAnime);

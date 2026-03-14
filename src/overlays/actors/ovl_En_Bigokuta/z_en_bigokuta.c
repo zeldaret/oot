@@ -1,6 +1,7 @@
 #include "z_en_bigokuta.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -9,6 +10,7 @@
 #include "rumble.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -172,7 +174,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // possibly color data
-static u32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
+UNUSED static u32 sUnk[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     EnBigokuta* this = (EnBigokuta*)thisx;
@@ -497,7 +499,7 @@ void func_809BDB90(EnBigokuta* this, PlayState* play) {
 void func_809BDC08(EnBigokuta* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 phi_v0;
-    s16 pad;
+    STACK_PAD(s16);
     s16 phi_v1;
     Vec3f sp28;
 

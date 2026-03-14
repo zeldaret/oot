@@ -7,6 +7,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -338,7 +339,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, PlayState* play) {
 }
 
 void EnSyatekiItm_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnSyatekiItm* this = (EnSyatekiItm*)thisx;
 
     this->actionFunc(this, play);

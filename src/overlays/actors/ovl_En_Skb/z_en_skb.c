@@ -14,6 +14,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -457,7 +458,7 @@ void EnSkb_Death(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
-    s16 pad;
+    STACK_PAD(s16);
     s32 i;
     Vec3f flamePos;
     s16 scale;
@@ -524,7 +525,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
 
 void EnSkb_Update(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     EnSkb_CheckDamage(this, play);
     Actor_MoveXZGravity(&this->actor);

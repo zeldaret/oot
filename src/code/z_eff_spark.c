@@ -1,5 +1,6 @@
 #include "libc64/qrand.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -102,7 +103,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
     }
 }
 
-void EffectSpark_Destroy(void* thisx) {
+void EffectSpark_Destroy(UNUSED void* thisx) {
 }
 
 // original name: "EffectSparkInfo_proc"

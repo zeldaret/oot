@@ -2,6 +2,7 @@
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
+#include "attributes.h"
 
 extern vu16 LEOrw_flags;
 
@@ -16,7 +17,7 @@ void leoRead_common(unsigned int offset) {
     u32 tg_lba = LEOcur_command->data.readWrite.lba;
     u32 tg_blocks = LEOcur_command->data.readWrite.transferBlks;
     u32 message;
-    u16 retry_cnt;
+    UNUSED u16 retry_cnt;
 
     if ((tg_lba | tg_blocks) & 0xFFFF0000) {
         goto invalid_lba;

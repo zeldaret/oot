@@ -12,6 +12,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "cutscene_flags.h"
 #include "play_state.h"
@@ -78,7 +79,7 @@ void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
 }
 
 void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgTokiSwd* this = (BgTokiSwd*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -174,7 +175,7 @@ void BgTokiSwd_Update(Actor* thisx, PlayState* play) {
 void BgTokiSwd_Draw(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgTokiSwd* this = (BgTokiSwd*)thisx;
-    s32 pad[3];
+    STACK_PADS(s32, 3);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_swd.c", 727);
 

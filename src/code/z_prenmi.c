@@ -1,4 +1,5 @@
 #include "gfx.h"
+#include "attributes.h"
 #include "gfx_setupdl.h"
 #include "prenmi_state.h"
 #include "printf.h"
@@ -61,7 +62,7 @@ void PreNMI_Main(GameState* thisx) {
     this->state.inPreNMIState = true;
 }
 
-void PreNMI_Destroy(GameState* thisx) {
+void PreNMI_Destroy(UNUSED GameState* thisx) {
 }
 
 void PreNMI_Init(GameState* thisx) {

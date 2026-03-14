@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -91,7 +92,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaTubo_Init(Actor* thisx, PlayState* play) {
     BgHakaTubo* this = (BgHakaTubo*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -232,7 +233,7 @@ void BgHakaTubo_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_haka_tubo.c", 476);
 

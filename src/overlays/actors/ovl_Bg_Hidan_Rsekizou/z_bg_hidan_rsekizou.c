@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -133,7 +134,7 @@ static void* sFireballsTexs[] = {
 void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader;
 
     colHeader = NULL;
@@ -161,7 +162,7 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
     ColliderJntSphElement* element;
-    s32 pad;
+    STACK_PAD(s32);
     f32 yawSine;
     f32 yawCosine;
 
@@ -238,7 +239,7 @@ Gfx* BgHidanRsekizou_DrawFireball(PlayState* play, BgHidanRsekizou* this, s16 fr
 void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
     MtxF mf;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 564);

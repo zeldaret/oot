@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -47,7 +48,7 @@ void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
     DynaPolyActor* dynaPolyActor;
     Vec3f sp4C;
     s32 bgId;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (BgCheck_EntityLineTest2(&play->colCtx, &this->actor.home.pos, &this->actor.world.pos, &sp4C,
                                 &this->actor.floorPoly, false, false, true, true, &bgId, &this->actor)) {

@@ -5,6 +5,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
@@ -342,7 +343,7 @@ void func_809CC774(EnBubble* this) {
 
 void EnBubble_Init(Actor* thisx, PlayState* play) {
     EnBubble* this = (EnBubble*)thisx;
-    u32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 16.0f, ActorShadow_DrawCircle, 0.2f);
     Collider_InitJntSph(play, &this->colliderJntSph);

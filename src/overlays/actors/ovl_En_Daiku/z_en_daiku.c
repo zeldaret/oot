@@ -8,6 +8,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "audio.h"
@@ -167,7 +168,7 @@ void EnDaiku_ChangeAnim(EnDaiku* this, s32 index, s32* currentIndex) {
 
 void EnDaiku_Init(Actor* thisx, PlayState* play) {
     EnDaiku* this = (EnDaiku*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 noKill = true;
     s32 isRescued = false;
 
@@ -454,7 +455,7 @@ void EnDaiku_EscapeRotate(EnDaiku* this, PlayState* play) {
 }
 
 void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f eyePosDeltaLocal;
     Vec3f eyePosDeltaWorld;
 
@@ -488,7 +489,7 @@ void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
 }
 
 void EnDaiku_UpdateSubCamera(EnDaiku* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     this->subCamAtNext.x = this->actor.world.pos.x;
     this->subCamAtNext.y = this->actor.world.pos.y + 60.0f;
@@ -530,12 +531,12 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
  * The carpenter is running away
  */
 void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play) {
-    s32 pad1;
+    STACK_PAD(s32);
     Path* path;
     s16 ry;
     f32 dx;
     f32 dz;
-    s32 pad2;
+    STACK_PAD(s32);
     f32 dxz;
     Vec3s* pointPos;
 

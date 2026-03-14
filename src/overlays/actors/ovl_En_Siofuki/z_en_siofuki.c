@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "audio.h"
@@ -52,7 +53,7 @@ void EnSiofuki_Init(Actor* thisx, PlayState* play) {
     EnSiofuki* this = (EnSiofuki*)thisx;
     s32 type;
     CollisionHeader* colHeader = NULL;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((thisx->room == 10) && Flags_GetSwitch(play, 0x1E)) {
         Actor_Kill(thisx);

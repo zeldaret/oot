@@ -6,6 +6,7 @@
 
 #include "z_en_ganon_organ.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -34,7 +35,7 @@ ActorProfile En_Ganon_Organ_Profile = {
     /**/ EnGanonOrgan_Draw,
 };
 
-static u64 sForceAlignment = 0;
+UNUSED static u64 sForceAlignment = 0;
 
 #define sRoomCarpetTex_WIDTH 64
 #define sRoomCarpetTex_HEIGHT 16

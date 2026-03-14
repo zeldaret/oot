@@ -14,6 +14,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
@@ -139,7 +140,7 @@ void func_808B2AB8(BgSpot11Oasis* this, PlayState* play) {
 
 void BgSpot11Oasis_Update(Actor* thisx, PlayState* play) {
     BgSpot11Oasis* this = (BgSpot11Oasis*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     u32 gameplayFrames;
 
     this->actionFunc(this, play);

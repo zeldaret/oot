@@ -1,7 +1,9 @@
 #include "array_count.h"
+#include "attributes.h"
 #include "audiothread_cmd.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "ultra64.h"
 #include "audio.h"
@@ -72,7 +74,7 @@ void Audio_ClearBGMMute(u8 channelIndex) {
 }
 
 void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd) {
-    u8 i;
+    UNUSED_NDEBUG u8 i;
     SfxRequest* req;
 
     if (!gSfxBankMuted[SFX_BANK_SHIFT(sfxId)]) {
@@ -306,7 +308,7 @@ void Audio_ChooseActiveSfx(u8 bankId) {
     SfxBankEntry* entry;
     ActiveSfx chosenSfx[MAX_CHANNELS_PER_BANK];
     ActiveSfx* activeSfx;
-    s32 pad;
+    STACK_PAD(s32);
 
     numChosenSfx = 0;
     for (i = 0; i < MAX_CHANNELS_PER_BANK; i++) {
@@ -519,7 +521,7 @@ void Audio_PlayActiveSfx(u8 bankId) {
 
 void Audio_StopSfxByBank(u8 bankId) {
     SfxBankEntry* entry;
-    s32 pad;
+    STACK_PAD(s32);
     SfxBankEntry cmp;
     u8 entryIndex = gSfxBanks[bankId][0].next;
 
@@ -714,7 +716,6 @@ u8 Audio_IsSfxPlaying(u32 sfxId) {
 void Audio_ResetSfx(void) {
     u8 bankId;
     u8 i;
-    u8 entryIndex;
 
     gSfxRequestWriteIndex = 0;
     gSfxRequestReadIndex = 0;

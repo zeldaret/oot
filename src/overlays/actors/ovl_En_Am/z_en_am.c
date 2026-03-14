@@ -5,6 +5,7 @@
  */
 
 #include "z_en_am.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/qrand.h"
@@ -13,6 +14,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -221,7 +223,7 @@ s32 EnAm_CanMove(EnAm* this, PlayState* play, f32 distance, s16 yaw) {
 
 void EnAm_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
-    s32 pad;
+    STACK_PAD(s32);
     EnAm* this = (EnAm*)thisx;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -256,7 +258,7 @@ void EnAm_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnAm_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnAm* this = (EnAm*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -272,7 +274,7 @@ void EnAm_SpawnEffects(EnAm* this, PlayState* play) {
     Vec3f pos;
     Color_RGBA8 primColor = { 100, 100, 100, 0 };
     Color_RGBA8 envColor = { 40, 40, 40, 0 };
-    s32 pad;
+    STACK_PAD(s32);
 
     for (i = 4; i > 0; i--) {
         pos.x = this->dyna.actor.world.pos.x + ((Rand_ZeroOne() - 0.5f) * 65.0f);
@@ -382,7 +384,7 @@ void EnAm_SetupRicochet(EnAm* this, PlayState* play) {
 
 void EnAm_Sleep(EnAm* this, PlayState* play) {
     f32 cos;
-    s32 pad;
+    STACK_PAD(s32);
     f32 rand;
     f32 sin;
     Player* player = GET_PLAYER(play);
@@ -797,7 +799,7 @@ void EnAm_TransformSwordHitbox(Actor* thisx, PlayState* play) {
 }
 
 void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->deathTimer == 0) {
         if (this->blockCollider.base.acFlags & AC_BOUNCED) {
@@ -847,7 +849,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 dustPrimColor = { 150, 150, 150, 255 };
     static Color_RGBA8 dustEnvColor = { 100, 100, 100, 150 };
-    s32 pad;
+    STACK_PAD(s32);
     EnAm* this = (EnAm*)thisx;
     EnBom* bomb;
     Vec3f dustPos;
@@ -869,7 +871,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
 
             if (this->deathTimer == 0) {
                 f32 dustPosScale = play->gameplayFrames * 10;
-                s32 pad1;
+                STACK_PAD(s32);
 
                 EnAm_SpawnEffects(this, play);
                 bomb =
@@ -940,8 +942,8 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-static Vec3f sUnused1 = { 1100.0f, -700.0f, 0.0f };
-static Vec3f sUnused2 = { 0.0f, 0.0f, 0.0f };
+UNUSED static Vec3f sUnused1 = { 1100.0f, -700.0f, 0.0f };
+UNUSED static Vec3f sUnused2 = { 0.0f, 0.0f, 0.0f };
 
 void EnAm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnAm* this = (EnAm*)thisx;

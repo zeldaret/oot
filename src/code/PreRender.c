@@ -12,6 +12,7 @@
 #include "prerender.h"
 #include "printf.h"
 #include "regs.h"
+#include "stack_pad.h"
 
 void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
     this->widthSave = width;
@@ -725,7 +726,7 @@ void PreRender_DivotFilter(PreRender* this) {
     u8* buffR = alloca(this->width);
     u8* buffG = alloca(this->width);
     u8* buffB = alloca(this->width);
-    s32 pad2[3];
+    STACK_PADS(s32, 3);
     s32 pxR;
     s32 pxG;
     s32 pxB;

@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -239,7 +240,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
-    s32 pad;
+    STACK_PAD(s32);
     PlayState* play = play2;
     EnBom* this = (EnBom*)thisx;
 
@@ -370,7 +371,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
 }
 
 void EnBom_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnBom* this = (EnBom*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom.c", 913);

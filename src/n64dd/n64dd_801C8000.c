@@ -3,6 +3,8 @@
 #include "n64dd.h"
 
 #include "array_count.h"
+#include "attributes.h"
+#include "stack_pad.h"
 #include "versions.h"
 #include "z_locale.h"
 
@@ -188,7 +190,7 @@ void func_801C8424(struct_801E0D18* arg0) {
     }
 }
 
-void func_801C84D4(void* arg) {
+void func_801C84D4(UNUSED void* arg) {
     while (true) {
         struct_801E0D18* sp24;
 
@@ -315,7 +317,7 @@ s32 func_801C885C(void) {
 }
 
 s32 func_801C88AC(void) {
-    s32 phi_v0;
+    STACK_PAD(s32);
 
     B_801E0D18.unk_64 = 4;
     func_801C85F0(&B_801E0D18, 1);

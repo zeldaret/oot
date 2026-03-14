@@ -1,5 +1,6 @@
 #include "vi_mode.h"
 
+#include "attributes.h"
 #include "libu64/debug.h"
 #include "ultra64/viint.h"
 #include "controller.h"
@@ -245,7 +246,7 @@ void ViMode_Init(ViMode* viMode) {
     ViMode_Save(viMode);
 }
 
-void ViMode_Destroy(ViMode* viMode) {
+void ViMode_Destroy(UNUSED ViMode* viMode) {
 }
 
 void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures) {

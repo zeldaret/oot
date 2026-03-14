@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -80,7 +81,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnAni_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnAni* this = (EnAni*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -178,7 +179,7 @@ void func_809B064C(EnAni* this, PlayState* play) {
 }
 
 void func_809B07F8(EnAni* this, PlayState* play) {
-    s16 pad;
+    STACK_PAD(s16);
     s16 yawDiff;
     u16 textId;
 
@@ -240,7 +241,7 @@ void func_809B0A6C(EnAni* this, PlayState* play) {
 
 void EnAni_Update(Actor* thisx, PlayState* play) {
     EnAni* this = (EnAni*)thisx;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -322,7 +323,7 @@ void EnAni_Draw(Actor* thisx, PlayState* play) {
         gRoofManEyeClosedTex,
     };
     EnAni* this = (EnAni*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ani.c", 719);
 

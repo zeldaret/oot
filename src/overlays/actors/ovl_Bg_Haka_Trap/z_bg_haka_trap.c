@@ -30,6 +30,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -140,7 +141,7 @@ static InitChainEntry sInitChain[] = {
 void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     static s32 sSpikedCrusherFlip = false;
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -588,7 +589,7 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     };
     static Color_RGBA8 sFogBlack = { 0, 0, 0, 0 };
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionFunc == BgHakaTrap_SpikedWall_Burn) {
         func_80026230(play, &sFogBlack, this->timer + 20, 40);

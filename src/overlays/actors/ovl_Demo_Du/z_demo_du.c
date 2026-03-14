@@ -1,4 +1,5 @@
 #include "z_demo_du.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
@@ -9,6 +10,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -29,7 +31,7 @@ void DemoDu_Destroy(Actor* thisx, PlayState* play);
 void DemoDu_Update(Actor* thisx, PlayState* play);
 void DemoDu_Draw(Actor* thisx, PlayState* play);
 
-static s32 sUnused = 0;
+UNUSED static s32 sUnused = 0;
 
 #include "z_demo_du_cutscene_data.inc.c"
 
@@ -62,7 +64,7 @@ void DemoDu_Destroy(Actor* thisx, PlayState* play) {
 void DemoDu_UpdateEyes(DemoDu* this) {
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeTexIndex = &this->eyeTexIndex;
-    s32 pad[3];
+    STACK_PADS(s32, 3);
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
@@ -147,7 +149,7 @@ s32 DemoDu_CheckForNoCue(DemoDu* this, PlayState* play, u16 cueId, s32 cueChanne
 
 void DemoDu_SetStartPosRotFromCue(DemoDu* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = DemoDu_GetCue(play, cueChannel);
-    s32 pad;
+    STACK_PAD(s32);
 
     if (cue != NULL) {
         this->actor.world.pos.x = cue->startPos.x;
@@ -210,7 +212,7 @@ void func_80969FB4(DemoDu* this, PlayState* play) {
 
 // Gives the Fire Medallion to Link too.
 void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_FIRE) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
@@ -335,7 +337,7 @@ void DemoDu_CsPlaySfx_DaruniaFalling(PlayState* play) {
 // Cutscene: Darunia gives Link the Goron's Ruby.
 void DemoDu_CsPlaySfx_DaruniaHitsLink(PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
 
     Sfx_PlaySfxAtPos(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
     SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_VO_LI_DAMAGE_S_KID);
@@ -391,7 +393,7 @@ void DemoDu_CsGoronsRuby_UpdateFaceTextures(DemoDu* this, PlayState* play) {
 }
 
 void func_8096A630(DemoDu* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f pos = this->actor.world.pos;
 
     pos.y += kREG(5);
@@ -407,13 +409,13 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, PlayState* play)
     };
 
     if (Animation_OnFrame(&this->skelAnime, 31.0f) || Animation_OnFrame(&this->skelAnime, 41.0f)) {
-        s32 pad[2];
+        STACK_PADS(s32, 2);
         s32 i;
         Player* player = GET_PLAYER(play);
         Vec3f* pos = &player->bodyPartsPos[PLAYER_BODYPART_L_FOREARM];
         Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         Vec3f accel = { 0.0f, 0.3f, 0.0f };
-        s32 pad2;
+        STACK_PAD(s32);
 
         for (i = 4; i >= 0; --i) {
             Color_RGBA8 primColor = { 190, 150, 110, 255 };
@@ -449,7 +451,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, PlayState* play)
 }
 
 void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     CutsceneContext* csCtx = &play->csCtx;
 
     if (csCtx->state != CS_STATE_IDLE) {
@@ -714,7 +716,7 @@ void DemoDu_UpdateCs_GR_13(DemoDu* this, PlayState* play) {
 }
 
 void DemoDu_InitCs_AfterGanon(DemoDu* this, PlayState* play) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     f32 lastFrame = Animation_GetLastFrame(&gDaruniaSageFormationAnim);
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gDaruniaSkel, NULL, NULL, NULL, 0);
@@ -820,7 +822,7 @@ void DemoDu_Draw_02(Actor* thisx, PlayState* play2) {
     DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = sEyeTextures[eyeTexIndex];
-    s32 pad;
+    STACK_PAD(s32);
     s16 mouthTexIndex = this->mouthTexIndex;
     void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -1015,7 +1017,7 @@ void DemoDu_Draw_01(Actor* thisx, PlayState* play2) {
     DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = sEyeTextures[eyeTexIndex];
-    s32 pad;
+    STACK_PAD(s32);
     s16 mouthTexIndex = this->mouthTexIndex;
     void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;

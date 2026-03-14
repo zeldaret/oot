@@ -11,6 +11,7 @@
 #include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -85,7 +86,7 @@ static Vec3f D_808987A0[] = { 0.0f, 14.0f, 0.0f };
 static Vec3f D_808987AC[] = { 0.0f, 8.0f, 0.0f };
 
 void BgJyaHaheniron_ColliderInit(BgJyaHaheniron* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
@@ -125,7 +126,7 @@ void BgJyaHaheniron_SpawnFragments(PlayState* play, Vec3f* vec1, Vec3f* vec2) {
 }
 
 void BgJyaHaheniron_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -142,7 +143,7 @@ void BgJyaHaheniron_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgJyaHaheniron_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {
@@ -205,7 +206,7 @@ void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, PlayState* play) {
 }
 
 void BgJyaHaheniron_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     this->timer++;
@@ -218,7 +219,7 @@ void BgJyaHaheniron_Draw(Actor* thisx, PlayState* play) {
         gObjectJyaIronDL_000AE0,
         gObjectJyaIronDL_000600,
     };
-    s32 pad;
+    STACK_PAD(s32);
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {

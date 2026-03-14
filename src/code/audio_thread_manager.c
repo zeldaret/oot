@@ -6,6 +6,7 @@
  */
 
 #include "array_count.h"
+#include "attributes.h"
 #include "audiomgr.h"
 #include "printf.h"
 #include "regs.h"
@@ -86,7 +87,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
  *
  * @see Audio_PreNMI
  */
-void AudioMgr_HandlePreNMI(AudioMgr* audioMgr) {
+void AudioMgr_HandlePreNMI(UNUSED AudioMgr* audioMgr) {
     PRINTF(
         T("オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n", "Audio manager received OS_SC_PRE_NMI_MSG\n"));
     Audio_PreNMI();

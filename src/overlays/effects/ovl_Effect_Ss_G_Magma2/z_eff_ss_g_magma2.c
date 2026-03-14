@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "effect.h"
 #include "play_state.h"
@@ -47,7 +48,7 @@ EffectSsProfile Effect_Ss_G_Magma2_Profile = {
 
 u32 EffectSsGMagma2_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_KINGDODONGO);
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
@@ -81,7 +82,7 @@ u32 EffectSsGMagma2_Init(PlayState* play, u32 index, EffectSs* this, void* initP
 
 void EffectSsGMagma2_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     void* objectPtr;
 

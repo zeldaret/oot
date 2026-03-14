@@ -11,6 +11,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "ocarina.h"
@@ -121,7 +122,7 @@ void EnCow_SetTailPos(EnCow* this) {
 
 void EnCow_Init(Actor* thisx, PlayState* play) {
     EnCow* this = (EnCow*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 72.0f);
 
@@ -391,7 +392,7 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
 
 void EnCow_UpdateTail(Actor* thisx, PlayState* play) {
     EnCow* this = (EnCow*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->skelAnime.animation == &gCowTailIdleAnim) {

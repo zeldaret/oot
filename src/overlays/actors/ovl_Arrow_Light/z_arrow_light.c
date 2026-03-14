@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "tex_len.h"
 #include "translation.h"
@@ -177,7 +178,7 @@ void ArrowLight_Hit(ArrowLight* this, PlayState* play) {
 void ArrowLight_Fly(ArrowLight* this, PlayState* play) {
     EnArrow* arrow = (EnArrow*)this->actor.parent;
     f32 distanceScaled;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
@@ -223,7 +224,7 @@ void ArrowLight_Update(Actor* thisx, PlayState* play) {
 
 void ArrowLight_Draw(Actor* thisx, PlayState* play) {
     ArrowLight* this = (ArrowLight*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     u32 stateFrames = play->state.frames;
     EnArrow* arrow = (EnArrow*)this->actor.parent;
     Actor* transform;

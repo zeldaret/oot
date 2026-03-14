@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -167,7 +168,7 @@ static MtxF sLimb7Mtx;
 
 void EnPoField_Init(Actor* thisx, PlayState* play) {
     EnPoField* this = (EnPoField*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (sNumSpawned != 10) {
         sSpawnPositions[sNumSpawned].x = this->actor.world.pos.x;
@@ -561,8 +562,7 @@ void EnPoField_Damage(EnPoField* this, PlayState* play) {
 void EnPoField_Death(EnPoField* this, PlayState* play) {
     Vec3f sp6C;
     f32 sp68;
-    s32 pad;
-    s32 pad1;
+    STACK_PADS(s32, 2);
     f32 temp_f0;
 
     this->actionTimer++;
@@ -792,7 +792,7 @@ void EnPoField_UpdateFlame(EnPoField* this, PlayState* play) {
 
 void EnPoField_DrawFlame(EnPoField* this, PlayState* play) {
     f32 sp4C;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->flameTimer != 0) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 1669);
@@ -866,7 +866,7 @@ void func_80AD6330(EnPoField* this) {
 }
 
 void EnPoField_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnPoField* this = (EnPoField*)thisx;
 
     EnPoField_TestForDamage(this, play);
@@ -985,7 +985,7 @@ void EnPoField_UpdateDead(Actor* thisx, PlayState* play) {
 
 void EnPoField_DrawSoul(Actor* thisx, PlayState* play) {
     EnPoField* this = (EnPoField*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     EnPoFieldInfo* info = &sPoFieldInfo[this->actor.params];
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 2077);

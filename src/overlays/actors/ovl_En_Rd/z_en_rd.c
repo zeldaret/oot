@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -360,11 +361,11 @@ void EnRd_SetupWalkToPlayer(EnRd* this, PlayState* play) {
 }
 
 void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
-    Vec3f D_80AE4918 = { 0.0f, 0.0f, 0.0f };
-    Color_RGBA8 D_80AE4924 = { 200, 200, 255, 255 };
-    Color_RGBA8 D_80AE4928 = { 0, 0, 255, 0 };
+    UNUSED Vec3f D_80AE4918 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Color_RGBA8 D_80AE4924 = { 200, 200, 255, 255 };
+    UNUSED Color_RGBA8 D_80AE4928 = { 0, 0, 255, 0 };
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 yaw = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->headYRotation - this->upperBodyYRotation;
 
     this->skelAnime.playSpeed = this->actor.speed;
@@ -442,7 +443,7 @@ void EnRd_SetupWalkToHome(EnRd* this, PlayState* play) {
 
 void EnRd_WalkToHome(EnRd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 targetY = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
 
     if (Actor_WorldDistXYZToPoint(&this->actor, &this->actor.home.pos) >= 5.0f) {
@@ -499,7 +500,7 @@ void EnRd_SetupWalkToParent(EnRd* this) {
  * fade away.
  */
 void EnRd_WalkToParent(EnRd* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 targetY;
     Vec3f parentPos;
 
@@ -548,7 +549,7 @@ void EnRd_SetupGrab(EnRd* this) {
 }
 
 void EnRd_Grab(EnRd* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -629,9 +630,9 @@ void EnRd_SetupAttemptPlayerFreeze(EnRd* this) {
 }
 
 void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
-    Vec3f D_80AE492C = { 0.0f, 0.0f, 0.0f };
-    Color_RGBA8 D_80AE4938 = { 200, 200, 255, 255 };
-    Color_RGBA8 D_80AE493C = { 0, 0, 255, 0 };
+    UNUSED Vec3f D_80AE492C = { 0.0f, 0.0f, 0.0f };
+    UNUSED Color_RGBA8 D_80AE4938 = { 200, 200, 255, 255 };
+    UNUSED Color_RGBA8 D_80AE493C = { 0, 0, 255, 0 };
     Player* player = GET_PLAYER(play);
     s16 yaw = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->headYRotation - this->upperBodyYRotation;
 
@@ -823,7 +824,7 @@ void EnRd_TurnTowardsPlayer(EnRd* this, PlayState* play) {
 }
 
 void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     if ((gSaveContext.sunsSongState != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) &&
@@ -877,10 +878,10 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
 }
 
 void EnRd_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnRd* this = (EnRd*)thisx;
     Player* player = GET_PLAYER(play);
-    s32 pad2;
+    STACK_PAD(s32);
 
     EnRd_UpdateDamage(this, play);
 
@@ -993,9 +994,9 @@ void EnRd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 }
 
 void EnRd_Draw(Actor* thisx, PlayState* play) {
-    static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
+    UNUSED static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
     static Vec3f sShadowScale = { 0.25f, 0.25f, 0.25f };
-    s32 pad;
+    STACK_PAD(s32);
     EnRd* this = (EnRd*)thisx;
     Vec3f thisPos = thisx->world.pos;
 

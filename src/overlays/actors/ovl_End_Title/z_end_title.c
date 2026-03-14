@@ -8,6 +8,7 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "tex_len.h"
 #include "versions.h"
@@ -237,7 +238,7 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
 // Used in the Temple of Time
 void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play) {
     EndTitle* this = (EndTitle*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 csCurFrame = play->csCtx.curFrame;
 
     if ((csCurFrame > FRAMERATE_CONST(1100, 950)) && (this->endAlpha < 255)) {

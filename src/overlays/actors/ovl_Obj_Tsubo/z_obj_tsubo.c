@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -167,7 +168,7 @@ void ObjTsubo_Destroy(Actor* thisx, PlayState* play2) {
 }
 
 void ObjTsubo_AirBreak(ObjTsubo* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 rand;
     s16 angle;
     Vec3f pos;
@@ -204,7 +205,7 @@ void ObjTsubo_AirBreak(ObjTsubo* this, PlayState* play) {
 }
 
 void ObjTsubo_WaterBreak(ObjTsubo* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 angle;
     Vec3f pos = this->actor.world.pos;
     Vec3f velocity;
@@ -250,7 +251,7 @@ void ObjTsubo_SetupIdle(ObjTsubo* this) {
 }
 
 void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 temp_v0;
     s32 phi_v1;
 
@@ -319,7 +320,7 @@ void ObjTsubo_SetupThrown(ObjTsubo* this) {
 }
 
 void ObjTsubo_Thrown(ObjTsubo* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
         (this->collider.base.atFlags & AT_HIT)) {

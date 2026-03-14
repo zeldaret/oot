@@ -15,6 +15,7 @@
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -119,7 +120,7 @@ void DemoSa_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_8098E480(DemoSa* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16* eyeIndex = &this->eyeIndex;
     s16* blinkTimer = &this->blinkTimer;
 
@@ -218,7 +219,7 @@ void func_8098E6EC(DemoSa* this, PlayState* play, s32 cueChannel) {
 }
 
 void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 morphFrames, s32 arg4) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
     f32 unk0;
@@ -268,7 +269,7 @@ void func_8098E944(DemoSa* this, PlayState* play) {
 }
 
 void func_8098E960(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_FOREST) && !IS_CUTSCENE_LAYER) {
@@ -372,7 +373,7 @@ void func_8098ECCC(DemoSa* this, PlayState* play) {
 }
 
 void func_8098ECF4(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gSariaSealGanonAnim);
 
@@ -483,11 +484,11 @@ void func_8098F16C(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* sp78 = sEyeTextures[eyeIndex];
     s16 mouthIndex = this->mouthIndex;
-    s32 pad2;
+    STACK_PAD(s32);
     void* sp6C = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -826,10 +827,10 @@ void DemoSa_DrawNothing(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_DrawOpa(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* eyeTex = sEyeTextures[eyeIndex];
-    s32 pad2;
+    STACK_PAD(s32);
     s16 mouthIndex = this->mouthIndex;
     void* mouthTex = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;

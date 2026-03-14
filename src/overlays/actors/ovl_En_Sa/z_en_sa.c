@@ -5,6 +5,7 @@
 #include "gfx.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -492,7 +493,7 @@ void func_80AF6170(CsCmdActorCue* cue, Vec3f* dst) {
 
 void EnSa_Init(Actor* thisx, PlayState* play) {
     EnSa* this = (EnSa*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 12.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gSariaSkel, NULL, this->jointTable, this->morphTable, 17);
@@ -739,7 +740,7 @@ void func_80AF6B20(EnSa* this, PlayState* play) {
 
 void EnSa_Update(Actor* thisx, PlayState* play) {
     EnSa* this = (EnSa*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -778,7 +779,7 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
 
 s32 EnSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnSa* this = (EnSa*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3s limbRot;
 
     if (limbIndex == 16) {

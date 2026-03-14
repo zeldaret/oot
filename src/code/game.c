@@ -1,4 +1,5 @@
 #include "libc64/malloc.h"
+#include "attributes.h"
 #include "libc64/os_malloc.h"
 #include "libu64/debug.h"
 #include "libu64/gfxprint.h"
@@ -20,6 +21,7 @@
 #include "regs.h"
 #include "rumble.h"
 #include "speed_meter.h"
+#include "stack_pad.h"
 #include "sys_debug_controller.h"
 #include "terminal.h"
 #include "translation.h"
@@ -97,7 +99,7 @@ void GameState_SetFBFilter(Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-void func_800C4344(GameState* gameState) {
+void func_800C4344(UNUSED_NDEBUG GameState* gameState) {
 #if DEBUG_FEATURES
     Input* selectedInput;
     s32 hexDumpSize;
@@ -212,7 +214,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     if (R_ENABLE_AUDIO_DBG & 1) {
-        s32 pad;
+        STACK_PAD(s32);
         GfxPrint printer;
 
         GfxPrint_Init(&printer);
@@ -225,7 +227,8 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
     if (R_ENABLE_ARENA_DBG < 0) {
 #if PLATFORM_GC && DEBUG_FEATURES
-        s32 pad;
+        STACK_PAD(s32);
+
         DebugArena_Display();
         SystemArena_Display();
 #endif
@@ -477,7 +480,8 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     gameState->size = (u32)(gameState->init = NULL);
 
     {
-        s32 requiredScopeTemp;
+        STACK_PAD(s32);
+
         endTime = osGetTime();
         PRINTF(T("game_set_next_game_null 処理時間 %d us\n", "game_set_next_game_null processing time %d us\n"),
                OS_CYCLES_TO_USEC(endTime - startTime));

@@ -40,6 +40,7 @@
  * @see irqmgr.c
  */
 #include "libu64/debug.h"
+#include "attributes.h"
 #include "libu64/rcp_utils.h"
 #include "array_count.h"
 #include "fault.h"
@@ -161,7 +162,7 @@ void Sched_SwapFrameBuffer(Scheduler* sc, CfbInfo* cfbInfo) {
 #endif
 }
 
-void Sched_HandlePreNMI(Scheduler* sc) {
+void Sched_HandlePreNMI(UNUSED_NDEBUG Scheduler* sc) {
 #if DEBUG_FEATURES
     OSTime now;
 
@@ -192,7 +193,7 @@ void Sched_HandlePreNMI(Scheduler* sc) {
 #endif
 }
 
-void Sched_HandleNMI(Scheduler* sc) {
+void Sched_HandleNMI(UNUSED Scheduler* sc) {
     // black the screen and reset the VI y scale just in time for NMI reset
 #if OOT_VERSION < PAL_1_0
     osViSetYScale(1.0f);
@@ -688,7 +689,8 @@ void Sched_ThreadEntry(void* arg) {
     }
 }
 
-void Sched_Init(Scheduler* sc, void* stack, OSPri priority, u8 viModeType, UNK_TYPE arg4, IrqMgr* irqMgr) {
+void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNUSED u8 viModeType, UNUSED UNK_TYPE arg4,
+                IrqMgr* irqMgr) {
     bzero(sc, sizeof(Scheduler));
     sc->isFirstSwap = true;
 
