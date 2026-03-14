@@ -57,7 +57,7 @@ static bool strendswith(const char* s, const char* suffix) {
 static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, enum sub_format* subfmt, int* elem_sizep,
                         size_t* len_png_p_prefix, char** tlut_namep, int* tlut_elem_sizep, bool print_err) {
     // The last 5 (or less) suffixes, without the '.'
-    const int max_n_suffixes = 5;
+    enum { max_n_suffixes = 5 };
     char* png_p_suffixes[max_n_suffixes];
     int n_suffixes_found = 0;
     size_t i = strlen(png_p_buf);
