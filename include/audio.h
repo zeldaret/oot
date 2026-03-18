@@ -264,7 +264,6 @@ typedef struct SoundFont {
     /* 0x10 */ SoundEffect* soundEffects;
 } SoundFont; // size = 0x14
 
-// JAudio: "delayparam"
 typedef struct ReverbRingBufferItem {
     /* 0x00 */ s16 numSamplesAfterDownsampling; // never read
     /* 0x02 */ s16 chunkLen; // never read
