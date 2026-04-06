@@ -3371,7 +3371,8 @@ s32 func_808358F0(Player* this, PlayState* play) {
     if (!sHeldItemButtonIsHeldDown) {
         Player_SetUpperActionFunc(this, func_808359FC);
         LinkAnimation_PlayOnce(play, &this->upperSkelAnime,
-                               (this->forwardFootWeight < 0.5f) ? &gPlayerAnim_link_boom_throwR : &gPlayerAnim_link_boom_throwL);
+                               (this->forwardFootWeight < 0.5f) ? &gPlayerAnim_link_boom_throwR
+                                                                : &gPlayerAnim_link_boom_throwL);
     }
 
     return true;
@@ -8037,7 +8038,6 @@ s32 func_80840058(Player* this, f32* arg1, s16* arg2, PlayState* play) {
     return 0;
 }
 
-
 /**
  * Sets which foot player currently has forward while targeting.
  * Another variable will increase/decrease to this value.
@@ -8078,7 +8078,7 @@ s32 Player_ShouldPlaySteppingSfx(f32 moveFrame, f32 speed, f32 frameCount, f32 t
     temp = (moveFrame + speed) - targetFrame;
 
     if (((temp * speed) >= 0.0f) && (((temp - speed) * speed) < 0.0f)) {
-        return 1;   // Play sound
+        return 1; // Play sound
     }
 
     return 0;
@@ -8105,7 +8105,8 @@ void Player_SetMoveFramePlaySfx(Player* this, f32 speed) {
         (this->hoverBootsTimer != 0)) {
         Actor_PlaySfx_Flagged2(&this->actor, NA_SE_PL_HOBBERBOOTS_LV - SFX_FLAG);
         // Play footsteps depending on frame position of the walk/run cycle
-    } else if (Player_ShouldPlaySteppingSfx(this->moveFrame, speed, 29.0f, 10.0f) || Player_ShouldPlaySteppingSfx(this->moveFrame, speed, 29.0f, 24.0f)) {
+    } else if (Player_ShouldPlaySteppingSfx(this->moveFrame, speed, 29.0f, 10.0f) ||
+               Player_ShouldPlaySteppingSfx(this->moveFrame, speed, 29.0f, 24.0f)) {
         Player_PlaySteppingSfx(this, this->speedXZ);
         // If running fast, certain enemies can detect us
         if (this->speedXZ > 4.0f) {
@@ -8161,8 +8162,8 @@ void Player_Action_IdleHostile(Player* this, PlayState* play) {
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList1, true)) {
         // Check if target change
-        if (!Player_UpdateHostileLockOn(this) && (!Player_FriendlyLockOnOrParallel(this) ||
-                                                  (func_80834B5C != this->upperActionFunc))) {
+        if (!Player_UpdateHostileLockOn(this) &&
+            (!Player_FriendlyLockOnOrParallel(this) || (func_80834B5C != this->upperActionFunc))) {
             Player_SetupIdleOrRunWithFootWeight(this, play);
             return;
         }
@@ -8574,7 +8575,8 @@ void Player_SetBackwalkAnim(Player* this, PlayState* play) {
             temp1 = 1.0f;
             Player_SetMoveFramePlaySfx(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
             LinkAnimation_LoadToJoint(play, &this->skelAnime,
-                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType), this->moveFrame);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType),
+                                      this->moveFrame);
         } else {
             temp1 = (REG(37) / 1000.0f) * temp2;
             if (temp1 < 1.0f) {
@@ -8584,7 +8586,8 @@ void Player_SetBackwalkAnim(Player* this, PlayState* play) {
                 Player_SetMoveFramePlaySfx(this, 1.2f + ((REG(38) / 1000.0f) * temp2));
             }
             LinkAnimation_LoadToMorph(play, &this->skelAnime,
-                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType), this->moveFrame);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType),
+                                      this->moveFrame);
             LinkAnimation_LoadToJoint(play, &this->skelAnime, &gPlayerAnim_link_normal_back_run,
                                       this->moveFrame * (16.0f / 29.0f));
         }
@@ -8925,7 +8928,8 @@ void Player_SetRunWalkAnim(Player* this, PlayState* play) {
 
             func_80841CC4(this, 1, play);
 
-            LinkAnimation_LoadToJoint(play, &this->skelAnime, Player_SetRunAnim(this), this->moveFrame * (20.0f / 29.0f));
+            LinkAnimation_LoadToJoint(play, &this->skelAnime, Player_SetRunAnim(this),
+                                      this->moveFrame * (20.0f / 29.0f));
         }
     }
 
@@ -9379,7 +9383,8 @@ void Player_Action_80843188(Player* this, PlayState* play) {
                     if (this->itemAction < 0) {
                         func_8008EC70(this);
                     }
-                    Player_PlayAnimAndSetupIdle(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense_end, this->modelAnimType), play);
+                    Player_PlayAnimAndSetupIdle(
+                        this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense_end, this->modelAnimType), play);
                 }
 
                 Player_PlaySfx(this, NA_SE_IT_SHIELD_REMOVE);
@@ -13615,7 +13620,8 @@ void Player_Action_8084D610(Player* this, PlayState* play) {
             yawTarget = this->actor.shape.rot.y;
 
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-                Player_PlayAnimAndSetupIdle(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType), play);
+                Player_PlayAnimAndSetupIdle(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType),
+                                            play);
                 Player_PlayLandingSfx(this);
             }
         } else {
