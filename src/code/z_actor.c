@@ -1168,7 +1168,7 @@ s32 func_8002DDE4(PlayState* play) {
     return player->stateFlags2 & PLAYER_STATE2_3;
 }
 
-s32 func_8002DDF4(PlayState* play) {
+s32 Player_IsClimbingStill(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     return player->stateFlags2 & PLAYER_STATE2_12;
@@ -1204,7 +1204,7 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
     horse->child = &player->actor;
 }
 
-int func_8002DEEC(Player* player) {
+int Player_IsDeadOrCutscene(Player* player) {
     return (player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_29)) ||
            (player->csAction != PLAYER_CSACTION_NONE);
 }
