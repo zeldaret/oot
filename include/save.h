@@ -494,8 +494,8 @@ typedef enum LinkAge {
 
 #define GET_GS_FLAGS(mapIndex) \
     ((gSaveContext.save.info.gsFlags[(mapIndex) >> 2] & gGsFlagsMasks[(mapIndex) & 3]) >> gGsFlagsShifts[(mapIndex) & 3])
-#define SET_GS_FLAGS(mapIndex, id) \
-    (gSaveContext.save.info.gsFlags[(mapIndex) >> 2] |= (id) << gGsFlagsShifts[(mapIndex) & 3])
+#define SET_GS_FLAGS(mapIndex, flags) \
+    (gSaveContext.save.info.gsFlags[(mapIndex) >> 2] |= (flags) << gGsFlagsShifts[(mapIndex) & 3])
 
 #define HIGH_SCORE(score) (gSaveContext.save.info.highScores[score])
 
