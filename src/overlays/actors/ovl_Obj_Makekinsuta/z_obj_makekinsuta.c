@@ -17,8 +17,8 @@
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play);
 void ObjMakekinsuta_Update(Actor* thisx, PlayState* play);
 
-void ObjMakekinsuta_Action_Wait(ObjMakekinsuta* this, PlayState* play);
-void ObjMakekinsuta_Action_DoNothing(ObjMakekinsuta* this, PlayState* play);
+void ObjMakekinsuta_Wait(ObjMakekinsuta* this, PlayState* play);
+void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, PlayState* play);
 
 ActorProfile Obj_Makekinsuta_Profile = {
     /**/ ACTOR_OBJ_MAKEKINSUTA,
