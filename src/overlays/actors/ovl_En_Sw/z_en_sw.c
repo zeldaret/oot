@@ -641,7 +641,7 @@ void EnSw_ActionGS_Fly(EnSw* this, PlayState* play) {
     }
 
     // Landing
-    if (EnSw_GS_FindFloorPoly(this, play, true) == 1) {
+    if (EnSw_GS_FindFloorPoly(this, play, true) == true) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND); // Hit ground sound
         EnSw_GS_SpawnLandDust(this, play, 8);
         this->actor.scale.x = 0.02f;
