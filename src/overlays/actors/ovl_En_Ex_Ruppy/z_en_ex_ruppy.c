@@ -59,18 +59,18 @@ ActorProfile En_Ex_Ruppy_Profile = {
 void EnExRuppy_Init(Actor* thisx, PlayState* play) {
     EnExRuppy* this = (EnExRuppy*)thisx;
     EnDivingGame* divingGame;
-    f32 temp1;
-    f32 temp2;
-    s16 temp3;
+    f32 randScale;
+    f32 extraWinFactor;
+    s16 divingRupeeType;
 
     this->type = this->actor.params;
     PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Index ☆☆☆☆☆ %x\n") VT_RST, this->type);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
 
     switch (this->type) {
-        case 0:
-            this->unk_160 = 0.01f;
-            Actor_SetScale(&this->actor, this->unk_160);
+        case ENEXRUPPY_TYPE_DIVING_GAME:
+            this->scale = 0.01f;
+            Actor_SetScale(&this->actor, this->scale);
             this->actor.room = -1;
             this->actor.gravity = 0.0f;
 
@@ -79,31 +79,31 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
                 this->rupeeValue = 5;
                 this->colorIdx = 1;
             } else {
-                temp1 = 200.99f;
+                randScale = 200.99f;
                 if (this->actor.parent != NULL) {
                     divingGame = (EnDivingGame*)this->actor.parent;
                     if (divingGame->actor.update != NULL) {
-                        temp2 = divingGame->extraWinCount * 10.0f;
-                        temp1 += temp2;
+                        extraWinFactor = divingGame->extraWinCount * 10.0f;
+                        randScale += extraWinFactor;
                     }
                 }
 
-                temp3 = Rand_ZeroFloat(temp1);
-                if ((temp3 >= 0) && (temp3 < 40)) {
+                divingRupeeType = Rand_ZeroFloat(randScale);
+                if ((divingRupeeType >= 0) && (divingRupeeType < 40)) {
                     this->rupeeValue = 1;
                     this->colorIdx = 0;
-                } else if ((temp3 >= 40) && (temp3 < 170)) {
+                } else if ((divingRupeeType >= 40) && (divingRupeeType < 170)) {
                     this->rupeeValue = 5;
                     this->colorIdx = 1;
-                } else if ((temp3 >= 170) && (temp3 < 190)) {
+                } else if ((divingRupeeType >= 170) && (divingRupeeType < 190)) {
                     this->rupeeValue = 20;
                     this->colorIdx = 2;
-                } else if ((temp3 >= 190) && (temp3 < 200)) {
+                } else if ((divingRupeeType >= 190) && (divingRupeeType < 200)) {
                     this->rupeeValue = 50;
                     this->colorIdx = 4;
                 } else {
-                    this->unk_160 = 0.02f;
-                    Actor_SetScale(&this->actor, this->unk_160);
+                    this->scale = 0.02f;
+                    Actor_SetScale(&this->actor, this->scale);
                     this->rupeeValue = 500;
                     this->colorIdx = 3;
                     if (this->actor.parent != NULL) {
@@ -117,16 +117,16 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
 
             this->actor.shape.shadowScale = 7.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->unk_15A = this->actor.world.rot.z;
+            this->rotation = this->actor.world.rot.z;
             this->actor.world.rot.z = 0;
             this->timer = 30;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_DropIntoWater;
             break;
 
-        case 1:
-        case 2: // Giant pink ruppe that explodes when you touch it
-            if (this->type == 1) {
+        case ENEXRUPPY_TYPE_BOMB_LARGE:
+        case ENEXRUPPY_TYPE_BOMB_SMALL: // Giant pink ruppe that explodes when you touch it
+            if (this->type == ENEXRUPPY_TYPE_BOMB_LARGE) {
                 Actor_SetScale(&this->actor, 0.1f);
                 this->colorIdx = 4;
             } else {
@@ -141,7 +141,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
 
-        case 3: // Spawned by the guard in Hyrule courtyard
+        case ENEXRUPPY_TYPE_HYRULE_COURTYARD: // Spawned by the guard in Hyrule courtyard
             Actor_SetScale(&this->actor, 0.02f);
             this->colorIdx = 0;
             switch ((s16)Rand_ZeroFloat(30.99f)) {
@@ -162,7 +162,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
-        case 4: // Progress markers in the shooting gallery
+        case ENEXRUPPY_TYPE_SHOOTING_GALLERY_PROGRESS: // Progress markers in the shooting gallery
             this->actor.gravity = -3.0f;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             Actor_SetScale(&this->actor, 0.01f);
@@ -211,7 +211,7 @@ void EnExRuppy_SpawnSparkles(EnExRuppy* this, PlayState* play, s16 numSparkles, 
             life = 20;
         }
         pos.x = (Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.world.pos.x;
-        pos.y = (Rand_ZeroOne() - 0.5f) * 10.0f + (this->actor.world.pos.y + this->unk_160 * 600.0f);
+        pos.y = (Rand_ZeroOne() - 0.5f) * 10.0f + (this->actor.world.pos.y + this->scale * 600.0f);
         pos.z = (Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.world.pos.z;
         EffectSsKiraKira_SpawnDispersed(play, &pos, &velocity, &accel, &primColor, &envColor, scale, life);
     }
@@ -238,19 +238,19 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, PlayState* play) {
 
 void EnExRuppy_EnterWater(EnExRuppy* this, PlayState* play) {
     EnDivingGame* divingGame = (EnDivingGame*)this->actor.parent;
-    f32 temp_f2;
+    f32 distance;
 
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_2A2 == 2)) {
         this->invisible = false;
         this->actor.world.pos.x = ((Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
         this->actor.world.pos.y = ((Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
-        temp_f2 = this->unk_15A * -50.0f;
+        distance = this->rotation * -50.0f;
         if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
-            temp_f2 += -500.0f;
-            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + temp_f2;
+            distance += -500.0f;
+            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + distance;
         } else {
-            temp_f2 += -300.0f;
-            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 60.0f) + temp_f2;
+            distance += -300.0f;
+            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 60.0f) + distance;
         }
         this->actionFunc = EnExRuppy_Sink;
         this->actor.gravity = -1.0f;
@@ -282,7 +282,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, PlayState* play) {
     EnDivingGame* divingGame;
     Vec3f D_80A0B388 = { 0.0f, 0.1f, 0.0f };
     Vec3f D_80A0B394 = { 0.0f, 0.0f, 0.0f };
-    f32 localConst = 30.0f;
+    f32 collectRadius = 30.0f;
 
     if (this->timer == 0) {
         this->timer = 10;
@@ -295,7 +295,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, PlayState* play) {
                 this->timer = 20;
                 this->actionFunc = EnExRuppy_Kill;
                 if (1) {}
-            } else if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
+            } else if (this->actor.xyzDistToPlayerSq < SQ(collectRadius)) {
                 Rupees_ChangeBy(this->rupeeValue);
                 Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
                 divingGame->grabbedRupeesCounter++;
@@ -315,11 +315,13 @@ void EnExRuppy_Kill(EnExRuppy* this, PlayState* play) {
     }
 }
 
+// This type is for the Castle Courtyard guards. Exploding rupees were cut from the release of the game, but
+// supposedly, if Link got near one, it would explode and alert the guards.
 typedef struct EnExRuppyParentActor {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ char unk_14C[0x11A];
-    /* 0x226 */ s16 unk_226;
-} EnExRuppyParentActor; // Unclear what actor was intended to spawn this.
+    /* 0x14C */ char pad[0x11A];
+    /* 0x266 */ s16 linkDetected;
+} EnExRuppyParentActor;
 
 void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
     EnExRuppyParentActor* parent;
@@ -330,14 +332,14 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
     s16 explosionScaleStep;
     s32 pad;
 
-    if (this->type == 2) {
+    if (this->type == ENEXRUPPY_TYPE_BOMB_SMALL) {
         distToBlowUp = 30.0f;
     }
     if (this->actor.xyzDistToPlayerSq < SQ(distToBlowUp)) {
         parent = (EnExRuppyParentActor*)this->actor.parent;
         if (parent != NULL) {
             if (parent->actor.update != NULL) {
-                parent->unk_226 = 1;
+                parent->linkDetected = true;
             }
         } else {
             PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n",
@@ -346,7 +348,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
         PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Stupid! ☆☆☆☆☆ \n") VT_RST);
         explosionScale = 100;
         explosionScaleStep = 30;
-        if (this->type == 2) {
+        if (this->type == ENEXRUPPY_TYPE_BOMB_SMALL) {
             explosionScale = 20;
             explosionScaleStep = 6;
         }
@@ -358,9 +360,9 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
 }
 
 void EnExRuppy_WaitAsCollectible(EnExRuppy* this, PlayState* play) {
-    f32 localConst = 30.0f;
+    f32 collectRadius = 30.0f;
 
-    if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
+    if (this->actor.xyzDistToPlayerSq < SQ(collectRadius)) {
         Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
         Item_DropCollectible(play, &this->actor.world.pos, (sEnExRuppyCollectibleTypes[this->colorIdx] | 0x8000));
         Actor_Kill(&this->actor);

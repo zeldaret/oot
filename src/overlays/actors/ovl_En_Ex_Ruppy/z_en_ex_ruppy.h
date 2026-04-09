@@ -16,9 +16,17 @@ typedef struct EnExRuppy {
     /* 0x0154 */ s16 invisible;
     /* 0x0156 */ s16 timer;
     /* 0x0158 */ s16 rupeeValue;
-    /* 0x015A */ s16 unk_15A;
+    /* 0x015A */ s16 rotation;
     /* 0x015C */ s16 galleryFlag;
-    /* 0x0160 */ f32 unk_160;
+    /* 0x0160 */ f32 scale;
 } EnExRuppy; // size = 0x0164
+
+typedef enum EnExRuppyType {
+    /* 0 */ ENEXRUPPY_TYPE_DIVING_GAME,
+    /* 1 */ ENEXRUPPY_TYPE_BOMB_LARGE,
+    /* 2 */ ENEXRUPPY_TYPE_BOMB_SMALL,
+    /* 3 */ ENEXRUPPY_TYPE_HYRULE_COURTYARD,
+    /* 4 */ ENEXRUPPY_TYPE_SHOOTING_GALLERY_PROGRESS,
+} EnExRuppyType;
 
 #endif
