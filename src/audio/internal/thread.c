@@ -888,6 +888,9 @@ s32 func_800E6590(s32 seqPlayerIndex, s32 channelIndex, s32 layerIndex) {
     return 0;
 }
 
+/**
+ * original name possibly "Nap_SilenceCheck"
+ */
 s32 func_800E6680(void) {
     return func_800E66C0(0);
 }
