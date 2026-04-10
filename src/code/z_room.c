@@ -434,6 +434,13 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
             POLY_OPA_DISP = gfx;
 
             gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
+            //! @bug Fog factors are not restored. Fog factors are configured once at the start of the frame (cf.
+            //!      calls to Play_SetFog towards the top of Play_Draw) and are generally not reconfigured for the
+            //!      remainder of the frame. Loading S2DEX2 re-uses the space in DMEM where F3DZEX2 saves the fog
+            //!      factors, so when switching back from S2DEX2 the fog factors are considered undefined and must
+            //!      be re-sent, which does not happen. Note that fog factors are not alone in becoming undefined
+            //!      after a ucode switch, however most other rendering state is set shortly before use so typically
+            //!      does not manifest as a bug.
         }
     }
 
@@ -543,6 +550,8 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
             POLY_OPA_DISP = gfx;
 
             gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
+            //! @bug Fog factors are not restored. See related bug comment in Room_DrawImageSingle.
+            //! @see Room_DrawImageSingle
         }
     }
 

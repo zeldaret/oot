@@ -96,8 +96,12 @@ f64_to_f80(double f64, uint8_t *f80)
     } f80tmp;
 
     // get f64 bits
-
-    uint64_t f64_bits = *(uint64_t *)&f64;
+    union {
+        double f;
+        uint64_t u;
+    } tp;
+    tp.f = f64;
+    uint64_t f64_bits = tp.u;
 
     int f64_sgn = F64_GET_SGN(f64_bits);
     int f64_exponent = F64_GET_EXP(f64_bits);
@@ -155,8 +159,12 @@ f80_to_f64(double *f64, uint8_t *f80)
                         ((uint64_t)f64_mantissa_hi << 32) | ((uint64_t)f64_mantissa_lo);
 
     // write double
-
-    *f64 = *(double *)&f64_bits;
+    union {
+        double f;
+        uint64_t u;
+    } tp;
+    tp.u = f64_bits;
+    *f64 = tp.f;
 }
 
 static void

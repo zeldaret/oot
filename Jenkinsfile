@@ -127,6 +127,20 @@ pipeline {
                 }
             }
         }
+        stage('Build gc-eu-dbg-2') {
+            steps {
+                script {
+                    build('gc-eu-dbg-2', 'oot-gc-eu-dbg-proto.z64')
+                }
+            }
+        }
+        stage('Build gc-eu-dbg') {
+            steps {
+                script {
+                    build('gc-eu-dbg', 'oot-gc-eu-dbg.z64')
+                }
+            }
+        }
         stage('Generate patch') {
             when {
                 not {
