@@ -329,6 +329,10 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
         distToBlowUp = 30.0f;
     }
     if (this->actor.xyzDistToPlayerSq < SQ(distToBlowUp)) {
+        // It is only a supposition that `EnHeishi1` is the parent actor type, as the `ENEXRUPPY_TYPE_BOMB_*` types are
+        // unused. This supposition is based on:
+        // 1. `EnHeishi1` does spawn `EnExRuppy` (with `ENEXRUPPY_TYPE_HYRULE_COURTYARD`), and
+        // 2. the `linkDetected` field lines up and setting it to true on explosion makes sense.
         parent = (EnHeishi1*)this->actor.parent;
         if (parent != NULL) {
             if (parent->actor.update != NULL) {
