@@ -125,7 +125,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             break;
 
         case ENEXRUPPY_TYPE_BOMB_LARGE:
-        case ENEXRUPPY_TYPE_BOMB_SMALL: // Giant pink ruppe that explodes when you touch it
+        case ENEXRUPPY_TYPE_BOMB_SMALL:
             if (this->type == ENEXRUPPY_TYPE_BOMB_LARGE) {
                 Actor_SetScale(&this->actor, 0.1f);
                 this->colorIdx = 4;
@@ -141,7 +141,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
 
-        case ENEXRUPPY_TYPE_HYRULE_COURTYARD: // Spawned by the guard in Hyrule courtyard
+        case ENEXRUPPY_TYPE_HYRULE_COURTYARD:
             Actor_SetScale(&this->actor, 0.02f);
             this->colorIdx = 0;
             switch ((s16)Rand_ZeroFloat(30.99f)) {
@@ -162,7 +162,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
-        case ENEXRUPPY_TYPE_SHOOTING_GALLERY_PROGRESS: // Progress markers in the shooting gallery
+        case ENEXRUPPY_TYPE_SHOOTING_GALLERY_PROGRESS:
             this->actor.gravity = -3.0f;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             Actor_SetScale(&this->actor, 0.01f);
