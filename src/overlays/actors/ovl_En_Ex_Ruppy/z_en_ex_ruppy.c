@@ -1,5 +1,6 @@
 #include "z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
+#include "overlays/actors/ovl_En_Heishi1/z_en_heishi1.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"
@@ -315,16 +316,8 @@ void EnExRuppy_Kill(EnExRuppy* this, PlayState* play) {
     }
 }
 
-// This type is for the Castle Courtyard guards. Exploding rupees were cut from the release of the game, but
-// supposedly, if Link got near one, it would explode and alert the guards.
-typedef struct EnExRuppyParentActor {
-    /* 0x000 */ Actor actor;
-    /* 0x14C */ char pad[0x11A];
-    /* 0x266 */ s16 linkDetected;
-} EnExRuppyParentActor;
-
 void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
-    EnExRuppyParentActor* parent;
+    EnHeishi1* parent;
     Vec3f accel = { 0.0f, 0.1f, 0.0f };
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     f32 distToBlowUp = 50.0f;
@@ -336,7 +329,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
         distToBlowUp = 30.0f;
     }
     if (this->actor.xyzDistToPlayerSq < SQ(distToBlowUp)) {
-        parent = (EnExRuppyParentActor*)this->actor.parent;
+        parent = (EnHeishi1*)this->actor.parent;
         if (parent != NULL) {
             if (parent->actor.update != NULL) {
                 parent->linkDetected = true;
