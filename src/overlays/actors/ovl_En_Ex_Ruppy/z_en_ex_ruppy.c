@@ -117,7 +117,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
 
             this->actor.shape.shadowScale = 7.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->rotation = this->actor.world.rot.z;
+            this->throwDistance = this->actor.world.rot.z;
             this->actor.world.rot.z = 0;
             this->timer = 30;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
@@ -238,19 +238,19 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, PlayState* play) {
 
 void EnExRuppy_EnterWater(EnExRuppy* this, PlayState* play) {
     EnDivingGame* divingGame = (EnDivingGame*)this->actor.parent;
-    f32 distance;
+    f32 throwDistance;
 
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_2A2 == 2)) {
         this->invisible = false;
         this->actor.world.pos.x = ((Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
         this->actor.world.pos.y = ((Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
-        distance = this->rotation * -50.0f;
+        throwDistance = this->throwDistance * -50.0f;
         if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
-            distance += -500.0f;
-            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + distance;
+            throwDistance += -500.0f;
+            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + throwDistance;
         } else {
-            distance += -300.0f;
-            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 60.0f) + distance;
+            throwDistance += -300.0f;
+            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 60.0f) + throwDistance;
         }
         this->actionFunc = EnExRuppy_Sink;
         this->actor.gravity = -1.0f;

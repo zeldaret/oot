@@ -16,7 +16,7 @@ typedef struct EnExRuppy {
     /* 0x0154 */ s16 invisible;
     /* 0x0156 */ s16 timer;
     /* 0x0158 */ s16 rupeeValue;
-    /* 0x015A */ s16 rotation;
+    /* 0x015A */ s16 throwDistance;
     /* 0x015C */ s16 galleryFlag;
     /* 0x0160 */ f32 scale;
 } EnExRuppy; // size = 0x0164
