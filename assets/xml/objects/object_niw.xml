@@ -4,21 +4,21 @@
         <Skeleton Name="gCuccoSkel" Type="Flex" LimbType="Standard" Offset="0x2530"/>
 
         <!-- Cucco Limbs -->
-        <Limb Name="gCuccoRootLimb" LimbType="Standard" Offset="0x2440"/>
-        <Limb Name="gCuccoLimb_244C" LimbType="Standard" Offset="0x244C"/>
-        <Limb Name="gCuccoLimb_2458" LimbType="Standard" Offset="0x2458"/>
-        <Limb Name="gCuccoTailAndUndersideLimb" LimbType="Standard" Offset="0x2464"/>
-        <Limb Name="gCuccoLeftFootRootLimb" LimbType="Standard" Offset="0x2470"/>
-        <Limb Name="gCuccoLeftFootLimb" LimbType="Standard" Offset="0x247C"/>
-        <Limb Name="gCuccoLeftWingRootLimb" LimbType="Standard" Offset="0x2488"/>
-        <Limb Name="gCuccoLeftWingLimb" LimbType="Standard" Offset="0x2494"/>
-        <Limb Name="gCuccoRightFootRootLimb" LimbType="Standard" Offset="0x24A0"/>
-        <Limb Name="gCuccoRightFootLimb" LimbType="Standard" Offset="0x24AC"/>
-        <Limb Name="gCuccoRightWingRootLimb" LimbType="Standard" Offset="0x24B8"/>
-        <Limb Name="gCuccoRightWingLimb" LimbType="Standard" Offset="0x24C4"/>
-        <Limb Name="gCuccoUpperBodyRootLimb" LimbType="Standard" Offset="0x24D0"/>
-        <Limb Name="gCuccoNeckLimb" LimbType="Standard" Offset="0x24DC"/>
-        <Limb Name="gCuccoHeadLimb" LimbType="Standard" Offset="0x24E8"/>
+        <Limb Name="gCuccoRootLimb" LimbType="Standard" EnumName="CUCCO_LIMB_ROOT" Offset="0x2440"/>
+        <Limb Name="gCuccoLimb_244C" LimbType="Standard" EnumName="CUCCO_LIMB_00244C" Offset="0x244C"/>
+        <Limb Name="gCuccoLimb_2458" LimbType="Standard" EnumName="CUCCO_LIMB_002458" Offset="0x2458"/>
+        <Limb Name="gCuccoTailAndUndersideLimb" LimbType="Standard" EnumName="CUCCO_LIMB_TAIL_AND_UNDERSIDE" Offset="0x2464"/>
+        <Limb Name="gCuccoLeftFootRootLimb" LimbType="Standard" EnumName="CUCCO_LIMB_LEFT_FOOT_ROOT" Offset="0x2470"/>
+        <Limb Name="gCuccoLeftFootLimb" LimbType="Standard" EnumName="CUCCO_LIMB_LEFT_FOOT" Offset="0x247C"/>
+        <Limb Name="gCuccoLeftWingRootLimb" LimbType="Standard" EnumName="CUCCO_LIMB_LEFT_WING_ROOT" Offset="0x2488"/>
+        <Limb Name="gCuccoLeftWingLimb" LimbType="Standard" EnumName="CUCCO_LIMB_LEFT_WING" Offset="0x2494"/>
+        <Limb Name="gCuccoRightFootRootLimb" LimbType="Standard" EnumName="CUCCO_LIMB_RIGHT_FOOT_ROOT" Offset="0x24A0"/>
+        <Limb Name="gCuccoRightFootLimb" LimbType="Standard" EnumName="CUCCO_LIMB_RIGHT_FOOT" Offset="0x24AC"/>
+        <Limb Name="gCuccoRightWingRootLimb" LimbType="Standard" EnumName="CUCCO_LIMB_RIGHT_WING_ROOT" Offset="0x24B8"/>
+        <Limb Name="gCuccoRightWingLimb" LimbType="Standard" EnumName="CUCCO_LIMB_RIGHT_WING" Offset="0x24C4"/>
+        <Limb Name="gCuccoUpperBodyRootLimb" LimbType="Standard" EnumName="CUCCO_LIMB_UPPER_BODY_ROOT" Offset="0x24D0"/>
+        <Limb Name="gCuccoNeckLimb" LimbType="Standard" EnumName="CUCCO_LIMB_NECK" Offset="0x24DC"/>
+        <Limb Name="gCuccoHeadLimb" LimbType="Standard" EnumName="CUCCO_LIMB_HEAD" Offset="0x24E8"/>
 
         <!-- Cucco Limb Vertices -->
         <Array Name="gCuccoHeadVtx" Count="62" Offset="0x100">
