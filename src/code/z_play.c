@@ -235,8 +235,6 @@ void Play_Destroy(GameState* thisx) {
     PlayState* this = (PlayState*)thisx;
     Player* player = GET_PLAYER(this);
 
-    if (1) {}
-
     this->state.gfxCtx->callback = NULL;
     this->state.gfxCtx->callbackParam = NULL;
 
