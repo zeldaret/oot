@@ -30,7 +30,6 @@ typedef struct ScaleRotPos {
 } ScaleRotPos; // size = 0x20
 
 // Macros for `CollisionPoly`
-
 #define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
 #define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
 #define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
@@ -39,14 +38,14 @@ typedef struct ScaleRotPos {
 #define COLPOLY_VTX_INDEX(vI) ((vI) & 0x1FFF)
 #define COLPOLY_VTX(vtxId, flags) ((((flags) & 7) << 13) | ((vtxId) & 0x1FFF))
 
-// flags for flags_vIA
+// flags for variable flags_vIA
 // poly exclusion flags (xpFlags)
 #define COLPOLY_IGNORE_NONE 0
 #define COLPOLY_IGNORE_CAMERA (1 << 0)
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
-// flags for flags_vIB
+// flags for variable flags_vIB
 #define COLPOLY_IS_FLOOR_CONVEYOR (1 << 0)
 
 typedef struct CollisionPoly {
@@ -87,23 +86,23 @@ typedef struct BgCamFuncData {
 } BgCamFuncData; // size = 0x12
 
 // Macros for `WaterBox.properties`
-
-#define WATERBOX_LIGHT_INDEX_NONE 0x1F // warns and defaults to 0
-
-#define WATERBOX_ROOM(properties) (((properties) >> 13) & 0x3F)
-#define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
-
-#define WATERBOX_FLAG_19 (1 << 19)
-
-#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19) \
+#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, roomIndex, isDisabled) \
     ((((bgCamIndex) & 0xFF) <<  0) | \
      (((lightIndex) & 0x1F) <<  8) | \
-     (((room)       & 0x3F) << 13) | \
-     (((setFlag19)  &    1) << 19))
+     (((roomIndex)  & 0x3F) << 13) | \
+     (((isDisabled) &    1) << 19))
+
+#define WATERBOX_LIGHT_INDEX_NONE 0x1F // Generates warning when built for debug and defaults to 0
+#define WATERBOX_ROOM(properties) (((properties) >> 13) & 0x3F) // retrieves the room the waterbox is active in
+#define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
+
+/* The true purpose of the flag is unknown. The state is never enabled on any waterbox, and functions that
+ * pass on flag enabled are never called, so there is no direct usecase context. */
+#define WATERBOX_IS_DISABLED (1 << 19) // Disables waterbox collision
 
 typedef struct WaterBox {
     /* 0x00 */ s16 xMin;
-    /* 0x02 */ s16 ySurface;
+    /* 0x02 */ s16 ySurface; // Water is effectively infinitely deep.
     /* 0x04 */ s16 zMin;
     /* 0x06 */ s16 xLength;
     /* 0x08 */ s16 zLength;
@@ -458,11 +457,11 @@ s32 SurfaceType_IsFloorConveyor(CollisionContext* colCtx, CollisionPoly* poly, s
 u32 SurfaceType_GetConveyorSpeed(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetConveyorDirection(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80042108(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s32 WaterBox_GetSurface1(struct PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
+s32 BgCheck_GetWaterSurfaceAllHack(struct PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* y,
+                                   WaterBox** outWaterBox);
+s32 BgCheck_FindWaterBox(struct PlayState* play, CollisionContext* colCtx, Vec3f* pos, f32 surfaceChkDist,
                          WaterBox** outWaterBox);
-s32 WaterBox_GetSurface2(struct PlayState* play, CollisionContext* colCtx, Vec3f* pos, f32 surfaceChkDist,
-                         WaterBox** outWaterBox);
-s32 WaterBox_GetSurfaceImpl(struct PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
+s32 BgCheck_GetWaterSurface(struct PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* outWaterSurface,
                             WaterBox** outWaterBox);
 u32 WaterBox_GetBgCamIndex(CollisionContext* colCtx, WaterBox* waterBox);
 u16 WaterBox_GetBgCamSetting(CollisionContext* colCtx, WaterBox* waterBox);

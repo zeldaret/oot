@@ -148,8 +148,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
         }
         thisx->floorHeight =
             BgCheck_EntityRaycastDown4(&play->colCtx, &thisx->floorPoly, &floorBgId, thisx, &thisx->world.pos);
-        //! @bug calls WaterBox_GetSurfaceImpl directly
-        if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, thisx->world.pos.x, thisx->world.pos.z, &ySurface,
+        if (!BgCheck_GetWaterSurface(play, &play->colCtx, thisx->world.pos.x, thisx->world.pos.z, &ySurface,
                                      &outWaterBox) ||
             (ySurface <= thisx->floorHeight)) {
             Actor_Kill(thisx);
@@ -595,7 +594,7 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
     if (!(player->stateFlags1 & (PLAYER_STATE1_TALKING | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, play);
-            if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
+            if (!BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
                                          &ySurface, &outWaterBox) ||
                 (ySurface < this->actor.floorHeight)) {
                 if (this->actor.colChkInfo.health != 0) {
