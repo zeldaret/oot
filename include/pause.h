@@ -54,7 +54,7 @@ typedef enum PauseMenuPage {
 #define PAUSE_EQUIP_PLAYER_FRAG_NUM (((PAUSE_EQUIP_PLAYER_HEIGHT - 1) / PAUSE_EQUIP_PLAYER_FRAG_HEIGHT) + 1)
 
 // The pause player segment consists of:
-//  PAUSE_PLAYER_SEGMENT_RENDER_TEX_SIZE            RGBA16 texture / framebuffer for rendering the player into
+//  PAUSE_PLAYER_SEGMENT_RENDER_TEXTURE_SIZE        RGBA16 texture / framebuffer for rendering the player into
 //  PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE  First bytes of gameplay_keep for accessing player-related data
 //  sizeof(link object)                             Link object
 //  sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]))           Joint table
