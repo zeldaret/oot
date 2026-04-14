@@ -493,10 +493,9 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
             rtile = rtile; // Fake match?
 
             // Load the coverage line
-            gDPLoadMultiTile(gfx++, this->cvgSave, (TMEM_SIZE - SCREEN_WIDTH * FB_ROWS) / 8,
-                             rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls, ult, lrs, lrt, 0,
-                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                             G_TX_NOLOD);
+            gDPLoadMultiTile(gfx++, this->cvgSave, (TMEM_SIZE - SCREEN_WIDTH * FB_ROWS) / 8, rtile, G_IM_FMT_I,
+                             G_IM_SIZ_8b, this->width, this->height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             rtile = rtile; // Fake match?
 
