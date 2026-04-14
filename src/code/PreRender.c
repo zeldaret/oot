@@ -462,11 +462,12 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
         // Set up the color combiner: first cycle: TEXEL0, TEXEL1 + ENVIRONMENT; second cycle: G_CC_PASS2
         gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 1, 0, TEXEL1, ENVIRONMENT, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
-        // 0xB00 bytes of TMEM are reserved for framebuffer data (TEXEL0, RGBA16)
-        // The remaining 0x500 of TMEM is for coverage data (TEXEL1, I8)
+        // The first 0xA00 bytes of TMEM are reserved for framebuffer data (TEXEL0, RGBA16)
+        // The last 0x500 bytes of the remaining 0x600 bytes of TMEM is for coverage data (TEXEL1, I8)
         // In total it needs to simultaneously fit
         // SCREEN_WIDTH * (RGBA16 pixel + I8 pixel) = SCREEN_WIDTH * (2 bytes + 1 byte)
-        nRows = TMEM_SIZE / (3 * SCREEN_WIDTH);
+#define FB_ROWS (TMEM_SIZE / (3 * SCREEN_WIDTH))
+        nRows = FB_ROWS;
 
         rowsRemaining = this->height;
         curRow = 0;
@@ -492,7 +493,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
             rtile = rtile; // Fake match?
 
             // Load the coverage line
-            gDPLoadMultiTile(gfx++, this->cvgSave, (TMEM_SIZE - (SCREEN_WIDTH * (TMEM_SIZE / (3 * SCREEN_WIDTH)))) / 8,
+            gDPLoadMultiTile(gfx++, this->cvgSave, (TMEM_SIZE - SCREEN_WIDTH * FB_ROWS) / 8,
                              rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls, ult, lrs, lrt, 0,
                              G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                              G_TX_NOLOD);
@@ -507,6 +508,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
             curRow += nRows;
             rowsRemaining -= nRows;
         }
+#undef FB_ROWS
 
         gDPPipeSync(gfx++);
         *gfxP = gfx;
