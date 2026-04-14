@@ -697,7 +697,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 #endif
     }
 
-    gSPSegment(POLY_OPA_DISP++, 0x07, PAUSE_PLAYER_SEGMENT_TEXTURE(pauseCtx->playerSegment));
+    gSPSegment(POLY_OPA_DISP++, 0x07, PAUSE_PLAYER_SEGMENT_RENDER_TEXTURE(pauseCtx->playerSegment));
     gSPSegment(POLY_OPA_DISP++, 0x08, pauseCtx->iconItemSegment);
     gSPSegment(POLY_OPA_DISP++, 0x09, pauseCtx->iconItem24Segment);
     gSPSegment(POLY_OPA_DISP++, 0x0A, pauseCtx->nameSegment);
@@ -707,7 +707,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     // Draw player prerender onto the equip page
 
     Gfx_SetupDL_42Opa(play->state.gfxCtx);
-    KaleidoScope_DrawEquipmentImage(play, PAUSE_PLAYER_SEGMENT_TEXTURE(pauseCtx->playerSegment),
+    KaleidoScope_DrawEquipmentImage(play, PAUSE_PLAYER_SEGMENT_RENDER_TEXTURE(pauseCtx->playerSegment),
                                     PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_equipment.c", 609);
