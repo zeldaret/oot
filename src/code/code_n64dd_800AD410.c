@@ -5,9 +5,9 @@
 
 u8 D_80121210;
 u8 D_80121211;
-u8 D_80121212;
+u8 n64dd_isDiskContentRunning;
 vu8 D_80121213;
-vu8 D_80121214;
+vu8 isSoundStopped;
 
 void func_800AD410(void) {
     if (!D_80121210) {
@@ -21,7 +21,7 @@ void func_800AD410(void) {
 }
 
 void func_800AD488(void) {
-    if (D_80121210 && (D_80121212 == 0)) {
+    if (D_80121210 && (n64dd_isDiskContentRunning == 0)) {
         D_80121210 = false;
     }
 }

@@ -83,18 +83,18 @@ typedef struct n64dd_driveCmdQueue {
 } n64dd_driveCmdQueue; // size = 0x70
 
 typedef struct n64dd_drivePacketData {
-    /* 0x00 */ u8 unk_00; // command enum
+    /* 0x00 */ u8 cmdType; // command enum
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ u8 unk_08;
-    /* 0x0C */ void (*unk_0C)(void*, void*, void*);
+    /* 0x0C */ void (*pPrintText)(void*, void*, void*);
     /* 0x10 */ s32 unk_10;
-    /* 0x14 */ void (*unk_14)(void*, uintptr_t, size_t);
-    /* 0x18 */ void* unk_18;
-    /* 0x1C */ void* unk_1C; // either OSMesgQueue* (command 0) or integer LBA (commands 2 and 3)
-    /* 0x20 */ void* unk_20; // either OSMesgQueue* (command 0) or integer byte size (commands 3 and 4)
-    /* 0x24 */ OSId unk_24;
-    /* 0x28 */ void* unk_28;
-    /* 0x2C */ OSPri unk_2C;
+    /* 0x14 */ void (*pDmaMgr)(void*, uintptr_t, size_t);
+    /* 0x18 */ void* pReadBuf;
+    /* 0x1C */ void* pCmdParam1; // either OSMesgQueue* (command 0) or integer LBA (commands 2 and 3)
+    /* 0x20 */ void* pCmdParam2; // either OSMesgQueue* (command 0) or integer byte size (commands 3 and 4)
+    /* 0x24 */ OSId threadId;
+    /* 0x28 */ void* pStackCommThread;
+    /* 0x2C */ OSPri threadPriority;
 } n64dd_drivePacketData; // size = 0x30
 
 void func_800AD410(void);
@@ -107,15 +107,15 @@ void func_800AD598(s32 arg0, s32 arg1, s32 arg2);
 
 u32 n64dd_isDrivePresent(void);
 void n64dd_gfxHook(Gfx** gfxP);
-s32 func_801C70FC(void);
+s32 n64dd_isDiskCorrect(void);
 void func_801C7268(void);
-s32 func_801C7658(void);
+s32 n64dd_setupTransferThread(void);
 s32 func_801C7818(void);
 void func_801C7C1C(void* dest, s32 offset, s32 size);
 void func_801C7E78(void);
 void n64dd_SetDiskVersion(s32 arg0);
 
-s32 func_801C8000(n64dd_drivePacketData* arg0);
+s32 n64dd_parsePacketData(n64dd_drivePacketData* arg0);
 s32 func_801C81C4(void);
 void func_801C81EC(n64dd_driveCmdQueue* arg0);
 void func_801C8298(n64dd_driveCmdQueue* arg0);
@@ -149,9 +149,9 @@ extern n64ddStruct_80121220* B_80121220;
 
 extern u8 D_80121210;
 extern u8 D_80121211;
-extern u8 D_80121212;
+extern u8 n64dd_isDiskContentRunning;
 extern vu8 D_80121213;
-extern vu8 D_80121214;
+extern vu8 isSoundStopped;
 
 extern s32 (*pCheckIfDiskIsValid)(n64dd_driveCmdQueue*);
 

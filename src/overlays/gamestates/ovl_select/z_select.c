@@ -66,13 +66,13 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
 
 #if PLATFORM_N64
 void func_80800AD0_unknown(MapSelectState* this, s32 arg1) {
-    if (D_80121212 != 0) {
+    if (n64dd_isDiskContentRunning != 0) {
         n64dd_SetDiskVersion(1);
     }
 }
 
 void func_80800B08_unknown(MapSelectState* this, s32 arg1) {
-    if (D_80121212 != 0) {
+    if (n64dd_isDiskContentRunning != 0) {
         n64dd_SetDiskVersion(0);
     }
 }
