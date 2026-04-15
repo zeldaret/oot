@@ -18,49 +18,54 @@
 
 #pragma increment_block_number "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
-typedef struct struct_801D9C30 {
-    /* 0x000 */ s32 unk_000;       // disk start
-    /* 0x004 */ s32 unk_004;       // disk end
-    /* 0x008 */ uintptr_t unk_008; // ram start
-    /* 0x00C */ uintptr_t unk_00C; // ram end
-    /* 0x010 */ UNK_PTR unk_010;
-    /* 0x014 */ char unk_014[0x104];
-} struct_801D9C30; // size = 0x118
+typedef struct n64dd_CopyToRAM {
+    /* 0x000 */ s32 diskStart;       // disk start
+    /* 0x004 */ s32 diskEnd;       // disk end
+    /* 0x008 */ uintptr_t ramStart; // ram start
+    /* 0x00C */ uintptr_t ramEnd; // ram end
+    /* 0x010 */ UNK_PTR unk_010; // s32?
+    /* 0x014 */ char padding[0x104];
+} n64dd_CopyToRAM; // size = 0x118
 
-typedef struct struct_801D9B90 {
-    /* 0x00 */ OSMesg unk_00[30];
-    /* 0x78 */ OSMesgQueue unk_78;
-    /* 0x90 */ IrqMgrClient unk_90;
-    /* 0x98 */ IrqMgr* unk_98;
-} struct_801D9B90; // size = 0x9C
+typedef struct n64dd_QueuedTransfersList { // This basically has a list of queued disk read commands 
+                                           // ready to be passed to an OSMesgQueue
+    /* 0x00 */ OSMesg messages[30];
+    /* 0x78 */ OSMesgQueue msgQueue;
+    /* 0x90 */ IrqMgrClient IRQMgrC;
+    /* 0x98 */ IrqMgr* pIRQMgr;
+} n64dd_QueuedTransfersList; // size = 0x9C
 
-s32 func_801C7A1C(struct_801E0D18* arg0);
+s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* arg0);
 
-void* D_801D2E50 = &gN64DDDiskReadTemporaryBuffer;
-s32 (*D_801D2E54)(struct_801E0D18*) = func_801C7A1C;
+void* pTmpReadBuf = &gN64DDDiskReadTemporaryBuffer;
+s32 (*pCheckIfDiskIsValid)(n64dd_driveCmdQueue*) = n64dd_CheckIfDiskIsValid;
 
-struct_801D9B90 B_801D9B90;
-struct_801D9C30 B_801D9C30;
-struct_801D9C30* B_801D9D48;
-struct_801D9D50 B_801D9D50;
-OSMesgQueue B_801D9D80;
-OSMesgQueue B_801D9D98;
-OSMesg B_801D9DB0[1];
-OSMesg B_801D9DB4[1];
-volatile u8 B_801D9DB8;
-volatile OSTime B_801D9DC0;
-s32 B_801D9DC8; // 1 if disk gameName is correct, 2 otherwise
-void* B_801D9DCC;
-void* B_801D9DD0;
-void* B_801D9DD4;
-OSThread B_801D9DD8;
-STACK(B_801D9F88, 0x1000);
-StackEntry B_801DAF88;
-STACK(B_801DAFA8, 0x1000);
-StackEntry B_801DBFA8;
+n64dd_QueuedTransfersList queuedDDTransfers;
+n64dd_CopyToRAM DDLoad0;
+n64dd_CopyToRAM* pDDLoad0;
+n64dd_drivePacketData drivePacketData;
+OSMesgQueue msgQueue0;
+OSMesgQueue msgQueue1;
+OSMesg queuedMessages0[1];
+OSMesg queuedMessages1[1];
+volatile u8 isNewFBAvailable; // bool?
+volatile OSTime currentTime;
+s32 isGameDiskCorrect; // 1 if disk gameName is correct, 2 otherwise
+void* pUnkTxt0; // pointers to some text 
+void* pUnkTxt1;
+void* pUnkTxt2;
+OSThread diskReadThread;
+STACK(pStackTransfTrhead, 0x1000); // stack pointer of the transfer thread
+StackEntry transfStackEntry;
+STACK(pStackDDCommThread, 0x1000); // stack pointer of the communication thread (to send commands to the drive)
+StackEntry commStackEntry;
 UNK_TYPE B_801DBFC4; // unused?
 
-u32 func_801C6E80(void) {
+/**
+ * Checks if the DD is present.
+ * @returns Disk drive status
+*/
+u32 n64dd_isDrivePresent(void) {
 #if OOT_NTSC
     return LeoDriveExist();
 #else
@@ -68,7 +73,7 @@ u32 func_801C6E80(void) {
 #endif
 }
 
-void func_801C6EA0(Gfx** gfxP) {
+void n64dd_gfxHook(Gfx** gfxP) { // see game.c
 }
 
 void func_801C6EAC(void) {
@@ -129,8 +134,8 @@ void func_801C7018(void) {
 }
 
 s32 func_801C7064(void) {
-    B_801D9D50.unk_00 = 5;
-    return (&func_801C8000)(&B_801D9D50);
+    drivePacketData.messages = 5;
+    return (&func_801C8000)(&drivePacketData);
 }
 
 s32 func_801C7098(void) {
@@ -140,8 +145,8 @@ s32 func_801C7098(void) {
     if (0) {}
 #endif
 
-    B_801D9D50.unk_00 = 10;
-    phi_v1 = (&func_801C8000)(&B_801D9D50);
+    drivePacketData.messages = 10;
+    phi_v1 = (&func_801C8000)(&drivePacketData);
     if (phi_v1 < 0) {
         Freeze_CurrentThread();
     }
@@ -149,7 +154,7 @@ s32 func_801C7098(void) {
 }
 
 s32 func_801C70E4(void) {
-    return B_801D9DC8 == 1;
+    return isGameDiskCorrect == 1;
 }
 
 // Used by EnMag and FileChoose
@@ -159,24 +164,24 @@ s32 func_801C70FC(void) {
 
 void func_801C711C(void* arg) {
     static void* B_801DBFC8;
-    struct_801D9B90* arg0 = (struct_801D9B90*)arg;
+    n64dd_QueuedTransfersList* arg0 = (n64dd_QueuedTransfersList*)arg;
     s16* sp58;
     s32 var_s0;
     void* temp_v0;
 
     sp58 = NULL;
-    arg0->unk_98 = &gIrqMgr;
-    osCreateMesgQueue(&arg0->unk_78, arg0->unk_00, ARRAY_COUNT(arg0->unk_00));
-    IrqMgr_AddClient(arg0->unk_98, &arg0->unk_90, &arg0->unk_78);
+    arg0->pIRQMgr = &gIrqMgr;
+    osCreateMesgQueue(&arg0->msgQueue, arg0->messages, ARRAY_COUNT(arg0->messages));
+    IrqMgr_AddClient(arg0->pIRQMgr, &arg0->IRQMgrC, &arg0->msgQueue);
     var_s0 = 0;
     do {
-        osRecvMesg(&arg0->unk_78, (OSMesg*)&sp58, OS_MESG_BLOCK);
+        osRecvMesg(&arg0->msgQueue, (OSMesg*)&sp58, OS_MESG_BLOCK);
         switch (*sp58) {
             case 1:
                 temp_v0 = osViGetNextFramebuffer();
                 if (B_801DBFC8 != temp_v0) {
                     B_801DBFC8 = temp_v0;
-                    B_801D9DB8 = 1;
+                    isNewFBAvailable = 1;
                 }
                 func_801C8AA8();
                 break;
@@ -188,15 +193,15 @@ void func_801C711C(void* arg) {
                 break;
         }
     } while (var_s0 == 0);
-    IrqMgr_RemoveClient(arg0->unk_98, &arg0->unk_90);
+    IrqMgr_RemoveClient(arg0->pIRQMgr, &arg0->IRQMgrC);
 }
 
 #if OOT_VERSION >= NTSC_1_1
 void func_801C7B28_ne2(void) {
     s32 temp;
 
-    if (B_801D9DC0 != 0) {
-        temp = (osGetTime() - B_801D9DC0) * 64 / 3000;
+    if (currentTime != 0) {
+        temp = (osGetTime() - currentTime) * 64 / 3000;
         if (1000000 - temp > 0) {
             Sleep_Usec(1000000 - temp);
         }
@@ -213,21 +218,21 @@ void func_801C7268(void) {
     if (sp20 == 0) {
         func_801C6F30();
     }
-    B_801D9DB8 = 1;
-    B_801D9DC0 = 0;
+    isNewFBAvailable = 1;
+    currentTime = 0;
     if (func_801C7064() == 1) {
         func_801C7098();
-    } else if (B_801D9DC8 != 0) {
-        B_801D9DC8 = 0;
+    } else if (isGameDiskCorrect != 0) {
+        isGameDiskCorrect = 0;
     }
 #if OOT_VERSION < NTSC_1_1
-    if (B_801D9DC0 != 0) {
-        sp1C = (osGetTime() - B_801D9DC0) * 64 / 3000;
+    if (currentTime != 0) {
+        sp1C = (osGetTime() - currentTime) * 64 / 3000;
 
         // Remnants from debug statements?
-        (void)(osGetTime() - B_801D9DC0);
-        (void)((osGetTime() - B_801D9DC0) * 64 / 3000);
-        (void)((osGetTime() - B_801D9DC0) * 64 / 3000);
+        (void)(osGetTime() - currentTime);
+        (void)((osGetTime() - currentTime) * 64 / 3000);
+        (void)((osGetTime() - currentTime) * 64 / 3000);
 
         if (1000000 - sp1C > 0) {
             Sleep_Usec(1000000 - sp1C);
@@ -235,7 +240,7 @@ void func_801C7268(void) {
     }
 #else
     if (D_801D2EA8 == 1 || B_801E0F60 == 1 || B_801E0F64 == 1) {
-        B_801D9DC0 = osGetTime();
+        currentTime = osGetTime();
     }
     func_801C7B28_ne2();
 #endif
@@ -259,10 +264,10 @@ void func_801C746C(void* arg0, void* arg1, void* arg2) {
     if (arg0 != NULL || arg1 != NULL || arg2 != NULL) {
         sp2C = (u8*)osViGetNextFramebuffer() + 0x20000000;
         if ((u32)sp2C & 0xFFFFFF) {
-            if (B_801D9DB8 != 0) {
-                B_801D9DB8 = 0;
+            if (isNewFBAvailable != 0) {
+                isNewFBAvailable = 0;
                 func_801C7438(sp2C);
-                B_801D9DC0 = osGetTime();
+                currentTime = osGetTime();
             }
             if (arg0 != NULL) {
                 func_801CA1F0(arg0, 96, 32, 192, 16, 11, sp2C, SCREEN_WIDTH);
@@ -287,23 +292,23 @@ void func_801C75BC(void* arg0, void* arg1, void* arg2) {
         return;
     }
 
-    if (B_801D9DB8) {}
+    if (isNewFBAvailable) {}
 
     if (arg0 != 0) {
-        B_801D9DCC = arg0;
+        pUnkTxt0 = arg0;
     }
     if (arg1 != 0) {
-        B_801D9DD0 = arg1;
+        pUnkTxt1 = arg1;
     }
     if (arg2 != 0) {
-        B_801D9DD4 = arg2;
+        pUnkTxt2 = arg2;
     }
     func_801C746C(arg0, arg1, arg2);
 }
 
 void func_801C761C(void) {
     Sleep_Msec(100);
-    func_801C746C(B_801D9DCC, B_801D9DD0, B_801D9DD4);
+    func_801C746C(pUnkTxt0, pUnkTxt1, pUnkTxt2);
 }
 
 s32 func_801C7658(void) {
@@ -312,41 +317,41 @@ s32 func_801C7658(void) {
     }
 
 #if OOT_VERSION < PAL_1_0
-    StackCheck_Init(&B_801DAF88, B_801D9F88, STACK_TOP(B_801D9F88), 0, 0x100, "ddmsg");
-    osCreateThread(&B_801D9DD8, THREAD_ID_DDMSG, &func_801C711C, &B_801D9B90, STACK_TOP(B_801D9F88), THREAD_PRI_DDMSG);
-    osStartThread(&B_801D9DD8);
+    StackCheck_Init(&transfStackEntry, pStackTransfTrhead, STACK_TOP(pStackTransfTrhead), 0, 0x100, "ddmsg");
+    osCreateThread(&diskReadThread, THREAD_ID_DDMSG, &func_801C711C, &queuedDDTransfers, STACK_TOP(pStackTransfTrhead), THREAD_PRI_DDMSG);
+    osStartThread(&diskReadThread);
 #endif
 
-    osCreateMesgQueue(&B_801D9D80, B_801D9DB0, ARRAY_COUNT(B_801D9DB0));
-    osCreateMesgQueue(&B_801D9D98, B_801D9DB4, ARRAY_COUNT(B_801D9DB4));
+    osCreateMesgQueue(&msgQueue0, queuedMessages0, ARRAY_COUNT(queuedMessages0));
+    osCreateMesgQueue(&msgQueue1, queuedMessages1, ARRAY_COUNT(queuedMessages1));
 
-    StackCheck_Init(&B_801DBFA8, B_801DAFA8, STACK_TOP(B_801DAFA8), 0, 0x100, "n64dd");
+    StackCheck_Init(&commStackEntry, pStackDDCommThread, STACK_TOP(pStackDDCommThread), 0, 0x100, "n64dd");
 
-    B_801D9D50.unk_1C = &B_801D9D80;
-    B_801D9D50.unk_20 = &B_801D9D98;
-    B_801D9D50.unk_24 = THREAD_ID_N64DD;
-    B_801D9D50.unk_28 = STACK_TOP(B_801DAFA8);
-    B_801D9D50.unk_2C = THREAD_PRI_N64DD;
-    B_801D9D50.unk_00 = 1;
+    drivePacketData.unk_1C = &msgQueue0;
+    drivePacketData.unk_20 = &msgQueue1;
+    drivePacketData.unk_24 = THREAD_ID_N64DD;
+    drivePacketData.unk_28 = STACK_TOP(pStackDDCommThread);
+    drivePacketData.unk_2C = THREAD_PRI_N64DD;
+    drivePacketData.messages = 1;
 
-    (&func_801C8000)(&B_801D9D50);
+    (&func_801C8000)(&drivePacketData);
 
     D_80121213 = 1;
     func_801C6FD8();
 
-    B_801D9D50.unk_00 = 2;
-    B_801D9D50.unk_10 = 6;
-    B_801D9D50.unk_14 = &DmaMgr_DmaFromDriveRom;
-    B_801D9D50.unk_0C = &func_801C75BC;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.messages = 2;
+    drivePacketData.unk_10 = 6;
+    drivePacketData.unk_14 = &DmaMgr_DmaFromDriveRom;
+    drivePacketData.unk_0C = &func_801C75BC;
+    (&func_801C8000)(&drivePacketData);
 
-    B_801D9D50.unk_00 = 13;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.messages = 13;
+    (&func_801C8000)(&drivePacketData);
 
 #if OOT_VERSION >= PAL_1_0
-    StackCheck_Init(&B_801DAF88, B_801D9F88, STACK_TOP(B_801D9F88), 0, 0x100, "ddmsg");
-    osCreateThread(&B_801D9DD8, THREAD_ID_DDMSG, &func_801C711C, &B_801D9B90, STACK_TOP(B_801D9F88), THREAD_PRI_DDMSG);
-    osStartThread(&B_801D9DD8);
+    StackCheck_Init(&transfStackEntry, pStackTransfTrhead, STACK_TOP(pStackTransfTrhead), 0, 0x100, "ddmsg");
+    osCreateThread(&diskReadThread, THREAD_ID_DDMSG, &func_801C711C, &queuedDDTransfers, STACK_TOP(pStackTransfTrhead), THREAD_PRI_DDMSG);
+    osStartThread(&diskReadThread);
 #endif
 
     return 0;
@@ -354,12 +359,12 @@ s32 func_801C7658(void) {
 
 s32 func_801C7818(void) {
 #if OOT_VERSION >= NTSC_1_1
-    B_801D9DB8 = 1;
-    B_801D9DC0 = 0;
+    isNewFBAvailable = 1;
+    currentTime = 0;
 #endif
 
-    B_801D9D50.unk_00 = 12;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.messages = 12;
+    (&func_801C8000)(&drivePacketData);
 
     while (func_801C81C4() == 0) {
         // the number 16666 sounds like it could be 1 frame (at 60 frames per second)
@@ -368,7 +373,7 @@ s32 func_801C7818(void) {
 
 #if OOT_VERSION >= NTSC_1_1
     if (D_801D2EA8 == 1 || B_801E0F60 == 1 || B_801E0F64 == 1) {
-        B_801D9DC0 = osGetTime();
+        currentTime = osGetTime();
     }
     func_801C7B28_ne2();
 #endif
@@ -394,40 +399,40 @@ s32 func_801C78B8(void) {
 }
 
 s32 func_801C78F0(void) {
-    B_801D9D50.unk_00 = 0;
-    return (&func_801C8000)(&B_801D9D50);
+    drivePacketData.messages = 0;
+    return (&func_801C8000)(&drivePacketData);
 }
 
 void func_801C7920(s32 arg0, void* arg1, s32 arg2) {
-    B_801D9D50.unk_18 = arg1;
-    B_801D9D50.unk_1C = (void*)arg0;
-    B_801D9D50.unk_20 = (void*)arg2;
-    B_801D9D50.unk_00 = 3;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.unk_18 = arg1;
+    drivePacketData.unk_1C = (void*)arg0;
+    drivePacketData.unk_20 = (void*)arg2;
+    drivePacketData.messages = 3;
+    (&func_801C8000)(&drivePacketData);
     osGetTime();
-    B_801D9D50.unk_00 = 6;
-    while ((&func_801C8000)(&B_801D9D50) != 0) {
+    drivePacketData.messages = 6;
+    while ((&func_801C8000)(&drivePacketData) != 0) {
         Sleep_Usec(16666); // 100000 / 6
     }
-    B_801D9D50.unk_00 = 7;
-    if ((&func_801C8000)(&B_801D9D50) != 0) {
+    drivePacketData.messages = 7;
+    if ((&func_801C8000)(&drivePacketData) != 0) {
         Freeze_CurrentThread();
     }
 }
 
 void func_801C79CC(void* arg0, s32 arg1, s32 arg2) {
-    B_801D9D50.unk_18 = arg0;
-    B_801D9D50.unk_1C = (void*)arg1;
-    B_801D9D50.unk_20 = (void*)arg2;
-    B_801D9D50.unk_00 = 4;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.unk_18 = arg0;
+    drivePacketData.unk_1C = (void*)arg1;
+    drivePacketData.unk_20 = (void*)arg2;
+    drivePacketData.messages = 4;
+    (&func_801C8000)(&drivePacketData);
 }
 
 void func_801C7A10(LEODiskID* arg0) {
 }
 
-// Checks diskId, sets B_801D9DC8 and returns true if diskId is correct
-s32 func_801C7A1C(struct_801E0D18* arg0) {
+// Checks diskId, sets isGameDiskCorrect and returns true if diskId is correct
+s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* arg0) {
     static LEODiskID B_801DBFD0;
     static s32 B_801DBFF0; // bool
 
@@ -441,16 +446,16 @@ s32 func_801C7A1C(struct_801E0D18* arg0) {
         {
             B_801DBFD0 = arg0->diskId;
             B_801DBFF0 = true;
-            B_801D9DC8 = 1;
+            isGameDiskCorrect = 1;
         } else {
-            B_801D9DC8 = 2;
+            isGameDiskCorrect = 2;
         }
     } else if (bcmp(&B_801DBFD0, &arg0->diskId, sizeof(LEODiskID)) == 0) {
-        B_801D9DC8 = 1;
+        isGameDiskCorrect = 1;
     } else {
-        B_801D9DC8 = 2;
+        isGameDiskCorrect = 2;
     }
-    return B_801D9DC8 == 1;
+    return isGameDiskCorrect == 1;
 }
 
 // Translates byte position to LBA and byte offset
@@ -501,11 +506,11 @@ void func_801C7C1C(void* dest, s32 offset, s32 size) {
 
     func_801C6FD8();
     func_801C6F30();
-    B_801D9DB8 = 1;
-    B_801D9DC0 = 0;
+    isNewFBAvailable = 1;
+    currentTime = 0;
     func_801C7B48(offset, &sp5C, &sp54);
     func_801C7B48(offset + size, &sp58, &sp50);
-    sp4C = D_801D2E50;
+    sp4C = pTmpReadBuf;
     if (sp5C == sp58) {
         func_801C7920(sp5C, sp4C, func_801C7BEC(sp5C));
         bcopy((u8*)sp4C + sp54, dest, size);
@@ -525,8 +530,8 @@ void func_801C7C1C(void* dest, s32 offset, s32 size) {
         }
     }
 #if OOT_VERSION < NTSC_1_1
-    if (B_801D9DC0 != 0) {
-        temp_v1_2 = (osGetTime() - B_801D9DC0) * 64 / 3000;
+    if (currentTime != 0) {
+        temp_v1_2 = (osGetTime() - currentTime) * 64 / 3000;
         if (1000000 - temp_v1_2 > 0) {
             Sleep_Usec(1000000 - temp_v1_2);
         }
@@ -547,45 +552,45 @@ s32 func_801C7E80(void) {
     s32 sp1C;
     uintptr_t sp18;
 
-    if (B_801D9D48 != NULL) {
+    if (pDDLoad0 != NULL) {
         return -1;
     }
-    B_801D9D48 = &B_801D9C30;
-    func_801C7C1C(B_801D9D48, 0x1060, 0x118);
-    sp24 = B_801D9D48->unk_004 - B_801D9D48->unk_000;
-    sp20 = B_801D9D48->unk_00C - B_801D9D48->unk_008;
-    sp18 = B_801D9D48->unk_008 + sp24;
-    func_801C7C1C((void*)B_801D9D48->unk_008, B_801D9D48->unk_000, sp24);
+    pDDLoad0 = &DDLoad0;
+    func_801C7C1C(pDDLoad0, 0x1060, 0x118);
+    sp24 = pDDLoad0->diskEnd - pDDLoad0->diskStart;
+    sp20 = pDDLoad0->ramEnd - pDDLoad0->ramStart;
+    sp18 = pDDLoad0->ramStart + sp24;
+    func_801C7C1C((void*)pDDLoad0->ramStart, pDDLoad0->diskStart, sp24);
     bzero((void*)sp18, sp20 - sp24);
-    func_800AD4C0(B_801D9D48->unk_010);
+    func_800AD4C0(pDDLoad0->unk_010);
     return 0;
 }
 
 s32 func_801C7F24(void) {
     uintptr_t temp_a0;
-    struct_801D9C30* temp_v0;
+    n64dd_CopyToRAM* temp_v0;
 
-    if (B_801D9D48 == 0) {
+    if (pDDLoad0 == 0) {
         return -1;
     }
 
     // Function from code
     func_800AD51C();
 
-    temp_v0 = B_801D9D48;
-    temp_a0 = temp_v0->unk_008;
-    bzero((void*)temp_a0, temp_v0->unk_00C - temp_a0);
-    bzero(B_801D9D48, sizeof(struct_801D9C30));
-    B_801D9D48 = 0;
+    temp_v0 = pDDLoad0;
+    temp_a0 = temp_v0->ramStart;
+    bzero((void*)temp_a0, temp_v0->ramEnd - temp_a0);
+    bzero(pDDLoad0, sizeof(n64dd_CopyToRAM));
+    pDDLoad0 = 0;
     return 0;
 }
 
 void n64dd_SetDiskVersion(s32 arg0) {
     if (arg0 != 0) {
-        if (B_801D9D48 == 0) {
+        if (pDDLoad0 == 0) {
             func_801C7E80();
         }
-    } else if (B_801D9D48 != 0) {
+    } else if (pDDLoad0 != 0) {
         func_801C7F24();
     }
 }

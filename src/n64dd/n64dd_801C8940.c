@@ -85,7 +85,7 @@ void func_801C8B90(void) {
     func_801C8A64();
 }
 
-s32 func_801C8BC0(struct_801E0D18* arg0) {
+s32 func_801C8BC0(n64dd_driveCmdQueue* arg0) {
     if ((arg0->unk_68 < 0x25) || (arg0->unk_68 >= 0x29)) {
         if ((arg0->unk_68 != 0x1F) && (arg0->unk_68 != 0x20)) {
             func_801C8940(arg0->unk_68);
@@ -96,7 +96,7 @@ s32 func_801C8BC0(struct_801E0D18* arg0) {
     return 4;
 }
 
-s32 func_801C8C1C(struct_801E0D18* arg0) {
+s32 func_801C8C1C(n64dd_driveCmdQueue* arg0) {
     s32 var_s0;
 
     do {
@@ -125,7 +125,7 @@ s32 func_801C8C1C(struct_801E0D18* arg0) {
     return func_801C8BC0(arg0);
 }
 
-s32 func_801C8CEC(struct_801E0D18* arg0) {
+s32 func_801C8CEC(n64dd_driveCmdQueue* arg0) {
     switch (arg0->unk_68) {
         case 0x22:
             func_801C8B90();
@@ -153,7 +153,7 @@ s32 func_801C8CEC(struct_801E0D18* arg0) {
     }
 }
 
-s32 func_801C8DC0(struct_801E0D18* arg0) {
+s32 func_801C8DC0(n64dd_driveCmdQueue* arg0) {
     s32 temp_v0;
 
     while (true) {
@@ -175,7 +175,7 @@ s32 func_801C8DC0(struct_801E0D18* arg0) {
     }
 }
 
-s32 func_801C8E70(struct_801E0D18* arg0) {
+s32 func_801C8E70(n64dd_driveCmdQueue* arg0) {
     s32 temp_a0;
     s32 temp_v0;
 
@@ -202,14 +202,14 @@ s32 func_801C8E70(struct_801E0D18* arg0) {
     }
 }
 
-s32 func_801C8F1C(struct_801E0D18* arg0) {
-    if (D_801D2E54 != NULL) {
-        return D_801D2E54(arg0);
+s32 func_801C8F1C(n64dd_driveCmdQueue* arg0) {
+    if (pCheckIfDiskIsValid != NULL) {
+        return pCheckIfDiskIsValid(arg0);
     }
     return 1;
 }
 
-s32 func_801C8F58(struct_801E0D18* arg0) {
+s32 func_801C8F58(n64dd_driveCmdQueue* arg0) {
     s32 temp_v0;
 
     while (true) {
@@ -233,7 +233,7 @@ s32 func_801C8F58(struct_801E0D18* arg0) {
     }
 }
 
-s32 func_801C9000(struct_801E0D18* arg0) {
+s32 func_801C9000(n64dd_driveCmdQueue* arg0) {
     s32 phi_s0;
     s32 temp_s4;
 
@@ -269,18 +269,18 @@ s32 func_801C9000(struct_801E0D18* arg0) {
     }
 }
 
-s32 func_801C90C4(struct_801E0D18* arg0) {
+s32 func_801C90C4(n64dd_driveCmdQueue* arg0) {
     func_801C8940(arg0->unk_68);
     func_801C89B8(2);
     return func_801C9000(arg0);
 }
 
-s32 func_801C90FC(struct_801E0D18* arg0) {
+s32 func_801C90FC(n64dd_driveCmdQueue* arg0) {
     func_801C8940(arg0->unk_68);
     return func_801C9000(arg0);
 }
 
-s32 func_801C912C(struct_801E0D18* arg0) {
+s32 func_801C912C(n64dd_driveCmdQueue* arg0) {
     s32 i = 0;
     s32 temp_v0;
 
@@ -305,7 +305,7 @@ s32 func_801C912C(struct_801E0D18* arg0) {
     return func_801C8BC0(arg0);
 }
 
-s32 func_801C91E0(struct_801E0D18* arg0) {
+s32 func_801C91E0(n64dd_driveCmdQueue* arg0) {
     if (arg0->unk_68 == 0x29) {
         return func_801C8BC0(arg0);
     }
@@ -322,7 +322,7 @@ s32 func_801C91E0(struct_801E0D18* arg0) {
     return 0;
 }
 
-s32 func_801C9260(struct_801E0D18* arg0) {
+s32 func_801C9260(n64dd_driveCmdQueue* arg0) {
     s32 temp_v0;
 
     switch (arg0->unk_68) {
@@ -361,7 +361,7 @@ s32 func_801C9260(struct_801E0D18* arg0) {
     return func_801C8BC0(arg0);
 }
 
-s32 func_801C9334(struct_801E0D18* arg0) {
+s32 func_801C9334(n64dd_driveCmdQueue* arg0) {
     while (true) {
         u32 temp_v0 = func_801C8DC0(arg0);
 
@@ -381,7 +381,7 @@ s32 func_801C9334(struct_801E0D18* arg0) {
     }
 }
 
-s32 func_801C93C4(struct_801E0D18* arg0) {
+s32 func_801C93C4(n64dd_driveCmdQueue* arg0) {
     s32 temp_v0;
     s32 temp_v0_2;
 

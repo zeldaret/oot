@@ -22,8 +22,8 @@ s32 D_801D2E60 = 0;
 s32 D_801D2E64 = 0;
 
 typedef struct struct_801D2E68 {
-    /* 0x0 */ void (*unk_0)(struct_801E0D18*);
-    /* 0x4 */ s32 (*unk_4)(struct_801E0D18*);
+    /* 0x0 */ void (*unk_0)(n64dd_driveCmdQueue*);
+    /* 0x4 */ s32 (*unk_4)(n64dd_driveCmdQueue*);
 } struct_801D2E68; // size = 0x8
 
 struct_801D2E68 D_801D2E68[5] = {
@@ -34,12 +34,12 @@ struct_801D2E68 D_801D2E68[5] = {
 s32 D_801D2E90 = 0;
 
 OSMesgQueue* B_801E0D10[2];
-struct_801E0D18 B_801E0D18;
+n64dd_driveCmdQueue B_801E0D18;
 OSMesg B_801E0D88[1];
 OSMesg B_801E0D90[8];
 OSThread B_801E0DB0;
 
-s32 func_801C8000(struct_801D9D50* arg0) {
+s32 func_801C8000(n64dd_drivePacketData* arg0) {
     switch (arg0->unk_00) {
         case 0:
             if (func_801C8844() != 0) {
@@ -107,7 +107,7 @@ s32 func_801C81D4(void) {
     return D_801D2E64 == 1;
 }
 
-void func_801C81EC(struct_801E0D18* arg0) {
+void func_801C81EC(n64dd_driveCmdQueue* arg0) {
     osCreateMesgQueue(&arg0->unk_1C, B_801E0D88, ARRAY_COUNT(B_801E0D88));
 
     if (gCurrentRegion == 1) {
@@ -121,7 +121,7 @@ void func_801C81EC(struct_801E0D18* arg0) {
     }
 }
 
-void func_801C8298(struct_801E0D18* arg0) {
+void func_801C8298(n64dd_driveCmdQueue* arg0) {
     LEOCmd sp1C;
 
     // TODO: passing a pointer as a logical block address?
@@ -129,14 +129,14 @@ void func_801C8298(struct_801E0D18* arg0) {
     osRecvMesg(&arg0->unk_1C, (OSMesg*)&arg0->unk_68, OS_MESG_BLOCK);
 }
 
-void func_801C82E0(struct_801E0D18* arg0) {
+void func_801C82E0(n64dd_driveCmdQueue* arg0) {
     LEOCmd sp1C;
 
     LeoSpdlMotor(&sp1C, 4, &arg0->unk_1C);
     osRecvMesg(&arg0->unk_1C, (OSMesg*)&arg0->unk_68, OS_MESG_BLOCK);
 }
 
-void func_801C832C(struct_801E0D18* arg0) {
+void func_801C832C(n64dd_driveCmdQueue* arg0) {
     s32 sp34;
     s32 startLBA = arg0->unk_5C;
 
@@ -148,7 +148,7 @@ void func_801C832C(struct_801E0D18* arg0) {
     }
 }
 
-void func_801C83A0(struct_801E0D18* arg0) {
+void func_801C83A0(n64dd_driveCmdQueue* arg0) {
     s32 sp34;
     s32 startLBA = arg0->unk_58;
 
@@ -160,14 +160,14 @@ void func_801C83A0(struct_801E0D18* arg0) {
     }
 }
 
-void func_801C8414(struct_801E0D18* arg0) {
+void func_801C8414(n64dd_driveCmdQueue* arg0) {
     arg0->unk_68 = 9;
 }
 
-void func_801C8424(struct_801E0D18* arg0) {
+void func_801C8424(n64dd_driveCmdQueue* arg0) {
     struct_801D2E68* temp_v0;
-    s32 (*temp_s2)(struct_801E0D18*);
-    void (*aux)(struct_801E0D18*);
+    s32 (*temp_s2)(n64dd_driveCmdQueue*);
+    void (*aux)(n64dd_driveCmdQueue*);
     s32 temp_v0_2;
 
     arg0->unk_68 = -1;
@@ -190,7 +190,7 @@ void func_801C8424(struct_801E0D18* arg0) {
 
 void func_801C84D4(void* arg) {
     while (true) {
-        struct_801E0D18* sp24;
+        n64dd_driveCmdQueue* sp24;
 
         osRecvMesg(B_801E0D10[0], (OSMesg*)&sp24, OS_MESG_BLOCK);
         func_801C8424(sp24);
@@ -209,7 +209,7 @@ void func_801C8578(void* arg0, void* arg1, OSId id, void* sp, OSPri pri) {
     osStartThread(&B_801E0DB0);
 }
 
-void func_801C85F0(struct_801E0D18* arg0, s32 arg1) {
+void func_801C85F0(n64dd_driveCmdQueue* arg0, s32 arg1) {
     if (arg1 == 1) {
         func_801C8424(arg0);
     } else {
@@ -250,7 +250,7 @@ void func_801C868C(void* arg0, void* arg1, void* arg2, u8 arg3) {
     func_801C85F0(&B_801E0D18, 0);
 }
 
-s32 func_801C873C(struct_801E0D18* arg0) {
+s32 func_801C873C(n64dd_driveCmdQueue* arg0) {
     u8 sp1F;
 
     arg0->unk_68 = LeoTestUnitReady(&sp1F);
