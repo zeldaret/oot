@@ -1096,7 +1096,7 @@ u8* AudioThread_GetFontsForSequence(s32 seqId, u32* outNumFonts);
 s32 func_800E5EDC(void);
 s32 AudioThread_ResetAudioHeap(s32 specId);
 void AudioThread_PreNMIInternal(void);
-s32 func_800E6680(void);
+s32 AudioThread_GetActiveNotes(void);
 u32 AudioThread_NextRandom(void);
 void AudioThread_InitMesgQueues(void);
 
@@ -1214,7 +1214,7 @@ void Audio_PlaySfxIfNotInCutscene(u16 sfxId);
 void func_800F6964(u16);
 void Audio_StopBgmAndFanfare(u16 fadeOutDuration);
 void func_800F6B3C(void);
-void func_800F6BDC(void);
+void Audio_StopWaitAllSeq(void);
 void Audio_PreNMI(void);
 void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData);
 void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);

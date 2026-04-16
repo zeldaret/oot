@@ -3907,15 +3907,15 @@ void Audio_DisableAllSeq(void) {
     AudioThread_ScheduleProcessCmds();
 }
 
-s8 func_800F6BB8(void) {
-    return func_800E6680();
+s8 Audio_GetActiveNotes(void) {
+    return AudioThread_GetActiveNotes();
 }
 
-void func_800F6BDC(void) {
+void Audio_StopWaitAllSeq(void) {
     Audio_DisableAllSeq();
     AudioThread_ScheduleProcessCmds();
     while (true) {
-        if (!func_800F6BB8()) {
+        if (!Audio_GetActiveNotes()) {
             return;
         }
     }

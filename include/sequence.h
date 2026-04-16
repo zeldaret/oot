@@ -17,11 +17,12 @@ typedef enum {
 #undef DEFINE_SEQUENCE
 #undef DEFINE_SEQUENCE_PTR
 
+// What kind of sequence player is this
 typedef enum SequencePlayerId {
-    /* 0 */ SEQ_PLAYER_BGM_MAIN,
-    /* 1 */ SEQ_PLAYER_FANFARE,
-    /* 2 */ SEQ_PLAYER_SFX,
-    /* 3 */ SEQ_PLAYER_BGM_SUB
+    /* 0 */ SEQ_PLAYER_BGM_MAIN, // This sequence player is for the main BGM
+    /* 1 */ SEQ_PLAYER_FANFARE,  // This sequence player is for a fanfare (opening chests, etc...)
+    /* 2 */ SEQ_PLAYER_SFX,      // This sequence player is for a sfx
+    /* 3 */ SEQ_PLAYER_BGM_SUB   // This sequence player is for the sub BGM (?)
 } SequencePlayerId;
 
 typedef enum SequenceMode {
@@ -32,22 +33,22 @@ typedef enum SequenceMode {
 } SequenceMode;
 
 typedef enum SequenceCutsceneEffects {
-    /* 0x0 */ SEQ_CS_EFFECTS_SWORD_GLOW, // Master sword glow
+    /* 0x0 */ SEQ_CS_EFFECTS_SWORD_GLOW,      // Master sword glow
     /* 0x1 */ SEQ_CS_EFFECTS_SHEIK_TRANSFORM, // Sheik's transformation to Zelda
-    /* 0x2 */ SEQ_CS_EFFECTS_SAGE_SEAL, // Sages accumulating their power
-    /* 0x3 */ SEQ_CS_EFFECTS_FARORE_MAGIC, // Farore's magic creating life
-    /* 0x4 */ SEQ_CS_EFFECTS_NAYRU_MAGIC, // Nayru's magic establishing order
-    /* 0x5 */ SEQ_CS_EFFECTS_DIN_MAGIC, // Din's building of the earth
-    /* 0x6 */ SEQ_CS_EFFECTS_LAVA_ERUPT, // Lava erupting from Volvagia's pit
+    /* 0x2 */ SEQ_CS_EFFECTS_SAGE_SEAL,       // Sages accumulating their power
+    /* 0x3 */ SEQ_CS_EFFECTS_FARORE_MAGIC,    // Farore's magic creating life
+    /* 0x4 */ SEQ_CS_EFFECTS_NAYRU_MAGIC,     // Nayru's magic establishing order
+    /* 0x5 */ SEQ_CS_EFFECTS_DIN_MAGIC,       // Din's building of the earth
+    /* 0x6 */ SEQ_CS_EFFECTS_LAVA_ERUPT,      // Lava erupting from Volvagia's pit
     /* 0x7 */ SEQ_CS_EFFECTS_BONGO_HURL_LINK, // Link screaming while attacked by invisible Bongo Bongo
-    /* 0x8 */ SEQ_CS_EFFECTS_BONGO_HOVER, // Bongo Bongo hovering menacingly
-    /* 0x9 */ SEQ_CS_EFFECTS_BONGO_EMERGES, // Bongo Bongo emerging from the well
-    /* 0xA */ SEQ_CS_EFFECTS_TRIAL_WARP, // Warping from one of the trial barriers
-    /* 0xB */ SEQ_CS_EFFECTS_TRIAL_DESTROY, // Destroying one of the trial barriers
-    /* 0xC */ SEQ_CS_EFFECTS_DISPEL_BARRIER, // Dispelling the Tower barrier
-    /* 0xD */ SEQ_CS_EFFECTS_TOWER_COLLAPSE, // Ganon's Tower's collapse
-    /* 0xE */ SEQ_CS_EFFECTS_LINK_SCREAM, // Child Link screaming (unused)
-    /* 0xF */ SEQ_CS_EFFECTS_RAINFALL // Rain with thunder effects
+    /* 0x8 */ SEQ_CS_EFFECTS_BONGO_HOVER,     // Bongo Bongo hovering menacingly
+    /* 0x9 */ SEQ_CS_EFFECTS_BONGO_EMERGES,   // Bongo Bongo emerging from the well
+    /* 0xA */ SEQ_CS_EFFECTS_TRIAL_WARP,      // Warping from one of the trial barriers
+    /* 0xB */ SEQ_CS_EFFECTS_TRIAL_DESTROY,   // Destroying one of the trial barriers
+    /* 0xC */ SEQ_CS_EFFECTS_DISPEL_BARRIER,  // Dispelling the Tower barrier
+    /* 0xD */ SEQ_CS_EFFECTS_TOWER_COLLAPSE,  // Ganon's Tower's collapse
+    /* 0xE */ SEQ_CS_EFFECTS_LINK_SCREAM,     // Child Link screaming (unused)
+    /* 0xF */ SEQ_CS_EFFECTS_RAINFALL         // Rain with thunder effects
 } SequenceCutsceneEffects;
 
 typedef enum ChannelIOPort {
@@ -94,19 +95,19 @@ typedef struct ActiveSequence {
     /* 0x020 */ f32 tempoTarget;
     /* 0x024 */ f32 tempoStep;
     /* 0x028 */ u16 tempoTimer;
-    /* 0x02C */ u32 setupCmd[8]; // a queue of cmds to execute once the player is disabled
+    /* 0x02C */ u32 setupCmd[8];  // a queue of cmds to execute once the player is disabled
     /* 0x04C */ u8 setupCmdTimer; // only execute setup commands when the timer is at 0.
-    /* 0x04D */ u8 setupCmdNum; // number of setup commands requested once the player is disabled
+    /* 0x04D */ u8 setupCmdNum;   // number of setup commands requested once the player is disabled
     /* 0x04E */ u8 setupFadeTimer;
     /* 0x050 */ ActiveSequenceChannelData channelData[16];
     /* 0x250 */ u16 freqScaleChannelFlags;
     /* 0x252 */ u16 volChannelFlags;
-    /* 0x254 */ u16 seqId; // active seqId currently playing. Resets when sequence stops
+    /* 0x254 */ u16 seqId;     // active seqId currently playing. Resets when sequence stops
     /* 0x256 */ u16 prevSeqId; // last seqId played on a player. Does not reset when sequence stops
     /* 0x258 */ u16 channelPortMask;
-    /* 0x25C */ u32 startSeqCmd; // This name comes from MM
+    /* 0x25C */ u32 startSeqCmd;      // This name comes from MM
     /* 0x260 */ u8 isWaitingForFonts; // This name comes from MM
-} ActiveSequence; // size = 0x264
+} ActiveSequence;                     // size = 0x264
 
 typedef enum NatureChannelIndex {
     /* 0x0 */ NATURE_CHANNEL_STREAM_0,
@@ -178,48 +179,48 @@ typedef enum NatureAmimalId {
     /* 0x13 */ NATURE_CRITTER_BIRD_CHIRP_1_ALT5
 } NatureAmimalId;
 
-#define NATURE_IO_CRITTER_0_TYPE(type)        NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_CRITTER_0_BEND_PITCH(bend)  NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_3, bend
-#define NATURE_IO_CRITTER_0_NUM_LAYERS(num)   NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_4, num
-#define NATURE_IO_CRITTER_0_PORT5(reverb)     NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_5, reverb
+#define NATURE_IO_CRITTER_0_TYPE(type) NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_CRITTER_0_BEND_PITCH(bend) NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_3, bend
+#define NATURE_IO_CRITTER_0_NUM_LAYERS(num) NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_4, num
+#define NATURE_IO_CRITTER_0_PORT5(reverb) NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_5, reverb
 
-#define NATURE_IO_CRITTER_1_TYPE(type)        NATURE_CHANNEL_CRITTER_1, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_CRITTER_1_BEND_PITCH(bend)  NATURE_CHANNEL_CRITTER_1, CHANNEL_IO_PORT_3, bend
-#define NATURE_IO_CRITTER_1_NUM_LAYERS(num)   NATURE_CHANNEL_CRITTER_1, CHANNEL_IO_PORT_4, num
-#define NATURE_IO_CRITTER_1_PORT5(reverb)     NATURE_CHANNEL_CRITTER_1, CHANNEL_IO_PORT_5, reverb
+#define NATURE_IO_CRITTER_1_TYPE(type) NATURE_CHANNEL_CRITTER_1, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_CRITTER_1_BEND_PITCH(bend) NATURE_CHANNEL_CRITTER_1, CHANNEL_IO_PORT_3, bend
+#define NATURE_IO_CRITTER_1_NUM_LAYERS(num) NATURE_CHANNEL_CRITTER_1, CHANNEL_IO_PORT_4, num
+#define NATURE_IO_CRITTER_1_PORT5(reverb) NATURE_CHANNEL_CRITTER_1, CHANNEL_IO_PORT_5, reverb
 
-#define NATURE_IO_CRITTER_2_TYPE(type)        NATURE_CHANNEL_CRITTER_2, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_CRITTER_2_BEND_PITCH(bend)  NATURE_CHANNEL_CRITTER_2, CHANNEL_IO_PORT_3, bend
-#define NATURE_IO_CRITTER_2_NUM_LAYERS(num)   NATURE_CHANNEL_CRITTER_2, CHANNEL_IO_PORT_4, num
-#define NATURE_IO_CRITTER_2_PORT5(reverb)     NATURE_CHANNEL_CRITTER_2, CHANNEL_IO_PORT_5, reverb
+#define NATURE_IO_CRITTER_2_TYPE(type) NATURE_CHANNEL_CRITTER_2, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_CRITTER_2_BEND_PITCH(bend) NATURE_CHANNEL_CRITTER_2, CHANNEL_IO_PORT_3, bend
+#define NATURE_IO_CRITTER_2_NUM_LAYERS(num) NATURE_CHANNEL_CRITTER_2, CHANNEL_IO_PORT_4, num
+#define NATURE_IO_CRITTER_2_PORT5(reverb) NATURE_CHANNEL_CRITTER_2, CHANNEL_IO_PORT_5, reverb
 
-#define NATURE_IO_CRITTER_3_TYPE(type)        NATURE_CHANNEL_CRITTER_3, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_CRITTER_3_BEND_PITCH(bend)  NATURE_CHANNEL_CRITTER_3, CHANNEL_IO_PORT_3, bend
-#define NATURE_IO_CRITTER_3_NUM_LAYERS(num)   NATURE_CHANNEL_CRITTER_3, CHANNEL_IO_PORT_4, num
-#define NATURE_IO_CRITTER_3_PORT5(reverb)     NATURE_CHANNEL_CRITTER_3, CHANNEL_IO_PORT_5, reverb
+#define NATURE_IO_CRITTER_3_TYPE(type) NATURE_CHANNEL_CRITTER_3, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_CRITTER_3_BEND_PITCH(bend) NATURE_CHANNEL_CRITTER_3, CHANNEL_IO_PORT_3, bend
+#define NATURE_IO_CRITTER_3_NUM_LAYERS(num) NATURE_CHANNEL_CRITTER_3, CHANNEL_IO_PORT_4, num
+#define NATURE_IO_CRITTER_3_PORT5(reverb) NATURE_CHANNEL_CRITTER_3, CHANNEL_IO_PORT_5, reverb
 
-#define NATURE_IO_CRITTER_4_TYPE(type)        NATURE_CHANNEL_CRITTER_4, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_CRITTER_4_BEND_PITCH(bend)  NATURE_CHANNEL_CRITTER_4, CHANNEL_IO_PORT_3, bend
-#define NATURE_IO_CRITTER_4_NUM_LAYERS(num)   NATURE_CHANNEL_CRITTER_4, CHANNEL_IO_PORT_4, num
-#define NATURE_IO_CRITTER_4_PORT5(reverb)     NATURE_CHANNEL_CRITTER_4, CHANNEL_IO_PORT_5, reverb
+#define NATURE_IO_CRITTER_4_TYPE(type) NATURE_CHANNEL_CRITTER_4, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_CRITTER_4_BEND_PITCH(bend) NATURE_CHANNEL_CRITTER_4, CHANNEL_IO_PORT_3, bend
+#define NATURE_IO_CRITTER_4_NUM_LAYERS(num) NATURE_CHANNEL_CRITTER_4, CHANNEL_IO_PORT_4, num
+#define NATURE_IO_CRITTER_4_PORT5(reverb) NATURE_CHANNEL_CRITTER_4, CHANNEL_IO_PORT_5, reverb
 
-#define NATURE_IO_CRITTER_5_TYPE(type)        NATURE_CHANNEL_CRITTER_5, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_CRITTER_5_BEND_PITCH(bend)  NATURE_CHANNEL_CRITTER_5, CHANNEL_IO_PORT_3, bend
-#define NATURE_IO_CRITTER_5_NUM_LAYERS(num)   NATURE_CHANNEL_CRITTER_5, CHANNEL_IO_PORT_4, num
-#define NATURE_IO_CRITTER_5_PORT5(reverb)     NATURE_CHANNEL_CRITTER_5, CHANNEL_IO_PORT_5, reverb
+#define NATURE_IO_CRITTER_5_TYPE(type) NATURE_CHANNEL_CRITTER_5, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_CRITTER_5_BEND_PITCH(bend) NATURE_CHANNEL_CRITTER_5, CHANNEL_IO_PORT_3, bend
+#define NATURE_IO_CRITTER_5_NUM_LAYERS(num) NATURE_CHANNEL_CRITTER_5, CHANNEL_IO_PORT_4, num
+#define NATURE_IO_CRITTER_5_PORT5(reverb) NATURE_CHANNEL_CRITTER_5, CHANNEL_IO_PORT_5, reverb
 
-#define NATURE_IO_CRITTER_6_TYPE(type)        NATURE_CHANNEL_CRITTER_6, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_CRITTER_6_BEND_PITCH(bend)  NATURE_CHANNEL_CRITTER_6, CHANNEL_IO_PORT_3, bend
-#define NATURE_IO_CRITTER_6_NUM_LAYERS(num)   NATURE_CHANNEL_CRITTER_6, CHANNEL_IO_PORT_4, num
-#define NATURE_IO_CRITTER_6_PORT5(reverb)     NATURE_CHANNEL_CRITTER_6, CHANNEL_IO_PORT_5, reverb
+#define NATURE_IO_CRITTER_6_TYPE(type) NATURE_CHANNEL_CRITTER_6, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_CRITTER_6_BEND_PITCH(bend) NATURE_CHANNEL_CRITTER_6, CHANNEL_IO_PORT_3, bend
+#define NATURE_IO_CRITTER_6_NUM_LAYERS(num) NATURE_CHANNEL_CRITTER_6, CHANNEL_IO_PORT_4, num
+#define NATURE_IO_CRITTER_6_PORT5(reverb) NATURE_CHANNEL_CRITTER_6, CHANNEL_IO_PORT_5, reverb
 
-#define NATURE_IO_STREAM_0_TYPE(type)         NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_STREAM_0_PORT3(data)        NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_3, data
-#define NATURE_IO_STREAM_0_PORT4(data)        NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_4, data
+#define NATURE_IO_STREAM_0_TYPE(type) NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_STREAM_0_PORT3(data) NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_3, data
+#define NATURE_IO_STREAM_0_PORT4(data) NATURE_CHANNEL_STREAM_0, CHANNEL_IO_PORT_4, data
 
-#define NATURE_IO_STREAM_1_TYPE(type)         NATURE_CHANNEL_STREAM_1, CHANNEL_IO_PORT_2, type
-#define NATURE_IO_STREAM_1_PORT3(data)        NATURE_CHANNEL_STREAM_1, CHANNEL_IO_PORT_3, data
-#define NATURE_IO_STREAM_1_PORT4(data)        NATURE_CHANNEL_STREAM_1, CHANNEL_IO_PORT_4, data
+#define NATURE_IO_STREAM_1_TYPE(type) NATURE_CHANNEL_STREAM_1, CHANNEL_IO_PORT_2, type
+#define NATURE_IO_STREAM_1_PORT3(data) NATURE_CHANNEL_STREAM_1, CHANNEL_IO_PORT_3, data
+#define NATURE_IO_STREAM_1_PORT4(data) NATURE_CHANNEL_STREAM_1, CHANNEL_IO_PORT_4, data
 
 #define NATURE_IO_ENTRIES_END 0xFF
 

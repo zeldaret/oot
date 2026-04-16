@@ -17,7 +17,7 @@ void AudioThread_SetFadeOutTimer(s32 seqPlayerIndex, s32 fadeTimer);
 void AudioThread_ProcessCmds(u32);
 void AudioThread_ProcessSeqPlayerCmd(SequencePlayer* seqPlayer, AudioCmd* cmd);
 void AudioThread_ProcessChannelCmd(SequenceChannel* channel, AudioCmd* cmd);
-s32 func_800E66C0(s32 flags);
+s32 AudioThread_NoteReleaseCheck(s32 flags);
 
 // AudioMgr_Retrace
 AudioTask* AudioThread_Update(void) {
@@ -322,7 +322,7 @@ void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
                     }
                 }
             }
-            func_800E66C0(flags);
+            AudioThread_NoteReleaseCheck(flags);
             break;
 
         case AUDIOCMD_OP_GLOBAL_POP_PERSISTENT_CACHE:
@@ -890,27 +890,33 @@ s32 func_800E6590(s32 seqPlayerIndex, s32 channelIndex, s32 layerIndex) {
 
 /**
  * original name possibly "Nap_SilenceCheck"
+ * @returns The number of actively playing notes.
  */
-s32 func_800E6680(void) {
-    return func_800E66C0(0);
+s32 AudioThread_GetActiveNotes(void) {
+    return AudioThread_NoteReleaseCheck(0);
 }
 
-void func_800E66A0(void) {
-    func_800E66C0(2);
+void AudioThread_GetActiveNonsynthNotes(void) {
+    AudioThread_NoteReleaseCheck(2);
 }
 
 /**
  * original name: Nap_SilenceCheck_Inner
+ * Deals with releasing notes.
+ * @param flags If this is >= 2, synthetic notes already loaded in RAM are skipped. If this has its first bit set,
+ * all the notes that are currently playing are set to release at the same speed.
+ * @returns The number of active notes (notes that are still going through their ADSR envelope).
+ * If the first bit of flags is set, it's the number of notes that have been set to release.
  */
-s32 func_800E66C0(s32 flags) {
-    s32 phi_v1;
+s32 AudioThread_NoteReleaseCheck(s32 flags) {
+    s32 numReleasedNotes;
     NotePlaybackState* playbackState;
     NoteSubEu* noteSubEu;
     s32 i;
     Note* note;
     TunedSample* tunedSample;
 
-    phi_v1 = 0;
+    numReleasedNotes = 0;
     for (i = 0; i < gAudioCtx.numNotes; i++) {
         note = &gAudioCtx.notes[i];
         playbackState = &note->playbackState;
@@ -927,7 +933,7 @@ s32 func_800E66C0(s32 flags) {
                     }
                 }
 
-                phi_v1++;
+                numReleasedNotes++;
                 if ((flags & 1) == 1) {
                     playbackState->adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
                     playbackState->adsr.action.s.release = 1;
@@ -935,7 +941,7 @@ s32 func_800E66C0(s32 flags) {
             }
         }
     }
-    return phi_v1;
+    return numReleasedNotes;
 }
 
 /**

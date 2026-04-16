@@ -81,7 +81,7 @@ void n64dd_gfxHook(Gfx** gfxP) { // see game.c
  */
 void n64dd_stopSound(void) {
     if (isSoundStopped == 0) {
-        func_800F6BDC(); // <- audio engine code.
+        Audio_StopWaitAllSeq();
         isSoundStopped = 1;
     }
 }
@@ -111,7 +111,7 @@ void n64dd_waitForSound(void) {
 void n64dd_playSfx(void) {
     if (isSoundStopped != 0) {
         isSoundStopped = 0;
-        func_800F6B3C(); // <- audio engine code.
+        func_800F6B3C(); // play sfx #0 with a 5s fadein
     }
 }
 
