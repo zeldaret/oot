@@ -111,8 +111,8 @@ s32 n64dd_isDiskCorrect(void);
 void func_801C7268(void);
 s32 n64dd_setupTransferThread(void);
 s32 func_801C7818(void);
-void func_801C7C1C(void* dest, s32 offset, s32 size);
-void func_801C7E78(void);
+void n64dd_loadData(void* dest, s32 offset, s32 size);
+void n64dd_empty2(void);
 void n64dd_SetDiskVersion(s32 arg0);
 
 s32 n64dd_parsePacketData(n64dd_drivePacketData* arg0);

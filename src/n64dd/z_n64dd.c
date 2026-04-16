@@ -339,7 +339,7 @@ void n64dd_waitPrintText(void) {
 /**
  * Sets up and starts the data transfer thread. Returns immediately if the disk extras are already running.
  * @returns 0 on exit
-*/
+ */
 s32 n64dd_setupTransferThread(void) {
     if (n64dd_isDiskContentRunning != 0) {
         return 0;
@@ -420,16 +420,16 @@ s32 func_801C7818(void) {
     return 0;
 }
 
-s32 func_801C78B8(void) {
-    s32 phi_v1 = n64dd_setupTransferThread();
+s32 n64dd_transfThreadStatus(void) {
+    s32 status = n64dd_setupTransferThread();
 
-    if (phi_v1 == 0) {
-        phi_v1 = func_801C7818();
+    if (status == 0) {
+        status = func_801C7818();
     }
-    return phi_v1;
+    return status;
 }
 
-s32 func_801C78F0(void) {
+s32 n64dd_cmd0(void) {
     drivePacketData.cmdType = 0;
     return (&n64dd_parsePacketData)(&drivePacketData);
 }
@@ -459,29 +459,33 @@ void func_801C79CC(void* arg0, s32 arg1, s32 arg2) {
     (&n64dd_parsePacketData)(&drivePacketData);
 }
 
-void func_801C7A10(LEODiskID* arg0) {
+void n64dd_empty(LEODiskID* arg0) {
 }
 
-// Checks diskId, sets isGameDiskCorrect and returns true if diskId is correct
-s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* arg0) {
-    static LEODiskID B_801DBFD0;
-    static s32 B_801DBFF0; // bool
+/**
+ * Checks diskId, sets isGameDiskCorrect and returns true if diskId is correct.
+ * @param diskData A communication packet from the disk drive. This gets us info about the currently inserted disk.
+ * @returns true if diskId is correct
+ **/
+s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* diskData) {
+    static LEODiskID curDiskId;
+    static s32 isDiskIdSet; // bool
 
-    func_801C7A10(&arg0->diskId);
-    if (!B_801DBFF0) {
+    n64dd_empty(&diskData->diskId);
+    if (!isDiskIdSet) {
 #if OOT_NTSC
-        if (bcmp(arg0->diskId.gameName, "EZLJ", 4) == 0 || bcmp(arg0->diskId.gameName, "EZLE", 4) == 0)
+        if (bcmp(diskData->diskId.gameName, "EZLJ", 4) == 0 || bcmp(diskData->diskId.gameName, "EZLE", 4) == 0)
 #else
-        if (bcmp(arg0->diskId.gameName, "EZLP", 4) == 0)
+        if (bcmp(diskData->diskId.gameName, "EZLP", 4) == 0)
 #endif
         {
-            B_801DBFD0 = arg0->diskId;
-            B_801DBFF0 = true;
+            curDiskId = diskData->diskId;
+            isDiskIdSet = true;
             isGameDiskCorrect = 1;
         } else {
             isGameDiskCorrect = 2;
         }
-    } else if (bcmp(&B_801DBFD0, &arg0->diskId, sizeof(LEODiskID)) == 0) {
+    } else if (bcmp(&curDiskId, &diskData->diskId, sizeof(LEODiskID)) == 0) {
         isGameDiskCorrect = 1;
     } else {
         isGameDiskCorrect = 2;
@@ -489,49 +493,64 @@ s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* arg0) {
     return isGameDiskCorrect == 1;
 }
 
-// Translates byte position to LBA and byte offset
-s32 func_801C7B48(s32 arg0, s32* arg1, s32* arg2) {
-    s32 sp2C;
-    s32 temp_v0_2;
-    s32 sp24;
-    s32 sp20;
-    s32 temp_v0;
+/**
+ * Translates byte position to LBA and byte offset.
+ * @param startLba The LBA to start reading from
+ * @param adjustedLbaCount The resultant LBA, accounting for the first (reserved) disk sector.
+ * @param lba A pointer to the byte offset?
+ * @returns The drive status.
+ **/
+s32 n64dd_offsetToBlock(s32 startLba, s32* adjustedLbaCount, s32* lba) {
+    s32 diskData2;
+    s32 diskReadStatus;
+    s32 lbaCount;
+    s32 diskData;
+    s32 diskReadStatus2;
 
-    temp_v0_2 = LeoByteToLBA(1, arg0 + 1, &sp2C);
-    if (temp_v0_2 != LEO_ERROR_GOOD) {
-        return temp_v0_2;
+    diskReadStatus = LeoByteToLBA(1, startLba + 1, &diskData2); // accounts for disk header
+    if (diskReadStatus != LEO_ERROR_GOOD) {
+        return diskReadStatus;
     }
-    sp24 = sp2C - 1;
-    if (sp2C == 1) {
-        sp20 = 0;
+    lbaCount = diskData2 - 1;
+    if (diskData2 == 1) {
+        diskData = 0;
     } else {
-        temp_v0 = LeoLBAToByte(1, sp24, &sp20);
-        if (temp_v0 != LEO_ERROR_GOOD) {
-            return temp_v0;
+        diskReadStatus2 = LeoLBAToByte(1, lbaCount, &diskData);
+        if (diskReadStatus2 != LEO_ERROR_GOOD) {
+            return diskReadStatus2;
         }
     }
-    *arg1 = sp24 + 1;
-    *arg2 = arg0 - sp20;
+    *adjustedLbaCount = lbaCount + 1;
+    *lba = startLba - diskData;
     return LEO_ERROR_GOOD;
 }
 
-s32 func_801C7BEC(s32 startLBA) {
-    s32 bytes;
+/**
+ * Wrapper for LeoLBAToByte.
+ * @param startLba The starting LBA
+ * @returns The corresponding byte offset if the read was successful, else returns 0.
+ */
+s32 n64dd_LbaToByte(s32 startLba) s32 bytes;
 
-    if (LeoLBAToByte(startLBA, 1, &bytes) == LEO_ERROR_GOOD) {
-        return bytes;
-    }
-    return 0;
+if (LeoLBAToByte(startLba, 1, &bytes) == LEO_ERROR_GOOD) {
+    return bytes;
+}
+return 0;
 }
 
-// Copies bytes from disk to arg0
-void func_801C7C1C(void* dest, s32 offset, s32 size) {
-    s32 sp5C;
-    s32 sp58;
-    s32 sp54;
-    s32 sp50;
-    void* sp4C;
-    s32 var_s0;
+/**
+ * Copies bytes from disk to a destination buffer.
+ * @param dest A pointer to the destination buffer
+ * @param offset The offset from the start of the disk to read from
+ * @param size How many bytes to read
+ **/
+void n64dd_loadData(void* dest, s32 offset, s32 size) {
+    s32 pLbaData;
+    s32 pLbaData2;
+    s32 pReadByteOffset;
+    s32 pReadByteOffset2;
+    void* pTmpDDReadBuf;
+    s32 lbaBlockNum;
     s32 var_s1;
     s32 temp_v1_2;
 
@@ -539,25 +558,26 @@ void func_801C7C1C(void* dest, s32 offset, s32 size) {
     n64dd_waitForSound();
     isNewFBAvailable = 1;
     currentTime = 0;
-    func_801C7B48(offset, &sp5C, &sp54);
-    func_801C7B48(offset + size, &sp58, &sp50);
-    sp4C = pTmpReadBuf;
-    if (sp5C == sp58) {
-        func_801C7920(sp5C, sp4C, func_801C7BEC(sp5C));
-        bcopy((u8*)sp4C + sp54, dest, size);
+    n64dd_offsetToBlock(offset, &pLbaData, &pReadByteOffset);
+    n64dd_offsetToBlock(offset + size, &pLbaData2, &pReadByteOffset2);
+    pTmpDDReadBuf = pTmpReadBuf;
+    if (pLbaData == pLbaData2) {
+        func_801C7920(pLbaData, pTmpDDReadBuf, n64dd_LbaToByte(pLbaData));
+        bcopy((u8*)pTmpDDReadBuf + pReadByteOffset, dest, size);
     } else {
         var_s1 = 0;
-        func_801C7920(sp5C, sp4C, func_801C7BEC(sp5C));
-        bcopy((u8*)sp4C + sp54, dest, func_801C7BEC(sp5C) - sp54);
-        if (sp5C + 1 < sp58) {
-            for (var_s0 = sp5C + 1; var_s0 < sp58; var_s0++) {
-                var_s1 += func_801C7BEC(var_s0);
+        func_801C7920(pLbaData, pTmpDDReadBuf, n64dd_LbaToByte(pLbaData));
+        bcopy((u8*)pTmpDDReadBuf + pReadByteOffset, dest, n64dd_LbaToByte(pLbaData) - pReadByteOffset);
+        if (pLbaData + 1 < pLbaData2) {
+            for (lbaBlockNum = pLbaData + 1; lbaBlockNum < pLbaData2; lbaBlockNum++) {
+                var_s1 += n64dd_LbaToByte(lbaBlockNum);
             }
-            func_801C7920(sp5C + 1, (u8*)dest + func_801C7BEC(sp5C) - sp54, var_s1);
+            func_801C7920(pLbaData + 1, (u8*)dest + n64dd_LbaToByte(pLbaData) - pReadByteOffset, var_s1);
         }
-        if (sp50 > 0) {
-            func_801C7920(sp58, sp4C, func_801C7BEC(sp58));
-            bcopy((u8*)sp4C, (u8*)dest + func_801C7BEC(sp5C) - sp54 + var_s1, sp50);
+        if (pReadByteOffset2 > 0) {
+            func_801C7920(pLbaData2, pTmpDDReadBuf, n64dd_LbaToByte(pLbaData2));
+            bcopy((u8*)pTmpDDReadBuf, (u8*)dest + n64dd_LbaToByte(pLbaData) - pReadByteOffset + var_s1,
+                  pReadByteOffset2);
         }
     }
 #if OOT_VERSION < NTSC_1_1
@@ -574,32 +594,36 @@ void func_801C7C1C(void* dest, s32 offset, s32 size) {
     n64dd_playSfx();
 }
 
-void func_801C7E78(void) {
+void n64dd_empty2(void) {
 }
 
-s32 func_801C7E80(void) {
-    s32 sp24;
-    s32 sp20;
+/**
+ * Sets up buffers and reads data from the disk given a global DDLoad structure...?
+ * @returns -1 if the pointer to the DDLoad struct already exists, 0 on success
+ **/
+s32 n64dd_setupDiskRead(void) {
+    s32 diskReadSize;
+    s32 ramWriteSize;
     s32 sp1C;
-    uintptr_t sp18;
+    uintptr_t pLoadOffset;
 
     if (pDDLoad0 != NULL) {
         return -1;
     }
     pDDLoad0 = &DDLoad0;
-    func_801C7C1C(pDDLoad0, 0x1060, 0x118);
-    sp24 = pDDLoad0->diskEnd - pDDLoad0->diskStart;
-    sp20 = pDDLoad0->ramEnd - pDDLoad0->ramStart;
-    sp18 = pDDLoad0->ramStart + sp24;
-    func_801C7C1C((void*)pDDLoad0->ramStart, pDDLoad0->diskStart, sp24);
-    bzero((void*)sp18, sp20 - sp24);
+    n64dd_loadData(pDDLoad0, 0x1060, 0x118);
+    diskReadSize = pDDLoad0->diskEnd - pDDLoad0->diskStart;
+    ramWriteSize = pDDLoad0->ramEnd - pDDLoad0->ramStart;
+    pLoadOffset = pDDLoad0->ramStart + diskReadSize;
+    n64dd_loadData((void*)pDDLoad0->ramStart, pDDLoad0->diskStart, diskReadSize);
+    bzero((void*)pLoadOffset, ramWriteSize - diskReadSize);
     func_800AD4C0(pDDLoad0->unk_010);
     return 0;
 }
 
-s32 func_801C7F24(void) {
-    uintptr_t temp_a0;
-    n64dd_CopyToRAM* temp_v0;
+s32 n64dd_clearCopyBufs(void) {
+    uintptr_t pRamStart;
+    n64dd_CopyToRAM* pCpyToRam;
 
     if (pDDLoad0 == 0) {
         return -1;
@@ -608,9 +632,9 @@ s32 func_801C7F24(void) {
     // Function from code
     func_800AD51C();
 
-    temp_v0 = pDDLoad0;
-    temp_a0 = temp_v0->ramStart;
-    bzero((void*)temp_a0, temp_v0->ramEnd - temp_a0);
+    pCpyToRam = pDDLoad0;
+    pRamStart = pCpyToRam->ramStart;
+    bzero((void*)pRamStart, pCpyToRam->ramEnd - pRamStart);
     bzero(pDDLoad0, sizeof(n64dd_CopyToRAM));
     pDDLoad0 = 0;
     return 0;
@@ -619,9 +643,9 @@ s32 func_801C7F24(void) {
 void n64dd_SetDiskVersion(s32 arg0) {
     if (arg0 != 0) {
         if (pDDLoad0 == 0) {
-            func_801C7E80();
+            n64dd_setupDiskRead();
         }
     } else if (pDDLoad0 != 0) {
-        func_801C7F24();
+        n64dd_clearCopyBufs();
     }
 }
