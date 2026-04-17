@@ -4280,20 +4280,20 @@ s32 Player_ActionHandler_12(Player* this, PlayState* play);
 s32 Player_ActionHandler_13(Player* this, PlayState* play);
 
 static s32 (*sActionHandlerFuncs[])(Player* this, PlayState* play) = {
-    Player_ActionHandler_0,    // PLAYER_ACTION_HANDLER_0
-    Player_ActionHandler_1,    // PLAYER_ACTION_HANDLER_1
-    Player_ActionHandler_2,    // PLAYER_ACTION_HANDLER_2
-    Player_ActionHandler_3,    // PLAYER_ACTION_HANDLER_3
-    Player_ActionHandler_Talk, // PLAYER_ACTION_HANDLER_TALK
-    Player_ActionHandler_5,    // PLAYER_ACTION_HANDLER_5
-    Player_ActionHandler_Roll, // PLAYER_ACTION_HANDLER_ROLL
-    Player_ActionHandler_7,    // PLAYER_ACTION_HANDLER_7
-    Player_ActionHandler_8,    // PLAYER_ACTION_HANDLER_8
-    Player_ActionHandler_9,    // PLAYER_ACTION_HANDLER_9
-    Player_ActionHandler_10,   // PLAYER_ACTION_HANDLER_10
-    Player_ActionHandler_CrouchShield,   // PLAYER_ACTION_HANDLER_11
-    Player_ActionHandler_12,   // PLAYER_ACTION_HANDLER_12
-    Player_ActionHandler_13,   // PLAYER_ACTION_HANDLER_13
+    Player_ActionHandler_0,            // PLAYER_ACTION_HANDLER_0
+    Player_ActionHandler_1,            // PLAYER_ACTION_HANDLER_1
+    Player_ActionHandler_2,            // PLAYER_ACTION_HANDLER_2
+    Player_ActionHandler_3,            // PLAYER_ACTION_HANDLER_3
+    Player_ActionHandler_Talk,         // PLAYER_ACTION_HANDLER_TALK
+    Player_ActionHandler_5,            // PLAYER_ACTION_HANDLER_5
+    Player_ActionHandler_Roll,         // PLAYER_ACTION_HANDLER_ROLL
+    Player_ActionHandler_7,            // PLAYER_ACTION_HANDLER_7
+    Player_ActionHandler_8,            // PLAYER_ACTION_HANDLER_8
+    Player_ActionHandler_9,            // PLAYER_ACTION_HANDLER_9
+    Player_ActionHandler_10,           // PLAYER_ACTION_HANDLER_10
+    Player_ActionHandler_CrouchShield, // PLAYER_ACTION_HANDLER_11
+    Player_ActionHandler_12,           // PLAYER_ACTION_HANDLER_12
+    Player_ActionHandler_13,           // PLAYER_ACTION_HANDLER_13
 };
 
 /**
@@ -4924,8 +4924,9 @@ s32 func_808382DC(Player* this, PlayState* play) {
             // However, `Collider.atFlags` is a byte so the flag check at the end is incorrect and cannot work.
             // Additionally, `Collider.atHit` can never be set while already colliding as AC, so it's also bugged.
             // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
-            if (shieldBlock || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
-                         (this->cylinder.elem.atHit != NULL) && (this->cylinder.elem.atHit->atFlags & 0x20000000))) {
+            if (shieldBlock ||
+                ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
+                 (this->cylinder.elem.atHit != NULL) && (this->cylinder.elem.atHit->atFlags & 0x20000000))) {
 
                 Player_RequestRumble(this, 180, 20, 100, 0);
 
@@ -4961,7 +4962,8 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (shieldBlock && (this->shieldQuad.elem.acHitElem->atDmgInfo.hitSpecialEffect == HIT_SPECIAL_EFFECT_FIRE)) {
+                if (shieldBlock &&
+                    (this->shieldQuad.elem.acHitElem->atDmgInfo.hitSpecialEffect == HIT_SPECIAL_EFFECT_FIRE)) {
                     Player_BurnDekuShield(this, play);
                 }
 
@@ -9334,7 +9336,7 @@ void Player_Action_ShieldBlock(Player* this, PlayState* play) {
     //! @bug This action is set by a general handling function and not by another action.
     //! Neither this or calling function make sure to reset states that are incompatible
     //! with shielding and not reset by Player_SetupAction, such as PLAYER_STATE1_CARRYING_ACTOR,
-    //! PLAYER_STATE1_CLIMB_JUMP_UP, or meleeWeaponState.
+    //! PLAYER_STATE1_14, or meleeWeaponState.
     //! This is part of groundjump, ledge cancel, damage ISG and down A respectively.
 
     Player_DecelerateToZero(this);
@@ -9357,7 +9359,7 @@ void Player_Action_ShieldBlock(Player* this, PlayState* play) {
         //! reseting meleeWeaponState, this results in damage ISG (rather, "block ISG").
         //! -- For instance, pressing C-up to enter first person on any interruptable frame but the last leads to
         //! unk_6AD = 1 through Player_ActionHandler_0, which leads to entering first person action
-        //! the next frame. (The first person camera is instantly removed because Player_RestoreHeldIA resets unk_6AD.)
+        //! the next frame. (The first person camera is instantly removed because func_8008EC70 resets unk_6AD.)
         interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 4.0f);
 
         if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
