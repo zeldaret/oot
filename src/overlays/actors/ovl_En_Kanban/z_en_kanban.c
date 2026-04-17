@@ -678,7 +678,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     }
                     EffectSsGRipple_Spawn(play, &this->actor.world.pos, rippleScale, rippleScale + 500, 0);
                 }
-            } else if ((play->actorCtx.unk_02 != 0) && (this->actor.xyzDistToPlayerSq < SQ(100.0f))) {
+            } else if ((play->actorCtx.hammerHit != 0) && (this->actor.xyzDistToPlayerSq < SQ(100.0f))) {
                 f32 hammerStrength = (100.0f - sqrtf(this->actor.xyzDistToPlayerSq)) * 0.05f;
 
                 this->actionState = ENKANBAN_AIR;

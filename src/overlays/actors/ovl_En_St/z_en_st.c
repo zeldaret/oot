@@ -513,7 +513,7 @@ s32 EnSt_CheckColliders(EnSt* this, PlayState* play) {
         return false;
     }
 
-    if (play->actorCtx.unk_02 != 0) {
+    if (play->actorCtx.hammerHit != 0) {
         return true;
     }
 

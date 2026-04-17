@@ -477,7 +477,7 @@ void EnHintnuts_ColliderCheck(EnHintnuts* this, PlayState* play) {
             EnHintnuts_HitByScrubProjectile1(this, play);
             EnHintnuts_HitByScrubProjectile2(this);
         }
-    } else if (play->actorCtx.unk_02 != 0) {
+    } else if (play->actorCtx.hammerHit != 0) {
         EnHintnuts_HitByScrubProjectile1(this, play);
         EnHintnuts_HitByScrubProjectile2(this);
     }

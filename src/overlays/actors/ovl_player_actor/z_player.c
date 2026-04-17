@@ -134,13 +134,14 @@ typedef struct ItemChangeInfo {
     /* 0x04 */ u8 changeFrame;
 } ItemChangeInfo; // size = 0x08
 
-typedef struct struct_80854190 {
-    /* 0x00 */ LinkAnimationHeader* unk_00;
-    /* 0x04 */ LinkAnimationHeader* unk_04;
-    /* 0x08 */ LinkAnimationHeader* unk_08;
-    /* 0x0C */ u8 unk_0C;
-    /* 0x0D */ u8 unk_0D;
-} struct_80854190; // size = 0x10
+typedef struct MWAInfo {
+    /* 0x00 */ LinkAnimationHeader* attackAnim;     // Melee attack animation
+    /* 0x04 */ LinkAnimationHeader* postAttackAnim; // Animation for returning to neutral position
+    /* 0x08 */ LinkAnimationHeader*
+        postAttackAnimTargeting; // Animation for returning to neutral position when hostile Z-targeting
+    /* 0x0C */ u8 colliderFrame; // Frame of attack animation to activate weapon collider
+    /* 0x0D */ u8 finalFrame;    // Final frame of blure and collider
+} MWAInfo;                       // size = 0x10
 
 typedef struct struct_80854578 {
     /* 0x00 */ LinkAnimationHeader* anim;
@@ -297,7 +298,7 @@ void Player_Action_80843CEC(Player* this, PlayState* play);
 void Player_Action_8084411C(Player* this, PlayState* play);
 void Player_Action_Roll(Player* this, PlayState* play);
 void Player_Action_80844A44(Player* this, PlayState* play);
-void Player_Action_80844AF4(Player* this, PlayState* play);
+void Player_Action_Jumpslash(Player* this, PlayState* play);
 void Player_Action_80844E68(Player* this, PlayState* play);
 void Player_Action_80845000(Player* this, PlayState* play);
 void Player_Action_80845308(Player* this, PlayState* play);
@@ -352,8 +353,8 @@ void Player_Action_ExitGrotto(Player* this, PlayState* play);
 void Player_Action_8084FA54(Player* this, PlayState* play);
 void Player_Action_8084FB10(Player* this, PlayState* play);
 void Player_Action_8084FBF4(Player* this, PlayState* play);
-void Player_Action_808502D0(Player* this, PlayState* play);
-void Player_Action_808505DC(Player* this, PlayState* play);
+void Player_Action_MeleeAttack(Player* this, PlayState* play);
+void Player_Action_MeleeBounce(Player* this, PlayState* play);
 void Player_Action_8085063C(Player* this, PlayState* play);
 void Player_Action_FaroresWindArrive(Player* this, PlayState* play);
 void Player_Action_808507F4(Player* this, PlayState* play);
@@ -1566,7 +1567,7 @@ static ExplosiveInfo sExplosiveInfos[] = {
     { ITEM_BOMBCHU, ACTOR_EN_BOM_CHU },
 };
 
-static struct_80854190 D_80854190[PLAYER_MWA_MAX] = {
+static MWAInfo sMWAInfos[PLAYER_MWA_MAX] = {
     /* PLAYER_MWA_FORWARD_SLASH_1H */
     { &gPlayerAnim_link_fighter_normal_kiru, &gPlayerAnim_link_fighter_normal_kiru_end,
       &gPlayerAnim_link_fighter_normal_kiru_endR, 1, 4 },
@@ -1765,7 +1766,12 @@ void Player_ApplyYawFromAnim(Player* this) {
     this->skelAnime.jointTable[1].y = 0;
 }
 
-void func_80832318(Player* this) {
+/**
+ * Sets a melee weapon to inactive by removing the spin attack release flag (set for non-magic spin attacks,
+ * to set the AT colliders), reset meleeWeaponState (if != 0, collision is set every frame = ISG),
+ * and the active flag for the colliders (used by Player_UpdateWeaponInfo).
+ */
+void Player_InactivateMeleeWeapon(Player* this) {
     this->stateFlags2 &= ~PLAYER_STATE2_17;
     this->meleeWeaponState = 0;
     this->meleeWeaponInfo[0].active = this->meleeWeaponInfo[1].active = this->meleeWeaponInfo[2].active = false;
@@ -1822,7 +1828,7 @@ void func_80832440(PlayState* play, Player* this) {
         }
     }
 
-    func_80832318(this);
+    Player_InactivateMeleeWeapon(this);
     this->unk_6AD = 0;
 
     func_80832340(play, this);
@@ -1834,7 +1840,7 @@ void func_80832440(PlayState* play, Player* this) {
     this->actor.shape.rot.x = 0;
     this->actor.shape.yOffset = 0.0f;
 
-    this->unk_845 = this->unk_844 = 0;
+    this->tripleSlashCount = this->unk_844 = 0;
 }
 
 /**
@@ -2486,7 +2492,13 @@ void Player_InitItemAction(PlayState* play, Player* this, s8 itemAction) {
     Player_SetModelGroup(this, this->modelGroup);
 }
 
-void func_80833A20(Player* this, s32 newMeleeWeaponState) {
+/**
+ * Set meleeWeaponState to 1 or -1 and play sound effects for using a weapon.
+ * meleeWeaponState -1 results in no collider and is used to generate blure effect
+ * (the white sword trail) for weapons when the attack has started but is early in
+ * animation, before they should have an active collider.
+ */
+void Player_ActivateMeleeWeapon(Player* this, s32 newMeleeWeaponState) {
     u16 itemSfx;
     u16 voiceSfx;
 
@@ -2504,7 +2516,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
         } else if (this->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
             itemSfx = 0;
             voiceSfx = NA_SE_VO_LI_SWORD_L;
-        } else if (this->unk_845 >= 3) {
+        } else if (this->tripleSlashCount >= 3) { // Extra strong animation attack (such as triple slash)
             itemSfx = NA_SE_IT_SWORD_SWING_HARD;
             voiceSfx = NA_SE_VO_LI_SWORD_L;
         }
@@ -3449,7 +3461,8 @@ s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFun
     this->stateFlags1 &= ~(PLAYER_STATE1_2 | PLAYER_STATE1_TALKING | PLAYER_STATE1_26 | PLAYER_STATE1_28 |
                            PLAYER_STATE1_29 | PLAYER_STATE1_31);
     this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_USING_OCARINA | PLAYER_STATE2_IDLE_FIDGET);
-    this->stateFlags3 &= ~(PLAYER_STATE3_1 | PLAYER_STATE3_3 | PLAYER_STATE3_FLYING_WITH_HOOKSHOT);
+    this->stateFlags3 &=
+        ~(PLAYER_STATE3_KNOCKBACK_JUMPSLASH | PLAYER_STATE3_MELEE_ATTACK | PLAYER_STATE3_FLYING_WITH_HOOKSHOT);
 
     this->av1.actionVar1 = 0;
     this->av2.actionVar2 = 0;
@@ -4425,7 +4438,7 @@ void func_80837704(PlayState* play, Player* this) {
         anim = D_80854350[Player_HoldsTwoHandedWeapon(this)];
     }
 
-    func_80832318(this);
+    Player_InactivateMeleeWeapon(this);
     LinkAnimation_Change(play, &this->skelAnime, anim, 1.0f, 8.0f, Animation_GetLastFrame(anim), ANIMMODE_ONCE, -9.0f);
     func_80837530(play, this, 0x200);
 }
@@ -4435,67 +4448,77 @@ void func_808377DC(PlayState* play, Player* this) {
     func_80837704(play, this);
 }
 
-static s8 D_80854480[] = {
+static s8 sSwordMWAs[] = {
     PLAYER_MWA_STAB_1H,
     PLAYER_MWA_RIGHT_SLASH_1H,
     PLAYER_MWA_RIGHT_SLASH_1H,
     PLAYER_MWA_LEFT_SLASH_1H,
 };
 
-static s8 D_80854484[] = {
+static s8 sHammerMWAs[] = {
     PLAYER_MWA_HAMMER_FORWARD,
     PLAYER_MWA_HAMMER_SIDE,
     PLAYER_MWA_HAMMER_FORWARD,
     PLAYER_MWA_HAMMER_SIDE,
 };
 
-s32 func_80837818(Player* this) {
+/**
+ * Set melee weapon animation from stick input.
+ * @return the new melee weapon animation index integer
+ */
+s32 Player_SetMeleeAttackFromStickInput(Player* this) {
     s32 controlStickDirection = this->controlStickDirections[this->controlStickDataIndex];
-    s32 sp18;
+    s32 MWA;
 
     if (this->heldItemAction == PLAYER_IA_HAMMER) {
         if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
             controlStickDirection = PLAYER_STICK_DIR_FORWARD;
         }
 
-        sp18 = D_80854484[controlStickDirection];
-        this->unk_845 = 0;
+        MWA = sHammerMWAs[controlStickDirection];
+        this->tripleSlashCount = 0; // No triple slashing with Hammer
     } else {
         if (Player_CanSpinAttack(this)) {
-            sp18 = PLAYER_MWA_SPIN_ATTACK_1H;
+            MWA = PLAYER_MWA_SPIN_ATTACK_1H;
         } else {
             if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
                 if (Player_IsZTargeting(this)) {
-                    sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
+                    MWA = PLAYER_MWA_FORWARD_SLASH_1H;
                 } else {
-                    sp18 = PLAYER_MWA_RIGHT_SLASH_1H;
+                    MWA = PLAYER_MWA_RIGHT_SLASH_1H;
                 }
             } else {
-                sp18 = D_80854480[controlStickDirection];
+                MWA = sSwordMWAs[controlStickDirection];
 
-                if (sp18 == PLAYER_MWA_STAB_1H) {
-                    this->stateFlags2 |= PLAYER_STATE2_30;
+                if (MWA == PLAYER_MWA_STAB_1H) {
+                    this->stateFlags2 |= PLAYER_STATE2_ATTACK_MOVE_FORWARD;
 
                     if (!Player_IsZTargeting(this)) {
-                        sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
+                        MWA = PLAYER_MWA_FORWARD_SLASH_1H;
                     }
                 }
             }
 
             if (this->heldItemAction == PLAYER_IA_DEKU_STICK) {
-                sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
+                MWA = PLAYER_MWA_FORWARD_SLASH_1H;
             }
         }
 
+        // If two handed select the two hand animation
         if (Player_HoldsTwoHandedWeapon(this)) {
-            sp18++;
+            MWA++;
         }
     }
 
-    return sp18;
+    return MWA;
 }
 
-void func_80837918(Player* this, s32 quadIndex, u32 dmgFlags) {
+/**
+ * Set damage and other properties for the AT colliders of a melee weapon
+ * @param quadIndex which of the two collider quads to set flags for
+ * @param dmgFlags flag for which weapon and whether normal/jump attack
+ */
+void Player_SetMeleeATFlags(Player* this, s32 quadIndex, u32 dmgFlags) {
     this->meleeWeaponQuads[quadIndex].elem.atDmgInfo.dmgFlags = dmgFlags;
 
     if (dmgFlags == DMG_DEKU_STICK) {
@@ -4505,55 +4528,64 @@ void func_80837918(Player* this, s32 quadIndex, u32 dmgFlags) {
     }
 }
 
-static u32 D_80854488[][2] = {
+static u32 sMeleeWeaponDamageFlags[][2] = {
     { DMG_SLASH_MASTER, DMG_JUMP_MASTER }, { DMG_SLASH_KOKIRI, DMG_JUMP_KOKIRI }, { DMG_SLASH_GIANT, DMG_JUMP_GIANT },
     { DMG_DEKU_STICK, DMG_JUMP_MASTER },   { DMG_HAMMER_SWING, DMG_HAMMER_JUMP },
 };
 
-void func_80837948(PlayState* play, Player* this, s32 arg2) {
+/**
+ * Sets the melee attack action function, resets the spin attack B timer, adjusts animation
+ * for triple slash attacks, starts playing attack animation, and sets AT collider flags
+ * @param newMWA the melee weapon animation that has been set for the attack
+ */
+void Player_SetupMeleeAttack(PlayState* play, Player* this, s32 newMWA) {
     s32 pad;
     u32 dmgFlags;
-    s32 temp;
+    s32 heldWeapon;
 
-    Player_SetupAction(play, this, Player_Action_808502D0, 0);
-    this->unk_844 = 8;
-    if (!((arg2 >= PLAYER_MWA_FLIPSLASH_FINISH) && (arg2 <= PLAYER_MWA_JUMPSLASH_FINISH))) {
-        func_80832318(this);
+    Player_SetupAction(play, this, Player_Action_MeleeAttack, 0);
+    this->unk_844 = 8; // Counter for frames holding B to start a spin attack charge at 1
+    if (!((newMWA >= PLAYER_MWA_FLIPSLASH_FINISH) && (newMWA <= PLAYER_MWA_JUMPSLASH_FINISH))) {
+        Player_InactivateMeleeWeapon(this);
     }
 
-    if ((arg2 != this->meleeWeaponAnimation) || !(this->unk_845 < 3)) {
-        this->unk_845 = 0;
+    // "Triple slash". If the same attack (= animation) has been done less than 3 times in a row,
+    // increase the counter below. Otherwise, reset it
+    if ((newMWA != this->meleeWeaponAnimation) || !(this->tripleSlashCount < 3)) {
+        this->tripleSlashCount = 0;
+    }
+    this->tripleSlashCount++;
+    // If this is the third attack (or other reason for tripleSlashCount >= 2 at function call),
+    // make the melee weapon animation extra strong
+    if (this->tripleSlashCount >= 3) {
+        newMWA += 2;
     }
 
-    this->unk_845++;
-    if (this->unk_845 >= 3) {
-        arg2 += 2;
-    }
+    this->meleeWeaponAnimation = newMWA;
 
-    this->meleeWeaponAnimation = arg2;
-
-    Player_AnimPlayOnceAdjusted(play, this, D_80854190[arg2].unk_00);
-    if ((arg2 != PLAYER_MWA_FLIPSLASH_START) && (arg2 != PLAYER_MWA_JUMPSLASH_START)) {
+    Player_AnimPlayOnceAdjusted(play, this, sMWAInfos[newMWA].attackAnim);
+    if ((newMWA != PLAYER_MWA_FLIPSLASH_START) && (newMWA != PLAYER_MWA_JUMPSLASH_START)) {
         Player_StartAnimMovement(play, this,
                                  PLAYER_ANIM_MOVEMENT_RESET_BY_AGE | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_ENABLE_MOVEMENT);
     }
 
     this->yaw = this->actor.shape.rot.y;
 
+    // Select AT flag depending on weapon and slash/regular attack
     if (Player_HoldsBrokenKnife(this)) {
-        temp = 1;
+        heldWeapon = 1;
     } else {
-        temp = Player_GetMeleeWeaponHeld(this) - 1;
+        heldWeapon = Player_GetMeleeWeaponHeld(this) - 1;
     }
 
-    if ((arg2 >= PLAYER_MWA_FLIPSLASH_START) && (arg2 <= PLAYER_MWA_JUMPSLASH_FINISH)) {
-        dmgFlags = D_80854488[temp][1];
+    if ((newMWA >= PLAYER_MWA_FLIPSLASH_START) && (newMWA <= PLAYER_MWA_JUMPSLASH_FINISH)) {
+        dmgFlags = sMeleeWeaponDamageFlags[heldWeapon][1];
     } else {
-        dmgFlags = D_80854488[temp][0];
+        dmgFlags = sMeleeWeaponDamageFlags[heldWeapon][0];
     }
 
-    func_80837918(this, 0, dmgFlags);
-    func_80837918(this, 1, dmgFlags);
+    Player_SetMeleeATFlags(this, 0, dmgFlags);
+    Player_SetMeleeATFlags(this, 1, dmgFlags);
 }
 
 /**
@@ -4681,7 +4713,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed
                    (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
             Player_SetupAction(play, this, Player_Action_8084377C, 0);
 
-            this->stateFlags3 |= PLAYER_STATE3_1;
+            this->stateFlags3 |= PLAYER_STATE3_KNOCKBACK_JUMPSLASH;
 
             Player_RequestRumble(this, 255, 20, 150, 0);
             func_80832224(this);
@@ -5839,10 +5871,11 @@ void func_8083AA10(Player* this, PlayState* play) {
                 return;
             }
 
-            if (!(this->stateFlags3 & PLAYER_STATE3_1) &&
+            if (!(this->stateFlags3 & PLAYER_STATE3_KNOCKBACK_JUMPSLASH) &&
                 !(this->skelAnime.movementFlags & ANIM_FLAG_OVERRIDE_MOVEMENT) &&
                 (Player_Action_8084411C != this->actionFunc) && (Player_Action_80844A44 != this->actionFunc)) {
 
+                // Prevent falling from edges when melee attacking. Part of ISG.
                 if ((sPrevFloorProperty == FLOOR_PROPERTY_7) || (this->meleeWeaponState != 0)) {
                     Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.prevPos);
                     Player_ZeroSpeedXZ(this);
@@ -5931,7 +5964,7 @@ s32 Player_StartCsAction(PlayState* play, Player* this) {
             this->stateFlags1 |= PLAYER_STATE1_29;
         }
 
-        func_80832318(this);
+        Player_InactivateMeleeWeapon(this);
         return true;
     } else {
         return false;
@@ -6307,11 +6340,14 @@ s32 Player_ActionHandler_0(Player* this, PlayState* play) {
     return 0;
 }
 
-void func_8083BA90(PlayState* play, Player* this, s32 arg2, f32 xzSpeed, f32 yVelocity) {
-    func_80837948(play, this, arg2);
-    Player_SetupAction(play, this, Player_Action_80844AF4, 0);
+/**
+ * Setup melee weapon animation and action for a jumpslash.
+ */
+void Player_SetupJumpslash(PlayState* play, Player* this, s32 meleeWeaponAnimation, f32 xzSpeed, f32 yVelocity) {
+    Player_SetupMeleeAttack(play, this, meleeWeaponAnimation);
+    Player_SetupAction(play, this, Player_Action_Jumpslash, 0);
 
-    this->stateFlags3 |= PLAYER_STATE3_1;
+    this->stateFlags3 |= PLAYER_STATE3_KNOCKBACK_JUMPSLASH;
 
     this->yaw = this->actor.shape.rot.y;
     this->speedXZ = xzSpeed;
@@ -6324,7 +6360,11 @@ void func_8083BA90(PlayState* play, Player* this, s32 arg2, f32 xzSpeed, f32 yVe
     Player_PlayVoiceSfx(this, NA_SE_VO_LI_SWORD_L);
 }
 
-s32 func_8083BB20(Player* this) {
+/**
+ * Uses a melee weapon already in hand if not shielding.
+ * @return 1 if use weapon is successful
+ */
+s32 Player_UseMeleeWeapon(Player* this) {
     if (!(this->stateFlags1 & PLAYER_STATE1_SHIELDING) && (Player_GetMeleeWeaponHeld(this) != 0)) {
         if (sUseHeldItem ||
             ((this->actor.category != ACTORCAT_PLAYER) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B))) {
@@ -6335,9 +6375,13 @@ s32 func_8083BB20(Player* this) {
     return 0;
 }
 
-s32 func_8083BBA0(Player* this, PlayState* play) {
-    if (func_8083BB20(this) && (sFloorType != FLOOR_TYPE_7)) {
-        func_8083BA90(play, this, PLAYER_MWA_JUMPSLASH_START, 3.0f, 4.5f);
+/**
+ * If able to do a jumpslash, call setup action.
+ * @return 1 if can start jumpslash
+ */
+s32 Player_TryJumpslash(Player* this, PlayState* play) {
+    if (Player_UseMeleeWeapon(this) && (sFloorType != FLOOR_TYPE_7)) {
+        Player_SetupJumpslash(play, this, PLAYER_MWA_JUMPSLASH_START, 3.0f, 4.5f);
         return 1;
     }
 
@@ -6379,6 +6423,9 @@ void func_8083BCD0(Player* this, PlayState* play, s32 controlStickDirection) {
     Player_PlaySfx(this, ((controlStickDirection << 0xE) == 0x8000) ? NA_SE_PL_ROLL : NA_SE_PL_SKIP);
 }
 
+/**
+ * Jumpslash, roll, sidehops/backflips
+ */
 s32 Player_ActionHandler_10(Player* this, PlayState* play) {
     s32 controlStickDirection;
 
@@ -6389,15 +6436,19 @@ s32 Player_ActionHandler_10(Player* this, PlayState* play) {
 
         if (controlStickDirection <= PLAYER_STICK_DIR_FORWARD) {
             if (Player_IsZTargeting(this)) {
+                // Dark Link
                 if (this->actor.category != ACTORCAT_PLAYER) {
                     if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
+                        // Dark Link does not get here, because he would then jumpslash from air.
+                        // If spawned in an area with ledges, he might jump.
                         func_808389E8(this, &gPlayerAnim_link_normal_jump, REG(69) / 100.0f, play);
                     } else {
                         Player_SetupRoll(this, play);
                     }
+                    // Try jumpslash if stick forward and Z-targeting
                 } else {
                     if ((Player_GetMeleeWeaponHeld(this) != 0) && Player_CanUpdateItems(this)) {
-                        func_8083BA90(play, this, PLAYER_MWA_JUMPSLASH_START, 5.0f, 5.0f);
+                        Player_SetupJumpslash(play, this, PLAYER_MWA_JUMPSLASH_START, 5.0f, 5.0f);
                     } else {
                         Player_SetupRoll(this, play);
                     }
@@ -6507,7 +6558,7 @@ s32 Player_ActionHandler_11(Player* this, PlayState* play) {
         (Player_IsChildWithHylianShield(this) ||
          (!Player_FriendlyLockOnOrParallel(this) && (this->focusActor == NULL)))) {
 
-        func_80832318(this);
+        Player_InactivateMeleeWeapon(this);
         Player_DetachHeldActor(play, this);
 
         if (Player_SetupAction(play, this, Player_Action_80843188, 0)) {
@@ -8063,11 +8114,11 @@ void Player_Action_80840450(Player* this, PlayState* play) {
     s16 temp3;
     s32 temp4;
 
-    if (this->stateFlags3 & PLAYER_STATE3_3) {
+    if (this->stateFlags3 & PLAYER_STATE3_MELEE_ATTACK) {
         if (Player_GetMeleeWeaponHeld(this) != 0) {
             this->stateFlags2 |= PLAYER_STATE2_5 | PLAYER_STATE2_6;
         } else {
-            this->stateFlags3 &= ~PLAYER_STATE3_3;
+            this->stateFlags3 &= ~PLAYER_STATE3_MELEE_ATTACK;
         }
     }
 
@@ -8076,7 +8127,7 @@ void Player_Action_80840450(Player* this, PlayState* play) {
             Player_FinishAnimMovement(this);
             Player_AnimPlayLoop(play, this, func_808334E4(this));
             this->av2.actionVar2 = 0;
-            this->stateFlags3 &= ~PLAYER_STATE3_3;
+            this->stateFlags3 &= ~PLAYER_STATE3_MELEE_ATTACK;
         }
         func_80833C3C(this);
     } else {
@@ -8132,7 +8183,7 @@ void Player_Action_80840450(Player* this, PlayState* play) {
 
         Math_AsymStepToF(&this->speedXZ, speedTarget * 0.3f, 2.0f, 1.5f);
 
-        if (!(this->stateFlags3 & PLAYER_STATE3_3)) {
+        if (!(this->stateFlags3 & PLAYER_STATE3_MELEE_ATTACK)) {
             Math_ScaledStepToS(&this->yaw, yawTarget, temp4 * 0.1f);
         }
     }
@@ -8946,13 +8997,20 @@ void Player_Action_8084279C(Player* this, PlayState* play) {
     }
 }
 
-s32 func_8084285C(Player* this, f32 arg1, f32 arg2, f32 arg3) {
-    if ((arg1 <= this->skelAnime.curFrame) && (this->skelAnime.curFrame <= arg3)) {
-        func_80833A20(this, (arg2 <= this->skelAnime.curFrame) ? 1 : -1);
+/**
+ * Function to set meleeWeaponState to -1 for early frames of attack animation
+ * followed by 1. When -1 only the blure effect is drawn. When 1 both the blure effect
+ * and the colliders are active.
+ */
+s32 Player_ActivateMeleeByFrames(Player* this, f32 blureFrame, f32 colliderFrame, f32 finalFrame) {
+    if ((blureFrame <= this->skelAnime.curFrame) && (this->skelAnime.curFrame <= finalFrame)) {
+        // If current frame is between blureFrame and colliderFrame, -1
+        Player_ActivateMeleeWeapon(this, (colliderFrame <= this->skelAnime.curFrame) ? 1 : -1);
         return 1;
     }
 
-    func_80832318(this);
+    // Outside of blureFrame and finalFrame, we do not want any blure effect or collider
+    Player_InactivateMeleeWeapon(this);
     return 0;
 }
 
@@ -8981,24 +9039,40 @@ void Player_RequestQuake(PlayState* play, s32 speed, s32 y, s32 duration) {
     Quake_SetDuration(quakeIndex, duration);
 }
 
-void func_80842A28(PlayState* play, Player* this) {
+/**
+ * Play quake, rumble and sound when Hammer hits. Also sets a flag used for Hammer
+ * hit reactions (Tektike falling over etc), decreased every frame in Actor_UpdateAll.
+ */
+void Player_HammerHitEffects(PlayState* play, Player* this) {
     Player_RequestQuake(play, 27767, 7, 20);
-    play->actorCtx.unk_02 = 4;
+    play->actorCtx.hammerHit = 4;
     Player_RequestRumble(this, 255, 20, 150, 0);
     Player_PlaySfx(this, NA_SE_IT_HAMMER_HIT);
 }
 
-void func_80842A88(PlayState* play, Player* this) {
+/**
+ * When a Deku Stick is broken, decrease Stick count by 1 and use none item.
+ */
+void Player_DecreaseStickUseNone(PlayState* play, Player* this) {
+    //! @bug Broken Deku Stick. Player_UseItem will set PLAYER_STATE1_START_CHANGING_HELD_ITEM
+    //! but if the change is delayed (such as break during jumpslash), if Player_SetupAction
+    //! is called it will remove the change item state before the item change is finished.
+    //! Held item will be none, but IA and held IA will be Deku Stick.
     Inventory_ChangeAmmo(ITEM_DEKU_STICK, -1);
     Player_UseItem(play, this, ITEM_NONE);
 }
 
-s32 func_80842AC4(PlayState* play, Player* this) {
+/**
+ * Breaks a Deku Stick if full length.
+ * @return 1 if holding full-length Deku Stick, otherwise 0
+ */
+s32 Player_BreakDekuStick(PlayState* play, Player* this) {
+    //! @bug Broken Deku Stick cannot break. Presumably leftover from earlier development.
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_85C > 0.5f)) {
         if (AMMO(ITEM_DEKU_STICK) != 0) {
             EffectSsStick_Spawn(play, &this->bodyPartsPos[PLAYER_BODYPART_R_HAND], this->actor.shape.rot.y + 0x8000);
-            this->unk_85C = 0.5f;
-            func_80842A88(play, this);
+            this->unk_85C = 0.5f; // Half length stick
+            Player_DecreaseStickUseNone(play, this);
             Player_PlaySfx(this, NA_SE_IT_WOODSTICK_BROKEN);
         }
 
@@ -9008,7 +9082,12 @@ s32 func_80842AC4(PlayState* play, Player* this) {
     return 0;
 }
 
-s32 func_80842B7C(PlayState* play, Player* this) {
+/**
+ * If player doesn't have Biggoron and has hits remaining on Giant's Knife, damage sword.
+ * Break it if sword health becomes 0.
+ * @return 1 if holding Giant's Knife/Biggoron, otherwise 0 (regardless of damage/breaking)
+ */
+s32 Player_DamageGiantsKnife(PlayState* play, Player* this) {
     if (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) {
         if (!gSaveContext.save.info.playerData.bgsFlag && (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
             if ((gSaveContext.save.info.playerData.swordHealth -= 1.0f) <= 0.0f) {
@@ -9025,87 +9104,107 @@ s32 func_80842B7C(PlayState* play, Player* this) {
     return 0;
 }
 
-void func_80842CF0(PlayState* play, Player* this) {
-    func_80842AC4(play, this);
-    func_80842B7C(play, this);
+/**
+ * Call functions to try breaking Deku Stick and damaging Giant's Knife.
+ */
+void Player_BreakDekuDamageKnife(PlayState* play, Player* this) {
+    Player_BreakDekuStick(play, this);
+    Player_DamageGiantsKnife(play, this);
 }
 
-static LinkAnimationHeader* D_808545CC[] = {
+static LinkAnimationHeader* sMeleeBounceAnim[] = {
     &gPlayerAnim_link_fighter_rebound,
     &gPlayerAnim_link_fighter_rebound_long,
     &gPlayerAnim_link_fighter_reboundR,
     &gPlayerAnim_link_fighter_rebound_longR,
 };
 
-void func_80842D20(PlayState* play, Player* this) {
+void Player_SetupMeleeBounce(PlayState* play, Player* this) {
     s32 pad;
-    s32 sp28;
+    s32 target;
 
     if (Player_Action_80843188 != this->actionFunc) {
         func_80832440(play, this);
-        Player_SetupAction(play, this, Player_Action_808505DC, 0);
+        Player_SetupAction(play, this, Player_Action_MeleeBounce, 0);
 
         if (Player_CheckHostileLockOn(this)) {
-            sp28 = 2;
+            target = 2;
         } else {
-            sp28 = 0;
+            target = 0;
         }
 
-        Player_AnimPlayOnceAdjusted(play, this, D_808545CC[Player_HoldsTwoHandedWeapon(this) + sp28]);
+        Player_AnimPlayOnceAdjusted(play, this, sMeleeBounceAnim[Player_HoldsTwoHandedWeapon(this) + target]);
     }
 
     Player_RequestRumble(this, 180, 20, 100, 0);
     this->speedXZ = -18.0f;
-    func_80842CF0(play, this);
+    Player_BreakDekuDamageKnife(play, this);
 }
 
-s32 func_80842DF4(PlayState* play, Player* this) {
-    f32 phi_f2;
+/**
+ * @return 1 if the melee attack was interrupted (new action function is set by this function), otherwise 0
+ */
+s32 Player_CheckMeleeInterrupt(PlayState* play, Player* this) {
+    f32 weaponLengthFactor;
     CollisionPoly* groundPoly;
     s32 bgId;
-    Vec3f sp68;
-    Vec3f sp5C;
+    Vec3f lineBase;
+    Vec3f posCollision;
     Vec3f baseToTip;
-    s32 temp1;
+    s32 AThit;
     s32 surfaceMaterial;
 
+    // If player is in an active melee attack with colliders (not magic spin attack) and no bounce on attack
     if (this->meleeWeaponState > 0) {
         if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
             if (!(this->meleeWeaponQuads[0].base.atFlags & AT_BOUNCED) &&
                 !(this->meleeWeaponQuads[1].base.atFlags & AT_BOUNCED)) {
                 if (this->skelAnime.curFrame >= 2.0f) {
 
-                    phi_f2 =
+                    weaponLengthFactor =
                         Math_Vec3f_DistXYZAndStoreDiff(MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]),
                                                        MELEE_WEAPON_INFO_BASE(&this->meleeWeaponInfo[0]), &baseToTip);
-                    if (phi_f2 != 0.0f) {
-                        phi_f2 = (phi_f2 + 10.0f) / phi_f2;
+                    if (weaponLengthFactor != 0.0f) {
+                        weaponLengthFactor = (weaponLengthFactor + 10.0f) / weaponLengthFactor;
                     }
 
-                    sp68.x = MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->x + (baseToTip.x * phi_f2);
-                    sp68.y = MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->y + (baseToTip.y * phi_f2);
-                    sp68.z = MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->z + (baseToTip.z * phi_f2);
+                    // Tip + (weapon length * factor) results in a base that is slightly closer to player than the
+                    // actual weapon base. Without this adjustment, attacks that are very close to a wall would
+                    // not register as colliding (as the sword itself is not colliding).
+                    lineBase.x =
+                        MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->x + (baseToTip.x * weaponLengthFactor);
+                    lineBase.y =
+                        MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->y + (baseToTip.y * weaponLengthFactor);
+                    lineBase.z =
+                        MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->z + (baseToTip.z * weaponLengthFactor);
 
-                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]),
-                                                &sp5C, &groundPoly, true, false, false, true, &bgId) &&
+                    // If attack hit a surface
+                    //! @bug FLOOR_TYPE_6 (no fall damage), for instance Gerudo Fortress exterior walking areas,
+                    //! causes melee weapon to not collide properly, such as Hammer vs the Gerudo staircase
+                    //! (continues through the floor).
+                    if (BgCheck_EntityLineTest1(&play->colCtx, &lineBase,
+                                                MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]), &posCollision,
+                                                &groundPoly, true, false, false, true, &bgId) &&
                         !SurfaceType_IsIgnoredByEntities(&play->colCtx, groundPoly, bgId) &&
                         (SurfaceType_GetFloorType(&play->colCtx, groundPoly, bgId) != FLOOR_TYPE_6) &&
-                        (func_8002F9EC(play, &this->actor, groundPoly, bgId, &sp5C) == 0)) {
+                        (func_8002F9EC(play, &this->actor, groundPoly, bgId, &posCollision) == 0)) {
 
+                        // If Hammer, interrupt attack
                         if (this->heldItemAction == PLAYER_IA_HAMMER) {
                             func_80832630(play);
-                            func_80842A28(play, this);
-                            func_80842D20(play, this);
+                            Player_HammerHitEffects(play, this);
+                            Player_SetupMeleeBounce(play, this);
                             return 1;
                         }
 
+                        // Other weapons, spawn particles and make sound
                         if (this->speedXZ >= 0.0f) {
                             surfaceMaterial = SurfaceType_GetMaterial(&play->colCtx, groundPoly, bgId);
 
                             if (surfaceMaterial == SURFACE_MATERIAL_WOOD) {
-                                CollisionCheck_SpawnShieldParticlesWood(play, &sp5C, &this->actor.projectedPos);
+                                CollisionCheck_SpawnShieldParticlesWood(play, &posCollision, &this->actor.projectedPos);
                             } else {
-                                CollisionCheck_SpawnShieldParticles(play, &sp5C);
+                                CollisionCheck_SpawnShieldParticles(play, &posCollision);
                                 if (surfaceMaterial == SURFACE_MATERIAL_DIRT_SOFT) {
                                     Player_PlaySfx(this, NA_SE_IT_WALL_HIT_SOFT);
                                 } else {
@@ -9113,32 +9212,36 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                                 }
                             }
 
-                            func_80842CF0(play, this);
-                            this->speedXZ = -14.0f;
+                            Player_BreakDekuDamageKnife(play, this);
+                            this->speedXZ = -14.0f; // Recoil
                             Player_RequestRumble(this, 180, 20, 100, 0);
                         }
                     }
                 }
+                // If AT_BOUNCE
             } else {
-                func_80842D20(play, this);
+                Player_SetupMeleeBounce(play, this);
                 func_80832630(play);
                 return 1;
             }
         }
 
-        temp1 = (this->meleeWeaponQuads[0].base.atFlags & AT_HIT) || (this->meleeWeaponQuads[1].base.atFlags & AT_HIT);
+        // If attack hit
+        AThit = (this->meleeWeaponQuads[0].base.atFlags & AT_HIT) || (this->meleeWeaponQuads[1].base.atFlags & AT_HIT);
 
-        if (temp1) {
+        if (AThit) {
+            // Don't slow down spin attack
             if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
-                Actor* at = this->meleeWeaponQuads[temp1 ? 1 : 0].base.at;
+                Actor* at = this->meleeWeaponQuads[AThit ? 1 : 0].base.at;
 
                 if ((at != NULL) && (at->id != ACTOR_EN_KANBAN)) {
                     func_80832630(play);
                 }
             }
 
-            if ((func_80842AC4(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
-                func_80842B7C(play, this);
+            // If not using Deku Stick or Hammer - try damaging Giant's Knife, and check electric backlash
+            if ((Player_BreakDekuStick(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
+                Player_DamageGiantsKnife(play, this);
 
                 if (this->actor.colChkInfo.atHitBacklash == HIT_BACKLASH_ELECTRIC) {
                     this->actor.colChkInfo.damage = 8;
@@ -9207,9 +9310,9 @@ void Player_Action_80843188(Player* this, PlayState* play) {
         Math_ScaledStepToS(&this->upperLimbRot.y, sp4A, sp46);
 
         if (this->av1.actionVar1 != 0) {
-            if (!func_80842DF4(play, this)) {
+            if (!Player_CheckMeleeInterrupt(play, this)) {
                 if (this->skelAnime.curFrame < 2.0f) {
-                    func_80833A20(this, 1);
+                    Player_ActivateMeleeWeapon(this, 1);
                 }
             } else {
                 this->av2.actionVar2 = 1;
@@ -9220,7 +9323,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
                 func_808428D8(this, play);
             } else {
                 this->stateFlags1 &= ~PLAYER_STATE1_SHIELDING;
-                func_80832318(this);
+                Player_InactivateMeleeWeapon(this);
 
                 if (Player_IsChildWithHylianShield(this)) {
                     func_8083A060(this, play);
@@ -9582,7 +9685,8 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
 
         Player_UpdateUpperBody(this, play);
 
-        if (((this->stateFlags2 & PLAYER_STATE2_19) && (this->av1.actionVar1 == 2)) || !func_8083BBA0(this, play)) {
+        if (((this->stateFlags2 & PLAYER_STATE2_19) && (this->av1.actionVar1 == 2)) ||
+            !Player_TryJumpslash(this, play)) {
             if (this->actor.velocity.y < 0.0f) {
                 if (this->av2.actionVar2 >= 0) {
                     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->av2.actionVar2 == 0) ||
@@ -9789,7 +9893,10 @@ void Player_Action_80844A44(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_80844AF4(Player* this, PlayState* play) {
+/**
+ * Jumpslash action, whether on ground or from height.
+ */
+void Player_Action_Jumpslash(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
 
@@ -9798,8 +9905,10 @@ void Player_Action_80844AF4(Player* this, PlayState* play) {
     this->actor.gravity = -1.2f;
     LinkAnimation_Update(play, &this->skelAnime);
 
-    if (!func_80842DF4(play, this)) {
-        func_8084285C(this, 6.0f, 7.0f, 99.0f);
+    // Blure effect from frame 6.0, collider from 7.0.
+    // If jumpslash ISG is performed, it must be done 7.0 or later for damage.
+    if (!Player_CheckMeleeInterrupt(play, this)) {
+        Player_ActivateMeleeByFrames(this, 6.0f, 7.0f, 99.0f);
 
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
@@ -9809,8 +9918,8 @@ void Player_Action_80844AF4(Player* this, PlayState* play) {
 
         if (func_80843E64(play, this) >= 0) {
             this->meleeWeaponAnimation += 2;
-            func_80837948(play, this, this->meleeWeaponAnimation);
-            this->unk_845 = 3;
+            Player_SetupMeleeAttack(play, this, this->meleeWeaponAnimation);
+            this->tripleSlashCount = 3;
             Player_PlayLandingSfx(this);
         }
     }
@@ -9829,12 +9938,12 @@ s32 func_80844BE4(Player* this, PlayState* play) {
                 temp = D_80854380[Player_HoldsTwoHandedWeapon(this)];
             }
 
-            func_80837948(play, this, temp);
+            Player_SetupMeleeAttack(play, this, temp);
             Player_SetInvulnerability(this, -8);
 
             this->stateFlags2 |= PLAYER_STATE2_17;
             if (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) {
-                this->stateFlags2 |= PLAYER_STATE2_30;
+                this->stateFlags2 |= PLAYER_STATE2_ATTACK_MOVE_FORWARD;
             }
         } else {
             return 0;
@@ -9854,7 +9963,7 @@ void func_80844D30(Player* this, PlayState* play) {
 
 void func_80844D68(Player* this, PlayState* play) {
     func_80839FFC(this, play);
-    func_80832318(this);
+    Player_InactivateMeleeWeapon(this);
     Player_AnimChangeOnceMorph(play, this, D_80854368[Player_HoldsTwoHandedWeapon(this)]);
     this->yaw = this->actor.shape.rot.y;
 }
@@ -9892,7 +10001,7 @@ void Player_Action_80844E68(Player* this, PlayState* play) {
 
         if (this->av2.actionVar2 < 0) {
             if (this->unk_858 >= 0.1f) {
-                this->unk_845 = 0;
+                this->tripleSlashCount = 0;
                 this->av2.actionVar2 = 1;
             } else if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
                 func_80844D68(this, play);
@@ -10480,7 +10589,7 @@ static ColliderCylinderInit D_80854624 = {
     { 12, 60, 0, { 0, 0, 0 } },
 };
 
-static ColliderQuadInit D_80854650 = {
+static ColliderQuadInit sMeleeQuadInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -10665,9 +10774,9 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
     Collider_InitCylinder(play, &this->cylinder);
     Collider_SetCylinder(play, &this->cylinder, &this->actor, &D_80854624);
     Collider_InitQuad(play, &this->meleeWeaponQuads[0]);
-    Collider_SetQuad(play, &this->meleeWeaponQuads[0], &this->actor, &D_80854650);
+    Collider_SetQuad(play, &this->meleeWeaponQuads[0], &this->actor, &sMeleeQuadInit);
     Collider_InitQuad(play, &this->meleeWeaponQuads[1]);
-    Collider_SetQuad(play, &this->meleeWeaponQuads[1], &this->actor, &D_80854650);
+    Collider_SetQuad(play, &this->meleeWeaponQuads[1], &this->actor, &sMeleeQuadInit);
     Collider_InitQuad(play, &this->shieldQuad);
     Collider_SetQuad(play, &this->shieldQuad, &this->actor, &D_808546A0);
 }
@@ -11781,7 +11890,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         if (this->unk_844 == 0) {
-            this->unk_845 = 0;
+            this->tripleSlashCount = 0;
         } else if (this->unk_844 < 0) {
             this->unk_844++;
         } else {
@@ -14629,14 +14738,20 @@ void Player_UpdateBunnyEars(Player* this) {
     }
 }
 
+/**
+ * Try whether an item is being used and if it is bottle, fishing rod, or melee weapon.
+ * Also starts quickspin.
+ * @return 1 if using bottle, fishing rod, melee weapon, otherwise 0
+ */
 s32 Player_ActionHandler_7(Player* this, PlayState* play) {
     if (func_8083C6B8(play, this) == 0) {
-        if (func_8083BB20(this) != 0) {
-            s32 sp24 = func_80837818(this);
+        if (Player_UseMeleeWeapon(this) != 0) {
+            s32 meleeWeaponAnimation = Player_SetMeleeAttackFromStickInput(this);
 
-            func_80837948(play, this, sp24);
+            Player_SetupMeleeAttack(play, this, meleeWeaponAnimation);
 
-            if (sp24 >= PLAYER_MWA_SPIN_ATTACK_1H) {
+            // Quickspin. Setting the state here causes the spin to execute already in EnMThunder_Init
+            if (meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
                 this->stateFlags2 |= PLAYER_STATE2_17;
                 func_80837530(play, this, 0);
                 return 1;
@@ -14651,18 +14766,19 @@ s32 Player_ActionHandler_7(Player* this, PlayState* play) {
 
 static Vec3f D_80854A40 = { 0.0f, 40.0f, 45.0f };
 
-void Player_Action_808502D0(Player* this, PlayState* play) {
-    struct_80854190* sp44 = &D_80854190[this->meleeWeaponAnimation];
+void Player_Action_MeleeAttack(Player* this, PlayState* play) {
+    MWAInfo* currentMWA = &sMWAInfos[this->meleeWeaponAnimation];
 
     this->stateFlags2 |= PLAYER_STATE2_5;
 
-    if (!func_80842DF4(play, this)) {
-        func_8084285C(this, 0.0f, sp44->unk_0C, sp44->unk_0D);
+    if (!Player_CheckMeleeInterrupt(play, this)) {
+        // Blure animation from first frame, collider from colliderFrame
+        Player_ActivateMeleeByFrames(this, 0.0f, currentMWA->colliderFrame, currentMWA->finalFrame);
 
-        if ((this->stateFlags2 & PLAYER_STATE2_30) && (this->heldItemAction != PLAYER_IA_HAMMER) &&
+        if ((this->stateFlags2 & PLAYER_STATE2_ATTACK_MOVE_FORWARD) && (this->heldItemAction != PLAYER_IA_HAMMER) &&
             LinkAnimation_OnFrame(&this->skelAnime, 0.0f)) {
             this->speedXZ = 15.0f;
-            this->stateFlags2 &= ~PLAYER_STATE2_30;
+            this->stateFlags2 &= ~PLAYER_STATE2_ATTACK_MOVE_FORWARD;
         }
 
         if (this->speedXZ > 12.0f) {
@@ -14672,29 +14788,32 @@ void Player_Action_808502D0(Player* this, PlayState* play) {
         Math_StepToF(&this->speedXZ, 0.0f, 5.0f);
         func_8083C50C(this);
 
+        // meleeWeaponState < 1 again, and attack animation finished = attack ended
         if (LinkAnimation_Update(play, &this->skelAnime)) {
+            // Check if new attack
             if (!Player_ActionHandler_7(this, play)) {
-                u8 sp43 = this->skelAnime.movementFlags;
-                LinkAnimationHeader* sp3C;
+                u8 saveFlags = this->skelAnime.movementFlags;
+                LinkAnimationHeader* postAttackAnim;
 
+                // Animation for return to neutral position, inactivate weapons
                 if (Player_CheckHostileLockOn(this)) {
-                    sp3C = sp44->unk_08;
+                    postAttackAnim = currentMWA->postAttackAnimTargeting;
                 } else {
-                    sp3C = sp44->unk_04;
+                    postAttackAnim = currentMWA->postAttackAnim;
                 }
 
-                func_80832318(this);
+                Player_InactivateMeleeWeapon(this);
                 this->skelAnime.movementFlags = 0;
 
-                if ((sp3C == &gPlayerAnim_link_fighter_Lpower_jump_kiru_end) &&
+                if ((postAttackAnim == &gPlayerAnim_link_fighter_Lpower_jump_kiru_end) &&
                     (this->modelAnimType != PLAYER_ANIMTYPE_3)) {
-                    sp3C = &gPlayerAnim_link_fighter_power_jump_kiru_end;
+                    postAttackAnim = &gPlayerAnim_link_fighter_power_jump_kiru_end;
                 }
 
-                func_8083A098(this, sp3C, play);
+                func_8083A098(this, postAttackAnim, play); // Play animation + set new action function
 
-                this->skelAnime.movementFlags = sp43;
-                this->stateFlags3 |= PLAYER_STATE3_3;
+                this->skelAnime.movementFlags = saveFlags;
+                this->stateFlags3 |= PLAYER_STATE3_MELEE_ATTACK;
             }
         } else if (this->heldItemAction == PLAYER_IA_HAMMER) {
             if ((this->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD) ||
@@ -14714,7 +14833,7 @@ void Player_Action_808502D0(Player* this, PlayState* play) {
                      ((this->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_FINISH) &&
                       LinkAnimation_OnFrame(&this->skelAnime, 2.0f))) &&
                     (sp2C > -40.0f) && (sp2C < 40.0f)) {
-                    func_80842A28(play, this);
+                    Player_HammerHitEffects(play, this);
                     EffectSsBlast_SpawnWhiteShockwave(play, &shockwavePos, &zeroVec, &zeroVec);
                 }
             }
@@ -14722,7 +14841,11 @@ void Player_Action_808502D0(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_808505DC(Player* this, PlayState* play) {
+/**
+ * Decelerate when a melee attack bounced, or on Hammer attack hit.
+ * (Negative recoil speed for non-bounce attacks is set in Player_CheckMeleeInterrupt)
+ */
+void Player_Action_MeleeBounce(Player* this, PlayState* play) {
     LinkAnimation_Update(play, &this->skelAnime);
     Player_DecelerateToZero(this);
 
@@ -15854,7 +15977,7 @@ void func_80852554(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_80852564(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    this->stateFlags3 |= PLAYER_STATE3_1;
+    this->stateFlags3 |= PLAYER_STATE3_KNOCKBACK_JUMPSLASH;
     this->speedXZ = 2.0f;
     this->actor.velocity.y = -1.0f;
 
@@ -15941,7 +16064,7 @@ void func_8085283C(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
 void func_808528C8(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        func_8084285C(this, 0.0f, 99.0f, this->skelAnime.endFrame - 8.0f);
+        Player_ActivateMeleeByFrames(this, 0.0f, 99.0f, this->skelAnime.endFrame - 8.0f);
     }
 
     if (this->heldItemAction != PLAYER_IA_SWORD_MASTER) {

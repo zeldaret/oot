@@ -72,7 +72,7 @@ typedef struct EnRd {
     /* 0x031A */ u8 fireTimer;
     /* 0x031B */ u8 action;
     /* 0x031C */ u8 damageReaction;
-    /* 0x031D */ u8 unk_31D; // related to player->unk_845
+    /* 0x031D */ u8 unk_31D; // related to player->tripleSlashCount
     /* 0x0320 */ ColliderCylinder collider;
 } EnRd; // size = 0x036C
 

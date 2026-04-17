@@ -544,7 +544,7 @@ s32 EnSsh_CollisionCheck(EnSsh* this, PlayState* play) {
     }
     if (EnSsh_CheckHitFront(this)) {
         return false;
-    } else if (play->actorCtx.unk_02 != 0) {
+    } else if (play->actorCtx.hammerHit != 0) {
         this->invincibilityTimer = 8;
         if (this->stunTimer == 0) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);

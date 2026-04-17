@@ -264,7 +264,7 @@ void EnShopnuts_ColliderCheck(EnShopnuts* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         EnShopnuts_SetupSpawnSalesman(this);
-    } else if (play->actorCtx.unk_02 != 0) {
+    } else if (play->actorCtx.hammerHit != 0) {
         EnShopnuts_SetupSpawnSalesman(this);
     }
 }

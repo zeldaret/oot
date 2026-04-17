@@ -746,7 +746,7 @@ void func_809D0584(EnBw* this, PlayState* play) {
                 this->unk_248 = 0.0f;
             }
         }
-        if ((play->actorCtx.unk_02 != 0) && (this->actor.xzDistToPlayer <= 400.0f) &&
+        if ((play->actorCtx.hammerHit != 0) && (this->actor.xzDistToPlayer <= 400.0f) &&
             (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             if (this->unk_220 == 5) {
                 this->unk_23C = 0;
