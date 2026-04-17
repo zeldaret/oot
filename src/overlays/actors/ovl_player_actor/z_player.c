@@ -169,8 +169,9 @@ void Player_InitBoomerangIA(PlayState* play, Player* this);
 s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play);
 s32 func_8083485C(Player* this, PlayState* play);
 s32 Player_UpperAction_Sword(Player* this, PlayState* play);
-s32 func_80834B5C(Player* this, PlayState* play);
-s32 func_80834C74(Player* this, PlayState* play);
+s32 Player_UpperAction_StandShield(Player* this, PlayState* play);
+s32 Player_UpperAction_StandShieldWaitBlockAnim(Player* this, PlayState* play);
+s32 Player_UpperAction_StopStandShield(Player* this, PlayState* play);
 s32 func_8083501C(Player* this, PlayState* play);
 s32 func_808351D4(Player* this, PlayState* play);
 s32 func_808353D8(Player* this, PlayState* play);
@@ -287,8 +288,8 @@ void Player_Action_8084227C(Player* this, PlayState* play);
 void Player_Action_8084279C(Player* this, PlayState* play);
 void Player_Action_808423EC(Player* this, PlayState* play);
 void Player_Action_8084251C(Player* this, PlayState* play);
-void Player_Action_80843188(Player* this, PlayState* play);
-void Player_Action_808435C4(Player* this, PlayState* play);
+void Player_Action_ShieldCrouch(Player* this, PlayState* play);
+void Player_Action_ShieldBlock(Player* this, PlayState* play);
 void Player_Action_8084370C(Player* this, PlayState* play);
 void Player_Action_8084377C(Player* this, PlayState* play);
 void Player_Action_80843954(Player* this, PlayState* play);
@@ -1693,22 +1694,22 @@ static u16 D_80854398[] = { NA_SE_IT_BOW_DRAW, NA_SE_IT_SLING_DRAW, NA_SE_IT_HOO
 
 static u8 sMagicArrowCosts[] = { 4, 4, 8 };
 
-static LinkAnimationHeader* D_808543A4[] = {
+static LinkAnimationHeader* sStandShield_RightForward[] = {
     &gPlayerAnim_link_anchor_waitR2defense,
     &gPlayerAnim_link_anchor_waitR2defense_long,
 };
 
-static LinkAnimationHeader* D_808543AC[] = {
+static LinkAnimationHeader* sStandShield_LeftForward[] = {
     &gPlayerAnim_link_anchor_waitL2defense,
     &gPlayerAnim_link_anchor_waitL2defense_long,
 };
 
-static LinkAnimationHeader* D_808543B4[] = {
+static LinkAnimationHeader* sStandShieldBlock_LeftForward[] = {
     &gPlayerAnim_link_anchor_defense_hit,
     &gPlayerAnim_link_anchor_defense_long_hitL,
 };
 
-static LinkAnimationHeader* D_808543BC[] = {
+static LinkAnimationHeader* sStandShieldBlock_RightForward[] = {
     &gPlayerAnim_link_anchor_defense_hit,
     &gPlayerAnim_link_anchor_defense_long_hitR,
 };
@@ -2686,6 +2687,9 @@ void Player_ProcessItemButtons(Player* this, PlayState* play) {
 
             item = Player_GetItemOnButton(play, i);
 
+            //! @bug This doesn't set heldItemButton, nor confirm that item is actually held item.
+            //! This is used to get bottle on B. The C press during shield swipe will not register
+            //! as "pressed" but as "held", so if B is still heldItemButton, bottle goes on B.
             if ((item < ITEM_NONE_FE) && (Player_ItemToItemAction(item) == this->heldItemAction)) {
                 sHeldItemButtonIsHeldDown = true;
             }
@@ -2856,18 +2860,26 @@ void func_80834644(PlayState* play, Player* this) {
     this->stateFlags1 &= ~PLAYER_STATE1_START_CHANGING_HELD_ITEM;
 }
 
-LinkAnimationHeader* func_808346C4(PlayState* play, Player* this) {
-    Player_SetUpperActionFunc(this, func_80834B5C);
+/**
+ * Selects animation for shielding with target and sets upper action function
+ */
+LinkAnimationHeader* Player_StandShieldSelectAnim(PlayState* play, Player* this) {
+    Player_SetUpperActionFunc(this, Player_UpperAction_StandShield);
     Player_DetachHeldActor(play, this);
 
     if (this->unk_870 < 0.5f) {
-        return D_808543A4[Player_HoldsTwoHandedWeapon(this)];
+        return sStandShield_RightForward[Player_HoldsTwoHandedWeapon(this)];
     } else {
-        return D_808543AC[Player_HoldsTwoHandedWeapon(this)];
+        return sStandShield_LeftForward[Player_HoldsTwoHandedWeapon(this)];
     }
 }
 
-s32 func_80834758(PlayState* play, Player* this) {
+/**
+ * Sets up first frame shielding with a Z-target/in parallel. Does not handle child Link
+ * with Hylian Shield.
+ * @return 1 if starting shielding, otherwise 0
+ */
+s32 Player_StartStandShield(PlayState* play, Player* this) {
     LinkAnimationHeader* anim;
     f32 frame;
 
@@ -2876,7 +2888,7 @@ s32 func_80834758(PlayState* play, Player* this) {
         (this->currentShield != PLAYER_SHIELD_NONE) && !Player_IsChildWithHylianShield(this) &&
         Player_IsZTargeting(this) && CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
 
-        anim = func_808346C4(play, this);
+        anim = Player_StandShieldSelectAnim(play, this);
         frame = Animation_GetLastFrame(anim);
         LinkAnimation_Change(play, &this->upperSkelAnime, anim, 1.0f, frame, frame, ANIMMODE_ONCE, 0.0f);
         Player_PlaySfx(this, NA_SE_IT_SHIELD_POSTURE);
@@ -2887,18 +2899,26 @@ s32 func_80834758(PlayState* play, Player* this) {
     }
 }
 
+/**
+ * Upper action for "none" and items that do not have an upper action.
+ * @return true if player starts shielding with target/in parallel
+ */
 s32 func_8083485C(Player* this, PlayState* play) {
-    if (func_80834758(play, this)) {
+    if (Player_StartStandShield(play, this)) {
         return true;
     } else {
         return false;
     }
 }
 
-void func_80834894(Player* this) {
-    Player_SetUpperActionFunc(this, func_80834C74);
+/**
+ * Drop shield with Z-target/in parallel. Set new upper action function,
+ * item action, animation and sound.
+ */
+void Player_StopStandShield(Player* this) {
+    Player_SetUpperActionFunc(this, Player_UpperAction_StopStandShield);
 
-    if (this->itemAction < 0) {
+    if (this->itemAction < 0) { // Shielding = -1
         func_8008EC70(this);
     }
 
@@ -2935,7 +2955,7 @@ s32 func_8083499C(Player* this, PlayState* play) {
  * This upper body action allows for shielding or changing held items while a sword is in hand.
  */
 s32 Player_UpperAction_Sword(Player* this, PlayState* play) {
-    if (func_80834758(play, this) || func_8083499C(this, play)) {
+    if (Player_StartStandShield(play, this) || func_8083499C(this, play)) {
         return true;
     } else {
         return false;
@@ -2966,25 +2986,35 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
     return true;
 }
 
-s32 func_80834B5C(Player* this, PlayState* play) {
+/**
+ * Actively shielding with Z-target/in parallel.
+ * @return always true
+ */
+s32 Player_UpperAction_StandShield(Player* this, PlayState* play) {
     LinkAnimation_Update(play, &this->upperSkelAnime);
 
-    if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
-        func_80834894(this);
+    if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) { // Stop shielding
+        Player_StopStandShield(this);
         return true;
-    } else {
+    } else { // Keep shielding
         this->stateFlags1 |= PLAYER_STATE1_SHIELDING;
         Player_SetModelsForHoldingShield(this);
         return true;
     }
 }
 
-s32 func_80834BD4(Player* this, PlayState* play) {
+/**
+ * Set after blocking with shield if in Z-target/in parallel. Wait for animation
+ * started in previous function to finish, then set new animation and upper action.
+ * @return always true
+ */
+s32 Player_UpperAction_StandShieldWaitBlockAnim(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
     f32 frame;
 
+    // Block animation finished, set new animation
     if (LinkAnimation_Update(play, &this->upperSkelAnime)) {
-        anim = func_808346C4(play, this);
+        anim = Player_StandShieldSelectAnim(play, this);
         frame = Animation_GetLastFrame(anim);
         LinkAnimation_Change(play, &this->upperSkelAnime, anim, 1.0f, frame, frame, ANIMMODE_ONCE, 0.0f);
     }
@@ -2995,7 +3025,12 @@ s32 func_80834BD4(Player* this, PlayState* play) {
     return true;
 }
 
-s32 func_80834C74(Player* this, PlayState* play) {
+/**
+ * Set new upper action to held item's update function when animation is finished
+ * or player uses held item. Run the new function.
+ * @return false if changed to new upper action function, otherwise true
+ */
+s32 Player_UpperAction_StopStandShield(Player* this, PlayState* play) {
     sUseHeldItem = sHeldItemButtonIsHeldDown;
 
     if (sUseHeldItem || LinkAnimation_Update(play, &this->upperSkelAnime)) {
@@ -3003,7 +3038,7 @@ s32 func_80834C74(Player* this, PlayState* play) {
         LinkAnimation_PlayLoop(play, &this->upperSkelAnime,
                                GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
         this->idleType = PLAYER_IDLE_DEFAULT;
-        this->upperActionFunc(this, play);
+        this->upperActionFunc(this, play); // Run the new upper action function immediately
 
         return false;
     }
@@ -3093,7 +3128,7 @@ s32 func_8083501C(Player* this, PlayState* play) {
         this->unk_860 = -this->unk_860;
     }
 
-    if ((!Player_HoldsHookshot(this) || func_80834FBC(this)) && !func_80834758(play, this) &&
+    if ((!Player_HoldsHookshot(this) || func_80834FBC(this)) && !Player_StartStandShield(play, this) &&
         !func_80834F2C(this, play)) {
         return false;
     }
@@ -3195,7 +3230,7 @@ s32 func_808353D8(Player* this, PlayState* play) {
         return true;
     }
 
-    if (!func_80834758(play, this) &&
+    if (!Player_StartStandShield(play, this) &&
         (sUseHeldItem || ((this->unk_860 < 0) && sHeldItemButtonIsHeldDown) || func_80834E44(play))) {
         this->unk_860 = ABS(this->unk_860);
 
@@ -3278,7 +3313,7 @@ s32 Player_UpperAction_CarryActor(Player* this, PlayState* play) {
     }
 #endif
 
-    if (func_80834758(play, this)) {
+    if (Player_StartStandShield(play, this)) {
         return true;
     }
 
@@ -3316,7 +3351,7 @@ void func_808357E8(Player* this, Gfx** dLists) {
 }
 
 s32 func_80835800(Player* this, PlayState* play) {
-    if (func_80834758(play, this)) {
+    if (Player_StartStandShield(play, this)) {
         return true;
     }
 
@@ -3395,7 +3430,7 @@ s32 func_808359FC(Player* this, PlayState* play) {
 }
 
 s32 func_80835B60(Player* this, PlayState* play) {
-    if (func_80834758(play, this)) {
+    if (Player_StartStandShield(play, this)) {
         return true;
     }
 
@@ -3482,7 +3517,8 @@ void Player_SetupActionPreserveAnimMovement(PlayState* play, Player* this, Playe
  * Calls `Player_SetupAction` to setup a new action, but takes extra measures to
  * preserve the current itemAction while doing so.
  *
- * Note that `itemAction` must be PLAYER_IA_NONE or higher for the action change to take place.
+ * Note that player must NOT be shielding (IA = -1) for the action change to take place, and that the function
+ * does not return to the caller whether Player_SetupAction was actually called.
  */
 void Player_SetupActionPreserveItemAction(PlayState* play, Player* this, PlayerActionFunc actionFunc, s32 flags) {
     s32 savedItemAction;
@@ -4239,7 +4275,7 @@ s32 Player_ActionHandler_7(Player* this, PlayState* play);
 s32 Player_ActionHandler_8(Player* this, PlayState* play);
 s32 Player_ActionHandler_9(Player* this, PlayState* play);
 s32 Player_ActionHandler_10(Player* this, PlayState* play);
-s32 Player_ActionHandler_11(Player* this, PlayState* play);
+s32 Player_ActionHandler_CrouchShield(Player* this, PlayState* play);
 s32 Player_ActionHandler_12(Player* this, PlayState* play);
 s32 Player_ActionHandler_13(Player* this, PlayState* play);
 
@@ -4255,7 +4291,7 @@ static s32 (*sActionHandlerFuncs[])(Player* this, PlayState* play) = {
     Player_ActionHandler_8,    // PLAYER_ACTION_HANDLER_8
     Player_ActionHandler_9,    // PLAYER_ACTION_HANDLER_9
     Player_ActionHandler_10,   // PLAYER_ACTION_HANDLER_10
-    Player_ActionHandler_11,   // PLAYER_ACTION_HANDLER_11
+    Player_ActionHandler_CrouchShield,   // PLAYER_ACTION_HANDLER_11
     Player_ActionHandler_12,   // PLAYER_ACTION_HANDLER_12
     Player_ActionHandler_13,   // PLAYER_ACTION_HANDLER_13
 };
@@ -4780,7 +4816,11 @@ int func_8083816C(s32 arg0) {
     return (arg0 == FLOOR_TYPE_4) || (arg0 == FLOOR_TYPE_7) || (arg0 == FLOOR_TYPE_12);
 }
 
-void func_8083819C(Player* this, PlayState* play) {
+/**
+ * Spawns a Deku Shield with params to burn it, deletes the player's Deku Shield,
+ * and tells them it burned.
+ */
+void Player_BurnDekuShield(Player* this, PlayState* play) {
     if (this->currentShield == PLAYER_SHIELD_DEKU) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_SHIELD, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 1);
@@ -4815,7 +4855,7 @@ void func_808382BC(Player* this) {
 s32 func_808382DC(Player* this, PlayState* play) {
     s32 pad;
     s32 sp68 = false;
-    s32 sp64;
+    s32 shieldBlock;
 
     if (this->unk_A86 != 0) {
         if (!Player_InBlockingCsMode(play, this)) {
@@ -4877,13 +4917,14 @@ s32 func_808382DC(Player* this, PlayState* play) {
             func_80837C0C(play, this, knockbackResponse[this->knockbackType - 1], this->knockbackSpeed,
                           this->knockbackYVelocity, this->knockbackRot, 20);
         } else {
-            sp64 = (this->shieldQuad.base.acFlags & AC_BOUNCED) != 0;
+            // Check if shield blocked an attack
+            shieldBlock = (this->shieldQuad.base.acFlags & AC_BOUNCED) != 0;
 
             //! @bug The second set of conditions here seems intended as a way for Link to "block" hits by rolling.
             // However, `Collider.atFlags` is a byte so the flag check at the end is incorrect and cannot work.
             // Additionally, `Collider.atHit` can never be set while already colliding as AC, so it's also bugged.
             // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
-            if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
+            if (shieldBlock || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
                          (this->cylinder.elem.atHit != NULL) && (this->cylinder.elem.atHit->atFlags & 0x20000000))) {
 
                 Player_RequestRumble(this, 180, 20, 100, 0);
@@ -4891,19 +4932,22 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 if (!Player_IsChildWithHylianShield(this)) {
                     if (this->invincibilityTimer >= 0) {
                         LinkAnimationHeader* anim;
-                        s32 sp54 = Player_Action_80843188 == this->actionFunc;
+                        s32 crouchShielding = Player_Action_ShieldCrouch == this->actionFunc;
 
+                        // Set this action regardless of shielding with or without target
+                        //! @bug Calling Player_ResetStatesHeldActor here can prevent groundjump,
+                        //! ledge cancel, damage ISG, down A etc. See Player_Action_ShieldBlock for details.
                         if (!func_808332B8(this)) {
-                            Player_SetupAction(play, this, Player_Action_808435C4, 0);
+                            Player_SetupAction(play, this, Player_Action_ShieldBlock, 0);
                         }
 
-                        if (!(this->av1.actionVar1 = sp54)) {
-                            Player_SetUpperActionFunc(this, func_80834BD4);
+                        if (!(this->av1.actionVar1 = crouchShielding)) {
+                            Player_SetUpperActionFunc(this, Player_UpperAction_StandShieldWaitBlockAnim);
 
                             if (this->unk_870 < 0.5f) {
-                                anim = D_808543BC[Player_HoldsTwoHandedWeapon(this)];
+                                anim = sStandShieldBlock_RightForward[Player_HoldsTwoHandedWeapon(this)];
                             } else {
-                                anim = D_808543B4[Player_HoldsTwoHandedWeapon(this)];
+                                anim = sStandShieldBlock_LeftForward[Player_HoldsTwoHandedWeapon(this)];
                             }
                             LinkAnimation_PlayOnce(play, &this->upperSkelAnime, anim);
                         } else {
@@ -4917,8 +4961,8 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.hitSpecialEffect == HIT_SPECIAL_EFFECT_FIRE)) {
-                    func_8083819C(this, play);
+                if (shieldBlock && (this->shieldQuad.elem.acHitElem->atDmgInfo.hitSpecialEffect == HIT_SPECIAL_EFFECT_FIRE)) {
+                    Player_BurnDekuShield(this, play);
                 }
 
                 return 0;
@@ -6498,7 +6542,12 @@ s32 Player_ActionHandler_Roll(Player* this, PlayState* play) {
     return false;
 }
 
-s32 Player_ActionHandler_11(Player* this, PlayState* play) {
+/**
+ * Handler for starting shielding without Z-targeting/not in parallel.
+ * Also handles child Link shielding with Hylian Shield.
+ * @return 1 if starting shielding
+ */
+s32 Player_ActionHandler_CrouchShield(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
     f32 frame;
 
@@ -6510,7 +6559,9 @@ s32 Player_ActionHandler_11(Player* this, PlayState* play) {
         func_80832318(this);
         Player_DetachHeldActor(play, this);
 
-        if (Player_SetupAction(play, this, Player_Action_80843188, 0)) {
+        // SetupAction returns 0 if player's actionFunc is already set to this function.
+        // The if check is needed because Player_Action_ShieldCrouch calls this ActionHandler.
+        if (Player_SetupAction(play, this, Player_Action_ShieldCrouch, 0)) {
             this->stateFlags1 |= PLAYER_STATE1_SHIELDING;
 
             if (!Player_IsChildWithHylianShield(this)) {
@@ -6521,7 +6572,7 @@ s32 Player_ActionHandler_11(Player* this, PlayState* play) {
             }
 
             if (anim != this->skelAnime.animation) {
-                if (Player_CheckHostileLockOn(this)) {
+                if (Player_CheckHostileLockOn(this)) { // This can only be true for child Link with Hylian Shield, but unk_86C is unused.
                     this->unk_86C = 1.0f;
                 } else {
                     this->unk_86C = 0.0f;
@@ -8087,7 +8138,7 @@ void Player_Action_80840450(Player* this, PlayState* play) {
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList1, true)) {
         if (!Player_UpdateHostileLockOn(this) &&
-            (!Player_FriendlyLockOnOrParallel(this) || (func_80834B5C != this->upperActionFunc))) {
+            (!Player_FriendlyLockOnOrParallel(this) || (Player_UpperAction_StandShield != this->upperActionFunc))) {
             func_8083CF10(this, play);
             return;
         }
@@ -8164,7 +8215,7 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
             return;
         }
 
-        if (func_80834B5C == this->upperActionFunc) {
+        if (Player_UpperAction_StandShield == this->upperActionFunc) {
             func_8083CEAC(this, play);
             return;
         }
@@ -8956,7 +9007,7 @@ s32 func_8084285C(Player* this, f32 arg1, f32 arg2, f32 arg3) {
     return 0;
 }
 
-s32 func_808428D8(Player* this, PlayState* play) {
+s32 Player_TryCrouchStab(Player* this, PlayState* play) {
     if (!Player_IsChildWithHylianShield(this) && (Player_GetMeleeWeaponHeld2(this) != 0) && sUseHeldItem) {
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_defense_kiru);
         this->av1.actionVar1 = 1;
@@ -9041,7 +9092,7 @@ void func_80842D20(PlayState* play, Player* this) {
     s32 pad;
     s32 sp28;
 
-    if (Player_Action_80843188 != this->actionFunc) {
+    if (Player_Action_ShieldCrouch != this->actionFunc) {
         func_80832440(play, this);
         Player_SetupAction(play, this, Player_Action_808505DC, 0);
 
@@ -9152,15 +9203,23 @@ s32 func_80842DF4(PlayState* play, Player* this) {
     return 0;
 }
 
-void Player_Action_80843188(Player* this, PlayState* play) {
+/**
+ * Action when shielding without Z-target/not in parallel.
+ * Also used for child Link with Hylian Shield and two-handed weapons.
+ */
+void Player_Action_ShieldCrouch(Player* this, PlayState* play) {
+    // Both start to shield animation and attack animation (crouch stab) can trigger this
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (!Player_IsChildWithHylianShield(this)) {
             Player_AnimPlayLoop(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense_wait, this->modelAnimType));
         }
-        this->av2.actionVar2 = 1;
-        this->av1.actionVar1 = 0;
+        this->av2.actionVar2 = 1; // Set flag for finishing shield equip
+        this->av1.actionVar1 = 0; // Remove flag for crouch stab attack
     }
 
+    // Shield state is unset in Player_UpdateCommon intraframe,
+    // but this lets players change items in Player_UpdateItems
+    // (as IA != held IA when shielding). (Not true for shielding with target)
     if (!Player_IsChildWithHylianShield(this)) {
         this->stateFlags1 |= PLAYER_STATE1_SHIELDING;
         Player_UpdateUpperBody(this, play);
@@ -9169,6 +9228,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
 
     Player_DecelerateToZero(this);
 
+    // If shield equip finished
     if (this->av2.actionVar2 != 0) {
         f32 sp54;
         f32 sp50;
@@ -9179,6 +9239,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
         s16 sp46;
         f32 sp40;
 
+        // Moving the shield
         sp54 = sControlInput->rel.stick_y * 100;
         sp50 = sControlInput->rel.stick_x * -120;
         sp4E = this->actor.shape.rot.y - Camera_GetInputDirYaw(GET_ACTIVE_CAM(play));
@@ -9206,22 +9267,34 @@ void Player_Action_80843188(Player* this, PlayState* play) {
         this->upperLimbRot.x = this->actor.focus.rot.x;
         Math_ScaledStepToS(&this->upperLimbRot.y, sp4A, sp46);
 
+        // If doing crouch stab. (av1.actionVar1 is set to 1 by Player_TryCrouchStab below)
         if (this->av1.actionVar1 != 0) {
             if (!func_80842DF4(play, this)) {
                 if (this->skelAnime.curFrame < 2.0f) {
+                    // Set meleeWeaponState to 1 on first frame of crouch stab animation
                     func_80833A20(this, 1);
                 }
             } else {
                 this->av2.actionVar2 = 1;
                 this->av1.actionVar1 = 0;
             }
+            // If not in crouch stab, check three action handlers. New action?
+            //! @bug On the last crouch stab animation frame, actionVar1 is set to 0 above
+            //! (LinkAnimation_Update is true) but meleeWeaponState is still 1.
+            //! The three action handlers will run. If a new action is set up on this frame that doesn't
+            //! reset meleeWeaponState, meleeWeaponState will stay 1. This causes infinite sword glitch/ISG.
+            //! -- For instance, pressing A to talk/check or Z + C-up for Navi info (Player_ActionHandler_Talk)
+            //! or A to grab rocks or pot ISG (Player_ActionHandler_2).
+            //! (C-up for first person cannot be used, as it takes two frames.)
         } else if (!func_80842964(this, play)) {
-            if (Player_ActionHandler_11(this, play)) {
-                func_808428D8(this, play);
+            if (Player_ActionHandler_CrouchShield(this, play)) {
+                Player_TryCrouchStab(this, play); // Still shielding, try stab
             } else {
+                // Exit shielding state
                 this->stateFlags1 &= ~PLAYER_STATE1_SHIELDING;
                 func_80832318(this);
 
+                // Change animation and play sound
                 if (Player_IsChildWithHylianShield(this)) {
                     func_8083A060(this, play);
                     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_clink_normal_defense_ALL, 1.0f,
@@ -9229,7 +9302,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
                                          ANIMMODE_ONCE, 0.0f);
                     Player_StartAnimMovement(play, this, ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT);
                 } else {
-                    if (this->itemAction < 0) {
+                    if (this->itemAction < 0) { // Shielding = IA -1
                         func_8008EC70(this);
                     }
                     func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense_end, this->modelAnimType), play);
@@ -9249,26 +9322,48 @@ void Player_Action_80843188(Player* this, PlayState* play) {
     this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_X | UNK6AE_ROT_UPPER_X | UNK6AE_ROT_UPPER_Y;
 }
 
-void Player_Action_808435C4(Player* this, PlayState* play) {
+/**
+ * Used for both shielding crouched without targeting, and with Z-target/in parallel.
+ * After blocking with a shield, let the animation try to be interrupted after a few frames.
+ */
+void Player_Action_ShieldBlock(Player* this, PlayState* play) {
     s32 interruptResult;
     LinkAnimationHeader* anim;
     f32 frames;
 
+    //! @bug This action is set by a general handling function and not by another action.
+    //! Neither this or calling function make sure to reset states that are incompatible
+    //! with shielding and not reset by Player_SetupAction, such as PLAYER_STATE1_CARRYING_ACTOR,
+    //! PLAYER_STATE1_CLIMB_JUMP_UP, or meleeWeaponState.
+    //! This is part of groundjump, ledge cancel, damage ISG and down A respectively.
+
     Player_DecelerateToZero(this);
 
+    // 0 = shielding with target/in parallel; set in func_808382DC
     if (this->av1.actionVar1 == 0) {
         sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
 
-        if ((func_80834B5C == this->upperActionFunc) ||
+        if ((Player_UpperAction_StandShield == this->upperActionFunc) ||
             (Player_TryActionInterrupt(play, this, &this->upperSkelAnime, 4.0f) >= PLAYER_INTERRUPT_MOVE)) {
+            // Player may be shielding in parallel but this will always be the following action
             Player_SetupAction(play, this, Player_Action_80840450, 1);
         }
     } else {
+        // Crouch shield block
+        // Shield block animation endFrame is 8.0. Interrupting is tried from frame 4.0 onward.
+        //! @bug If the player crouch stabbed and blocked a hit while meleeWeaponState is still 1,
+        //! meleeWeaponState remains 1 for every frame of the blocking animation.
+        //! If the animation is interrupted by an action handler that sets a new action function without
+        //! reseting meleeWeaponState, this results in damage ISG (rather, "block ISG").
+        //! -- For instance, pressing C-up to enter first person on any interruptable frame but the last leads to
+        //! unk_6AD = 1 through Player_ActionHandler_0, which leads to entering first person action
+        //! the next frame. (The first person camera is instantly removed because Player_RestoreHeldIA resets unk_6AD.)
         interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 4.0f);
 
         if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
             ((interruptResult >= PLAYER_INTERRUPT_MOVE) || LinkAnimation_Update(play, &this->skelAnime))) {
-            Player_SetupAction(play, this, Player_Action_80843188, 1);
+            // Return to shielding in place at latest when block animation done if no interrupt
+            Player_SetupAction(play, this, Player_Action_ShieldCrouch, 1);
             this->stateFlags1 |= PLAYER_STATE1_SHIELDING;
             Player_SetModelsForHoldingShield(this);
             anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense, this->modelAnimType);
@@ -10500,7 +10595,7 @@ static ColliderQuadInit D_80854650 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static ColliderQuadInit D_808546A0 = {
+static ColliderQuadInit sShieldQuadInit = {
     {
         COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_PLAYER,
@@ -10669,7 +10764,7 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
     Collider_InitQuad(play, &this->meleeWeaponQuads[1]);
     Collider_SetQuad(play, &this->meleeWeaponQuads[1], &this->actor, &D_80854650);
     Collider_InitQuad(play, &this->shieldQuad);
-    Collider_SetQuad(play, &this->shieldQuad, &this->actor, &D_808546A0);
+    Collider_SetQuad(play, &this->shieldQuad, &this->actor, &sShieldQuadInit);
 }
 
 static void (*sStartModeFuncs[PLAYER_START_MODE_MAX])(PlayState* play, Player* this) = {
@@ -11525,7 +11620,7 @@ void Player_UpdateBodyBurn(PlayState* play, Player* this) {
     spawnedFlame = false;
     timerPtr = this->bodyFlameTimers;
 
-    func_8083819C(this, play);
+    Player_BurnDekuShield(this, play);
 
     for (i = 0; i < PLAYER_BODYPART_MAX; i++, timerPtr++) {
         timerStep = sp58 + sp54;
