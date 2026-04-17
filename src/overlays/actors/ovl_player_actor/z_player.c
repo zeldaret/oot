@@ -4936,7 +4936,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                         s32 crouchShielding = Player_Action_ShieldCrouch == this->actionFunc;
 
                         // Set this action regardless of shielding with or without target
-                        //! @bug Calling Player_ResetStatesHeldActor here can prevent groundjump,
+                        //! @bug Calling func_80832564 here can prevent groundjump,
                         //! ledge cancel, damage ISG, down A etc. See Player_Action_ShieldBlock for details.
                         if (!func_808332B8(this)) {
                             Player_SetupAction(play, this, Player_Action_ShieldBlock, 0);
