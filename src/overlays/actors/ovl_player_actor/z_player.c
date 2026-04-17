@@ -6574,7 +6574,8 @@ s32 Player_ActionHandler_CrouchShield(Player* this, PlayState* play) {
             }
 
             if (anim != this->skelAnime.animation) {
-                if (Player_CheckHostileLockOn(this)) { // This can only be true for child Link with Hylian Shield, but unk_86C is unused.
+                if (Player_CheckHostileLockOn(
+                        this)) { // This can only be true for child Link with Hylian Shield, but unk_86C is unused.
                     this->unk_86C = 1.0f;
                 } else {
                     this->unk_86C = 0.0f;
