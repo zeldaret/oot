@@ -1571,9 +1571,9 @@ void Player_DrawGetItem(PlayState* play, Player* this) {
 void Player_CalcMeleeWeaponTipPositions(Player* this, Vec3f* tipPositions) {
     sMeleeWeaponTipOffsetFromLeftHand1.x = sMeleeWeaponTipOffsetFromLeftHand0.x;
 
-    if (this->unk_845 >= 3) {
-        this->unk_845++;
-        sMeleeWeaponTipOffsetFromLeftHand1.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
+    if (this->tripleSlashCount >= 3) {
+        this->tripleSlashCount++;
+        sMeleeWeaponTipOffsetFromLeftHand1.x *= 1.0f + ((9 - this->tripleSlashCount) * 0.1f);
     }
 
     sMeleeWeaponTipOffsetFromLeftHand1.x += 1200.0f;

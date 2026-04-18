@@ -2423,8 +2423,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         play->numActorEntries = 0;
     }
 
-    if (actorCtx->unk_02 != 0) {
-        actorCtx->unk_02--;
+    if (actorCtx->hammerHit != 0) {
+        actorCtx->hammerHit--;
     }
 
 #if DEBUG_FEATURES
@@ -4648,7 +4648,7 @@ s32 func_80035124(Actor* actor, PlayState* play) {
 u8 func_800353E8(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    return player->unk_845;
+    return player->tripleSlashCount;
 }
 
 /**
