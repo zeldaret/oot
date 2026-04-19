@@ -1,0 +1,27 @@
+name: Check format
+
+# Build on every branch push, tag push, and pull request change:
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Check format ${{ matrix.version }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout reposistory
+        uses: actions/checkout@v6
+
+      - name: Install package requirements
+        run: |
+          sudo apt-get install -y python3 clang-format-14 clang-tidy-14
+
+      - name: Check formatting (full)
+        if: ${{ github.event_name != 'pull_request' }}
+        run: python3 tools/check_format.py
+
+      - name: Check formatting (modified)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: python3 tools/check_format.py --verbose --compare-to origin/main

@@ -1,0 +1,56 @@
+name: Build
+
+# Build on every branch push, tag push, and pull request change:
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_repo:
+    # This is a *private* build container.
+    container: ghcr.io/zeldaret/oot-build:main
+
+    name: Build repo (${{ matrix.version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - ntsc-1.0       # N64 NTSC 1.0 (Japan/US depending on REGION)
+          - ntsc-1.1       # N64 NTSC 1.1 (Japan/US depending on REGION)
+          - pal-1.0        # N64 PAL 1.0 (Europe)
+          - ntsc-1.2       # N64 NTSC 1.2 (Japan/US depending on REGION)
+          - pal-1.1        # N64 PAL 1.1 (Europe)
+          - gc-jp          # GameCube Japan
+          - gc-jp-mq       # GameCube Japan Master Quest
+          - gc-us          # GameCube US
+          - gc-us-mq       # GameCube US Master Quest
+          - gc-eu-mq-dbg   # GameCube Europe/PAL Master Quest Debug (default)
+          - gc-eu          # GameCube Europe/PAL
+          - gc-eu-mq       # GameCube Europe/PAL Master Quest
+          - gc-jp-ce       # GameCube Japan (Collector's Edition disc)
+          - ique-cn        # iQue Player (Simplified Chinese)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install system dependencies
+        run: |
+          apt-get install -y git build-essential binutils-mips-linux-gnu curl python3 python3-pip python3-venv libxml2-dev
+
+      - name: Get the dependency
+        run: ln -s /orig/${{ matrix.version }}/baserom.z64 baseroms/${{ matrix.version }}/baserom.z64
+
+      - name: Setup
+        run: make -j $(nproc) VERSION=${{ matrix.version }} setup
+
+      - name: Build ${{ matrix.version }}
+        run: make -j $(nproc) VERSION=${{ matrix.version }} || (tools/generate_patch_from_gha.sh >> $GITHUB_STEP_SUMMARY)
+
+      - name: Upload map
+        uses: actions/upload-artifact@v6
+        with:
+          name: oot-${{ matrix.version }}.map
+          path: build/${{ matrix.version }}/oot-${{ matrix.version }}.map
