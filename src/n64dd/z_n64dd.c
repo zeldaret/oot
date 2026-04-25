@@ -295,13 +295,13 @@ void n64dd_printText(void* pCharsRow1, void* pCharsRow2, void* pCharsRow3) {
                 currentTime = osGetTime();
             }
             if (pCharsRow1 != NULL) {
-                func_801CA1F0(pCharsRow1, 96, 32, 192, 16, 11, pNextFrameBuf, SCREEN_WIDTH);
+                n64dd_printTextFB(pCharsRow1, 96, 32, 192, 16, 11, pNextFrameBuf, SCREEN_WIDTH);
             }
             if (pCharsRow2 != NULL) {
-                func_801CA1F0(pCharsRow2, 0, 80, 320, 64, 11, pNextFrameBuf, SCREEN_WIDTH);
+                n64dd_printTextFB(pCharsRow2, 0, 80, 320, 64, 11, pNextFrameBuf, SCREEN_WIDTH);
             }
             if (pCharsRow3 != NULL) {
-                func_801CA1F0(pCharsRow3, 0, 176, 320, 32, 11, pNextFrameBuf, SCREEN_WIDTH);
+                n64dd_printTextFB(pCharsRow3, 0, 176, 320, 32, 11, pNextFrameBuf, SCREEN_WIDTH);
             }
 #if OOT_VERSION < PAL_1_0
             osViBlack(0);
@@ -451,8 +451,8 @@ void func_801C7920(s32 arg0, void* arg1, s32 arg2) {
     }
 }
 
-void func_801C79CC(void* arg0, s32 arg1, s32 arg2) {
-    drivePacketData.pReadBuf = arg0;
+void n64dd_cmd4(void* readBuf, s32 arg1, s32 arg2) {
+    drivePacketData.pReadBuf = readBuf;
     drivePacketData.pCmdParam1 = (void*)arg1;
     drivePacketData.pCmdParam2 = (void*)arg2;
     drivePacketData.cmdType = 4;
@@ -530,12 +530,13 @@ s32 n64dd_offsetToBlock(s32 startLba, s32* adjustedLbaCount, s32* lba) {
  * @param startLba The starting LBA
  * @returns The corresponding byte offset if the read was successful, else returns 0.
  */
-s32 n64dd_LbaToByte(s32 startLba) s32 bytes;
+s32 n64dd_LbaToByte(s32 startLba) {
+    s32 bytes;
 
-if (LeoLBAToByte(startLba, 1, &bytes) == LEO_ERROR_GOOD) {
-    return bytes;
-}
-return 0;
+    if (LeoLBAToByte(startLba, 1, &bytes) == LEO_ERROR_GOOD) {
+        return bytes;
+    }
+    return 0;
 }
 
 /**

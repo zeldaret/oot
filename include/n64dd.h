@@ -142,7 +142,7 @@ u8* func_801C9FFC(void);
 u8* func_801CA030(s32 errorNum);
 u8* func_801CA070(void);
 
-void func_801CA1F0(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth);
+void n64dd_printTextFB(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth);
 
 extern n64ddStruct_800FEE70_pointers D_800FEE70;
 extern n64ddStruct_80121220* B_80121220;

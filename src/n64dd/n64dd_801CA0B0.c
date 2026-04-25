@@ -6,7 +6,7 @@
 #include "color.h"
 
 // Draws text to framebuffer
-typedef struct struct_801CA704 {
+typedef struct n64dd_Textbox {
     /* 0x00 */ PrintCallback callback;
     /* 0x04 */ void* charTexBuf;
     /* 0x08 */ u16 unk_08;
@@ -21,10 +21,10 @@ typedef struct struct_801CA704 {
     /* 0x20 */ void* frameBuf;
     /* 0x24 */ u16 screenWidth;
     /* 0x26 */ u16 screenHeight;
-} struct_801CA704;
+} n64dd_Textbox;
 
 // clang-format off
-u32 D_801D8BE0[0x5F] = {
+u32 charTexOffset[0x5F] = {
     0x00009D14, 0x00232A14, 0x00296314, 0x002F8A14, 0x00457E18, 0x0063CA14, 0x0084AA14, 0x00A03314,
     0x00A45E14, 0x00BB4E14, 0x00CA6514, 0x00D3770E, 0x00E33302, 0x00E78108, 0x00EB2102, 0x00EC6C14,
     0x01008A14, 0x01163A14, 0x01217A14, 0x01377A14, 0x014D8A14, 0x01638A14, 0x01798A14, 0x018F7A14,
@@ -40,8 +40,15 @@ u32 D_801D8BE0[0x5F] = {
 };
 // clang-format on
 
-// Loads character texture to buffer
-s32 func_801CA0B0(s32 charCode, void* charTexBuf, int* dx, int* dy, int* cy) {
+/**
+ * Loads character texture to buffer.
+ * @param charCode What character
+ * @param charTexBuf Buffer for loading the character texture
+ * @param dx x offset for the character in the textbox
+ * @param dy y offset for the character in the textbox
+ * @param cy y offset of the textbox (?)
+ */
+s32 n64dd_loadCharTex(s32 charCode, void* charTexBuf, int* dx, int* dy, int* cy) {
     s32 offset;
     OSPiHandle* handle;
     OSMesgQueue queue;
@@ -50,7 +57,7 @@ s32 func_801CA0B0(s32 charCode, void* charTexBuf, int* dx, int* dy, int* cy) {
 
     handle = osDriveRomInit();
     if (charCode >= 0x20 && charCode < 0x7F) { // ASCII
-        offset = LeoGetAAdr2(D_801D8BE0[charCode - 0x20], dx, dy, cy);
+        offset = LeoGetAAdr2(charTexOffset[charCode - 0x20], dx, dy, cy);
     } else if (charCode >= 0x8140) { // Shift-JIS
         offset = LeoGetKAdr(charCode);
         *dx = 16;
@@ -77,17 +84,28 @@ s32 func_801CA0B0(s32 charCode, void* charTexBuf, int* dx, int* dy, int* cy) {
     return 0;
 }
 
-const u16 D_801D9390[16] = {
+const u16 intensColorMap[16] = {
     0x0001, 0x1085, 0x2109, 0x318D, 0x4211, 0x5295, 0x6319, 0x739D,
     0x8C63, 0x9CE7, 0xAD6B, 0xBDEF, 0xCE73, 0xDEF7, 0xEF7B, 0xFFFF,
 };
 
 // Maps 4-bit intensity to a 16-bit color
-u16 func_801CA1D4(u32 arg0) {
-    return D_801D9390[arg0 % ARRAY_COUNT(D_801D9390)];
+u16 n64dd_mapIntensToColor(u32 arg0) {
+    return intensColorMap[arg0 % ARRAY_COUNT(intensColorMap)];
 }
 
-void func_801CA1F0(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth) {
+/**
+ * Prints text to the framebuffer.
+ * @param charTexBuf Buffer with all the characters to print
+ * @param posX x position of the textbox
+ * @param posY y position of the textbox
+ * @param dx x offset of the characters in the textbox
+ * @param dy y offset of the characters in the textbox
+ * @param cy y offset of the textbox (?)
+ * @param frameBuf Framebuffer
+ * @param screenWidth The width of the screen
+ */
+void n64dd_printTextFB(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy, void* frameBuf, s32 screenWidth) {
     s32 intensity;
     s32 x;
     s32 y;
@@ -102,7 +120,7 @@ void func_801CA1F0(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy,
                 intensity = *src & 0xF;
                 src++;
             }
-            dst[posX + x + ((posY + (11 - cy) + y) * screenWidth)] = func_801CA1D4(intensity);
+            dst[posX + x + ((posY + (11 - cy) + y) * screenWidth)] = n64dd_mapIntensToColor(intensity);
         }
         if (dx & 1) {
             src++;
@@ -110,83 +128,87 @@ void func_801CA1F0(void* charTexBuf, s32 posX, s32 posY, s32 dx, s32 dy, s32 cy,
     }
 }
 
-void func_801CA2F8(struct_801CA704* arg0, u32 r, u32 g, u32 b, u32 a) {
-    arg0->color.r = r;
-    arg0->color.g = g;
-    arg0->color.b = b;
-    arg0->color.a = a;
+void n64dd_setTextboxColor(n64dd_Textbox* textbox, u32 r, u32 g, u32 b, u32 a) {
+    textbox->color.r = r;
+    textbox->color.g = g;
+    textbox->color.b = b;
+    textbox->color.a = a;
 }
 
-void func_801CA314(struct_801CA704* arg0, s32 arg1, s32 arg2) {
-    arg0->posX = arg0->baseX + arg1;
-    arg0->posY = arg0->baseY + arg2;
+void n64dd_setTextboxOffset(n64dd_Textbox* textbox, s32 arg1, s32 arg2) {
+    textbox->posX = textbox->baseX + arg1;
+    textbox->posY = textbox->baseY + arg2;
 }
 
-void func_801CA334(struct_801CA704* arg0, s32 baseX, s32 baseY, s32 endX, s32 endY) {
-    arg0->baseX = baseX;
-    arg0->baseY = baseY;
-    arg0->endX = endX;
-    arg0->endY = endY;
+void n64dd_setTextboxBaseDimension(n64dd_Textbox* textbox, s32 baseX, s32 baseY, s32 endX, s32 endY) {
+    textbox->baseX = baseX;
+    textbox->baseY = baseY;
+    textbox->endX = endX;
+    textbox->endY = endY;
 }
 
-void func_801CA350(struct_801CA704* arg0, void* frameBuf, s32 screenWidth, s32 screenHeight) {
-    arg0->frameBuf = (u8*)frameBuf + 0x20000000;
-    arg0->screenWidth = screenWidth;
-    arg0->screenHeight = screenHeight;
-    func_801CA334(arg0, 0, 0, screenWidth - 1, screenHeight - 1);
+// moves the textbox to a secondary framebuffer
+void n64dd_moveTextboxFB(n64dd_Textbox* textbox, void* frameBuf, s32 screenWidth, s32 screenHeight) {
+    textbox->frameBuf = (u8*)frameBuf + 0x20000000;
+    textbox->screenWidth = screenWidth;
+    textbox->screenHeight = screenHeight;
+    n64dd_setTextboxBaseDimension(textbox, 0, 0, screenWidth - 1, screenHeight - 1);
 }
 
-void func_801CA3B4(struct_801CA704* arg0, void* charTexBuf, s32 arg2) {
-    arg0->charTexBuf = (u8*)charTexBuf + 0x20000000;
-    arg0->unk_08 = arg2;
+void func_801CA3B4(n64dd_Textbox* textbox, void* charTexBuf, s32 arg2) {
+    textbox->charTexBuf = (u8*)charTexBuf + 0x20000000;
+    textbox->unk_08 = arg2;
 }
 
-void func_801CA3CC(struct_801CA704* arg0, char c) {
+// remove invalid characters, insert spaces
+void n64dd_textboxPrintSpaces(n64dd_Textbox* textbox, char c) {
     s32 charCode;
     int dx;
     int dy;
     int cy;
 
-    if (arg0->sjisPrevByte != 0) {
-        charCode = (arg0->sjisPrevByte << 8) | c;
+    if (textbox->sjisPrevByte != 0) {
+        charCode = (textbox->sjisPrevByte << 8) | c;
     } else {
         if (c >= 0x80 && c < 0x99) {
-            arg0->sjisPrevByte = c;
+            textbox->sjisPrevByte = c;
             return;
         }
         charCode = c;
     }
 
-    arg0->sjisPrevByte = 0;
-    if (func_801CA0B0(charCode, arg0->charTexBuf, &dx, &dy, &cy) == 0) {
-        if (arg0->posX + dx > arg0->endX) {
-            arg0->posX = arg0->baseX;
-            if (arg0->posY + 16 > arg0->endY) {
-                arg0->posY = arg0->baseY;
+    textbox->sjisPrevByte = 0;
+    if (n64dd_loadCharTex(charCode, textbox->charTexBuf, &dx, &dy, &cy) == 0) {
+        if (textbox->posX + dx > textbox->endX) {
+            textbox->posX = textbox->baseX;
+            if (textbox->posY + 16 > textbox->endY) {
+                textbox->posY = textbox->baseY;
             } else {
-                arg0->posY += 16;
+                textbox->posY += 16;
             }
         }
-        func_801CA1F0(arg0->charTexBuf, arg0->posX, arg0->posY, dx, dy, cy, arg0->frameBuf, arg0->screenWidth);
-        arg0->posX += (dx == 16 ? dx : dx + 2);
+        n64dd_printTextFB(textbox->charTexBuf, textbox->posX, textbox->posY, dx, dy, cy, textbox->frameBuf,
+                        textbox->screenWidth);
+        textbox->posX += (dx == 16 ? dx : dx + 2);
     }
 }
 
-void func_801CA4F4(struct_801CA704* arg0, char c) {
+// escape tabs, newlines, carriage returns
+void n64dd_textboxEscapeChar(n64dd_Textbox* textbox, char c) {
     if (c >= ' ' && c <= 0xFF) {
-        func_801CA3CC(arg0, c);
+        n64dd_textboxPrintSpaces(textbox, c);
     } else {
         switch (c) {
             case '\n':
-                arg0->posY += 32;
+                textbox->posY += 32;
                 FALLTHROUGH;
             case '\r':
-                arg0->posX = arg0->baseX;
+                textbox->posX = textbox->baseX;
                 break;
             case '\t':
                 do {
-                    func_801CA3CC(arg0, ' ');
-                } while ((arg0->posX - arg0->baseX) % 256);
+                    n64dd_textboxPrintSpaces(textbox, ' ');
+                } while ((textbox->posX - textbox->baseX) % 256);
                 break;
             case '\0':
                 break;
@@ -194,53 +216,71 @@ void func_801CA4F4(struct_801CA704* arg0, char c) {
     }
 }
 
-void func_801CA5BC(struct_801CA704* arg0, const char* str, s32 arg2, size_t count) {
+/**
+ * Escapes all whitespaces, tabs, carriage returns, newlines, etc. from a textbox.
+ * @param textbox The textbox
+ * @param str The string to escape
+ * @param nChars The number of characters in the string
+ * @param count sizeof(char)
+ */
+void n64dd_textboxEscapeText(n64dd_Textbox* textbox, const char* str, s32 nChars, size_t count) {
     const char* s = str;
-    s32 n = arg2 * count;
+    s32 n = nChars * count;
 
     while (n != 0) {
-        func_801CA4F4(arg0, *s++);
+        n64dd_textboxEscapeChar(textbox, *s++);
         n--;
     }
 }
 
-void func_801CA618(struct_801CA704* arg0, const char* str) {
+/**
+ * Escapes all whitespaces, tabs, carriage returns, newlines, etc. from a textbox.
+ * Equivalent to n64dd_textboxEscapeText
+ */
+void n64dd_textboxEscapeStrings(n64dd_Textbox* textbox, const char* str) {
     while (*str != 0) {
-        func_801CA4F4(arg0, *str++);
+        n64dd_textboxEscapeChar(textbox, *str++);
     }
 }
 
-void* func_801CA670(void* arg, const char* str, size_t count) {
-    func_801CA5BC(arg, str, 1, count);
-    return arg;
+/**
+ * Escape a textbox.
+ * @param textbox the textbox
+ * @param str the string to escape
+ * @param count sizeof(char)
+ * @returns the escaped textbox
+ */
+void* n64dd_getEscapedTextbox(void* textbox, const char* str, size_t count) {
+    n64dd_textboxEscapeText(textbox, str, 1, count);
+    return textbox;
 }
 
-void func_801CA6A0(struct_801CA704* arg0) {
-    arg0->callback = &func_801CA670;
-    arg0->posX = 0;
-    arg0->posY = 0;
-    arg0->baseX = 0;
-    arg0->baseY = 0;
-    arg0->endX = 0;
-    arg0->endY = 0;
-    arg0->color.rgba = 0;
-    arg0->sjisPrevByte = 0;
-    arg0->charTexBuf = NULL;
+void n64dd_initTextbox(n64dd_Textbox* textbox) {
+    textbox->callback = &n64dd_getEscapedTextbox;
+    textbox->posX = 0;
+    textbox->posY = 0;
+    textbox->baseX = 0;
+    textbox->baseY = 0;
+    textbox->endX = 0;
+    textbox->endY = 0;
+    textbox->color.rgba = 0;
+    textbox->sjisPrevByte = 0;
+    textbox->charTexBuf = NULL;
 }
 
-void func_801CA6D8(struct_801CA704* arg0) {
+void n64dd_textboxEmpty(n64dd_Textbox* textbox) {
 }
 
-s32 func_801CA6E4(struct_801CA704* arg0, const char* fmt, va_list args) {
-    return PrintUtils_VPrintf(&arg0->callback, fmt, args);
+s32 n64dd_textboxVPrintfInternal(n64dd_Textbox* textbox, const char* fmt, va_list args) {
+    return PrintUtils_VPrintf(&textbox->callback, fmt, args);
 }
 
-s32 func_801CA704(struct_801CA704* arg0, const char* fmt, ...) {
+s32 n64dd_textboxVPrintf(n64dd_Textbox* textbox, const char* fmt, ...) {
     s32 ret;
     va_list args;
 
     va_start(args, fmt);
-    ret = func_801CA6E4(arg0, fmt, args);
+    ret = n64dd_textboxVPrintfInternal(textbox, fmt, args);
     va_end(args);
 
     return ret;
