@@ -32,7 +32,9 @@ COMPILER ?= ido
 #   gc-jp-mq       GameCube Japan Master Quest
 #   gc-us          GameCube US
 #   gc-us-mq       GameCube US Master Quest
+#   gc-eu-dbg-2    GameCube Europe/PAL Debug (earlier build)
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
+#   gc-eu-dbg      GameCube Europe/PAL Debug
 #   gc-eu          GameCube Europe/PAL
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-jp-ce       GameCube Japan (Collector's Edition disc)

@@ -2709,6 +2709,14 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
         // the z-buffer will later only allow drawing inside the lens circle
     } else {
         // Update the z-buffer but not the color frame buffer
+        // The render mode here sets the following modes for framebuffer and z-buffer access:
+        //  - Framebuffer reads & writes
+        //  - Z-Buffer writes only, value from primitive Z
+        //  - Framebuffer coverage is unchanged
+        // Since the goal is to mask the z-buffer, there are two options:
+        //  - Set the FB to the ZB and render a texture over it
+        //  - Read and write the FB without changes to its contents, since ZB writes only happen when FB writes happen
+        // Here the second option is used.
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -4512,7 +4520,7 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
 
     displayList = displayListHead = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
-    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, Z_UPD | G_RM_AA_ZB_XLU_SURF2);
+    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2 | Z_UPD);
 
     gSPEndDisplayList(displayListHead++);
 
@@ -4710,8 +4718,7 @@ Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
 Vec3f D_80116274 = { 0.0f, -0.2f, 0.0f };
 
 Gfx D_80116280[] = {
-    gsDPSetRenderMode(G_RM_FOG_SHADE_A, AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU |
-                                            FORCE_BL | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA)),
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2 | Z_UPD),
     gsDPSetAlphaCompare(G_AC_THRESHOLD),
     gsSPEndDisplayList(),
 };
