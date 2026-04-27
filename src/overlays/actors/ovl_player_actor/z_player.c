@@ -184,7 +184,7 @@ s32 func_80835B60(Player* this, PlayState* play);
 s32 func_80835C08(Player* this, PlayState* play);
 
 void Player_UseItem(PlayState* play, Player* this, s32 item);
-void Player_SetupIdleDependingOnTargetWithAnim(Player* this, PlayState* play);
+void Player_SetupIdleDependingOnTarget(Player* this, PlayState* play);
 s32 func_8083C61C(PlayState* play, Player* this);
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input);
 void func_8084FF7C(Player* this);
@@ -2295,7 +2295,7 @@ void Player_ProcessFidgetAnimSfxList(Player* this, s32 fidgetAnimIndex) {
 /**
  * Selects forward running animation
  */
-LinkAnimationHeader* Player_SetRunAnim(Player* this) {
+LinkAnimationHeader* Player_GetRunAnim(Player* this) {
     // Player has recently taken damage while running
     if (this->damageRunTimer != 0) {
         return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_damage_run, this->modelAnimType);
@@ -2312,10 +2312,10 @@ int func_808334B4(Player* this) {
 }
 
 /**
- * Idle animations selected depending on aiming Boomerang/ranged or not and which foot
- * should be forward. Hostile Z-target
+ * Idle animation selected depending on aiming Boomerang or not and which foot
+ * should be forward. Used when using Boomerang and when idle hostile.
  */
-LinkAnimationHeader* Player_SetIdleAnimRightForward(Player* this) {
+LinkAnimationHeader* Player_GetIdleAnimRightForward(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_waitR;
     } else {
@@ -2323,7 +2323,7 @@ LinkAnimationHeader* Player_SetIdleAnimRightForward(Player* this) {
     }
 }
 
-LinkAnimationHeader* Player_SetIdleAnimLeftForward(Player* this) {
+LinkAnimationHeader* Player_GetIdleAnimLeftForward(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_waitL;
     } else {
@@ -2331,7 +2331,7 @@ LinkAnimationHeader* Player_SetIdleAnimLeftForward(Player* this) {
     }
 }
 
-LinkAnimationHeader* Player_SetSlowSidewalkAnim(Player* this) {
+LinkAnimationHeader* Player_GetSlowSidewalkAnim(Player* this) {
     if (func_8002DD78(this)) {
         return &gPlayerAnim_link_bow_side_walk;
     } else {
@@ -2339,7 +2339,7 @@ LinkAnimationHeader* Player_SetSlowSidewalkAnim(Player* this) {
     }
 }
 
-LinkAnimationHeader* Player_SetBoomerangSidewalkAnimRight(Player* this) {
+LinkAnimationHeader* Player_GetBoomerangSidewalkAnimRight(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_side_walkR;
     } else {
@@ -2347,7 +2347,7 @@ LinkAnimationHeader* Player_SetBoomerangSidewalkAnimRight(Player* this) {
     }
 }
 
-LinkAnimationHeader* Player_SetBoomerangSidewalkAnimLeft(Player* this) {
+LinkAnimationHeader* Player_GetBoomerangSidewalkAnimLeft(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_side_walkL;
     } else {
@@ -3269,7 +3269,7 @@ void Player_SetParallel(Player* this) {
 s32 func_80835644(PlayState* play, Player* this, Actor* arg2) {
     if (arg2 == NULL) {
         func_80832564(play, this);
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
         return 1;
     }
 
@@ -3357,9 +3357,9 @@ s32 func_80835884(Player* this, PlayState* play) {
 s32 func_808358F0(Player* this, PlayState* play) {
     LinkAnimationHeader* animSeg = this->skelAnime.animation;
 
-    if ((Player_SetIdleAnimRightForward(this) == animSeg) || (Player_SetIdleAnimLeftForward(this) == animSeg) ||
-        (Player_SetBoomerangSidewalkAnimRight(this) == animSeg) ||
-        (Player_SetBoomerangSidewalkAnimLeft(this) == animSeg)) {
+    if ((Player_GetIdleAnimRightForward(this) == animSeg) || (Player_GetIdleAnimLeftForward(this) == animSeg) ||
+        (Player_GetBoomerangSidewalkAnimRight(this) == animSeg) ||
+        (Player_GetBoomerangSidewalkAnimLeft(this) == animSeg)) {
         AnimTaskQueue_AddCopy(play, this->skelAnime.limbCount, this->upperSkelAnime.jointTable,
                               this->skelAnime.jointTable);
     } else {
@@ -5571,10 +5571,10 @@ void Player_SetupIdleHostileWithFootWeight(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_IdleHostile, 1);
 
     if (this->forwardFootWeight < 0.5f) {
-        anim = Player_SetIdleAnimRightForward(this);
+        anim = Player_GetIdleAnimRightForward(this);
         this->forwardFootWeight = 0.0f;
     } else {
-        anim = Player_SetIdleAnimLeftForward(this);
+        anim = Player_GetIdleAnimLeftForward(this);
         this->forwardFootWeight = 1.0f;
     }
 
@@ -5594,9 +5594,9 @@ void Player_SetupIdleParallel(Player* this, PlayState* play) {
 
 /**
  * Sets up idle action depending on no target/parallel/hostile Z-target
- * by calling their setup functions, which also set animations.
+ * by calling their setup functions, which also set idle animations.
  */
-void Player_SetupIdleDependingOnTargetWithAnim(Player* this, PlayState* play) {
+void Player_SetupIdleDependingOnTarget(Player* this, PlayState* play) {
     if (Player_CheckHostileLockOn(this)) {
         Player_SetupIdleHostileWithFootWeight(this, play);
     } else if (Player_FriendlyLockOnOrParallel(this)) {
@@ -5608,9 +5608,9 @@ void Player_SetupIdleDependingOnTargetWithAnim(Player* this, PlayState* play) {
 
 /**
  * Sets action function to idle function depending on no target/parallel/Z-target.
- * Does not setup animations!
+ * Does not set new animations, keeps previously set animation.
  */
-void Player_SetupIdleDependingOnTarget(Player* this, PlayState* play) {
+void Player_SetupIdleDependingOnTargetKeepAnim(Player* this, PlayState* play) {
     PlayerActionFunc actionFunc;
 
     if (Player_CheckHostileLockOn(this)) {
@@ -5625,11 +5625,11 @@ void Player_SetupIdleDependingOnTarget(Player* this, PlayState* play) {
 }
 
 void Player_SetupIdleDependingOnTarget2(Player* this, PlayState* play) {
-    Player_SetupIdleDependingOnTarget(this, play);
+    Player_SetupIdleDependingOnTargetKeepAnim(this, play);
 
     // Used by Player_Action_IdleHostile to make sure started animation finishes
     if (Player_CheckHostileLockOn(this)) {
-        this->av2.actionVar2 = 1;
+        this->av2.waitForAnimDone = 1;
     }
 }
 
@@ -5681,7 +5681,7 @@ void func_8083A0F4(PlayState* play, Player* this) {
             Player_AnimPlayOnce(play, this, anim);
         }
     } else {
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
         this->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
     }
 }
@@ -6450,7 +6450,7 @@ s32 Player_ActionHandler_10(Player* this, PlayState* play) {
     return 0;
 }
 
-void Player_StopRunWalkAnim(Player* this, PlayState* play) {
+void Player_PlayStopRunWalkAnim(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
     f32 sp30;
 
@@ -6484,8 +6484,8 @@ void Player_StopRunWalkAnim(Player* this, PlayState* play) {
  * Setup idle depending on if target and play stop run/walk animation
  */
 void Player_SetupIdleWithStopRunWalkAnim(Player* this, PlayState* play) {
-    Player_SetupIdleDependingOnTarget(this, play);
-    Player_StopRunWalkAnim(this, play);
+    Player_SetupIdleDependingOnTargetKeepAnim(this, play);
+    Player_PlayStopRunWalkAnim(this, play);
 }
 
 /**
@@ -6503,7 +6503,7 @@ void func_8083C148(Player* this, PlayState* play) {
         if (this->stateFlags1 & PLAYER_STATE1_27) {
             func_80838F18(play, this);
         } else {
-            Player_SetupIdleDependingOnTargetWithAnim(this, play);
+            Player_SetupIdleDependingOnTarget(this, play);
         }
         if (this->unk_6AD < 4) {
             this->unk_6AD = 0;
@@ -6845,7 +6845,7 @@ void Player_SetupIdleWithFootWeight(Player* this, PlayState* play) {
 void Player_SetupIdleHostile(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_IdleHostile, 1);
     Player_AnimChangeOnceMorph(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait2waitR, this->modelAnimType));
-    this->av2.actionVar2 = 1; // Used by Player_Action_IdleHostile as a flag for loop once animation in progress
+    this->av2.waitForAnimDone = 1; // Used by Player_Action_IdleHostile as a flag for play once animation in progress
 }
 
 void Player_SetupIdleOrRunWithFootWeight(Player* this, PlayState* play) {
@@ -6860,7 +6860,7 @@ void Player_SetupIdleOrRunDependingOnTargetWithAnim(Player* this, PlayState* pla
     if (this->speedXZ != 0.0f) {
         Player_SetupRunDependingOnTarget(this, play);
     } else {
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
     }
 }
 
@@ -7912,7 +7912,7 @@ s32 func_8083F9D0(PlayState* play, Player* this) {
         }
     }
 
-    Player_SetupIdleDependingOnTarget(this, play);
+    Player_SetupIdleDependingOnTargetKeepAnim(this, play);
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_wait_end);
     this->stateFlags2 &= ~PLAYER_STATE2_4;
     return 1;
@@ -8058,8 +8058,8 @@ void Player_SetForwardFoot(Player* this, f32 speedTarget, s16 yawTarget) {
 }
 
 void Player_BlendIdleFootAnim(PlayState* play, Player* this) {
-    LinkAnimation_BlendToJoint(play, &this->skelAnime, Player_SetIdleAnimRightForward(this), this->moveFrame,
-                               Player_SetIdleAnimLeftForward(this), this->moveFrame, this->forwardFootWeight,
+    LinkAnimation_BlendToJoint(play, &this->skelAnime, Player_GetIdleAnimRightForward(this), this->moveFrame,
+                               Player_GetIdleAnimLeftForward(this), this->moveFrame, this->forwardFootWeight,
                                this->blendTable);
 }
 
@@ -8145,12 +8145,12 @@ void Player_Action_IdleHostile(Player* this, PlayState* play) {
         }
     }
 
-    // Ensure that any loop once-animation finishes before starting idle animation
-    if (this->av2.actionVar2 != 0) {
+    // Ensure that any play once-animation finishes before starting idle animation
+    if (this->av2.waitForAnimDone != 0) {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
             Player_FinishAnimMovement(this);
-            Player_AnimPlayLoop(play, this, Player_SetIdleAnimRightForward(this));
-            this->av2.actionVar2 = 0;
+            Player_AnimPlayLoop(play, this, Player_GetIdleAnimRightForward(this));
+            this->av2.waitForAnimDone = 0;
             this->stateFlags3 &= ~PLAYER_STATE3_MELEE_ATTACK;
         }
         Player_ResetForwardFootWeight(this);
@@ -8226,7 +8226,7 @@ void Player_Action_IdleHostile(Player* this, PlayState* play) {
 }
 
 /**
- * Idle in parallel (unless shielding = IdleHostile)
+ * Idle in parallel (unless shielding, in which case IdleHostile is used)
  */
 void Player_Action_IdleParallel(Player* this, PlayState* play) {
     f32 speedTarget;
@@ -8429,7 +8429,7 @@ void Player_Action_Idle(Player* this, PlayState* play) {
             }
 
             // Check for speed/yaw change. Only one movement action function
-            // (and diretion of movement) possible, because player is not targeting.
+            // (and direction of movement) possible, because player is not targeting.
             Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
             if (speedTarget != 0.0f) {
@@ -8470,7 +8470,7 @@ void Player_Action_SlowSidewalk(Player* this, PlayState* play) {
     this->skelAnime.mode = 0;
     LinkAnimation_SetUpdateFunction(&this->skelAnime);
 
-    this->skelAnime.animation = Player_SetSlowSidewalkAnim(this);
+    this->skelAnime.animation = Player_GetSlowSidewalkAnim(this);
 
     // Shorter duration if walking with bow
     if (this->skelAnime.animation == &gPlayerAnim_link_bow_side_walk) {
@@ -8553,7 +8553,7 @@ void Player_Action_SlowSidewalk(Player* this, PlayState* play) {
 /**
  * Sets backwalk animation for parallel backwalk
  */
-void Player_SetBackwalkAnim(Player* this, PlayState* play) {
+void Player_GetBackwalkAnim(Player* this, PlayState* play) {
     f32 temp1;
     f32 temp2;
 
@@ -8633,7 +8633,7 @@ void Player_Action_Backwalk(Player* this, PlayState* play) {
     s16 yawTarget;
     s32 direction;
 
-    Player_SetBackwalkAnim(this, play);
+    Player_GetBackwalkAnim(this, play);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList4, true)) {
         // Check if dropped parallel mode
@@ -8768,7 +8768,7 @@ void Player_Action_FastSidewalk(Player* this, PlayState* play) {
             if (!Player_CheckHostileLockOn(this) && Player_FriendlyLockOnOrParallel(this)) {
                 Player_SetupSlowSidewalk(this, play);
             } else {
-                Player_SetupIdleDependingOnTargetWithAnim(this, play);
+                Player_SetupIdleDependingOnTarget(this, play);
             }
         } else {
             s16 yawDiff;
@@ -8890,7 +8890,7 @@ void func_80841CC4(Player* this, s32 arg1, PlayState* play) {
     }
 }
 
-void Player_SetRunWalkAnim(Player* this, PlayState* play) {
+void Player_GetRunWalkAnim(Player* this, PlayState* play) {
     f32 temp1;
     f32 temp2;
 
@@ -8928,7 +8928,7 @@ void Player_SetRunWalkAnim(Player* this, PlayState* play) {
 
             func_80841CC4(this, 1, play);
 
-            LinkAnimation_LoadToJoint(play, &this->skelAnime, Player_SetRunAnim(this),
+            LinkAnimation_LoadToJoint(play, &this->skelAnime, Player_GetRunAnim(this),
                                       this->moveFrame * (20.0f / 29.0f));
         }
     }
@@ -8946,7 +8946,7 @@ void Player_Action_RunWalk(Player* this, PlayState* play) {
     s16 yawTarget;
 
     this->stateFlags2 |= PLAYER_STATE2_5;
-    Player_SetRunWalkAnim(this, play);
+    Player_GetRunWalkAnim(this, play);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList8, true)) {
         // If targeting/parallel, set new action
@@ -8976,7 +8976,7 @@ void Player_Action_RunWalkParallel(Player* this, PlayState* play) {
     s16 yawTarget;
 
     this->stateFlags2 |= PLAYER_STATE2_5;
-    Player_SetRunWalkAnim(this, play);
+    Player_GetRunWalkAnim(this, play);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList9, true)) {
         if (!Player_IsZTargetingWithHostileUpdate(this)) {
@@ -8990,7 +8990,7 @@ void Player_Action_RunWalkParallel(Player* this, PlayState* play) {
             if ((Player_FriendlyLockOnOrParallel(this) && (speedTarget != 0.0f) &&
                  (func_8083FD78(this, &speedTarget, &yawTarget, play) <= 0)) ||
                 (!Player_FriendlyLockOnOrParallel(this) && (func_8083FC68(this, speedTarget, yawTarget) <= 0))) {
-                Player_SetupIdleDependingOnTargetWithAnim(this, play);
+                Player_SetupIdleDependingOnTarget(this, play);
                 return;
             }
 
@@ -8998,7 +8998,7 @@ void Player_Action_RunWalkParallel(Player* this, PlayState* play) {
             func_8083DDC8(this, play);
 
             if ((this->speedXZ == 0) && (speedTarget == 0)) {
-                Player_SetupIdleDependingOnTargetWithAnim(this, play);
+                Player_SetupIdleDependingOnTarget(this, play);
             }
         }
     }
@@ -9053,7 +9053,7 @@ void Player_Action_8084251C(Player* this, PlayState* play) {
             }
 
             if ((speedTarget != 0.0f) || animFinished) {
-                Player_SetupIdleDependingOnTargetWithAnim(this, play);
+                Player_SetupIdleDependingOnTarget(this, play);
             }
         }
     }
@@ -9439,7 +9439,7 @@ void Player_Action_8084370C(Player* this, PlayState* play) {
 
     if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
         (LinkAnimation_Update(play, &this->skelAnime) || (interruptResult >= PLAYER_INTERRUPT_MOVE))) {
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
     }
 }
 
@@ -9533,7 +9533,7 @@ void Player_Action_80843A38(Player* this, PlayState* play) {
 
         if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
             (LinkAnimation_Update(play, &this->skelAnime) || (interruptResult >= PLAYER_INTERRUPT_MOVE))) {
-            Player_SetupIdleDependingOnTargetWithAnim(this, play);
+            Player_SetupIdleDependingOnTarget(this, play);
         }
     }
 
@@ -10005,7 +10005,7 @@ void func_80844D30(Player* this, PlayState* play) {
 }
 
 void func_80844D68(Player* this, PlayState* play) {
-    Player_SetupIdleDependingOnTarget(this, play);
+    Player_SetupIdleDependingOnTargetKeepAnim(this, play);
     func_80832318(this);
     Player_AnimChangeOnceMorph(play, this, D_80854368[Player_HoldsTwoHandedWeapon(this)]);
     this->yaw = this->actor.shape.rot.y;
@@ -10334,11 +10334,11 @@ s32 func_80845964(PlayState* play, Player* this, CsCmdActorCue* cue, f32 arg3, s
     }
 
     this->stateFlags2 |= PLAYER_STATE2_5;
-    Player_SetRunWalkAnim(this, play);
+    Player_GetRunWalkAnim(this, play);
     func_8083DF68(this, arg3, arg4);
 
     if ((arg3 == 0.0f) && (this->speedXZ == 0.0f)) {
-        Player_StopRunWalkAnim(this, play);
+        Player_PlayStopRunWalkAnim(this, play);
     }
 
     return false;
@@ -10466,7 +10466,7 @@ void Player_Action_80846050(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
         func_80835688(this, play);
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 4.0f)) {
         Actor* interactRangeActor = this->interactRangeActor;
@@ -10539,7 +10539,7 @@ void Player_Action_80846260(Player* this, PlayState* play) {
 
 void Player_Action_80846358(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
         return;
     }
 
@@ -10576,7 +10576,7 @@ void Player_Action_808464B0(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
         return;
     }
 
@@ -10603,7 +10603,7 @@ void Player_Action_80846578(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime) ||
         ((this->skelAnime.curFrame >= 8.0f) &&
          Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play))) {
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
         return;
     }
 
@@ -14397,7 +14397,7 @@ void Player_Action_8084F308(Player* this, PlayState* play) {
     }
 
     if (func_80832594(this, 0, 100)) {
-        Player_SetupIdleDependingOnTargetWithAnim(this, play);
+        Player_SetupIdleDependingOnTarget(this, play);
         this->stateFlags2 &= ~PLAYER_STATE2_7;
     }
 }
@@ -14612,7 +14612,7 @@ void Player_Action_8084FB10(Player* this, PlayState* play) {
         }
     } else {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
-            Player_SetupIdleDependingOnTargetWithAnim(this, play);
+            Player_SetupIdleDependingOnTarget(this, play);
             Player_SetInvulnerability(this, -20);
         }
     }
@@ -14624,7 +14624,7 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
 
     if (((this->av2.actionVar2 % 25) != 0) || func_80837B18(play, this, -1)) {
         if (DECR(this->av2.actionVar2) == 0) {
-            Player_SetupIdleDependingOnTargetWithAnim(this, play);
+            Player_SetupIdleDependingOnTarget(this, play);
         }
     }
 
@@ -14880,7 +14880,7 @@ void Player_Action_808505DC(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 
     if (this->skelAnime.curFrame >= 6.0f) {
-        Player_SetupIdleDependingOnTarget(this, play);
+        Player_SetupIdleDependingOnTargetKeepAnim(this, play);
     }
 }
 
@@ -14959,7 +14959,7 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av1.actionVar1 < 0) {
             if ((this->itemAction == PLAYER_IA_NAYRUS_LOVE) || (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
-                Player_SetupIdleDependingOnTarget(this, play);
+                Player_SetupIdleDependingOnTargetKeepAnim(this, play);
                 Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
@@ -15638,7 +15638,7 @@ void func_8085190C(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
     if (this->av2.actionVar2 != 0) {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
-            Player_AnimPlayLoop(play, this, Player_SetIdleAnimRightForward(this));
+            Player_AnimPlayLoop(play, this, Player_GetIdleAnimRightForward(this));
             this->av2.actionVar2 = 0;
         }
 
