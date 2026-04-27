@@ -5669,7 +5669,7 @@ void func_8083A360(PlayState* play, Player* this) {
 /**
  * Only function call, without animation etc setup
  */
-void Player_SetupGrabHoldBlock2(PlayState* play, Player* this) {
+void Player_SetupGrabHoldBlockAfterPutAway(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_GrabHoldBlock, 0);
 }
 
@@ -7786,7 +7786,7 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
 }
 
 void Player_SetupGrabHoldBlock(Player* this, LinkAnimationHeader* anim, PlayState* play) {
-    if (!Player_SetupWaitForPutAway(play, this, Player_SetupGrabHoldBlock2)) {
+    if (!Player_SetupWaitForPutAway(play, this, Player_SetupGrabHoldBlockAfterPutAway)) {
         Player_SetupAction(play, this, Player_Action_GrabHoldBlock, 0);
     }
 
@@ -7855,7 +7855,7 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
 /**
  * Check if player is still holding on to a movable object.
  * If no longer holding, setup idle.
- * @return 0 if holding on and idle, 1 if holding and moving or no longer holding
+ * @return false if holding on and not moving, true if holding and moving or no longer holding
  */
 s32 Player_StillGrabbingBlock(PlayState* play, Player* this) {
     // If player is still holding on to the movable object, either by moving or holding A/grab
@@ -7869,9 +7869,9 @@ s32 Player_StillGrabbingBlock(PlayState* play, Player* this) {
 
         if (&wallPolyActor->actor == this->grabbedActor) {
             if (this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) {
-                return 1; // Player is actively moving the object
+                return true; // Player is actively moving the object
             } else {
-                return 0;
+                return false;
             }
         }
     }
@@ -7880,7 +7880,7 @@ s32 Player_StillGrabbingBlock(PlayState* play, Player* this) {
     func_80839FFC(this, play);
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_wait_end);
     this->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
-    return 1;
+    return true;
 }
 
 void Player_SetupPushBlock(Player* this, PlayState* play) {
@@ -7971,16 +7971,17 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, PlayState* play) {
 /**
  * Check if player is moving forward, backward or standing still.
  * Used by grab/pushing/pulling actions, like for blocks.
+ * @return 1, -1 or 0 respectively if moving forward (pushing), backward (pulling) or standing still
  */
-s32 Player_BlockMoveDirection(Player* this, f32* speedTarget, s16* yawTarget) {
-    s16 yawDiff = *yawTarget - this->actor.shape.rot.y;
-    u16 absDiff = ABS(yawDiff);
-    f32 cosDiff = Math_CosS(absDiff);
+s32 Player_GetBlockMoveDirection(Player* this, f32* speedTarget, s16* yawTarget) {
+    s16 yaw = *yawTarget - this->actor.shape.rot.y;
+    u16 absYaw = ABS(yaw);
+    f32 cosYaw = Math_CosS(absYaw);
 
-    *speedTarget *= cosDiff;
+    *speedTarget *= cosYaw;
 
     if (*speedTarget != 0.0f) {
-        if (cosDiff > 0) {
+        if (cosYaw > 0) {
             return 1;
         } else {
             return -1;
@@ -12640,7 +12641,7 @@ void Player_Action_GrabHoldBlock(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (!Player_StillGrabbingBlock(play, this)) {
             Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-            direction = Player_BlockMoveDirection(this, &speedTarget, &yawTarget);
+            direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
             if (direction > 0) {
                 Player_SetupPushBlock(this, play);
             } else if (direction < 0) {
@@ -12663,7 +12664,7 @@ void Player_PushPullBlock(PlayState* play, Player* this, f32 arg2) {
     }
 }
 
-static AnimSfxEntry blockPushSfx[] = {
+static AnimSfxEntry sBlockPushSfx[] = {
     { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 3) },
     { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 21) },
 };
@@ -12682,7 +12683,7 @@ void Player_Action_PushBlock(Player* this, PlayState* play) {
         }
     }
 
-    Player_ProcessAnimSfxList(this, blockPushSfx);
+    Player_ProcessAnimSfxList(this, sBlockPushSfx);
     func_8083F524(play, this);
 
     if (!Player_StillGrabbingBlock(play, this)) {
@@ -12691,7 +12692,7 @@ void Player_Action_PushBlock(Player* this, PlayState* play) {
         s32 direction;
 
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-        direction = Player_BlockMoveDirection(this, &speedTarget, &yawTarget);
+        direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
         if (direction < 0) {
             Player_SetupPullBlock(this, play);
         } else if (direction == 0) {
@@ -12740,7 +12741,7 @@ void Player_Action_PullBlock(Player* this, PlayState* play) {
         s32 direction;
 
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-        direction = Player_BlockMoveDirection(this, &speedTarget, &yawTarget);
+        direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
         if (direction > 0) {
             Player_SetupPushBlock(this, play);
         } else if (direction == 0) {
