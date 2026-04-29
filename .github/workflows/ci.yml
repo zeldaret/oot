@@ -72,6 +72,8 @@ jobs:
     name: All versions built
     needs: [build_repo]
     runs-on: ubuntu-latest
+    steps:
+      - run: ''
 
   merge_bss_fixes:
     name: Merge BSS fixes
