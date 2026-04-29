@@ -1,9 +1,9 @@
 # The Legend of Zelda: Ocarina of Time
 
-[![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
+[![Build Status][gha-badge]][gha] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
 
-[jenkins]: https://jenkins.deco.mp/job/OOT/job/main
-[jenkins-badge]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.deco.mp%2Fjob%2FOOT%2Fjob%2Fmain
+[gha]: https://github.com/zeldaret/oot/actions/workflows/ci.yml?query=branch%3Amain+event%3Apush
+[gha-badge]: https://img.shields.io/github/actions/workflow/status/zeldaret/oot/ci
 
 [progress]: https://zelda.deco.mp/games/oot
 [progress-badge]: https://img.shields.io/endpoint?url=https://zelda.deco.mp/assets/csv/progress-oot-shield.json
