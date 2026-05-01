@@ -38,7 +38,7 @@ typedef enum EnBoxType {
 typedef struct EnBox {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ SkelAnime skelanime;
-    /* 0x01A8 */ s32 unk_1A8; // related to animation delays for types 3 and 8
+    /* 0x01A8 */ s32 appearTimer; // pre-delay (negative) and animation progress (0-60) for appear/fall
     /* 0x01AC */ s32 subCamId;
     /* 0x01B0 */ f32 unk_1B0; // 0-1, rotation-related, apparently unused (in z_en_box.c at least)
     /* 0x01B4 */ EnBoxActionFunc actionFunc;
@@ -50,7 +50,7 @@ typedef struct EnBox {
     /* 0x01F8 */ u8 switchFlag;
     /* 0x01F9 */ u8 type;
     /* 0x01FA */ u8 iceSmokeTimer;
-    /* 0x01FB */ u8 unk_1FB;
+    /* 0x01FB */ u8 ocarinaState;
 } EnBox; // size = 0x01FC
 
 #endif
