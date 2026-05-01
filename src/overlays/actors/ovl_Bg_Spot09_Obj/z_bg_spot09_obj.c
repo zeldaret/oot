@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot09_obj.c
  * Overlay: ovl_Bg_Spot09_Obj
- * Description:
+ * Description: Gerudo Valley bridge and carpenters' tent objects
  */
 
 #include "z_bg_spot09_obj.h"
@@ -19,6 +19,15 @@
 #include "assets/objects/object_spot09_obj/object_spot09_obj.h"
 
 #define FLAGS 0
+
+typedef enum BgSpot09ObjType {
+    /* 0 */ BG_SPOT09_OBJ_BRIDGE_SIDES,    // bridge geometry, visible only on cutscene layer
+    /* 1 */ BG_SPOT09_OBJ_BRIDGE_BROKEN,   // adult Link, before carpenters are rescued
+    /* 2 */ BG_SPOT09_OBJ_BRIDGE_CHILD,    // child Link
+    /* 3 */ BG_SPOT09_OBJ_TENT,            // carpenters' tent, always visible
+    /* 4 */ BG_SPOT09_OBJ_BRIDGE_REPAIRED, // adult Link, after carpenters are rescued
+    /* 5 */ BG_SPOT09_OBJ_MAX
+} BgSpot09ObjType;
 
 void BgSpot09Obj_Init(Actor* thisx, PlayState* play);
 void BgSpot09Obj_Destroy(Actor* thisx, PlayState* play);
@@ -71,31 +80,31 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
     s32 carpentersRescued;
 
     if (IS_CUTSCENE_LAYER) {
-        return this->dyna.actor.params == 0;
+        return this->dyna.actor.params == BG_SPOT09_OBJ_BRIDGE_SIDES;
     }
 
     carpentersRescued = GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED();
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
         switch (this->dyna.actor.params) {
-            case 0:
+            case BG_SPOT09_OBJ_BRIDGE_SIDES:
                 return 0;
-            case 1:
+            case BG_SPOT09_OBJ_BRIDGE_BROKEN:
                 return !carpentersRescued;
-            case 4:
+            case BG_SPOT09_OBJ_BRIDGE_REPAIRED:
                 return carpentersRescued;
-            case 3:
+            case BG_SPOT09_OBJ_TENT:
                 return 1;
         }
     } else {
-        return this->dyna.actor.params == 2;
+        return this->dyna.actor.params == BG_SPOT09_OBJ_BRIDGE_CHILD;
     }
 
     return 0;
 }
 
 s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play) {
-    if (this->dyna.actor.params == 3) {
+    if (this->dyna.actor.params == BG_SPOT09_OBJ_TENT) {
         Actor_SetScale(&this->dyna.actor, 0.1f);
     } else {
         Actor_SetScale(&this->dyna.actor, 1.0f);
@@ -138,7 +147,7 @@ s32 func_808B1D18(BgSpot09Obj* this, PlayState* play) {
 }
 
 s32 func_808B1D44(BgSpot09Obj* this, PlayState* play) {
-    if (this->dyna.actor.params == 3) {
+    if (this->dyna.actor.params == BG_SPOT09_OBJ_TENT) {
         return func_808B1D18(this, play);
     } else {
         return func_808B1CEC(this, play);
@@ -152,7 +161,7 @@ void BgSpot09Obj_Init(Actor* thisx, PlayState* play) {
              "Spot09 Object [arg_data : 0x%04x](Carpenter Rescue Flag 0x%x)\n"),
            this->dyna.actor.params, GET_EVENTCHKINF_CARPENTERS_RESCUED_FLAGS());
     this->dyna.actor.params &= 0xFF;
-    if ((this->dyna.actor.params < 0) || (this->dyna.actor.params >= 5)) {
+    if ((this->dyna.actor.params < 0) || (this->dyna.actor.params >= BG_SPOT09_OBJ_MAX)) {
         PRINTF(T("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
                  "Error : Spot 09 object arg_data cannot be determined (%s %d)(arg_data 0x%04x)\n"),
                "../z_bg_spot09_obj.c", 322, this->dyna.actor.params);
@@ -169,7 +178,7 @@ void BgSpot09Obj_Destroy(Actor* thisx, PlayState* play) {
     DynaCollisionContext* dynaColCtx = &play->colCtx.dyna;
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
-    if (this->dyna.actor.params != 0) {
+    if (this->dyna.actor.params != BG_SPOT09_OBJ_BRIDGE_SIDES) {
         DynaPoly_DeleteBgActor(play, dynaColCtx, this->dyna.bgId);
     }
 }
@@ -180,7 +189,7 @@ void BgSpot09Obj_Update(Actor* thisx, PlayState* play) {
 void BgSpot09Obj_Draw(Actor* thisx, PlayState* play) {
     Gfx_DrawDListOpa(play, sDLists[thisx->params]);
 
-    if (thisx->params == 3) {
+    if (thisx->params == BG_SPOT09_OBJ_TENT) {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
