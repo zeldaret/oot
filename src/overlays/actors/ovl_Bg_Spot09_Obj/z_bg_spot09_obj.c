@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot09_obj.c
  * Overlay: ovl_Bg_Spot09_Obj
- * Description: Gerudo Valley bridge and carpenters' tent objects
+ * Description: Gerudo Valley bridge and carpenters' tent
  */
 
 #include "z_bg_spot09_obj.h"
@@ -19,15 +19,6 @@
 #include "assets/objects/object_spot09_obj/object_spot09_obj.h"
 
 #define FLAGS 0
-
-typedef enum BgSpot09ObjType {
-    /* 0 */ BG_SPOT09_OBJ_BRIDGE_SIDES,    // bridge geometry, visible only on cutscene layer
-    /* 1 */ BG_SPOT09_OBJ_BRIDGE_BROKEN,   // adult Link, before carpenters are rescued
-    /* 2 */ BG_SPOT09_OBJ_BRIDGE_CHILD,    // child Link
-    /* 3 */ BG_SPOT09_OBJ_TENT,            // carpenters' tent, always visible
-    /* 4 */ BG_SPOT09_OBJ_BRIDGE_REPAIRED, // adult Link, after carpenters are rescued
-    /* 5 */ BG_SPOT09_OBJ_MAX
-} BgSpot09ObjType;
 
 void BgSpot09Obj_Init(Actor* thisx, PlayState* play);
 void BgSpot09Obj_Destroy(Actor* thisx, PlayState* play);
@@ -88,19 +79,19 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
         switch (this->dyna.actor.params) {
             case BG_SPOT09_OBJ_BRIDGE_SIDES:
-                return 0;
+                return false;
             case BG_SPOT09_OBJ_BRIDGE_BROKEN:
                 return !carpentersRescued;
             case BG_SPOT09_OBJ_BRIDGE_REPAIRED:
                 return carpentersRescued;
             case BG_SPOT09_OBJ_TENT:
-                return 1;
+                return true;
         }
     } else {
         return this->dyna.actor.params == BG_SPOT09_OBJ_BRIDGE_CHILD;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play) {
