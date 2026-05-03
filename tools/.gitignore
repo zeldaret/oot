@@ -6,7 +6,6 @@ mkdmadata
 mkldscript
 mkspecrules
 preprocess_pragmas
-reloc_prereq
 vtxdis
 yaz0
 
