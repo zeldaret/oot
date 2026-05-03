@@ -451,7 +451,7 @@ def register_resource_handlers():
     )
 
 
-RESOURCE_HANDLERS: dict[str, ResourceHandler] = {}
+RESOURCE_HANDLERS: dict[type[ResourceDesc], ResourceHandler] = {}
 
 
 def get_resource_from_desc(

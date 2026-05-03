@@ -1422,14 +1422,14 @@ void func_80B5670C(EnZl3* this, PlayState* play) {
 }
 
 void func_80B5676C(EnZl3* this, PlayState* play) {
-    s32 something;
+    s32 animFinished;
 
     func_80B54DE0(this, play);
     func_80B5366C(this, play);
     EnZl3_UpdateEyes(this);
-    something = EnZl3_UpdateSkelAnime(this);
+    animFinished = EnZl3_UpdateSkelAnime(this);
     func_80B559C4(this);
-    func_80B55C4C(this, something);
+    func_80B55C4C(this, animFinished);
 }
 
 void func_80B567CC(EnZl3* this, PlayState* play) {
@@ -1491,16 +1491,16 @@ void func_80B569E4(EnZl3* this, PlayState* play) {
 }
 
 void func_80B56A68(EnZl3* this, PlayState* play) {
-    s32 something;
+    s32 animFinished;
 
     func_80B54DE0(this, play);
     func_80B533FC(this, play);
     func_80B537E8(this);
     func_80B5366C(this, play);
     EnZl3_UpdateEyes(this);
-    something = EnZl3_UpdateSkelAnime(this);
+    animFinished = EnZl3_UpdateSkelAnime(this);
     func_80B564A8(this, play);
-    func_80B56090(this, something);
+    func_80B56090(this, animFinished);
 }
 
 void func_80B56AE0(EnZl3* this, PlayState* play) {

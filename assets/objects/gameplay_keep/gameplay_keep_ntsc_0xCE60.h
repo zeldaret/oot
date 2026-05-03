@@ -3,9 +3,9 @@
 
 #include "tex_len.h"
 #include "ultra64.h"
-#include "region.h"
+#include "versions.h"
 
-#if OOT_REGION != REGION_EU
+#if OOT_NTSC
 #define gGameplayKeepTex_CE60_WIDTH 32
 #define gGameplayKeepTex_CE60_HEIGHT 32
 extern u64 gGameplayKeepTex_CE60[TEX_LEN(u64, gGameplayKeepTex_CE60_WIDTH, gGameplayKeepTex_CE60_HEIGHT, 8)];

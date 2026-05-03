@@ -18,9 +18,6 @@ from .base import (
 )
 from . import xml_errors
 
-# TODO remove
-STATIC_ATTRIB = {"Static"}
-
 
 class GfxMicroCode(enum.Enum):
     F3DEX = enum.auto()
@@ -42,7 +39,7 @@ class DListResourceDesc(ResourceDesc):
 
 def handler_DList(symbol_name, offset, collection, reselem: Element):
     xml_errors.check_attrib(
-        reselem, {"Name"}, {"Offset", "Length", "Ucode", "RawPointers"} | STATIC_ATTRIB
+        reselem, {"Name"}, {"Offset", "Length", "Ucode", "RawPointers"}
     )
     length = None
     if "Length" in reselem.attrib:
@@ -68,7 +65,7 @@ class BlobResourceDesc(ResourceDesc):
 
 
 def handler_Blob(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Size"}, {"Offset"} | STATIC_ATTRIB)
+    xml_errors.check_attrib(reselem, {"Name", "Size"}, {"Offset"})
     size = int(reselem.attrib["Size"], 16)
     return BlobResourceDesc(symbol_name, offset, collection, reselem, size)
 
@@ -79,7 +76,7 @@ class MtxResourceDesc(ResourceDesc):
 
 
 def handler_Mtx(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"} | STATIC_ATTRIB)
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"})
     return MtxResourceDesc(symbol_name, offset, collection, reselem)
 
 
@@ -102,7 +99,7 @@ class VtxArrayResourceDesc(ResourceDesc):
 
 
 def handler_Array(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Count"}, {"Offset"} | STATIC_ATTRIB)
+    xml_errors.check_attrib(reselem, {"Name", "Count"}, {"Offset"})
     count = int(reselem.attrib["Count"])
     assert len(reselem) == 1, "Expected exactly one child of Array node"
     array_elem = reselem[0]
@@ -158,18 +155,16 @@ def handler_Texture(
     xml_errors.check_attrib(
         reselem,
         {"Name", "Format", "Width", "Height"},
-        # TODO remove OutName, SplitTlut
+        # TODO remove SplitTlut
         {
             "Offset",
-            "OutName",
             "SplitTlut",
             "Tlut",
             "TlutOffset",
             "ExternalTlut",
             "ExternalTlutOffset",
             "HackMode",
-        }
-        | STATIC_ATTRIB,
+        },
     )
     format = TextureFormat[reselem.attrib["Format"].upper()]
     width = int(reselem.attrib["Width"])
@@ -194,8 +189,8 @@ def handler_Texture(
             xml_errors.check_attrib(
                 reselem,
                 {"Name", "Format", "Width", "Height", "Tlut"},
-                # TODO remove OutName, SplitTlut
-                {"Offset", "OutName", "SplitTlut", "HackMode"} | STATIC_ATTRIB,
+                # TODO remove SplitTlut
+                {"Offset", "SplitTlut", "HackMode"},
             )
             tlut_name = reselem.attrib["Tlut"]
 
@@ -216,8 +211,8 @@ def handler_Texture(
             xml_errors.check_attrib(
                 reselem,
                 {"Name", "Format", "Width", "Height", "TlutOffset"},
-                # TODO remove OutName, SplitTlut
-                {"Offset", "OutName", "SplitTlut", "HackMode"} | STATIC_ATTRIB,
+                # TODO remove SplitTlut
+                {"Offset", "SplitTlut", "HackMode"},
             )
             tlut_offset = int(reselem.attrib["TlutOffset"], 16)
 
@@ -245,8 +240,8 @@ def handler_Texture(
                     "ExternalTlut",
                     "ExternalTlutOffset",
                 },
-                # TODO remove OutName, SplitTlut
-                {"Offset", "OutName", "SplitTlut", "HackMode"} | STATIC_ATTRIB,
+                # TODO remove SplitTlut
+                {"Offset", "SplitTlut", "HackMode"},
             )
             external_tlut_file = reselem.attrib["ExternalTlut"]
             external_tlut_offset = int(reselem.attrib["ExternalTlutOffset"], 16)
@@ -275,8 +270,7 @@ def handler_Texture(
         xml_errors.check_attrib(
             reselem,
             {"Name", "Format", "Width", "Height"},
-            # TODO remove OutName
-            {"Offset", "OutName", "HackMode"} | STATIC_ATTRIB,
+            {"Offset", "HackMode"},
         )
         res = TextureResourceDesc(
             symbol_name, offset, collection, reselem, format, width, height

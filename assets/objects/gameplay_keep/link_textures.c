@@ -4,8 +4,8 @@ u64 gHylianShieldDesignTex[TEX_LEN(u64, gHylianShieldDesignTex_WIDTH, gHylianShi
 #include "assets/objects/gameplay_keep/gHylianShieldDesignTex.rgba16.inc.c"
 };
 
-u64 gOcarinaofTimeDesignTex[TEX_LEN(u64, gOcarinaofTimeDesignTex_WIDTH, gOcarinaofTimeDesignTex_HEIGHT, 16)] = {
-#include "assets/objects/gameplay_keep/gOcarinaofTimeDesignTex.rgba16.inc.c"
+u64 gOcarinaOfTimeDesignTex[TEX_LEN(u64, gOcarinaOfTimeDesignTex_WIDTH, gOcarinaOfTimeDesignTex_HEIGHT, 16)] = {
+#include "assets/objects/gameplay_keep/gOcarinaOfTimeDesignTex.rgba16.inc.c"
 };
 
 u64 gBottleGlassTex[TEX_LEN(u64, gBottleGlassTex_WIDTH, gBottleGlassTex_HEIGHT, 16)] = {
