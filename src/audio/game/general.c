@@ -1386,6 +1386,8 @@ void AudioOcarina_MapNotesToScarecrowButtons(u8 noteSongIndex) {
  *      - ocarina action (only used to make flags != 0)
  * bitmask 0x80000000:
  *      - unused (only used to make flags != 0)
+ *
+ * original name: Na_StartOcarinaSinglePlayCheck2
  */
 void AudioOcarina_Start(u16 ocarinaFlags) {
     u8 i;
@@ -1752,6 +1754,8 @@ void AudioOcarina_EnableInput(u8 inputEnabled) {
  * Resets ocarina properties based on the ocarina instrument id
  * If ocarina instrument id is "OCARINA_INSTRUMENT_OFF", turn off the ocarina
  * For all ocarina instrument ids, turn the ocarina on with the instrument id
+ *
+ * original name possibly Na_StopOcarinaMode
  */
 void AudioOcarina_SetInstrument(u8 ocarinaInstrumentId) {
     if (sOcarinaInstrumentId == ocarinaInstrumentId) {
@@ -1786,6 +1790,9 @@ void AudioOcarina_SetInstrument(u8 ocarinaInstrumentId) {
     }
 }
 
+/**
+ * original name possibly Na_StartOcarinaBgm
+ */
 void AudioOcarina_SetPlaybackSong(s8 songIndexPlusOne, s8 playbackState) {
     if (songIndexPlusOne == 0) {
         sPlaybackState = 0;
@@ -3232,6 +3239,9 @@ void Audio_ClearSariaBgm2(void) {
     sSariaBgmPtr = NULL;
 }
 
+/**
+ * original name: Na_StartMorinigBgm
+ */
 void Audio_PlayMorningSceneSequence(u16 seqId) {
     Audio_PlaySceneSequence(seqId);
     // Writing a value of 1 to ioPort 0 will be used by

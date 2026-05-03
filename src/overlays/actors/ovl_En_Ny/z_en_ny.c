@@ -456,7 +456,8 @@ void EnNy_SetupDie(EnNy* this, PlayState* play) {
         }
         this->timer = 0;
         if (this->unk_1D0 == 0) {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xA0);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_10, false));
         } else {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_ARROWS_SMALL);
         }
