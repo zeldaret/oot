@@ -51,9 +51,9 @@ when set, gets cleared next EnBox_Update call and clip to the floor
 #define ENBOX_MOVE_STICK_TO_GROUND (1 << 4)
 
 typedef enum EnBoxOcarinaState {
-    ENBOX_OCARINA_STATE_IDLE,      // player not close enough or not yet ready
-    ENBOX_OCARINA_STATE_START,     // triggers Message_StartOcarina
-    ENBOX_OCARINA_STATE_WAIT_SONG  // waiting for ocarinaMode result
+    ENBOX_OCARINA_STATE_IDLE,     // player not close enough or not yet ready
+    ENBOX_OCARINA_STATE_START,    // triggers Message_StartOcarina
+    ENBOX_OCARINA_STATE_WAIT_SONG // waiting for ocarinaMode result
 } EnBoxOcarinaState;
 
 void EnBox_Init(Actor* thisx, PlayState* play2);
