@@ -268,7 +268,7 @@ void ObjLightswitch_SetupTurnOn(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_TurnOn(ObjLightswitch* this, PlayState* play) {
-    if (func_8005B198() == this->actor.category || this->toggleDelay <= 0) {
+    if (Camera_GetFocusActorCategory() == this->actor.category || this->toggleDelay <= 0) {
         if (this->timer == 0) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_TRIFORCE_FLASH);
         }
@@ -340,8 +340,8 @@ void ObjLightswitch_SetupTurnOff(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_TurnOff(ObjLightswitch* this, PlayState* play) {
-    if (PARAMS_GET_U(this->actor.params, 4, 2) != OBJLIGHTSWITCH_TYPE_1 || func_8005B198() == this->actor.category ||
-        this->toggleDelay <= 0) {
+    if (PARAMS_GET_U(this->actor.params, 4, 2) != OBJLIGHTSWITCH_TYPE_1 ||
+        Camera_GetFocusActorCategory() == this->actor.category || this->toggleDelay <= 0) {
         this->timer--;
 
         Math_StepToS(&this->flameRingRotSpeed, 0, 0xA);
@@ -365,7 +365,7 @@ void ObjLightswitch_SetupDisappearDelay(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_DisappearDelay(ObjLightswitch* this, PlayState* play) {
-    if (func_8005B198() == this->actor.category || this->toggleDelay <= 0) {
+    if (Camera_GetFocusActorCategory() == this->actor.category || this->toggleDelay <= 0) {
         ObjLightswitch_SetupDisappear(this);
     }
 }

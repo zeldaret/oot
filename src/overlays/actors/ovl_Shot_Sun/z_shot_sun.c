@@ -129,7 +129,7 @@ void ShotSun_SpawnFairy(ShotSun* this, PlayState* play) {
 }
 
 void ShotSun_TriggerFairy(ShotSun* this, PlayState* play) {
-    if ((func_8005B198() == this->actor.category) || (this->timer != 0)) {
+    if ((Camera_GetFocusActorCategory() == this->actor.category) || (this->timer != 0)) {
         this->actionFunc = ShotSun_SpawnFairy;
         this->timer = 50;
 

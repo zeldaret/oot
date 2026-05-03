@@ -288,7 +288,7 @@ void func_8086D67C(BgBdanSwitch* this) {
 }
 
 void func_8086D694(BgBdanSwitch* this, PlayState* play) {
-    if ((func_8005B198() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
+    if ((Camera_GetFocusActorCategory() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.2f;
         if (this->unk_1C8 <= 0.1f) {
             func_8086D730(this);
@@ -366,7 +366,7 @@ void func_8086D944(BgBdanSwitch* this) {
 }
 
 void func_8086D95C(BgBdanSwitch* this, PlayState* play) {
-    if ((func_8005B198() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
+    if ((Camera_GetFocusActorCategory() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.2f;
         if (this->unk_1C8 <= 0.1f) {
             func_8086DB24(this);
@@ -453,7 +453,7 @@ void func_8086DC30(BgBdanSwitch* this) {
 }
 
 void func_8086DC48(BgBdanSwitch* this, PlayState* play) {
-    if ((func_8005B198() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
+    if ((Camera_GetFocusActorCategory() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.3f;
         if (this->unk_1C8 <= 1.0f) {
             func_8086DCCC(this);
@@ -490,9 +490,8 @@ void func_8086DDA8(BgBdanSwitch* this) {
 }
 
 void func_8086DDC0(BgBdanSwitch* this, PlayState* play) {
-    if (((PARAMS_GET_U(this->dyna.actor.params, 0, 8) != YELLOW_TALL_2) ||
-         (func_8005B198() == this->dyna.actor.category)) ||
-        (this->unk_1DA <= 0)) {
+    if ((PARAMS_GET_U(this->dyna.actor.params, 0, 8) != YELLOW_TALL_2) ||
+        (Camera_GetFocusActorCategory() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
         this->unk_1C8 += 0.3f;
         if (this->unk_1C8 >= 2.0f) {
             func_8086DB4C(this);
