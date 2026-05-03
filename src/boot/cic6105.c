@@ -24,22 +24,17 @@
 s32 CIC6105_Stub(void);
 
 OSTask sCIC6105Task = {
-    /* type             */ 4,
-    /* flags            */ 0,
-    /* ucode_boot       */ rspbootTextStart,
-    /* ucode_boot_size  */ 0x3E8,
-    /* ucode            */ cic6105TextStart,
-    /* ucode_size       */ 0x20,
-    /* ucode_data       */ (u64*)gBuildCreator,
-    /* ucode_data_size  */ 8,
-    /* dram_stack       */ NULL,
-    /* dram_stack_size  */ 0,
-    /* output_buff      */ NULL,
-    /* output_buff_size */ 0,
-    /* data_ptr         */ NULL,
-    /* data_size        */ 0,
-    /* yield_data_ptr   */ NULL,
-    /* yield_data_size  */ 0,
+    // clang-format off
+    4,
+    0,
+    rspbootTextStart, 0x3E8,
+    cic6105TextStart, 0x20,
+    (u64*)gBuildCreator, 8,
+    NULL, 0,
+    NULL, NULL,
+    NULL, 0,
+    NULL, 0,
+    // clang-format on
 };
 
 u32 gCICBootMagic0;
@@ -49,11 +44,11 @@ u32 sCICTaskResult0;
 u32 sCICTaskResult1;
 
 void CIC6105_DisableAudio(void) {
-    R_AUDIOMGR_DEBUG_LEVEL = AUDIOMGR_DEBUG_LEVEL_NO_RSP;
+    R_AUDIOMGR_ACTIVITY_LEVEL = AUDIOMGR_ACTIVITY_LEVEL_NO_RSP;
 }
 
 void CIC6105_EnableAudio(void) {
-    R_AUDIOMGR_DEBUG_LEVEL = AUDIOMGR_DEBUG_LEVEL_NONE;
+    R_AUDIOMGR_ACTIVITY_LEVEL = AUDIOMGR_ACTIVITY_LEVEL_ALL;
 }
 
 void CIC6105_FaultClient(void) {
