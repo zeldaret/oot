@@ -163,7 +163,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
         this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
-    } else if (this->type == ENBOX_TYPE_9 || this->type == ENBOX_TYPE_10) {
+    } else if (this->type == ENBOX_TYPE_LULLABY_BIG || this->type == ENBOX_TYPE_SUNS_BIG) {
         EnBox_SetupAction(this, EnBox_AppearOnCorrectSong);
         this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_DURING_OCARINA;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -326,8 +326,8 @@ void EnBox_AppearOnCorrectSong(EnBox* this, PlayState* play) {
             Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->ocarinaState = ENBOX_OCARINA_STATE_WAIT_SONG;
         } else if (this->ocarinaState == ENBOX_OCARINA_STATE_WAIT_SONG && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
-            if ((play->msgCtx.lastPlayedSong == OCARINA_SONG_LULLABY && this->type == ENBOX_TYPE_9) ||
-                (play->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS && this->type == ENBOX_TYPE_10)) {
+            if ((play->msgCtx.lastPlayedSong == OCARINA_SONG_LULLABY && this->type == ENBOX_TYPE_LULLABY_BIG) ||
+                (play->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS && this->type == ENBOX_TYPE_SUNS_BIG)) {
                 this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_DURING_OCARINA;
                 EnBox_SetupAction(this, EnBox_AppearInit);
                 OnePointCutscene_Attention(play, &this->dyna.actor);
@@ -597,7 +597,7 @@ Gfx* EnBox_EmptyDList(GraphicsContext* gfxCtx) {
 }
 
 // set render mode with a focus on transparency
-Gfx* EnBox_BuildXluRenderMode(GraphicsContext* gfxCtx) {
+Gfx* EnBox_XluRenderModeDList(GraphicsContext* gfxCtx) {
     Gfx* dList;
     Gfx* dListHead;
 
@@ -611,7 +611,7 @@ Gfx* EnBox_BuildXluRenderMode(GraphicsContext* gfxCtx) {
     return dList;
 }
 
-Gfx* EnBox_BuildOpaRenderMode(GraphicsContext* gfxCtx) {
+Gfx* EnBox_OpaRenderModeDList(GraphicsContext* gfxCtx) {
     Gfx* dList;
     Gfx* dListHead;
 
@@ -648,9 +648,9 @@ void EnBox_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         if (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6) {
-            gSPSegment(POLY_XLU_DISP++, 0x08, EnBox_BuildOpaRenderMode(play->state.gfxCtx));
+            gSPSegment(POLY_XLU_DISP++, 0x08, EnBox_OpaRenderModeDList(play->state.gfxCtx));
         } else {
-            gSPSegment(POLY_XLU_DISP++, 0x08, EnBox_BuildXluRenderMode(play->state.gfxCtx));
+            gSPSegment(POLY_XLU_DISP++, 0x08, EnBox_XluRenderModeDList(play->state.gfxCtx));
         }
         POLY_XLU_DISP = SkelAnime_Draw(play, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
                                        EnBox_PostLimbDraw, this, POLY_XLU_DISP);

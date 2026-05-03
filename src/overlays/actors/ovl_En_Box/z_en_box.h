@@ -30,8 +30,8 @@ typedef enum EnBoxType {
     /*  6 */ ENBOX_TYPE_6,                      // small, drawn differently
     /*  7 */ ENBOX_TYPE_ROOM_CLEAR_SMALL,       // use room clear, store temp clear as perm clear
     /*  8 */ ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL, // falling, appear on switch flag set
-    /*  9 */ ENBOX_TYPE_9,                      // big, has something more to do with player and message context?
-    /* 10 */ ENBOX_TYPE_10,                     // like 9
+    /*  9 */ ENBOX_TYPE_LULLABY_BIG,             // big, appear when Zelda's Lullaby is played
+    /* 10 */ ENBOX_TYPE_SUNS_BIG,               // big, appear when Sun's Song is played
     /* 11 */ ENBOX_TYPE_SWITCH_FLAG_BIG         // big, appear on switch flag set
 } EnBoxType;
 
