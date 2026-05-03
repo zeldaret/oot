@@ -67,6 +67,19 @@ jobs:
           name: oot-${{ matrix.version }}.map
           path: build/${{ matrix.version }}/oot-${{ matrix.version }}.map
 
+  # This job does not do anything, its purpose is to be used as a status check in GitHub rules.
+  all_versions_built:
+    name: All versions built
+    needs: [build_repo]
+    runs-on: ubuntu-latest
+    # Solution 1 from https://github.com/actions/runner/issues/2566#issuecomment-3053484216
+    if: always()
+    steps:
+      - run: |
+         if [ "${{ needs.build_repo.result }}" != "success" ]; then
+           exit 1
+         fi
+
   merge_bss_fixes:
     name: Merge BSS fixes
     runs-on: ubuntu-latest
