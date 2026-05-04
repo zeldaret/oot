@@ -146,16 +146,16 @@ static AnimationInfo sAnimationInfo2[] = {
     { &gSariaWaitArmsToSideAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
-typedef enum EnSaAnimationSet {
-    /* 0 */ ENSA_ANIMSET_NONE,
-    /* 1 */ ENSA_ANIMSET_EXTEND_RIGHT_HAND,
-    /* 2 */ ENSA_ANIMSET_HANDS_TO_FACE,
-    /* 3 */ ENSA_ANIMSET_HANDS_BEHIND_BACK,
-    /* 4 */ ENSA_ANIMSET_HANDS_OUT_FROM_BEHIND_BACK,
-    /* 5 */ ENSA_ANIMSET_HANDS_ON_HIPS,
-    /* 6 */ ENSA_ANIMSET_HANDS_OFF_HIPS,
-    /* 7 */ ENSA_ANIMSET_HAND_TO_CHEST,
-} EnSaAnimationSet;
+typedef enum EnSaAnimGroup {
+    /* 0 */ ENSA_ANIMGROUP_NONE,
+    /* 1 */ ENSA_ANIMGROUP_EXTEND_RIGHT_HAND,
+    /* 2 */ ENSA_ANIMGROUP_HANDS_TO_FACE,
+    /* 3 */ ENSA_ANIMGROUP_HANDS_BEHIND_BACK,
+    /* 4 */ ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK,
+    /* 5 */ ENSA_ANIMGROUP_HANDS_ON_HIPS,
+    /* 6 */ ENSA_ANIMGROUP_HANDS_OFF_HIPS,
+    /* 7 */ ENSA_ANIMGROUP_HAND_TO_CHEST,
+} EnSaAnimGroup;
 
 s16 EnSa_UpdateTextState(EnSa* this, PlayState* play) {
     s16 textState = Message_GetState(&play->msgCtx);
@@ -375,32 +375,32 @@ void EnSa_HandToChest(EnSa* this) {
     }
 }
 
-void EnSa_SetAnimationSet(EnSa* this, u8 animationSet) {
-    this->animationSet = animationSet;
+void EnSa_SetAnimGroup(EnSa* this, u8 animGroup) {
+    this->animGroup = animGroup;
     this->animPhase = 0;
 }
 
 void EnSa_Animate(EnSa* this) {
-    switch (this->animationSet) {
-        case ENSA_ANIMSET_EXTEND_RIGHT_HAND:
+    switch (this->animGroup) {
+        case ENSA_ANIMGROUP_EXTEND_RIGHT_HAND:
             EnSa_ExtendRightHand(this);
             break;
-        case ENSA_ANIMSET_HANDS_TO_FACE:
+        case ENSA_ANIMGROUP_HANDS_TO_FACE:
             EnSa_HandsToFace(this);
             break;
-        case ENSA_ANIMSET_HANDS_BEHIND_BACK:
+        case ENSA_ANIMGROUP_HANDS_BEHIND_BACK:
             EnSa_HandsBehindBack(this);
             break;
-        case ENSA_ANIMSET_HANDS_OUT_FROM_BEHIND_BACK:
+        case ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK:
             EnSa_HandsOutFromBehindBack(this);
             break;
-        case ENSA_ANIMSET_HANDS_ON_HIPS:
+        case ENSA_ANIMGROUP_HANDS_ON_HIPS:
             EnSa_HandsOnHips(this);
             break;
-        case ENSA_ANIMSET_HANDS_OFF_HIPS:
+        case ENSA_ANIMGROUP_HANDS_OFF_HIPS:
             EnSa_HandsOffHips(this);
             break;
-        case ENSA_ANIMSET_HAND_TO_CHEST:
+        case ENSA_ANIMGROUP_HAND_TO_CHEST:
             EnSa_HandToChest(this);
             break;
     }
@@ -575,12 +575,12 @@ void EnSa_Idle(EnSa* this, PlayState* play) {
         if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
             switch (this->actor.textId) {
                 case 0x1002:
-                    if (this->messageIndex == 0 && this->animationSet != ENSA_ANIMSET_EXTEND_RIGHT_HAND) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_EXTEND_RIGHT_HAND);
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_EXTEND_RIGHT_HAND) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_EXTEND_RIGHT_HAND);
                         this->mouthIndex = SARIA_MOUTH_SMILING_OPEN;
                     }
-                    if (this->messageIndex == 2 && this->animationSet != ENSA_ANIMSET_HANDS_TO_FACE) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_HANDS_TO_FACE);
+                    if (this->messageIndex == 2 && this->animGroup != ENSA_ANIMGROUP_HANDS_TO_FACE) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_TO_FACE);
                         this->mouthIndex = SARIA_MOUTH_SMILING_OPEN;
                     }
                     if (this->messageIndex == 5) {
@@ -588,49 +588,49 @@ void EnSa_Idle(EnSa* this, PlayState* play) {
                     }
                     break;
                 case 0x1003:
-                    if (this->messageIndex == 0 && this->animationSet != ENSA_ANIMSET_HANDS_OUT_FROM_BEHIND_BACK) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_HANDS_OUT_FROM_BEHIND_BACK);
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK);
                     }
                     break;
                 case 0x1031:
-                    if (this->messageIndex == 0 && this->animationSet != ENSA_ANIMSET_HANDS_OUT_FROM_BEHIND_BACK &&
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK &&
                         this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_HANDS_OUT_FROM_BEHIND_BACK);
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK);
                         this->mouthIndex = SARIA_MOUTH_SURPRISED;
                     }
-                    if (this->messageIndex == 2 && this->animationSet != ENSA_ANIMSET_HANDS_ON_HIPS) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_HANDS_ON_HIPS);
+                    if (this->messageIndex == 2 && this->animGroup != ENSA_ANIMGROUP_HANDS_ON_HIPS) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_ON_HIPS);
                         this->mouthIndex = SARIA_MOUTH_CLOSED;
                     }
-                    if (this->messageIndex == 4 && this->animationSet != ENSA_ANIMSET_HANDS_OFF_HIPS) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_HANDS_OFF_HIPS);
+                    if (this->messageIndex == 4 && this->animGroup != ENSA_ANIMGROUP_HANDS_OFF_HIPS) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OFF_HIPS);
                         this->mouthIndex = SARIA_MOUTH_CLOSED2;
                     }
                     break;
                 case 0x1032:
-                    if (this->messageIndex == 0 && this->animationSet != ENSA_ANIMSET_HANDS_OUT_FROM_BEHIND_BACK &&
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK &&
                         this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_HANDS_OUT_FROM_BEHIND_BACK);
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK);
                     }
                     break;
                 case 0x1047:
-                    if (this->messageIndex == 1 && this->animationSet != ENSA_ANIMSET_HAND_TO_CHEST) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_HAND_TO_CHEST);
+                    if (this->messageIndex == 1 && this->animGroup != ENSA_ANIMGROUP_HAND_TO_CHEST) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HAND_TO_CHEST);
                     }
                     break;
                 case 0x1048:
-                    if (this->messageIndex == 0 && this->animationSet != ENSA_ANIMSET_HAND_TO_CHEST) {
-                        EnSa_SetAnimationSet(this, ENSA_ANIMSET_HAND_TO_CHEST);
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_HAND_TO_CHEST) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HAND_TO_CHEST);
                     }
                     break;
             }
         } else if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) &&
                    (GET_INFTABLE(INFTABLE_SARIA_NOTICED_FAIRY) || GET_INFTABLE(INFTABLE_SARIA_TOLD_ABOUT_MIDO))) {
-            if (this->animationSet != ENSA_ANIMSET_HANDS_BEHIND_BACK) {
-                EnSa_SetAnimationSet(this, ENSA_ANIMSET_HANDS_BEHIND_BACK);
+            if (this->animGroup != ENSA_ANIMGROUP_HANDS_BEHIND_BACK) {
+                EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_BEHIND_BACK);
             }
         } else {
-            EnSa_SetAnimationSet(this, ENSA_ANIMSET_NONE);
+            EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_NONE);
         }
         EnSa_Animate(this);
     }

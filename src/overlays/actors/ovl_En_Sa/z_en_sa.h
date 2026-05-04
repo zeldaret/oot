@@ -17,7 +17,7 @@ typedef struct EnSa {
     /* 0x0208 */ u8 messageIndex;
     /* 0x0209 */ u8 textState;
     /* 0x020A */ u8 animPhase;
-    /* 0x020B */ u8 animationSet;
+    /* 0x020B */ u8 animGroup;
     /* 0x020C */ s16 stepTimer;
     /* 0x020E */ s16 blinkTimer;
     /* 0x0210 */ s16 cueId;
