@@ -4932,14 +4932,14 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
     switch (arg1) {
         case 0:
             if (Flags_GetEventChkInf(EVENTCHKINF_09)) {
-                if (Flags_GetInfTable(INFTABLE_SPOKE_TO_SARIA_IN_HER_HOUSE)) {
+                if (Flags_GetInfTable(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE)) {
                     retTextId = 0x1048;
                 } else {
                     retTextId = 0x1047;
                 }
             } else {
                 if (Flags_GetEventChkInf(EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS)) {
-                    if (Flags_GetInfTable(INFTABLE_TOLD_SARIA_ABOUT_MIDO)) {
+                    if (Flags_GetInfTable(INFTABLE_SARIA_TOLD_ABOUT_MIDO)) {
                         retTextId = 0x1032;
                     } else {
                         retTextId = 0x1031;
@@ -5666,10 +5666,10 @@ void func_80036E50(u16 textId, s16 arg1) {
                     return;
                 case 0x1031:
                     Flags_SetEventChkInf(EVENTCHKINF_TOLD_SARIA_ABOUT_MIDO);
-                    Flags_SetInfTable(INFTABLE_TOLD_SARIA_ABOUT_MIDO);
+                    Flags_SetInfTable(INFTABLE_SARIA_TOLD_ABOUT_MIDO);
                     return;
                 case 0x1047:
-                    Flags_SetInfTable(INFTABLE_SPOKE_TO_SARIA_IN_HER_HOUSE);
+                    Flags_SetInfTable(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE);
                     return;
             }
             return;
