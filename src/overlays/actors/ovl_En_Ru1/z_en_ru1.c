@@ -861,9 +861,9 @@ void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
             this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
             this->actor.room = -1;
             this->drawConfig = ENRU1_DRAW_NOTHING;
-            this->initRoomNum = actorRoom;
-            this->carryRoomNum = actorRoom;
-            this->currentRoomNum = actorRoom;
+            this->roomNum1 = actorRoom;
+            this->roomNum3 = actorRoom;
+            this->roomNum2 = actorRoom;
         } else {
             Actor_Kill(&this->actor);
         }
@@ -1289,9 +1289,9 @@ void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
             actorRoom = this->actor.room;
             this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
             this->actor.room = -1;
-            this->initRoomNum = actorRoom;
-            this->carryRoomNum = actorRoom;
-            this->currentRoomNum = actorRoom;
+            this->roomNum1 = actorRoom;
+            this->roomNum3 = actorRoom;
+            this->roomNum2 = actorRoom;
         } else {
             Actor_Kill(&this->actor);
         }
@@ -1329,14 +1329,14 @@ void func_80AED600(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_DISCOVER);
 }
 
-s32 EnRu1_CheckDespawn(EnRu1* this, PlayState* play) {
+s32 func_80AED624(EnRu1* this, PlayState* play) {
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
-    if (this->currentRoomNum != curRoomNum) {
+    if (this->roomNum2 != curRoomNum) {
         Actor_Kill(&this->actor);
         return false;
-    } else if (((this->initRoomNum != curRoomNum) || (this->currentRoomNum != curRoomNum)) &&
-               // currentRoomNum is always curRoomNum here
+    } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
+               // roomNum2 is always curRoomNum here
                (this->actor.depthInWater > kREG(16) + 50.0f) && (this->action != ENRU1_ACTION_SITTING_DISAPPEARING)) {
         this->action = ENRU1_ACTION_SITTING_DISAPPEARING;
         this->drawConfig = ENRU1_DRAW_XLU;
@@ -1346,10 +1346,10 @@ s32 EnRu1_CheckDespawn(EnRu1* this, PlayState* play) {
     return true;
 }
 
-void EnRu1_UpdateCurrentRoomNum(EnRu1* this, PlayState* play) {
+void func_80AED6DC(EnRu1* this, PlayState* play) {
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
-    this->currentRoomNum = curRoomNum;
+    this->roomNum2 = curRoomNum;
     this->unk_288 = 0.0f;
 }
 
@@ -1365,7 +1365,7 @@ void EnRu1_CheckIfBackInHolesRoom(PlayState* play) {
 }
 
 void EnRu1_FadeWhileSinking(EnRu1* this, PlayState* play) {
-    if (EnRu1_CheckDespawn(this, play)) {
+    if (func_80AED624(this, play)) {
         s32 pad;
 
         this->sinkTimer += 1.0f;
@@ -1679,7 +1679,7 @@ void EnRu1_UpdateSittingAction(EnRu1* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         // Ruto has been picked up
         curRoomNum = play->roomCtx.curRoom.num;
-        this->carryRoomNum = curRoomNum;
+        this->roomNum3 = curRoomNum;
         this->action = ENRU1_ACTION_SITTING_CARRIED;
         EnRu1_PlayLiftingSfx(this, play);
     } else if (!EnRu1_IsOnSapphirePlatform(this, play) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
@@ -1721,7 +1721,7 @@ void EnRu1_EndSeeingSapphireAnimation(EnRu1* this, PlayState* play) {
         SET_INFTABLE(INFTABLE_RUTO_BROUGHT_TO_SAPPHIRE_ROOM);
         this->action = ENRU1_ACTION_SITTING_CARRIED;
     }
-    this->carryRoomNum = curRoomNum;
+    this->roomNum3 = curRoomNum;
 }
 
 s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
@@ -1738,10 +1738,10 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
             play->csCtx.script = gRutoFoundSapphireCs;
             gSaveContext.cutsceneTrigger = 1;
         }
-        this->carryRoomNum = curRoomNum;
+        this->roomNum3 = curRoomNum;
         return true;
     }
-    this->carryRoomNum = curRoomNum;
+    this->roomNum3 = curRoomNum;
     return false;
 }
 
@@ -1754,7 +1754,7 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
 
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
-        EnRu1_UpdateCurrentRoomNum(this, play);
+        func_80AED6DC(this, play);
         this->actor.speed *= (kREG(25) * 0.01f) + 1.0f;
         this->actor.velocity.y *= (kREG(26) * 0.01f) + 1.0f;
         this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
@@ -1835,7 +1835,7 @@ void EnRu1_Sitting_Idle(EnRu1* this, PlayState* play) {
     EnRu1_UpdateEyes(this);
     EnRu1_OfferCarry(this, play);
     EnRu1_UpdateSittingAction(this, play);
-    EnRu1_CheckDespawn(this, play);
+    func_80AED624(this, play);
     EnRu1_ResetBgCheckFlags(this, play);
 }
 
@@ -1848,7 +1848,7 @@ void EnRu1_Sitting_Released(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_CheckLanding(this, play);
-    EnRu1_CheckDespawn(this, play);
+    func_80AED624(this, play);
     EnRu1_ResetBgCheckFlags(this, play);
 }
 
@@ -1859,7 +1859,7 @@ void EnRu1_Sitting_EnteringWater(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_CheckSinkingState(this, play);
-    EnRu1_CheckDespawn(this, play);
+    func_80AED624(this, play);
 }
 
 void EnRu1_Sitting_SinkingInWater(EnRu1* this, PlayState* play) {
@@ -1869,7 +1869,7 @@ void EnRu1_Sitting_SinkingInWater(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_CheckHitBottomUnderwater(this, play);
-    EnRu1_CheckDespawn(this, play);
+    func_80AED624(this, play);
     EnRu1_ResetBgCheckFlags(this, play);
 }
 
@@ -1900,7 +1900,7 @@ void EnRu1_Sitting_DisappearingInWater(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_FadeWhileSinking(this, play);
-    EnRu1_CheckDespawn(this, play);
+    func_80AED624(this, play);
 }
 
 void EnRu1_Sitting_SeesSapphire(EnRu1* this, PlayState* play) {
@@ -1974,7 +1974,7 @@ void EnRu1_HoldSittingPose(EnRu1* this, PlayState* play, s32 isFullySeated) {
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, 0.0f);
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_RUTO_LET_LINK_CARRY);
-        EnRu1_UpdateCurrentRoomNum(this, play);
+        func_80AED6DC(this, play);
         Actor_OfferCarry(&this->actor, play);
         this->action = ENRU1_ACTION_SITTING_IDLE;
         EnRu1_DisableSittingOC(this);
@@ -2000,7 +2000,7 @@ void EnRu1_SpeakableJabu_Idle(EnRu1* this, PlayState* play) {
     EnRu1_UpdateStandingOC(this, play);
     EnRu1_UpdateBgCheckInfo(this, play);
     isTalking = EnRu1_TalkOfferAccepted(this, play);
-    EnRu1_CheckDespawn(this, play);
+    func_80AED624(this, play);
     EnRu1_CheckJabuTalk(this, play, isTalking);
 }
 
@@ -2339,9 +2339,9 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
         this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
         this->actor.room = -1;
         this->drawConfig = ENRU1_DRAW_NOTHING;
-        this->initRoomNum = actorRoom;
-        this->carryRoomNum = actorRoom;
-        this->currentRoomNum = actorRoom;
+        this->roomNum1 = actorRoom;
+        this->roomNum3 = actorRoom;
+        this->roomNum2 = actorRoom;
         PRINTF(T("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n", "Ruto switch set!!!!!!!!!!!!!!!!!!!!!!\n"));
     } else {
         PRINTF(T("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n", "Ruto switch not set!!!!!!!!!!!!!!!!!!!!!!\n"));
@@ -2353,7 +2353,7 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
 void func_80AF0050(EnRu1* this, PlayState* play) {
     EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
     this->action = ENRU1_ACTION_THROWN_ONTO_SAPPHIRE_PLATFORM;
-    this->initRoomNum = this->actor.room;
+    this->roomNum1 = this->actor.room;
     this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
     this->actor.room = -1;
 }
