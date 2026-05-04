@@ -160,13 +160,13 @@ typedef enum EnSaAnimGroup {
 s16 EnSa_UpdateTextState(EnSa* this, PlayState* play) {
     s16 textState = Message_GetState(&play->msgCtx);
 
-    if (this->textState == TEXT_STATE_AWAITING_NEXT || this->textState == TEXT_STATE_EVENT ||
-        this->textState == TEXT_STATE_CLOSING || this->textState == TEXT_STATE_DONE_HAS_NEXT) {
-        if (textState != this->textState) {
+    if (this->prevTextState == TEXT_STATE_AWAITING_NEXT || this->prevTextState == TEXT_STATE_EVENT ||
+        this->prevTextState == TEXT_STATE_CLOSING || this->prevTextState == TEXT_STATE_DONE_HAS_NEXT) {
+        if (textState != this->prevTextState) {
             this->messageIndex++;
         }
     }
-    this->textState = textState;
+    this->prevTextState = textState;
     return textState;
 }
 
@@ -182,7 +182,7 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         this->messageIndex = 0;
-        this->textState = TEXT_STATE_NONE;
+        this->prevTextState = TEXT_STATE_NONE;
         if (GET_INFTABLE(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE)) {
             return 0x1048;
         } else {
@@ -191,7 +191,7 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS)) {
         this->messageIndex = 0;
-        this->textState = TEXT_STATE_NONE;
+        this->prevTextState = TEXT_STATE_NONE;
         if (GET_INFTABLE(INFTABLE_SARIA_TOLD_ABOUT_MIDO)) {
             return 0x1032;
         } else {
@@ -200,7 +200,7 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
     }
     if (GET_INFTABLE(INFTABLE_SARIA_GREETED_LINK)) {
         this->messageIndex = 0;
-        this->textState = TEXT_STATE_NONE;
+        this->prevTextState = TEXT_STATE_NONE;
         if (GET_INFTABLE(INFTABLE_SARIA_NOTICED_FAIRY)) {
             return 0x1003;
         } else {
