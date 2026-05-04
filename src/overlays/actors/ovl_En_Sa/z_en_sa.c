@@ -45,7 +45,7 @@ typedef enum SariaEyes {
     /* 1 */ SARIA_EYE_HALF,
     /* 2 */ SARIA_EYE_CLOSED,
     /* 3 */ SARIA_EYE_SURPRISED,
-    /* 4 */ SARIA_EYE_SAD,
+    /* 4 */ SARIA_EYE_SAD
 } SariaEyes;
 
 typedef enum SariaMouth {
@@ -102,7 +102,7 @@ typedef enum EnSaAnimation1 {
     /*  8 */ ENSA_ANIM1_OCARINA_TO_MOUTH,
     /*  9 */ ENSA_ANIM1_LINK_LEARNED_SARIAS_SONG,
     /* 10 */ ENSA_ANIM1_RETURN_TO_OCARINA,
-    /* 11 */ ENSA_ANIM1_START_PLAYING_OCARINA,
+    /* 11 */ ENSA_ANIM1_START_PLAYING_OCARINA
 } EnSaAnimation1;
 
 static AnimationFrameCountInfo sAnimationInfo1[] = {
@@ -130,7 +130,7 @@ typedef enum EnSaAnimation2 {
     /* 6 */ ENSA_ANIM2_TRANS_HANDS_SIDE_TO_HIPS,
     /* 7 */ ENSA_ANIM2_BEHIND_BACK_WAIT,
     /* 8 */ ENSA_ANIM2_HANDS_ON_FACE,
-    /* 9 */ ENSA_ANIM2_WAIT_ARMS_TO_SIDE,
+    /* 9 */ ENSA_ANIM2_WAIT_ARMS_TO_SIDE
 } EnSaAnimation2;
 
 static AnimationInfo sAnimationInfo2[] = {
@@ -154,7 +154,7 @@ typedef enum EnSaAnimGroup {
     /* 4 */ ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK,
     /* 5 */ ENSA_ANIMGROUP_HANDS_ON_HIPS,
     /* 6 */ ENSA_ANIMGROUP_HANDS_OFF_HIPS,
-    /* 7 */ ENSA_ANIMGROUP_HAND_TO_CHEST,
+    /* 7 */ ENSA_ANIMGROUP_HAND_TO_CHEST
 } EnSaAnimGroup;
 
 s16 EnSa_UpdateTextState(EnSa* this, PlayState* play) {
