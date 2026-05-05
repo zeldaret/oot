@@ -1,10 +1,10 @@
 <Root>
     <File Name="object_haka_objects" Segment="6">
-        <Array Name="object_haka_objects_Vtx_000000" Count="4" Offset="0x0">
+        <Array Name="gShadowTempleMetalGateVtx" Count="4" Offset="0x0">
             <Vtx/>
         </Array>
-        <DList Name="object_haka_objects_DL_000040" Offset="0x40"/>
-        <Collision Name="object_haka_objects_Col_000118" Offset="0x118"/>
+        <DList Name="gShadowTempleMetalGateDL" Offset="0x40"/>
+        <Collision Name="gShadowTempleMetalGateCol" Offset="0x118"/>
         <Array Name="gShadowTempleRoom3HiddenPlatformsVtx" Count="253" Offset="0x150">
             <Vtx/>
         </Array>
@@ -51,11 +51,11 @@
         </Array>
         <DList Name="gShadowTempleRoom18FakeWallDL" Offset="0x4B70"/>
         <Collision Name="gShadowTempleRoom18FakeWallCol" Offset="0x4CC0"/>
-        <Array Name="object_haka_objects_Vtx_004CF0" Count="49" Offset="0x4CF0">
+        <Array Name="gShadowTempleBlackPlatformWithScrewColumnVtx" Count="49" Offset="0x4CF0">
             <Vtx/>
         </Array>
-        <DList Name="object_haka_objects_DL_005000" Offset="0x5000"/>
-        <Collision Name="object_haka_objects_Col_005334" Offset="0x5334"/>
+        <DList Name="gShadowTempleBlackPlatformWithScrewColumnDL" Offset="0x5000"/>
+        <Collision Name="gShadowTempleBlackPlatformWithScrewColumnCol" Offset="0x5334"/>
         <Array Name="object_haka_objects_Vtx_005360" Count="113" Offset="0x5360">
             <Vtx/>
         </Array>
@@ -88,21 +88,21 @@
         </Array>
         <DList Name="gShadowTempleSpikedWallWestDL" Offset="0x8A20"/>
         <Collision Name="gShadowTempleSpikedWallWestCol" Offset="0x8D10"/>
-        <Array Name="object_haka_objects_Vtx_008D40" Count="23" Offset="0x8D40">
+        <Array Name="gShadowTempleHiddenBlockPlatformVtx" Count="23" Offset="0x8D40">
             <Vtx/>
         </Array>
-        <DList Name="object_haka_objects_DL_008EB0" Offset="0x8EB0"/>
-        <Collision Name="object_haka_objects_Col_009168" Offset="0x9168"/>
+        <DList Name="gShadowTempleHiddenBlockPlatformDL" Offset="0x8EB0"/>
+        <Collision Name="gShadowTempleHiddenBlockPlatformCol" Offset="0x9168"/>
         <Array Name="gShadowTempleSpikedCrusherVtx" Count="108" Offset="0x91A0">
             <Vtx/>
         </Array>
         <DList Name="gShadowTempleSpikedCrusherDL" Offset="0x9860"/>
         <Collision Name="gShadowTempleSpikedCrusherCol" Offset="0x9CD0"/>
-        <Array Name="object_haka_objects_Vtx_009D00" Count="74" Offset="0x9D00">
+        <Array Name="gShadowTempleChainedElevatorPlatformVtx" Count="74" Offset="0x9D00">
             <Vtx/>
         </Array>
-        <DList Name="object_haka_objects_DL_00A1A0" Offset="0xA1A0"/>
-        <Collision Name="object_haka_objects_Col_00A7F4" Offset="0xA7F4"/>
+        <DList Name="gShadowTempleChainedElevatorPlatformDL" Offset="0xA1A0"/>
+        <Collision Name="gShadowTempleChainedElevatorPlatformCol" Offset="0xA7F4"/>
         <Array Name="object_haka_objects_Vtx_00A820" Count="4" Offset="0xA820">
             <Vtx/>
         </Array>

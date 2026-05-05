@@ -795,7 +795,8 @@ void EnRd_Stunned(EnRd* this, PlayState* play) {
         if (this->actor.colChkInfo.health == 0) {
             EnRd_UpdateMourningTarget(play, &this->actor, true);
             EnRd_SetupDead(this);
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x90);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_9, false));
         } else {
             EnRd_SetupDamaged(this);
         }
@@ -867,7 +868,8 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 if (this->actor.colChkInfo.health == 0) {
                     EnRd_UpdateMourningTarget(play, &this->actor, true);
                     EnRd_SetupDead(this);
-                    Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x90);
+                    Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos,
+                                               COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_9, false));
                 } else {
                     EnRd_SetupDamaged(this);
                 }

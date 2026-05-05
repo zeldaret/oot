@@ -99,7 +99,7 @@ static void* sItemDropTex[] = {
 };
 
 static u8 sItemDropIds[] = {
-    // 0
+    // COLLECTIBLE_DROP_TABLE_0
     ITEM00_RUPEE_GREEN,
     ITEM00_RUPEE_BLUE,
     ITEM00_NONE,
@@ -117,7 +117,7 @@ static u8 sItemDropIds[] = {
     ITEM00_NONE,
     ITEM00_RUPEE_BLUE,
 
-    // 1
+    // COLLECTIBLE_DROP_TABLE_1
     ITEM00_RUPEE_GREEN,
     ITEM00_MAGIC_SMALL,
     ITEM00_RUPEE_GREEN,
@@ -135,7 +135,7 @@ static u8 sItemDropIds[] = {
     ITEM00_NONE,
     ITEM00_MAGIC_SMALL,
 
-    // 2
+    // COLLECTIBLE_DROP_TABLE_2
     ITEM00_RUPEE_GREEN,
     ITEM00_RUPEE_GREEN,
     ITEM00_MAGIC_SMALL,
@@ -153,7 +153,7 @@ static u8 sItemDropIds[] = {
     ITEM00_FLEXIBLE,
     ITEM00_MAGIC_SMALL,
 
-    // 3
+    // COLLECTIBLE_DROP_TABLE_3
     ITEM00_RUPEE_GREEN,
     ITEM00_RUPEE_GREEN,
     ITEM00_NUTS,
@@ -171,7 +171,7 @@ static u8 sItemDropIds[] = {
     ITEM00_NONE,
     ITEM00_NONE,
 
-    // 4
+    // COLLECTIBLE_DROP_TABLE_4
     ITEM00_RUPEE_GREEN,
     ITEM00_RUPEE_GREEN,
     ITEM00_SEEDS,
@@ -189,7 +189,7 @@ static u8 sItemDropIds[] = {
     ITEM00_NONE,
     ITEM00_MAGIC_SMALL,
 
-    // 5
+    // COLLECTIBLE_DROP_TABLE_5
     ITEM00_RUPEE_GREEN,
     ITEM00_MAGIC_SMALL,
     ITEM00_RUPEE_GREEN,
@@ -207,7 +207,7 @@ static u8 sItemDropIds[] = {
     ITEM00_NONE,
     ITEM00_MAGIC_SMALL,
 
-    // 6
+    // COLLECTIBLE_DROP_TABLE_6
     ITEM00_RUPEE_GREEN,
     ITEM00_RUPEE_BLUE,
     ITEM00_NONE,
@@ -225,7 +225,7 @@ static u8 sItemDropIds[] = {
     ITEM00_NONE,
     ITEM00_MAGIC_LARGE,
 
-    // 7
+    // COLLECTIBLE_DROP_TABLE_7
     ITEM00_RUPEE_GREEN,
     ITEM00_NONE,
     ITEM00_RUPEE_BLUE,
@@ -243,7 +243,7 @@ static u8 sItemDropIds[] = {
     ITEM00_NONE,
     ITEM00_MAGIC_LARGE,
 
-    // 8
+    // COLLECTIBLE_DROP_TABLE_8
     ITEM00_ARROWS_LARGE,
     ITEM00_ARROWS_MEDIUM,
     ITEM00_ARROWS_MEDIUM,
@@ -261,7 +261,7 @@ static u8 sItemDropIds[] = {
     ITEM00_ARROWS_LARGE,
     ITEM00_ARROWS_LARGE,
 
-    // 9
+    // COLLECTIBLE_DROP_TABLE_9
     ITEM00_MAGIC_LARGE,
     ITEM00_MAGIC_SMALL,
     ITEM00_MAGIC_SMALL,
@@ -279,7 +279,7 @@ static u8 sItemDropIds[] = {
     ITEM00_MAGIC_SMALL,
     ITEM00_MAGIC_LARGE,
 
-    // 10
+    // COLLECTIBLE_DROP_TABLE_10
     ITEM00_BOMBS_A,
     ITEM00_NONE,
     ITEM00_BOMBS_A,
@@ -297,7 +297,7 @@ static u8 sItemDropIds[] = {
     ITEM00_NONE,
     ITEM00_BOMBS_A,
 
-    // 11
+    // COLLECTIBLE_DROP_TABLE_11
     ITEM00_RECOVERY_HEART,
     ITEM00_RECOVERY_HEART,
     ITEM00_RECOVERY_HEART,
@@ -315,7 +315,7 @@ static u8 sItemDropIds[] = {
     ITEM00_RECOVERY_HEART,
     ITEM00_RECOVERY_HEART,
 
-    // 12
+    // COLLECTIBLE_DROP_TABLE_12
     ITEM00_RUPEE_RED,
     ITEM00_RUPEE_BLUE,
     ITEM00_RUPEE_BLUE,
@@ -333,7 +333,7 @@ static u8 sItemDropIds[] = {
     ITEM00_RUPEE_RED,
     ITEM00_RUPEE_RED,
 
-    // 13
+    // COLLECTIBLE_DROP_TABLE_13
     ITEM00_SEEDS,
     ITEM00_NONE,
     ITEM00_NUTS,
@@ -351,7 +351,7 @@ static u8 sItemDropIds[] = {
     ITEM00_RECOVERY_HEART,
     ITEM00_SEEDS,
 
-    // 14
+    // COLLECTIBLE_DROP_TABLE_14
     ITEM00_RECOVERY_HEART,
     ITEM00_NONE,
     ITEM00_SEEDS,

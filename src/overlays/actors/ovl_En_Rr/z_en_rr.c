@@ -732,7 +732,8 @@ void EnRr_Death(EnRr* this, PlayState* play) {
                 break;
             case RR_DROP_RANDOM_RUPEE:
             default:
-                Item_DropCollectibleRandom(play, &this->actor, &dropPos, 12 << 4);
+                Item_DropCollectibleRandom(play, &this->actor, &dropPos,
+                                           COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_12, false));
                 break;
         }
         Actor_Kill(&this->actor);

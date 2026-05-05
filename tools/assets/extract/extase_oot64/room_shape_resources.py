@@ -56,6 +56,8 @@ def report_room_shape_at_segmented(
 
 
 def get_room_shape_resource_type(file: File, offset: int):
+    assert file.data is not None
+
     room_shape_type_int = file.data[offset]
     room_shape_type = RoomShapeType(room_shape_type_int)
 
@@ -269,6 +271,7 @@ class JFIFResource(Resource):
         return f"{self.name}.jpg"
 
     def write_extracted(self, memory_context):
+        assert self.file.data is not None
         # TODO trim zeros at the end of the data
         self.extract_to_path.write_bytes(
             self.file.data[self.range_start : self.range_end]

@@ -17,6 +17,7 @@
 #include "../n64texconv/src/libn64texconv/n64texconv.h"
 
 #define NUM_FORMATS 9
+#define MAX_N_SUFFIXES 5
 static const struct fmt_info {
     const char* name;
     int fmt;
@@ -57,8 +58,7 @@ static bool strendswith(const char* s, const char* suffix) {
 static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, enum sub_format* subfmt, int* elem_sizep,
                         size_t* len_png_p_prefix, char** tlut_namep, int* tlut_elem_sizep, bool print_err) {
     // The last 5 (or less) suffixes, without the '.'
-    const int max_n_suffixes = 5;
-    char* png_p_suffixes[max_n_suffixes];
+    char* png_p_suffixes[MAX_N_SUFFIXES];
     int n_suffixes_found = 0;
     size_t i = strlen(png_p_buf);
     while (i != 0) {
@@ -66,7 +66,7 @@ static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, enum sub_
         if (png_p_buf[i] == '.') {
             png_p_suffixes[n_suffixes_found] = &png_p_buf[i + 1];
             n_suffixes_found++;
-            if (n_suffixes_found >= max_n_suffixes) {
+            if (n_suffixes_found >= MAX_N_SUFFIXES) {
                 break;
             }
             png_p_buf[i] = '\0';
@@ -406,6 +406,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                             len_pngs_with_tlut++;
                         }
                     }
+                    free(direntry_tlut_name);
                 }
             }
             free(direntry_name_buf);
@@ -538,7 +539,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             const float dither_level = 0.5f;
 
             success = n64texconv_quantize_shared(out_indices, out_pal, &out_pal_count, texels, widths, heights,
-                                                 num_images, max_colors, dither_level) == 0;
+                                                 num_images, max_colors, dither_level, G_IM_FMT_RGBA) == 0;
             if (!success) {
                 fprintf(stderr, "Could not co-palettize images\n");
             }
@@ -642,6 +643,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
     }
 
     if (ref_img != NULL) {
+        n64texconv_palette_free(ref_img->pal);
         n64texconv_image_free(ref_img);
     }
 

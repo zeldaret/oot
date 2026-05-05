@@ -94,7 +94,7 @@ void func_80AE744C(EnRl* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
-s32 func_80AE7494(EnRl* this) {
+s32 EnRl_UpdateSkelAnime(EnRl* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -183,23 +183,23 @@ void func_80AE7798(EnRl* this, PlayState* play) {
 
 void func_80AE77B8(EnRl* this, PlayState* play) {
     func_80AE744C(this, play);
-    func_80AE7494(this);
+    EnRl_UpdateSkelAnime(this);
     func_80AE72D0(this);
     func_80AE7698(this, play);
 }
 
 void func_80AE77F8(EnRl* this, PlayState* play) {
-    s32 temp;
+    s32 animFinished;
 
     func_80AE744C(this, play);
-    temp = func_80AE7494(this);
+    animFinished = EnRl_UpdateSkelAnime(this);
     func_80AE72D0(this);
-    func_80AE772C(this, temp);
+    func_80AE772C(this, animFinished);
 }
 
 void func_80AE7838(EnRl* this, PlayState* play) {
     func_80AE744C(this, play);
-    func_80AE7494(this);
+    EnRl_UpdateSkelAnime(this);
     func_80AE72D0(this);
     func_80AE7590(this, play);
 }
@@ -291,7 +291,7 @@ void func_80AE7C64(EnRl* this, PlayState* play) {
 
 void func_80AE7C94(EnRl* this, PlayState* play) {
     func_80AE744C(this, play);
-    func_80AE7494(this);
+    EnRl_UpdateSkelAnime(this);
     func_80AE72D0(this);
     func_80AE79A4(this, play);
 #if DEBUG_FEATURES
@@ -300,12 +300,12 @@ void func_80AE7C94(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7CE8(EnRl* this, PlayState* play) {
-    s32 temp;
+    s32 animFinished;
 
     func_80AE744C(this, play);
-    temp = func_80AE7494(this);
+    animFinished = EnRl_UpdateSkelAnime(this);
     func_80AE72D0(this);
-    func_80AE7BF8(this, temp);
+    func_80AE7BF8(this, animFinished);
 #if DEBUG_FEATURES
     func_80AE73D8(this, play);
 #endif
@@ -313,7 +313,7 @@ void func_80AE7CE8(EnRl* this, PlayState* play) {
 
 void func_80AE7D40(EnRl* this, PlayState* play) {
     func_80AE744C(this, play);
-    func_80AE7494(this);
+    EnRl_UpdateSkelAnime(this);
     func_80AE72D0(this);
     func_80AE7AF8(this, play);
 #if DEBUG_FEATURES
