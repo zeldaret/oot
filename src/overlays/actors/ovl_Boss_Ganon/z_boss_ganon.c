@@ -93,8 +93,8 @@ static ColliderCylinderInit sDorfCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x10 },
-        { 0xFFCFFFFE, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x10 },
+        { 0xFFCFFFFE, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -113,8 +113,8 @@ static ColliderCylinderInit sLightBallCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK6,
-        { 0x00100700, 0x00, 0x08 },
-        { 0x0D900740, 0x00, 0x00 },
+        { 0x00100700, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0x0D900740, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,

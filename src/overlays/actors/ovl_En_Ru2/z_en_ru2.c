@@ -99,8 +99,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000080, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000080, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -470,12 +470,12 @@ void EnRu2_SageOfWaterDialog(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_RaiseArms(EnRu2* this, PlayState* play) {
-    s32 animDone;
+    s32 animFinished;
 
     EnRu2_UpdateBgCheckInfo(this, play);
-    animDone = EnRu2_UpdateSkelAnime(this);
+    animFinished = EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
-    EnRu2_HoldArmsUp(this, animDone);
+    EnRu2_HoldArmsUp(this, animFinished);
 }
 
 void EnRu2_AwaitWaterMedallion(EnRu2* this, PlayState* play) {
@@ -739,12 +739,12 @@ void EnRu2_CreditsVisible(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_CreditsTurnHeadDownLeft(EnRu2* this, PlayState* play) {
-    s32 animDone;
+    s32 animFinished;
 
     EnRu2_UpdateBgCheckInfo(this, play);
-    animDone = EnRu2_UpdateSkelAnime(this);
+    animFinished = EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
-    EnRu2_HoldLookingDownLeftPose(this, animDone);
+    EnRu2_HoldLookingDownLeftPose(this, animFinished);
 }
 
 void EnRu2_SetEncounterSwitchFlag(EnRu2* this, PlayState* play) {

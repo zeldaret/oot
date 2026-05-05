@@ -114,8 +114,8 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -133,8 +133,8 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -732,7 +732,8 @@ void EnRr_Death(EnRr* this, PlayState* play) {
                 break;
             case RR_DROP_RANDOM_RUPEE:
             default:
-                Item_DropCollectibleRandom(play, &this->actor, &dropPos, 12 << 4);
+                Item_DropCollectibleRandom(play, &this->actor, &dropPos,
+                                           COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_12, false));
                 break;
         }
         Actor_Kill(&this->actor);

@@ -44,8 +44,8 @@ static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x00, 0x04 },
-            { 0x00000004, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0x00000004, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_WOOD,
             ACELEM_ON,
             OCELEM_NONE,
@@ -55,8 +55,8 @@ static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x00, 0x04 },
-            { 0x00000004, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0x00000004, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_WOOD,
             ACELEM_ON,
             OCELEM_NONE,
@@ -96,7 +96,7 @@ void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
     Collider_InitTris(play, &this->collider);
     Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
-    this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 16);
+    this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
     thisx->params = PARAMS_GET_U(thisx->params, 8, 8); // thisx is required to match here
 
     if (this->dyna.actor.params == 0) {

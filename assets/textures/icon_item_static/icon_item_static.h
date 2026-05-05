@@ -184,6 +184,10 @@ extern u64 gPauseSave14Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX
 extern u64 gPauseSave24Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)];
 extern u64 gPauseGameOver10Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)];
 
+#define gABtnSymbolTex_WIDTH 24
+#define gBBtnSymbolTex_WIDTH 24
+#define gCBtnSymbolsTex_WIDTH 48
+
 #define gSongNoteTex_WIDTH 16
 #define gSongNoteTex_HEIGHT 24
 extern u64 gSongNoteTex[TEX_LEN(u64, gSongNoteTex_WIDTH, gSongNoteTex_HEIGHT, 8)];

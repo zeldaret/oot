@@ -66,8 +66,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0xFFC5FFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0xFFC5FFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -607,7 +607,8 @@ void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play) {
 
 void EnDodojr_DropItem(EnDodojr* this, PlayState* play) {
     if (DECR(this->timer) == 0) {
-        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x40);
+        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false));
         Actor_Kill(&this->actor);
     }
 }

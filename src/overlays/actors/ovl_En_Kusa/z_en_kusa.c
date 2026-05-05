@@ -21,7 +21,7 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/cuttable_shrub.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_kusa/object_kusa.h"
 
@@ -79,8 +79,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x4FC00758, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x4FC00758, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -143,10 +143,11 @@ void EnKusa_DropCollectible(EnKusa* this, PlayState* play) {
         case ENKUSA_TYPE_2:
             dropParams = PARAMS_GET_U(this->actor.params, 8, 4);
 
-            if (dropParams >= 0xD) {
-                dropParams = 0;
+            if (dropParams >= COLLECTIBLE_DROP_TABLE_13) {
+                dropParams = COLLECTIBLE_DROP_TABLE_0;
             }
-            Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, dropParams << 4);
+            Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(dropParams, false));
             break;
         case ENKUSA_TYPE_1:
             if (Rand_ZeroOne() < 0.5f) {

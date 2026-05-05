@@ -140,8 +140,8 @@ static ColliderCylinderInit sBodyCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -160,8 +160,8 @@ static ColliderQuadInit sSwordQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
         ACELEM_ON,
         OCELEM_NONE,
@@ -2044,11 +2044,11 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
                 Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
 
                 if (Actor_ApplyDamage(&this->actor) == 0) {
-                    dropParams = 0x40;
+                    dropParams = COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false);
                     EnZf_SetupDie(this);
 
                     if (this->actor.params == ENZF_TYPE_DINOLFOS) {
-                        dropParams = 0xE0;
+                        dropParams = COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_14, false);
                     }
 
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, dropParams);

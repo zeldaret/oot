@@ -147,6 +147,7 @@ Begins a new soundfont.
             Name="<C Identifier>"
             SampleRate="[Sample Rate]"
             BaseNote="[Note Name]"
+            FineTune="[Fine Tune]"
             IsDD="[Bool]"
             Cached="[Bool]"
         />
@@ -158,6 +159,7 @@ Begins a new soundfont.
         - **Name**: The name of this sample. A sample with this name must be present in the samplebank used by the soundfont.
         - <ins>[Optional]</ins> **SampleRate**: An overriding sample rate for this sample. **Default comes from the sample file.**
         - <ins>[Optional]</ins> **BaseNote**: An overriding root key for this sample. **Default comes from the sample file.**
+        - <ins>[Optional]</ins> **FineTune**: An overriding fine tuning for this sample, in cents, in the range [-100, 100]. **Default comes from the sample file.**
         - <ins>[Optional]</ins> **IsDD**: Whether this sample is on the Disk Drive. The sample data will come from the samplebank `SampleBankDD`. **Default is `false`.** **NOTE this is not fully implemented, it should always be `false`.**
         - <ins>[Optional]</ins> **Cached**: Whether this sample should be added to the `usedSamples` cache. **Default is `false`.**
 
@@ -187,6 +189,7 @@ Begins a new soundfont.
             Sample="<Sample Name>"
             SampleRate="[Sample Rate]"
             BaseNote="[Note Name]"
+            FineTune="[Fine Tune]"
         />
         ```
         Defines a single sound effect.
@@ -196,6 +199,7 @@ Begins a new soundfont.
         - **Sample**: The name of the sample associated with this effect.
         - <ins>[Optional]</ins> **SampleRate**: An overriding sample rate for this effect. **Default comes from the sample definition.**
         - <ins>[Optional]</ins> **BaseNote**: An overriding root key for this effect. **Default comes from the sample definition.**
+        - <ins>[Optional]</ins> **FineTune**: An overriding fine tuning for this effect, in cents, in the range [-100, 100]. **Default comes from the sample definition.**
 
         ---
 
@@ -229,6 +233,7 @@ Begins a new soundfont.
             Sample="<Sample Name>"
             SampleRate="[Sample Rate]"
             BaseNote="[Note Name]"
+            FineTune="[Fine Tune]"
         />
         ```
         Defines a single percussion range.
@@ -244,6 +249,7 @@ Begins a new soundfont.
         - **Sample**: The name of the sample to use.
         - <ins>[Optional]</ins> **SampleRate**: An overriding sample rate for this sound. **Default comes from the sample definition.**
         - <ins>[Optional]</ins> **BaseNote**: An overriding root key for this sound. **Default comes from the sample definition.**
+        - <ins>[Optional]</ins> **FineTune**: An overriding fine tuning for this sound, in cents, in the range [-100, 100]. **Default comes from the sample definition.**
 
         ---
 
@@ -275,16 +281,19 @@ Begins a new soundfont.
             Sample="<Sample Name>"
             SampleRate="[Sample Rate]"
             BaseNote="[Note Name]"
+            FineTune="[Fine Tune]"
 
             RangeLo="[Note Name]"
             SampleLo="[Sample Name]"
             SampleRateLo="[Sample Rate]"
             BaseNoteLo="[Note Name]"
+            FineTuneLo="[Fine Tune]"
 
             RangeHi="[Note Name]"
             SampleHi="[Sample Name]"
             SampleRateHi="[Sample Rate]"
             BaseNoteHi="[Note Name]"
+            FineTuneHi="[Fine Tune]"
         />
         ```
         Defines an instrument.
@@ -297,14 +306,17 @@ Begins a new soundfont.
         - **Sample**: The name of the middle sample to use for this instrument.
         - <ins>[Optional]</ins> **SampleRate**: Sample rate override for the middle sample. **Default is sourced from the sample properties.**
         - <ins>[Optional]</ins> **BaseNote**: Base note override for the middle sample. **Default is sourced from the sample properties.**
+        - <ins>[Optional]</ins> **FineTune**: Fine tuning override for the middle sample, in cents, in the range [-100, 100]. **Default is sourced from the sample properties.**
         - <ins>[Optional]</ins> **RangeLo**: The largest note for SampleLo. SampleLo will be used instead of Sample for keys in the range [0, RangeLo]. **If left unspecified, SampleLo must not be specified. If specified, SampleLo must be specified.**
         - <ins>[Optional]</ins> **SampleLo**: The name of the low sample to use for this instrument.
         - <ins>[Optional]</ins> **SampleRateLo**: Sample rate override for the low sample. **Default is sourced from the sample properties.**
         - <ins>[Optional]</ins> **BaseNoteLo**: Base note override for the low sample. **Default is sourced from the sample properties.**
+        - <ins>[Optional]</ins> **FineTuneLo**: Fine tuning override for the low sample, in cents, in the range [-100, 100]. **Default is sourced from the sample properties.**
         - <ins>[Optional]</ins> **RangeHi**: The smallest note for SampleHi. SampleHi will be used instead of Sample for keys in the range [RangeHi, 127]. **If left unspecified, SampleHi must not be specified. If specified, SampleHi must be specified.**
         - <ins>[Optional]</ins> **SampleHi**: The name of the high sample to use for this instrument.
         - <ins>[Optional]</ins> **SampleRateHi**: Sample rate override for the high sample. **Default is sourced from the sample properties.**
         - <ins>[Optional]</ins> **BaseNoteHi**: Base note override for the high sample. **Default is sourced from the sample properties.**
+        - <ins>[Optional]</ins> **FineTuneHi**: Fine tuning override for the high sample, in cents, in the range [-100, 100]. **Default is sourced from the sample properties.**
 
         ---
 
