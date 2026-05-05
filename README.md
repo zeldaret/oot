@@ -3,7 +3,7 @@
 [![Build Status][gha-badge]][gha] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
 
 [gha]: https://github.com/zeldaret/oot/actions/workflows/ci.yml?query=branch%3Amain+event%3Apush
-[gha-badge]: https://img.shields.io/github/actions/workflow/status/zeldaret/oot/ci
+[gha-badge]: https://img.shields.io/github/actions/workflow/status/zeldaret/oot/ci.yml
 
 [progress]: https://zelda.deco.mp/games/oot
 [progress-badge]: https://img.shields.io/endpoint?url=https://zelda.deco.mp/assets/csv/progress-oot-shield.json
