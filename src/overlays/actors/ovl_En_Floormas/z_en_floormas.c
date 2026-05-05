@@ -80,8 +80,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x04, 0x10 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_KNOCKBACK, 0x10 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -447,7 +447,8 @@ void EnFloormas_Die(EnFloormas* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_FLOORMASTER_SPLIT);
     } else {
         // Die
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x90);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_9, false));
         EnFloormas_SetupSmallShrink(this, play);
     }
 }

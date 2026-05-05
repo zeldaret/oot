@@ -1,6 +1,6 @@
 <Root>
      <File Name="message_static" Segment="7">
-        <Texture Name="gDefaultMessageBackgroundTex" Format="ia4" Width="128" Height="64" Offset="0x0"/>
+        <Texture Name="gDefaultMessageBackgroundTex" Format="i4" Width="128" Height="64" Offset="0x0"/>
         <Texture Name="gSignMessageBackgroundTex" Format="ia4" Width="128" Height="64" Offset="0x1000"/>
         <Texture Name="gNoteStaffMessageBackgroundTex" Format="ia4" Width="128" Height="64" Offset="0x2000"/>
         <Texture Name="gFadingMessageBackgroundTex" Format="i4" Width="128" Height="64" Offset="0x3000"/>

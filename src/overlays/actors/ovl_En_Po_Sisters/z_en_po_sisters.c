@@ -23,7 +23,7 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_fire.h"
 #include "assets/objects/object_po_sisters/object_po_sisters.h"
 
 #define FLAGS                                                                                 \
@@ -104,8 +104,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0x4FC7FFEA, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0x4FC7FFEA, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -405,7 +405,8 @@ void func_80AD99D4(EnPoSisters* this, PlayState* play) {
 void func_80AD9A54(EnPoSisters* this, PlayState* play) {
     this->unk_19A = 0;
     this->actor.world.pos.y = this->unk_234[0].y;
-    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x80);
+    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                               COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_8, false));
     this->actionFunc = func_80ADB17C;
 }
 

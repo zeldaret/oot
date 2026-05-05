@@ -18,7 +18,11 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gDoorChildOpeningRightAnim.h"
+#include "assets/objects/gameplay_keep/gDoorChildOpeningLeftAnim.h"
+#include "assets/objects/gameplay_keep/gDoorAdultOpeningRightAnim.h"
+#include "assets/objects/gameplay_keep/gDoorAdultOpeningLeftAnim.h"
+#include "assets/objects/gameplay_keep/door_skel.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"

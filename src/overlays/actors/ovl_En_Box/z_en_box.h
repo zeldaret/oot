@@ -7,6 +7,12 @@
 #define ENBOX_TREASURE_FLAG_UNK_MIN 20
 #define ENBOX_TREASURE_FLAG_UNK_MAX 32
 
+#define ENBOX_GET_TYPE(thisx) PARAMS_GET_U((thisx)->params, 12, 4)
+#define ENBOX_GET_GET_ITEM_ID(thisx) PARAMS_GET_U((thisx)->params, 5, 7)
+#define ENBOX_GET_TREASURE_FLAG(thisx) PARAMS_GET_U((thisx)->params, 0, 5)
+
+#define ENBOX_PARAMS(type, getItemId, treasureFlag) (((type) << 12) | ((getItemId) << 5) | (treasureFlag))
+
 struct EnBox;
 
 typedef void (*EnBoxActionFunc)(struct EnBox*, struct PlayState*);

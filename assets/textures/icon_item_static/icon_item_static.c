@@ -692,20 +692,17 @@ u64 gPauseGameOver10Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HE
 
 // Various textures and DLs
 
-#define gABtnSymbolTex_WIDTH 24
-#define gABtnSymbolTex_HEIGHT 16
+#define gABtnSymbolTex_HEIGHT UI_OVERLAY_QUAD_INFO_ICON_HEIGHT
 u64 gABtnSymbolTex[TEX_LEN(u64, gABtnSymbolTex_WIDTH, gABtnSymbolTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gABtnSymbolTex.ia8.inc.c"
 };
 
-#define gBBtnSymbolTex_WIDTH 24
-#define gBBtnSymbolTex_HEIGHT 16
+#define gBBtnSymbolTex_HEIGHT UI_OVERLAY_QUAD_INFO_ICON_HEIGHT
 u64 gBBtnSymbolTex[TEX_LEN(u64, gBBtnSymbolTex_WIDTH, gBBtnSymbolTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gBBtnSymbolTex.ia8.inc.c"
 };
 
-#define gCBtnSymbolsTex_WIDTH 48
-#define gCBtnSymbolsTex_HEIGHT 16
+#define gCBtnSymbolsTex_HEIGHT UI_OVERLAY_QUAD_INFO_ICON_HEIGHT
 u64 gCBtnSymbolsTex[TEX_LEN(u64, gCBtnSymbolsTex_WIDTH, gCBtnSymbolsTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gCBtnSymbolsTex.ia8.inc.c"
 };
@@ -722,14 +719,14 @@ u64 gInfoPanelBgRightTex[TEX_LEN(u64, gInfoPanelBgRightTex_WIDTH, gInfoPanelBgRi
 #include "assets/textures/icon_item_static/gInfoPanelBgRightTex.ia8.inc.c"
 };
 
-#define gLButtonTex_WIDTH 24
-#define gLButtonTex_HEIGHT 32
+#define gLButtonTex_WIDTH UI_OVERLAY_QUAD_BUTTON_LR_TEX_WIDTH
+#define gLButtonTex_HEIGHT UI_OVERLAY_QUAD_BUTTON_LR_TEX_HEIGHT
 u64 gLButtonTex[TEX_LEN(u64, gLButtonTex_WIDTH, gLButtonTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gLButtonTex.ia8.inc.c"
 };
 
-#define gRButtonTex_WIDTH 24
-#define gRButtonTex_HEIGHT 32
+#define gRButtonTex_WIDTH UI_OVERLAY_QUAD_BUTTON_LR_TEX_WIDTH
+#define gRButtonTex_HEIGHT UI_OVERLAY_QUAD_BUTTON_LR_TEX_HEIGHT
 u64 gRButtonTex[TEX_LEN(u64, gRButtonTex_WIDTH, gRButtonTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gRButtonTex.ia8.inc.c"
 };
