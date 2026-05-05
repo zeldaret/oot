@@ -26,7 +26,6 @@ from ..extase.cdata_resources import (
 from .. import oot64_data
 from . import actor_params
 
-
 VERBOSE_SPAWN_LIST_LENGTH_GUESSING = False
 
 
@@ -64,7 +63,7 @@ class ActorEntryListResource(CDataArrayNamedLengthResource):
         else:
             f.write(
                 fmt_params(
-                    params_u16,
+                    params=params_u16,
                     rot_z=v["rot"]["z"],
                 )
             )
@@ -388,7 +387,7 @@ class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
         if fmt_params is None:
             f.write(fmt_hex_s(params, 4))
         else:
-            f.write(fmt_params(params_u16))
+            f.write(fmt_params(params=params_u16))
         if params < 0 or fmt_params is not None:
             f.write(f" /* 0x{params_u16:04X} */")
         f.write(", // params\n")

@@ -6,7 +6,7 @@ def cbool(b: bool):
     return "true" if b else "false"
 
 
-def params_en_door(params: int, **kwargs):
+def params_en_door(*, params: int, **kwargs):
     unused_mask = 0b1111_1100_0011_1111
     type = bits(params, 7, 3)
     type_name = [
@@ -45,7 +45,7 @@ def params_en_door(params: int, **kwargs):
     return params_str
 
 
-def params_en_wood02(params: int, rot_z: int, **kwargs):
+def params_en_wood02(*, params: int, rot_z: int, **kwargs):
     type = bits(params, 0, 8)
     data = bits(params, 8, 8)
 
@@ -104,7 +104,7 @@ def params_en_wood02(params: int, rot_z: int, **kwargs):
     return f"ENWOOD02_PARAMS({type_name}, {data_str})"
 
 
-def params_obj_switch(params: int):
+def params_obj_switch(*, params: int, **kwargs):
     unused_mask = 0b0000_0000_1000_1000
     type = bits(params, 0, 3)
     subType = bits(params, 4, 3)
