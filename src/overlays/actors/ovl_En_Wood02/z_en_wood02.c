@@ -71,8 +71,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK5,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x0FC0074A, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x0FC0074A, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -353,7 +353,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
             dropsSpawnPt.y += 200.0f;
 
             if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
-                Item_DropCollectibleRandom(play, &this->actor, &dropsSpawnPt, this->unk_14C << 4);
+                Item_DropCollectibleRandom(play, &this->actor, &dropsSpawnPt,
+                                           COLLECTIBLE_DROP_RANDOM_PARAMS(this->unk_14C, false));
             } else {
                 if (this->actor.home.rot.z != 0) {
                     this->actor.home.rot.z &= 0x1FFF;
@@ -399,7 +400,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                  (player->rideActor->speed != 0.0f))) {
                 if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
-                                               ((this->unk_14C << 4) | 0x8000));
+                                               COLLECTIBLE_DROP_RANDOM_PARAMS(this->unk_14C, true));
                 }
                 this->unk_14C = -0x15;
                 Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);

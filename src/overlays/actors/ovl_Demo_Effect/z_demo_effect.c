@@ -24,7 +24,7 @@
 #include "play_state.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_flash.h"
 #include "assets/objects/object_efc_crystal_light/object_efc_crystal_light.h"
 #include "assets/objects/object_efc_fire_ball/object_efc_fire_ball.h"
 #include "assets/objects/object_efc_lgt_shower/object_efc_lgt_shower.h"
@@ -504,7 +504,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(play, this);
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
-            if ((play->sceneId == SCENE_JABU_JABU) && GET_INFTABLE(INFTABLE_145)) {
+            if ((play->sceneId == SCENE_JABU_JABU) && GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE)) {
                 Actor_Kill(&this->actor);
                 return;
             }

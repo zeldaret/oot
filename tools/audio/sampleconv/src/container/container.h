@@ -62,8 +62,8 @@ typedef struct container_data {
     uint32_t num_samples; // also apparently called num_frames? but that's wrong
 
     // Instrument details
-    int8_t base_note;
-    int8_t fine_tune;
+    int8_t base_note; // [0, 127]
+    int8_t fine_tune; // [-50, 50]
     int8_t gain;
     int8_t key_low;
     int8_t key_hi;

@@ -168,6 +168,20 @@ class CDataExt_Value(CData_Value, CDataExt):
         else:
             return False
 
+    s8: "CDataExt_Value"
+    u8: "CDataExt_Value"
+    s16: "CDataExt_Value"
+    u16: "CDataExt_Value"
+    s32: "CDataExt_Value"
+    u32: "CDataExt_Value"
+    f32: "CDataExt_Value"
+    f64: "CDataExt_Value"
+    pointer: "CDataExt_Value"
+
+    pad8: "CDataExt_Value"
+    pad16: "CDataExt_Value"
+    pad32: "CDataExt_Value"
+
 
 CDataExt_Value.s8 = CDataExt_Value("b").freeze()
 CDataExt_Value.u8 = CDataExt_Value("B").freeze()
@@ -277,6 +291,7 @@ class CDataResource(Resource):
         self._is_cdata_processed = False
 
     def try_parse_data(self, memory_context: "MemoryContext"):
+        assert self.file.data is not None
         if self.can_size_be_unknown:
             assert hasattr(self, "cdata_ext") and self.cdata_ext is not None, (
                 "Subclasses with can_size_be_unknown=True should redefine try_parse_data"

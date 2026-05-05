@@ -26,13 +26,6 @@
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
-#define OBJSWITCH_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 3)
-#define OBJSWITCH_SUBTYPE(thisx) PARAMS_GET_U((thisx)->params, 4, 3)
-#define OBJSWITCH_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 6)
-#define OBJSWITCH_FROZEN(thisx) PARAMS_GET_U((thisx)->params, 7, 1)
-
-#define OBJSWITCH_FROZEN_FLAG (1 << 7)
-
 void ObjSwitch_Init(Actor* thisx, PlayState* play);
 void ObjSwitch_Destroy(Actor* thisx, PlayState* play);
 void ObjSwitch_Update(Actor* thisx, PlayState* play);
@@ -91,8 +84,8 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000040, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000040, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -102,8 +95,8 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000040, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000040, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -129,8 +122,8 @@ static ColliderTrisElementInit sEyeTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK4,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x0001F824, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x0001F824, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -140,8 +133,8 @@ static ColliderTrisElementInit sEyeTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x0001F824, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x0001F824, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -167,8 +160,8 @@ static ColliderJntSphElementInit sCrystalJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xEFC1FFFE, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xEFC1FFFE, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -622,7 +615,7 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
     this->crystalColor.r = 0;
     this->crystalColor.g = 0;
     this->crystalColor.b = 0;
-    this->crystalSubtype1texture = gCrstalSwitchRedTex;
+    this->crystalSubtype1texture = gCrystalSwitchRedTex;
     this->actionFunc = ObjSwitch_CrystalOff;
 }
 
@@ -677,7 +670,7 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this) {
     this->crystalColor.r = 255;
     this->crystalColor.g = 255;
     this->crystalColor.b = 255;
-    this->crystalSubtype1texture = gCrstalSwitchBlueTex;
+    this->crystalSubtype1texture = gCrystalSwitchBlueTex;
     this->actionFunc = ObjSwitch_CrystalOn;
 }
 
