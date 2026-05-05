@@ -3454,7 +3454,7 @@ void KaleidoScope_Draw(PlayState* play) {
     pauseCtx->stickAdjY = input->rel.stick_y;
 
     gSPSegment(POLY_OPA_DISP++, 0x02, interfaceCtx->parameterSegment);
-    gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->playerSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x07, PAUSE_PLAYER_SEGMENT_RENDER_TEXTURE(pauseCtx->playerSegment));
     gSPSegment(POLY_OPA_DISP++, 0x08, pauseCtx->iconItemSegment);
     gSPSegment(POLY_OPA_DISP++, 0x09, pauseCtx->iconItem24Segment);
     gSPSegment(POLY_OPA_DISP++, 0x0A, pauseCtx->nameSegment);
@@ -3909,7 +3909,7 @@ void KaleidoScope_Update(PlayState* play) {
 
             PreRender_Init(&sPlayerPreRender);
             PreRender_SetValuesSave(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT,
-                                    pauseCtx->playerSegment, NULL, sPreRenderCvg);
+                                    PAUSE_PLAYER_SEGMENT_RENDER_TEXTURE(pauseCtx->playerSegment), NULL, sPreRenderCvg);
 
             KaleidoScope_DrawPlayerWork(play);
             KaleidoScope_SetupPlayerPreRender(play);

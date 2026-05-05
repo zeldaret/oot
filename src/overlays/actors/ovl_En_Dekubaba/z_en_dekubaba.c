@@ -14,7 +14,7 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/shadow_circle.h"
 #include "assets/objects/object_dekubaba/object_dekubaba.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
@@ -1013,7 +1013,8 @@ void EnDekubaba_ShrinkDie(EnDekubaba* this, PlayState* play) {
                 Item_DropCollectible(play, &this->actor.world.pos, ITEM00_NUTS);
             }
         } else {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x30);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_3, false));
         }
         Actor_Kill(&this->actor);
     }

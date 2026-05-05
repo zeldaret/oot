@@ -17,7 +17,8 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_fragments_2_model.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x173D0.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
