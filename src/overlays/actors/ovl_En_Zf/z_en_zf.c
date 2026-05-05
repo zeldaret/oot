@@ -2044,11 +2044,11 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
                 Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
 
                 if (Actor_ApplyDamage(&this->actor) == 0) {
-                    dropParams = 0x40;
+                    dropParams = COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_4, false);
                     EnZf_SetupDie(this);
 
                     if (this->actor.params == ENZF_TYPE_DINOLFOS) {
-                        dropParams = 0xE0;
+                        dropParams = COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_14, false);
                     }
 
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, dropParams);

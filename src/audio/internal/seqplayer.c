@@ -2151,7 +2151,7 @@ void AudioSeq_ProcessSequences(s32 arg0) {
     SequencePlayer* seqPlayer;
     u32 i;
 
-    gAudioCtx.noteSubEuOffset = (gAudioCtx.audioBufferParameters.ticksPerUpdate - arg0 - 1) * gAudioCtx.numNotes;
+    gAudioCtx.sampleStateOffset = (gAudioCtx.audioBufferParameters.ticksPerUpdate - arg0 - 1) * gAudioCtx.numNotes;
 
     for (i = 0; i < (u32)gAudioCtx.audioBufferParameters.numSequencePlayers; i++) {
         seqPlayer = &gAudioCtx.seqPlayers[i];

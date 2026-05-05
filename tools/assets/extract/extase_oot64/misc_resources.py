@@ -18,6 +18,7 @@ class CutsceneResource(Resource, can_size_be_unknown=True):
         super().__init__(file, range_start, None, name)
 
     def try_parse_data(self, memory_context):
+        assert self.file.data is not None
         assert self.range_start % 4 == 0
         data = self.file.data[self.range_start :]
         num_bytes = len(data)

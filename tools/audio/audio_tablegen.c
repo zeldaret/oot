@@ -300,14 +300,25 @@ read_seq_order(struct seq_order *order, const char *path)
     UNUSED size_t data_size;
     char *filedata = util_read_whole_file(path, &data_size);
 
-    // We expect one entry per line, gather the total length
+    // We expect one entry per line (with the exception of empty lines), gather the total length
     size_t total_size = 0;
-    for (char *p = filedata; *p != '\0'; p++) {
+    char *p = filedata;
+    // Skip empty lines at the beginning of the file
+    while (*p == '\n') {
+        p++;
+    }
+    while (*p != '\0') {
         if (*p == '\n') {
             total_size++;
+            // Skip empty lines
+            while (*p == '\n') {
+                p++;
+            }
         } else if (isspace(*p)) {
             // There should be no whitespace in the input file besides newlines
             goto malformed;
+        } else {
+            p++;
         }
     }
 
@@ -334,6 +345,10 @@ read_seq_order(struct seq_order *order, const char *path)
 
     char *lstart = filedata;
     for (size_t i = 0; i < total_size; i++) {
+        // find next nonempty line
+        while (*lstart == '\n') {
+            lstart++;
+        }
         // find end of line
         char *p = lstart;
         while (*p != '\n') {
@@ -369,6 +384,7 @@ read_seq_order(struct seq_order *order, const char *path)
         lstart = lend + 1;
     }
     assert(*lstart == '\0');
+    regfree(&re);
 
     // Write results
     order->num_sequences = total_size;
@@ -379,9 +395,16 @@ malformed:
     error("Malformed %s?", path);
 }
 
+static void
+free_seq_order(struct seq_order *order)
+{
+    free(order->entries);
+    free(order->filedata);
+}
+
 struct seqdata {
-    const char *elf_path;
-    const char *name;
+    char *elf_path;
+    char *name;
     uint32_t font_section_offset;
     size_t font_section_size;
 };
@@ -566,6 +589,14 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
     fprintf(out, ".balign 16\n");
 
     fclose(out);
+    free(final_seqdata);
+    for (int i = 0; i < num_sequence_files; i++) {
+        free(file_data[i].name);
+        free(file_data[i].elf_path);
+    }
+    free(file_data);
+    free_seq_order(&order);
+
     return EXIT_SUCCESS;
 }
 

@@ -16,8 +16,8 @@ typedef struct EnMThunder {
     /* 0x019C */ LightInfo lightInfo;
     /* 0x01AC */ f32 spinAttackTimer;
     /* 0x01B0 */ f32 spinAttackAlpha;
-    /* 0x01B0 */ f32 spinTrailTexScroll;
-    /* 0x01B0 */ f32 spinChargePercent;
+    /* 0x01B4 */ f32 spinTrailTexScroll;
+    /* 0x01B8 */ f32 spinChargePercent;
     /* 0x01BC */ f32 dimmingIntensity;
     /* 0x01C0 */ EnMThunderActionFunc actionFunc;
     /* 0x01C4 */ u16 followPlayerTimer;
