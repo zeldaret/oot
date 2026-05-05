@@ -10,5 +10,6 @@ reloc_prereq
 vtxdis
 yaz0
 
+compiler_archives/archives/
 ido_recomp/
 egcs/
