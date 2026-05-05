@@ -627,12 +627,12 @@ void func_8098F7BC(DemoSa* this, PlayState* play) {
 }
 
 void func_8098F7FC(DemoSa* this, PlayState* play) {
-    s32 sp1C;
+    s32 animFinished;
 
     func_8098E5C8(this, play);
-    sp1C = DemoSa_UpdateSkelAnime(this);
+    animFinished = DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
-    func_8098F610(this, sp1C);
+    func_8098F610(this, animFinished);
 }
 
 void func_8098F83C(DemoSa* this, PlayState* play) {

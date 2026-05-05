@@ -130,7 +130,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
     DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
 
     this->movementFlags = 0;
-    this->type = PARAMS_GET_U(thisx->params, 12, 4);
+    this->type = ENBOX_GET_TYPE(thisx);
     this->iceSmokeTimer = 0;
     this->unk_1FB = ENBOX_STATE_0;
     this->dyna.actor.gravity = -5.5f;
@@ -139,7 +139,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
 
     if (play) {} // helps the compiler store play2 into s1
 
-    if (Flags_GetTreasure(play, PARAMS_GET_U(this->dyna.actor.params, 0, 5))) {
+    if (Flags_GetTreasure(play, ENBOX_GET_TREASURE_FLAG(&this->dyna.actor))) {
         this->alpha = 255;
         this->iceSmokeTimer = 100;
         EnBox_SetupAction(this, EnBox_Open);
@@ -286,7 +286,7 @@ void EnBox_Fall(EnBox* this, PlayState* play) {
 }
 
 void EnBox_FallOnSwitchFlag(EnBox* this, PlayState* play) {
-    s32 treasureFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 5);
+    s32 treasureFlag = ENBOX_GET_TREASURE_FLAG(&this->dyna.actor);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
         Actor_SetClosestSecretDistance(&this->dyna.actor, play);
@@ -305,7 +305,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, PlayState* play) {
 
 // used for types 9, 10
 void func_809C9700(EnBox* this, PlayState* play) {
-    s32 treasureFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 5);
+    s32 treasureFlag = ENBOX_GET_TREASURE_FLAG(&this->dyna.actor);
     Player* player = GET_PLAYER(play);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
@@ -342,7 +342,7 @@ void func_809C9700(EnBox* this, PlayState* play) {
 }
 
 void EnBox_AppearOnSwitchFlag(EnBox* this, PlayState* play) {
-    s32 treasureFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 5);
+    s32 treasureFlag = ENBOX_GET_TREASURE_FLAG(&this->dyna.actor);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
         Actor_SetClosestSecretDistance(&this->dyna.actor, play);
@@ -356,7 +356,7 @@ void EnBox_AppearOnSwitchFlag(EnBox* this, PlayState* play) {
 }
 
 void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play) {
-    s32 treasureFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 5);
+    s32 treasureFlag = ENBOX_GET_TREASURE_FLAG(&this->dyna.actor);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
         Actor_SetClosestSecretDistance(&this->dyna.actor, play);
@@ -438,16 +438,16 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
                     Audio_PlayFanfare(NA_BGM_OPEN_TRE_BOX | 0x900);
             }
         }
-        PRINTF("Actor_Environment_Tbox_On() %d\n", PARAMS_GET_U(this->dyna.actor.params, 0, 5));
-        Flags_SetTreasure(play, PARAMS_GET_U(this->dyna.actor.params, 0, 5));
+        PRINTF("Actor_Environment_Tbox_On() %d\n", ENBOX_GET_TREASURE_FLAG(&this->dyna.actor));
+        Flags_SetTreasure(play, ENBOX_GET_TREASURE_FLAG(&this->dyna.actor));
     } else {
         player = GET_PLAYER(play);
         Actor_WorldToActorCoords(&this->dyna.actor, &sp4C, &player->actor.world.pos);
         if (sp4C.z > -50.0f && sp4C.z < 0.0f && fabsf(sp4C.y) < 10.0f && fabsf(sp4C.x) < 20.0f &&
             Player_IsFacingActor(&this->dyna.actor, 0x3000, play)) {
-            Actor_OfferGetItemNearby(&this->dyna.actor, play, -PARAMS_GET_U(this->dyna.actor.params, 5, 7));
+            Actor_OfferGetItemNearby(&this->dyna.actor, play, -ENBOX_GET_GET_ITEM_ID(&this->dyna.actor));
         }
-        if (Flags_GetTreasure(play, PARAMS_GET_U(this->dyna.actor.params, 0, 5))) {
+        if (Flags_GetTreasure(play, ENBOX_GET_TREASURE_FLAG(&this->dyna.actor))) {
             EnBox_SetupAction(this, EnBox_Open);
         }
     }
@@ -557,7 +557,7 @@ void EnBox_Update(Actor* thisx, PlayState* play) {
             Actor_SetFocus(&this->dyna.actor, 40.0f);
     }
 
-    if (PARAMS_GET_U(this->dyna.actor.params, 5, 7) == GI_ICE_TRAP && this->actionFunc == EnBox_Open &&
+    if (ENBOX_GET_GET_ITEM_ID(&this->dyna.actor) == GI_ICE_TRAP && this->actionFunc == EnBox_Open &&
         this->skelanime.curFrame > 45 && this->iceSmokeTimer < 100) {
         EnBox_SpawnIceSmoke(this, play);
     }
@@ -606,9 +606,7 @@ Gfx* func_809CA4A0(GraphicsContext* gfxCtx) {
     ASSERT(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1546);
 
     dList = dListHead;
-    gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A,
-                     AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
-                         GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA));
+    gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2 | Z_UPD);
     gSPEndDisplayList(dListHead++);
 
     return dList;

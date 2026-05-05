@@ -15,8 +15,8 @@ u64 gLinkChildEyesHalfTex[TEX_LEN(u64, LINK_CHILD_EYES_TEX_WIDTH, LINK_CHILD_EYE
 #include "assets/objects/object_link_child/gLinkChildEyesHalfTex.ci8.tlut_gLinkChildSkinTLUT.inc.c"
 };
 
-u64 gLinkChildEyesClosedfTex[TEX_LEN(u64, LINK_CHILD_EYES_TEX_WIDTH, LINK_CHILD_EYES_TEX_HEIGHT, 8)] = {
-#include "assets/objects/object_link_child/gLinkChildEyesClosedfTex.ci8.tlut_gLinkChildSkinTLUT.inc.c"
+u64 gLinkChildEyesClosedTex[TEX_LEN(u64, LINK_CHILD_EYES_TEX_WIDTH, LINK_CHILD_EYES_TEX_HEIGHT, 8)] = {
+#include "assets/objects/object_link_child/gLinkChildEyesClosedTex.ci8.tlut_gLinkChildSkinTLUT.inc.c"
 };
 
 u64 gLinkChildEyesLeftTex[TEX_LEN(u64, LINK_CHILD_EYES_TEX_WIDTH, LINK_CHILD_EYES_TEX_HEIGHT, 8)] = {

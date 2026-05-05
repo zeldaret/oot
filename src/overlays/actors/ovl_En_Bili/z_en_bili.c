@@ -409,7 +409,7 @@ void EnBili_DischargeLightning(EnBili* this, PlayState* play) {
 }
 
 void EnBili_Climb(EnBili* this, PlayState* play) {
-    s32 skelAnimeUpdate = SkelAnime_Update(&this->skelAnime);
+    s32 animFinished = SkelAnime_Update(&this->skelAnime);
     f32 curFrame = this->skelAnime.curFrame;
 
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
@@ -421,7 +421,7 @@ void EnBili_Climb(EnBili* this, PlayState* play) {
                        5.0f);
     }
 
-    if (skelAnimeUpdate) {
+    if (animFinished) {
         EnBili_SetupSetNewHomeHeight(this);
     }
 }
@@ -497,7 +497,8 @@ void EnBili_Die(EnBili* this, PlayState* play) {
             return;
         }
         this->actor.draw = NULL;
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_5, false));
     }
 
     if (this->timer != 0) {

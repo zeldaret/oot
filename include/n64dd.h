@@ -167,7 +167,7 @@ extern s32 B_801E0F64;
 extern void (*D_801D2EB4)(void*, void*, void*);
 
 // Error messages
-extern const char* D_801D2ED0[];        // "Error Number    " array
+extern const char* gN64DDLocalizedErrorNumberHeaders[]; // "Error Number    " array
 extern const char* D_801D2EE0[2][8][4]; // Array of error message strings
 
 // Error textures
