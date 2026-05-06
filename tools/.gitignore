@@ -1,7 +1,6 @@
 # Output files
 *.exe
 bin2c
-makeromfs
 mkdmadata
 mkldscript
 mkspecrules

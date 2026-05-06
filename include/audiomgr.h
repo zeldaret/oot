@@ -4,11 +4,11 @@
 #include "sched.h"
 #include "audio.h"
 
-typedef enum AudioMgrDebugLevel {
-    /* 0 */ AUDIOMGR_DEBUG_LEVEL_NONE,
-    /* 1 */ AUDIOMGR_DEBUG_LEVEL_NO_RSP,
-    /* 2 */ AUDIOMGR_DEBUG_LEVEL_NO_UPDATE
-} AudioMgrDebugLevel;
+typedef enum AudioMgrActivityLevel {
+    /* 0 */ AUDIOMGR_ACTIVITY_LEVEL_ALL,
+    /* 1 */ AUDIOMGR_ACTIVITY_LEVEL_NO_RSP,
+    /* 2 */ AUDIOMGR_ACTIVITY_LEVEL_NO_UPDATE
+} AudioMgrActivityLevel;
 
 typedef struct AudioMgr {
     /* 0x0000 */ IrqMgr* irqMgr;
