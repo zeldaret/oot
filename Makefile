@@ -339,7 +339,6 @@ MKLDSCRIPT     := tools/mkldscript
 MKSPECRULES    := tools/mkspecrules
 MKDMADATA      := tools/mkdmadata
 BIN2C          := tools/bin2c
-N64TEXCONV     := tools/assets/n64texconv/n64texconv
 FADO           := tools/fado/fado.elf
 PYTHON         ?= $(VENV)/bin/python3
 BUILD_FROM_PNG := tools/assets/build_from_png/build_from_png
