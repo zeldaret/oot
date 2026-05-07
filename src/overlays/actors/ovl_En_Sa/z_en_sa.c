@@ -31,6 +31,22 @@ void func_80AF683C(EnSa* this, PlayState* play);
 void func_80AF68E4(EnSa* this, PlayState* play);
 void func_80AF6B20(EnSa* this, PlayState* play);
 
+typedef enum SariaEyes {
+    /* 0 */ SARIA_EYE_OPEN,
+    /* 1 */ SARIA_EYE_HALF,
+    /* 2 */ SARIA_EYE_CLOSED,
+    /* 3 */ SARIA_EYE_SURPRISED,
+    /* 4 */ SARIA_EYE_SAD,
+} SariaEyes;
+
+typedef enum SariaMouth {
+    /* 0 */ SARIA_MOUTH_CLOSED2,
+    /* 1 */ SARIA_MOUTH_SURPRISED,
+    /* 2 */ SARIA_MOUTH_CLOSED,
+    /* 3 */ SARIA_MOUTH_SMILING_OPEN,
+    /* 4 */ SARIA_MOUTH_FROWNING
+} SariaMouth;
+
 ActorProfile En_Sa_Profile = {
     /**/ ACTOR_EN_SA,
     /**/ ACTORCAT_NPC,

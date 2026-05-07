@@ -5,7 +5,6 @@
  */
 
 #include "z_demo_sa.h"
-#include "overlays/actors/ovl_En_Sa/z_en_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
@@ -57,6 +56,22 @@ void DemoSa_Action_GivingOcarina(DemoSa* this, PlayState* play);
 void DemoSa_DrawNothing(DemoSa* this, PlayState* play);
 void DemoSa_DrawOpa(DemoSa* this, PlayState* play);
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play);
+
+typedef enum SariaEyes {
+    /* 0 */ SARIA_EYE_OPEN,
+    /* 1 */ SARIA_EYE_HALF,
+    /* 2 */ SARIA_EYE_CLOSED,
+    /* 3 */ SARIA_EYE_SURPRISED,
+    /* 4 */ SARIA_EYE_SAD,
+} SariaEyes;
+
+typedef enum SariaMouth {
+    /* 0 */ SARIA_MOUTH_CLOSED2,
+    /* 1 */ SARIA_MOUTH_SURPRISED,
+    /* 2 */ SARIA_MOUTH_CLOSED,
+    /* 3 */ SARIA_MOUTH_SMILING_OPEN,
+    /* 4 */ SARIA_MOUTH_FROWNING
+} SariaMouth;
 
 static void* sEyeTextures[] = {
     gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex, gSariaEyeSadTex,
