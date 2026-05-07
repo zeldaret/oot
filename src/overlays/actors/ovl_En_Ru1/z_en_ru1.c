@@ -143,7 +143,7 @@ static s32 sUnused = 0;
 
 #include "z_en_ru1_cutscene_data.inc.c"
 
-static u32 sReachedForSapphire = 0;
+static u32 sReachedForSapphire = false;
 
 static EnRu1ActionFunc sActionFuncs[] = {
     EnRu1_Fountain_GazingAtLink,               // ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK
@@ -690,7 +690,7 @@ void EnRu1_PlayGiggleSfx(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_StartBackSwimming(EnRu1* this, s32 isSwimming) {
-    if (isSwimming != 0) {
+    if (isSwimming) {
         Animation_Change(&this->skelAnime, &gRutoChildSwimOnBackAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildSwimOnBackAnim), ANIMMODE_LOOP, -8.0f);
     }
@@ -724,7 +724,7 @@ void EnRu1_Resurface(EnRu1* this, PlayState* play) {
 void EnRu1_ResurfaceProgress(EnRu1* this, PlayState* play, s32 isResurfaced) {
     s32 pad[2];
 
-    if (isResurfaced != 0) {
+    if (isResurfaced) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildTreadWaterAnim);
 
         EnRu1_StopMovingInWater(this);
@@ -2068,13 +2068,13 @@ void EnRu1_RespondToSapphirePlatformMoving(EnRu1* this) {
 void EnRu1_LookUpAtSapphire(EnRu1* this) {
     f32 curFrame;
 
-    if (sReachedForSapphire == 0) {
+    if (!sReachedForSapphire) {
         curFrame = this->skelAnime.curFrame;
         if (curFrame >= 60.0f) {
             EnRu1_SetEyes(this, ENRU1_EYES_UP);
             EnRu1_SetMouth(this, ENRU1_MOUTH_SMILING);
             EnRu1_PlayThrowingSfx(this);
-            sReachedForSapphire = 1;
+            sReachedForSapphire = true;
         }
     }
 }
