@@ -388,7 +388,7 @@ void DemoSa_InitTrialOrSealingGanon(DemoSa* this, PlayState* play) {
     DemoSa_SetMouth(this, SARIA_MOUTH_CLOSED);
 }
 
-void DemoSa_SageAction_LowerEyes(DemoSa* this) {
+void DemoSa_SageMagic_LowerEyes(DemoSa* this) {
     f32 curFrame = this->skelAnime.curFrame;
 
     if ((this->skelAnime.mode == 2) && (curFrame >= 32.0f)) {
@@ -401,12 +401,12 @@ void DemoSa_Sfx_WhiteOut(void) {
     Sfx_PlaySfxCentered2(NA_SE_SY_WHITE_OUT_T);
 }
 
-void DemoSa_SageAction_SpawnLightBall(DemoSa* this, PlayState* play) {
+void DemoSa_SageMagic_SpawnLightBall(DemoSa* this, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K, this->actor.world.pos.x,
                        (kREG(23) + 25.0f) + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 4);
 }
 
-void DemoSa_SageAction_CheckFadeIn(DemoSa* this, PlayState* play) {
+void DemoSa_SageMagic_CheckFadeIn(DemoSa* this, PlayState* play) {
     if (DemoSa_CheckForCue(this, play, 4, 4)) {
         this->action = DEMOSA_ACTION_SAGE_FADE;
         this->drawConfig = DEMOSA_DRAW_XLU;
@@ -417,7 +417,7 @@ void DemoSa_SageAction_CheckFadeIn(DemoSa* this, PlayState* play) {
     }
 }
 
-void DemoSa_SageAction_Fade(DemoSa* this, PlayState* play) {
+void DemoSa_SageMagic_Fade(DemoSa* this, PlayState* play) {
     s32 alpha = 255;
     f32* fadeTimer = &this->fadeTimer;
 
@@ -445,14 +445,14 @@ void DemoSa_SageAction_Fade(DemoSa* this, PlayState* play) {
     this->actor.shape.shadowAlpha = this->alpha = (*fadeTimer / (kREG(5) + 10.0f)) * 255.0f;
 }
 
-void DemoSa_SageAction_CheckFadeOut(DemoSa* this, PlayState* play) {
+void DemoSa_SageMagic_CheckFadeOut(DemoSa* this, PlayState* play) {
     if (DemoSa_CheckForNoCue(this, play, 4, 4)) {
         this->action = DEMOSA_ACTION_SAGE_FADE;
         this->drawConfig = DEMOSA_DRAW_XLU;
         this->fadeTimer = kREG(5) + 10.0f;
         this->alpha = 255;
         if (!this->isLightBall) {
-            DemoSa_SageAction_SpawnLightBall(this, play);
+            DemoSa_SageMagic_SpawnLightBall(this, play);
             this->isLightBall = true;
         }
         this->actor.shape.shadowAlpha = 0xFF;
@@ -460,7 +460,7 @@ void DemoSa_SageAction_CheckFadeOut(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_Action_SageInvisible(DemoSa* this, PlayState* play) {
-    DemoSa_SageAction_CheckFadeIn(this, play);
+    DemoSa_SageMagic_CheckFadeIn(this, play);
 #if DEBUG_FEATURES
     func_8098E554(this, play);
 #endif
@@ -470,7 +470,7 @@ void DemoSa_Action_SageFade(DemoSa* this, PlayState* play) {
     DemoSa_UpdateBgCheckInfo(this, play);
     DemoSa_UpdateSkelAnime(this);
     DemoSa_Blink(this);
-    DemoSa_SageAction_Fade(this, play);
+    DemoSa_SageMagic_Fade(this, play);
 #if DEBUG_FEATURES
     func_8098E554(this, play);
 #endif
@@ -479,8 +479,8 @@ void DemoSa_Action_SageFade(DemoSa* this, PlayState* play) {
 void DemoSa_Action_AwaitLightBall(DemoSa* this, PlayState* play) {
     DemoSa_UpdateBgCheckInfo(this, play);
     DemoSa_UpdateSkelAnime(this);
-    DemoSa_SageAction_LowerEyes(this);
-    DemoSa_SageAction_CheckFadeOut(this, play);
+    DemoSa_SageMagic_LowerEyes(this);
+    DemoSa_SageMagic_CheckFadeOut(this, play);
 #if DEBUG_FEATURES
     func_8098E554(this, play);
 #endif
