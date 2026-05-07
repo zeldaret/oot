@@ -1,0 +1,102 @@
+name: Build
+
+# Build on every branch push, tag push, and pull request change:
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_repo:
+    # This is a *private* build container.
+    container: ghcr.io/zeldaret/oot-build:main
+
+    name: Build repo (${{ matrix.version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - ntsc-1.0       # N64 NTSC 1.0 (Japan/US depending on REGION)
+          - ntsc-1.1       # N64 NTSC 1.1 (Japan/US depending on REGION)
+          - pal-1.0        # N64 PAL 1.0 (Europe)
+          - ntsc-1.2       # N64 NTSC 1.2 (Japan/US depending on REGION)
+          - pal-1.1        # N64 PAL 1.1 (Europe)
+          - gc-jp          # GameCube Japan
+          - gc-jp-mq       # GameCube Japan Master Quest
+          - gc-us          # GameCube US
+          - gc-us-mq       # GameCube US Master Quest
+          - gc-eu-dbg-2    # GameCube Europe/PAL Debug (earlier build)
+          - gc-eu-mq-dbg   # GameCube Europe/PAL Master Quest Debug
+          - gc-eu-dbg      # GameCube Europe/PAL Debug
+          - gc-eu          # GameCube Europe/PAL
+          - gc-eu-mq       # GameCube Europe/PAL Master Quest
+          - gc-jp-ce       # GameCube Japan (Collector's Edition disc)
+          - ique-cn        # iQue Player (Simplified Chinese)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: git config safe.directory
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Install system dependencies
+        run: |
+          apt-get install -y git build-essential binutils-mips-linux-gnu curl python3 python3-pip python3-venv libxml2-dev
+
+      - name: Get the dependency
+        run: ln -s /orig/${{ matrix.version }}/baserom.z64 baseroms/${{ matrix.version }}/baserom.z64
+
+      - name: Setup
+        run: make -j $(nproc) VERSION=${{ matrix.version }} setup
+
+      - name: Build ${{ matrix.version }}
+        id: build
+        run: make -j $(nproc) VERSION=${{ matrix.version }}
+
+      - name: Fix BSS and generate patch
+        if: failure() && steps.build.outcome == 'failure'
+        uses: ./.github/actions/fix-bss-and-generate-patch
+        with:
+          version: ${{ matrix.version }}
+
+      - name: Upload map
+        uses: actions/upload-artifact@v6
+        with:
+          name: oot-${{ matrix.version }}.map
+          path: build/${{ matrix.version }}/oot-${{ matrix.version }}.map
+
+  # This job does not do anything, its purpose is to be used as a status check in GitHub rules.
+  all_versions_built:
+    name: All versions built
+    needs: [build_repo]
+    runs-on: ubuntu-latest
+    # Solution 1 from https://github.com/actions/runner/issues/2566#issuecomment-3053484216
+    if: always()
+    steps:
+      - run: |
+         if [ "${{ needs.build_repo.result }}" != "success" ]; then
+           exit 1
+         fi
+
+  merge_bss_fixes:
+    name: Merge BSS fixes
+    runs-on: ubuntu-latest
+    needs: [build_repo]
+    if: '!cancelled()'  # Run even if build_repo fails
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download patches
+        uses: actions/download-artifact@v8
+        with:
+          pattern: fix_bss_*.patch
+          merge-multiple: true
+
+      - name: Apply patches
+        run: python3 .github/scripts/apply_fix_bss_patches.py
+
+      - name: Generate patch
+        run: .github/scripts/generate_patch.sh

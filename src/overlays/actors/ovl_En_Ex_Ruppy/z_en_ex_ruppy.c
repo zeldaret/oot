@@ -76,7 +76,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             this->actor.gravity = 0.0f;
 
             // If you haven't won the diving game before, you will always get 5 rupees
-            if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
                 this->rupeeValue = 5;
                 this->colorIdx = 1;
             } else {
@@ -227,7 +227,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, PlayState* play) {
     Sfx_PlaySfxCentered(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
     divingGame = (EnDivingGame*)this->actor.parent;
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
-        ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) || (this->timer == 0))) {
+        ((divingGame->throwTimer == 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) || (this->timer == 0))) {
         this->invisible = true;
         this->actor.speed = 0.0f;
         this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
@@ -241,12 +241,13 @@ void EnExRuppy_EnterWater(EnExRuppy* this, PlayState* play) {
     EnDivingGame* divingGame = (EnDivingGame*)this->actor.parent;
     f32 throwDistance;
 
-    if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_2A2 == 2)) {
+    if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
+        (divingGame->rupeePhase == ENDIVINGGAME_RUPEE_PHASE_SINKING)) {
         this->invisible = false;
         this->actor.world.pos.x = ((Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
         this->actor.world.pos.y = ((Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
         throwDistance = this->throwDistance * -50.0f;
-        if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
             throwDistance += -500.0f;
             this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + throwDistance;
         } else {
@@ -299,7 +300,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, PlayState* play) {
             } else if (this->actor.xyzDistToPlayerSq < SQ(collectRadius)) {
                 Rupees_ChangeBy(this->rupeeValue);
                 Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
-                divingGame->grabbedRupeesCounter++;
+                divingGame->grabbedRupees++;
                 Actor_Kill(&this->actor);
             }
         } else {
