@@ -15,7 +15,7 @@
 #include "light.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_fire.h"
 #include "assets/objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS 0

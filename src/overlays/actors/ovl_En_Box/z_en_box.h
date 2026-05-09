@@ -7,6 +7,12 @@
 #define ENBOX_TREASURE_FLAG_UNK_MIN 20
 #define ENBOX_TREASURE_FLAG_UNK_MAX 32
 
+#define ENBOX_GET_TYPE(thisx) PARAMS_GET_U((thisx)->params, 12, 4)
+#define ENBOX_GET_GET_ITEM_ID(thisx) PARAMS_GET_U((thisx)->params, 5, 7)
+#define ENBOX_GET_TREASURE_FLAG(thisx) PARAMS_GET_U((thisx)->params, 0, 5)
+
+#define ENBOX_PARAMS(type, getItemId, treasureFlag) (((type) << 12) | ((getItemId) << 5) | (treasureFlag))
+
 struct EnBox;
 
 typedef void (*EnBoxActionFunc)(struct EnBox*, struct PlayState*);
@@ -16,23 +22,23 @@ typedef enum EnBoxType {
     only values 1-11 are used explicitly, other values (like 0) default to another separate behavior
     */
     /*  0 */ ENBOX_TYPE_BIG_DEFAULT,
-    /*  1 */ ENBOX_TYPE_ROOM_CLEAR_BIG,         // appear on room clear, store temp clear as permanent clear
-    /*  2 */ ENBOX_TYPE_DECORATED_BIG,          // boss key chest, different look, same as ENBOX_TYPE_BIG_DEFAULT otherwise
+    /*  1 */ ENBOX_TYPE_ROOM_CLEAR_BIG, // appear on room clear, store temp clear as permanent clear
+    /*  2 */ ENBOX_TYPE_DECORATED_BIG,  // boss key chest, different look, same as ENBOX_TYPE_BIG_DEFAULT otherwise
     /*  3 */ ENBOX_TYPE_SWITCH_FLAG_FALL_BIG,   // falling, appear on switch flag set
     /*  4 */ ENBOX_TYPE_4,                      // big, drawn differently
     /*  5 */ ENBOX_TYPE_SMALL,                  // same as ENBOX_TYPE_BIG_DEFAULT but small
     /*  6 */ ENBOX_TYPE_6,                      // small, drawn differently
     /*  7 */ ENBOX_TYPE_ROOM_CLEAR_SMALL,       // use room clear, store temp clear as perm clear
     /*  8 */ ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL, // falling, appear on switch flag set
-    /*  9 */ ENBOX_TYPE_9,                      // big, has something more to do with player and message context?
-    /* 10 */ ENBOX_TYPE_10,                     // like 9
+    /*  9 */ ENBOX_TYPE_LULLABY_BIG,            // big, appear when Zelda's Lullaby is played
+    /* 10 */ ENBOX_TYPE_SUNS_BIG,               // big, appear when Sun's Song is played
     /* 11 */ ENBOX_TYPE_SWITCH_FLAG_BIG         // big, appear on switch flag set
 } EnBoxType;
 
 typedef struct EnBox {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ SkelAnime skelanime;
-    /* 0x01A8 */ s32 unk_1A8; // related to animation delays for types 3 and 8
+    /* 0x01A8 */ s32 appearTimer; // pre-delay (negative) and animation progress (0-60) for appear/fall
     /* 0x01AC */ s32 subCamId;
     /* 0x01B0 */ f32 unk_1B0; // 0-1, rotation-related, apparently unused (in z_en_box.c at least)
     /* 0x01B4 */ EnBoxActionFunc actionFunc;
@@ -44,7 +50,7 @@ typedef struct EnBox {
     /* 0x01F8 */ u8 switchFlag;
     /* 0x01F9 */ u8 type;
     /* 0x01FA */ u8 iceSmokeTimer;
-    /* 0x01FB */ u8 unk_1FB;
+    /* 0x01FB */ u8 ocarinaState;
 } EnBox; // size = 0x01FC
 
 #endif

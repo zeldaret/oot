@@ -17,16 +17,16 @@ typedef struct EnDivingGame {
     /* 0x0284 */ Vec3s headRot;
     /* 0x028A */ Vec3s torsoRot;
     /* 0x0290 */ s16 unk_290; // counter that only goes up
-    /* 0x0292 */ s16 unk_292;
+    /* 0x0292 */ s16 nextTextState;
     /* 0x0294 */ s16 subCamTimer;
-    /* 0x0296 */ s16 unk_296; // read by ExRuppy // timer?
+    /* 0x0296 */ s16 throwTimer; // read by ExRuppy // timer?
     /* 0x0298 */ s16 eyeTimer;
     /* 0x029A */ s16 spawnRuppyTimer;
     /* 0x029C */ s16 phase;
     /* 0x029E */ s16 eyeTexIndex;
     /* 0x02A0 */ s16 subCamId;
-    /* 0x02A2 */ s16 unk_2A2; // 0: , 1: , 2: Tells rupees to sink in water
-    /* 0x02A4 */ s16 grabbedRupeesCounter;
+    /* 0x02A2 */ s16 rupeePhase;
+    /* 0x02A4 */ s16 grabbedRupees;
     /* 0x02A6 */ s16 rupeesLeftToThrow;
     /* 0x02A8 */ s16 state; // minigameState? 0: default, 1: waiting to give the scale, 2: minigame started
     /* 0x02AA */ s16 extraWinCount; // counts how many times you have beaten the minigame **after** you got the scale. ExRuppy will reset it to zero if a 500 rupee is spawned.
@@ -43,7 +43,7 @@ typedef struct EnDivingGame {
     /* 0x031C */ char unk_31C; // unused
     /* 0x031D */ u8 notPlayingMinigame; // flag
     /* 0x031E */ u8 allRupeesThrown; // flag
-    /* 0x031F */ u8 unk_31F; // flag
+    /* 0x031F */ u8 isDuplicate; // flag
     /* 0x0320 */ char unk_320[0x4]; // unused
     /* 0x0324 */ NpcInteractInfo interactInfo;
     /* 0x034C */ ColliderCylinder collider;
@@ -60,5 +60,11 @@ typedef enum EnDivingGameState {
     /* 1 */ ENDIVINGGAME_STATE_AWARDPRIZE, // Waiting to give the scale to player.
     /* 2 */ ENDIVINGGAME_STATE_PLAYING
 } EnDivingGameState;
+
+typedef enum EnDivingGameRupeePhase {
+    /* 0 */ ENDIVINGGAME_RUPEE_PHASE_NONE, // No rupees underwater yet, but they might be thrown.
+    /* 1 */ ENDIVINGGAME_RUPEE_PHASE_SWITCHING_CAM, // Switching to underwater view.
+    /* 2 */ ENDIVINGGAME_RUPEE_PHASE_SINKING, // Rupees are spawned and sinking, player can grab them.
+} EnDivingGameRupeePhase;
 
 #endif

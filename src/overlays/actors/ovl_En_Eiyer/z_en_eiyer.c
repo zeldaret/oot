@@ -1,3 +1,9 @@
+/*
+ * File: z_en_eiyer.c
+ * Overlay: ovl_En_Eiyer
+ * Description: Stinger (Ground)
+ */
+
 #include "z_en_eiyer.h"
 
 #include "libc64/qrand.h"
@@ -582,7 +588,8 @@ void EnEiyer_Dead(EnEiyer* this, PlayState* play) {
     this->actor.world.pos.y -= 2.0f;
 
     if (this->actor.shape.shadowAlpha == 0) {
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 80);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_5, false));
         Actor_Kill(&this->actor);
     }
 }
