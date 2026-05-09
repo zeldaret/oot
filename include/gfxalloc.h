@@ -2,7 +2,6 @@
 #define GFXALLOC_H
 
 #include "ultra64.h"
-#include "gfx.h"
 
 Gfx* Gfx_Open(Gfx* gfxBufRef);
 Gfx* Gfx_Close(Gfx* gfxBufRef, Gfx* gfxChildEnd);
