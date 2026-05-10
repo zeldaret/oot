@@ -85,8 +85,8 @@ beginseg
     include "$(BUILD_DIR)/src/boot/build.o"
 
     // RSP microcode
-    include "$(BUILD_DIR)/data/rsp_boot.text.o"
-    include "$(BUILD_DIR)/data/cic6105.text.o"
+    include "$(BUILD_DIR)/data/rspboot.o"
+    include "$(BUILD_DIR)/data/cic6105.o"
 
     // Extra files for non-matching debug builds
 #if DEBUG_FEATURES
@@ -816,8 +816,14 @@ beginseg
     include "$(BUILD_DIR)/src/audio/tables/samplebank_table.o"
 
     // RSP microcode
-    include "$(BUILD_DIR)/data/rsp.text.o"
-    include "$(BUILD_DIR)/data/rsp.rodata.o"
+    include "$(BUILD_DIR)/data/aspMain.o"
+#ifndef F3DEX_GBI_PL
+    include "$(BUILD_DIR)/data/gspF3DZEX2.NoN.fifo.o"
+#else
+    include "$(BUILD_DIR)/data/gspF3DZEX2.NoN.PosLight.fifo.o"
+#endif
+    include "$(BUILD_DIR)/data/gspS2DEX2d.fifo.o"
+    include "$(BUILD_DIR)/data/njpgdspMain.o"
 
     // Extra files for non-matching debug builds
 #if DEBUG_FEATURES
