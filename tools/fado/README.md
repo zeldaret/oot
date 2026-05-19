@@ -38,8 +38,8 @@ This takes as input the compiled object file from the C file (e.g. [this one](ht
 .word 0x4600008C # R_MIPS_LO16 0x00008C .data
 .word 0x450000B4 # R_MIPS_HI16 0x0000B4 .rodata
 .word 0x460000BC # R_MIPS_LO16 0x0000BC .rodata
-.word 0x450000C0 # R_MIPS_HI16 0x0000C0 func_80A6F1A4
-.word 0x460000C4 # R_MIPS_LO16 0x0000C4 func_80A6F1A4
+.word 0x450000C0 # R_MIPS_HI16 0x0000C0 EnHs2_Idle
+.word 0x460000C4 # R_MIPS_LO16 0x0000C4 EnHs2_Idle
 ```
 
 If invoking in a makefile, you will probably want to generate these from a predefined filelist, and with the appropriate dependencies. [The Ocarina of Time decomp repository](http://github.com/zeldaret/oot) contains an example of how to do this using a supplementary program to parse the `spec` format.
