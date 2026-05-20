@@ -291,11 +291,11 @@ s32 EnHs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 }
 
 void EnHs_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f focusOffset = { 300.0f, 1000.0f, 0.0f };
+    static Vec3f sFocusOffset = { 300.0f, 1000.0f, 0.0f };
     EnHs* this = (EnHs*)thisx;
 
     if (limbIndex == 9) {
-        Matrix_MultVec3f(&focusOffset, &this->actor.focus.pos);
+        Matrix_MultVec3f(&sFocusOffset, &this->actor.focus.pos);
     }
 }
 
