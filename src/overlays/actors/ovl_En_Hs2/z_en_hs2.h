@@ -16,7 +16,7 @@ typedef struct EnHs2 {
     /* 0x023C */ Vec3s morphTable[16];
     /* 0x029C */ Vec3s headRot;
     /* 0x02A2 */ Vec3s torsoRot;
-    /* 0x02A8 */ u16 isTrackingPlayer; // only lowest bit gets used
+    /* 0x02A8 */ u16 trackingFlags;
     /* 0x02AC */ EnHs2ActionFunc actionFunc;
 } EnHs2; // size = 0x02B0
 

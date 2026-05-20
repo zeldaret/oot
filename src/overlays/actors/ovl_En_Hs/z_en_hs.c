@@ -22,6 +22,8 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
+#define ENHS_TRACKING_PLAYER (1 << 0)
+
 void EnHs_Init(Actor* thisx, PlayState* play);
 void EnHs_Destroy(Actor* thisx, PlayState* play);
 void EnHs_Update(Actor* thisx, PlayState* play);
@@ -97,7 +99,7 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
         EnHs_SetActionFunc(this, EnHs_SleepingInteract);
     }
 
-    this->isTrackingPlayer = 0;
+    this->trackingFlags = 0;
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
 }
 
@@ -118,7 +120,7 @@ s32 EnHs_SittingAwakeInteract(EnHs* this, PlayState* play, u16 textId, EnHsActio
     this->actor.textId = textId;
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToPlayer < 100.0f)) {
-        this->isTrackingPlayer |= 1;
+        this->trackingFlags |= ENHS_TRACKING_PLAYER;
         Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 
@@ -130,7 +132,7 @@ void EnHs_SittingAwakeTalk(EnHs* this, PlayState* play) {
         EnHs_SetActionFunc(this, EnHs_SittingAwake);
     }
 
-    this->isTrackingPlayer |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
 void EnHs_GivingOddMushroom(EnHs* this, PlayState* play) {
@@ -140,7 +142,7 @@ void EnHs_GivingOddMushroom(EnHs* this, PlayState* play) {
         CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     }
 
-    this->isTrackingPlayer |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
 void EnHs_SittingAwake(EnHs* this, PlayState* play) {
@@ -167,7 +169,7 @@ void EnHs_OddMushroomYes(EnHs* this, PlayState* play) {
         Actor_OfferGetItem(&this->actor, play, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
     }
 
-    this->isTrackingPlayer |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
 void EnHs_OddMushroomChoice(EnHs* this, PlayState* play) {
@@ -187,7 +189,7 @@ void EnHs_OddMushroomChoice(EnHs* this, PlayState* play) {
                          Animation_GetLastFrame(&gCarpenterSonSittingAnim), ANIMMODE_LOOP, 8.0f);
     }
 
-    this->isTrackingPlayer |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
 void EnHs_SeeingCojiro(EnHs* this, PlayState* play) {
@@ -207,7 +209,7 @@ void EnHs_SeeingCojiro(EnHs* this, PlayState* play) {
         }
     }
 
-    this->isTrackingPlayer |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
 void EnHs_SleepingInteract(EnHs* this, PlayState* play) {
@@ -249,9 +251,9 @@ void EnHs_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (this->isTrackingPlayer & 1) {
+    if (this->trackingFlags & ENHS_TRACKING_PLAYER) {
         Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
-        this->isTrackingPlayer &= ~1;
+        this->trackingFlags &= ~ENHS_TRACKING_PLAYER;
     } else {
         Math_SmoothStepToS(&this->headRot.x, 12800, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRot.y, 0, 6, 6200, 100);

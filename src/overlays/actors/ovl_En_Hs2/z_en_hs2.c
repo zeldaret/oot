@@ -20,6 +20,8 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
+#define ENHS2_TRACKING_PLAYER (1 << 0)
+
 void EnHs2_Init(Actor* thisx, PlayState* play);
 void EnHs2_Destroy(Actor* thisx, PlayState* play);
 void EnHs2_Update(Actor* thisx, PlayState* play);
@@ -72,7 +74,7 @@ void EnHs2_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(子人の時) \n", " Chick's Shop (Children's Time) \n") VT_RST);
     this->actionFunc = EnHs2_Idle;
-    this->isTrackingPlayer = 0;
+    this->trackingFlags = 0;
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
 }
 
@@ -91,7 +93,7 @@ s32 EnHs2_Interact(EnHs2* this, PlayState* play, u16 textId, EnHs2ActionFunc act
     this->actor.textId = textId;
     if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2151 &&
         this->actor.xzDistToPlayer < 100.0f) {
-        this->isTrackingPlayer |= 0x1;
+        this->trackingFlags |= ENHS2_TRACKING_PLAYER;
         Actor_OfferTalk(&this->actor, play, 100.0f);
     }
     return 0;
@@ -101,7 +103,7 @@ void EnHs2_Talking(EnHs2* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = EnHs2_Idle;
     }
-    this->isTrackingPlayer |= 0x1;
+    this->trackingFlags |= ENHS2_TRACKING_PLAYER;
 }
 
 void EnHs2_Idle(EnHs2* this, PlayState* play) {
@@ -126,9 +128,9 @@ void EnHs2_Update(Actor* thisx, PlayState* play) {
         this->skelAnime.curFrame = 0.0f;
     }
     this->actionFunc(this, play);
-    if (this->isTrackingPlayer & 0x1) {
+    if (this->trackingFlags & ENHS2_TRACKING_PLAYER) {
         Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
-        this->isTrackingPlayer &= ~1;
+        this->trackingFlags &= ~ENHS2_TRACKING_PLAYER;
     } else {
         Math_SmoothStepToS(&this->headRot.x, 12800, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRot.y, 0, 6, 6200, 100);
