@@ -1340,7 +1340,7 @@ s32 func_80AED624(EnRu1* this, PlayState* play) {
                (this->actor.depthInWater > kREG(16) + 50.0f) && (this->action != ENRU1_ACTION_SITTING_DISAPPEARING)) {
         this->action = ENRU1_ACTION_SITTING_DISAPPEARING;
         this->drawConfig = ENRU1_DRAW_XLU;
-        this->alpha = 0xFF;
+        this->alpha = 255;
         this->sinkTimer = 0.0f;
     }
     return true;
