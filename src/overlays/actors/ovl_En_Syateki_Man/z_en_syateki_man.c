@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
@@ -179,7 +180,7 @@ void EnSyatekiMan_Init(Actor* thisx, PlayState* play) {
     this->actor.attentionRangeType = ATTENTION_RANGE_1;
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
-                       this->morphTable, 9);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     if (!LINK_IS_ADULT) {
         this->headRot.z = 20;
     }

@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -133,7 +134,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
         this->unk_2E0 = 60.0f;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
         SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable,
-                       17);
+                       ARRAY_COUNT(this->jointTable));
         collider = &this->collider;
         Collider_InitCylinder(play, collider);
         Collider_SetCylinder(play, collider, &this->actor, &sCylinderInit);

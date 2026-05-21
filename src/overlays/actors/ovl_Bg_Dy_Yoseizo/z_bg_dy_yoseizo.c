@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
@@ -107,7 +108,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
         PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Great Fairy Fountain ☆☆☆☆☆ %d\n") VT_RST,
                play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
-                           this->jointTable, this->morphTable, 28);
+                           this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
 #if OOT_VERSION < NTSC_1_1
         if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
             Actor_Kill(&this->actor);
@@ -118,7 +119,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
         PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Stone Fairy Fountain ☆☆☆☆☆ %d\n") VT_RST,
                play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
-                           this->jointTable, this->morphTable, 28);
+                           this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
 #if OOT_VERSION < NTSC_1_1
         if (!gSaveContext.save.info.playerData.isMagicAcquired) {
             Actor_Kill(&this->actor);

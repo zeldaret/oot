@@ -1,6 +1,7 @@
 #include "z_en_bom_bowl_man.h"
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
@@ -73,7 +74,7 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gChuGirlSkel, &gChuGirlNoddingOffAnim, this->jointTable,
-                       this->morphTable, 11);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     PRINTF(VT_FGCOL(GREEN) T("☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n", "☆ Man, my shoulders hurt~ \t\t ☆ \n") VT_RST);
     PRINTF(VT_FGCOL(GREEN) T("☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n",
                              "☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d\n") VT_RST,

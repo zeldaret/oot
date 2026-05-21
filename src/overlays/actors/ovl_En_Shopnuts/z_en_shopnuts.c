@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Dns/z_en_dns.h"
 #include "overlays/actors/ovl_En_Nutsball/z_en_nutsball.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "ichain.h"
 #include "sfx.h"
@@ -80,7 +81,7 @@ void EnShopnuts_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubPeekAnim, this->jointTable,
-                       this->morphTable, BUSINESS_SCRUB_LIMB_MAX);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

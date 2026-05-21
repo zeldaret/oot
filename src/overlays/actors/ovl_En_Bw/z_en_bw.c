@@ -8,6 +8,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -151,7 +152,7 @@ void EnBw_Init(Actor* thisx, PlayState* play) {
     this->actor.naviEnemyId = NAVI_ENEMY_TORCH_SLUG;
     this->actor.gravity = -2.0f;
     SkelAnime_Init(play, &this->skelAnime, &gTorchSlugSkel, &gTorchSlugEyestalkWaveAnim, this->jointTable,
-                   this->morphTable, TORCH_SLUG_LIMB_MAX);
+                   this->morphTable, ARRAY_COUNT(this->jointTable));
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;

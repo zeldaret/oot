@@ -145,7 +145,7 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     SkelAnime_Init(play, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable,
-                   ANUBICE_LIMB_MAX);
+                   ARRAY_COUNT(this->jointTable));
 
     PRINTF("\n\n");
     PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n", "☆☆☆☆☆ Anubis spawn ☆☆☆☆☆ \n") VT_RST);

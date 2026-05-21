@@ -6,6 +6,7 @@
 
 #include "z_en_takara_man.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -68,7 +69,7 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
     play->actorCtx.flags.chest = 0;
     gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,
-                       this->morphTable, 10);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     thisx->focus.pos = thisx->world.pos;
     this->pos = thisx->world.pos;
     thisx->world.pos.x = 133.0f;

@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -149,7 +150,8 @@ void EnVm_SetupAction(EnVm* this, EnVmActionFunc actionFunc) {
 void EnVm_Init(Actor* thisx, PlayState* play) {
     EnVm* this = (EnVm*)thisx;
 
-    SkelAnime_Init(play, &this->skelAnime, &gBeamosSkel, &gBeamosAnim, this->jointTable, this->morphTable, 11);
+    SkelAnime_Init(play, &this->skelAnime, &gBeamosSkel, &gBeamosAnim, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitCylinder(play, &this->colliderCylinder);
     Collider_SetCylinder(play, &this->colliderCylinder, thisx, &sCylinderInit);

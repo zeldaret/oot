@@ -6,6 +6,7 @@
 
 #include "z_en_ko.h"
 
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "printf.h"
@@ -1188,7 +1189,7 @@ void func_80A99048(EnKo* this, PlayState* play) {
         this->actor.objectSlot = this->legsObjectSlot;
         gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader, NULL,
-                           this->jointTable, this->morphTable, 16);
+                           this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
         gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         Collider_InitCylinder(play, &this->collider);

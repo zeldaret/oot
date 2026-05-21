@@ -6,6 +6,7 @@
 
 #include "z_en_hintnuts.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
@@ -87,7 +88,7 @@ void EnHintnuts_Init(Actor* thisx, PlayState* play) {
         ActorShape_Init(&this->actor.shape, 0x0, ActorShadow_DrawCircle, 35.0f);
         //! @bug Flex skeleton is used as normal skeleton
         SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)&gHintNutsSkel, &gHintNutsStandAnim, this->jointTable,
-                       this->morphTable, 10);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);

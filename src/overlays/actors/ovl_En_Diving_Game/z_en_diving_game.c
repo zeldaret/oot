@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -98,7 +99,8 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
 
     this->actor.gravity = -3.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, &gZoraIdleAnim, this->jointTable, this->morphTable, 20);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, &gZoraIdleAnim, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n", "☆☆☆☆☆ Diving GO ☆☆☆☆☆ \n") VT_RST);
