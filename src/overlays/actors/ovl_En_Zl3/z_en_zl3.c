@@ -2164,7 +2164,7 @@ void func_80B584B4(EnZl3* this, PlayState* play) {
     Actor* nearbyEnTest = Actor_FindNearby(play, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f);
 
     if (D_80B5A4BC == 0) {
-        if ((nearbyEnTest == NULL) && (!Play_InCsMode(play))) {
+        if ((nearbyEnTest == NULL) && !Play_InCsMode(play)) {
             this->action = 33;
             OnePointCutscene_Init(play, 4011, -99, &this->actor, CAM_ID_MAIN);
         } else if (invincibilityTimer > 0) {
@@ -2173,7 +2173,7 @@ void func_80B584B4(EnZl3* this, PlayState* play) {
             func_80B56DC8(this);
         }
     } else {
-        if ((nearbyEnTest == NULL) && (!Play_InCsMode(play))) {
+        if ((nearbyEnTest == NULL) && !Play_InCsMode(play)) {
             func_80B54E14(this, &gZelda2Anime2Anim_007664, 0, -12.0f, 0);
             D_80B5A4BC = 0;
             this->action = 33;

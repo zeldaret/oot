@@ -955,7 +955,7 @@ void EnRu1_CheckStartFirstEncounter(EnRu1* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    if ((EnRu1_IsPlayerInRangeForFirstEncounter(this, play)) && (!Play_InCsMode(play)) &&
+    if ((EnRu1_IsPlayerInRangeForFirstEncounter(this, play)) && !Play_InCsMode(play) &&
         (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
