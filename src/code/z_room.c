@@ -620,7 +620,7 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
         }
     }
 
-    // If there any rooms are connected, find their combined size and update roomBufferSize if larger
+    // If there are any connected rooms, find their combined size and update roomBufferSize if larger
     if ((u32)play->transitionActors.count != 0) {
         RomFile* roomList = play->roomList.romFiles;
         TransitionActorEntry* transitionActor = &play->transitionActors.list[0];
