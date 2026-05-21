@@ -52,12 +52,12 @@ AudioTask* AudioThread_UpdateImpl(void) {
     s32 i;
 
     gAudioCtx.totalTaskCount++;
-    if (gAudioCtx.totalTaskCount % (gAudioCtx.audioBufferParameters.specUnk4) != 0) {
+    if ((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) != 0) {
         if (gAudioCustomUpdateFunction != NULL) {
             gAudioCustomUpdateFunction();
         }
 
-        if ((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) + 1 ==
+        if (((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) + 1) ==
             gAudioCtx.audioBufferParameters.specUnk4) {
             return sWaitingAudioTask;
         } else {
