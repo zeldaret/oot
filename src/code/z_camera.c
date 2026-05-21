@@ -8618,7 +8618,7 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
         settingChangeSuccessful = Camera_RequestSettingImpl(camera, requestedCamSetting,
                                                             CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
                                                                 CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
-        if ((settingChangeSuccessful != CAM_SET_NONE) || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
+        if (settingChangeSuccessful || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
             camera->bgCamIndex = requestedBgCamIndex;
             camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
             Camera_CopyDataToRegs(camera, camera->mode);
