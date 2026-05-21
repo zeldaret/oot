@@ -31,13 +31,13 @@ void DemoSa_Destroy(Actor* thisx, PlayState* play);
 void DemoSa_Update(Actor* thisx, PlayState* play);
 void DemoSa_Draw(Actor* thisx, PlayState* play);
 
-void DemoSa_Action_SetupForestMedallionCutscene(DemoSa* this, PlayState* play);
+void DemoSa_Action_SetupForestMedallionCs(DemoSa* this, PlayState* play);
 void DemoSa_Action_AwaitBlueWarp(DemoSa* this, PlayState* play);
 void DemoSa_Action_RiseThroughBlueWarp(DemoSa* this, PlayState* play);
 void DemoSa_Action_ChamberOfSagesDialog(DemoSa* this, PlayState* play);
 void DemoSa_Action_RaiseArmsForMedallion(DemoSa* this, PlayState* play);
 void DemoSa_Action_AwaitMedallion(DemoSa* this, PlayState* play);
-void DemoSa_Action_EndMedallionCutscene(DemoSa* this, PlayState* play);
+void DemoSa_Action_EndMedallionCs(DemoSa* this, PlayState* play);
 void DemoSa_Action_SageInvisible(DemoSa* this, PlayState* play);
 void DemoSa_Action_SageFade(DemoSa* this, PlayState* play);
 void DemoSa_Action_AwaitLightBall(DemoSa* this, PlayState* play);
@@ -48,10 +48,10 @@ void DemoSa_Action_CreditsFacingForward(DemoSa* this, PlayState* play);
 void DemoSa_Action_CreditsLookDownAtDarunia(DemoSa* this, PlayState* play);
 void DemoSa_Action_CreditsLookBackUp(DemoSa* this, PlayState* play);
 void DemoSa_Action_BridgeInvisible(DemoSa* this, PlayState* play);
-void DemoSa_Action_AppearOnBridge(DemoSa* this, PlayState* play);
-void DemoSa_Action_SadToSeeLinkLeaving(DemoSa* this, PlayState* play);
-void DemoSa_Action_ClutchingOcarina(DemoSa* this, PlayState* play);
-void DemoSa_Action_GivingOcarina(DemoSa* this, PlayState* play);
+void DemoSa_Action_BridgeFadeIn(DemoSa* this, PlayState* play);
+void DemoSa_Action_BridgeLookingSad(DemoSa* this, PlayState* play);
+void DemoSa_Action_BridgeClutchOcarina(DemoSa* this, PlayState* play);
+void DemoSa_Action_BridgeGiveOcarina(DemoSa* this, PlayState* play);
 
 void DemoSa_DrawNothing(DemoSa* this, PlayState* play);
 void DemoSa_DrawOpa(DemoSa* this, PlayState* play);
@@ -89,27 +89,27 @@ static u32 D_80990108 = 0;
 #include "z_demo_sa_cutscene_data.inc.c"
 
 static DemoSaActionFunc sActionFuncs[] = {
-    DemoSa_Action_SetupForestMedallionCutscene, // DEMOSA_ACTION_SETUP_FOREST_MEDALLION_CS
-    DemoSa_Action_AwaitBlueWarp,                // DEMOSA_ACTION_AWAIT_BLUE_WARP
-    DemoSa_Action_RiseThroughBlueWarp,          // DEMOSA_ACTION_RISE_THROUGH_BLUE_WARP
-    DemoSa_Action_ChamberOfSagesDialog,         // DEMOSA_ACTION_CHAMBER_OF_SAGES_DIALOG
-    DemoSa_Action_RaiseArmsForMedallion,        // DEMOSA_ACTION_RAISE_ARMS_FOR_MEDALLION
-    DemoSa_Action_AwaitMedallion,               // DEMOSA_ACTION_AWAIT_FOREST_MEDALLION
-    DemoSa_Action_EndMedallionCutscene,         // DEMOSA_ACTION_FINISH_FOREST_MEDALLION_CS
-    DemoSa_Action_SageInvisible,                // DEMOSA_ACTION_SAGE_INVISIBLE
-    DemoSa_Action_SageFade,                     // DEMOSA_ACTION_SAGE_FADE
-    DemoSa_Action_AwaitLightBall,               // DEMOSA_ACTION_AWAIT_SPAWN_LIGHT_BALL
-    DemoSa_Action_Unused,                       // DEMOSA_ACTION_UNUSED
-    DemoSa_Action_CreditsInvisible,             // DEMOSA_ACTION_CREDITS_INVISIBLE
-    DemoSa_Action_CreditsFadeIn,                // DEMOSA_ACTION_CREDITS_FADE_IN
-    DemoSa_Action_CreditsFacingForward,         // DEMOSA_ACTION_CREDITS_FACING_FORWARD
-    DemoSa_Action_CreditsLookDownAtDarunia,     // DEMOSA_ACTION_CREDITS_LOOK_DOWN
-    DemoSa_Action_CreditsLookBackUp,            // DEMOSA_ACTION_CREDITS_LOOK_UP
-    DemoSa_Action_BridgeInvisible,              // DEMOSA_ACTION_BRIDGE_INVISIBLE
-    DemoSa_Action_AppearOnBridge,               // DEMOSA_ACTION_BRIDGE_FADE_IN
-    DemoSa_Action_SadToSeeLinkLeaving,          // DEMOSA_ACTION_BRIDGE_LOOKING_SAD
-    DemoSa_Action_ClutchingOcarina,             // DEMOSA_ACTION_BRIDGE_CLUTCH_OCARINA
-    DemoSa_Action_GivingOcarina,                // DEMOSA_ACTION_BRIDGE_GIVE_OCARINA
+    DemoSa_Action_SetupForestMedallionCs,   // DEMOSA_ACTION_SETUP_FOREST_MEDALLION_CS
+    DemoSa_Action_AwaitBlueWarp,            // DEMOSA_ACTION_AWAIT_BLUE_WARP
+    DemoSa_Action_RiseThroughBlueWarp,      // DEMOSA_ACTION_RISE_THROUGH_BLUE_WARP
+    DemoSa_Action_ChamberOfSagesDialog,     // DEMOSA_ACTION_CHAMBER_OF_SAGES_DIALOG
+    DemoSa_Action_RaiseArmsForMedallion,    // DEMOSA_ACTION_RAISE_ARMS_FOR_MEDALLION
+    DemoSa_Action_AwaitMedallion,           // DEMOSA_ACTION_AWAIT_FOREST_MEDALLION
+    DemoSa_Action_EndMedallionCs,           // DEMOSA_ACTION_END_MEDALLION_CS
+    DemoSa_Action_SageInvisible,            // DEMOSA_ACTION_SAGE_INVISIBLE
+    DemoSa_Action_SageFade,                 // DEMOSA_ACTION_SAGE_FADE
+    DemoSa_Action_AwaitLightBall,           // DEMOSA_ACTION_AWAIT_LIGHT_BALL
+    DemoSa_Action_Unused,                   // DEMOSA_ACTION_UNUSED
+    DemoSa_Action_CreditsInvisible,         // DEMOSA_ACTION_CREDITS_INVISIBLE
+    DemoSa_Action_CreditsFadeIn,            // DEMOSA_ACTION_CREDITS_FADE_IN
+    DemoSa_Action_CreditsFacingForward,     // DEMOSA_ACTION_CREDITS_FACING_FORWARD
+    DemoSa_Action_CreditsLookDownAtDarunia, // DEMOSA_ACTION_CREDITS_LOOK_DOWN_AT_DARUNIA
+    DemoSa_Action_CreditsLookBackUp,        // DEMOSA_ACTION_CREDITS_LOOK_BACK_UP
+    DemoSa_Action_BridgeInvisible,          // DEMOSA_ACTION_BRIDGE_INVISIBLE
+    DemoSa_Action_BridgeFadeIn,             // DEMOSA_ACTION_BRIDGE_FADE_IN
+    DemoSa_Action_BridgeLookingSad,         // DEMOSA_ACTION_BRIDGE_LOOKING_SAD
+    DemoSa_Action_BridgeClutchOcarina,      // DEMOSA_ACTION_BRIDGE_CLUTCH_OCARINA
+    DemoSa_Action_BridgeGiveOcarina,        // DEMOSA_ACTION_BRIDGE_GIVE_OCARINA
 };
 
 static DemoSaDrawFunc sDrawFuncs[] = {
@@ -348,13 +348,13 @@ void DemoSa_CsForestMedallion_CheckMedallionShouldSpawn(DemoSa* this, PlayState*
         cue = play->csCtx.actorCues[6];
 
         if ((cue != NULL) && (cue->id == 2)) {
-            this->action = DEMOSA_ACTION_FINISH_FOREST_MEDALLION_CS;
+            this->action = DEMOSA_ACTION_END_MEDALLION_CS;
             DemoSa_CsForestMedallion_SpawnMedallion(this, play);
         }
     }
 }
 
-void DemoSa_Action_SetupForestMedallionCutscene(DemoSa* this, PlayState* play) {
+void DemoSa_Action_SetupForestMedallionCs(DemoSa* this, PlayState* play) {
     DemoSa_CsForestMedallion_CheckCutscene(this, play);
 }
 
@@ -385,7 +385,7 @@ void DemoSa_Action_AwaitMedallion(DemoSa* this, PlayState* play) {
     DemoSa_CsForestMedallion_CheckMedallionShouldSpawn(this, play);
 }
 
-void DemoSa_Action_EndMedallionCutscene(DemoSa* this, PlayState* play) {
+void DemoSa_Action_EndMedallionCs(DemoSa* this, PlayState* play) {
     DemoSa_UpdateBgCheckInfo(this, play);
     DemoSa_UpdateSkelAnime(this);
 }
@@ -439,7 +439,7 @@ void DemoSa_SageMagic_Fade(DemoSa* this, PlayState* play) {
     if (DemoSa_CheckForCue(this, play, 4, 4)) {
         *fadeTimer += 1.0f;
         if ((kREG(5) + 10.0f) <= *fadeTimer) {
-            this->action = DEMOSA_ACTION_AWAIT_SPAWN_LIGHT_BALL;
+            this->action = DEMOSA_ACTION_AWAIT_LIGHT_BALL;
             this->drawConfig = DEMOSA_DRAW_OPA;
             *fadeTimer = kREG(5) + 10.0f;
             this->alpha = alpha;
@@ -575,12 +575,12 @@ void DemoSa_Credits_CheckVisibility(DemoSa* this) {
 
 void DemoSa_Credits_LookDown(DemoSa* this) {
     DemoSa_AnimationChange(this, &gSariaSitting1Anim, ANIMMODE_ONCE, -8.0f, 0);
-    this->action = DEMOSA_ACTION_CREDITS_LOOK_DOWN;
+    this->action = DEMOSA_ACTION_CREDITS_LOOK_DOWN_AT_DARUNIA;
 }
 
 void DemoSa_Credits_LookUp(DemoSa* this) {
     DemoSa_AnimationChange(this, &gSariaSitting2Anim, ANIMMODE_ONCE, 0.0f, 0);
-    this->action = DEMOSA_ACTION_CREDITS_LOOK_UP;
+    this->action = DEMOSA_ACTION_CREDITS_LOOK_BACK_UP;
 }
 
 void DemoSa_Credits_LookForward(DemoSa* this, s32 isHeadUp) {
@@ -773,26 +773,26 @@ void DemoSa_Action_BridgeInvisible(DemoSa* this, PlayState* play) {
     DemoSa_CsBridge_CheckNextAction(this, play);
 }
 
-void DemoSa_Action_AppearOnBridge(DemoSa* this, PlayState* play) {
+void DemoSa_Action_BridgeFadeIn(DemoSa* this, PlayState* play) {
     DemoSa_UpdateBgCheckInfo(this, play);
     DemoSa_UpdateSkelAnime(this);
     DemoSa_CsBridge_Fade(this);
     DemoSa_CsBridge_CheckFadeFinished(this);
 }
 
-void DemoSa_Action_SadToSeeLinkLeaving(DemoSa* this, PlayState* play) {
+void DemoSa_Action_BridgeLookingSad(DemoSa* this, PlayState* play) {
     DemoSa_UpdateBgCheckInfo(this, play);
     DemoSa_UpdateSkelAnime(this);
     DemoSa_CsBridge_CheckNextAction(this, play);
 }
 
-void DemoSa_Action_ClutchingOcarina(DemoSa* this, PlayState* play) {
+void DemoSa_Action_BridgeClutchOcarina(DemoSa* this, PlayState* play) {
     DemoSa_UpdateBgCheckInfo(this, play);
     DemoSa_UpdateSkelAnime(this);
     DemoSa_CsBridge_CheckNextAction(this, play);
 }
 
-void DemoSa_Action_GivingOcarina(DemoSa* this, PlayState* play) {
+void DemoSa_Action_BridgeGiveOcarina(DemoSa* this, PlayState* play) {
     DemoSa_UpdateBgCheckInfo(this, play);
     DemoSa_CsBridge_HoldOutOcarina(this, DemoSa_UpdateSkelAnime(this));
     DemoSa_CsBridge_CheckNextAction(this, play);
