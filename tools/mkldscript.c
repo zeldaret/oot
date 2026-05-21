@@ -9,229 +9,282 @@
 #include "spec.h"
 #include "util.h"
 
-// Note: *SECTION ALIGNMENT* Object files built with a compiler such as GCC can, by default, use narrower
-// alignment for sections size, compared to IDO padding sections to a 0x10-aligned size.
-// To properly generate relocations relative to section starts, sections currently need to be aligned
-// explicitly (to 0x10 currently, a narrower alignment might work), otherwise the linker does implicit alignment
-// and inserts padding between the address indicated by section start symbols (such as *SegmentRoDataStart) and
-// the actual aligned start of the section.
-// With IDO, the padding of sections to an aligned size makes the section start at aligned addresses out of the box,
-// so the explicit alignment has no further effect.
-
 struct Segment *g_segments;
 int g_segmentsCount;
 
-static void write_ld_script(FILE *fout)
+static void write_includes(const struct Segment *seg, FILE *fout, const char *segments_dir, const char *section)
+{
+    // Note sections contain a suffix wildcard as compilers other than IDO such as GCC may emit sections titled
+    // e.g. .rodata.cstN, .rodata.strN.M, .text.FUNCNAME depending on their settings.
+    fprintf(fout, "            %s/%s.plf (%s*)\n", segments_dir, seg->name, section);
+}
+
+static void write_ld_script(FILE *fout, uint32_t entrypoint_addr, const char *makerom_dir, const char *segments_dir)
 {
     int i;
-    int j;
 
-    fputs("OUTPUT_ARCH (mips)\n\n"
-          "SECTIONS {\n"
-          "    _RomSize = 0;\n"
-          "    _RomStart = _RomSize;\n\n",
+    fputs("OUTPUT_ARCH (mips)\n"
+          "\n"
+          "SECTIONS\n"
+          "{\n",
           fout);
 
-    for (i = 0; i < g_segmentsCount; i++)
-    {
+    // Here we write the makerom segment in multiple parts, excluding it from the spec. Before, we would set a fake
+    // base address of (0x80000400 - 0x1000) so that entry.o, the only case that matters, would end up at the correct
+    // address. However, this is incompatible with converting the .elf to the ROM image via objcopy due to a bug in how
+    // binutils computes LMAs from elf sections. Using 0x7FFFF400, the LMA is somehow computed as equal to the VMA:
+    //  Sections:
+    //  Idx Name          Size      VMA       LMA       File off  Algn
+    //    0 ..makerom     00001060  7ffff400  00000000  00009400  2**4  CONTENTS, ALLOC, LOAD, RELOC, CODE
+    //    1 ..makerom.bss 00000000  80000460  80000460  0000a460  2**4  ALLOC
+    //    2 ..boot        00011f10  80000460  80000460  0000a460  2**5  CONTENTS, ALLOC, LOAD, RELOC, CODE
+    //    3 ..boot.bss    00004a30  80012370  80012370  0001c370  2**4  ALLOC
+    //    4 ..dmadata     000060c0  80016da0  00012f70  0001cda0  2**4  CONTENTS, ALLOC, LOAD, RELOC, DATA
+    //    5 ..dmadata.bss 00000000  8001ce60  8001ce60  0359edf0  2**0  CONTENTS
+    //    6 ..Audiobank   0002bdc0  00000000  00019030  00023000  2**4  CONTENTS, ALLOC, LOAD, RELOC, CODE
+    //
+    // 0x7FFFF400 trips this bug likely due having a different 32-bit sign extension than the other addresses involved.
+    // Notably, llvm-objdump does not have the same problem with a base address of 0x7FFFF400:
+    //  Sections:
+    //  Idx Name                                  Size     VMA      LMA      Type
+    //    0                                       00000000 00000000 00000000
+    //    1 ..makerom                             00001060 7ffff400 00000000 TEXT
+    //    2 .rel..makerom                         00000040 00000000 00000000
+    //    3 ..makerom.bss                         00000000 80000460 00001060 BSS
+    //    4 ..boot                                00011f10 80000460 00001060 TEXT
+    //    5 .rel..boot                            00005f60 00000000 00000000
+    //    6 ..boot.bss                            00004a30 80012370 00012f70 BSS
+    //    7 ..dmadata                             000060c0 80016da0 00012f70 DATA
+    //
+    // To simplify things, we simply fix the contents of makerom as they should not change anyway, and assign the
+    // address only when it matters. The ROM symbols for makerom must encompass these sections only as dmadata would
+    // not match otherwise.
+    fprintf(fout,
+       "    /* makerom */"                                                                                      "\n"
+       ""                                                                                                       "\n"
+       "    ..makerom.hdr 0 : AT(0)"                                                                            "\n"
+       "    {"                                                                                                  "\n"
+       "        %s/rom_header.o(.text*)"                                                                        "\n"
+       "        %s/rom_header.o(.data*)"                                                                        "\n"
+       "        %s/rom_header.o(.rodata*)"                                                                      "\n"
+       "    }"                                                                                                  "\n"
+       "    ..makerom.ipl 0 : AT(SIZEOF(..makerom.hdr))"                                                        "\n"
+       "    {"                                                                                                  "\n"
+       "        %s/ipl3.o(.text*)"                                                                              "\n"
+       "        %s/ipl3.o(.data*)"                                                                              "\n"
+       "        %s/ipl3.o(.rodata*)"                                                                            "\n"
+       "    }"                                                                                                  "\n"
+       "    ..makerom.ent 0x%08X : AT(SIZEOF(..makerom.hdr) + SIZEOF(..makerom.ipl))"                           "\n"
+       "    {"                                                                                                  "\n"
+       "        %s/entry.o(.text*)"                                                                             "\n"
+       "        %s/entry.o(.data*)"                                                                             "\n"
+       "        %s/entry.o(.rodata*)"                                                                           "\n"
+       "    }"                                                                                                  "\n"
+       "    _makeromSegmentRomStart = LOADADDR(..makerom.hdr);"                                                 "\n"
+       "    _makeromSegmentRomEnd = LOADADDR(..makerom.ent) + SIZEOF(..makerom.ent);"                           "\n"
+       "    _makeromSegmentRomSize = SIZEOF(..makerom.hdr) + SIZEOF(..makerom.ipl) + SIZEOF(..makerom.ent);"    "\n"
+       ""                                                                                                       "\n",
+        makerom_dir, makerom_dir, makerom_dir,
+        makerom_dir, makerom_dir, makerom_dir,
+        entrypoint_addr,
+        makerom_dir, makerom_dir, makerom_dir
+    );
+
+    const char *last_end = "makerom";
+    uint32_t last_romalign = 0;
+
+    for (i = 0; i < g_segmentsCount; i++) {
         const struct Segment *seg = &g_segments[i];
 
-        // align start of ROM segment
-        if (seg->fields & (1 << STMT_romalign))
-            fprintf(fout, "    _RomSize = (_RomSize + %i) & ~ %i;\n", seg->romalign - 1, seg->romalign - 1);
+        fprintf(fout, "    /* %s */\n\n", seg->name);
 
-        // initialized data (.text, .data, .rodata, .sdata)
+        // Begin initialized data (.text, .data, .rodata)
 
-        fprintf(fout, "    _%sSegmentRomStartTemp = _RomSize;\n"
-                  "    _%sSegmentRomStart = _%sSegmentRomStartTemp;\n"
-                  "    ..%s ", seg->name, seg->name, seg->name, seg->name);
+        fprintf(fout, "    ..%s ", seg->name);
 
         if (seg->fields & (1 << STMT_after))
-            fprintf(fout, "(_%sSegmentEnd + %i) & ~ %i ", seg->after, seg->align - 1, seg->align - 1);
+            // Continue after the requested segment, aligning to the required alignment for the new segment.
+            fprintf(fout, "ALIGN(_%sSegmentEnd, %i)", seg->after, seg->align);
         else if (seg->fields & (1 << STMT_number))
-            fprintf(fout, "0x%02X000000 ", seg->number);
+            // Start at a new segmented address.
+            fprintf(fout, "0x%02X000000", seg->number);
         else if (seg->fields & (1 << STMT_address))
-            fprintf(fout, "0x%08X ", seg->address);
+            // Start at a new absolute address.
+            fprintf(fout, "0x%08X", seg->address);
         else
-            fprintf(fout, "ALIGN(0x%X) ", seg->align);
+            // Continue after previous segment, aligning to the required alignment for the new segment.
+            fprintf(fout, "ALIGN(0x%X)", seg->align);
 
-        // (AT(_RomSize) isn't necessary, but adds useful "load address" lines to the map file)
-        fprintf(fout, ": AT(_RomSize)\n    {\n"
-                  "        _%sSegmentStart = .;\n"
-                  "        . = ALIGN(0x10);\n"
-                  "        _%sSegmentTextStart = .;\n",
-                  seg->name, seg->name);
+        // AT(...) isn't necessary, but adds useful "load address" lines to the map file.
+        // Also force an alignment of at least 0x10 at the start of any segment. This is especially important for
+        // overlays as the final link step must not introduce alignment padding between the SegmentTextStart symbol
+        // and the section contents as this would cause all generated relocations done prior to be wrong.
+        uint32_t next_romalign = (seg->fields & (1 << STMT_romalign)) ? seg->romalign : 0x10;
+        fprintf(fout, " : AT(ALIGN(_%sSegmentRomEnd, %u))\n", last_end,
+                (last_romalign > next_romalign) ? last_romalign : next_romalign);
+        last_romalign = next_romalign;
 
-        for (j = 0; j < seg->includesCount; j++)
-        {
-            fprintf(fout, "            %s (.text)\n", seg->includes[j].fpath);
-            if (seg->includes[j].linkerPadding != 0)
-                fprintf(fout, "            . += 0x%X;\n", seg->includes[j].linkerPadding);
-            fprintf(fout, "        . = ALIGN(0x10);\n");
-        }
+        fprintf(fout, "    {\n"
+                      "        . = ALIGN(0x10);\n"
+                      "        _%sSegmentStart = .;\n"
+                      "\n",
+                seg->name);
 
-        fprintf(fout, "        _%sSegmentTextEnd = .;\n", seg->name);
+        // Write .text
+        fprintf(fout, "        _%sSegmentTextStart = .;\n", seg->name);
+        write_includes(seg, fout, segments_dir, ".text");
+        fprintf(fout, "        . = ALIGN(0x10);\n"
+                      "        _%sSegmentTextEnd = .;\n"
+                      "        _%sSegmentTextSize = ABSOLUTE( _%sSegmentTextEnd - _%sSegmentTextStart );\n"
+                      "\n", seg->name, seg->name, seg->name, seg->name);
 
-        fprintf(fout, "    _%sSegmentTextSize = ABSOLUTE( _%sSegmentTextEnd - _%sSegmentTextStart );\n", seg->name, seg->name, seg->name);
-
+        // Write .data
         fprintf(fout, "        _%sSegmentDataStart = .;\n", seg->name);
+        write_includes(seg, fout, segments_dir, ".data");
+        fprintf(fout, "        . = ALIGN(0x10);\n"
+                      "        _%sSegmentDataEnd = .;\n"
+                      "        _%sSegmentDataSize = ABSOLUTE( _%sSegmentDataEnd - _%sSegmentDataStart );\n"
+                      "\n", seg->name, seg->name, seg->name, seg->name);
 
-        for (j = 0; j < seg->includesCount; j++)
-        {
-            fprintf(fout, "            %s (.data)\n"
-                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
-        }
-
-        fprintf(fout, "        _%sSegmentDataEnd = .;\n", seg->name);
-
-        fprintf(fout, "    _%sSegmentDataSize = ABSOLUTE( _%sSegmentDataEnd - _%sSegmentDataStart );\n", seg->name, seg->name, seg->name);
-
+        // Write .rodata
         fprintf(fout, "        _%sSegmentRoDataStart = .;\n", seg->name);
+        write_includes(seg, fout, segments_dir, ".rodata");
+        fprintf(fout, "        . = ALIGN(0x10);\n"
+                      "        _%sSegmentRoDataEnd = .;\n"
+                      "        _%sSegmentRoDataSize = ABSOLUTE( _%sSegmentRoDataEnd - _%sSegmentRoDataStart );\n"
+                      "\n", seg->name, seg->name, seg->name, seg->name);
 
-        for (j = 0; j < seg->includesCount; j++)
-        {
-            // Compilers other than IDO, such as GCC, produce different sections such as
-            // the ones named directly below. These sections do not contain values that
-            // need relocating, but we need to ensure that the base .rodata section
-            // always comes first. The reason this is important is due to relocs assuming
-            // the base of .rodata being the offset for the relocs and thus needs to remain
-            // the beginning of the entire rodata area in order to remain consistent.
-            // Inconsistencies will lead to various .rodata reloc crashes as a result of
-            // either missing relocs or wrong relocs.
-            fprintf(fout, "            %s (.rodata)\n"
-                        "            %s (.rodata.str*)\n"
-                        "            %s (.rodata.cst*)\n"
-                        "        . = ALIGN(0x10);\n",
-                    seg->includes[j].fpath, seg->includes[j].fpath, seg->includes[j].fpath);
-        }
-
-        fprintf(fout, "        _%sSegmentRoDataEnd = .;\n", seg->name);
-
-        fprintf(fout, "    _%sSegmentRoDataSize = ABSOLUTE( _%sSegmentRoDataEnd - _%sSegmentRoDataStart );\n", seg->name, seg->name, seg->name);
-
-        fprintf(fout, "        _%sSegmentSDataStart = .;\n", seg->name);
-
-        for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.sdata)\n"
-                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
-
-        fprintf(fout, "        _%sSegmentSDataEnd = .;\n", seg->name);
-
-        fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
-
-        for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
-
-        fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
-
+        // Write an address increment if requested
         if (seg->fields & (1 << STMT_increment))
             fprintf(fout, "    . += 0x%08X;\n", seg->increment);
 
-        fputs("    }\n", fout);
+        if (seg->flags & FLAG_OVL) {
+            // Write .ovl if the segment is an overlay.
+            fprintf(fout, "        _%sSegmentOvlStart = .;\n"
+                          "            %s/%s.reloc.o (.ovl)\n"
+                          "        _%sSegmentOvlEnd = .;\n"
+                          "        _%sSegmentOvlSize = ABSOLUTE( _%sSegmentOvlEnd - _%sSegmentOvlStart );\n"
+                          "\n", seg->name, segments_dir, seg->name, seg->name, seg->name, seg->name, seg->name);
+        }
 
-        fprintf(fout, "    _RomSize += ( _%sSegmentOvlEnd - _%sSegmentTextStart );\n", seg->name, seg->name);
+        // End initialized data.
+        fprintf(fout, "    }\n"
+                      "    _%sSegmentRomStart = LOADADDR(..%s);\n"
+                      "    _%sSegmentRomEnd = LOADADDR(..%s) + SIZEOF(..%s);\n"
+                      "    _%sSegmentRomSize = SIZEOF(..%s);\n"
+                      "\n",
+                seg->name, seg->name,
+                seg->name, seg->name, seg->name,
+                seg->name, seg->name);
 
-        fprintf(fout, "    _%sSegmentRomEndTemp = _RomSize;\n"
-                  "_%sSegmentRomEnd = _%sSegmentRomEndTemp;\n\n",
-                  seg->name, seg->name, seg->name);
-
-        // align end of ROM segment
-        if (seg->fields & (1 << STMT_romalign))
-            fprintf(fout, "    _RomSize = (_RomSize + %i) & ~ %i;\n", seg->romalign - 1, seg->romalign - 1);
-
-        // uninitialized data (.sbss, .scommon, .bss, COMMON)
-        fprintf(fout, "    ..%s.bss ADDR(..%s) + SIZEOF(..%s) (NOLOAD) :\n"
-                      /*"    ..%s.bss :\n"*/
+        // Begin uninitialized data (.bss, COMMON, .scommon)
+        // Note we must enforce a minimum alignment of at least 8 for
+        // bss sections due to how bss is cleared in steps of 8 in
+        // entry.s, and more widely it's more efficient.
+        fprintf(fout, "    ..%s.bss (NOLOAD) : AT(_%sSegmentRomEnd)\n"
                       "    {\n"
-                      "        . = ALIGN(0x10);\n"
+                      "        . = ALIGN(8);\n"
                       "        _%sSegmentBssStart = .;\n",
-                      seg->name, seg->name, seg->name, seg->name);
+                      seg->name, seg->name, seg->name);
 
-        for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.sbss)\n"
-                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+        // Write sections
+        write_includes(seg, fout, segments_dir, ".scommon");
+        write_includes(seg, fout, segments_dir, "COMMON");
+        write_includes(seg, fout, segments_dir, ".bss");
 
-        for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.scommon)\n"
-                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
-
-        for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.bss)\n"
-                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
-
-        for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (COMMON)\n"
-                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
-
-        fprintf(fout, "        . = ALIGN(0x10);\n"
+        // End uninitialized data
+        fprintf(fout, "        . = ALIGN(8);\n"
                       "        _%sSegmentBssEnd = .;\n"
+                      "        _%sSegmentBssSize = ABSOLUTE( _%sSegmentBssEnd - _%sSegmentBssStart );\n"
+                      "\n"
                       "        _%sSegmentEnd = .;\n"
                       "    }\n"
-                      "    _%sSegmentBssSize = ABSOLUTE( _%sSegmentBssEnd - _%sSegmentBssStart );\n\n",
+                      "\n",
                       seg->name, seg->name, seg->name, seg->name, seg->name);
+
+        last_end = seg->name;
     }
 
-    fputs("    _RomEnd = _RomSize;\n\n", fout);
+    fprintf(fout, "    _RomSize = ALIGN(_%sSegmentRomEnd, %u);\n\n", last_end, last_romalign);
 
     // Debugging sections
     fputs(
         // mdebug sections
-          "    .pdr              : { *(.pdr) }"                                             "\n"
-          "    .mdebug           : { *(.mdebug) }"                                          "\n"
-          "    .mdebug.abi32     : { *(.mdebug.abi32) }"                                    "\n"
+          "    .pdr                    : { *(.pdr) }"                                           "\n"
+          "    .mdebug                 : { *(.mdebug) }"                                        "\n"
+        // Stabs debugging sections
+          "    .stab                 0 : { *(.stab) }"                                          "\n"
+          "    .stabstr              0 : { *(.stabstr) }"                                       "\n"
+          "    .stab.excl            0 : { *(.stab.excl) }"                                     "\n"
+          "    .stab.exclstr         0 : { *(.stab.exclstr) }"                                  "\n"
+          "    .stab.index           0 : { *(.stab.index) }"                                    "\n"
+          "    .stab.indexstr        0 : { *(.stab.indexstr) }"                                 "\n"
+          "    .comment              0 : { *(.comment) }"                                       "\n"
+          "    .gnu.build.attributes   : { *(.gnu.build.attributes .gnu.build.attributes.*) }"  "\n"
         // DWARF debug sections
         // Symbols in the DWARF debugging sections are relative to the beginning of the section so we begin them at 0.
         // DWARF 1
-          "    .debug          0 : { *(.debug) }"                                           "\n"
-          "    .line           0 : { *(.line) }"                                            "\n"
+          "    .debug                0 : { *(.debug) }"                                         "\n"
+          "    .line                 0 : { *(.line) }"                                          "\n"
         // GNU DWARF 1 extensions
-          "    .debug_srcinfo  0 : { *(.debug_srcinfo) }"                                   "\n"
-          "    .debug_sfnames  0 : { *(.debug_sfnames) }"                                   "\n"
+          "    .debug_srcinfo        0 : { *(.debug_srcinfo) }"                                 "\n"
+          "    .debug_sfnames        0 : { *(.debug_sfnames) }"                                 "\n"
         // DWARF 1.1 and DWARF 2
-          "    .debug_aranges  0 : { *(.debug_aranges) }"                                   "\n"
-          "    .debug_pubnames 0 : { *(.debug_pubnames) }"                                  "\n"
+          "    .debug_aranges        0 : { *(.debug_aranges) }"                                 "\n"
+          "    .debug_pubnames       0 : { *(.debug_pubnames) }"                                "\n"
         // DWARF 2
-          "    .debug_info     0 : { *(.debug_info .gnu.linkonce.wi.*) }"                   "\n"
-          "    .debug_abbrev   0 : { *(.debug_abbrev) }"                                    "\n"
-          "    .debug_line     0 : { *(.debug_line .debug_line.* .debug_line_end ) }"       "\n"
-          "    .debug_frame    0 : { *(.debug_frame) }"                                     "\n"
-          "    .debug_str      0 : { *(.debug_str) }"                                       "\n"
-          "    .debug_loc      0 : { *(.debug_loc) }"                                       "\n"
-          "    .debug_macinfo  0 : { *(.debug_macinfo) }"                                   "\n"
+          "    .debug_info           0 : { *(.debug_info .gnu.linkonce.wi.*) }"                 "\n"
+          "    .debug_abbrev         0 : { *(.debug_abbrev) }"                                  "\n"
+          "    .debug_line           0 : { *(.debug_line .debug_line.* .debug_line_end ) }"     "\n"
+          "    .debug_frame          0 : { *(.debug_frame) }"                                   "\n"
+          "    .debug_str            0 : { *(.debug_str) }"                                     "\n"
+          "    .debug_loc            0 : { *(.debug_loc) }"                                     "\n"
+          "    .debug_macinfo        0 : { *(.debug_macinfo) }"                                 "\n"
         // SGI/MIPS DWARF 2 extensions
-          "    .debug_weaknames 0 : { *(.debug_weaknames) }"                                "\n"
-          "    .debug_funcnames 0 : { *(.debug_funcnames) }"                                "\n"
-          "    .debug_typenames 0 : { *(.debug_typenames) }"                                "\n"
-          "    .debug_varnames  0 : { *(.debug_varnames) }"                                 "\n"
+          "    .debug_weaknames      0 : { *(.debug_weaknames) }"                               "\n"
+          "    .debug_funcnames      0 : { *(.debug_funcnames) }"                               "\n"
+          "    .debug_typenames      0 : { *(.debug_typenames) }"                               "\n"
+          "    .debug_varnames       0 : { *(.debug_varnames) }"                                "\n"
         // DWARF 3
-          "    .debug_pubtypes 0 : { *(.debug_pubtypes) }"                                  "\n"
-          "    .debug_ranges   0 : { *(.debug_ranges) }"                                    "\n"
+          "    .debug_pubtypes       0 : { *(.debug_pubtypes) }"                                "\n"
+          "    .debug_ranges         0 : { *(.debug_ranges) }"                                  "\n"
         // DWARF 5
-          "    .debug_addr     0 : { *(.debug_addr) }"                                      "\n"
-          "    .debug_line_str 0 : { *(.debug_line_str) }"                                  "\n"
-          "    .debug_loclists 0 : { *(.debug_loclists) }"                                  "\n"
-          "    .debug_macro    0 : { *(.debug_macro) }"                                     "\n"
-          "    .debug_names    0 : { *(.debug_names) }"                                     "\n"
-          "    .debug_rnglists 0 : { *(.debug_rnglists) }"                                  "\n"
-          "    .debug_str_offsets 0 : { *(.debug_str_offsets) }"                            "\n"
-          "    .debug_sup      0 : { *(.debug_sup) }\n"
+          "    .debug_addr           0 : { *(.debug_addr) }"                                    "\n"
+          "    .debug_line_str       0 : { *(.debug_line_str) }"                                "\n"
+          "    .debug_loclists       0 : { *(.debug_loclists) }"                                "\n"
+          "    .debug_macro          0 : { *(.debug_macro) }"                                   "\n"
+          "    .debug_names          0 : { *(.debug_names) }"                                   "\n"
+          "    .debug_rnglists       0 : { *(.debug_rnglists) }"                                "\n"
+          "    .debug_str_offsets    0 : { *(.debug_str_offsets) }"                             "\n"
+          "    .debug_sup            0 : { *(.debug_sup) }"                                     "\n"
         // gnu attributes
-          "    .gnu.attributes 0 : { KEEP (*(.gnu.attributes)) }"                           "\n", fout);
+          "    .gnu.attributes       0 : { KEEP (*(.gnu.attributes)) }"                         "\n"
+        // Sections generated by GCC to inform GDB about the ABI
+          "    .mdebug.abi32         0 : { KEEP (*(.mdebug.abi32)) }"                           "\n"
+          "    .mdebug.abiN32        0 : { KEEP (*(.mdebug.abiN32)) }"                          "\n"
+          "    .mdebug.abi64         0 : { KEEP (*(.mdebug.abi64)) }"                           "\n"
+          "    .mdebug.abiO64        0 : { KEEP (*(.mdebug.abiO64)) }"                          "\n"
+          "    .mdebug.eabi32        0 : { KEEP (*(.mdebug.eabi32)) }"                          "\n"
+          "    .mdebug.eabi64        0 : { KEEP (*(.mdebug.eabi64)) }"                          "\n"
+          "    .gcc_compiled_long32  0 : { KEEP (*(.gcc_compiled_long32)) }"                    "\n"
+          "    .gcc_compiled_long64  0 : { KEEP (*(.gcc_compiled_long64)) }"                    "\n\n", fout);
 
     // Discard all other sections not mentioned above
-    fputs("    /DISCARD/ :"                                                                 "\n"
-          "    {"                                                                           "\n"
-          "       *(*);"                                                                    "\n"
-          "    }"                                                                           "\n", fout);
-    fputs("}\n", fout);
+    fputs("    /DISCARD/ :"                                                                     "\n"
+          "    {"                                                                               "\n"
+          "       *(*);"                                                                        "\n"
+          "    }"                                                                               "\n"
+          "}\n", fout);
 }
 
 static void usage(const char *execname)
 {
-    fprintf(stderr, "Nintendo 64 linker script generation tool v0.03\n"
-                    "usage: %s SPEC_FILE LD_SCRIPT\n"
-                    "SPEC_FILE  file describing the organization of object files into segments\n"
-                    "LD_SCRIPT  filename of output linker script\n",
+    fprintf(stderr, "Nintendo 64 linker script generation tool v0.04\n"
+                    "usage: %s SPEC_FILE LD_SCRIPT SEGMENTS_DIR MAKEROM_DIR\n"
+                    "SPEC_FILE    file describing the organization of object files into segments\n"
+                    "LD_SCRIPT    filename of output linker script\n"
+                    "MAKEROM_DIR  dir name containing makerom build objects\n"
+                    "SEGMENTS_DIR dir name containing partially linked segments\n",
                     execname);
 }
 
@@ -241,10 +294,9 @@ int main(int argc, char **argv)
     void *spec;
     size_t size;
 
-    if (argc != 3)
-    {
+    if (argc != 5) {
         usage(argv[0]);
-        return 1;
+        return EXIT_FAILURE;
     }
 
     spec = util_read_whole_file(argv[1], &size);
@@ -253,11 +305,12 @@ int main(int argc, char **argv)
     ldout = fopen(argv[2], "w");
     if (ldout == NULL)
         util_fatal_error("failed to open file '%s' for writing", argv[2]);
-    write_ld_script(ldout);
+
+    uint32_t entrypoint_addr = 0x80000400;
+    write_ld_script(ldout, entrypoint_addr, argv[3], argv[4]);
     fclose(ldout);
 
     free_rom_spec(g_segments, g_segmentsCount);
     free(spec);
-
-    return 0;
+    return EXIT_SUCCESS;
 }
