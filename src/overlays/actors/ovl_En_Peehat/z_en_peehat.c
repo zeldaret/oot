@@ -139,8 +139,8 @@ static ColliderQuadInit sQuadInit = {
 };
 
 typedef enum EnPeehatDamageReaction {
-    /* 00 */ PEAHAT_DMG_REACT_ATTACK = 0,
-    /* 06 */ PEAHAT_DMG_REACT_LIGHT_ICE_ARROW = 6,
+    /*  0 */ PEAHAT_DMG_REACT_ATTACK = 0,
+    /*  6 */ PEAHAT_DMG_REACT_LIGHT_ICE_ARROW = 6,
     /* 12 */ PEAHAT_DMG_REACT_FIRE = 12,
     /* 13 */ PEAHAT_DMG_REACT_HOOKSHOT = 13,
     /* 14 */ PEAHAT_DMG_REACT_BOOMERANG = 14,
@@ -183,14 +183,14 @@ static DamageTable sDamageTable = {
 };
 
 typedef enum PeahatState {
-    /* 00 */ PEAHAT_STATE_DYING,
-    /* 01 */ PEAHAT_STATE_EXPLODE,
-    /* 03 */ PEAHAT_STATE_3 = 3,
-    /* 04 */ PEAHAT_STATE_4,
-    /* 05 */ PEAHAT_STATE_FLY,
-    /* 07 */ PEAHAT_STATE_ATTACK_RECOIL = 7,
-    /* 08 */ PEAHAT_STATE_8,
-    /* 09 */ PEAHAT_STATE_9,
+    /*  0 */ PEAHAT_STATE_DYING,
+    /*  1 */ PEAHAT_STATE_EXPLODE,
+    /*  3 */ PEAHAT_STATE_3 = 3,
+    /*  4 */ PEAHAT_STATE_4,
+    /*  5 */ PEAHAT_STATE_FLY,
+    /*  7 */ PEAHAT_STATE_ATTACK_RECOIL = 7,
+    /*  8 */ PEAHAT_STATE_8,
+    /*  9 */ PEAHAT_STATE_9,
     /* 10 */ PEAHAT_STATE_LANDING,
     /* 12 */ PEAHAT_STATE_RETURN_HOME = 12,
     /* 13 */ PEAHAT_STATE_STUNNED,

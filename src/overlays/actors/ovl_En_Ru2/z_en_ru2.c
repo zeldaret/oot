@@ -61,16 +61,16 @@ void EnRu2_DrawXlu(EnRu2* this, PlayState* play);
 void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play);
 
 typedef enum {
-    /* 00 */ ENRU2_SETUP_WATER_MEDALLION_CS,
-    /* 01 */ ENRU2_AWAIT_BLUE_WARP,
-    /* 02 */ ENRU2_RISE_THROUGH_BLUE_WARP,
-    /* 03 */ ENRU2_SAGE_OF_WATER_DIALOG,
-    /* 04 */ ENRU2_RAISE_ARMS,
-    /* 05 */ ENRU2_AWAIT_SPAWN_WATER_MEDALLION,
-    /* 06 */ ENRU2_FINISH_WATER_MEDALLION_CS,
-    /* 07 */ ENRU2_WATER_TRIAL_INVISIBLE,
-    /* 08 */ ENRU2_WATER_TRIAL_FADE,
-    /* 09 */ ENRU2_AWAIT_SPAWN_LIGHT_BALL,
+    /*  0 */ ENRU2_SETUP_WATER_MEDALLION_CS,
+    /*  1 */ ENRU2_AWAIT_BLUE_WARP,
+    /*  2 */ ENRU2_RISE_THROUGH_BLUE_WARP,
+    /*  3 */ ENRU2_SAGE_OF_WATER_DIALOG,
+    /*  4 */ ENRU2_RAISE_ARMS,
+    /*  5 */ ENRU2_AWAIT_SPAWN_WATER_MEDALLION,
+    /*  6 */ ENRU2_FINISH_WATER_MEDALLION_CS,
+    /*  7 */ ENRU2_WATER_TRIAL_INVISIBLE,
+    /*  8 */ ENRU2_WATER_TRIAL_FADE,
+    /*  9 */ ENRU2_AWAIT_SPAWN_LIGHT_BALL,
     /* 10 */ ENRU2_CREDITS_INVISIBLE,
     /* 11 */ ENRU2_CREDITS_FADE_IN,
     /* 12 */ ENRU2_CREDITS_VISIBLE,
@@ -84,9 +84,9 @@ typedef enum {
 } EnRu2Action;
 
 typedef enum {
-    /* 00 */ ENRU2_DRAW_NOTHING,
-    /* 01 */ ENRU2_DRAW_OPA,
-    /* 02 */ ENRU2_DRAW_XLU
+    /* 0 */ ENRU2_DRAW_NOTHING,
+    /* 1 */ ENRU2_DRAW_OPA,
+    /* 2 */ ENRU2_DRAW_XLU
 } EnRu2DrawConfig;
 
 static ColliderCylinderInitType1 sCylinderInit = {
