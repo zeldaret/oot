@@ -15,7 +15,7 @@ s32 osEPiStartDma(OSPiHandle* handle, OSIoMesg* mb, s32 direction) {
         mb->hdr.type = 0x10;
     }
 
-    if (mb->hdr.pri == 1) {
+    if (mb->hdr.pri == OS_MESG_PRI_HIGH) {
         ret = osJamMesg(osPiGetCmdQueue(), (OSMesg)mb, OS_MESG_NOBLOCK);
     } else {
         ret = osSendMesg(osPiGetCmdQueue(), (OSMesg)mb, OS_MESG_NOBLOCK);
