@@ -12,7 +12,7 @@
 /* RSP code for cic6105.c, used only in N64 versions. */
  glabel cic6105TextStart
     .word 0xE80C2001 # sqv     $v12[0], 0x10($zero)
-    .word 0x34014000 # li      $1, 0x4000
+    .word 0x34014000 # li      $1, SP_SET_SIG2
     .word 0x40812000 # mtc0    $1, SP_STATUS
     .word 0x0000000D # break
     .word 0x00000000 # nop
