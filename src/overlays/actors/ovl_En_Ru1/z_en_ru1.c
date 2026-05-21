@@ -2054,7 +2054,7 @@ void EnRu1_RespondToSapphirePlatformMoving(EnRu1* this) {
     if (EnRu1_GetPlatformCamSetting(this) == 2) {
         EnRu1_SetEyes(this, ENRU1_EYES_UP);
         EnRu1_SetMouth(this, ENRU1_MOUTH_OPEN);
-        if (this->skelAnime.mode != 2) {
+        if (this->skelAnime.mode != ANIMMODE_ONCE) {
             EnRu1_AnimationChange(this, &gRutoChildShutterAnim, ANIMMODE_ONCE, -8.0f, false);
             EnRu1_PlayStartledSfx(this);
         }

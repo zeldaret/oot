@@ -387,7 +387,7 @@ void func_8098ECF4(DemoSa* this, PlayState* play) {
 void func_8098EDB0(DemoSa* this) {
     f32 curFrame = this->skelAnime.curFrame;
 
-    if ((this->skelAnime.mode == 2) && (curFrame >= 32.0f)) {
+    if ((this->skelAnime.mode == ANIMMODE_ONCE) && (curFrame >= 32.0f)) {
         DemoSa_SetEyeIndex(this, SARIA_EYE_HALF);
         DemoSa_SetMouthIndex(this, SARIA_MOUTH_CLOSED2);
     }
