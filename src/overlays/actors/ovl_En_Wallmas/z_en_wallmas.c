@@ -442,10 +442,10 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
         if (!LINK_IS_ADULT) {
-            //! @bug: This is an unsafe cast, although the sound effect will still play
+            //! @bug This is an unsafe cast, although the sound effect will still play
             Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
         } else {
-            //! @bug: This is an unsafe cast, although the sound effect will still play
+            //! @bug This is an unsafe cast, although the sound effect will still play
             Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_DAMAGE_S);
         }
 
@@ -469,10 +469,10 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
 
         if (this->timer == -0x1E) {
             if (!LINK_IS_ADULT) {
-                //! @bug: This is an unsafe cast, although the sound effect will still play
+                //! @bug This is an unsafe cast, although the sound effect will still play
                 Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_TAKEN_AWAY_KID);
             } else {
-                //! @bug: This is an unsafe cast, although the sound effect will still play
+                //! @bug This is an unsafe cast, although the sound effect will still play
                 Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_TAKEN_AWAY);
             }
         }

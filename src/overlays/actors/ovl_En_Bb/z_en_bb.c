@@ -1317,7 +1317,7 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
 
             if (this->fireIceTimer != 0) {
                 this->actor.colorFilterTimer++;
-                //! @bug:
+                //! @bug
                 //! The purpose of this is to counteract Actor_UpdateAll decrementing colorFilterTimer. However,
                 //! the above bugs mean unk_2A8 can be nonzero without damage effects ever having been set.
                 //! This routine will then increment colorFilterTimer, and on the next frame Actor_Draw will try

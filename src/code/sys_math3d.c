@@ -636,7 +636,7 @@ s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max) {
         ret |= 0x10;
     }
 
-    //! @bug: The next 2 conditions are the same check.
+    //! @bug The next 2 conditions are the same check.
     if ((-min->x - min->y + max->z) < (-point->x - point->y + point->z)) {
         ret |= 0x20;
     }

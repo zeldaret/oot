@@ -758,7 +758,7 @@ void AudioThread_ProcessChannelCmd(SequenceChannel* channel, AudioCmd* cmd) {
             break;
 
         case AUDIOCMD_OP_CHANNEL_SET_PAN_WEIGHT:
-            //! @bug: Should compare `asSbyte` to `panChannelWeight`
+            //! @bug Should compare `asSbyte` to `panChannelWeight`
             if (channel->newPan != cmd->asSbyte) {
                 channel->panChannelWeight = cmd->asSbyte;
                 channel->changes.s.pan = true;

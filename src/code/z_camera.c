@@ -8623,7 +8623,7 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
             camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
-            //! @bug: `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
+            //! @bug `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
             //! The actual return of Camera_RequestSettingImpl or bgCamIndex would make more sense.
             PRINTF(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST,
                    requestedBgCamIndex, camera->camId, BGCHECK_SCENE, requestedCamSetting);

@@ -1565,7 +1565,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case ASEQ_OP_CHAN_DYNCALL:
                     if (scriptState->value != -1) {
                         data = (*channel->dynTable)[scriptState->value];
-                        //! @bug: Missing a stack depth check here
+                        //! @bug Missing a stack depth check here
                         scriptState->stack[scriptState->depth++] = scriptState->pc;
                         cmdArgU16 = (u16)((data[0] << 8) + data[1]);
                         scriptState->pc = seqPlayer->seqData + cmdArgU16;
@@ -1588,7 +1588,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->panChannelWeight = *data++;
                     channel->targetReverbVol = *data++;
                     channel->reverbIndex = *data++;
-                    //! @bug: Not marking reverb state as changed
+                    //! @bug Not marking reverb state as changed
                     channel->changes.s.pan = true;
                     break;
 
@@ -1602,7 +1602,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->panChannelWeight = AudioSeq_ScriptReadU8(scriptState);
                     channel->targetReverbVol = AudioSeq_ScriptReadU8(scriptState);
                     channel->reverbIndex = AudioSeq_ScriptReadU8(scriptState);
-                    //! @bug: Not marking reverb state as changed
+                    //! @bug Not marking reverb state as changed
                     channel->changes.s.pan = true;
                     break;
 
