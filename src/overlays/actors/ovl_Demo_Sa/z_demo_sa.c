@@ -62,7 +62,7 @@ typedef enum SariaEyes {
     /* 1 */ SARIA_EYE_HALF,
     /* 2 */ SARIA_EYE_CLOSED,
     /* 3 */ SARIA_EYE_SURPRISED,
-    /* 4 */ SARIA_EYE_SAD,
+    /* 4 */ SARIA_EYE_SAD
 } SariaEyes;
 
 typedef enum SariaMouth {
@@ -835,7 +835,7 @@ void DemoSa_Init(Actor* thisx, PlayState* play) {
 s32 DemoSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     DemoSa* this = (DemoSa*)thisx;
 
-    if ((limbIndex == 15) && (this->isHoldingOcarina)) {
+    if ((limbIndex == 15) && this->isHoldingOcarina) {
         *dList = gSariaRightHandAndOcarinaDL;
     }
     return false;
