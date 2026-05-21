@@ -126,6 +126,7 @@ typedef enum EnRu1Type {
 #if DEBUG_FEATURES
     /* 10 */ ENRU1_TYPE_DEBUG = 10,
 #endif
+    ENRU1_TYPE_MAX
 } EnRu1Type;
 
 typedef enum EnRu1Eyes {
