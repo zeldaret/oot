@@ -1,0 +1,6 @@
+<Root>
+    <File Name="code">
+        <Blob Name="gMojiFontTLUTs" Size="0x80" Offset="0x0"/>
+        <Blob Name="gMojiFontTex" Size="0x400" Offset="0x80"/>
+    </File>
+</Root>
