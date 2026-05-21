@@ -42,6 +42,7 @@ all: $(PROGRAMS) $(IDO_RECOMP_5_3_DIR) $(IDO_RECOMP_7_1_DIR) $(EGCS_DIR)
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
+	$(RM) -r compiler_archives/archives
 	$(RM) -r ido_recomp egcs
 	$(MAKE) -C fado clean
 	$(MAKE) -C audio clean
@@ -69,15 +70,39 @@ endef
 
 $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))
 
-$(IDO_RECOMP_5_3_DIR):
-	mkdir -p $@
-	curl -sL https://github.com/decompals/ido-static-recomp/releases/download/$(IDO_RECOMP_VERSION)/ido-5.3-recomp-$(DETECTED_OS).tar.gz | tar xz -C $@
+compiler_archives/archives/ido-5.3-recomp-$(DETECTED_OS).tar.gz:
+	mkdir -p $(@D)
+	curl -sL https://github.com/decompals/ido-static-recomp/releases/download/$(IDO_RECOMP_VERSION)/ido-5.3-recomp-$(DETECTED_OS).tar.gz -o $@.unverified
+	sha256sum -c compiler_archives/signatures/ido-5.3-recomp-$(DETECTED_OS).tar.gz.sha256
+	mv $@.unverified $@
 
-$(IDO_RECOMP_7_1_DIR):
+$(IDO_RECOMP_5_3_DIR): compiler_archives/archives/ido-5.3-recomp-$(DETECTED_OS).tar.gz
 	mkdir -p $@
-	curl -sL https://github.com/decompals/ido-static-recomp/releases/download/$(IDO_RECOMP_VERSION)/ido-7.1-recomp-$(DETECTED_OS).tar.gz | tar xz -C $@
+	tar xzf $< -C $@
 
-$(EGCS_DIR):
+compiler_archives/archives/ido-7.1-recomp-$(DETECTED_OS).tar.gz:
+	mkdir -p $(@D)
+	curl -sL https://github.com/decompals/ido-static-recomp/releases/download/$(IDO_RECOMP_VERSION)/ido-7.1-recomp-$(DETECTED_OS).tar.gz -o $@.unverified
+	sha256sum -c compiler_archives/signatures/ido-7.1-recomp-$(DETECTED_OS).tar.gz.sha256
+	mv $@.unverified $@
+
+$(IDO_RECOMP_7_1_DIR): compiler_archives/archives/ido-7.1-recomp-$(DETECTED_OS).tar.gz
 	mkdir -p $@
-	curl -sL https://github.com/decompals/mips-binutils-egcs-2.9.5/releases/download/$(EGCS_BINUTILS_VERSION)/mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz | tar xz -C $@
-	curl -sL https://github.com/decompals/mips-gcc-egcs-2.91.66/releases/download/$(EGCS_GCC_VERSION)/mips-gcc-egcs-2.91.66-$(DETECTED_OS).tar.gz | tar xz -C $@
+	tar xzf $< -C $@
+
+compiler_archives/archives/mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz:
+	mkdir -p $(@D)
+	curl -sL https://github.com/decompals/mips-binutils-egcs-2.9.5/releases/download/$(EGCS_BINUTILS_VERSION)/mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz -o $@.unverified
+	sha256sum -c compiler_archives/signatures/mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz.sha256
+	mv $@.unverified $@
+
+compiler_archives/archives/mips-gcc-egcs-2.91.66-$(DETECTED_OS).tar.gz:
+	mkdir -p $(@D)
+	curl -sL https://github.com/decompals/mips-gcc-egcs-2.91.66/releases/download/$(EGCS_GCC_VERSION)/mips-gcc-egcs-2.91.66-$(DETECTED_OS).tar.gz -o $@.unverified
+	sha256sum -c compiler_archives/signatures/mips-gcc-egcs-2.91.66-$(DETECTED_OS).tar.gz.sha256
+	mv $@.unverified $@
+
+$(EGCS_DIR): compiler_archives/archives/mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz compiler_archives/archives/mips-gcc-egcs-2.91.66-$(DETECTED_OS).tar.gz
+	mkdir -p $@
+	tar xzf compiler_archives/archives/mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz -C $@
+	tar xzf compiler_archives/archives/mips-gcc-egcs-2.91.66-$(DETECTED_OS).tar.gz -C $@
