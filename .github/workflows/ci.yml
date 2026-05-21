@@ -48,6 +48,10 @@ jobs:
       - name: Get the dependency
         run: ln -s /orig/${{ matrix.version }}/baserom.z64 baseroms/${{ matrix.version }}/baserom.z64
 
+      # The compiler archives are embedded in the runner image, to avoid downloading them from GitHub (during make setup), which occasionally fails.
+      - name: Provide compiler archives
+        run: ln -s /compiler_archives tools/compiler_archives/archives
+
       - name: Setup
         run: make -j $(nproc) VERSION=${{ matrix.version }} setup
 

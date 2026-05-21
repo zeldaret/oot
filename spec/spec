@@ -5,16 +5,6 @@
 #include "include/versions.h"
 
 beginseg
-    name "makerom"
-    // We set the address of the makerom segment as 0x80000400 - 0x1000, since the ROM header and IPL3 together
-    // are 0x1000 bytes long and we want the entry code to end up at address 0x80000400.
-    address 0x7FFFF400
-    include "$(BUILD_DIR)/src/makerom/rom_header.o"
-    include "$(BUILD_DIR)/src/makerom/ipl3.o"
-    include "$(BUILD_DIR)/src/makerom/entry.o"
-endseg
-
-beginseg
     name "boot"
 
 #if PLATFORM_IQUE
@@ -95,8 +85,8 @@ beginseg
     include "$(BUILD_DIR)/src/boot/build.o"
 
     // RSP microcode
-    include "$(BUILD_DIR)/data/rsp_boot.text.o"
-    include "$(BUILD_DIR)/data/cic6105.text.o"
+    include "$(BUILD_DIR)/data/rspboot.o"
+    include "$(BUILD_DIR)/data/cic6105.o"
 
     // Extra files for non-matching debug builds
 #if DEBUG_FEATURES
@@ -742,7 +732,9 @@ beginseg
     include "$(BUILD_DIR)/src/libc64/malloc.o"
     include "$(BUILD_DIR)/src/libc64/qrand.o"
     include "$(BUILD_DIR)/src/libc64/__osMalloc_n64.o"
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libc64/sprintf.o"
+#endif
     include "$(BUILD_DIR)/src/libc64/aprintf.o"
 #elif PLATFORM_GC
     include "$(BUILD_DIR)/src/libc64/math64.o"
@@ -750,7 +742,9 @@ beginseg
     include "$(BUILD_DIR)/src/libc64/malloc.o"
     include "$(BUILD_DIR)/src/libc64/qrand.o"
     include "$(BUILD_DIR)/src/libc64/__osMalloc_gc.o"
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libc64/sprintf.o"
+#endif
     include "$(BUILD_DIR)/src/libc64/aprintf.o"
     include "$(BUILD_DIR)/src/libc64/sleep.o"
 #elif PLATFORM_IQUE
@@ -761,7 +755,9 @@ beginseg
     include "$(BUILD_DIR)/src/libc64/fp.o"
     include "$(BUILD_DIR)/src/libc64/qrand.o"
     include "$(BUILD_DIR)/src/libc64/sleep.o"
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libc64/sprintf.o"
+#endif
 #endif
 
     // jpeg
@@ -781,17 +777,23 @@ beginseg
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/libc/sqrt.o"
     include "$(BUILD_DIR)/src/libc/fmodf.o"
+#if !COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
+#endif
 #elif PLATFORM_GC
     include "$(BUILD_DIR)/src/libc/sqrt.o"
     include "$(BUILD_DIR)/src/libc/fabsf.o"
     include "$(BUILD_DIR)/src/libc/fmodf.o"
+#if !COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
+#endif
 #elif PLATFORM_IQUE
     include "$(BUILD_DIR)/src/libc/fmodf.o"
+#if !COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memmove.o"
+#endif
     include "$(BUILD_DIR)/src/libc/fabsf.o"
     include "$(BUILD_DIR)/src/libc/sqrt.o"
 #endif
@@ -814,8 +816,14 @@ beginseg
     include "$(BUILD_DIR)/src/audio/tables/samplebank_table.o"
 
     // RSP microcode
-    include "$(BUILD_DIR)/data/rsp.text.o"
-    include "$(BUILD_DIR)/data/rsp.rodata.o"
+    include "$(BUILD_DIR)/data/aspMain.o"
+#ifndef F3DEX_GBI_PL
+    include "$(BUILD_DIR)/data/gspF3DZEX2.NoN.fifo.o"
+#else
+    include "$(BUILD_DIR)/data/gspF3DZEX2.NoN.PosLight.fifo.o"
+#endif
+    include "$(BUILD_DIR)/data/gspS2DEX2d.fifo.o"
+    include "$(BUILD_DIR)/data/njpgdspMain.o"
 
     // Extra files for non-matching debug builds
 #if DEBUG_FEATURES
