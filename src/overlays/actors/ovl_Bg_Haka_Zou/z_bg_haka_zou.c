@@ -261,13 +261,14 @@ void BgHakaZou_SpawnRubbleParticles(BgHakaZou* this, PlayState* play) {
     fragmentPos.y = this->collider.dim.pos.y;
     fragmentPos.z = this->collider.dim.pos.z;
 
-    EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombableRubbleDL);
+    EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, OBJECT_HAKACH_OBJECTS, 40, gBotwBombableRubbleDL);
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             fragmentPos.x = this->collider.dim.pos.x + (((j * 2) - 1) * num);
             fragmentPos.z = this->collider.dim.pos.z + (((i * 2) - 1) * num);
-            EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombableRubbleDL);
+            EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, OBJECT_HAKACH_OBJECTS, 40,
+                                     gBotwBombableRubbleDL);
             func_800286CC(play, &fragmentPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
