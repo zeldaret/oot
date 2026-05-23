@@ -403,7 +403,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
 
     this->collectibleFlag = PARAMS_GET_S(this->actor.params, 8, 6);
 
-    this->actor.params &= 0xFF;
+    this->actor.params = PARAMS_GET_U(this->actor.params, 0, 8);
 
     if (Flags_GetCollectible(play, this->collectibleFlag)) {
         Actor_Kill(&this->actor);
