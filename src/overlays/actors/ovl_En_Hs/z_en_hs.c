@@ -22,13 +22,15 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
+#define ENHS_TRACKING_PLAYER (1 << 0)
+
 void EnHs_Init(Actor* thisx, PlayState* play);
 void EnHs_Destroy(Actor* thisx, PlayState* play);
 void EnHs_Update(Actor* thisx, PlayState* play);
 void EnHs_Draw(Actor* thisx, PlayState* play);
 
-void func_80A6E9AC(EnHs* this, PlayState* play);
-void func_80A6E6B0(EnHs* this, PlayState* play);
+void EnHs_SleepingInteract(EnHs* this, PlayState* play);
+void EnHs_SittingAwake(EnHs* this, PlayState* play);
 
 ActorProfile En_Hs_Profile = {
     /**/ ACTOR_EN_HS,
@@ -62,7 +64,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
-void func_80A6E3A0(EnHs* this, EnHsActionFunc actionFunc) {
+void EnHs_SetActionFunc(EnHs* this, EnHsActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -71,9 +73,9 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_hs_Skel_006260, &object_hs_Anim_0005C0, this->jointTable,
+    SkelAnime_InitFlex(play, &this->skelAnime, &gCarpenterSonSkel, &gCarpenterSonSittingAnim, this->jointTable,
                        this->morphTable, 16);
-    Animation_PlayLoop(&this->skelAnime, &object_hs_Anim_0005C0);
+    Animation_PlayLoop(&this->skelAnime, &gCarpenterSonSittingAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -87,17 +89,17 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
 
     if (this->actor.params == 1) {
         PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(大人の時) \n", " chicken shop (adult era) \n") VT_RST);
-        func_80A6E3A0(this, func_80A6E9AC);
+        EnHs_SetActionFunc(this, EnHs_SleepingInteract);
         if (GET_ITEMGETINF(ITEMGETINF_30)) {
             PRINTF(VT_FGCOL(CYAN) T(" ヒヨコ屋閉店 \n", " chicken shop closed \n") VT_RST);
             Actor_Kill(&this->actor);
         }
     } else {
         PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(子人の時) \n", " chicken shop (child era) \n") VT_RST);
-        func_80A6E3A0(this, func_80A6E9AC);
+        EnHs_SetActionFunc(this, EnHs_SleepingInteract);
     }
 
-    this->unk_2A8 = 0;
+    this->trackingFlags = 0;
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
 }
 
@@ -107,124 +109,124 @@ void EnHs_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-s32 func_80A6E53C(EnHs* this, PlayState* play, u16 textId, EnHsActionFunc actionFunc) {
+s32 EnHs_SittingAwakeInteract(EnHs* this, PlayState* play, u16 textId, EnHsActionFunc actionFunc) {
     s16 yawDiff;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        func_80A6E3A0(this, actionFunc);
-        return 1;
+        EnHs_SetActionFunc(this, actionFunc);
+        return true;
     }
 
     this->actor.textId = textId;
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToPlayer < 100.0f)) {
-        this->unk_2A8 |= 1;
+        this->trackingFlags |= ENHS_TRACKING_PLAYER;
         Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 
-    return 0;
+    return false;
 }
 
-void func_80A6E5EC(EnHs* this, PlayState* play) {
+void EnHs_SittingAwakeTalk(EnHs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        func_80A6E3A0(this, func_80A6E6B0);
+        EnHs_SetActionFunc(this, EnHs_SittingAwake);
     }
 
-    this->unk_2A8 |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
-void func_80A6E630(EnHs* this, PlayState* play) {
+void EnHs_GivingOddMushroom(EnHs* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         Interface_SetSubTimer(180);
-        func_80A6E3A0(this, func_80A6E6B0);
+        EnHs_SetActionFunc(this, EnHs_SittingAwake);
         CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     }
 
-    this->unk_2A8 |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
-void func_80A6E6B0(EnHs* this, PlayState* play) {
-    func_80A6E53C(this, play, 0x10B6, func_80A6E5EC);
+void EnHs_SittingAwake(EnHs* this, PlayState* play) {
+    EnHs_SittingAwakeInteract(this, play, 0x10B6, EnHs_SittingAwakeTalk);
 }
 
-void func_80A6E6D8(EnHs* this, PlayState* play) {
+void EnHs_SleepingTalk(EnHs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        func_80A6E3A0(this, func_80A6E9AC);
+        EnHs_SetActionFunc(this, EnHs_SleepingInteract);
     }
 }
 
-void func_80A6E70C(EnHs* this, PlayState* play) {
+void EnHs_OddMushroomNo(EnHs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        func_80A6E3A0(this, func_80A6E9AC);
+        EnHs_SetActionFunc(this, EnHs_SleepingInteract);
     }
 }
 
-void func_80A6E740(EnHs* this, PlayState* play) {
+void EnHs_OddMushroomYes(EnHs* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
-        func_80A6E3A0(this, func_80A6E630);
+        EnHs_SetActionFunc(this, EnHs_GivingOddMushroom);
     } else {
         Actor_OfferGetItem(&this->actor, play, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
     }
 
-    this->unk_2A8 |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
-void func_80A6E7BC(EnHs* this, PlayState* play) {
+void EnHs_OddMushroomChoice(EnHs* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                func_80A6E3A0(this, func_80A6E740);
+                EnHs_SetActionFunc(this, EnHs_OddMushroomYes);
                 Actor_OfferGetItem(&this->actor, play, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
                 break;
             case 1:
                 Message_ContinueTextbox(play, 0x10B4);
-                func_80A6E3A0(this, func_80A6E70C);
+                EnHs_SetActionFunc(this, EnHs_OddMushroomNo);
                 break;
         }
 
-        Animation_Change(&this->skelAnime, &object_hs_Anim_0005C0, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&object_hs_Anim_0005C0), ANIMMODE_LOOP, 8.0f);
+        Animation_Change(&this->skelAnime, &gCarpenterSonSittingAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gCarpenterSonSittingAnim), ANIMMODE_LOOP, 8.0f);
     }
 
-    this->unk_2A8 |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
-void func_80A6E8CC(EnHs* this, PlayState* play) {
+void EnHs_SeeingCojiro(EnHs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_ContinueTextbox(play, 0x10B3);
-        func_80A6E3A0(this, func_80A6E7BC);
-        Animation_Change(&this->skelAnime, &object_hs_Anim_000528, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&object_hs_Anim_000528), ANIMMODE_LOOP, 8.0f);
+        EnHs_SetActionFunc(this, EnHs_OddMushroomChoice);
+        Animation_Change(&this->skelAnime, &gCarpenterSonPleadingAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gCarpenterSonPleadingAnim), ANIMMODE_LOOP, 8.0f);
     }
 
-    if (this->unk_2AA > 0) {
-        this->unk_2AA--;
-        if (this->unk_2AA == 0) {
+    if (this->cojiroSfxTimer > 0) {
+        this->cojiroSfxTimer--;
+        if (this->cojiroSfxTimer == 0) {
             Player_PlaySfx(player, NA_SE_EV_CHICKEN_CRY_M);
         }
     }
 
-    this->unk_2A8 |= 1;
+    this->trackingFlags |= ENHS_TRACKING_PLAYER;
 }
 
-void func_80A6E9AC(EnHs* this, PlayState* play) {
+void EnHs_SleepingInteract(EnHs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 yawDiff;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_COJIRO) {
             player->actor.textId = 0x10B2;
-            func_80A6E3A0(this, func_80A6E8CC);
-            Animation_Change(&this->skelAnime, &object_hs_Anim_000304, 1.0f, 0.0f,
-                             Animation_GetLastFrame(&object_hs_Anim_000304), ANIMMODE_LOOP, 8.0f);
-            this->unk_2AA = 40;
+            EnHs_SetActionFunc(this, EnHs_SeeingCojiro);
+            Animation_Change(&this->skelAnime, &gCarpenterSonReachingAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gCarpenterSonReachingAnim), ANIMMODE_LOOP, 8.0f);
+            this->cojiroSfxTimer = 40;
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             player->actor.textId = 0x10B1;
-            func_80A6E3A0(this, func_80A6E6D8);
+            EnHs_SetActionFunc(this, EnHs_SleepingTalk);
         }
     } else {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -249,14 +251,14 @@ void EnHs_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (this->unk_2A8 & 1) {
-        Actor_TrackPlayer(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
-        this->unk_2A8 &= ~1;
+    if (this->trackingFlags & ENHS_TRACKING_PLAYER) {
+        Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
+        this->trackingFlags &= ~ENHS_TRACKING_PLAYER;
     } else {
-        Math_SmoothStepToS(&this->unk_29C.x, 12800, 6, 6200, 100);
-        Math_SmoothStepToS(&this->unk_29C.y, 0, 6, 6200, 100);
-        Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);
-        Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->headRot.x, 12800, 6, 6200, 100);
+        Math_SmoothStepToS(&this->headRot.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->torsoRot.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->torsoRot.y, 0, 6, 6200, 100);
     }
 }
 
@@ -265,8 +267,8 @@ s32 EnHs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     switch (limbIndex) {
         case 9:
-            rot->x += this->unk_29C.y;
-            rot->z += this->unk_29C.x;
+            rot->x += this->headRot.y;
+            rot->z += this->headRot.x;
             break;
         case 10:
             *dList = NULL;
@@ -291,11 +293,11 @@ s32 EnHs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 }
 
 void EnHs_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f D_80A6EDFC = { 300.0f, 1000.0f, 0.0f };
+    static Vec3f sFocusOffset = { 300.0f, 1000.0f, 0.0f };
     EnHs* this = (EnHs*)thisx;
 
     if (limbIndex == 9) {
-        Matrix_MultVec3f(&D_80A6EDFC, &this->actor.focus.pos);
+        Matrix_MultVec3f(&sFocusOffset, &this->actor.focus.pos);
     }
 }
 
