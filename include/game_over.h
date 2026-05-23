@@ -6,11 +6,11 @@
 struct PlayState;
 
 typedef enum GameOverState {
-    /* 00 */ GAMEOVER_INACTIVE,
-    /* 01 */ GAMEOVER_DEATH_START,
-    /* 02 */ GAMEOVER_DEATH_WAIT_GROUND, // wait for link to fall and hit the ground
-    /* 03 */ GAMEOVER_DEATH_DELAY_MENU,  // wait for 1 second before showing the game over menu
-    /* 04 */ GAMEOVER_DEATH_MENU,        // do nothing while kaleidoscope handles the game over menu
+    /*  0 */ GAMEOVER_INACTIVE,
+    /*  1 */ GAMEOVER_DEATH_START,
+    /*  2 */ GAMEOVER_DEATH_WAIT_GROUND, // wait for link to fall and hit the ground
+    /*  3 */ GAMEOVER_DEATH_DELAY_MENU,  // wait for 1 second before showing the game over menu
+    /*  4 */ GAMEOVER_DEATH_MENU,        // do nothing while kaleidoscope handles the game over menu
     /* 20 */ GAMEOVER_REVIVE_START = 20,
     /* 21 */ GAMEOVER_REVIVE_RUMBLE,
     /* 22 */ GAMEOVER_REVIVE_WAIT_GROUND, // wait for link to fall and hit the ground

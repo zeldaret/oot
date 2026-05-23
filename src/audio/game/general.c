@@ -2714,7 +2714,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
         sSfxChannelState[channelIndex].freqScale = freqScale;
     }
 
-    //! @bug: comparing a `u8` to an `s8`. if the most significant bit is set,
+    //! @bug comparing a `u8` to an `s8`. if the most significant bit is set,
     //! it'll always pass because the s8 value will be <0 and the u8 value is always >=0
     if (stereoBits != sSfxChannelState[channelIndex].stereoBits) {
         AUDIOCMD_CHANNEL_SET_STEREO(SEQ_PLAYER_SFX, channelIndex, stereoBits | 0x10);

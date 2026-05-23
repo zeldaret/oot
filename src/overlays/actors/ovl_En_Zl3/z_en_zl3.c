@@ -259,7 +259,7 @@ void func_80B53980(EnZl3* thisx, s16 y, s32 idx) {
         }
         if (idx == 0 && action == 3) {
             yTemp = y + -11000;
-            if (skelAnime->mode == 2) {
+            if (skelAnime->mode == ANIMMODE_ONCE) {
                 curFrame = skelAnime->curFrame;
                 unk_3DC = this->unk_3DC;
                 yTemp = (s32)((curFrame / unk_3DC) * -11000) + y;
@@ -341,13 +341,13 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
 
                 phi_v0 -= (phi_v1 - phi_v0) / 10;
             }
-        } else if (idx == 2 && action == 22 && skelAnime->mode == 2) {
+        } else if (idx == 2 && action == 22 && skelAnime->mode == ANIMMODE_ONCE) {
             if (phi_v1 != 0) {
                 s32 pad;
 
                 phi_v0 -= (phi_v1 - phi_v0) / 10;
             }
-        } else if (idx == 2 && (action == 20 || action == 21) && skelAnime->mode == 2) {
+        } else if (idx == 2 && (action == 20 || action == 21) && skelAnime->mode == ANIMMODE_ONCE) {
             if (phi_v1 != 0) {
                 s32 pad;
 
@@ -379,7 +379,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
 
         if (idx == 2) {
             if (action == 4) {
-                if (skelAnime->mode == 2) {
+                if (skelAnime->mode == ANIMMODE_ONCE) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E0 = this->unk_3E0;
                     s32 phi_v1_2 = (s32)(((unk_3E0 - curFrame) / unk_3E0) * -2000.0f) + phi_a1;
@@ -392,7 +392,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     }
                 }
             } else if (action == 5) {
-                if (skelAnime->mode == 2) {
+                if (skelAnime->mode == ANIMMODE_ONCE) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E4 = this->unk_3E4;
                     s32 phi_v1_2 = (s32)((curFrame / unk_3E4) * -2000.0f) + phi_a1;
@@ -414,7 +414,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     }
                 }
             } else if ((action == 20) || (action == 21)) {
-                if (skelAnime->mode == 2) {
+                if (skelAnime->mode == ANIMMODE_ONCE) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3F4 = this->unk_3F4;
                     s32 phi_v1_2;
@@ -442,7 +442,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     }
                 }
             } else if (action == 22) {
-                if (skelAnime->mode == 2) {
+                if (skelAnime->mode == ANIMMODE_ONCE) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3EC = this->unk_3EC;
                     s32 phi_v1_2 = (s32)(((curFrame / unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
@@ -464,7 +464,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     }
                 }
             } else if (action == 23) {
-                if (skelAnime->mode == 2) {
+                if (skelAnime->mode == ANIMMODE_ONCE) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3F0 = this->unk_3F0;
                     s32 phi_v1_2 = (s32)(((curFrame / unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
@@ -486,7 +486,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     }
                 }
             } else if (action == 24) {
-                if (skelAnime->mode == 2) {
+                if (skelAnime->mode == ANIMMODE_ONCE) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E8 = this->unk_3E8;
                     s32 phi_v1_2 = (s32)(((curFrame / unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
@@ -510,7 +510,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
             }
         } else if (idx == 11 || idx == 17) {
             if (action == 4) {
-                if (skelAnime->mode == 2) {
+                if (skelAnime->mode == ANIMMODE_ONCE) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E0 = this->unk_3E0;
                     s32 phi_v1_2 = (s32)((curFrame / unk_3E0) * -7000.0f) + phi_a1;
@@ -532,7 +532,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     }
                 }
             } else if (action == 5) {
-                if (skelAnime->mode == 2) {
+                if (skelAnime->mode == ANIMMODE_ONCE) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E4 = this->unk_3E4;
                     s32 phi_v1_2 = (s32)(((unk_3E4 - curFrame) / unk_3E4) * -7000.0f) + phi_a1;
@@ -1054,7 +1054,7 @@ void func_80B5582C(EnZl3* this) {
 void func_80B5585C(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 4.0f)) {
+    if ((skelAnime->mode == ANIMMODE_ONCE) && Animation_OnFrame(skelAnime, 4.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
     }
 }
@@ -1575,7 +1575,7 @@ void func_80B56DC8(EnZl3* this) {
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 9.0f) != 0) {
+    if ((skelAnime->mode == ANIMMODE_ONCE) && Animation_OnFrame(skelAnime, 9.0f) != 0) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
 }
@@ -2164,7 +2164,7 @@ void func_80B584B4(EnZl3* this, PlayState* play) {
     Actor* nearbyEnTest = Actor_FindNearby(play, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f);
 
     if (D_80B5A4BC == 0) {
-        if ((nearbyEnTest == NULL) && (!Play_InCsMode(play))) {
+        if ((nearbyEnTest == NULL) && !Play_InCsMode(play)) {
             this->action = 33;
             OnePointCutscene_Init(play, 4011, -99, &this->actor, CAM_ID_MAIN);
         } else if (invincibilityTimer > 0) {
@@ -2173,7 +2173,7 @@ void func_80B584B4(EnZl3* this, PlayState* play) {
             func_80B56DC8(this);
         }
     } else {
-        if ((nearbyEnTest == NULL) && (!Play_InCsMode(play))) {
+        if ((nearbyEnTest == NULL) && !Play_InCsMode(play)) {
             func_80B54E14(this, &gZelda2Anime2Anim_007664, 0, -12.0f, 0);
             D_80B5A4BC = 0;
             this->action = 33;

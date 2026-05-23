@@ -97,8 +97,8 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 typedef enum TailpasaranDamageReaction {
-    /* 00 */ TAILPASARAN_DMG_REACT_NONE,
-    /* 01 */ TAILPASARAN_DMG_REACT_DEKUNUT,
+    /*  0 */ TAILPASARAN_DMG_REACT_NONE,
+    /*  1 */ TAILPASARAN_DMG_REACT_DEKUNUT,
     /* 14 */ TAILPASARAN_DMG_REACT_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
     /* 15 */ TAILPASARAN_DMG_REACT_INSULATING     // Kills the Tailpasaran and does not shock Player
 } TailpasaranDamageReaction;
