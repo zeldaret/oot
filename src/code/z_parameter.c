@@ -39,108 +39,166 @@ typedef struct RestrictionFlags {
     /* 0x03 */ u8 flags3;
 } RestrictionFlags; // size = 0x4
 
+/**
+ * @param hGauge Flag unused, purpose unknown
+ * @param bButton true to disable B button
+ * @param aButton true to disable A button
+ * @param bottles true to disable bottle items
+ * @param tradeItems true to disable trade items
+ * @param hookshot true to disable hookshot
+ * @param ocarina true to disable ocarina
+ * @param warpSongs 3 to disable warp songs
+ * @param sunsSong 3 to disable sun's song time advance in areas where time doesn't move
+ * @param farores true to disable Farore's Wind
+ * @param dinsNayrus true to disable Din's Fire and Nayru's Love
+ * @param all true to disable items other than ocarina, bottles and trade items
+ *            (except lens of truth in the treasure shop)
+ */
+#define RESTRICTION_FLAGS(hGauge, bButton, aButton, bottles, tradeItems, hookshot, ocarina, warpSongs, sunsSong, \
+                          farores, dinsNayrus, all)                                                              \
+    (((hGauge) << 6) | ((bButton) << 4) | ((aButton) << 2) | (bottles)),                                         \
+        (((tradeItems) << 6) | ((hookshot) << 4) | ((ocarina) << 2) | (warpSongs)),                              \
+        (((sunsSong) << 6) | ((farores) << 4) | ((dinsNayrus) << 2) | (all))
+
 static RestrictionFlags sRestrictionFlags[] = {
-    { SCENE_HYRULE_FIELD, 0x00, 0x00, 0x10 },
-    { SCENE_KAKARIKO_VILLAGE, 0x00, 0x00, 0x10 },
-    { SCENE_GRAVEYARD, 0x00, 0x00, 0x10 },
-    { SCENE_ZORAS_RIVER, 0x00, 0x00, 0x10 },
-    { SCENE_KOKIRI_FOREST, 0x00, 0x00, 0x10 },
-    { SCENE_SACRED_FOREST_MEADOW, 0x00, 0x00, 0x10 },
-    { SCENE_LAKE_HYLIA, 0x00, 0x00, 0x10 },
-    { SCENE_ZORAS_DOMAIN, 0x00, 0x00, 0x10 },
-    { SCENE_ZORAS_FOUNTAIN, 0x00, 0x00, 0x10 },
-    { SCENE_GERUDO_VALLEY, 0x00, 0x00, 0x10 },
-    { SCENE_LOST_WOODS, 0x00, 0x00, 0x10 },
-    { SCENE_DESERT_COLOSSUS, 0x00, 0x00, 0x10 },
-    { SCENE_GERUDOS_FORTRESS, 0x00, 0x00, 0x10 },
-    { SCENE_HAUNTED_WASTELAND, 0x00, 0x00, 0x10 },
-    { SCENE_HYRULE_CASTLE, 0x00, 0x00, 0x10 },
-    { SCENE_OUTSIDE_GANONS_CASTLE, 0x00, 0x00, 0x10 },
-    { SCENE_DEATH_MOUNTAIN_TRAIL, 0x00, 0x00, 0x10 },
-    { SCENE_DEATH_MOUNTAIN_CRATER, 0x00, 0x00, 0x10 },
-    { SCENE_GORON_CITY, 0x00, 0x00, 0x10 },
-    { SCENE_LON_LON_RANCH, 0x00, 0x00, 0x10 },
-    { SCENE_TEMPLE_OF_TIME, 0x00, 0x10, 0x15 },
-    { SCENE_CHAMBER_OF_THE_SAGES, 0xA2, 0xAA, 0xAA },
-    { SCENE_SHOOTING_GALLERY, 0x11, 0x55, 0x55 },
-    { SCENE_CASTLE_COURTYARD_GUARDS_DAY, 0x11, 0x55, 0x55 },
-    { SCENE_CASTLE_COURTYARD_GUARDS_NIGHT, 0x11, 0x55, 0x55 },
-    { SCENE_REDEAD_GRAVE, 0x00, 0x00, 0xD0 },
-    { SCENE_GRAVE_WITH_FAIRYS_FOUNTAIN, 0x00, 0x00, 0xD0 },
-    { SCENE_ROYAL_FAMILYS_TOMB, 0x00, 0x00, 0xD0 },
-    { SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC, 0x00, 0x00, 0x10 },
-    { SCENE_FAIRYS_FOUNTAIN, 0x00, 0x00, 0xD0 },
-    { SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS, 0x00, 0x00, 0x10 },
-    { SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR, 0x00, 0x05, 0x50 },
-    { SCENE_CASTLE_COURTYARD_ZELDA, 0x00, 0x05, 0x54 },
-    { SCENE_FISHING_POND, 0x11, 0x55, 0x55 },
-    { SCENE_BOMBCHU_BOWLING_ALLEY, 0x11, 0x55, 0x55 },
-    { SCENE_LON_LON_BUILDINGS, 0x00, 0x10, 0x15 },
-    { SCENE_MARKET_GUARD_HOUSE, 0x00, 0x10, 0x14 },
-    { SCENE_POTION_SHOP_GRANNY, 0x10, 0x15, 0x55 },
-    { SCENE_TREASURE_BOX_SHOP, 0x10, 0x15, 0x55 },
-    { SCENE_HOUSE_OF_SKULLTULA, 0x00, 0x10, 0x15 },
-    { SCENE_MARKET_ENTRANCE_DAY, 0x00, 0x10, 0x15 },
-    { SCENE_MARKET_ENTRANCE_NIGHT, 0x00, 0x10, 0x15 },
-    { SCENE_MARKET_ENTRANCE_RUINS, 0x00, 0x10, 0xD5 },
-    { SCENE_MARKET_DAY, 0x00, 0x10, 0x15 },
-    { SCENE_MARKET_NIGHT, 0x00, 0x10, 0x15 },
-    { SCENE_MARKET_RUINS, 0x00, 0x10, 0xD5 },
-    { SCENE_BACK_ALLEY_DAY, 0x00, 0x10, 0x15 },
-    { SCENE_BACK_ALLEY_NIGHT, 0x00, 0x10, 0x15 },
-    { SCENE_TEMPLE_OF_TIME_EXTERIOR_DAY, 0x00, 0x10, 0x15 },
-    { SCENE_TEMPLE_OF_TIME_EXTERIOR_NIGHT, 0x00, 0x10, 0x15 },
-    { SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS, 0x00, 0x10, 0xD5 },
-    { SCENE_LINKS_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_KAKARIKO_CENTER_GUEST_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_BACK_ALLEY_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_KNOW_IT_ALL_BROS_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_TWINS_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_MIDOS_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_SARIAS_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_STABLE, 0x10, 0x10, 0x15 },
-    { SCENE_GRAVEKEEPERS_HUT, 0x10, 0x10, 0x15 },
-    { SCENE_DOG_LADY_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_IMPAS_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_LAKESIDE_LABORATORY, 0x00, 0x10, 0x15 },
-    { SCENE_CARPENTERS_TENT, 0x10, 0x10, 0x15 },
-    { SCENE_BAZAAR, 0x10, 0x10, 0x15 },
-    { SCENE_KOKIRI_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_GORON_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_ZORA_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_POTION_SHOP_KAKARIKO, 0x10, 0x10, 0x15 },
-    { SCENE_POTION_SHOP_MARKET, 0x10, 0x10, 0x15 },
-    { SCENE_BOMBCHU_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_HAPPY_MASK_SHOP, 0x10, 0x10, 0x15 },
-    { SCENE_GERUDO_TRAINING_GROUND, 0x00, 0x03, 0x10 },
-    { SCENE_DEKU_TREE, 0x00, 0x00, 0x00 },
-    { SCENE_DEKU_TREE_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_DODONGOS_CAVERN, 0x00, 0x00, 0x00 },
-    { SCENE_DODONGOS_CAVERN_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_JABU_JABU, 0x00, 0x00, 0x00 },
-    { SCENE_JABU_JABU_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_FOREST_TEMPLE, 0x00, 0x00, 0x00 },
-    { SCENE_FOREST_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_BOTTOM_OF_THE_WELL, 0x00, 0x00, 0x00 },
-    { SCENE_SHADOW_TEMPLE, 0x00, 0x00, 0x00 },
-    { SCENE_SHADOW_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_FIRE_TEMPLE, 0x00, 0x00, 0x00 },
-    { SCENE_FIRE_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_WATER_TEMPLE, 0x00, 0x00, 0x00 },
-    { SCENE_WATER_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_SPIRIT_TEMPLE, 0x00, 0x00, 0x00 },
-    { SCENE_SPIRIT_TEMPLE_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_GANONS_TOWER, 0x00, 0x00, 0x00 },
-    { SCENE_GANONDORF_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_ICE_CAVERN, 0x00, 0x00, 0xC0 },
-    { SCENE_WINDMILL_AND_DAMPES_GRAVE, 0x00, 0x03, 0x14 },
-    { SCENE_INSIDE_GANONS_CASTLE, 0x00, 0x03, 0x10 },
-    { SCENE_GANON_BOSS, 0x00, 0x45, 0x50 },
-    { SCENE_GANONS_TOWER_COLLAPSE_INTERIOR, 0x00, 0x05, 0x50 },
-    { SCENE_INSIDE_GANONS_CASTLE_COLLAPSE, 0x00, 0x05, 0x50 },
-    { SCENE_THIEVES_HIDEOUT, 0x00, 0x00, 0x10 },
-    { SCENE_GROTTOS, 0x00, 0x00, 0xD0 },
-    { 0xFF, 0x00, 0x00, 0x00 },
+    { SCENE_HYRULE_FIELD, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_KAKARIKO_VILLAGE,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_GRAVEYARD, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_ZORAS_RIVER, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_KOKIRI_FOREST, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_SACRED_FOREST_MEADOW,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_LAKE_HYLIA, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_ZORAS_DOMAIN, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_ZORAS_FOUNTAIN, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_GERUDO_VALLEY, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_LOST_WOODS, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_DESERT_COLOSSUS, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_GERUDOS_FORTRESS,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_HAUNTED_WASTELAND,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_HYRULE_CASTLE, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_OUTSIDE_GANONS_CASTLE,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_DEATH_MOUNTAIN_TRAIL,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_DEATH_MOUNTAIN_CRATER,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_GORON_CITY, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_LON_LON_RANCH, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_TEMPLE_OF_TIME, RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_CHAMBER_OF_THE_SAGES, RESTRICTION_FLAGS(2, 2, false, 2, 2, 2, 2, 2, 2, 2, 2, 2) },
+    { SCENE_SHOOTING_GALLERY, RESTRICTION_FLAGS(0, true, false, true, true, true, true, 1, 1, true, true, true) },
+    { SCENE_CASTLE_COURTYARD_GUARDS_DAY,
+      RESTRICTION_FLAGS(0, true, false, true, true, true, true, 1, 1, true, true, true) },
+    { SCENE_CASTLE_COURTYARD_GUARDS_NIGHT,
+      RESTRICTION_FLAGS(0, true, false, true, true, true, true, 1, 1, true, true, true) },
+    { SCENE_REDEAD_GRAVE, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 3, true, false, false) },
+    { SCENE_GRAVE_WITH_FAIRYS_FOUNTAIN,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 3, true, false, false) },
+    { SCENE_ROYAL_FAMILYS_TOMB,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 3, true, false, false) },
+    { SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_FAIRYS_FOUNTAIN, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 3, true, false, false) },
+    { SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, true, 1, 1, true, false, false) },
+    { SCENE_CASTLE_COURTYARD_ZELDA,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, true, 1, 1, true, true, false) },
+    { SCENE_FISHING_POND, RESTRICTION_FLAGS(0, true, false, true, true, true, true, 1, 1, true, true, true) },
+    { SCENE_BOMBCHU_BOWLING_ALLEY, RESTRICTION_FLAGS(0, true, false, true, true, true, true, 1, 1, true, true, true) },
+    { SCENE_LON_LON_BUILDINGS, RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_MARKET_GUARD_HOUSE,
+      RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, false) },
+    { SCENE_POTION_SHOP_GRANNY, RESTRICTION_FLAGS(0, true, false, false, false, true, true, 1, 1, true, true, true) },
+    { SCENE_TREASURE_BOX_SHOP, RESTRICTION_FLAGS(0, true, false, false, false, true, true, 1, 1, true, true, true) },
+    { SCENE_HOUSE_OF_SKULLTULA, RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_MARKET_ENTRANCE_DAY,
+      RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_MARKET_ENTRANCE_NIGHT,
+      RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_MARKET_ENTRANCE_RUINS,
+      RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 3, true, true, true) },
+    { SCENE_MARKET_DAY, RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_MARKET_NIGHT, RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_MARKET_RUINS, RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 3, true, true, true) },
+    { SCENE_BACK_ALLEY_DAY, RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_BACK_ALLEY_NIGHT, RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_TEMPLE_OF_TIME_EXTERIOR_DAY,
+      RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_TEMPLE_OF_TIME_EXTERIOR_NIGHT,
+      RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS,
+      RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 3, true, true, true) },
+    { SCENE_LINKS_HOUSE, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_KAKARIKO_CENTER_GUEST_HOUSE,
+      RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_BACK_ALLEY_HOUSE, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_KNOW_IT_ALL_BROS_HOUSE,
+      RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_TWINS_HOUSE, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_MIDOS_HOUSE, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_SARIAS_HOUSE, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_STABLE, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_GRAVEKEEPERS_HUT, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_DOG_LADY_HOUSE, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_IMPAS_HOUSE, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_LAKESIDE_LABORATORY,
+      RESTRICTION_FLAGS(0, false, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_CARPENTERS_TENT, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_BAZAAR, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_KOKIRI_SHOP, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_GORON_SHOP, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_ZORA_SHOP, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_POTION_SHOP_KAKARIKO,
+      RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_POTION_SHOP_MARKET, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_BOMBCHU_SHOP, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_HAPPY_MASK_SHOP, RESTRICTION_FLAGS(0, true, false, false, false, true, false, 0, 0, true, true, true) },
+    { SCENE_GERUDO_TRAINING_GROUND,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 3, 0, true, false, false) },
+    { SCENE_DEKU_TREE, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_DEKU_TREE_BOSS, RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_DODONGOS_CAVERN,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_DODONGOS_CAVERN_BOSS,
+      RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_JABU_JABU, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_JABU_JABU_BOSS, RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_FOREST_TEMPLE, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_FOREST_TEMPLE_BOSS,
+      RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_BOTTOM_OF_THE_WELL,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_SHADOW_TEMPLE, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_SHADOW_TEMPLE_BOSS,
+      RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_FIRE_TEMPLE, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_FIRE_TEMPLE_BOSS, RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_WATER_TEMPLE, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_WATER_TEMPLE_BOSS, RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_SPIRIT_TEMPLE, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_SPIRIT_TEMPLE_BOSS,
+      RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_GANONS_TOWER, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, false, false, false) },
+    { SCENE_GANONDORF_BOSS, RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_ICE_CAVERN, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 3, false, false, false) },
+    { SCENE_WINDMILL_AND_DAMPES_GRAVE,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 3, 0, true, true, false) },
+    { SCENE_INSIDE_GANONS_CASTLE,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, false, 3, 0, true, false, false) },
+    { SCENE_GANON_BOSS, RESTRICTION_FLAGS(0, false, false, false, true, false, true, 1, 1, true, false, false) },
+    { SCENE_GANONS_TOWER_COLLAPSE_INTERIOR,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, true, 1, 1, true, false, false) },
+    { SCENE_INSIDE_GANONS_CASTLE_COLLAPSE,
+      RESTRICTION_FLAGS(0, false, false, false, false, false, true, 1, 1, true, false, false) },
+    { SCENE_THIEVES_HIDEOUT, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 0, true, false, false) },
+    { SCENE_GROTTOS, RESTRICTION_FLAGS(0, false, false, false, false, false, false, 0, 3, true, false, false) },
+    { 0xFF, 0, 0, 0 },
 };
 
 static s16 sHBAScoreTier = 0;
@@ -872,7 +930,7 @@ void func_80083108(PlayState* play) {
 
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
             } else {
-                if (interfaceCtx->restrictions.bButton == 0) {
+                if (!interfaceCtx->restrictions.bButton) {
                     if ((gSaveContext.save.info.equips.buttonItems[0] == ITEM_SLINGSHOT) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOW) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
@@ -896,7 +954,7 @@ void func_80083108(PlayState* play) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0] & 0xFF;
                         }
                     }
-                } else if (interfaceCtx->restrictions.bButton == 1) {
+                } else if (interfaceCtx->restrictions.bButton == true) {
                     if ((gSaveContext.save.info.equips.buttonItems[0] == ITEM_SLINGSHOT) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOW) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
@@ -919,7 +977,7 @@ void func_80083108(PlayState* play) {
                     }
                 }
 
-                if (interfaceCtx->restrictions.bottles != 0) {
+                if (interfaceCtx->restrictions.bottles) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
                             (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) {
@@ -930,7 +988,7 @@ void func_80083108(PlayState* play) {
                             gSaveContext.buttonStatus[i] = BTN_DISABLED;
                         }
                     }
-                } else if (interfaceCtx->restrictions.bottles == 0) {
+                } else if (!interfaceCtx->restrictions.bottles) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_BOTTLE_EMPTY) &&
                             (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) {
@@ -943,7 +1001,7 @@ void func_80083108(PlayState* play) {
                     }
                 }
 
-                if (interfaceCtx->restrictions.tradeItems != 0) {
+                if (interfaceCtx->restrictions.tradeItems) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                             (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_CLAIM_CHECK)) {
@@ -954,7 +1012,7 @@ void func_80083108(PlayState* play) {
                             gSaveContext.buttonStatus[i] = BTN_DISABLED;
                         }
                     }
-                } else if (interfaceCtx->restrictions.tradeItems == 0) {
+                } else if (!interfaceCtx->restrictions.tradeItems) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                             (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_CLAIM_CHECK)) {
@@ -967,7 +1025,7 @@ void func_80083108(PlayState* play) {
                     }
                 }
 
-                if (interfaceCtx->restrictions.hookshot != 0) {
+                if (interfaceCtx->restrictions.hookshot) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] == ITEM_HOOKSHOT) ||
                             (gSaveContext.save.info.equips.buttonItems[i] == ITEM_LONGSHOT)) {
@@ -978,7 +1036,7 @@ void func_80083108(PlayState* play) {
                             gSaveContext.buttonStatus[i] = BTN_DISABLED;
                         }
                     }
-                } else if (interfaceCtx->restrictions.hookshot == 0) {
+                } else if (!interfaceCtx->restrictions.hookshot) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] == ITEM_HOOKSHOT) ||
                             (gSaveContext.save.info.equips.buttonItems[i] == ITEM_LONGSHOT)) {
@@ -991,7 +1049,7 @@ void func_80083108(PlayState* play) {
                     }
                 }
 
-                if (interfaceCtx->restrictions.ocarina != 0) {
+                if (interfaceCtx->restrictions.ocarina) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] == ITEM_OCARINA_FAIRY) ||
                             (gSaveContext.save.info.equips.buttonItems[i] == ITEM_OCARINA_OF_TIME)) {
@@ -1002,7 +1060,7 @@ void func_80083108(PlayState* play) {
                             gSaveContext.buttonStatus[i] = BTN_DISABLED;
                         }
                     }
-                } else if (interfaceCtx->restrictions.ocarina == 0) {
+                } else if (!interfaceCtx->restrictions.ocarina) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] == ITEM_OCARINA_FAIRY) ||
                             (gSaveContext.save.info.equips.buttonItems[i] == ITEM_OCARINA_OF_TIME)) {
@@ -1015,7 +1073,7 @@ void func_80083108(PlayState* play) {
                     }
                 }
 
-                if (interfaceCtx->restrictions.farores != 0) {
+                if (interfaceCtx->restrictions.farores) {
                     for (i = 1; i < 4; i++) {
                         if (gSaveContext.save.info.equips.buttonItems[i] == ITEM_FARORES_WIND) {
                             if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
@@ -1026,7 +1084,7 @@ void func_80083108(PlayState* play) {
                             PRINTF("***(i=%d)***  ", i);
                         }
                     }
-                } else if (interfaceCtx->restrictions.farores == 0) {
+                } else if (!interfaceCtx->restrictions.farores) {
                     for (i = 1; i < 4; i++) {
                         if (gSaveContext.save.info.equips.buttonItems[i] == ITEM_FARORES_WIND) {
                             if (gSaveContext.buttonStatus[i] == BTN_DISABLED) {
@@ -1038,7 +1096,7 @@ void func_80083108(PlayState* play) {
                     }
                 }
 
-                if (interfaceCtx->restrictions.dinsNayrus != 0) {
+                if (interfaceCtx->restrictions.dinsNayrus) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] == ITEM_DINS_FIRE) ||
                             (gSaveContext.save.info.equips.buttonItems[i] == ITEM_NAYRUS_LOVE)) {
@@ -1049,7 +1107,7 @@ void func_80083108(PlayState* play) {
                             gSaveContext.buttonStatus[i] = BTN_DISABLED;
                         }
                     }
-                } else if (interfaceCtx->restrictions.dinsNayrus == 0) {
+                } else if (!interfaceCtx->restrictions.dinsNayrus) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] == ITEM_DINS_FIRE) ||
                             (gSaveContext.save.info.equips.buttonItems[i] == ITEM_NAYRUS_LOVE)) {
@@ -1062,7 +1120,7 @@ void func_80083108(PlayState* play) {
                     }
                 }
 
-                if (interfaceCtx->restrictions.all != 0) {
+                if (interfaceCtx->restrictions.all) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] != ITEM_OCARINA_FAIRY) &&
                             (gSaveContext.save.info.equips.buttonItems[i] != ITEM_OCARINA_OF_TIME) &&
@@ -1070,8 +1128,8 @@ void func_80083108(PlayState* play) {
                               (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) &&
                             !((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                               (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
-                            if ((play->sceneId != SCENE_TREASURE_BOX_SHOP) ||
-                                (gSaveContext.save.info.equips.buttonItems[i] != ITEM_LENS_OF_TRUTH)) {
+                            if (!((play->sceneId == SCENE_TREASURE_BOX_SHOP) &&
+                                  (gSaveContext.save.info.equips.buttonItems[i] == ITEM_LENS_OF_TRUTH))) {
                                 if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
                                     sp28 = true;
                                 }
@@ -1086,7 +1144,7 @@ void func_80083108(PlayState* play) {
                             }
                         }
                     }
-                } else if (interfaceCtx->restrictions.all == 0) {
+                } else if (!interfaceCtx->restrictions.all) {
                     for (i = 1; i < 4; i++) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] != ITEM_DINS_FIRE) &&
                             (gSaveContext.save.info.equips.buttonItems[i] != ITEM_HOOKSHOT) &&
@@ -1130,17 +1188,17 @@ void Interface_SetSceneRestrictions(PlayState* play) {
     s32 pad2;
     s32 pad3;
 
-    interfaceCtx->restrictions.all = 0;
-    interfaceCtx->restrictions.dinsNayrus = 0;
-    interfaceCtx->restrictions.farores = 0;
+    interfaceCtx->restrictions.all = false;
+    interfaceCtx->restrictions.dinsNayrus = false;
+    interfaceCtx->restrictions.farores = false;
     interfaceCtx->restrictions.sunsSong = 0;
     interfaceCtx->restrictions.warpSongs = 0;
-    interfaceCtx->restrictions.ocarina = 0;
-    interfaceCtx->restrictions.hookshot = 0;
-    interfaceCtx->restrictions.tradeItems = 0;
-    interfaceCtx->restrictions.bottles = 0;
-    interfaceCtx->restrictions.aButton = 0;
-    interfaceCtx->restrictions.bButton = 0;
+    interfaceCtx->restrictions.ocarina = false;
+    interfaceCtx->restrictions.hookshot = false;
+    interfaceCtx->restrictions.tradeItems = false;
+    interfaceCtx->restrictions.bottles = false;
+    interfaceCtx->restrictions.aButton = false;
+    interfaceCtx->restrictions.bButton = false;
     interfaceCtx->restrictions.hGauge = 0;
 
     PRINTF(
