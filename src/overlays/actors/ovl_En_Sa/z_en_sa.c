@@ -31,21 +31,21 @@ void func_80AF683C(EnSa* this, PlayState* play);
 void func_80AF68E4(EnSa* this, PlayState* play);
 void func_80AF6B20(EnSa* this, PlayState* play);
 
-typedef enum SariaEyeState {
+typedef enum SariaEyes {
     /* 0 */ SARIA_EYE_OPEN,
     /* 1 */ SARIA_EYE_HALF,
     /* 2 */ SARIA_EYE_CLOSED,
-    /* 3 */ SARIA_EYE_SUPRISED,
+    /* 3 */ SARIA_EYE_SURPRISED,
     /* 4 */ SARIA_EYE_SAD
-} SariaEyeState;
+} SariaEyes;
 
-typedef enum SariaMouthState {
+typedef enum SariaMouth {
     /* 0 */ SARIA_MOUTH_CLOSED2,
-    /* 1 */ SARIA_MOUTH_SUPRISED,
+    /* 1 */ SARIA_MOUTH_SURPRISED,
     /* 2 */ SARIA_MOUTH_CLOSED,
     /* 3 */ SARIA_MOUTH_SMILING_OPEN,
     /* 4 */ SARIA_MOUTH_FROWNING
-} SariaMouthState;
+} SariaMouth;
 
 ActorProfile En_Sa_Profile = {
     /**/ ACTOR_EN_SA,
@@ -467,7 +467,7 @@ void func_80AF609C(EnSa* this) {
         }
         if (phi_v1 == 0) {
             this->rightEyeIndex++;
-            if (this->rightEyeIndex < SARIA_EYE_SUPRISED) {
+            if (this->rightEyeIndex < SARIA_EYE_SURPRISED) {
                 this->leftEyeIndex = this->rightEyeIndex;
             } else {
                 this->unk_20E = Rand_S16Offset(30, 30);
