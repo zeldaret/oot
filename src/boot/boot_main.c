@@ -29,7 +29,7 @@ void bootproc(void) {
 
     osMemSize = osGetMemSize();
 #if PLATFORM_N64
-    func_80001720();
+    CIC6105_SaveBootMagicValues();
 #endif
     bootclear();
     osInitialize();

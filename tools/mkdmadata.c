@@ -14,9 +14,9 @@ int g_segmentsCount;
 
 static void write_dmadata_table(FILE *fout)
 {
-    int i;
+    fprintf(fout, "DEFINE_DMA_ENTRY(makerom, \"makerom\")\n");
 
-    for (i = 0; i < g_segmentsCount; i++) {
+    for (int i = 0; i < g_segmentsCount; i++) {
         // Don't emit dma entry for segments set with NOLOAD
         if (g_segments[i].flags & FLAG_NOLOAD) {
             continue;
@@ -29,7 +29,7 @@ static void write_dmadata_table(FILE *fout)
 static void write_compress_ranges(FILE *fout)
 {
     int i;
-    int rom_index = 0;
+    int rom_index = 1; // Start at 1 since makerom is in dmadata but not in the spec
     bool continue_list = false;
     int stride_first = -1;
 
