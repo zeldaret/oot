@@ -293,10 +293,15 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
             KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
 
+            // Handle part of the ocarina songs playback
+
             if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) &&
                 (pauseCtx->cursorSpecialPos == 0)) {
                 if ((cursor >= QUEST_SONG_MINUET) && (cursor < QUEST_KOKIRI_EMERALD)) {
                     if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
+                        // The cursor is on a learned song
+                        // Set some things up for song playback
+
                         cursor = pauseCtx->cursorSlot[PAUSE_QUEST];
                         pauseCtx->ocarinaSongIdx = gOcarinaSongItemMap[cursor - QUEST_SONG_MINUET];
                         sPlaybackSongStartDelayTimer = 10;
@@ -307,6 +312,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                         }
                         sPlayedSongBtnsNum = 0;
 
+                        // Have the player play a song, immediately cancelled below
+                        // Also clear the playback staff
+                        // This has no purpose (?)
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_DEFAULT);
                         AudioOcarina_Start((1 << pauseCtx->ocarinaSongIdx) + 0x8000);
                         pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
@@ -321,6 +329,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                         pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG;
 
+                        // Stop having the player play a song as done above
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                     }
                 }

@@ -32,7 +32,14 @@ u8 gAmmoItems[] = {
     ITEM_NONE,
 };
 
-static s16 sEquipState = 0;
+typedef enum ItemEquipState {
+    /* 0 */ ITEM_EQUIP_STATE_0,
+    /* 1 */ ITEM_EQUIP_STATE_1,
+    /* 2 */ ITEM_EQUIP_STATE_2,
+    /* 3 */ ITEM_EQUIP_STATE_3
+} ItemEquipState;
+
+static s16 sEquipState = ITEM_EQUIP_STATE_0;
 static s16 sEquipAnimTimer = 0;
 static s16 sEquipMoveTimer = 10;
 
@@ -409,11 +416,13 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->equipAnimY = pauseCtx->itemVtx[index].v.ob[1] * 10;
                             pauseCtx->equipAnimAlpha = 255;
                             sEquipAnimTimer = 0;
-                            sEquipState = 3;
+                            sEquipState = ITEM_EQUIP_STATE_3;
                             sEquipMoveTimer = 10;
+
                             if ((pauseCtx->equipTargetItem == ITEM_ARROW_FIRE) ||
                                 (pauseCtx->equipTargetItem == ITEM_ARROW_ICE) ||
                                 (pauseCtx->equipTargetItem == ITEM_ARROW_LIGHT)) {
+
                                 index = 0;
                                 if (pauseCtx->equipTargetItem == ITEM_ARROW_ICE) {
                                     index = 1;
@@ -423,7 +432,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 }
                                 SFX_PLAY_CENTERED(NA_SE_SY_SET_FIRE_ARROW + index);
                                 pauseCtx->equipTargetItem = 0xBF + index;
-                                sEquipState = 0;
+                                sEquipState = ITEM_EQUIP_STATE_0;
                                 pauseCtx->equipAnimAlpha = 0;
                                 sEquipMoveTimer = 6;
                             } else {
@@ -435,6 +444,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                     }
                 }
             } else {
+                // PAUSE_QUAD_CURSOR_TL
+
                 pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->cursorVtx[2].v.ob[0] = pauseCtx->cursorVtx[1].v.ob[0] =
                     pauseCtx->cursorVtx[3].v.ob[0] = 0;
 
@@ -449,7 +460,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
         }
     } else if ((pauseCtx->mainState == PAUSE_MAIN_STATE_3) && (pauseCtx->pageIndex == PAUSE_ITEM)) {
-        //! @bug cursorSlot is uninitialized
+        //! @bug cursorSlot is used uninitialized
+        // This leads to reading from the itemVtx array at some index, typically OOB, and setting the cursor to an
+        // unexpected position. However the cursor is not drawn in this state so it ends up not being an issue.
         KaleidoScope_SetCursorPos(pauseCtx, cursorSlot * 4, pauseCtx->itemVtx);
         pauseCtx->cursorColorSet = 4;
     }
@@ -476,7 +489,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             if ((pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) && (pauseCtx->pageIndex == PAUSE_ITEM) &&
                 (pauseCtx->cursorSpecialPos == 0)) {
                 if (CHECK_AGE_REQ_SLOT(i)) {
-                    if ((sEquipState == 2) && (i == 3)) {
+                    if ((sEquipState == ITEM_EQUIP_STATE_2) && (i == SLOT_BOW)) {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, magicArrowEffectsR[pauseCtx->equipTargetItem - 0xBF],
                                         magicArrowEffectsG[pauseCtx->equipTargetItem - 0xBF],
                                         magicArrowEffectsB[pauseCtx->equipTargetItem - 0xBF], pauseCtx->alpha);
@@ -538,43 +551,44 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_item.c", 516);
 }
 
+// C-left, C-down, C-right
 static s16 sCButtonPosX[] = { 660, 900, 1140 };
 static s16 sCButtonPosY[] = { 1100, 920, 1100 };
 
 void KaleidoScope_UpdateItemEquip(PlayState* play) {
-    static s16 D_8082A488 = 0;
+    static s16 sItemEquipState2Timer_8082A488 = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     Vtx* bowItemVtx;
     u16 offsetX;
     u16 offsetY;
 
-    if (sEquipState == 0) {
-        pauseCtx->equipAnimAlpha += 14;
+    if (sEquipState == ITEM_EQUIP_STATE_0) {
+        pauseCtx->equipAnimAlpha += 255 / 18;
         if (pauseCtx->equipAnimAlpha > 255) {
             pauseCtx->equipAnimAlpha = 254;
-            sEquipState++;
+            sEquipState++; // ITEM_EQUIP_STATE_1
         }
         sEquipAnimTimer = 5;
         return;
     }
 
-    if (sEquipState == 2) {
-        D_8082A488--;
+    if (sEquipState == ITEM_EQUIP_STATE_2) {
+        sItemEquipState2Timer_8082A488--;
 
-        if (D_8082A488 == 0) {
+        if (sItemEquipState2Timer_8082A488 == 0) {
             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
             pauseCtx->equipTargetSlot = SLOT_BOW;
             sEquipMoveTimer = 6;
             WREG(90) = 320;
             WREG(87) = WREG(91);
-            sEquipState++;
+            sEquipState++; // ITEM_EQUIP_STATE_3
             SFX_PLAY_CENTERED(NA_SE_SY_SYNTH_MAGIC_ARROW);
         }
         return;
     }
 
-    if (sEquipState == 1) {
-        bowItemVtx = &pauseCtx->itemVtx[12];
+    if (sEquipState == ITEM_EQUIP_STATE_1) {
+        bowItemVtx = &pauseCtx->itemVtx[SLOT_BOW * 4];
         offsetX = ABS(pauseCtx->equipAnimX - bowItemVtx->v.ob[0] * 10) / sEquipMoveTimer;
         offsetY = ABS(pauseCtx->equipAnimY - bowItemVtx->v.ob[1] * 10) / sEquipMoveTimer;
     } else {
@@ -595,14 +609,14 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
         WREG(90) -= WREG(87) / sEquipMoveTimer;
         WREG(87) -= WREG(87) / sEquipMoveTimer;
 
-        if (sEquipState == 1) {
-            if (pauseCtx->equipAnimX >= (pauseCtx->itemVtx[12].v.ob[0] * 10)) {
+        if (sEquipState == ITEM_EQUIP_STATE_1) {
+            if (pauseCtx->equipAnimX >= (pauseCtx->itemVtx[SLOT_BOW * 4].v.ob[0] * 10)) {
                 pauseCtx->equipAnimX -= offsetX;
             } else {
                 pauseCtx->equipAnimX += offsetX;
             }
 
-            if (pauseCtx->equipAnimY >= (pauseCtx->itemVtx[12].v.ob[1] * 10)) {
+            if (pauseCtx->equipAnimY >= (pauseCtx->itemVtx[SLOT_BOW * 4].v.ob[1] * 10)) {
                 pauseCtx->equipAnimY -= offsetY;
             } else {
                 pauseCtx->equipAnimY += offsetY;
@@ -624,9 +638,9 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
         sEquipMoveTimer--;
 
         if (sEquipMoveTimer == 0) {
-            if (sEquipState == 1) {
-                sEquipState++;
-                D_8082A488 = 4;
+            if (sEquipState == ITEM_EQUIP_STATE_1) {
+                sEquipState++; // ITEM_EQUIP_STATE_2
+                sItemEquipState2Timer_8082A488 = 4;
                 return;
             }
 
