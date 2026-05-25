@@ -4,23 +4,30 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+
 struct EnGo;
 
 typedef void (*EnGoActionFunc)(struct EnGo*, struct PlayState*);
-typedef u16 (*callback1_80A3ED24)(struct PlayState*, struct EnGo*);
-typedef s16 (*callback2_80A3ED24)(struct PlayState*, struct EnGo*);
 
-// WIP type docs
-// /* 0x00 */ GORON1_CITY_LINK,
-// /* 0x10 */ GORON1_FIRE_GENERIC,
-// /* 0x20 */ GORON1_DMT_DC_ENTRANCE,
-// /* 0x30 */ GORON1_DMT_ROLLING_SMALL,
-// /* 0x40 */ GORON1_DMT_BOMB_FLOWER,
-// /* 0x50 */ GORON1_CITY_ENTRANCE,
-// /* 0x60 */ GORON1_CITY_ISLAND,
-// /* 0x70 */ GORON1_CITY_LOST_WOODS,
-// /* 0x80 */ // Not Used
-// /* 0x90 */ GORON1_DMT_BIGGORON,
+typedef enum EnGoType {
+    ENGO_TYPE_CITY_LINK         = (0 << 4),
+    ENGO_TYPE_FIRE_GENERIC      = (1 << 4),
+    ENGO_TYPE_DMT_DC_ENTRANCE   = (2 << 4),
+    ENGO_TYPE_DMT_ROLLING_SMALL = (3 << 4),
+    ENGO_TYPE_DMT_BOMB_FLOWER   = (4 << 4),
+    ENGO_TYPE_CITY_ENTRANCE     = (5 << 4),
+    ENGO_TYPE_CITY_ISLAND       = (6 << 4),
+    ENGO_TYPE_CITY_LOST_WOODS   = (7 << 4),
+    ENGO_TYPE_DMT_BIGGORON      = (9 << 4)
+} EnGoType;
+
+#define ENGO_GET_PATH_INDEX(this) PARAMS_GET_U((this)->actor.params, 0, 4)
+#define ENGO_GET_TYPE(this) PARAMS_GET_NOSHIFT((this)->actor.params, 4, 4)
+#define ENGO_IS_CAGE_OPEN_SWITCH_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
+
+#define ENGO_PATH_NONE NBITS_TO_MASK(4)
+#define ENGO_GET_SPEED_SCALE(this) (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f)
 
 #define EN_GO_EFFECT_COUNT 20
 
@@ -44,18 +51,18 @@ typedef struct EnGo {
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ NpcInteractInfo interactInfo;
     /* 0x0208 */ char unk_208[0x4];
-    /* 0x020C */ s16 unk_20C;
-    /* 0x020E */ s16 unk_20E;
-    /* 0x0210 */ s16 unk_210;
-    /* 0x0212 */ s16 unk_212;
-    /* 0x0214 */ s16 unk_214;
-    /* 0x0216 */ s16 unk_216;
-    /* 0x0218 */ s16 unk_218;
-    /* 0x021A */ s16 unk_21A;
-    /* 0x021C */ s16 unk_21C;
-    /* 0x021E */ s16 unk_21E;
-    /* 0x0220 */ s16 fidgetTableY[18];
-    /* 0x0244 */ s16 fidgetTableZ[18];
+    /* 0x020C */ s16 gaveSword;
+    /* 0x020E */ s16 knockbackCooldown;
+    /* 0x0210 */ s16 curledTimer;
+    /* 0x0212 */ s16 attentionCooldown;
+    /* 0x0214 */ s16 blinkTimer;  // unused
+    /* 0x0216 */ s16 eyeTexIndex; // unused
+    /* 0x0218 */ s16 waypoint;
+    /* 0x021A */ s16 bounceCounter;
+    /* 0x021C */ s16 bounceTimer;
+    /* 0x021E */ s16 eyedropsTimer;
+    /* 0x0220 */ s16 fidgetTableY[GORON_LIMB_MAX];
+    /* 0x0244 */ s16 fidgetTableZ[GORON_LIMB_MAX];
     /* 0x0268 */ EnGoEffect effects[EN_GO_EFFECT_COUNT];
 } EnGo; // size = 0x06C8
 
