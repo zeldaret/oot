@@ -2423,8 +2423,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         play->numActorEntries = 0;
     }
 
-    if (actorCtx->hammerHit != 0) {
-        actorCtx->hammerHit--;
+    if (actorCtx->hammerShockwaveTimer != 0) {
+        actorCtx->hammerShockwaveTimer--;
     }
 
 #if DEBUG_FEATURES
