@@ -533,7 +533,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_00_UNUSED 0x00 // flag is set in the debug save, but has no functionality
 #define EVENTCHKINF_01_UNUSED 0x01 // flag is set in the debug save, but has no functionality
 #define EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS 0x02
-#define EVENTCHKINF_TOLD_SARIA_ABOUT_MIDO 0x03
+#define EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO 0x03
 #define EVENTCHKINF_04 0x04
 #define EVENTCHKINF_05 0x05
 #define EVENTCHKINF_07 0x07

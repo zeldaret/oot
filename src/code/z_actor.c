@@ -4966,7 +4966,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                         retTextId = 0x1045;
                     }
                 } else {
-                    if (Flags_GetEventChkInf(EVENTCHKINF_TOLD_SARIA_ABOUT_MIDO)) {
+                    if (Flags_GetEventChkInf(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO)) {
                         if (Flags_GetInfTable(INFTABLE_0E)) {
                             retTextId = 0x1034;
                         } else {
@@ -5665,7 +5665,7 @@ void func_80036E50(u16 textId, s16 arg1) {
                     Flags_SetInfTable(INFTABLE_SARIA_NOTICED_FAIRY);
                     return;
                 case 0x1031:
-                    Flags_SetEventChkInf(EVENTCHKINF_TOLD_SARIA_ABOUT_MIDO);
+                    Flags_SetEventChkInf(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO);
                     Flags_SetInfTable(INFTABLE_SARIA_TOLD_ABOUT_MIDO);
                     return;
                 case 0x1047:

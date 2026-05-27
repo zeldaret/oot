@@ -222,7 +222,7 @@ s16 EnSa_UpdateTalkState(PlayState* play, Actor* thisx) {
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x1031:
-                    SET_EVENTCHKINF(EVENTCHKINF_TOLD_SARIA_ABOUT_MIDO);
+                    SET_EVENTCHKINF(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO);
                     SET_INFTABLE(INFTABLE_SARIA_TOLD_ABOUT_MIDO);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
