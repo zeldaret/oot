@@ -380,7 +380,7 @@ void Sram_InitDebugSave(void) {
     gSaveContext.save.info.horseData.pos.z = 5497;
     gSaveContext.save.info.horseData.angle = -0x6AD9;
     gSaveContext.save.info.infTable[INFTABLE_INDEX_0] |= INFTABLE_MASK(INFTABLE_SARIA_GREETED_LINK) |
-                                                         INFTABLE_MASK(INFTABLE_SARIA_TOLD_ABOUT_MIDO) |
+                                                         INFTABLE_MASK(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO) |
                                                          INFTABLE_MASK(INFTABLE_0C) | INFTABLE_MASK(INFTABLE_0E);
 
     gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_0] |=

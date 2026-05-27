@@ -192,7 +192,7 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
     if (GET_EVENTCHKINF(EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS)) {
         this->messageIndex = 0;
         this->prevTextState = TEXT_STATE_NONE;
-        if (GET_INFTABLE(INFTABLE_SARIA_TOLD_ABOUT_MIDO)) {
+        if (GET_INFTABLE(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO)) {
             return 0x1032;
         } else {
             return 0x1031;
@@ -223,7 +223,7 @@ s16 EnSa_UpdateTalkState(PlayState* play, Actor* thisx) {
                     break;
                 case 0x1031:
                     SET_EVENTCHKINF(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO);
-                    SET_INFTABLE(INFTABLE_SARIA_TOLD_ABOUT_MIDO);
+                    SET_INFTABLE(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x1047:
@@ -625,7 +625,7 @@ void EnSa_Idle(EnSa* this, PlayState* play) {
                     break;
             }
         } else if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) &&
-                   (GET_INFTABLE(INFTABLE_SARIA_NOTICED_FAIRY) || GET_INFTABLE(INFTABLE_SARIA_TOLD_ABOUT_MIDO))) {
+                   (GET_INFTABLE(INFTABLE_SARIA_NOTICED_FAIRY) || GET_INFTABLE(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO))) {
             if (this->animGroup != ENSA_ANIMGROUP_HANDS_BEHIND_BACK) {
                 EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_BEHIND_BACK);
             }
