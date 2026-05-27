@@ -52,7 +52,7 @@ typedef struct EnNiw {
     /* 0x02A4 */ s16 unk_2A4;
     /* 0x02A6 */ s16 unk_2A6;
     /* 0x02A8 */ s16 unk_2A8;
-    /* 0x02AA */ s16 unk_2AA;
+    /* 0x02AA */ s16 kakarikoIndex;
     /* 0x02AC */ Vec3f unk_2AC;
     /* 0x02B8 */ Vec3f unk_2B8;
     /* 0x02C4 */ f32 unk_2C4;

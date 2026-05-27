@@ -87,8 +87,9 @@ static Vec3f sKakarikoPosList[] = {
 };
 
 static s16 sKakarikoFlagList[] = {
-    INFTABLE_MASK(INFTABLE_199), INFTABLE_MASK(INFTABLE_19A), INFTABLE_MASK(INFTABLE_19B), INFTABLE_MASK(INFTABLE_19C),
-    INFTABLE_MASK(INFTABLE_19D), INFTABLE_MASK(INFTABLE_19E), INFTABLE_MASK(INFTABLE_19F),
+    INFTABLE_MASK(INFTABLE_CUCCO_1), INFTABLE_MASK(INFTABLE_CUCCO_2), INFTABLE_MASK(INFTABLE_CUCCO_3),
+    INFTABLE_MASK(INFTABLE_CUCCO_4), INFTABLE_MASK(INFTABLE_CUCCO_5), INFTABLE_MASK(INFTABLE_CUCCO_6),
+    INFTABLE_MASK(INFTABLE_CUCCO_7),
 };
 
 static u8 sLowerRiverSpawned = false;
@@ -183,10 +184,10 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
             if (fabsf(this->actor.world.pos.x - sKakarikoPosList[i].x) < 40.0f &&
                 fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
-                this->unk_2AA = i;
-                PRINTF(VT_FGCOL(YELLOW) T(" 通常鶏index %d\n", " Normal chicken index %d\n") VT_RST, this->unk_2AA);
-                if (gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] &
-                    sKakarikoFlagList[i]) {
+                this->kakarikoIndex = i;
+                PRINTF(VT_FGCOL(YELLOW) T(" 通常鶏index %d\n", " Normal chicken index %d\n") VT_RST,
+                       this->kakarikoIndex);
+                if (gSaveContext.save.info.infTable[INFTABLE_INDEX_CUCCOS] & sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;
                     this->actor.world.pos.z = 1530.0f;
