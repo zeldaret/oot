@@ -7783,7 +7783,7 @@ s32 Camera_UpdateWater(Camera* camera) {
     Player* player = camera->player;
     s16 prevBgId;
 
-    if (!(camera->stateFlags & CAM_STATE_CHECK_WATER) || sCameraSettings[camera->setting].unk_00 & 0x40000000) {
+    if (!(camera->stateFlags & CAM_STATE_CHECK_WATER) || sCameraSettings[camera->setting].settingFlags & CAM_SF_UNK1) {
         return 0;
     }
 
@@ -8367,7 +8367,7 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange
         return -1;
     }
 
-    if (!((sCameraSettings[camera->setting].unk_00 & 0x3FFFFFFF) & (1 << requestedMode))) {
+    if (!(sCameraSettings[camera->setting].validModes & (1 << requestedMode))) {
         if (requestedMode == CAM_MODE_FIRST_PERSON) {
             PRINTF("camera: error sound\n");
             Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
@@ -8536,8 +8536,8 @@ s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags) {
     if (camera->behaviorFlags & CAM_BEHAVIOR_SETTING_CHECK_PRIORITY) {
         // If a second setting is requested this frame, determine if the setting overwrites the
         // current setting through priority
-        if (((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
-            ((sCameraSettings[requestedSetting].unk_00 & 0xF000000) >> 0x18)) {
+        if (CAM_SF_PRIORITY(sCameraSettings[camera->setting].settingFlags) >=
+            CAM_SF_PRIORITY(sCameraSettings[requestedSetting].settingFlags)) {
             camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_VALID;
             return -2;
         }
@@ -8571,7 +8571,7 @@ s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags) {
     camera->stateFlags |= (CAM_STATE_CHECK_BG | CAM_STATE_EXTERNAL_FINISHED);
     camera->stateFlags &= ~(CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_DEMO7);
 
-    if (!(sCameraSettings[camera->setting].unk_00 & 0x40000000)) {
+    if (!(sCameraSettings[camera->setting].settingFlags & CAM_SF_UNK1)) {
         camera->prevSetting = camera->setting;
     }
 
@@ -8580,7 +8580,7 @@ s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags) {
         camera->bgCamIndex = camera->prevBgCamIndex;
         camera->prevBgCamIndex = -1;
     } else if (!(flags & CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX)) {
-        if (!(sCameraSettings[camera->setting].unk_00 & 0x40000000)) {
+        if (!(sCameraSettings[camera->setting].settingFlags & CAM_SF_UNK1)) {
             camera->prevBgCamIndex = camera->bgCamIndex;
         }
         camera->bgCamIndex = -1;
@@ -8618,7 +8618,8 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
         settingChangeSuccessful = Camera_RequestSettingImpl(camera, requestedCamSetting,
                                                             CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
                                                                 CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
-        if ((settingChangeSuccessful != CAM_SET_NONE) || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
+        if ((settingChangeSuccessful != CAM_SET_NONE) ||
+            (sCameraSettings[camera->setting].settingFlags & CAM_SF_UNK0)) {
             camera->bgCamIndex = requestedBgCamIndex;
             camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
             Camera_CopyDataToRegs(camera, camera->mode);
@@ -8632,7 +8633,7 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
         if ((Camera_RequestSettingImpl(camera, requestedCamSetting,
                                        CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX | CAM_REQUEST_SETTING_FORCE_CHANGE) >=
              0) ||
-            (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
+            (sCameraSettings[camera->setting].settingFlags & CAM_SF_UNK0)) {
             camera->bgCamIndex = requestedBgCamIndex;
             camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
             Camera_CopyDataToRegs(camera, camera->mode);
