@@ -71,9 +71,13 @@ static s16 sMissingCuccoTextIds[] = {
 };
 
 static s16 sCuccoInPenFlags[] = {
-    INFTABLE_MASK(INFTABLE_CUCCO_1), INFTABLE_MASK(INFTABLE_CUCCO_2), INFTABLE_MASK(INFTABLE_CUCCO_3),
-    INFTABLE_MASK(INFTABLE_CUCCO_4), INFTABLE_MASK(INFTABLE_CUCCO_5), INFTABLE_MASK(INFTABLE_CUCCO_6),
-    INFTABLE_MASK(INFTABLE_CUCCO_7),
+    INFTABLE_MASK(INFTABLE_CUCCO_NEAR_FRONT_GATE),
+    INFTABLE_MASK(INFTABLE_CUCCO_NEAR_MOUNTAIN_GATE),
+    INFTABLE_MASK(INFTABLE_CUCCO_NEAR_GRAVEYARD),
+    INFTABLE_MASK(INFTABLE_CUCCO_NEAR_WINDMILL),
+    INFTABLE_MASK(INFTABLE_CUCCO_IN_BOX),
+    INFTABLE_MASK(INFTABLE_CUCCO_NEAR_SKULLTULA_HOUSE),
+    INFTABLE_MASK(INFTABLE_CUCCO_BEHIND_POTION_SHOP),
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -326,11 +330,11 @@ void EnNiwLady_ChildIdle(EnNiwLady* this, PlayState* play) {
                 PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n", "☆☆☆☆☆ Before changing the fence BIT ☆☆ %x\n")
                            VT_RST,
                        gSaveContext.save.info.infTable[INFTABLE_INDEX_CUCCOS]);
-                gSaveContext.save.info.infTable[INFTABLE_INDEX_CUCCOS] &=
-                    (u16) ~(INFTABLE_MASK(INFTABLE_CUCCO_1) | INFTABLE_MASK(INFTABLE_CUCCO_2) |
-                            INFTABLE_MASK(INFTABLE_CUCCO_3) | INFTABLE_MASK(INFTABLE_CUCCO_4) |
-                            INFTABLE_MASK(INFTABLE_CUCCO_5) | INFTABLE_MASK(INFTABLE_CUCCO_6) |
-                            INFTABLE_MASK(INFTABLE_CUCCO_7));
+                gSaveContext.save.info.infTable[INFTABLE_INDEX_CUCCOS] &= (u16) ~(
+                    INFTABLE_MASK(INFTABLE_CUCCO_NEAR_FRONT_GATE) | INFTABLE_MASK(INFTABLE_CUCCO_NEAR_MOUNTAIN_GATE) |
+                    INFTABLE_MASK(INFTABLE_CUCCO_NEAR_GRAVEYARD) | INFTABLE_MASK(INFTABLE_CUCCO_NEAR_WINDMILL) |
+                    INFTABLE_MASK(INFTABLE_CUCCO_IN_BOX) | INFTABLE_MASK(INFTABLE_CUCCO_NEAR_SKULLTULA_HOUSE) |
+                    INFTABLE_MASK(INFTABLE_CUCCO_BEHIND_POTION_SHOP));
                 PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n",
                                         "☆☆☆☆☆ After changing the BIT inside the fence ☆☆ %x\n") VT_RST,
                        gSaveContext.save.info.infTable[INFTABLE_INDEX_CUCCOS]);
