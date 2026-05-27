@@ -26,7 +26,7 @@ typedef enum SariaType {
     /* 2 */ SARIA_TYPE_MEADOW_PLAYING, // After teaching Saria's Song
     /* 3 */ SARIA_TYPE_UNUSED,         // Never returned by type selector function
     /* 4 */ SARIA_TYPE_GREETING,       // Greeting Link
-    /* 5 */ SARIA_TYPE_MEADOW_WAITING, // In the Sacred Forest Meadow, waiting to teach Saria's Song
+    /* 5 */ SARIA_TYPE_MEADOW_WAITING  // In the Sacred Forest Meadow, waiting to teach Saria's Song
 } SariaType;
 
 void EnSa_Init(Actor* thisx, PlayState* play);
