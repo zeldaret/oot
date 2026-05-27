@@ -29,8 +29,8 @@ void EnNutsball_Destroy(Actor* thisx, PlayState* play);
 void EnNutsball_Update(Actor* thisx, PlayState* play);
 void EnNutsball_Draw(Actor* thisx, PlayState* play);
 
-void EnNutsball_Setup(EnNutsball* this, PlayState* play);
-void EnNutsball_Flying(EnNutsball* this, PlayState* play);
+void EnNutsball_WaitForObject(EnNutsball* this, PlayState* play);
+void EnNutsball_Projectile(EnNutsball* this, PlayState* play);
 
 ActorProfile En_Nutsball_Profile = {
     /**/ ACTOR_EN_NUTSBALL,
@@ -84,7 +84,7 @@ void EnNutsball_Init(Actor* thisx, PlayState* play) {
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
     } else {
-        this->actionFunc = EnNutsball_Setup;
+        this->actionFunc = EnNutsball_WaitForObject;
     }
 }
 
@@ -94,20 +94,20 @@ void EnNutsball_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnNutsball_Setup(EnNutsball* this, PlayState* play) {
+void EnNutsball_WaitForObject(EnNutsball* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnNutsball_Draw;
         this->actor.shape.rot.y = 0;
         this->timer = 30;
-        this->actionFunc = EnNutsball_Flying;
+        this->actionFunc = EnNutsball_Projectile;
         this->actor.speed = 10.0f;
     }
 }
 
-void EnNutsball_Flying(EnNutsball* this, PlayState* play) {
+void EnNutsball_Projectile(EnNutsball* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3s reflectVec;
+    Vec3s shieldRot;
     Vec3f impactPos;
 
     this->timer--;
@@ -131,8 +131,8 @@ void EnNutsball_Flying(EnNutsball* this, PlayState* play) {
                 this->collider.base.atFlags |= AT_TYPE_PLAYER;
 
                 this->collider.elem.atDmgInfo.dmgFlags = DMG_DEKU_STICK;
-                Matrix_MtxFToYXZRotS(&player->shieldMf, &reflectVec, 0);
-                this->actor.world.rot.y = reflectVec.y + 0x8000;
+                Matrix_MtxFToYXZRotS(&player->shieldMf, &shieldRot, 0);
+                this->actor.world.rot.y = shieldRot.y + 0x8000;
                 this->timer = 30;
                 return;
             }
@@ -158,7 +158,7 @@ void EnNutsball_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_TALKING | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
-        (this->actionFunc == EnNutsball_Setup)) {
+        (this->actionFunc == EnNutsball_WaitForObject)) {
         this->actionFunc(this, play);
 
         Actor_MoveXZGravity(&this->actor);
