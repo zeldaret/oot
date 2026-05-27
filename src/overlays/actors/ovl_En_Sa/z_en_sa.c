@@ -51,9 +51,9 @@ typedef enum SariaEyes {
 typedef enum SariaMouth {
     /* 0 */ SARIA_MOUTH_CLOSED2,
     /* 1 */ SARIA_MOUTH_SMILING_OPEN,
-    /* 2 */ SARIA_MOUTH_CLOSED,
+    /* 2 */ SARIA_MOUTH_FROWNING,
     /* 3 */ SARIA_MOUTH_SURPRISED,
-    /* 4 */ SARIA_MOUTH_FROWNING
+    /* 4 */ SARIA_MOUTH_CLOSED
 } SariaMouth;
 
 ActorProfile En_Sa_Profile = {
@@ -600,7 +600,7 @@ void EnSa_Idle(EnSa* this, PlayState* play) {
                     }
                     if (this->messageIndex == 2 && this->animGroup != ENSA_ANIMGROUP_HANDS_ON_HIPS) {
                         EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_ON_HIPS);
-                        this->mouthIndex = SARIA_MOUTH_CLOSED;
+                        this->mouthIndex = SARIA_MOUTH_FROWNING;
                     }
                     if (this->messageIndex == 4 && this->animGroup != ENSA_ANIMGROUP_HANDS_OFF_HIPS) {
                         EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OFF_HIPS);
