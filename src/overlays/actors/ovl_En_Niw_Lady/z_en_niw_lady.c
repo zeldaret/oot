@@ -35,16 +35,16 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play);
 
 void EnNiwLady_SetupAfterLoading(EnNiwLady* this, PlayState* play);
 void EnNiwLady_Draw(Actor* thisx, PlayState* play2);
-void EnNiwLady_SetupChild(EnNiwLady* this, PlayState* play);
+void EnNiwLady_SetupKakarikoChild(EnNiwLady* this, PlayState* play);
 void EnNiwLady_SetupInImpasHouse(EnNiwLady* this, PlayState* play);
-void EnNiwLady_SetupAdultIdle(EnNiwLady* this, PlayState* play);
-void EnNiwLady_AdultIdle(EnNiwLady* this, PlayState* play);
+void EnNiwLady_SetupKakarikoAdultIdle(EnNiwLady* this, PlayState* play);
+void EnNiwLady_KakarikoAdultIdle(EnNiwLady* this, PlayState* play);
 void EnNiwLady_HandlePocketEggChoice(EnNiwLady* this, PlayState* play);
 void EnNiwLady_HandleCojiroChoice(EnNiwLady* this, PlayState* play);
 void EnNiwLady_GiveItem(EnNiwLady* this, PlayState* play);
 void EnNiwLady_ChoseNo(EnNiwLady* this, PlayState* play);
 void EnNiwLady_AfterGivingItem(EnNiwLady* this, PlayState* play);
-void EnNiwLady_ChildIdle(EnNiwLady* this, PlayState* play);
+void EnNiwLady_KakarikoChildIdle(EnNiwLady* this, PlayState* play);
 void EnNiwLady_TalkAfterMinigame(EnNiwLady* this, PlayState* play);
 void EnNiwLady_InImpasHouse(EnNiwLady* this, PlayState* play);
 
@@ -215,9 +215,9 @@ void EnNiwLady_SetupAfterLoading(EnNiwLady* this, PlayState* play) {
                                      0.0f);
                 }
                 if (LINK_IS_ADULT) {
-                    this->actionFunc = EnNiwLady_SetupAdultIdle;
+                    this->actionFunc = EnNiwLady_SetupKakarikoAdultIdle;
                 } else {
-                    this->actionFunc = EnNiwLady_SetupChild;
+                    this->actionFunc = EnNiwLady_SetupKakarikoChild;
                 }
                 return;
             case true:
@@ -229,13 +229,13 @@ void EnNiwLady_SetupAfterLoading(EnNiwLady* this, PlayState* play) {
     }
 }
 
-void EnNiwLady_SetupChild(EnNiwLady* this, PlayState* play) {
+void EnNiwLady_SetupKakarikoChild(EnNiwLady* this, PlayState* play) {
     this->actor.textId = sMissingCuccoTextIds[0];
     this->endTextState = TEXT_STATE_DONE;
-    this->actionFunc = EnNiwLady_ChildIdle;
+    this->actionFunc = EnNiwLady_KakarikoChildIdle;
 }
 
-void EnNiwLady_ChildIdle(EnNiwLady* this, PlayState* play) {
+void EnNiwLady_KakarikoChildIdle(EnNiwLady* this, PlayState* play) {
     EnNiw* currentCucco;
     s32 pad[2];
     s32 tempCuccoTextIndex;
@@ -385,13 +385,13 @@ void EnNiwLady_TalkAfterMinigame(EnNiwLady* this, PlayState* play) {
             Actor_OfferGetItem(&this->actor, play, GI_RUPEE_PURPLE, 100.0f, 50.0f);
             this->actionFunc = EnNiwLady_GiveItem;
         }
-        this->actionFunc = EnNiwLady_ChildIdle;
+        this->actionFunc = EnNiwLady_KakarikoChildIdle;
     }
 }
 
 static s16 sAdultTextIds[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x5043, 0x5044, 0x00CF, 0x5045, 0x5042, 0x5027 };
 
-void EnNiwLady_SetupAdultIdle(EnNiwLady* this, PlayState* play) {
+void EnNiwLady_SetupKakarikoAdultIdle(EnNiwLady* this, PlayState* play) {
     PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n", "☆☆☆☆☆ Adult message check ☆☆☆☆☆ \n") VT_RST);
     this->endTextState = TEXT_STATE_DONE;
     this->isHoldingPocketCucco = false;
@@ -418,10 +418,10 @@ void EnNiwLady_SetupAdultIdle(EnNiwLady* this, PlayState* play) {
         }
     }
     this->actor.textId = sAdultTextIds[this->adultTextIndex];
-    this->actionFunc = EnNiwLady_AdultIdle;
+    this->actionFunc = EnNiwLady_KakarikoAdultIdle;
 }
 
-void EnNiwLady_AdultIdle(EnNiwLady* this, PlayState* play) {
+void EnNiwLady_KakarikoAdultIdle(EnNiwLady* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
@@ -442,7 +442,7 @@ void EnNiwLady_AdultIdle(EnNiwLady* this, PlayState* play) {
         } else {
             this->hasSpokenAboutPocketCucco = true;
             this->nextAnimation = this->adultTextIndex + 21;
-            this->actionFunc = !this->isHoldingPocketCucco ? EnNiwLady_SetupAdultIdle : EnNiwLady_HandlePocketEggChoice;
+            this->actionFunc = !this->isHoldingPocketCucco ? EnNiwLady_SetupKakarikoAdultIdle : EnNiwLady_HandlePocketEggChoice;
         }
         return;
     }
@@ -474,7 +474,7 @@ void EnNiwLady_ChoseNo(EnNiwLady* this, PlayState* play) {
     this->nextAnimation = 11;
     if ((this->endTextState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        this->actionFunc = EnNiwLady_SetupAdultIdle;
+        this->actionFunc = EnNiwLady_SetupKakarikoAdultIdle;
     }
 }
 
@@ -525,11 +525,11 @@ void EnNiwLady_AfterGivingItem(EnNiwLady* this, PlayState* play) {
         } else {
             SET_ITEMGETINF(ITEMGETINF_COJIRO);
         }
-        this->actionFunc = EnNiwLady_SetupAdultIdle;
+        this->actionFunc = EnNiwLady_SetupKakarikoAdultIdle;
     } else {
         SET_ITEMGETINF(ITEMGETINF_CUCCO_MINIGAME_BOTTLE);
         this->endTextState = TEXT_STATE_DONE;
-        this->actionFunc = EnNiwLady_ChildIdle;
+        this->actionFunc = EnNiwLady_KakarikoChildIdle;
     }
 }
 
