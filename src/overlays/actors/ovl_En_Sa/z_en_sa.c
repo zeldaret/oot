@@ -20,16 +20,25 @@
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
      ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
+typedef enum SariaType {
+    /* 0 */ SARIA_TYPE_NONE,           // Null; actor killed immediately
+    /* 1 */ SARIA_TYPE_STANDING,       // In her house or outside Link's after greeting him
+    /* 2 */ SARIA_TYPE_MEADOW_PLAYING, // After teaching Saria's Song
+    /* 3 */ SARIA_TYPE_UNUSED,         // Never returned by type selector function
+    /* 4 */ SARIA_TYPE_GREETING,       // Greeting Link
+    /* 5 */ SARIA_TYPE_MEADOW_WAITING  // In the Sacred Forest Meadow, waiting to teach Saria's Song
+} SariaType;
+
 void EnSa_Init(Actor* thisx, PlayState* play);
 void EnSa_Destroy(Actor* thisx, PlayState* play);
 void EnSa_Update(Actor* thisx, PlayState* play);
 void EnSa_Draw(Actor* thisx, PlayState* play);
 
-void func_80AF6448(EnSa* this, PlayState* play);
-void func_80AF67D0(EnSa* this, PlayState* play);
-void func_80AF683C(EnSa* this, PlayState* play);
-void func_80AF68E4(EnSa* this, PlayState* play);
-void func_80AF6B20(EnSa* this, PlayState* play);
+void EnSa_Idle(EnSa* this, PlayState* play);
+void EnSa_TalkInForestMeadow(EnSa* this, PlayState* play);
+void EnSa_AwaitTeachingSariasSong(EnSa* this, PlayState* play);
+void EnSa_HandleCutscene(EnSa* this, PlayState* play);
+void EnSa_BecomeIdle(EnSa* this, PlayState* play);
 
 typedef enum SariaEyes {
     /* 0 */ SARIA_EYE_OPEN,
@@ -41,10 +50,10 @@ typedef enum SariaEyes {
 
 typedef enum SariaMouth {
     /* 0 */ SARIA_MOUTH_CLOSED2,
-    /* 1 */ SARIA_MOUTH_SURPRISED,
-    /* 2 */ SARIA_MOUTH_CLOSED,
-    /* 3 */ SARIA_MOUTH_SMILING_OPEN,
-    /* 4 */ SARIA_MOUTH_FROWNING
+    /* 1 */ SARIA_MOUTH_SMILING_OPEN,
+    /* 2 */ SARIA_MOUTH_FROWNING,
+    /* 3 */ SARIA_MOUTH_SURPRISED,
+    /* 4 */ SARIA_MOUTH_CLOSED
 } SariaMouth;
 
 ActorProfile En_Sa_Profile = {
@@ -82,18 +91,18 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnSaAnimation1 {
-    /*  0 */ ENSA_ANIM1_0,
-    /*  1 */ ENSA_ANIM1_1,
-    /*  2 */ ENSA_ANIM1_2,
-    /*  3 */ ENSA_ANIM1_3,
-    /*  4 */ ENSA_ANIM1_4,
-    /*  5 */ ENSA_ANIM1_5,
-    /*  6 */ ENSA_ANIM1_6,
-    /*  7 */ ENSA_ANIM1_7,
-    /*  8 */ ENSA_ANIM1_8,
-    /*  9 */ ENSA_ANIM1_9,
-    /* 10 */ ENSA_ANIM1_10,
-    /* 11 */ ENSA_ANIM1_11
+    /*  0 */ ENSA_ANIM1_WAIT_ARMS_TO_SIDE,
+    /*  1 */ ENSA_ANIM1_LOOK_UP_ARMS_EXTENDED,
+    /*  2 */ ENSA_ANIM1_WAVE,
+    /*  3 */ ENSA_ANIM1_RUN,
+    /*  4 */ ENSA_ANIM1_MOVE_ARMS_TO_SIDE,
+    /*  5 */ ENSA_ANIM1_LOOK_OVER_SHOULDER,
+    /*  6 */ ENSA_ANIM1_PLAYING_OCARINA,
+    /*  7 */ ENSA_ANIM1_STOP_PLAYING_OCARINA,
+    /*  8 */ ENSA_ANIM1_OCARINA_TO_MOUTH,
+    /*  9 */ ENSA_ANIM1_LINK_LEARNED_SARIAS_SONG,
+    /* 10 */ ENSA_ANIM1_RETURN_TO_OCARINA,
+    /* 11 */ ENSA_ANIM1_START_PLAYING_OCARINA
 } EnSaAnimation1;
 
 static AnimationFrameCountInfo sAnimationInfo1[] = {
@@ -112,16 +121,16 @@ static AnimationFrameCountInfo sAnimationInfo1[] = {
 };
 
 typedef enum EnSaAnimation2 {
-    /* 0 */ ENSA_ANIM2_0,
-    /* 1 */ ENSA_ANIM2_1,
-    /* 2 */ ENSA_ANIM2_2,
-    /* 3 */ ENSA_ANIM2_3,
-    /* 4 */ ENSA_ANIM2_4,
-    /* 5 */ ENSA_ANIM2_5,
-    /* 6 */ ENSA_ANIM2_6,
-    /* 7 */ ENSA_ANIM2_7,
-    /* 8 */ ENSA_ANIM2_8,
-    /* 9 */ ENSA_ANIM2_9
+    /* 0 */ ENSA_ANIM2_TRANS_HANDS_SIDE_CHEST_SIDE,
+    /* 1 */ ENSA_ANIM2_TRANS_HANDS_SIDE_TO_BACK,
+    /* 2 */ ENSA_ANIM2_RIGHT_ARM_EXTENDED_WAIT,
+    /* 3 */ ENSA_ANIM2_HANDS_OUT,
+    /* 4 */ ENSA_ANIM2_STAND_HANDS_ON_HIPS,
+    /* 5 */ ENSA_ANIM2_EXTEND_RIGHT_ARM,
+    /* 6 */ ENSA_ANIM2_TRANS_HANDS_SIDE_TO_HIPS,
+    /* 7 */ ENSA_ANIM2_BEHIND_BACK_WAIT,
+    /* 8 */ ENSA_ANIM2_HANDS_ON_FACE,
+    /* 9 */ ENSA_ANIM2_WAIT_ARMS_TO_SIDE
 } EnSaAnimation2;
 
 static AnimationInfo sAnimationInfo2[] = {
@@ -137,16 +146,27 @@ static AnimationInfo sAnimationInfo2[] = {
     { &gSariaWaitArmsToSideAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
-s16 func_80AF5560(EnSa* this, PlayState* play) {
+typedef enum EnSaAnimGroup {
+    /* 0 */ ENSA_ANIMGROUP_NONE,
+    /* 1 */ ENSA_ANIMGROUP_EXTEND_RIGHT_HAND,
+    /* 2 */ ENSA_ANIMGROUP_HANDS_TO_FACE,
+    /* 3 */ ENSA_ANIMGROUP_HANDS_BEHIND_BACK,
+    /* 4 */ ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK,
+    /* 5 */ ENSA_ANIMGROUP_HANDS_ON_HIPS,
+    /* 6 */ ENSA_ANIMGROUP_HANDS_OFF_HIPS,
+    /* 7 */ ENSA_ANIMGROUP_HAND_TO_CHEST
+} EnSaAnimGroup;
+
+s16 EnSa_UpdateTextState(EnSa* this, PlayState* play) {
     s16 textState = Message_GetState(&play->msgCtx);
 
-    if (this->unk_209 == TEXT_STATE_AWAITING_NEXT || this->unk_209 == TEXT_STATE_EVENT ||
-        this->unk_209 == TEXT_STATE_CLOSING || this->unk_209 == TEXT_STATE_DONE_HAS_NEXT) {
-        if (textState != this->unk_209) {
-            this->unk_208++;
+    if (this->prevTextState == TEXT_STATE_AWAITING_NEXT || this->prevTextState == TEXT_STATE_EVENT ||
+        this->prevTextState == TEXT_STATE_CLOSING || this->prevTextState == TEXT_STATE_DONE_HAS_NEXT) {
+        if (textState != this->prevTextState) {
+            this->messageIndex++;
         }
     }
-    this->unk_209 = textState;
+    this->prevTextState = textState;
     return textState;
 }
 
@@ -161,27 +181,27 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
         return 0x10AD;
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        this->unk_208 = 0;
-        this->unk_209 = TEXT_STATE_NONE;
-        if (GET_INFTABLE(INFTABLE_05)) {
+        this->messageIndex = 0;
+        this->prevTextState = TEXT_STATE_NONE;
+        if (GET_INFTABLE(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE)) {
             return 0x1048;
         } else {
             return 0x1047;
         }
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS)) {
-        this->unk_208 = 0;
-        this->unk_209 = TEXT_STATE_NONE;
-        if (GET_INFTABLE(INFTABLE_03)) {
+        this->messageIndex = 0;
+        this->prevTextState = TEXT_STATE_NONE;
+        if (GET_INFTABLE(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO)) {
             return 0x1032;
         } else {
             return 0x1031;
         }
     }
-    if (GET_INFTABLE(INFTABLE_00)) {
-        this->unk_208 = 0;
-        this->unk_209 = TEXT_STATE_NONE;
-        if (GET_INFTABLE(INFTABLE_01)) {
+    if (GET_INFTABLE(INFTABLE_SARIA_GREETED_LINK)) {
+        this->messageIndex = 0;
+        this->prevTextState = TEXT_STATE_NONE;
+        if (GET_INFTABLE(INFTABLE_SARIA_NOTICED_FAIRY)) {
             return 0x1003;
         } else {
             return 0x1002;
@@ -194,20 +214,20 @@ s16 EnSa_UpdateTalkState(PlayState* play, Actor* thisx) {
     s16 talkState = NPC_TALK_STATE_TALKING;
     EnSa* this = (EnSa*)thisx;
 
-    switch (func_80AF5560(this, play)) {
+    switch (EnSa_UpdateTextState(this, play)) {
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1002:
-                    SET_INFTABLE(INFTABLE_01);
+                    SET_INFTABLE(INFTABLE_SARIA_NOTICED_FAIRY);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x1031:
-                    SET_EVENTCHKINF(EVENTCHKINF_03);
-                    SET_INFTABLE(INFTABLE_03);
+                    SET_EVENTCHKINF(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO);
+                    SET_INFTABLE(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x1047:
-                    SET_INFTABLE(INFTABLE_05);
+                    SET_INFTABLE(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 default:
@@ -228,7 +248,7 @@ s16 EnSa_UpdateTalkState(PlayState* play, Actor* thisx) {
     return talkState;
 }
 
-void func_80AF57D8(EnSa* this, PlayState* play) {
+void EnSa_UpdateTalking(EnSa* this, PlayState* play) {
     if (play->sceneId != SCENE_SACRED_FOREST_MEADOW ||
         ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 ||
         this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
@@ -237,7 +257,7 @@ void func_80AF57D8(EnSa* this, PlayState* play) {
     }
 }
 
-f32 func_80AF5894(EnSa* this) {
+f32 EnSa_ReverseAnimation(EnSa* this) {
     f32 endFrame = this->skelAnime.endFrame;
     f32 startFrame = this->skelAnime.startFrame;
 
@@ -248,140 +268,140 @@ f32 func_80AF5894(EnSa* this) {
     return startFrame;
 }
 
-void func_80AF58B8(EnSa* this) {
-    switch (this->unk_20A) {
+void EnSa_ExtendRightHand(EnSa* this) {
+    switch (this->animPhase) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_3);
-            this->unk_20A++;
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_HANDS_OUT);
+            this->animPhase++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_2);
-                this->unk_20A++;
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_RIGHT_ARM_EXTENDED_WAIT);
+                this->animPhase++;
             }
             break;
     }
 }
 
-void func_80AF594C(EnSa* this) {
-    switch (this->unk_20A) {
+void EnSa_HandsToFace(EnSa* this) {
+    switch (this->animPhase) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_8);
-            this->unk_20A++;
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_HANDS_ON_FACE);
+            this->animPhase++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
-                this->unk_20A++;
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_WAIT_ARMS_TO_SIDE);
+                this->animPhase++;
             }
             break;
     }
 }
 
-void func_80AF59E0(EnSa* this) {
-    switch (this->unk_20A) {
+void EnSa_HandsBehindBack(EnSa* this) {
+    switch (this->animPhase) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_1);
-            this->unk_20A++;
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_TRANS_HANDS_SIDE_TO_BACK);
+            this->animPhase++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_7);
-                this->unk_20A++;
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_BEHIND_BACK_WAIT);
+                this->animPhase++;
             }
             break;
     }
 }
 
-void func_80AF5A74(EnSa* this) {
-    switch (this->unk_20A) {
+void EnSa_HandsOutFromBehindBack(EnSa* this) {
+    switch (this->animPhase) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_1);
-            func_80AF5894(this);
-            this->unk_20A++;
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_TRANS_HANDS_SIDE_TO_BACK);
+            EnSa_ReverseAnimation(this);
+            this->animPhase++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
-                this->unk_20A++;
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_WAIT_ARMS_TO_SIDE);
+                this->animPhase++;
             }
             break;
     }
 }
 
-void func_80AF5B10(EnSa* this) {
-    switch (this->unk_20A) {
+void EnSa_HandsOnHips(EnSa* this) {
+    switch (this->animPhase) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_6);
-            this->unk_20A++;
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_TRANS_HANDS_SIDE_TO_HIPS);
+            this->animPhase++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_4);
-                this->unk_20A++;
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_STAND_HANDS_ON_HIPS);
+                this->animPhase++;
             }
             break;
     }
 }
 
-void func_80AF5BA4(EnSa* this) {
-    switch (this->unk_20A) {
+void EnSa_HandsOffHips(EnSa* this) {
+    switch (this->animPhase) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_6);
-            func_80AF5894(this);
-            this->unk_20A++;
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_TRANS_HANDS_SIDE_TO_HIPS);
+            EnSa_ReverseAnimation(this);
+            this->animPhase++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_9);
-                this->unk_20A++;
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_WAIT_ARMS_TO_SIDE);
+                this->animPhase++;
             }
             break;
     }
 }
 
-void func_80AF5C40(EnSa* this) {
-    switch (this->unk_20A) {
+void EnSa_HandToChest(EnSa* this) {
+    switch (this->animPhase) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_5);
-            this->unk_20A++;
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_EXTEND_RIGHT_ARM);
+            this->animPhase++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_0);
-                this->unk_20A++;
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo2, ENSA_ANIM2_TRANS_HANDS_SIDE_CHEST_SIDE);
+                this->animPhase++;
             }
             break;
     }
 }
 
-void func_80AF5CD4(EnSa* this, u8 arg1) {
-    this->unk_20B = arg1;
-    this->unk_20A = 0;
+void EnSa_SetAnimGroup(EnSa* this, u8 animGroup) {
+    this->animGroup = animGroup;
+    this->animPhase = 0;
 }
 
-void func_80AF5CE4(EnSa* this) {
-    switch (this->unk_20B) {
-        case 1:
-            func_80AF58B8(this);
+void EnSa_Animate(EnSa* this) {
+    switch (this->animGroup) {
+        case ENSA_ANIMGROUP_EXTEND_RIGHT_HAND:
+            EnSa_ExtendRightHand(this);
             break;
-        case 2:
-            func_80AF594C(this);
+        case ENSA_ANIMGROUP_HANDS_TO_FACE:
+            EnSa_HandsToFace(this);
             break;
-        case 3:
-            func_80AF59E0(this);
+        case ENSA_ANIMGROUP_HANDS_BEHIND_BACK:
+            EnSa_HandsBehindBack(this);
             break;
-        case 4:
-            func_80AF5A74(this);
+        case ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK:
+            EnSa_HandsOutFromBehindBack(this);
             break;
-        case 5:
-            func_80AF5B10(this);
+        case ENSA_ANIMGROUP_HANDS_ON_HIPS:
+            EnSa_HandsOnHips(this);
             break;
-        case 6:
-            func_80AF5BA4(this);
+        case ENSA_ANIMGROUP_HANDS_OFF_HIPS:
+            EnSa_HandsOffHips(this);
             break;
-        case 7:
-            func_80AF5C40(this);
+        case ENSA_ANIMGROUP_HAND_TO_CHEST:
+            EnSa_HandToChest(this);
             break;
     }
 }
@@ -392,46 +412,46 @@ void EnSa_ChangeAnim(EnSa* this, s32 index) {
                      sAnimationInfo1[index].morphFrames);
 }
 
-s32 func_80AF5DFC(EnSa* this, PlayState* play) {
+SariaType EnSa_GetType(EnSa* this, PlayState* play) {
     if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0 && gSaveContext.save.cutsceneIndex != CS_INDEX_D) {
         if (play->sceneId == SCENE_KOKIRI_FOREST) {
-            return 4;
+            return SARIA_TYPE_GREETING;
         }
         if (play->sceneId == SCENE_SACRED_FOREST_MEADOW) {
-            return 5;
+            return SARIA_TYPE_MEADOW_WAITING;
         }
     }
     if (play->sceneId == SCENE_SARIAS_HOUSE && !LINK_IS_ADULT &&
         INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
-        return 1;
+        return SARIA_TYPE_STANDING;
     }
     if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && GET_EVENTCHKINF(EVENTCHKINF_40)) {
-        return CHECK_QUEST_ITEM(QUEST_SONG_SARIA) ? 2 : 5;
+        return CHECK_QUEST_ITEM(QUEST_SONG_SARIA) ? SARIA_TYPE_MEADOW_PLAYING : SARIA_TYPE_MEADOW_WAITING;
     }
     if (play->sceneId == SCENE_KOKIRI_FOREST && !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        if (GET_INFTABLE(INFTABLE_00)) {
-            return 1;
+        if (GET_INFTABLE(INFTABLE_SARIA_GREETED_LINK)) {
+            return SARIA_TYPE_STANDING;
         }
-        return 4;
+        return SARIA_TYPE_GREETING;
     }
-    return 0;
+    return SARIA_TYPE_NONE;
 }
 
-void func_80AF5F34(EnSa* this, PlayState* play) {
+void EnSa_UpdateTrackingMode(EnSa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
 
     if (play->sceneId == SCENE_KOKIRI_FOREST) {
-        trackingMode = (this->actionFunc == func_80AF68E4) ? NPC_TRACKING_NONE : NPC_TRACKING_FULL_BODY;
+        trackingMode = (this->actionFunc == EnSa_HandleCutscene) ? NPC_TRACKING_NONE : NPC_TRACKING_FULL_BODY;
     }
     if (play->sceneId == SCENE_SACRED_FOREST_MEADOW) {
         trackingMode = (this->skelAnime.animation == &gSariaPlayingOcarinaAnim) ? NPC_TRACKING_NONE : NPC_TRACKING_HEAD;
     }
-    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && this->actionFunc == func_80AF6448 &&
+    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && this->actionFunc == EnSa_Idle &&
         this->skelAnime.animation == &gSariaStopPlayingOcarinaAnim) {
         trackingMode = NPC_TRACKING_NONE;
     }
-    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && this->actionFunc == func_80AF68E4 &&
+    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && this->actionFunc == EnSa_HandleCutscene &&
         this->skelAnime.animation == &gSariaOcarinaToMouthAnim) {
         trackingMode = NPC_TRACKING_NONE;
     }
@@ -440,37 +460,37 @@ void func_80AF5F34(EnSa* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
 }
 
-s32 func_80AF603C(EnSa* this) {
+s32 EnSa_EyesStayClosed(EnSa* this) {
     if (this->skelAnime.animation != &gSariaPlayingOcarinaAnim &&
         this->skelAnime.animation != &gSariaOcarinaToMouthAnim) {
-        return 0;
+        return false;
     }
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
-        return 0;
+        return false;
     }
-    this->unk_20E = 0;
+    this->blinkTimer = 0;
     if (this->rightEyeIndex != SARIA_EYE_CLOSED) {
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
-void func_80AF609C(EnSa* this) {
-    s16 phi_v1;
+void EnSa_Blink(EnSa* this) {
+    s16 blinkTimer;
 
-    if (func_80AF603C(this) == 0) {
-        if (this->unk_20E == 0) {
-            phi_v1 = 0;
+    if (!EnSa_EyesStayClosed(this)) {
+        if (this->blinkTimer == 0) {
+            blinkTimer = 0;
         } else {
-            this->unk_20E--;
-            phi_v1 = this->unk_20E;
+            this->blinkTimer--;
+            blinkTimer = this->blinkTimer;
         }
-        if (phi_v1 == 0) {
+        if (blinkTimer == 0) {
             this->rightEyeIndex++;
             if (this->rightEyeIndex < SARIA_EYE_SURPRISED) {
                 this->leftEyeIndex = this->rightEyeIndex;
             } else {
-                this->unk_20E = Rand_S16Offset(30, 30);
+                this->blinkTimer = Rand_S16Offset(30, 30);
                 this->leftEyeIndex = SARIA_EYE_OPEN;
                 this->rightEyeIndex = this->leftEyeIndex;
             }
@@ -478,13 +498,13 @@ void func_80AF609C(EnSa* this) {
     }
 }
 
-void func_80AF6130(CsCmdActorCue* cue, Vec3f* dst) {
+void EnSa_CopyCueStartPos(CsCmdActorCue* cue, Vec3f* dst) {
     dst->x = cue->startPos.x;
     dst->y = cue->startPos.y;
     dst->z = cue->startPos.z;
 }
 
-void func_80AF6170(CsCmdActorCue* cue, Vec3f* dst) {
+void EnSa_CopyCueEndPos(CsCmdActorCue* cue, Vec3f* dst) {
     dst->x = cue->endPos.x;
     dst->y = cue->endPos.y;
     dst->z = cue->endPos.z;
@@ -500,35 +520,35 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
-    switch (func_80AF5DFC(this, play)) {
-        case 2:
-            EnSa_ChangeAnim(this, ENSA_ANIM1_11);
-            this->actionFunc = func_80AF6448;
+    switch (EnSa_GetType(this, play)) {
+        case SARIA_TYPE_MEADOW_PLAYING:
+            EnSa_ChangeAnim(this, ENSA_ANIM1_START_PLAYING_OCARINA);
+            this->actionFunc = EnSa_Idle;
             break;
-        case 5:
-            EnSa_ChangeAnim(this, ENSA_ANIM1_11);
-            this->actionFunc = func_80AF683C;
+        case SARIA_TYPE_MEADOW_WAITING:
+            EnSa_ChangeAnim(this, ENSA_ANIM1_START_PLAYING_OCARINA);
+            this->actionFunc = EnSa_AwaitTeachingSariasSong;
             break;
-        case 1:
+        case SARIA_TYPE_STANDING:
             this->actor.gravity = -1.0f;
-            EnSa_ChangeAnim(this, ENSA_ANIM1_0);
-            this->actionFunc = func_80AF6448;
+            EnSa_ChangeAnim(this, ENSA_ANIM1_WAIT_ARMS_TO_SIDE);
+            this->actionFunc = EnSa_Idle;
             break;
-        case 4:
-            this->unk_210 = 0;
+        case SARIA_TYPE_GREETING:
+            this->cueId = 0;
             this->actor.gravity = -1.0f;
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gKokiriForestSariaGreetingCs);
             gSaveContext.cutsceneTrigger = 1;
-            EnSa_ChangeAnim(this, ENSA_ANIM1_4);
-            this->actionFunc = func_80AF68E4;
+            EnSa_ChangeAnim(this, ENSA_ANIM1_MOVE_ARMS_TO_SIDE);
+            this->actionFunc = EnSa_HandleCutscene;
             break;
-        case 3:
-            this->unk_210 = 0;
+        case SARIA_TYPE_UNUSED:
+            this->cueId = 0;
             this->actor.gravity = -1.0f;
-            EnSa_ChangeAnim(this, ENSA_ANIM1_0);
-            this->actionFunc = func_80AF68E4;
+            EnSa_ChangeAnim(this, ENSA_ANIM1_WAIT_ARMS_TO_SIDE);
+            this->actionFunc = EnSa_HandleCutscene;
             break;
-        case 0:
+        case SARIA_TYPE_NONE:
             Actor_Kill(&this->actor);
             return;
     }
@@ -538,7 +558,7 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->alpha = 255;
-    this->unk_21A = this->actor.shape.rot;
+    this->initRot = this->actor.shape.rot;
 
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
@@ -550,163 +570,163 @@ void EnSa_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80AF6448(EnSa* this, PlayState* play) {
+void EnSa_Idle(EnSa* this, PlayState* play) {
     if (play->sceneId == SCENE_KOKIRI_FOREST) {
         if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
             switch (this->actor.textId) {
                 case 0x1002:
-                    if (this->unk_208 == 0 && this->unk_20B != 1) {
-                        func_80AF5CD4(this, 1);
-                        this->mouthIndex = 1;
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_EXTEND_RIGHT_HAND) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_EXTEND_RIGHT_HAND);
+                        this->mouthIndex = SARIA_MOUTH_SMILING_OPEN;
                     }
-                    if (this->unk_208 == 2 && this->unk_20B != 2) {
-                        func_80AF5CD4(this, 2);
-                        this->mouthIndex = 1;
+                    if (this->messageIndex == 2 && this->animGroup != ENSA_ANIMGROUP_HANDS_TO_FACE) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_TO_FACE);
+                        this->mouthIndex = SARIA_MOUTH_SMILING_OPEN;
                     }
-                    if (this->unk_208 == 5) {
-                        this->mouthIndex = 0;
+                    if (this->messageIndex == 5) {
+                        this->mouthIndex = SARIA_MOUTH_CLOSED2;
                     }
                     break;
                 case 0x1003:
-                    if (this->unk_208 == 0 && this->unk_20B != 4) {
-                        func_80AF5CD4(this, 4);
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK);
                     }
                     break;
                 case 0x1031:
-                    if (this->unk_208 == 0 && this->unk_20B != 4 &&
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK &&
                         this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
-                        func_80AF5CD4(this, 4);
-                        this->mouthIndex = 3;
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK);
+                        this->mouthIndex = SARIA_MOUTH_SURPRISED;
                     }
-                    if (this->unk_208 == 2 && this->unk_20B != 5) {
-                        func_80AF5CD4(this, 5);
-                        this->mouthIndex = 2;
+                    if (this->messageIndex == 2 && this->animGroup != ENSA_ANIMGROUP_HANDS_ON_HIPS) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_ON_HIPS);
+                        this->mouthIndex = SARIA_MOUTH_FROWNING;
                     }
-                    if (this->unk_208 == 4 && this->unk_20B != 6) {
-                        func_80AF5CD4(this, 6);
-                        this->mouthIndex = 0;
+                    if (this->messageIndex == 4 && this->animGroup != ENSA_ANIMGROUP_HANDS_OFF_HIPS) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OFF_HIPS);
+                        this->mouthIndex = SARIA_MOUTH_CLOSED2;
                     }
                     break;
                 case 0x1032:
-                    if (this->unk_208 == 0 && this->unk_20B != 4 &&
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK &&
                         this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
-                        func_80AF5CD4(this, 4);
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_OUT_FROM_BEHIND_BACK);
                     }
                     break;
                 case 0x1047:
-                    if (this->unk_208 == 1 && this->unk_20B != 7) {
-                        func_80AF5CD4(this, 7);
+                    if (this->messageIndex == 1 && this->animGroup != ENSA_ANIMGROUP_HAND_TO_CHEST) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HAND_TO_CHEST);
                     }
                     break;
                 case 0x1048:
-                    if (this->unk_208 == 0 && this->unk_20B != 7) {
-                        func_80AF5CD4(this, 7);
+                    if (this->messageIndex == 0 && this->animGroup != ENSA_ANIMGROUP_HAND_TO_CHEST) {
+                        EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HAND_TO_CHEST);
                     }
                     break;
             }
         } else if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) &&
-                   (GET_INFTABLE(INFTABLE_01) || GET_INFTABLE(INFTABLE_03))) {
-            if (this->unk_20B != 3) {
-                func_80AF5CD4(this, 3);
+                   (GET_INFTABLE(INFTABLE_SARIA_NOTICED_FAIRY) || GET_INFTABLE(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO))) {
+            if (this->animGroup != ENSA_ANIMGROUP_HANDS_BEHIND_BACK) {
+                EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_HANDS_BEHIND_BACK);
             }
         } else {
-            func_80AF5CD4(this, 0);
+            EnSa_SetAnimGroup(this, ENSA_ANIMGROUP_NONE);
         }
-        func_80AF5CE4(this);
+        EnSa_Animate(this);
     }
     if (this->skelAnime.animation == &gSariaStopPlayingOcarinaAnim) {
         this->skelAnime.playSpeed = -1.0f;
         if ((s32)this->skelAnime.curFrame == 0) {
-            EnSa_ChangeAnim(this, ENSA_ANIM1_6);
+            EnSa_ChangeAnim(this, ENSA_ANIM1_PLAYING_OCARINA);
         }
     }
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE && play->sceneId == SCENE_SACRED_FOREST_MEADOW) {
         Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 1.0f, 0.0f, 10.0f, ANIMMODE_ONCE, -10.0f);
-        this->actionFunc = func_80AF67D0;
+        this->actionFunc = EnSa_TalkInForestMeadow;
     }
 }
 
-void func_80AF67D0(EnSa* this, PlayState* play) {
+void EnSa_TalkInForestMeadow(EnSa* this, PlayState* play) {
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         return;
     }
 
     Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
-    this->actionFunc = func_80AF6448;
+    this->actionFunc = EnSa_Idle;
 }
 
-void func_80AF683C(EnSa* this, PlayState* play) {
+void EnSa_AwaitTeachingSariasSong(EnSa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Play_InCsMode(play)) {
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMeadowSariasSongCs);
         gSaveContext.cutsceneTrigger = 1;
-        this->actionFunc = func_80AF68E4;
+        this->actionFunc = EnSa_HandleCutscene;
     }
 }
 
-void func_80AF68E4(EnSa* this, PlayState* play) {
-    s16 phi_v0;
+void EnSa_HandleCutscene(EnSa* this, PlayState* play) {
+    s16 stepTimer;
     Vec3f startPos;
     Vec3f endPos;
-    Vec3f D_80AF7448 = { 0.0f, 0.0f, 0.0f };
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     CsCmdActorCue* cue;
-    f32 temp_f0;
+    f32 duration;
     f32 gravity;
 
     if (play->csCtx.state == CS_STATE_IDLE) {
-        this->actionFunc = func_80AF6B20;
+        this->actionFunc = EnSa_BecomeIdle;
         return;
     }
 
     cue = play->csCtx.actorCues[1];
 
     if (cue != NULL) {
-        func_80AF6130(cue, &startPos);
-        func_80AF6170(cue, &endPos);
+        EnSa_CopyCueStartPos(cue, &startPos);
+        EnSa_CopyCueEndPos(cue, &endPos);
 
-        if (this->unk_210 == 0) {
+        if (this->cueId == 0) {
             this->actor.world.pos = startPos;
         }
-        if (this->unk_210 != cue->id) {
+        if (this->cueId != cue->id) {
             switch (cue->id) {
                 case 2:
-                    this->mouthIndex = 1;
+                    this->mouthIndex = SARIA_MOUTH_SMILING_OPEN;
                     break;
                 case 9:
-                    this->mouthIndex = 1;
+                    this->mouthIndex = SARIA_MOUTH_SMILING_OPEN;
                     break;
                 default:
-                    this->mouthIndex = 0;
+                    this->mouthIndex = SARIA_MOUTH_CLOSED2;
                     break;
             }
             EnSa_ChangeAnim(this, cue->id);
-            this->unk_210 = cue->id;
+            this->cueId = cue->id;
         }
 
-        if (phi_v0) {}
+        if (stepTimer) {}
 
         if (cue->id == 3) {
-            if (this->unk_20C == 0) {
-                phi_v0 = 0;
+            if (this->stepTimer == 0) {
+                stepTimer = 0;
             } else {
-                this->unk_20C--;
-                phi_v0 = this->unk_20C;
+                this->stepTimer--;
+                stepTimer = this->stepTimer;
             }
-            if (phi_v0 == 0) {
+            if (stepTimer == 0) {
                 SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT);
-                this->unk_20C = 8;
+                this->stepTimer = 8;
             }
         }
         this->actor.shape.rot.x = cue->rot.x;
         this->actor.shape.rot.y = cue->rot.y;
         this->actor.shape.rot.z = cue->rot.z;
-        this->actor.velocity = D_80AF7448;
+        this->actor.velocity = zeroVec;
 
         if (play->csCtx.curFrame < cue->endFrame) {
-            temp_f0 = cue->endFrame - cue->startFrame;
-            this->actor.velocity.x = (endPos.x - startPos.x) / temp_f0;
-            this->actor.velocity.y = (endPos.y - startPos.y) / temp_f0;
+            duration = cue->endFrame - cue->startFrame;
+            this->actor.velocity.x = (endPos.x - startPos.x) / duration;
+            this->actor.velocity.y = (endPos.y - startPos.y) / duration;
             gravity = this->actor.gravity;
             if (play->sceneId == SCENE_SACRED_FOREST_MEADOW) {
                 gravity = 0.0f;
@@ -715,26 +735,26 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
             if (this->actor.velocity.y < this->actor.minVelocityY) {
                 this->actor.velocity.y = this->actor.minVelocityY;
             }
-            this->actor.velocity.z = (endPos.z - startPos.z) / temp_f0;
+            this->actor.velocity.z = (endPos.z - startPos.z) / duration;
         }
     }
 }
 
-void func_80AF6B20(EnSa* this, PlayState* play) {
+void EnSa_BecomeIdle(EnSa* this, PlayState* play) {
     if (play->sceneId == SCENE_SACRED_FOREST_MEADOW) {
         Item_Give(play, ITEM_SONG_SARIA);
-        EnSa_ChangeAnim(this, ENSA_ANIM1_6);
+        EnSa_ChangeAnim(this, ENSA_ANIM1_PLAYING_OCARINA);
     }
 
     if (play->sceneId == SCENE_KOKIRI_FOREST) {
-        EnSa_ChangeAnim(this, ENSA_ANIM1_4);
+        EnSa_ChangeAnim(this, ENSA_ANIM1_MOVE_ARMS_TO_SIDE);
         this->actor.world.pos = this->actor.home.pos;
-        this->actor.world.rot = this->unk_21A;
-        this->mouthIndex = 0;
-        SET_INFTABLE(INFTABLE_00);
+        this->actor.world.rot = this->initRot;
+        this->mouthIndex = SARIA_MOUTH_CLOSED2;
+        SET_INFTABLE(INFTABLE_SARIA_GREETED_LINK);
     }
 
-    this->actionFunc = func_80AF6448;
+    this->actionFunc = EnSa_Idle;
 }
 
 void EnSa_Update(Actor* thisx, PlayState* play) {
@@ -747,10 +767,10 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
 
     if (this->skelAnime.animation == &gSariaOcarinaToMouthAnim &&
         this->skelAnime.curFrame >= Animation_GetLastFrame(&gSariaOcarinaToMouthAnim)) {
-        EnSa_ChangeAnim(this, ENSA_ANIM1_6);
+        EnSa_ChangeAnim(this, ENSA_ANIM1_PLAYING_OCARINA);
     }
 
-    if (this->actionFunc != func_80AF68E4) {
+    if (this->actionFunc != EnSa_HandleCutscene) {
         this->alpha = Actor_UpdateAlphaByDistance(&this->actor, play, this->alpha, 400.0f);
     } else {
         this->alpha = 255;
@@ -758,7 +778,7 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
 
     this->actor.shape.shadowAlpha = this->alpha;
 
-    if (this->actionFunc == func_80AF68E4) {
+    if (this->actionFunc == EnSa_HandleCutscene) {
         this->actor.world.pos.x += this->actor.velocity.x;
         this->actor.world.pos.y += this->actor.velocity.y;
         this->actor.world.pos.z += this->actor.velocity.z;
@@ -770,10 +790,10 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
-    func_80AF609C(this);
+    EnSa_Blink(this);
     this->actionFunc(this, play);
-    func_80AF57D8(this, play);
-    func_80AF5F34(this, play);
+    EnSa_UpdateTalking(this, play);
+    EnSa_UpdateTrackingMode(this, play);
 }
 
 s32 EnSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
@@ -804,10 +824,10 @@ s32 EnSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
 void EnSa_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnSa* this = (EnSa*)thisx;
-    Vec3f D_80AF7454 = { 400.0, 0.0f, 0.0f };
+    Vec3f focusOffset = { 400.0, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&D_80AF7454, &this->actor.focus.pos);
+        Matrix_MultVec3f(&focusOffset, &this->actor.focus.pos);
     }
 }
 
