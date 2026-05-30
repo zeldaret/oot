@@ -1,4 +1,3 @@
-CFLAGS := -Wall -Wextra -pedantic -std=gnu99 -g -O2
 PROGRAMS := bin2c mkdmadata mkldscript mkspecrules preprocess_pragmas vtxdis
 
 UNAME_S := $(shell uname -s)
@@ -18,10 +17,16 @@ EGCS_BINUTILS_VERSION := 0.6
 EGCS_GCC_VERSION := 0.7
 EGCS_DIR := egcs/$(DETECTED_OS)
 
+WARNFLAGS := -Wall -Wextra -pedantic
+OPTFLAGS := -O2 -g
+LDFLAGS :=
+
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
+  CXX := clang++
 else
   CC := gcc
+  CXX := g++
 endif
 
 LLD ?= 0
@@ -31,10 +36,12 @@ ifeq ($(shell command -v ld.lld >/dev/null 2>&1; echo $$?),0)
 endif
 
 ifneq ($(LLD),0)
-  CFLAGS += -fuse-ld=lld
+  LDFLAGS += -fuse-ld=lld
 endif
 
-all: $(PROGRAMS) $(IDO_RECOMP_5_3_DIR) $(IDO_RECOMP_7_1_DIR) $(EGCS_DIR)
+.PHONY: all clean distclean
+
+all: $(PROGRAMS) armips $(IDO_RECOMP_5_3_DIR) $(IDO_RECOMP_7_1_DIR) $(EGCS_DIR)
 	$(MAKE) -C fado
 	$(MAKE) -C audio
 	$(MAKE) -C com-plugin
@@ -52,8 +59,10 @@ clean:
 distclean: clean
 	$(MAKE) -C audio distclean
 	$(MAKE) -C assets distclean
+	$(RM) armips
 
-.PHONY: all clean distclean
+armips: armips.cpp
+	$(CXX) $(WARNFLAGS) -std=c++17 $(OPTFLAGS) -s -fno-rtti -pipe -Wno-unused-parameter $^ -pthread -o $@
 
 bin2c_SOURCES              := bin2c.c
 mkdmadata_SOURCES          := mkdmadata.c spec.c util.c
@@ -62,10 +71,9 @@ mkspecrules_SOURCES        := mkspecrules.c spec.c util.c
 preprocess_pragmas_SOURCES := preprocess_pragmas.c
 vtxdis_SOURCES             := vtxdis.c
 
-
-define COMPILE =
+define COMPILE
 $(1): $($1_SOURCES)
-	$(CC) $(CFLAGS) $$^ -o $$@
+	$(CC) $(WARNFLAGS) -std=gnu99 $(OPTFLAGS) $$^ $(LDFLAGS) -o $$@
 endef
 
 $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))
