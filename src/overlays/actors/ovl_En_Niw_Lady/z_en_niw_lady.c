@@ -33,7 +33,7 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play);
 void EnNiwLady_Destroy(Actor* thisx, PlayState* play);
 void EnNiwLady_Update(Actor* thisx, PlayState* play);
 
-void EnNiwLady_SetupAfterLoading(EnNiwLady* this, PlayState* play);
+void EnNiwLady_WaitForObject(EnNiwLady* this, PlayState* play);
 void EnNiwLady_Draw(Actor* thisx, PlayState* play2);
 void EnNiwLady_SetupKakarikoChild(EnNiwLady* this, PlayState* play);
 void EnNiwLady_SetupInImpasHouse(EnNiwLady* this, PlayState* play);
@@ -121,7 +121,7 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Neechan ugh ☆☆☆☆☆ %d\n") VT_RST,
            this->isInImpasHouse);
     PRINTF("\n\n");
-    this->actionFunc = EnNiwLady_SetupAfterLoading;
+    this->actionFunc = EnNiwLady_WaitForObject;
     thisx->cullingVolumeDistance = 600.0f;
 }
 
@@ -185,7 +185,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, PlayState* play, s32 nextAnimatio
     }
 }
 
-void EnNiwLady_SetupAfterLoading(EnNiwLady* this, PlayState* play) {
+void EnNiwLady_WaitForObject(EnNiwLady* this, PlayState* play) {
     f32 frames;
     s32 pad;
 
