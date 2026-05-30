@@ -191,7 +191,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
                 this->kakarikoIndex = i;
                 PRINTF(VT_FGCOL(YELLOW) T(" 通常鶏index %d\n", " Normal chicken index %d\n") VT_RST,
                        this->kakarikoIndex);
-                if (gSaveContext.save.info.infTable[INFTABLE_INDEX_CUCCOS] & sKakarikoFlagList[i]) {
+                if (gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCOS] & sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;
                     this->actor.world.pos.z = 1530.0f;
