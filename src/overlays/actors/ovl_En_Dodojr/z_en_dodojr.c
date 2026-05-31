@@ -340,7 +340,7 @@ s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
         return false;
     }
 
-    if (play->actorCtx.unk_02 != 0) {
+    if (play->actorCtx.hammerShockwaveTimer != 0) {
         if (this->actionFunc != EnDodojr_WaitUnderground) {
             if (this->actionFunc == EnDodojr_EmergeFromGround) {
                 this->actor.shape.shadowDraw = ActorShadow_DrawCircle;

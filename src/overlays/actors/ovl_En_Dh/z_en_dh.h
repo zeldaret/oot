@@ -17,7 +17,7 @@ typedef struct EnDh {
     /* 0x0251 */ u8 retreat;
     /* 0x0252 */ u8 drawDirtWave;
     /* 0x0254 */ EnDhActionFunc actionFunc;
-    /* 0x0258 */ u8 unk_258; // Related to player->unk_845
+    /* 0x0258 */ u8 unk_258; // Related to player->tripleSlashCount
     /* 0x0259 */ u8 unused_259;
     /* 0x025A */ u8 alpha;
     /* 0x025B */ u8 curAction;
