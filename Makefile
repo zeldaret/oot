@@ -275,13 +275,13 @@ ifeq ($(MIPS_BINUTILS_PREFIX),)
   # Try to find a known MIPS toolchain if one wasn't set
   # - practicerom: https://github.com/PracticeROM/packages
   # - libdragon: https://github.com/DragonMinded/libdragon/releases/tag/toolchain-continuous-prerelease
-  # - various mips-linux-gnu / mips64-linux-gnu packages available on common package managers 
+  # - various mips-linux-gnu / mips64-linux-gnu packages available on common package managers
   ifeq ($(shell type mips64-ultra-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # practicerom
     MIPS_BINUTILS_PREFIX := mips64-ultra-elf-
-  else ifeq ($(shell type $(N64_INST)/bin/mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
-    MIPS_BINUTILS_PREFIX := $(N64_INST)/bin/mips64-elf-
   else ifeq ($(shell type $(N64_GCCPREFIX)/bin/mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
     MIPS_BINUTILS_PREFIX := $(N64_GCCPREFIX)/bin/mips64-elf-
+  else ifeq ($(shell type $(N64_INST)/bin/mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
+    MIPS_BINUTILS_PREFIX := $(N64_INST)/bin/mips64-elf-
   else ifeq ($(shell type mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
     MIPS_BINUTILS_PREFIX := mips64-elf-
   else ifeq ($(shell type mips64-ld >/dev/null 2>/dev/null; echo $$?), 0) # practicerom
