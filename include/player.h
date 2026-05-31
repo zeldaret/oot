@@ -774,7 +774,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE3_0 (1 << 0)
 #define PLAYER_STATE3_1 (1 << 1)
 #define PLAYER_STATE3_2 (1 << 2)
-#define PLAYER_STATE3_MELEE_ATTACK (1 << 3) // Set after melee attacks, maintained shortly by hostile idle action to avoid adjusting yaw
+#define PLAYER_STATE3_ENDING_MELEE_ATTACK (1 << 3) // Set after melee attacks, maintained shortly by hostile idle action to avoid adjusting yaw
 #define PLAYER_STATE3_4 (1 << 4)
 #define PLAYER_STATE3_5 (1 << 5)
 #define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
@@ -941,7 +941,7 @@ typedef struct Player {
     /* 0x0868 */ f32 moveFrame; // Current frame of the walk-run cycle animation.
     /* 0x086C */ f32 unk_86C;
     /* 0x0870 */ f32 forwardFootWeight; // See below. Serves same function, but is changed by intervals and so also used to weight animations.
-    /* 0x0874 */ f32 forwardFoot; // 0 = right. Which foot is forward/more anterior when sidewalking and throwing Boomerang
+    /* 0x0874 */ f32 forwardFootTarget; // 0 = right. Which foot is forward/more anterior when sidewalking and throwing Boomerang
     /* 0x0878 */ f32 unk_878;
     /* 0x087C */ s16 unk_87C;
     /* 0x087E */ s16 turnRate; // Amount angle is changed every frame when turning in place
@@ -952,7 +952,7 @@ typedef struct Player {
     /* 0x088D */ u8 ledgeClimbDelayTimer;
     /* 0x088E */ u8 textboxBtnCooldownTimer; // Prevents usage of A/B/C-up when counting down
     /* 0x088F */ u8 damageFlickerAnimCounter; // Used to flicker Link after taking damage
-    /* 0x0890 */ u8 damageRunTimer; // Frames that player will run with slouched damage posture after taking damage while running
+    /* 0x0890 */ u8 runDamageTimer; // Frames that player will run with slouched damage posture after taking damage while running
     /* 0x0891 */ u8 bodyShockTimer;
     /* 0x0892 */ u8 unk_892;
     /* 0x0893 */ u8 hoverBootsTimer;
