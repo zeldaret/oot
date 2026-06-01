@@ -442,7 +442,8 @@ void EnNiwLady_KakarikoAdultIdle(EnNiwLady* this, PlayState* play) {
         } else {
             this->hasSpokenAboutPocketCucco = true;
             this->nextAnimation = this->adultTextIndex + 21;
-            this->actionFunc = !this->isHoldingPocketCucco ? EnNiwLady_SetupKakarikoAdultIdle : EnNiwLady_HandlePocketEggChoice;
+            this->actionFunc =
+                !this->isHoldingPocketCucco ? EnNiwLady_SetupKakarikoAdultIdle : EnNiwLady_HandlePocketEggChoice;
         }
         return;
     }
