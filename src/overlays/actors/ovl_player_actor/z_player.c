@@ -2237,7 +2237,7 @@ void func_8083328C(PlayState* play, Player* this, LinkAnimationHeader* linkAnim)
 }
 
 /**
- * @return true if Player is currently in water (PLAYER_STATE1_IN_WATER) not wearing Iron Boots
+ * @return true if Player is currently in water (PLAYER_STATE1_27) not wearing Iron Boots
  */
 int Player_SwimmingWithoutIronBoots(Player* this) {
     return (this->stateFlags1 & PLAYER_STATE1_27) && (this->currentBoots != PLAYER_BOOTS_IRON);
@@ -4649,6 +4649,11 @@ void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed
 
     Player_PlaySfx(this, NA_SE_PL_DAMAGE);
 
+    // Inflict damage - if player died and not on ground/in water, set not on ground action
+    //! @bug This does not reset states that should be removed upon death, such as
+    //! meleeWeaponState, nor actually set the player in a death state.
+    //! If player takes fatal damage but is healed the same frame, gameplay continues but
+    //! now in not on ground action. This causes jumpslash ISG.
     if (!func_80837B18(play, this, 0 - this->actor.colChkInfo.damage)) {
         this->stateFlags2 &= ~PLAYER_STATE2_7;
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(this->stateFlags1 & PLAYER_STATE1_27)) {
