@@ -4240,7 +4240,10 @@ u32 SurfaceType_GetConveyorDirection(CollisionContext* colCtx, CollisionPoly* po
     return SurfaceType_GetData(colCtx, poly, bgId, 1) >> 21 & 0x3F;
 }
 
-u32 func_80042108(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+/**
+ * @return 1 if unk_27 is set, representing that the floor does damage, and is not lava
+ */
+u32 SurfaceType_DamageIsNotLava(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return (SurfaceType_GetData(colCtx, poly, bgId, 1) & 0x08000000) ? 1 : 0;
 }
 
