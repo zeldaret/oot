@@ -330,7 +330,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
 
                 } else if (sSwordJumpState != 0) {
                     sStickTilt = 0.0f;
-                    player->stateFlags3 |= PLAYER_STATE3_2;
+                    player->stateFlags3 |= PLAYER_STATE3_DARK_LINK_IMMOBILIZED;
                     Math_SmoothStepToF(&this->actor.world.pos.x,
                                        (Math_SinS(player->actor.shape.rot.y - 0x3E8) * 45.0f) +
                                            player->actor.world.pos.x,
@@ -344,7 +344,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         ((player->invincibilityTimer > 0) && (this->meleeWeaponState == 0))) {
                         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                         input->cur.button = BTN_A;
-                        player->stateFlags3 &= ~PLAYER_STATE3_2;
+                        player->stateFlags3 &= ~PLAYER_STATE3_DARK_LINK_IMMOBILIZED;
                         sStickTilt = 127.0f;
                         player->skelAnime.curFrame = 3.0f;
                         sStickAngle = this->actor.yawTowardsPlayer + 0x8000;
@@ -355,7 +355,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                             EnTorch2_SwingSword(play, input, this);
                             sSwordJumpState++;
                         } else if (sSwordJumpTimer == 19) {
-                            func_800F4190(&this->actor.projectedPos, NA_SE_VO_LI_AUTO_JUMP);
+                            Audio_PlayDarkLinkVoiceSfx(&this->actor.projectedPos, NA_SE_VO_LI_AUTO_JUMP);
                         }
                     }
                 } else {
@@ -373,6 +373,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
 
                             // Handles the reaction to a one-handed stab. If the conditions are satisfied,
                             // Dark Link jumps on Link's sword. Otherwise he backflips away.
+                            //! @bug Dark Link can jump onto player's sword even when immobilized by Deku Nut
 
                             if ((this->meleeWeaponState == 0) && (sCounterState == 0) &&
                                 (player->invincibilityTimer == 0) &&
@@ -381,7 +382,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
 
                                 sStickTilt = 0.0f;
                                 sSwordJumpState = 1;
-                                player->stateFlags3 |= PLAYER_STATE3_2;
+                                player->stateFlags3 |= PLAYER_STATE3_DARK_LINK_IMMOBILIZED;
                                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                                 sSwordJumpTimer = 27;
                                 player->meleeWeaponState = 0;
@@ -507,7 +508,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             this->meleeWeaponState = 0;
             input->cur.stick_x = input->cur.stick_y = 0;
             if ((this->invincibilityTimer > 0) && (this->actor.world.pos.y < (this->actor.floorHeight - 160.0f))) {
-                this->stateFlags3 &= ~PLAYER_STATE3_0;
+                this->stateFlags3 &= ~PLAYER_STATE3_DARK_LINK_FALL;
                 this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 this->invincibilityTimer = 0;
                 this->actor.velocity.y = 0.0f;
@@ -611,7 +612,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             sActionState = ENTORCH2_DEATH;
             Enemy_StartFinishingBlow(play, &this->actor);
             Item_DropCollectibleRandom(play, &this->actor, &thisx->world.pos, 0xC0);
-            this->stateFlags3 &= ~PLAYER_STATE3_2;
+            this->stateFlags3 &= ~PLAYER_STATE3_DARK_LINK_IMMOBILIZED;
         } else {
             func_800F5ACC(NA_BGM_MINI_BOSS);
             if (this->actor.colChkInfo.damageReaction == 1) {
@@ -628,8 +629,8 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 this->knockbackSpeed = 8.0f;
                 this->knockbackRot = this->actor.yawTowardsPlayer + 0x8000;
                 Actor_SetDropFlag(&this->actor, &this->cylinder.elem, true);
-                this->stateFlags3 &= ~PLAYER_STATE3_2;
-                this->stateFlags3 |= PLAYER_STATE3_0;
+                this->stateFlags3 &= ~PLAYER_STATE3_DARK_LINK_IMMOBILIZED;
+                this->stateFlags3 |= PLAYER_STATE3_DARK_LINK_FALL;
                 sActionState = ENTORCH2_DAMAGE;
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
@@ -645,9 +646,9 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     // Handles being frozen by a deku nut
 
     if ((this->actor.colorFilterTimer == 0) || (this->actor.colorFilterParams & 0x4000)) {
-        this->stateFlags3 &= ~PLAYER_STATE3_2;
+        this->stateFlags3 &= ~PLAYER_STATE3_DARK_LINK_IMMOBILIZED;
     } else {
-        this->stateFlags3 |= PLAYER_STATE3_2;
+        this->stateFlags3 |= PLAYER_STATE3_DARK_LINK_IMMOBILIZED;
         this->stateFlags1 &= ~PLAYER_STATE1_26;
         this->invincibilityTimer = 0;
         input->press.stick_x = input->press.stick_y = 0;
@@ -682,7 +683,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         }
         if (staggerThreshold < sStaggerCount) {
             this->skelAnime.playSpeed *= 0.6f;
-            func_800F4190(&this->actor.projectedPos, NA_SE_PL_DAMAGE);
+            Audio_PlayDarkLinkVoiceSfx(&this->actor.projectedPos, NA_SE_PL_DAMAGE);
             sStaggerTimer = 0;
             sStaggerCount = 0;
         }

@@ -1884,7 +1884,7 @@ void Player_PlayVoiceSfx(Player* this, u16 sfxId) {
     if (this->actor.category == ACTORCAT_PLAYER) {
         Player_PlaySfx(this, sfxId + this->ageProperties->unk_92);
     } else {
-        func_800F4190(&this->actor.projectedPos, sfxId);
+        Audio_PlayDarkLinkVoiceSfx(&this->actor.projectedPos, sfxId);
     }
 }
 
@@ -11115,7 +11115,8 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
                 UPDBGCHECKINFO_FLAG_4 | UPDBGCHECKINFO_FLAG_5;
     }
 
-    if (this->stateFlags3 & PLAYER_STATE3_0) {
+    // Remove ground and water collision checks for Dark Link when damaged
+    if (this->stateFlags3 & PLAYER_STATE3_DARK_LINK_FALL) {
         flags &= ~(UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     }
 
@@ -11964,7 +11965,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                                PLAYER_STATE1_SHIELDING);
         this->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_2 | PLAYER_STATE2_3 | PLAYER_STATE2_5 | PLAYER_STATE2_6 |
                                PLAYER_STATE2_8 | PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND | PLAYER_STATE2_12 |
-                               PLAYER_STATE2_14 | PLAYER_STATE2_DO_ACTION_ENTER | PLAYER_STATE2_22 | PLAYER_STATE2_26);
+                               PLAYER_STATE2_14 | PLAYER_STATE2_DO_ACTION_ENTER | PLAYER_STATE2_22 | PLAYER_STATE2_DARK_LINK_ROOM_REFLECTION);
         this->stateFlags3 &= ~PLAYER_STATE3_4;
 
         func_80847298(this);
@@ -11981,7 +11982,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         sUseHeldItem = sHeldItemButtonIsHeldDown = false;
         sSavedCurrentMask = this->currentMask;
 
-        if (!(this->stateFlags3 & PLAYER_STATE3_2)) {
+        // Player cannot do action functions if Dark Link is standing on player sword,
+        // and Dark Link cannot if paralyzed by Deku Nut
+        if (!(this->stateFlags3 & PLAYER_STATE3_DARK_LINK_IMMOBILIZED)) {
             this->actionFunc(this, play);
         }
 
@@ -12076,7 +12079,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->actor.colChkInfo.mass = 50;
     }
 
-    this->stateFlags3 &= ~PLAYER_STATE3_2;
+    this->stateFlags3 &= ~PLAYER_STATE3_DARK_LINK_IMMOBILIZED;
 
     Collider_ResetCylinderAC(play, &this->cylinder.base);
 
@@ -12292,7 +12295,7 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
             }
         }
 
-        if (this->stateFlags2 & PLAYER_STATE2_26) {
+        if (this->stateFlags2 & PLAYER_STATE2_DARK_LINK_ROOM_REFLECTION) {
             f32 sp78 = BINANG_TO_RAD_ALT2((u16)(play->gameplayFrames * 600));
             f32 sp74 = BINANG_TO_RAD_ALT2((u16)(play->gameplayFrames * 1000));
 
