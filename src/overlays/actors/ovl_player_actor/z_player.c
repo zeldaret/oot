@@ -1815,7 +1815,6 @@ void Player_DetachHeldActor(PlayState* play, Player* this) {
  * Often called together with Player_DetachHeldActor (by Player_ResetStatesHeldActor).
  */
 void Player_ResetStates(PlayState* play, Player* this) {
-    // Remove carrying state if no held actor. Also, remove interact range actor if no get item ID
     if ((this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) && (this->heldActor == NULL)) {
         if (this->interactRangeActor != NULL) {
             if (this->getItemId == GI_NONE) {
@@ -1831,7 +1830,7 @@ void Player_ResetStates(PlayState* play, Player* this) {
     func_80832318(this);
     this->unk_6AD = 0;
 
-    func_80832340(play, this);
+    func_80832340(play, this); // This also removes PLAYER_STATE2_10 and PLAYER_STATE2_11
     Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
 
     this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20 | PLAYER_STATE1_21);
@@ -1845,7 +1844,7 @@ void Player_ResetStates(PlayState* play, Player* this) {
 
 /**
  * Puts away item currently in hand, if holding any.
- * @return  true if an item needs to be put away, false if not.
+ * @return true if an item needs to be put away, false if not.
  */
 s32 Player_PutAwayHeldItem(PlayState* play, Player* this) {
     if (this->heldItemAction >= PLAYER_IA_FISHING_POLE) {
@@ -4787,7 +4786,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed
 }
 
 /**
- * Does not have to be lava damage.
+ * Check if floor does damage. Any form of damage, does not have to be lava damage.
  * @return 0 if FLOOR_TYPE_2, 1 if FLOOR_TYPE_3, -1 if not damaging
  */
 s32 Player_IsDamageFloor(s32 floorType) {
