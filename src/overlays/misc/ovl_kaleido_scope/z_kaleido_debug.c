@@ -238,8 +238,8 @@ void KaleidoScope_DrawInventoryEditor(PlayState* play) {
     static s32 heldDBtnTimer = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
-    Gfx* gfx;
-    Gfx* gfxRef;
+    Gfx* gfxChild;
+    Gfx* gfxBufRef;
     // Used for both storing the digits of the drawn numbers and digit positions
     s16 digitBuf[4];
     s16 slot;
@@ -264,15 +264,9 @@ void KaleidoScope_DrawInventoryEditor(PlayState* play) {
     gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                       PRIMITIVE, 0);
 
-    gfxRef = POLY_OPA_DISP;
-    gfx = Gfx_Open(gfxRef);
-    gSPDisplayList(OVERLAY_DISP++, gfx);
-
-    KaleidoScope_DrawInventoryEditorText(&gfx);
-
-    gSPEndDisplayList(gfx++);
-    Gfx_Close(gfxRef, gfx);
-    POLY_OPA_DISP = gfx;
+    GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
+    KaleidoScope_DrawInventoryEditorText(&gfxChild);
+    GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 0, 0, 255);
