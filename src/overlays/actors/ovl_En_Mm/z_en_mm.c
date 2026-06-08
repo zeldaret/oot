@@ -476,7 +476,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             }
 
             if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
-                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 4.0f);
+                Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 4.0f);
             }
         }
     }

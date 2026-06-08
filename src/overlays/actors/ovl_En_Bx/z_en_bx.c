@@ -166,7 +166,7 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
                     play->damagePlayer(play, -4);
                 }
             }
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, tmp32, 6.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 6.0f, tmp32, 6.0f);
             player->invincibilityTimer = tmp33;
         }
 

@@ -327,8 +327,8 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
         }
         this->attackTimer = 30;
         Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
-        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, this->actor.speed + 2.0f,
-                                              this->actor.yawTowardsPlayer, 6.0f);
+        Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, this->actor.speed + 2.0f, this->actor.yawTowardsPlayer,
+                                             6.0f);
     }
     return false;
 }

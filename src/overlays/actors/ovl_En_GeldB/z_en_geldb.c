@@ -942,7 +942,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, PlayState* play) {
         } else if (this->swordCollider.base.atFlags & AT_HIT) {
             this->swordCollider.base.atFlags &= ~AT_HIT;
             if (&player->actor == this->swordCollider.base.at) {
-                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
+                Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
                 this->spinAttackState = 2;
                 Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_24);
                 Message_StartTextbox(play, 0x6003, &this->actor);

@@ -1098,7 +1098,7 @@ void BossVa_BodyPhase1(BossVa* this, PlayState* play) {
     if (this->bodyCollider.base.atFlags & AT_HIT) {
         this->bodyCollider.base.atFlags &= ~AT_HIT;
         if (this->bodyCollider.base.at == &player->actor) {
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
         }
     }
 
@@ -1190,7 +1190,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 
         sPhase2Timer = (sPhase2Timer + 0x18) & 0xFFF0;
         if (this->bodyCollider.base.at == &player->actor) {
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
@@ -1266,7 +1266,7 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
     if (this->bodyCollider.base.atFlags & AT_HIT) {
         this->bodyCollider.base.atFlags &= ~AT_HIT;
         if (this->bodyCollider.base.at == &player->actor) {
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
             Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
@@ -1387,7 +1387,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
     if (this->bodyCollider.base.atFlags & AT_HIT) {
         this->bodyCollider.base.atFlags &= ~AT_HIT;
         if (this->bodyCollider.base.at == &player->actor) {
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
             Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
@@ -2574,8 +2574,8 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
     this->vaBariUnused.y += this->vaBariUnused.z;
     if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderJntSph.base.atFlags & AT_HIT)) {
         if ((this->colliderLightning.base.at == &player->actor) || (this->colliderJntSph.base.at == &player->actor)) {
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer,
-                                                  8.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer,
+                                                 8.0f);
             Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             this->colliderJntSph.base.at = NULL;
             this->colliderLightning.base.at = NULL;
@@ -2670,8 +2670,8 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
 
     if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderJntSph.base.atFlags & AT_HIT)) {
         if ((this->colliderLightning.base.at == &player->actor) || (this->colliderJntSph.base.at == &player->actor)) {
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer,
-                                                  8.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer,
+                                                 8.0f);
             Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             this->colliderJntSph.base.at = NULL;
             this->colliderLightning.base.at = NULL;
