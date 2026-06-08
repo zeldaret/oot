@@ -18,49 +18,54 @@
 
 #pragma increment_block_number "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
-typedef struct struct_801D9C30 {
-    /* 0x000 */ s32 unk_000;       // disk start
-    /* 0x004 */ s32 unk_004;       // disk end
-    /* 0x008 */ uintptr_t unk_008; // ram start
-    /* 0x00C */ uintptr_t unk_00C; // ram end
-    /* 0x010 */ UNK_PTR unk_010;
-    /* 0x014 */ char unk_014[0x104];
-} struct_801D9C30; // size = 0x118
+typedef struct n64dd_CopyToRAM {
+    /* 0x000 */ s32 diskStart;      // disk start
+    /* 0x004 */ s32 diskEnd;        // disk end
+    /* 0x008 */ uintptr_t ramStart; // ram start
+    /* 0x00C */ uintptr_t ramEnd;   // ram end
+    /* 0x010 */ UNK_PTR unk_010;    // s32?
+    /* 0x014 */ char padding[0x104];
+} n64dd_CopyToRAM; // size = 0x118
 
-typedef struct struct_801D9B90 {
-    /* 0x00 */ OSMesg unk_00[30];
-    /* 0x78 */ OSMesgQueue unk_78;
-    /* 0x90 */ IrqMgrClient unk_90;
-    /* 0x98 */ IrqMgr* unk_98;
-} struct_801D9B90; // size = 0x9C
+typedef struct n64dd_QueuedTransfersList { // This basically has a list of queued disk read commands
+                                           // ready to be passed to an OSMesgQueue
+    /* 0x00 */ OSMesg messages[30];
+    /* 0x78 */ OSMesgQueue msgQueue;
+    /* 0x90 */ IrqMgrClient IRQMgrC;
+    /* 0x98 */ IrqMgr* pIRQMgr;
+} n64dd_QueuedTransfersList; // size = 0x9C
 
-s32 func_801C7A1C(struct_801E0D18* arg0);
+s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* arg0);
 
-void* D_801D2E50 = &gN64DDDiskReadTemporaryBuffer;
-s32 (*D_801D2E54)(struct_801E0D18*) = func_801C7A1C;
+void* pTmpReadBuf = &gN64DDDiskReadTemporaryBuffer;
+s32 (*pCheckIfDiskIsValid)(n64dd_driveCmdQueue*) = n64dd_CheckIfDiskIsValid;
 
-struct_801D9B90 B_801D9B90;
-struct_801D9C30 B_801D9C30;
-struct_801D9C30* B_801D9D48;
-struct_801D9D50 B_801D9D50;
-OSMesgQueue B_801D9D80;
-OSMesgQueue B_801D9D98;
-OSMesg B_801D9DB0[1];
-OSMesg B_801D9DB4[1];
-volatile u8 B_801D9DB8;
-volatile OSTime B_801D9DC0;
-s32 B_801D9DC8; // 1 if disk gameName is correct, 2 otherwise
-void* B_801D9DCC;
-void* B_801D9DD0;
-void* B_801D9DD4;
-OSThread B_801D9DD8;
-STACK(B_801D9F88, 0x1000);
-StackEntry B_801DAF88;
-STACK(B_801DAFA8, 0x1000);
-StackEntry B_801DBFA8;
+n64dd_QueuedTransfersList queuedDDTransfers;
+n64dd_CopyToRAM DDLoad0;
+n64dd_CopyToRAM* pDDLoad0;
+n64dd_drivePacketData drivePacketData;
+OSMesgQueue msgQueue0;
+OSMesgQueue msgQueue1;
+OSMesg queuedMessages0[1];
+OSMesg queuedMessages1[1];
+volatile u8 isNewFBAvailable; // bool?
+volatile OSTime currentTime;
+s32 isGameDiskCorrect; // 1 if disk gameName is correct, 2 otherwise
+void* pUnkTxt0;        // pointers to some text
+void* pUnkTxt1;
+void* pUnkTxt2;
+OSThread diskReadThread;
+STACK(pStackTransfTrhead, 0x1000); // stack pointer of the transfer thread
+StackEntry transfStackEntry;
+STACK(pStackDDCommThread, 0x1000); // stack pointer of the communication thread (to send commands to the drive)
+StackEntry commStackEntry;
 UNK_TYPE B_801DBFC4; // unused?
 
-u32 func_801C6E80(void) {
+/**
+ * Checks if the DD is present.
+ * @returns Disk drive status
+ */
+u32 n64dd_isDrivePresent(void) {
 #if OOT_NTSC
     return LeoDriveExist();
 #else
@@ -68,38 +73,45 @@ u32 func_801C6E80(void) {
 #endif
 }
 
-void func_801C6EA0(Gfx** gfxP) {
+void n64dd_gfxHook(Gfx** gfxP) { // see game.c
 }
 
-void func_801C6EAC(void) {
-    if (D_80121214 == 0) {
-        func_800F6BDC();
-        D_80121214 = 1;
+/**
+ * Stops currently playing audio sequences.
+ */
+void n64dd_stopSound(void) {
+    if (isSoundStopped == 0) {
+        Audio_StopWaitAllSeq();
+        isSoundStopped = 1;
     }
 }
 
-s32 func_801C6EF0(void) {
-    return D_80121214 != 0;
+s32 n64dd_isSoundStopped(void) {
+    return isSoundStopped != 0;
 }
 
-s32 func_801C6F08(void) {
-    if (D_80121214 != 0) {
+// same as before
+s32 n64dd_isSoundStopped2(void) {
+    if (isSoundStopped != 0) {
         return 1;
     }
     return 1;
 }
 
-void func_801C6F30(void) {
-    func_801C6EAC();
-    while (func_801C6F08() == 0) {
+/**
+ * Wait for all sound to finish playing.
+ */
+void n64dd_waitForSound(void) {
+    n64dd_stopSound();
+    while (n64dd_isSoundStopped2() == 0) {
         Sleep_Usec(16666); // 100000 / 6
     }
 }
 
-void func_801C6F78(void) {
-    if (D_80121214 != 0) {
-        D_80121214 = 0;
-        func_800F6B3C();
+void n64dd_playSfx(void) {
+    if (isSoundStopped != 0) {
+        isSoundStopped = 0;
+        func_800F6B3C(); // play sfx #0 with a 5s fadein
     }
 }
 
@@ -128,55 +140,63 @@ void func_801C7018(void) {
     D_80121213 = 1;
 }
 
-s32 func_801C7064(void) {
-    B_801D9D50.unk_00 = 5;
-    return (&func_801C8000)(&B_801D9D50);
+s32 n64dd_sendCmd5(void) {
+    drivePacketData.cmdType = 5;
+    return (&n64dd_parsePacketData)(&drivePacketData);
 }
 
-s32 func_801C7098(void) {
+s32 n64dd_sendCmd10(void) {
     s32 phi_v1;
 
 #if OOT_VERSION < PAL_1_0
     if (0) {}
 #endif
 
-    B_801D9D50.unk_00 = 10;
-    phi_v1 = (&func_801C8000)(&B_801D9D50);
+    drivePacketData.cmdType = 10;
+    phi_v1 = (&n64dd_parsePacketData)(&drivePacketData);
     if (phi_v1 < 0) {
         Freeze_CurrentThread();
     }
     return phi_v1;
 }
 
-s32 func_801C70E4(void) {
-    return B_801D9DC8 == 1;
+s32 n64dd_isDiskCorrectInternal(void) {
+    return isGameDiskCorrect == 1;
 }
 
 // Used by EnMag and FileChoose
-s32 func_801C70FC(void) {
-    return func_801C70E4();
+s32 n64dd_isDiskCorrect(void) {
+    return n64dd_isDiskCorrectInternal();
 }
 
-void func_801C711C(void* arg) {
-    static void* B_801DBFC8;
-    struct_801D9B90* arg0 = (struct_801D9B90*)arg;
-    s16* sp58;
-    s32 var_s0;
-    void* temp_v0;
+/**
+ * Enqueues all queued disk transfers to be automatically performed
+ * when the drive is ready.
+ * @param queuedDiskTransfers A queue of all the disk transfers to be performed
+ **/
+void n64dd_enqueueDiskTransfers(void* queuedDiskTransfers) {
+    static void* pSomeFramebuf;
+    n64dd_QueuedTransfersList* pTransferList = (n64dd_QueuedTransfersList*)queuedDiskTransfers;
+    s16* pOSRecvMesg;
+    s32 exit;
+    void* pNextFramebuf;
 
-    sp58 = NULL;
-    arg0->unk_98 = &gIrqMgr;
-    osCreateMesgQueue(&arg0->unk_78, arg0->unk_00, ARRAY_COUNT(arg0->unk_00));
-    IrqMgr_AddClient(arg0->unk_98, &arg0->unk_90, &arg0->unk_78);
-    var_s0 = 0;
+    pOSRecvMesg = NULL;
+    pTransferList->pIRQMgr = &gIrqMgr;
+    osCreateMesgQueue(&pTransferList->msgQueue, pTransferList->messages, ARRAY_COUNT(pTransferList->messages));
+    IrqMgr_AddClient(pTransferList->pIRQMgr, &pTransferList->IRQMgrC, &pTransferList->msgQueue);
+    exit = 0;
     do {
-        osRecvMesg(&arg0->unk_78, (OSMesg*)&sp58, OS_MESG_BLOCK);
-        switch (*sp58) {
-            case 1:
-                temp_v0 = osViGetNextFramebuffer();
-                if (B_801DBFC8 != temp_v0) {
-                    B_801DBFC8 = temp_v0;
-                    B_801D9DB8 = 1;
+        osRecvMesg(&pTransferList->msgQueue, (OSMesg*)&pOSRecvMesg, OS_MESG_BLOCK);
+        // The idea behind this is to wait for messages from the disk drive;
+        // If there is an error, it is displayed on screen or the drive is reset
+        // (maybe to try again?) or everything is fine and we do nothing else.
+        switch (*pOSRecvMesg) {
+            case 1: // Clear FB and display an error
+                pNextFramebuf = osViGetNextFramebuffer();
+                if (pSomeFramebuf != pNextFramebuf) {
+                    pSomeFramebuf = pNextFramebuf;
+                    isNewFBAvailable = 1;
                 }
                 func_801C8AA8();
                 break;
@@ -184,19 +204,20 @@ void func_801C711C(void* arg) {
                 LeoReset();
                 break;
             case 3:
-                var_s0 = 1;
+                exit = 1;
                 break;
         }
-    } while (var_s0 == 0);
-    IrqMgr_RemoveClient(arg0->unk_98, &arg0->unk_90);
+    } while (exit == 0);
+    IrqMgr_RemoveClient(pTransferList->pIRQMgr, &pTransferList->IRQMgrC);
 }
 
+// seems to be waiting for the end of the frame.
 #if OOT_VERSION >= NTSC_1_1
-void func_801C7B28_ne2(void) {
+void n64dd_waitFrameEnd(void) {
     s32 temp;
 
-    if (B_801D9DC0 != 0) {
-        temp = (osGetTime() - B_801D9DC0) * 64 / 3000;
+    if (currentTime != 0) {
+        temp = (osGetTime() - currentTime) * 64 / 3000;
         if (1000000 - temp > 0) {
             Sleep_Usec(1000000 - temp);
         }
@@ -206,28 +227,28 @@ void func_801C7B28_ne2(void) {
 
 void func_801C7268(void) {
     s32 pad;
-    s32 sp20;
+    s32 isSoundStopped;
     s32 sp1C;
 
-    sp20 = func_801C6EF0();
-    if (sp20 == 0) {
-        func_801C6F30();
+    isSoundStopped = n64dd_isSoundStopped();
+    if (isSoundStopped == 0) {
+        n64dd_waitForSound();
     }
-    B_801D9DB8 = 1;
-    B_801D9DC0 = 0;
-    if (func_801C7064() == 1) {
-        func_801C7098();
-    } else if (B_801D9DC8 != 0) {
-        B_801D9DC8 = 0;
+    isNewFBAvailable = 1;
+    currentTime = 0;
+    if (n64dd_sendCmd5() == 1) {
+        n64dd_sendCmd10();
+    } else if (isGameDiskCorrect != 0) {
+        isGameDiskCorrect = 0;
     }
 #if OOT_VERSION < NTSC_1_1
-    if (B_801D9DC0 != 0) {
-        sp1C = (osGetTime() - B_801D9DC0) * 64 / 3000;
+    if (currentTime != 0) {
+        sp1C = (osGetTime() - currentTime) * 64 / 3000;
 
         // Remnants from debug statements?
-        (void)(osGetTime() - B_801D9DC0);
-        (void)((osGetTime() - B_801D9DC0) * 64 / 3000);
-        (void)((osGetTime() - B_801D9DC0) * 64 / 3000);
+        (void)(osGetTime() - currentTime);
+        (void)((osGetTime() - currentTime) * 64 / 3000);
+        (void)((osGetTime() - currentTime) * 64 / 3000);
 
         if (1000000 - sp1C > 0) {
             Sleep_Usec(1000000 - sp1C);
@@ -235,43 +256,52 @@ void func_801C7268(void) {
     }
 #else
     if (D_801D2EA8 == 1 || B_801E0F60 == 1 || B_801E0F64 == 1) {
-        B_801D9DC0 = osGetTime();
+        currentTime = osGetTime();
     }
-    func_801C7B28_ne2();
+    n64dd_waitFrameEnd();
 #endif
-    if (sp20 == 0) {
-        func_801C6F78();
+    if (isSoundStopped == 0) {
+        n64dd_playSfx();
     }
 }
 
-// Clears framebuffer
-void func_801C7438(void* arg0) {
-    u16* var_v0;
+/**
+ * Initializes a framebuffer.
+ * @param buf The framebuffer
+ */
+void n64dd_initFB(void* arg0) {
+    u16* curData;
 
-    for (var_v0 = (u16*)arg0; var_v0 < (u16*)arg0 + SCREEN_WIDTH * SCREEN_HEIGHT; var_v0++) {
-        *var_v0 = 1;
+    for (curData = (u16*)arg0; curData < (u16*)arg0 + SCREEN_WIDTH * SCREEN_HEIGHT; curData++) {
+        *curData = 1;
     }
 }
 
-void func_801C746C(void* arg0, void* arg1, void* arg2) {
-    void* sp2C;
+/**
+ * Prints up to 3 rows of text to the screen.
+ * @param pCharsRow1 The first row of text
+ * @param pCharsRow2 The second row of text
+ * @param pCharsRow3 The third row of text
+ **/
+void n64dd_printText(void* pCharsRow1, void* pCharsRow2, void* pCharsRow3) {
+    void* pNextFrameBuf;
 
-    if (arg0 != NULL || arg1 != NULL || arg2 != NULL) {
-        sp2C = (u8*)osViGetNextFramebuffer() + 0x20000000;
-        if ((u32)sp2C & 0xFFFFFF) {
-            if (B_801D9DB8 != 0) {
-                B_801D9DB8 = 0;
-                func_801C7438(sp2C);
-                B_801D9DC0 = osGetTime();
+    if (pCharsRow1 != NULL || pCharsRow2 != NULL || pCharsRow3 != NULL) {
+        pNextFrameBuf = (u8*)osViGetNextFramebuffer() + 0x20000000;
+        if ((u32)pNextFrameBuf & 0xFFFFFF) {
+            if (isNewFBAvailable != 0) {
+                isNewFBAvailable = 0;
+                n64dd_initFB(pNextFrameBuf);
+                currentTime = osGetTime();
             }
-            if (arg0 != NULL) {
-                func_801CA1F0(arg0, 96, 32, 192, 16, 11, sp2C, SCREEN_WIDTH);
+            if (pCharsRow1 != NULL) {
+                n64dd_printTextFB(pCharsRow1, 96, 32, 192, 16, 11, pNextFrameBuf, SCREEN_WIDTH);
             }
-            if (arg1 != NULL) {
-                func_801CA1F0(arg1, 0, 80, 320, 64, 11, sp2C, SCREEN_WIDTH);
+            if (pCharsRow2 != NULL) {
+                n64dd_printTextFB(pCharsRow2, 0, 80, 320, 64, 11, pNextFrameBuf, SCREEN_WIDTH);
             }
-            if (arg2 != NULL) {
-                func_801CA1F0(arg2, 0, 176, 320, 32, 11, sp2C, SCREEN_WIDTH);
+            if (pCharsRow3 != NULL) {
+                n64dd_printTextFB(pCharsRow3, 0, 176, 320, 32, 11, pNextFrameBuf, SCREEN_WIDTH);
             }
 #if OOT_VERSION < PAL_1_0
             osViBlack(0);
@@ -280,73 +310,79 @@ void func_801C746C(void* arg0, void* arg1, void* arg2) {
     }
 }
 
-void func_801C75BC(void* arg0, void* arg1, void* arg2) {
+void n64dd_setUnkTextPtrsAndPrint(void* newUnkTexPtr0, void* newUnkTexPtr1, void* newUnkTexPtr2) {
     s32 temp;
 
-    if (arg0 == NULL && arg1 == NULL && arg2 == NULL) {
+    if (newUnkTexPtr0 == NULL && newUnkTexPtr1 == NULL && newUnkTexPtr2 == NULL) {
         return;
     }
 
-    if (B_801D9DB8) {}
+    if (isNewFBAvailable) {}
 
-    if (arg0 != 0) {
-        B_801D9DCC = arg0;
+    if (newUnkTexPtr0 != 0) {
+        pUnkTxt0 = newUnkTexPtr0;
     }
-    if (arg1 != 0) {
-        B_801D9DD0 = arg1;
+    if (newUnkTexPtr1 != 0) {
+        pUnkTxt1 = newUnkTexPtr1;
     }
-    if (arg2 != 0) {
-        B_801D9DD4 = arg2;
+    if (newUnkTexPtr2 != 0) {
+        pUnkTxt2 = newUnkTexPtr2;
     }
-    func_801C746C(arg0, arg1, arg2);
+    n64dd_printText(newUnkTexPtr0, newUnkTexPtr1, newUnkTexPtr2);
 }
 
-void func_801C761C(void) {
+void n64dd_waitPrintText(void) {
     Sleep_Msec(100);
-    func_801C746C(B_801D9DCC, B_801D9DD0, B_801D9DD4);
+    n64dd_printText(pUnkTxt0, pUnkTxt1, pUnkTxt2);
 }
 
-s32 func_801C7658(void) {
-    if (D_80121212 != 0) {
+/**
+ * Sets up and starts the data transfer thread. Returns immediately if the disk extras are already running.
+ * @returns 0 on exit
+ */
+s32 n64dd_setupTransferThread(void) {
+    if (n64dd_isDiskContentRunning != 0) {
         return 0;
     }
 
 #if OOT_VERSION < PAL_1_0
-    StackCheck_Init(&B_801DAF88, B_801D9F88, STACK_TOP(B_801D9F88), 0, 0x100, "ddmsg");
-    osCreateThread(&B_801D9DD8, THREAD_ID_DDMSG, &func_801C711C, &B_801D9B90, STACK_TOP(B_801D9F88), THREAD_PRI_DDMSG);
-    osStartThread(&B_801D9DD8);
+    StackCheck_Init(&transfStackEntry, pStackTransfTrhead, STACK_TOP(pStackTransfTrhead), 0, 0x100, "ddmsg");
+    osCreateThread(&diskReadThread, THREAD_ID_DDMSG, &n64dd_enqueueDiskTransfers, &queuedDDTransfers,
+                   STACK_TOP(pStackTransfTrhead), THREAD_PRI_DDMSG);
+    osStartThread(&diskReadThread);
 #endif
 
-    osCreateMesgQueue(&B_801D9D80, B_801D9DB0, ARRAY_COUNT(B_801D9DB0));
-    osCreateMesgQueue(&B_801D9D98, B_801D9DB4, ARRAY_COUNT(B_801D9DB4));
+    osCreateMesgQueue(&msgQueue0, queuedMessages0, ARRAY_COUNT(queuedMessages0));
+    osCreateMesgQueue(&msgQueue1, queuedMessages1, ARRAY_COUNT(queuedMessages1));
 
-    StackCheck_Init(&B_801DBFA8, B_801DAFA8, STACK_TOP(B_801DAFA8), 0, 0x100, "n64dd");
+    StackCheck_Init(&commStackEntry, pStackDDCommThread, STACK_TOP(pStackDDCommThread), 0, 0x100, "n64dd");
 
-    B_801D9D50.unk_1C = &B_801D9D80;
-    B_801D9D50.unk_20 = &B_801D9D98;
-    B_801D9D50.unk_24 = THREAD_ID_N64DD;
-    B_801D9D50.unk_28 = STACK_TOP(B_801DAFA8);
-    B_801D9D50.unk_2C = THREAD_PRI_N64DD;
-    B_801D9D50.unk_00 = 1;
+    drivePacketData.pCmdParam1 = &msgQueue0;
+    drivePacketData.pCmdParam2 = &msgQueue1;
+    drivePacketData.threadId = THREAD_ID_N64DD;
+    drivePacketData.pStackCommThread = STACK_TOP(pStackDDCommThread);
+    drivePacketData.threadPriority = THREAD_PRI_N64DD;
+    drivePacketData.cmdType = 1;
 
-    (&func_801C8000)(&B_801D9D50);
+    (&n64dd_parsePacketData)(&drivePacketData);
 
     D_80121213 = 1;
     func_801C6FD8();
 
-    B_801D9D50.unk_00 = 2;
-    B_801D9D50.unk_10 = 6;
-    B_801D9D50.unk_14 = &DmaMgr_DmaFromDriveRom;
-    B_801D9D50.unk_0C = &func_801C75BC;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.cmdType = 2;
+    drivePacketData.unk_10 = 6;
+    drivePacketData.pDmaMgr = &DmaMgr_DmaFromDriveRom;
+    drivePacketData.pPrintText = &n64dd_setUnkTextPtrsAndPrint;
+    (&n64dd_parsePacketData)(&drivePacketData);
 
-    B_801D9D50.unk_00 = 13;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.cmdType = 13;
+    (&n64dd_parsePacketData)(&drivePacketData);
 
 #if OOT_VERSION >= PAL_1_0
-    StackCheck_Init(&B_801DAF88, B_801D9F88, STACK_TOP(B_801D9F88), 0, 0x100, "ddmsg");
-    osCreateThread(&B_801D9DD8, THREAD_ID_DDMSG, &func_801C711C, &B_801D9B90, STACK_TOP(B_801D9F88), THREAD_PRI_DDMSG);
-    osStartThread(&B_801D9DD8);
+    StackCheck_Init(&transfStackEntry, pStackTransfTrhead, STACK_TOP(pStackTransfTrhead), 0, 0x100, "ddmsg");
+    osCreateThread(&diskReadThread, THREAD_ID_DDMSG, &n64dd_enqueueDiskTransfers, &queuedDDTransfers,
+                   STACK_TOP(pStackTransfTrhead), THREAD_PRI_DDMSG);
+    osStartThread(&diskReadThread);
 #endif
 
     return 0;
@@ -354,12 +390,12 @@ s32 func_801C7658(void) {
 
 s32 func_801C7818(void) {
 #if OOT_VERSION >= NTSC_1_1
-    B_801D9DB8 = 1;
-    B_801D9DC0 = 0;
+    isNewFBAvailable = 1;
+    currentTime = 0;
 #endif
 
-    B_801D9D50.unk_00 = 12;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.cmdType = 12;
+    (&n64dd_parsePacketData)(&drivePacketData);
 
     while (func_801C81C4() == 0) {
         // the number 16666 sounds like it could be 1 frame (at 60 frames per second)
@@ -368,224 +404,249 @@ s32 func_801C7818(void) {
 
 #if OOT_VERSION >= NTSC_1_1
     if (D_801D2EA8 == 1 || B_801E0F60 == 1 || B_801E0F64 == 1) {
-        B_801D9DC0 = osGetTime();
+        currentTime = osGetTime();
     }
-    func_801C7B28_ne2();
+    n64dd_waitFrameEnd();
 #endif
 
     if (func_801C81C4() != 2) {
-        func_801C761C();
+        n64dd_waitPrintText();
         Freeze_CurrentThread();
         return -3;
     }
 
     func_801C7018();
-    D_80121212 = 1;
+    n64dd_isDiskContentRunning = 1;
     return 0;
 }
 
-s32 func_801C78B8(void) {
-    s32 phi_v1 = func_801C7658();
+s32 n64dd_transfThreadStatus(void) {
+    s32 status = n64dd_setupTransferThread();
 
-    if (phi_v1 == 0) {
-        phi_v1 = func_801C7818();
+    if (status == 0) {
+        status = func_801C7818();
     }
-    return phi_v1;
+    return status;
 }
 
-s32 func_801C78F0(void) {
-    B_801D9D50.unk_00 = 0;
-    return (&func_801C8000)(&B_801D9D50);
+s32 n64dd_cmd0(void) {
+    drivePacketData.cmdType = 0;
+    return (&n64dd_parsePacketData)(&drivePacketData);
 }
 
 void func_801C7920(s32 arg0, void* arg1, s32 arg2) {
-    B_801D9D50.unk_18 = arg1;
-    B_801D9D50.unk_1C = (void*)arg0;
-    B_801D9D50.unk_20 = (void*)arg2;
-    B_801D9D50.unk_00 = 3;
-    (&func_801C8000)(&B_801D9D50);
+    drivePacketData.pReadBuf = arg1;
+    drivePacketData.pCmdParam1 = (void*)arg0;
+    drivePacketData.pCmdParam2 = (void*)arg2;
+    drivePacketData.cmdType = 3;
+    (&n64dd_parsePacketData)(&drivePacketData);
     osGetTime();
-    B_801D9D50.unk_00 = 6;
-    while ((&func_801C8000)(&B_801D9D50) != 0) {
+    drivePacketData.cmdType = 6;
+    while ((&n64dd_parsePacketData)(&drivePacketData) != 0) {
         Sleep_Usec(16666); // 100000 / 6
     }
-    B_801D9D50.unk_00 = 7;
-    if ((&func_801C8000)(&B_801D9D50) != 0) {
+    drivePacketData.cmdType = 7;
+    if ((&n64dd_parsePacketData)(&drivePacketData) != 0) {
         Freeze_CurrentThread();
     }
 }
 
-void func_801C79CC(void* arg0, s32 arg1, s32 arg2) {
-    B_801D9D50.unk_18 = arg0;
-    B_801D9D50.unk_1C = (void*)arg1;
-    B_801D9D50.unk_20 = (void*)arg2;
-    B_801D9D50.unk_00 = 4;
-    (&func_801C8000)(&B_801D9D50);
+void n64dd_cmd4(void* readBuf, s32 arg1, s32 arg2) {
+    drivePacketData.pReadBuf = readBuf;
+    drivePacketData.pCmdParam1 = (void*)arg1;
+    drivePacketData.pCmdParam2 = (void*)arg2;
+    drivePacketData.cmdType = 4;
+    (&n64dd_parsePacketData)(&drivePacketData);
 }
 
-void func_801C7A10(LEODiskID* arg0) {
+void n64dd_empty(LEODiskID* arg0) {
 }
 
-// Checks diskId, sets B_801D9DC8 and returns true if diskId is correct
-s32 func_801C7A1C(struct_801E0D18* arg0) {
-    static LEODiskID B_801DBFD0;
-    static s32 B_801DBFF0; // bool
+/**
+ * Checks diskId, sets isGameDiskCorrect and returns true if diskId is correct.
+ * @param diskData A communication packet from the disk drive. This gets us info about the currently inserted disk.
+ * @returns true if diskId is correct
+ **/
+s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* diskData) {
+    static LEODiskID curDiskId;
+    static s32 isDiskIdSet; // bool
 
-    func_801C7A10(&arg0->diskId);
-    if (!B_801DBFF0) {
+    n64dd_empty(&diskData->diskId);
+    if (!isDiskIdSet) {
 #if OOT_NTSC
-        if (bcmp(arg0->diskId.gameName, "EZLJ", 4) == 0 || bcmp(arg0->diskId.gameName, "EZLE", 4) == 0)
+        if (bcmp(diskData->diskId.gameName, "EZLJ", 4) == 0 || bcmp(diskData->diskId.gameName, "EZLE", 4) == 0)
 #else
-        if (bcmp(arg0->diskId.gameName, "EZLP", 4) == 0)
+        if (bcmp(diskData->diskId.gameName, "EZLP", 4) == 0)
 #endif
         {
-            B_801DBFD0 = arg0->diskId;
-            B_801DBFF0 = true;
-            B_801D9DC8 = 1;
+            curDiskId = diskData->diskId;
+            isDiskIdSet = true;
+            isGameDiskCorrect = 1;
         } else {
-            B_801D9DC8 = 2;
+            isGameDiskCorrect = 2;
         }
-    } else if (bcmp(&B_801DBFD0, &arg0->diskId, sizeof(LEODiskID)) == 0) {
-        B_801D9DC8 = 1;
+    } else if (bcmp(&curDiskId, &diskData->diskId, sizeof(LEODiskID)) == 0) {
+        isGameDiskCorrect = 1;
     } else {
-        B_801D9DC8 = 2;
+        isGameDiskCorrect = 2;
     }
-    return B_801D9DC8 == 1;
+    return isGameDiskCorrect == 1;
 }
 
-// Translates byte position to LBA and byte offset
-s32 func_801C7B48(s32 arg0, s32* arg1, s32* arg2) {
-    s32 sp2C;
-    s32 temp_v0_2;
-    s32 sp24;
-    s32 sp20;
-    s32 temp_v0;
+/**
+ * Translates byte position to LBA and byte offset.
+ * @param startLba The LBA to start reading from
+ * @param adjustedLbaCount The resultant LBA, accounting for the first (reserved) disk sector.
+ * @param lba A pointer to the byte offset?
+ * @returns The drive status.
+ **/
+s32 n64dd_offsetToBlock(s32 startLba, s32* adjustedLbaCount, s32* lba) {
+    s32 diskData2;
+    s32 diskReadStatus;
+    s32 lbaCount;
+    s32 diskData;
+    s32 diskReadStatus2;
 
-    temp_v0_2 = LeoByteToLBA(1, arg0 + 1, &sp2C);
-    if (temp_v0_2 != LEO_ERROR_GOOD) {
-        return temp_v0_2;
+    diskReadStatus = LeoByteToLBA(1, startLba + 1, &diskData2); // accounts for disk header
+    if (diskReadStatus != LEO_ERROR_GOOD) {
+        return diskReadStatus;
     }
-    sp24 = sp2C - 1;
-    if (sp2C == 1) {
-        sp20 = 0;
+    lbaCount = diskData2 - 1;
+    if (diskData2 == 1) {
+        diskData = 0;
     } else {
-        temp_v0 = LeoLBAToByte(1, sp24, &sp20);
-        if (temp_v0 != LEO_ERROR_GOOD) {
-            return temp_v0;
+        diskReadStatus2 = LeoLBAToByte(1, lbaCount, &diskData);
+        if (diskReadStatus2 != LEO_ERROR_GOOD) {
+            return diskReadStatus2;
         }
     }
-    *arg1 = sp24 + 1;
-    *arg2 = arg0 - sp20;
+    *adjustedLbaCount = lbaCount + 1;
+    *lba = startLba - diskData;
     return LEO_ERROR_GOOD;
 }
 
-s32 func_801C7BEC(s32 startLBA) {
+/**
+ * Wrapper for LeoLBAToByte.
+ * @param startLba The starting LBA
+ * @returns The corresponding byte offset if the read was successful, else returns 0.
+ */
+s32 n64dd_LbaToByte(s32 startLba) {
     s32 bytes;
 
-    if (LeoLBAToByte(startLBA, 1, &bytes) == LEO_ERROR_GOOD) {
+    if (LeoLBAToByte(startLba, 1, &bytes) == LEO_ERROR_GOOD) {
         return bytes;
     }
     return 0;
 }
 
-// Copies bytes from disk to arg0
-void func_801C7C1C(void* dest, s32 offset, s32 size) {
-    s32 sp5C;
-    s32 sp58;
-    s32 sp54;
-    s32 sp50;
-    void* sp4C;
-    s32 var_s0;
+/**
+ * Copies bytes from disk to a destination buffer.
+ * @param dest A pointer to the destination buffer
+ * @param offset The offset from the start of the disk to read from
+ * @param size How many bytes to read
+ **/
+void n64dd_loadData(void* dest, s32 offset, s32 size) {
+    s32 pLbaData;
+    s32 pLbaData2;
+    s32 pReadByteOffset;
+    s32 pReadByteOffset2;
+    void* pTmpDDReadBuf;
+    s32 lbaBlockNum;
     s32 var_s1;
     s32 temp_v1_2;
 
     func_801C6FD8();
-    func_801C6F30();
-    B_801D9DB8 = 1;
-    B_801D9DC0 = 0;
-    func_801C7B48(offset, &sp5C, &sp54);
-    func_801C7B48(offset + size, &sp58, &sp50);
-    sp4C = D_801D2E50;
-    if (sp5C == sp58) {
-        func_801C7920(sp5C, sp4C, func_801C7BEC(sp5C));
-        bcopy((u8*)sp4C + sp54, dest, size);
+    n64dd_waitForSound();
+    isNewFBAvailable = 1;
+    currentTime = 0;
+    n64dd_offsetToBlock(offset, &pLbaData, &pReadByteOffset);
+    n64dd_offsetToBlock(offset + size, &pLbaData2, &pReadByteOffset2);
+    pTmpDDReadBuf = pTmpReadBuf;
+    if (pLbaData == pLbaData2) {
+        func_801C7920(pLbaData, pTmpDDReadBuf, n64dd_LbaToByte(pLbaData));
+        bcopy((u8*)pTmpDDReadBuf + pReadByteOffset, dest, size);
     } else {
         var_s1 = 0;
-        func_801C7920(sp5C, sp4C, func_801C7BEC(sp5C));
-        bcopy((u8*)sp4C + sp54, dest, func_801C7BEC(sp5C) - sp54);
-        if (sp5C + 1 < sp58) {
-            for (var_s0 = sp5C + 1; var_s0 < sp58; var_s0++) {
-                var_s1 += func_801C7BEC(var_s0);
+        func_801C7920(pLbaData, pTmpDDReadBuf, n64dd_LbaToByte(pLbaData));
+        bcopy((u8*)pTmpDDReadBuf + pReadByteOffset, dest, n64dd_LbaToByte(pLbaData) - pReadByteOffset);
+        if (pLbaData + 1 < pLbaData2) {
+            for (lbaBlockNum = pLbaData + 1; lbaBlockNum < pLbaData2; lbaBlockNum++) {
+                var_s1 += n64dd_LbaToByte(lbaBlockNum);
             }
-            func_801C7920(sp5C + 1, (u8*)dest + func_801C7BEC(sp5C) - sp54, var_s1);
+            func_801C7920(pLbaData + 1, (u8*)dest + n64dd_LbaToByte(pLbaData) - pReadByteOffset, var_s1);
         }
-        if (sp50 > 0) {
-            func_801C7920(sp58, sp4C, func_801C7BEC(sp58));
-            bcopy((u8*)sp4C, (u8*)dest + func_801C7BEC(sp5C) - sp54 + var_s1, sp50);
+        if (pReadByteOffset2 > 0) {
+            func_801C7920(pLbaData2, pTmpDDReadBuf, n64dd_LbaToByte(pLbaData2));
+            bcopy((u8*)pTmpDDReadBuf, (u8*)dest + n64dd_LbaToByte(pLbaData) - pReadByteOffset + var_s1,
+                  pReadByteOffset2);
         }
     }
 #if OOT_VERSION < NTSC_1_1
-    if (B_801D9DC0 != 0) {
-        temp_v1_2 = (osGetTime() - B_801D9DC0) * 64 / 3000;
+    if (currentTime != 0) {
+        temp_v1_2 = (osGetTime() - currentTime) * 64 / 3000;
         if (1000000 - temp_v1_2 > 0) {
             Sleep_Usec(1000000 - temp_v1_2);
         }
     }
 #else
-    func_801C7B28_ne2();
+    n64dd_waitFrameEnd();
 #endif
     func_801C7018();
-    func_801C6F78();
+    n64dd_playSfx();
 }
 
-void func_801C7E78(void) {
+void n64dd_empty2(void) {
 }
 
-s32 func_801C7E80(void) {
-    s32 sp24;
-    s32 sp20;
+/**
+ * Sets up buffers and reads data from the disk given a global DDLoad structure...?
+ * @returns -1 if the pointer to the DDLoad struct already exists, 0 on success
+ **/
+s32 n64dd_setupDiskRead(void) {
+    s32 diskReadSize;
+    s32 ramWriteSize;
     s32 sp1C;
-    uintptr_t sp18;
+    uintptr_t pLoadOffset;
 
-    if (B_801D9D48 != NULL) {
+    if (pDDLoad0 != NULL) {
         return -1;
     }
-    B_801D9D48 = &B_801D9C30;
-    func_801C7C1C(B_801D9D48, 0x1060, 0x118);
-    sp24 = B_801D9D48->unk_004 - B_801D9D48->unk_000;
-    sp20 = B_801D9D48->unk_00C - B_801D9D48->unk_008;
-    sp18 = B_801D9D48->unk_008 + sp24;
-    func_801C7C1C((void*)B_801D9D48->unk_008, B_801D9D48->unk_000, sp24);
-    bzero((void*)sp18, sp20 - sp24);
-    func_800AD4C0(B_801D9D48->unk_010);
+    pDDLoad0 = &DDLoad0;
+    n64dd_loadData(pDDLoad0, 0x1060, 0x118);
+    diskReadSize = pDDLoad0->diskEnd - pDDLoad0->diskStart;
+    ramWriteSize = pDDLoad0->ramEnd - pDDLoad0->ramStart;
+    pLoadOffset = pDDLoad0->ramStart + diskReadSize;
+    n64dd_loadData((void*)pDDLoad0->ramStart, pDDLoad0->diskStart, diskReadSize);
+    bzero((void*)pLoadOffset, ramWriteSize - diskReadSize);
+    func_800AD4C0(pDDLoad0->unk_010);
     return 0;
 }
 
-s32 func_801C7F24(void) {
-    uintptr_t temp_a0;
-    struct_801D9C30* temp_v0;
+s32 n64dd_clearCopyBufs(void) {
+    uintptr_t pRamStart;
+    n64dd_CopyToRAM* pCpyToRam;
 
-    if (B_801D9D48 == 0) {
+    if (pDDLoad0 == 0) {
         return -1;
     }
 
     // Function from code
     func_800AD51C();
 
-    temp_v0 = B_801D9D48;
-    temp_a0 = temp_v0->unk_008;
-    bzero((void*)temp_a0, temp_v0->unk_00C - temp_a0);
-    bzero(B_801D9D48, sizeof(struct_801D9C30));
-    B_801D9D48 = 0;
+    pCpyToRam = pDDLoad0;
+    pRamStart = pCpyToRam->ramStart;
+    bzero((void*)pRamStart, pCpyToRam->ramEnd - pRamStart);
+    bzero(pDDLoad0, sizeof(n64dd_CopyToRAM));
+    pDDLoad0 = 0;
     return 0;
 }
 
 void n64dd_SetDiskVersion(s32 arg0) {
     if (arg0 != 0) {
-        if (B_801D9D48 == 0) {
-            func_801C7E80();
+        if (pDDLoad0 == 0) {
+            n64dd_setupDiskRead();
         }
-    } else if (B_801D9D48 != 0) {
-        func_801C7F24();
+    } else if (pDDLoad0 != 0) {
+        n64dd_clearCopyBufs();
     }
 }

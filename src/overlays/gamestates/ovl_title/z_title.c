@@ -221,8 +221,8 @@ void ConsoleLogo_Init(GameState* thisx) {
     ConsoleLogoState* this = (ConsoleLogoState*)thisx;
 
 #if PLATFORM_N64
-    if ((D_80121210 != 0) && (D_80121211 != 0) && (D_80121212 == 0)) {
-        if (func_801C7658() != 0) {
+    if ((D_80121210 != 0) && (D_80121211 != 0) && (n64dd_isDiskContentRunning == 0)) {
+        if (n64dd_setupTransferThread() != 0) {
             Freeze_CurrentThread();
         }
         this->unk_1E0 = true;
