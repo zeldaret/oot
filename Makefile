@@ -44,9 +44,9 @@ VERSION ?= gc-eu-mq-dbg
 N_THREADS ?= $(shell nproc)
 # If DEBUG_OBJECTS is 1, produce additional debugging files such as objdump output or raw binaries for assets
 DEBUG_OBJECTS ?= 0
-# Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
-# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH indicates missing dependencies.
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+# Supply a MIPS toolchain prefix to use (e.g. 'mips-linux-gnu-' or 'mips64-elf-')
+# In nearly all cases, leave this blank. The most commonly used prefixes are automatically detected when this is blank.
+MIPS_BINUTILS_PREFIX ?=
 # Emulator w/ flags for 'make run'.
 N64_EMULATOR ?=
 # Set to override game region in the ROM header (options: JP, US, EU). This can be used to build a fake US version
@@ -270,12 +270,41 @@ else
 endif
 
 #### Tools ####
-ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-  $(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Please install or build MIPS binutils, commonly mips-linux-gnu. (or set MIPS_BINUTILS_PREFIX if your MIPS binutils install uses another prefix))
+
+ifeq ($(MIPS_BINUTILS_PREFIX),)
+  # Try to find a known MIPS toolchain if one wasn't set
+  # - practicerom: https://github.com/PracticeROM/packages
+  # - libdragon: https://github.com/DragonMinded/libdragon/releases/tag/toolchain-continuous-prerelease
+  # - various mips-linux-gnu / mips64-linux-gnu packages available on common package managers
+  ifeq ($(shell type mips64-ultra-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # practicerom
+    MIPS_BINUTILS_PREFIX := mips64-ultra-elf-
+  else ifeq ($(shell type $(N64_GCCPREFIX)/bin/mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
+    MIPS_BINUTILS_PREFIX := $(N64_GCCPREFIX)/bin/mips64-elf-
+  else ifeq ($(shell type $(N64_INST)/bin/mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
+    MIPS_BINUTILS_PREFIX := $(N64_INST)/bin/mips64-elf-
+  else ifeq ($(shell type mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
+    MIPS_BINUTILS_PREFIX := mips64-elf-
+  else ifeq ($(shell type mips64-ld >/dev/null 2>/dev/null; echo $$?), 0) # practicerom
+    MIPS_BINUTILS_PREFIX := mips64-
+  else ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0) # on package managers
+    MIPS_BINUTILS_PREFIX := mips-linux-gnu-
+  else ifeq ($(shell type mips64-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0) # on package managers
+    MIPS_BINUTILS_PREFIX := mips64-linux-gnu-
+  else
+    $(error Unable to find a known MIPS toolchain. Refer to the README.)
+  endif
+else
+  # If one was set, make sure it's present
+  ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
+    $(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Is $(MIPS_BINUTILS_PREFIX) correct?))
+  endif
 endif
 
 # Detect compiler and set variables appropriately.
 ifeq ($(COMPILER),gcc)
+  ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)gcc >/dev/null 2>/dev/null; echo $$?), 0)
+    $(error Unable to find $(MIPS_BINUTILS_PREFIX)gcc. Please install or build the corresponding MIPS gcc for this toolchain.)
+  endif
   CC       := $(MIPS_BINUTILS_PREFIX)gcc
   CCAS     := $(CC) -x assembler-with-cpp
 else ifeq ($(COMPILER),ido)
