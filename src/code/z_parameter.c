@@ -2098,14 +2098,16 @@ void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
     gSaveContext.buttonStatus[button] = BTN_ENABLED;
 }
 
-s32 Inventory_ConsumeFairy(PlayState* play) {
+s32 Inventory_FairyRevive(PlayState* play) {
     s32 bottleSlot = SLOT(ITEM_BOTTLE_FAIRY);
     s16 i;
     s16 j;
 
     for (i = 0; i < 4; i++) {
+        // Need a real bottle Fairy to get revived at death
         if (gSaveContext.save.info.inventory.items[bottleSlot + i] == ITEM_BOTTLE_FAIRY) {
             for (j = 1; j < 4; j++) {
+                // But if Player also has Fairy equipped, use equipped Fairy even if not real bottle
                 if (gSaveContext.save.info.equips.buttonItems[j] == ITEM_BOTTLE_FAIRY) {
                     gSaveContext.save.info.equips.buttonItems[j] = ITEM_BOTTLE_EMPTY;
                     Interface_LoadItemIcon1(play, j);

@@ -917,6 +917,7 @@ typedef struct Player {
         s8 facingUpSlope; // Player_Action_SlideOnSlope: Facing uphill when sliding on a slope
         s8 isLakeHyliaCs; // Player_Action_BlueWarpArrive: In Lake Hylia CS after Water Temple. Floating down is delayed until a specific point in the cutscene.
         s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
+        s8 hasBottledFairy; // Player_DeathRevival, Player_Action_Death (Ground/Water): Player has died with a bottled fairy that will revive the player
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {
@@ -929,6 +930,7 @@ typedef struct Player {
         s16 csDelayTimer; // Player_Action_WaitForCutscene: Number of frames to wait before responding to a cutscene
         s16 playedLandingSfx; // Player_Action_BlueWarpArrive: Played sfx when landing on the ground
         s16 appearTimer; // Player_Action_FaroresWindArrive: Counts up, appear at 20 frames (1 second)
+        s16 fairyReviveTimer; // Player_DeathRevival: Timer for bottled fairy revival sequence (60 frames)
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
@@ -985,7 +987,7 @@ typedef struct Player {
     /* 0x0A82 */ u16 prevFloorSfxOffset;
     /* 0x0A84 */ s16 unk_A84;
     /* 0x0A86 */ s8 unk_A86;
-    /* 0x0A87 */ u8 unk_A87;
+    /* 0x0A87 */ u8 postReviveFrames; // 20 frames after Fairy revive where certain things cannot take place
     /* 0x0A88 */ Vec3f unk_A88; // previous body part 0 position
 } Player; // size = 0xA94
 
