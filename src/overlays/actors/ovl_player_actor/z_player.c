@@ -314,9 +314,9 @@ void Player_Action_808464B0(Player* this, PlayState* play);
 void Player_Action_80846578(Player* this, PlayState* play);
 void Player_Action_8084B1D8(Player* this, PlayState* play);
 void Player_Action_Talk(Player* this, PlayState* play);
-void Player_Action_8084B78C(Player* this, PlayState* play);
-void Player_Action_8084B898(Player* this, PlayState* play);
-void Player_Action_8084B9E4(Player* this, PlayState* play);
+void Player_Action_GrabHoldBlock(Player* this, PlayState* play);
+void Player_Action_PushBlock(Player* this, PlayState* play);
+void Player_Action_PullBlock(Player* this, PlayState* play);
 void Player_Action_8084BBE4(Player* this, PlayState* play);
 void Player_Action_8084BDFC(Player* this, PlayState* play);
 void Player_Action_8084BF1C(Player* this, PlayState* play);
@@ -1829,7 +1829,7 @@ void func_80832440(PlayState* play, Player* this) {
     Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
 
     this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20 | PLAYER_STATE1_21);
-    this->stateFlags2 &= ~(PLAYER_STATE2_4 | PLAYER_STATE2_7 | PLAYER_STATE2_CRAWLING);
+    this->stateFlags2 &= ~(PLAYER_STATE2_PUSH_PULL | PLAYER_STATE2_7 | PLAYER_STATE2_CRAWLING);
 
     this->actor.shape.rot.x = 0;
     this->actor.shape.yOffset = 0.0f;
@@ -5666,8 +5666,11 @@ void func_8083A360(PlayState* play, Player* this) {
     Player_SetupActionPreserveAnimMovement(play, this, Player_Action_8084CC98, 0);
 }
 
-void func_8083A388(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_8084B78C, 0);
+/**
+ * Only function call, without animation etc setup
+ */
+void Player_SetupGrabHoldBlockAfterPutAway(PlayState* play, Player* this) {
+    Player_SetupAction(play, this, Player_Action_GrabHoldBlock, 0);
 }
 
 void func_8083A3B0(PlayState* play, Player* this) {
@@ -7782,9 +7785,9 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
     return false;
 }
 
-void func_8083F72C(Player* this, LinkAnimationHeader* anim, PlayState* play) {
-    if (!Player_SetupWaitForPutAway(play, this, func_8083A388)) {
-        Player_SetupAction(play, this, Player_Action_8084B78C, 0);
+void Player_SetupGrabHoldBlock(Player* this, LinkAnimationHeader* anim, PlayState* play) {
+    if (!Player_SetupWaitForPutAway(play, this, Player_SetupGrabHoldBlockAfterPutAway)) {
+        Player_SetupAction(play, this, Player_Action_GrabHoldBlock, 0);
     }
 
     Player_AnimPlayOnce(play, this, anim);
@@ -7804,17 +7807,20 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
             return 1;
         }
 
+        // Standing next to an object that is grabbable lets player press A to grab onto it.
+        // State is set even before actual grab.
         if (!func_808332B8(this) && ((this->speedXZ == 0.0f) || !(this->stateFlags2 & PLAYER_STATE2_2)) &&
             (sTouchedWallFlags & WALL_FLAG_6) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
             (this->yDistToLedge >= 39.0f)) {
 
-            this->stateFlags2 |= PLAYER_STATE2_0;
+            this->stateFlags2 |= PLAYER_STATE2_GRAB_HOLD;
 
             if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A)) {
 
                 if ((this->actor.wallBgId != BGCHECK_SCENE) &&
                     ((wallPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId)) != NULL)) {
 
+                    // Heavy block uses lifting animation
                     if (wallPolyActor->actor.id == ACTOR_BG_HEAVY_BLOCK) {
                         if (Player_GetStrength() < PLAYER_STR_GOLD_G) {
                             return 0;
@@ -7830,12 +7836,13 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
                         return 1;
                     }
 
-                    this->unk_3C4 = &wallPolyActor->actor;
+                    this->grabbedActor = &wallPolyActor->actor;
                 } else {
-                    this->unk_3C4 = NULL;
+                    this->grabbedActor = NULL;
                 }
 
-                func_8083F72C(this, &gPlayerAnim_link_normal_push_wait, play);
+                // Other objects use push/pull action
+                Player_SetupGrabHoldBlock(this, &gPlayerAnim_link_normal_push_wait, play);
 
                 return 1;
             }
@@ -7845,39 +7852,46 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
     return 0;
 }
 
-s32 func_8083F9D0(PlayState* play, Player* this) {
+/**
+ * Check if player is still holding on to a movable object.
+ * If no longer holding, setup idle.
+ * @return false if holding on and not moving, true if holding and moving or no longer holding
+ */
+s32 Player_StillGrabbingBlock(PlayState* play, Player* this) {
+    // If player is still holding on to the movable object, either by moving or holding A/grab
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
-        ((this->stateFlags2 & PLAYER_STATE2_4) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
+        ((this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
         DynaPolyActor* wallPolyActor = NULL;
 
         if (this->actor.wallBgId != BGCHECK_SCENE) {
             wallPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
         }
 
-        if (&wallPolyActor->actor == this->unk_3C4) {
-            if (this->stateFlags2 & PLAYER_STATE2_4) {
-                return 1;
+        if (&wallPolyActor->actor == this->grabbedActor) {
+            if (this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) {
+                return true; // Player is actively moving the object
             } else {
-                return 0;
+                return false;
             }
         }
     }
 
+    // Player is no longer grabbing the object, enter idle
     func_80839FFC(this, play);
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_wait_end);
-    this->stateFlags2 &= ~PLAYER_STATE2_4;
-    return 1;
+    this->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
+    return true;
 }
 
-void func_8083FAB8(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_8084B898, 0);
-    this->stateFlags2 |= PLAYER_STATE2_4;
+void Player_SetupPushBlock(Player* this, PlayState* play) {
+    Player_SetupAction(play, this, Player_Action_PushBlock, 0);
+    this->stateFlags2 |= PLAYER_STATE2_PUSH_PULL;
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_start);
 }
 
-void func_8083FB14(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_8084B9E4, 0);
-    this->stateFlags2 |= PLAYER_STATE2_4;
+void Player_SetupPullBlock(Player* this, PlayState* play) {
+    Player_SetupAction(play, this, Player_Action_PullBlock, 0);
+    this->stateFlags2 |= PLAYER_STATE2_PUSH_PULL;
     Player_AnimPlayOnce(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_start, this->modelAnimType));
 }
 
@@ -7954,15 +7968,20 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, PlayState* play) {
     return 0;
 }
 
-s32 func_8083FFB8(Player* this, f32* arg1, s16* arg2) {
-    s16 temp1 = *arg2 - this->actor.shape.rot.y;
-    u16 temp2 = ABS(temp1);
-    f32 temp3 = Math_CosS(temp2);
+/**
+ * Check if player is moving forward, backward or standing still.
+ * Used by grab/pushing/pulling actions, like for blocks.
+ * @return 1, -1 or 0 respectively if moving forward (pushing), backward (pulling) or standing still
+ */
+s32 Player_GetBlockMoveDirection(Player* this, f32* speedTarget, s16* yawTarget) {
+    s16 yaw = *yawTarget - this->actor.shape.rot.y;
+    u16 absYaw = ABS(yaw);
+    f32 cosYaw = Math_CosS(absYaw);
 
-    *arg1 *= temp3;
+    *speedTarget *= cosYaw;
 
-    if (*arg1 != 0.0f) {
-        if (temp3 > 0) {
+    if (*speedTarget != 0.0f) {
+        if (cosYaw > 0) {
             return 1;
         } else {
             return -1;
@@ -10922,7 +10941,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                     } else {
                         doAction = DO_ACTION_GRAB;
                     }
-                } else if (!sp1C && (this->stateFlags2 & PLAYER_STATE2_0)) {
+                } else if (!sp1C && (this->stateFlags2 & PLAYER_STATE2_GRAB_HOLD)) {
                     doAction = DO_ACTION_GRAB;
                 } else if ((this->stateFlags2 & PLAYER_STATE2_2) ||
                            (!(this->stateFlags1 & PLAYER_STATE1_23) && (this->rideActor != NULL))) {
@@ -11371,7 +11390,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                 Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->actor.parent);
             } else if (Player_Action_8084377C == this->actionFunc) {
                 camMode = CAM_MODE_STILL;
-            } else if (this->stateFlags2 & PLAYER_STATE2_8) {
+            } else if (this->stateFlags2 & PLAYER_STATE2_PUSH_PULL_CAMERA) {
                 camMode = CAM_MODE_PUSH_PULL;
             } else if ((focusActor = this->focusActor) != NULL) {
                 if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_TALK)) {
@@ -11962,9 +11981,10 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         this->stateFlags1 &= ~(PLAYER_STATE1_SWINGING_BOTTLE | PLAYER_STATE1_9 | PLAYER_STATE1_CHARGING_SPIN_ATTACK |
                                PLAYER_STATE1_SHIELDING);
-        this->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_2 | PLAYER_STATE2_3 | PLAYER_STATE2_5 | PLAYER_STATE2_6 |
-                               PLAYER_STATE2_8 | PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND | PLAYER_STATE2_12 |
-                               PLAYER_STATE2_14 | PLAYER_STATE2_DO_ACTION_ENTER | PLAYER_STATE2_22 | PLAYER_STATE2_26);
+        this->stateFlags2 &=
+            ~(PLAYER_STATE2_GRAB_HOLD | PLAYER_STATE2_2 | PLAYER_STATE2_3 | PLAYER_STATE2_5 | PLAYER_STATE2_6 |
+              PLAYER_STATE2_PUSH_PULL_CAMERA | PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND | PLAYER_STATE2_12 |
+              PLAYER_STATE2_14 | PLAYER_STATE2_DO_ACTION_ENTER | PLAYER_STATE2_22 | PLAYER_STATE2_26);
         this->stateFlags3 &= ~PLAYER_STATE3_4;
 
         func_80847298(this);
@@ -12607,28 +12627,34 @@ void Player_Action_Talk(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8084B78C(Player* this, PlayState* play) {
+/**
+ * Grab and hold onto a movable object such as blocks, Armos statues, Forest Temple movable wall.
+ */
+void Player_Action_GrabHoldBlock(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
-    s32 temp;
+    s32 direction;
 
-    this->stateFlags2 |= PLAYER_STATE2_0 | PLAYER_STATE2_6 | PLAYER_STATE2_8;
+    this->stateFlags2 |= PLAYER_STATE2_GRAB_HOLD | PLAYER_STATE2_6 | PLAYER_STATE2_PUSH_PULL_CAMERA;
     func_8083F524(play, this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        if (!func_8083F9D0(play, this)) {
+        if (!Player_StillGrabbingBlock(play, this)) {
             Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-            temp = func_8083FFB8(this, &speedTarget, &yawTarget);
-            if (temp > 0) {
-                func_8083FAB8(this, play);
-            } else if (temp < 0) {
-                func_8083FB14(this, play);
+            direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
+            if (direction > 0) {
+                Player_SetupPushBlock(this, play);
+            } else if (direction < 0) {
+                Player_SetupPullBlock(this, play);
             }
         }
     }
 }
 
-void func_8084B840(PlayState* play, Player* this, f32 arg2) {
+/**
+ * Sets variables of the dynapoly actor being moved to signal movement.
+ */
+void Player_PushPullBlock(PlayState* play, Player* this, f32 arg2) {
     if (this->actor.wallBgId != BGCHECK_SCENE) {
         DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
 
@@ -12638,13 +12664,16 @@ void func_8084B840(PlayState* play, Player* this, f32 arg2) {
     }
 }
 
-static AnimSfxEntry D_80854870[] = {
+static AnimSfxEntry sBlockPushSfx[] = {
     { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 3) },
     { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 21) },
 };
 
-void Player_Action_8084B898(Player* this, PlayState* play) {
-    this->stateFlags2 |= PLAYER_STATE2_0 | PLAYER_STATE2_6 | PLAYER_STATE2_8;
+/**
+ * Push movable objects forward
+ */
+void Player_Action_PushBlock(Player* this, PlayState* play) {
+    this->stateFlags2 |= PLAYER_STATE2_GRAB_HOLD | PLAYER_STATE2_6 | PLAYER_STATE2_PUSH_PULL_CAMERA;
 
     if (func_80832CB0(play, this, &gPlayerAnim_link_normal_pushing)) {
         this->av2.actionVar2 = 1;
@@ -12654,42 +12683,42 @@ void Player_Action_8084B898(Player* this, PlayState* play) {
         }
     }
 
-    Player_ProcessAnimSfxList(this, D_80854870);
+    Player_ProcessAnimSfxList(this, sBlockPushSfx);
     func_8083F524(play, this);
 
-    if (!func_8083F9D0(play, this)) {
+    if (!Player_StillGrabbingBlock(play, this)) {
         f32 speedTarget;
         s16 yawTarget;
-        s32 temp;
+        s32 direction;
 
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-        temp = func_8083FFB8(this, &speedTarget, &yawTarget);
-        if (temp < 0) {
-            func_8083FB14(this, play);
-        } else if (temp == 0) {
-            func_8083F72C(this, &gPlayerAnim_link_normal_push_end, play);
+        direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
+        if (direction < 0) {
+            Player_SetupPullBlock(this, play);
+        } else if (direction == 0) {
+            Player_SetupGrabHoldBlock(this, &gPlayerAnim_link_normal_push_end, play);
         } else {
-            this->stateFlags2 |= PLAYER_STATE2_4;
+            this->stateFlags2 |= PLAYER_STATE2_PUSH_PULL;
         }
     }
 
-    if (this->stateFlags2 & PLAYER_STATE2_4) {
-        func_8084B840(play, this, 2.0f);
+    if (this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) {
+        Player_PushPullBlock(play, this, 2.0f);
         this->speedXZ = 2.0f;
     }
 }
 
-static AnimSfxEntry D_80854878[] = {
+static AnimSfxEntry blockPullSfx[] = {
     { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 4) },
     { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 24) },
 };
 
-static Vec3f D_80854880 = { 0.0f, 26.0f, -40.0f };
+static Vec3f sPullRaycastOffset = { 0.0f, 26.0f, -40.0f };
 
-void Player_Action_8084B9E4(Player* this, PlayState* play) {
+void Player_Action_PullBlock(Player* this, PlayState* play) {
     LinkAnimationHeader* anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pulling, this->modelAnimType);
 
-    this->stateFlags2 |= PLAYER_STATE2_0 | PLAYER_STATE2_6 | PLAYER_STATE2_8;
+    this->stateFlags2 |= PLAYER_STATE2_GRAB_HOLD | PLAYER_STATE2_6 | PLAYER_STATE2_PUSH_PULL_CAMERA;
 
     if (func_80832CB0(play, this, anim)) {
         this->av2.actionVar2 = 1;
@@ -12700,47 +12729,49 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
             }
             if (!DEBUG_FEATURES) {}
         } else {
-            Player_ProcessAnimSfxList(this, D_80854878);
+            Player_ProcessAnimSfxList(this, blockPullSfx);
         }
     }
 
     func_8083F524(play, this);
 
-    if (!func_8083F9D0(play, this)) {
+    if (!Player_StillGrabbingBlock(play, this)) {
         f32 speedTarget;
         s16 yawTarget;
-        s32 temp1;
+        s32 direction;
 
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-        temp1 = func_8083FFB8(this, &speedTarget, &yawTarget);
-        if (temp1 > 0) {
-            func_8083FAB8(this, play);
-        } else if (temp1 == 0) {
-            func_8083F72C(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_end, this->modelAnimType), play);
+        direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
+        if (direction > 0) {
+            Player_SetupPushBlock(this, play);
+        } else if (direction == 0) {
+            Player_SetupGrabHoldBlock(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_end, this->modelAnimType), play);
         } else {
-            this->stateFlags2 |= PLAYER_STATE2_4;
+            this->stateFlags2 |= PLAYER_STATE2_PUSH_PULL;
         }
     }
 
-    if (this->stateFlags2 & PLAYER_STATE2_4) {
-        Vec3f sp5C;
-        f32 temp2;
-        CollisionPoly* sp54;
-        s32 sp50;
-        Vec3f sp44;
-        Vec3f sp38;
+    // Make sure player won't fall or enter obstacle
+    if (this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) {
+        Vec3f relPos;
+        f32 dy;
+        CollisionPoly* outPoly;
+        s32 bgId;
+        Vec3f curPos;
+        Vec3f posResult;
 
-        temp2 = func_8083973C(play, this, &D_80854880, &sp5C) - this->actor.world.pos.y;
-        if (fabsf(temp2) < 20.0f) {
-            sp44.x = this->actor.world.pos.x;
-            sp44.z = this->actor.world.pos.z;
-            sp44.y = sp5C.y;
-            if (!BgCheck_EntityLineTest1(&play->colCtx, &sp44, &sp5C, &sp38, &sp54, true, false, false, true, &sp50)) {
-                func_8084B840(play, this, -2.0f);
+        dy = func_8083973C(play, this, &sPullRaycastOffset, &relPos) - this->actor.world.pos.y;
+        if (fabsf(dy) < 20.0f) {
+            curPos.x = this->actor.world.pos.x;
+            curPos.z = this->actor.world.pos.z;
+            curPos.y = relPos.y;
+            if (!BgCheck_EntityLineTest1(&play->colCtx, &curPos, &relPos, &posResult, &outPoly, true, false, false,
+                                         true, &bgId)) {
+                Player_PushPullBlock(play, this, -2.0f);
                 return;
             }
         }
-        this->stateFlags2 &= ~PLAYER_STATE2_4;
+        this->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL; // Remove flag if couldn't pull
     }
 }
 

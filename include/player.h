@@ -738,15 +738,15 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE (1 << 30) // Lock-on was released automatically, for example by leaving the lock-on leash range
 #define PLAYER_STATE1_31 (1 << 31)
 
-#define PLAYER_STATE2_0 (1 << 0)
+#define PLAYER_STATE2_GRAB_HOLD (1 << 0) // Set when able to grab onto something movable (blocks, Forest Temple rotating wall) or heavy block. Continuously set when holding, pushing and pulling objects.
 #define PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER (1 << 1) // Can accept a talk offer. "Speak" or "Check" is shown on the A button.
 #define PLAYER_STATE2_2 (1 << 2)
 #define PLAYER_STATE2_3 (1 << 3)
-#define PLAYER_STATE2_4 (1 << 4)
+#define PLAYER_STATE2_PUSH_PULL (1 << 4) // Set by pushing and pulling actions. Blocks, graves, etc. Often removed by the movable actor! (to limit distance etc.)
 #define PLAYER_STATE2_5 (1 << 5)
 #define PLAYER_STATE2_6 (1 << 6)
 #define PLAYER_STATE2_7 (1 << 7)
-#define PLAYER_STATE2_8 (1 << 8)
+#define PLAYER_STATE2_PUSH_PULL_CAMERA (1 << 8) // Used to set camera when holding and moving blocks
 #define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9) // Forces sand footstep sounds regardless of current floor type
 #define PLAYER_STATE2_10 (1 << 10)
 #define PLAYER_STATE2_11 (1 << 11)
@@ -831,7 +831,7 @@ typedef struct Player {
     /* 0x03AC */ Actor* heldActor;
     /* 0x03B0 */ Vec3f leftHandPos;
     /* 0x03BC */ Vec3s unk_3BC;
-    /* 0x03C4 */ Actor* unk_3C4;
+    /* 0x03C4 */ Actor* grabbedActor; // Actor of DynaPolyActor that is grabbed, pushed or pulled by the player. Blocks, Forest Temple rotating wall etc.
     /* 0x03C8 */ Vec3f unk_3C8;
     /* 0x03D4 */ char unk_3D4[0x058];
     /* 0x042C */ s8 doorType;
