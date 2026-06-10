@@ -2312,10 +2312,11 @@ int func_808334B4(Player* this) {
 }
 
 /**
- * Idle animation selected depending on aiming Boomerang or not and which foot
- * should be forward. Used when using Boomerang and when idle hostile.
+ * Gets the idle animation to use when fighting, i.e. having one foot forward such as
+ * in idle hostile, loaded boomerang, standing shielding.
+ * @return right foot forward animation
  */
-LinkAnimationHeader* Player_GetIdleAnimRightForward(Player* this) {
+LinkAnimationHeader* Player_GetFightingAnimRight(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_waitR;
     } else {
@@ -2323,7 +2324,12 @@ LinkAnimationHeader* Player_GetIdleAnimRightForward(Player* this) {
     }
 }
 
-LinkAnimationHeader* Player_GetIdleAnimLeftForward(Player* this) {
+/**
+ * Gets the idle animation to use when fighting, i.e. having one foot forward such as
+ * in idle hostile, loaded boomerang, standing shielding.
+ * @return left foot forward animation
+ */
+LinkAnimationHeader* Player_GetFightingAnimLeft(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_waitL;
     } else {
@@ -2331,6 +2337,9 @@ LinkAnimationHeader* Player_GetIdleAnimLeftForward(Player* this) {
     }
 }
 
+/**
+ * Get slow sidewalk animation depending on if player is aiming ranged or not.
+ */
 LinkAnimationHeader* Player_GetSlowSidewalkAnim(Player* this) {
     if (func_8002DD78(this)) {
         return &gPlayerAnim_link_bow_side_walk;
@@ -2339,6 +2348,9 @@ LinkAnimationHeader* Player_GetSlowSidewalkAnim(Player* this) {
     }
 }
 
+/**
+ * Unused (is run, but the result is not used).
+ */
 LinkAnimationHeader* Player_GetBoomerangSidewalkAnimRight(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_side_walkR;
@@ -2347,6 +2359,9 @@ LinkAnimationHeader* Player_GetBoomerangSidewalkAnimRight(Player* this) {
     }
 }
 
+/**
+ * Unused (is run, but the result is not used).
+ */
 LinkAnimationHeader* Player_GetBoomerangSidewalkAnimLeft(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_link_boom_throw_side_walkL;
@@ -3357,7 +3372,7 @@ s32 func_80835884(Player* this, PlayState* play) {
 s32 func_808358F0(Player* this, PlayState* play) {
     LinkAnimationHeader* animSeg = this->skelAnime.animation;
 
-    if ((Player_GetIdleAnimRightForward(this) == animSeg) || (Player_GetIdleAnimLeftForward(this) == animSeg) ||
+    if ((Player_GetFightingAnimRight(this) == animSeg) || (Player_GetFightingAnimLeft(this) == animSeg) ||
         (Player_GetBoomerangSidewalkAnimRight(this) == animSeg) ||
         (Player_GetBoomerangSidewalkAnimLeft(this) == animSeg)) {
         AnimTaskQueue_AddCopy(play, this->skelAnime.limbCount, this->upperSkelAnime.jointTable,
@@ -5571,10 +5586,10 @@ void Player_SetupIdleHostileWithFootWeight(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_IdleHostile, 1);
 
     if (this->forwardFootWeight < 0.5f) {
-        anim = Player_GetIdleAnimRightForward(this);
+        anim = Player_GetFightingAnimRight(this);
         this->forwardFootWeight = 0.0f;
     } else {
-        anim = Player_GetIdleAnimLeftForward(this);
+        anim = Player_GetFightingAnimLeft(this);
         this->forwardFootWeight = 1.0f;
     }
 
@@ -8058,8 +8073,8 @@ void Player_SetForwardFoot(Player* this, f32 speedTarget, s16 yawTarget) {
 }
 
 void Player_BlendIdleFootAnim(PlayState* play, Player* this) {
-    LinkAnimation_BlendToJoint(play, &this->skelAnime, Player_GetIdleAnimRightForward(this), this->moveFrame,
-                               Player_GetIdleAnimLeftForward(this), this->moveFrame, this->forwardFootWeight,
+    LinkAnimation_BlendToJoint(play, &this->skelAnime, Player_GetFightingAnimRight(this), this->moveFrame,
+                               Player_GetFightingAnimLeft(this), this->moveFrame, this->forwardFootWeight,
                                this->blendTable);
 }
 
@@ -8149,7 +8164,7 @@ void Player_Action_IdleHostile(Player* this, PlayState* play) {
     if (this->av2.waitForAnimDone != 0) {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
             Player_FinishAnimMovement(this);
-            Player_AnimPlayLoop(play, this, Player_GetIdleAnimRightForward(this));
+            Player_AnimPlayLoop(play, this, Player_GetFightingAnimRight(this));
             this->av2.waitForAnimDone = 0;
             this->stateFlags3 &= ~PLAYER_STATE3_ENDING_MELEE_ATTACK;
         }
@@ -15638,7 +15653,7 @@ void func_8085190C(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
     if (this->av2.actionVar2 != 0) {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
-            Player_AnimPlayLoop(play, this, Player_GetIdleAnimRightForward(this));
+            Player_AnimPlayLoop(play, this, Player_GetFightingAnimRight(this));
             this->av2.actionVar2 = 0;
         }
 
