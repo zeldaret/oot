@@ -5625,7 +5625,7 @@ void Player_ReturnToIdle(Player* this, PlayState* play) {
  * Sets action function to idle function depending on no target/parallel/Z-target.
  * Does not set new animations, keeps previously set animation.
  */
-void Player_SetupIdleDependingOnTargetKeepAnim(Player* this, PlayState* play) {
+void Player_SetupIdleKeepSetAnim(Player* this, PlayState* play) {
     PlayerActionFunc actionFunc;
 
     if (Player_CheckHostileLockOn(this)) {
@@ -5639,8 +5639,8 @@ void Player_SetupIdleDependingOnTargetKeepAnim(Player* this, PlayState* play) {
     Player_SetupAction(play, this, actionFunc, 1);
 }
 
-void Player_SetupIdleDependingOnTarget2(Player* this, PlayState* play) {
-    Player_SetupIdleDependingOnTargetKeepAnim(this, play);
+void Player_SetupIdleKeepSetAnimSetActionVar(Player* this, PlayState* play) {
+    Player_SetupIdleKeepSetAnim(this, play);
 
     // Used by Player_Action_IdleHostile to make sure started animation finishes
     if (Player_CheckHostileLockOn(this)) {
@@ -5652,7 +5652,7 @@ void Player_SetupIdleDependingOnTarget2(Player* this, PlayState* play) {
  * Setup idle depending on no target/parallel/Z-target and play a given animation once.
  */
 void Player_SetupIdlePlayGivenAnim(Player* this, LinkAnimationHeader* anim, PlayState* play) {
-    Player_SetupIdleDependingOnTarget2(this, play);
+    Player_SetupIdleKeepSetAnimSetActionVar(this, play);
     Player_AnimPlayOnceWaterSpeed(play, this, anim);
 }
 
@@ -6499,7 +6499,7 @@ void Player_PlayStopRunWalkAnim(Player* this, PlayState* play) {
  * Setup idle depending on if target and play stop run/walk animation
  */
 void Player_SetupIdleWithStopRunWalkAnim(Player* this, PlayState* play) {
-    Player_SetupIdleDependingOnTargetKeepAnim(this, play);
+    Player_SetupIdleKeepSetAnim(this, play);
     Player_PlayStopRunWalkAnim(this, play);
 }
 
@@ -7927,7 +7927,7 @@ s32 func_8083F9D0(PlayState* play, Player* this) {
         }
     }
 
-    Player_SetupIdleDependingOnTargetKeepAnim(this, play);
+    Player_SetupIdleKeepSetAnim(this, play);
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_wait_end);
     this->stateFlags2 &= ~PLAYER_STATE2_4;
     return 1;
@@ -9389,7 +9389,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
                 func_80832318(this);
 
                 if (Player_IsChildWithHylianShield(this)) {
-                    Player_SetupIdleDependingOnTarget2(this, play);
+                    Player_SetupIdleKeepSetAnimSetActionVar(this, play);
                     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_clink_normal_defense_ALL, 1.0f,
                                          Animation_GetLastFrame(&gPlayerAnim_clink_normal_defense_ALL), 0.0f,
                                          ANIMMODE_ONCE, 0.0f);
@@ -9873,7 +9873,7 @@ void Player_Action_Roll(Player* this, PlayState* play) {
 
             if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
                 ((interruptResult >= PLAYER_INTERRUPT_MOVE) || animFinished)) {
-                Player_SetupIdleDependingOnTarget2(this, play);
+                Player_SetupIdleKeepSetAnimSetActionVar(this, play);
             }
         } else {
             // Must have a speed of 7 or above to be able to bonk into something
@@ -9912,7 +9912,7 @@ void Player_Action_Roll(Player* this, PlayState* play) {
 
             if ((this->skelAnime.curFrame < 15.0f) || !Player_ActionHandler_7(this, play)) {
                 if (this->skelAnime.curFrame >= 20.0f) {
-                    Player_SetupIdleDependingOnTarget2(this, play);
+                    Player_SetupIdleKeepSetAnimSetActionVar(this, play);
 
                     return;
                 }
@@ -10020,7 +10020,7 @@ void func_80844D30(Player* this, PlayState* play) {
 }
 
 void func_80844D68(Player* this, PlayState* play) {
-    Player_SetupIdleDependingOnTargetKeepAnim(this, play);
+    Player_SetupIdleKeepSetAnim(this, play);
     func_80832318(this);
     Player_AnimChangeOnceMorph(play, this, D_80854368[Player_HoldsTwoHandedWeapon(this)]);
     this->yaw = this->actor.shape.rot.y;
@@ -14895,7 +14895,7 @@ void Player_Action_808505DC(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 
     if (this->skelAnime.curFrame >= 6.0f) {
-        Player_SetupIdleDependingOnTargetKeepAnim(this, play);
+        Player_SetupIdleKeepSetAnim(this, play);
     }
 }
 
@@ -14974,7 +14974,7 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av1.actionVar1 < 0) {
             if ((this->itemAction == PLAYER_IA_NAYRUS_LOVE) || (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
-                Player_SetupIdleDependingOnTargetKeepAnim(this, play);
+                Player_SetupIdleKeepSetAnim(this, play);
                 Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
