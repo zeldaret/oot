@@ -356,7 +356,7 @@ void EnWallmas_Stand(EnWallmas* this, PlayState* play) {
         EnWallmas_SetupWalk(this);
     }
 
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0xB6);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0xB6);
 }
 
 void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
@@ -364,7 +364,7 @@ void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
-    Math_ScaledStepToS(&this->actor.world.rot.y, (s16)((s32)this->actor.yawTowardsPlayer + 0x8000), 0xB6);
+    Math_RotationStepToS(&this->actor.world.rot.y, (s16)((s32)this->actor.yawTowardsPlayer + 0x8000), 0xB6);
 
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
         Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {

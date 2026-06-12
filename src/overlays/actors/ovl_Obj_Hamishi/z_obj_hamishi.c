@@ -98,8 +98,8 @@ void ObjHamishi_Shake(ObjHamishi* this) {
     } else {
         Math_StepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f);
         Math_StepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f);
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.home.rot.x, 0xBB8);
-        Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0xBB8);
+        Math_RotationStepToS(&this->actor.shape.rot.x, this->actor.home.rot.x, 0xBB8);
+        Math_RotationStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0xBB8);
     }
 }
 

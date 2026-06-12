@@ -437,7 +437,7 @@ void BgPoEvent_BlockReset(BgPoEvent* this, PlayState* play) {
         this->dyna.unk_150 = 0.0f;
     }
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 493.0f, 1.0f) &&
-        Math_ScaledStepToS(&this->dyna.actor.shape.rot.z, this->dyna.actor.world.rot.z - 0x4000, 0x400)) {
+        Math_RotationStepToS(&this->dyna.actor.shape.rot.z, this->dyna.actor.world.rot.z - 0x4000, 0x400)) {
 
         this->index = (this->index + 1) % 4;
         this->actionFunc = BgPoEvent_BlockFall;

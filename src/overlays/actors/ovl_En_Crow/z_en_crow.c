@@ -284,7 +284,7 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x100, 0x400);
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0x100, 0x400);
     }
 
     if (this->timer != 0) {
@@ -345,7 +345,7 @@ void EnCrow_Damaged(EnCrow* this, PlayState* play) {
 
     if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         if (this->actor.colorFilterParams & 0x4000) {
-            Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
+            Math_RotationStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {

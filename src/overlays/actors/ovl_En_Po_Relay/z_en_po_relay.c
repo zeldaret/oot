@@ -192,7 +192,7 @@ void EnPoRelay_CorrectY(EnPoRelay* this) {
 }
 
 void EnPoRelay_Idle(EnPoRelay* this, PlayState* play) {
-    Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
+    Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actionFunc = EnPoRelay_Talk;
@@ -205,7 +205,7 @@ void EnPoRelay_Idle(EnPoRelay* this, PlayState* play) {
 }
 
 void EnPoRelay_Talk(EnPoRelay* this, PlayState* play) {
-    Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
+    Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         Actor_SetTextWithPrefix(play, &this->actor, 0x2F);
         this->textId = this->actor.textId;
@@ -295,7 +295,7 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
 }
 
 void EnPoRelay_EndRace(EnPoRelay* this, PlayState* play) {
-    Math_ScaledStepToS(&this->actor.shape.rot.y, -0x4000, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.y, -0x4000, 0x800);
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnPoRelay_Talk2;
     } else if (play->roomCtx.curRoom.num == 5) {
@@ -309,7 +309,7 @@ void EnPoRelay_EndRace(EnPoRelay* this, PlayState* play) {
 }
 
 void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
-    Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
+    Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) {
         if (Message_ShouldAdvance(play)) {
             if (this->hookshotSlotFull) {

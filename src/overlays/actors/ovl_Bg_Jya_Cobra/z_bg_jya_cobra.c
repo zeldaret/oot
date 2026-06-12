@@ -516,7 +516,7 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play) {
         Math_StepToS(&this->unk_16E, 21, 10);
     }
 
-    if (Math_ScaledStepToS(&this->unk_170, this->unk_16A * 0x2000, this->unk_16E)) {
+    if (Math_RotationStepToS(&this->unk_170, this->unk_16A * 0x2000, this->unk_16E)) {
         this->unk_16C = (this->unk_16C + this->unk_16A) & 7;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;

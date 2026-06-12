@@ -219,7 +219,7 @@ void EnButte_Turn(EnButte* this) {
     s16 target = this->actor.world.rot.y + 0x8000;
     s16 diff = target - this->actor.shape.rot.y;
 
-    Math_ScaledStepToS(&this->actor.shape.rot.y, target, ABS(diff) >> 3);
+    Math_RotationStepToS(&this->actor.shape.rot.y, target, ABS(diff) >> 3);
     this->actor.shape.rot.x = (s16)(sinf(this->unk_260) * 600.0f) - 0x2320;
 }
 
@@ -257,17 +257,17 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
 
     if ((this->flightParamsIdx != 0) && ((distSqFromHome > maxDistSqFromHome) || (this->timer < 4))) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
-        if (Math_ScaledStepToS(&this->actor.world.rot.y, yaw, flightParams->rotYStep) == 0) {
+        if (Math_RotationStepToS(&this->actor.world.rot.y, yaw, flightParams->rotYStep) == 0) {
             minAnimSpeed = 0.5f;
         }
     } else if ((this->unk_257 == 0) && (this->actor.child != NULL) && (this->actor.child != &this->actor)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.child->world.pos);
-        if (Math_ScaledStepToS(&this->actor.world.rot.y, yaw, rotStep) == 0) {
+        if (Math_RotationStepToS(&this->actor.world.rot.y, yaw, rotStep) == 0) {
             minAnimSpeed = 0.3f;
         }
     } else if (this->unk_257 == 1) {
         yaw = this->actor.yawTowardsPlayer + 0x8000 + (s16)((Rand_ZeroOne() - 0.5f) * 0x6000);
-        if (Math_ScaledStepToS(&this->actor.world.rot.y, yaw, rotStep) == 0) {
+        if (Math_RotationStepToS(&this->actor.world.rot.y, yaw, rotStep) == 0) {
             minAnimSpeed = 0.4f;
         }
     } else {
@@ -328,7 +328,7 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
             MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
 
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &swordTip) + (s16)(Rand_ZeroOne() * D_809CE410);
-        if (Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000) != 0) {
+        if (Math_RotationStepToS(&this->actor.world.rot.y, yaw, 2000) != 0) {
             if (play->gameplayFrames % 2) {
                 this->actor.world.rot.y += (s16)(sinf(this->unk_25C) * 60.0f);
             }

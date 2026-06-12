@@ -378,7 +378,7 @@ void EnEiyer_WanderUnderground(EnEiyer* this, PlayState* play) {
             this->actor.world.rot.y + (Rand_ZeroOne() < 0.5f ? -1 : 1) * (Rand_ZeroOne() * 0x2000 + 0x2000);
     }
 
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0xB6);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->targetYaw, 0xB6);
     EnEiyer_CheckPlayerCollision(this, play);
 }
 
@@ -450,7 +450,7 @@ void EnEiyer_Glide(EnEiyer* this, PlayState* play) {
         this->targetYaw = this->actor.wallYaw;
     }
 
-    if (Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0xB6)) {
+    if (Math_RotationStepToS(&this->actor.world.rot.y, this->targetYaw, 0xB6)) {
         if (this->timer != 0 || Rand_ZeroOne() > 0.05f) {
             this->actor.world.rot.y += 0x100;
         } else {
@@ -477,7 +477,7 @@ void EnEiyer_StartAttack(EnEiyer* this, PlayState* play) {
         focus.y = player->actor.world.pos.y + 20.0f;
         focus.z = player->actor.world.pos.z;
 
-        if (Math_ScaledStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &focus), 0x1000)) {
+        if (Math_RotationStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &focus), 0x1000)) {
             EnEiyer_SetupDiveAttack(this, play);
         }
     } else {
@@ -507,7 +507,7 @@ void EnEiyer_DiveAttack(EnEiyer* this, PlayState* play) {
 
 void EnEiyer_Land(EnEiyer* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
-    Math_ScaledStepToS(&this->actor.world.rot.x, -0x4000, 0x450);
+    Math_RotationStepToS(&this->actor.world.rot.x, -0x4000, 0x450);
     Math_StepToF(&this->actor.speed, 7.0f, 1.0f);
 
     if (this->timer == -1) {
@@ -548,8 +548,8 @@ void EnEiyer_Hurt(EnEiyer* this, PlayState* play) {
         this->targetYaw = this->actor.yawTowardsPlayer + 0x8000;
     }
 
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0x38E);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x200);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->targetYaw, 0x38E);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x200);
     this->actor.shape.rot.z = sinf(this->timer * (M_PI / 5)) * 5120.0f;
 
     if (this->timer == 0) {
@@ -565,9 +565,9 @@ void EnEiyer_Die(EnEiyer* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
 
     if (this->actor.speed > 0.0f) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x400);
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0x4000, 0x400);
     } else {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x400);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0x4000, 0x400);
     }
 
     this->actor.shape.rot.z += 0x1000;
@@ -599,7 +599,7 @@ void EnEiyer_Stunned(EnEiyer* this, PlayState* play) {
         this->timer--;
     }
 
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x200);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x200);
     SkelAnime_Update(&this->skelanime);
 
     if (Animation_OnFrame(&this->skelanime, 0.0f)) {

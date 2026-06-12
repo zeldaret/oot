@@ -357,7 +357,7 @@ void BgHakaZou_BirdStatueAnim_Topple(BgHakaZou* this, PlayState* play) {
 
     this->dyna.actor.world.rot.x += this->dyna.actor.world.rot.x / 8.0f;
 
-    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, this->dyna.actor.world.rot.x)) {
+    if (Math_RotationStepToS(&this->dyna.actor.shape.rot.x, -0x4000, this->dyna.actor.world.rot.x)) {
         effectPos.x = this->dyna.actor.world.pos.x;
         effectPos.y = this->dyna.actor.world.pos.y;
 

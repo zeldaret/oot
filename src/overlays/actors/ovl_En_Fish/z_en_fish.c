@@ -576,11 +576,11 @@ void EnFish_Unique_SwimIdle(EnFish* this, PlayState* play) {
     extraPlaySpeed = 0.0f;
 
     if ((EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(15.0f))) {
-        if (!Math_ScaledStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
+        if (!Math_RotationStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
                                 200)) {
             extraPlaySpeed = 0.5f;
         }
-    } else if ((this->timer < 4) && !Math_ScaledStepToS(&this->actor.world.rot.y, frames * 0x80, 100)) {
+    } else if ((this->timer < 4) && !Math_RotationStepToS(&this->actor.world.rot.y, frames * 0x80, 100)) {
         extraPlaySpeed = 0.5f;
     }
 

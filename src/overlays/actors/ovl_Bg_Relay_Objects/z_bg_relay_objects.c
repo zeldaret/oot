@@ -194,9 +194,9 @@ void func_808A939C(BgRelayObjects* this, PlayState* play) {
         SET_EVENTCHKINF(EVENTCHKINF_65);
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
-        Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x400, 8);
+        Math_RotationStepToS(&this->dyna.actor.world.rot.y, 0x400, 8);
     } else {
-        Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x80, 8);
+        Math_RotationStepToS(&this->dyna.actor.world.rot.y, 0x80, 8);
     }
     this->dyna.actor.shape.rot.y += this->dyna.actor.world.rot.y;
     func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_WOOD_GEAR - SFX_FLAG,
