@@ -1,0 +1,174 @@
+#!/usr/bin/env python
+#
+#   Create a single-file armips assembler from an upstream commit, for MIPS only.
+#   Changing the target commit may require updating
+#   - armips.diff
+#   - the included file list
+#   - the line filters in filter_lines
+#
+
+import contextlib, io, os
+
+
+ARMIPS_URL = "https://github.com/kingcom/armips"
+ARMIPS_COMMIT = "9029577f6448c78dadcffbc876d2b8cbcfc6da9b"
+ARMIPS_MAJOR_VER = "v0.11"
+ARMIPS_PATCH = "armips.diff"
+ARMIPS_OUTPUT = "armips.cpp"
+
+
+file_list = (
+    "Util/FileSystem.h",
+    "ext/tinyformat/tinyformat.h",
+    "Core/Types.h",
+    "Core/Types.cpp",
+    "Commands/CAssemblerCommand.h",
+    "Core/Expression.h",
+    "Parser/Tokenizer.h",
+    "Core/ExpressionFunctionHandler.h",
+    "Core/ExpressionFunctions.h",
+    "Core/SymbolData.h",
+    "Util/Util.h",
+    "Util/FileClasses.h",
+    "Util/ByteArray.h",
+    "Core/FileManager.h",
+    "Core/ELF/ElfTypes.h",
+    "Core/ELF/ElfFile.h",
+    "Core/ELF/ElfRelocator.h",
+    "Archs/Architecture.h",
+    "Archs/MIPS/Mips.h",
+    "Archs/MIPS/MipsOpcodes.h",
+    "Archs/MIPS/CMipsInstruction.h",
+    "Util/EncodingTable.h",
+    "Core/Misc.h",
+    "Core/Assembler.h",
+    "Core/SymbolTable.h",
+    "Core/Common.h",
+    "Core/Allocations.h",
+    "Core/Allocations.cpp",
+    "Parser/DirectivesParser.h",
+    "Archs/MIPS/MipsMacros.h",
+    "Archs/MIPS/MipsParser.h",
+    "Archs/MIPS/CMipsInstruction.cpp",
+    "Archs/MIPS/MipsExpressionFunctions.h",
+    "Archs/MIPS/MipsElfRelocator.h",
+    "Archs/MIPS/Mips.cpp",
+    "Archs/MIPS/MipsElfFile.h",
+    "Util/CRC.h",
+    "Archs/MIPS/MipsElfFile.cpp",
+    "Commands/CommandSequence.h",
+    "Parser/Parser.h",
+    "Archs/MIPS/MipsElfRelocator.cpp",
+    "Archs/MIPS/MipsExpressionFunctions.cpp",
+    "Archs/MIPS/MipsMacros.cpp",
+    "Archs/MIPS/MipsOpcodes.cpp",
+    "Parser/ExpressionParser.h",
+    "Core/ExpressionFunctionHandler.cpp",
+    "Archs/MIPS/PsxRelocator.h",
+    "Commands/CDirectiveFile.h",
+    "Archs/MIPS/MipsParser.cpp",
+    "Archs/MIPS/PsxRelocator.cpp",
+    "Archs/Architecture.cpp",
+    "Commands/CAssemblerCommand.cpp",
+    "Commands/CAssemblerLabel.h",
+    "Commands/CAssemblerLabel.cpp",
+    "Commands/CDirectiveArea.h",
+    "Commands/CDirectiveArea.cpp",
+    "Commands/CDirectiveConditional.h",
+    "Commands/CDirectiveConditional.cpp",
+    "Commands/CDirectiveData.h",
+    "Commands/CDirectiveData.cpp",
+    "Commands/CDirectiveFile.cpp",
+    "Commands/CDirectiveMessage.h",
+    "Commands/CDirectiveMessage.cpp",
+    "Commands/CommandSequence.cpp",
+    "Parser/DirectivesParser.cpp",
+    "Parser/ExpressionParser.cpp",
+    "Parser/Parser.cpp",
+    "Parser/Tokenizer.cpp",
+    "Util/ByteArray.cpp",
+    "Util/CRC.cpp",
+    "Util/EncodingTable.cpp",
+    "Util/FileClasses.cpp",
+    "Util/Util.cpp",
+    "Main/CommandLineInterface.h",
+    "Main/CommandLineInterface.cpp",
+    "Core/ELF/ElfFile.cpp",
+    "Core/ELF/ElfRelocator.cpp",
+    "Core/Assembler.cpp",
+    "Core/Common.cpp",
+    "Core/Expression.cpp",
+    "Core/ExpressionFunctions.cpp",
+    "Core/FileManager.cpp",
+    "Core/Misc.cpp",
+    "Core/SymbolData.cpp",
+    "Core/SymbolTable.cpp",
+    "Main/main.cpp",
+)
+
+
+file_header =  \
+f"""// armips assembler {ARMIPS_MAJOR_VER} (commit {ARMIPS_COMMIT})
+// {ARMIPS_URL}
+// To simplify compilation, all files have been concatenated into one.
+// MIPS only, other architectures not included.\n\n"""
+
+
+@contextlib.contextmanager
+def working_dir(x: str):
+    old = os.getcwd()
+    os.chdir(x)
+    try:
+        yield
+    finally:
+        os.chdir(old)
+
+
+def filter_lines(line: str):
+    blacklist = (
+        "#pragma once",
+        "#include \"",
+        "#include <tinyformat.h>"
+    )
+    return not any(s in line for s in blacklist)
+
+
+def cat_file(fout: io.TextIOBase, fin_name: str):
+    with open(fin_name) as fin:
+        lines = fin.readlines()
+    lines = map(str.rstrip, filter(filter_lines, lines))
+    fout.write("\n".join(lines) + "\n")
+
+
+def combine_armips(fout_name: str, armips_path: str):
+    with open(fout_name, "w") as fout:
+        fout.write(file_header)
+        fout.write("/*\n")
+        cat_file(fout, os.path.join(armips_path, "LICENSE.txt"))
+        fout.write("*/\n\n")
+        fout.write("#define ARMIPS_USE_STD_FILESYSTEM\n")
+        for f in file_list:
+            fout.write(f"\n#pragma region \"File: {f}\"\n")
+            cat_file(fout, os.path.join(armips_path, f))
+
+
+def main():
+    with working_dir(os.path.dirname(os.path.realpath(__file__))):
+        temp_dir = "armips_clone"
+        # Acquire the base armips commit
+        os.system(f"rm -rf {temp_dir}")
+        os.system(f"git init {temp_dir} 2>/dev/null")
+        with working_dir(temp_dir):
+            os.system(f"git remote add origin {ARMIPS_URL}.git")
+            os.system(f"git fetch origin --depth 1 {ARMIPS_COMMIT}")
+            os.system(f"git checkout FETCH_HEAD 2>/dev/null")
+            # Apply patch
+            os.system(f"git apply ../{ARMIPS_PATCH}")
+        # Concat all included files
+        print(f"Creating {ARMIPS_OUTPUT}")
+        combine_armips(ARMIPS_OUTPUT, os.path.expanduser(temp_dir))
+        os.system(f"rm -rf {temp_dir}")
+
+
+if __name__ == "__main__":
+    main()

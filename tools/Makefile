@@ -62,7 +62,7 @@ distclean: clean
 	$(RM) armips
 
 armips: armips.cpp
-	$(CXX) $(WARNFLAGS) -std=c++17 $(OPTFLAGS) -s -fno-rtti -pipe -Wno-unused-parameter $^ -pthread -o $@
+	$(CXX) $(WARNFLAGS) -std=c++17 $(OPTFLAGS) -s -fno-rtti -pipe -Wno-unused-parameter -Wno-sign-compare $< -o $@
 
 bin2c_SOURCES              := bin2c.c
 mkdmadata_SOURCES          := mkdmadata.c spec.c util.c
