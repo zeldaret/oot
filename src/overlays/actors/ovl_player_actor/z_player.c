@@ -6072,7 +6072,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                         if (sp2C >= 0) {
                             sp2C = sp2C + 1;
                         } else {
-                            sp2C = sp28 + 0x18;
+                            sp2C = sp28 + EXCH_ITEM_BOTTLE_FISH;
                         }
 
                         talkActor = this->talkActor;
