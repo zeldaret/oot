@@ -7,7 +7,7 @@
  * - Loads a ucode's .text section to RSPBOOT_ENTRYPOINT
  * - Jumps to the loaded ucode
  *
- * Along the way it also checks whether the task scheduler running the CPU has
+ * Along the way it also checks whether the task scheduler running on the CPU has
  * requested a yield and, if so, halts the RSP.
  *
  * This is a special variant of rspboot that is designed to work alongside IPL3 X105
@@ -26,7 +26,7 @@
 .create CODE_FILE, IMEM_START
 
 entry:
-    // This jump is overwritten once rspboot runs for the first time
+    // This jump is overwritten once rspboot runs for the first time (see set_status_and_patch below)
     j       antipiracy_test
      lw     $17, OSTASK_FIELD(FLAGS)
 
@@ -56,19 +56,19 @@ antipiracy_test:
     lui     $1, (SP_CLR_SIG7 >> 16)
     li      $3, 0x3D8
     bne     $11, $3, set_status_and_patch
-    addi    $16, $zero, entry_failure
+     addi   $16, $zero, entry_failure
     lui     $3, 0x3A0
     ori     $3, $3, 0x4820
     bne     $4, $3, set_status_and_patch
-    lui     $3, 0x2529
+     lui    $3, 0x2529
     ori     $3, $3, 0x4
     bne     $6, $3, set_status_and_patch
-    srl     $3, $5, 12
+     srl    $3, $5, 12
     addi    $2, $3, -76
     bltz    $2, set_status_and_patch
-    addi    $2, $3, -79
+     addi   $2, $3, -79
     bgtz    $2, set_status_and_patch
-    vxor    $v13, $v13, $v13[1q]
+     vxor   $v13, $v13, $v13[1q]
     vaddc   $v13, $v13, $v13[2h]
     vnxor   $v13, $v13, $v13[4]
     mfc2    $3, $v13[0]
@@ -127,7 +127,7 @@ dp_wait:
 
 load_ucode_data:
 @@while_dma_full:
-    mfc0    $1, SP_DMA_FULL
+     mfc0   $1, SP_DMA_FULL
     bnez    $1, @@while_dma_full
      lw     $1, OSTASK_FIELD(UDATA)
     addi    $16, $16, -1

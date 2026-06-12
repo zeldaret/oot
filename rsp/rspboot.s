@@ -7,7 +7,7 @@
  * - Loads a ucode's .text section to RSPBOOT_ENTRYPOINT
  * - Jumps to the loaded ucode
  *
- * Along the way it also checks whether the task scheduler running the CPU has
+ * Along the way it also checks whether the task scheduler running on the CPU has
  * requested a yield and, if so, halts the RSP.
  */
 .rsp
@@ -15,6 +15,7 @@
 #include "sptask.h"
 #include "rspboot.h"
 
+// $1 is expected to contain the OSTask pointer by many ucodes
 OSTask_reg equ $1
 
 .create CODE_FILE, IMEM_START_VA
@@ -78,7 +79,7 @@ start:
     andi    $2, $2, OS_TASK_DP_WAIT
     beqz    $2, load_ucode_data
      nop
-    // If the flag is set, we need to wait for the RDP to become idle just incase
+    // If the flag is set, we need to wait for the RDP to become idle just in case
     // it's still reading commands from DMEM in XBUS mode. First check if we need
     // to yield to another task.
     jal     check_yield
