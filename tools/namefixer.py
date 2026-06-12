@@ -150,7 +150,7 @@ wordReplace = {
     "atan2s(":"Math_Atan2S(",
     "Math_Coss(":"Math_CosS(",
     "Math_Sins(":"Math_SinS(",
-    "Math_ApproxUpdateScaledS(":"Math_ScaledStepToS(",
+    "Math_ApproxUpdateScaledS(":"Math_RotationStepToS(",
     "Math_ApproxS(":"Math_StepToS(",
     "Math_ApproxF(":"Math_StepToF(",
     "func_80077A90(":"Math_StepUntilAngleS(",

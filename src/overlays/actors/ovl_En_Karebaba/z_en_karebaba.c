@@ -333,7 +333,7 @@ void EnKarebaba_Dying(EnKarebaba* this, PlayState* play) {
     Math_StepToF(&this->actor.speed, 0.0f, 0.1f);
 
     if (this->actor.params == 0) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
         if (this->actor.scale.x > 0.005f &&

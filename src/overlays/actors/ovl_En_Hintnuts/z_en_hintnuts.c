@@ -424,7 +424,7 @@ void EnHintnuts_Leave(EnHintnuts* this, PlayState* play) {
             temp_a1 = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - (temp_a1 >> 1) + 0x8000;
         }
     }
-    Math_ScaledStepToS(&this->actor.shape.rot.y, temp_a1, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.y, temp_a1, 0x800);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->animFlagAndTimer == 0) || (this->actor.projectedPos.z < 0.0f)) {
         Message_CloseTextbox(play);

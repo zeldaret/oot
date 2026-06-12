@@ -639,10 +639,10 @@ void func_80ADA530(EnPoSisters* this, PlayState* play) {
         func_80AD9368(this);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
+        Math_RotationStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            0x71C);
     } else if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 300.0f) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
+        Math_RotationStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            0x71C);
     }
 }
@@ -655,11 +655,11 @@ void func_80ADA6A0(EnPoSisters* this, PlayState* play) {
     temp_v0 = this->actor.yawTowardsPlayer - player->actor.shape.rot.y;
     Math_StepToF(&this->actor.speed, 2.0f, 0.2f);
     if (temp_v0 > 0x3000) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x3000, 0x71C);
+        Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x3000, 0x71C);
     } else if (temp_v0 < -0x3000) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer - 0x3000, 0x71C);
+        Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer - 0x3000, 0x71C);
     } else {
-        Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x71C);
+        Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x71C);
     }
     if (this->actor.xzDistToPlayer < 160.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
         func_80AD944C(this);
@@ -734,7 +734,7 @@ void func_80ADAAA4(EnPoSisters* this, PlayState* play) {
         }
     }
     if (this->unk_195 != 0) {
-        Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
+        Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
                            (this->unk_195 == 2) ? 0x800 : 0x400);
         this->unk_22E.a = ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
@@ -746,7 +746,7 @@ void func_80ADAAA4(EnPoSisters* this, PlayState* play) {
 
 void func_80ADAC70(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 1820);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 1820);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
         this->unk_19A--;
     }
@@ -944,7 +944,7 @@ void func_80ADB51C(EnPoSisters* this, PlayState* play) {
             if (this->unk_195 == 2) {
                 phi_a2 *= 2;
             }
-            Math_ScaledStepToS(&this->actor.shape.rot.y,
+            Math_RotationStepToS(&this->actor.shape.rot.y,
                                this->actor.parent->shape.rot.y + (this->unk_195 * 0x4000) * phi_v0, phi_a2);
         } else if (this->unk_19A == 70 || this->unk_19A == 40) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
@@ -1041,14 +1041,14 @@ void func_80ADBB6C(EnPoSisters* this, PlayState* play) {
     if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 10.0f) {
         func_80ADA028(this);
     } else {
-        Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
+        Math_RotationStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            1820);
     }
 }
 
 void func_80ADBBF4(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1820);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1820);
     if (this->actor.xzDistToPlayer < 240.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
         func_80AD93C4(this);
     }
@@ -1113,7 +1113,7 @@ void func_80ADBEE8(EnPoSisters* this, PlayState* play) {
 void func_80ADBF58(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     this->unk_19A--;
-    Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x500);
+    Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x500);
     if (this->unk_19A == 0 && this->unk_194 == 0) {
         play->envCtx.lightSettingOverride = 4;
     }

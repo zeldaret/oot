@@ -289,7 +289,7 @@ void func_809BD2E4(EnBigokuta* this) {
     Actor* parent = this->actor.parent;
 
     if (parent != NULL) {
-        Math_ScaledStepToS(&parent->world.rot.y, this->unk_19A, 0x10);
+        Math_RotationStepToS(&parent->world.rot.y, this->unk_19A, 0x10);
     }
 }
 
@@ -466,7 +466,7 @@ void func_809BD8DC(EnBigokuta* this, PlayState* play) {
 }
 
 void func_809BDAE8(EnBigokuta* this, PlayState* play) {
-    if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y + 0x4000, 0x400)) {
+    if (Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y + 0x4000, 0x400)) {
         if (this->unk_196 != 0) {
             this->unk_196--;
         }
@@ -584,7 +584,7 @@ void func_809BDFC8(EnBigokuta* this, PlayState* play) {
     if (this->unk_196 == 20) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
     }
-    if ((this->unk_196 == 0) && Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.x, 0x800)) {
+    if ((this->unk_196 == 0) && Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.world.rot.x, 0x800)) {
         this->unk_194 = -this->unk_194;
         func_809BD3F8(this);
     }

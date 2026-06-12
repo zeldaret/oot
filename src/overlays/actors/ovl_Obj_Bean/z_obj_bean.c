@@ -230,7 +230,7 @@ void func_80B8EE24(ObjBean* this) {
 
     Math_StepToF(&this->posOffsetX, 0.0f, 0.1f);
     Math_StepToF(&this->posOffsetZ, 0.0f, 0.1f);
-    Math_ScaledStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.home.rot.y, 0x64);
+    Math_RotationStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.home.rot.y, 0x64);
 }
 
 void ObjBean_Move(ObjBean* this) {
