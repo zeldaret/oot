@@ -52,7 +52,7 @@ yield_break:
     break
 
 antipiracy_test:
-    // Checks that $4, $5, $6 and $11 all have expected register values set by IPL3
+    // Checks that $4, $5, $6 and $11 all have expected register values set by IPL3 X105
     lui     $1, (SP_CLR_SIG7 >> 16)
     li      $3, 0x3D8
     bne     $11, $3, set_status_and_patch
