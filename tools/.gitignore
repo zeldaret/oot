@@ -1,5 +1,6 @@
 # Output files
 *.exe
+armips
 bin2c
 mkdmadata
 mkldscript

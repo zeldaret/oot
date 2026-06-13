@@ -49,6 +49,8 @@ DEBUG_OBJECTS ?= 0
 MIPS_BINUTILS_PREFIX ?=
 # Emulator w/ flags for 'make run'.
 N64_EMULATOR ?=
+# Set to also write .tmp.s and .sym files when assembling microcodes, for build debugging or development purposes
+UCODE_ASM_DEBUG ?= 0
 # Set to override game region in the ROM header (options: JP, US, EU). This can be used to build a fake US version
 # of the debug ROM for better emulator compatibility, or to build US versions of NTSC N64 ROMs.
 # REGION ?= US
@@ -369,6 +371,7 @@ MKSPECRULES    := tools/mkspecrules
 MKDMADATA      := tools/mkdmadata
 BIN2C          := tools/bin2c
 FADO           := tools/fado/fado.elf
+ARMIPS         := tools/armips
 PYTHON         ?= $(VENV)/bin/python3
 BUILD_FROM_PNG := tools/assets/build_from_png/build_from_png
 BUILD_JFIF     := tools/assets/build_jfif/build_jfif
@@ -463,6 +466,7 @@ SPEC := spec/spec
 SPEC_INCLUDES := $(wildcard spec/*.inc)
 
 SRC_DIRS := $(shell find src -type d)
+RSP_DIRS := $(shell find rsp -type d)
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
 ifneq ($(wildcard $(EXTRACTED_DIR)/assets/audio),)
@@ -559,6 +563,7 @@ $(shell mkdir -p $(BUILD_DIR)/baserom \
 				 $(SEGMENTS_DIR))
 $(shell mkdir -p $(foreach dir, \
                       $(SRC_DIRS) \
+                      $(RSP_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
                       $(SAMPLE_DIRS) \
                       $(SAMPLEBANK_DIRS) \
@@ -1038,6 +1043,44 @@ $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)
 # Dependencies for files that may include the dmadata header automatically generated from the spec file
 $(BUILD_DIR)/src/boot/z_std_dma.o: $(BUILD_DIR)/dmadata_table_spec.h
 $(BUILD_DIR)/src/dmadata/dmadata.o: $(BUILD_DIR)/dmadata_table_spec.h
+
+# Note this is required for f3dex2 on GC/iQue as the rsp text is in .rodata
+RSP_TEXT_SECTION := .text
+RSP_DATA_SECTION := .rodata
+
+.PRECIOUS: $(BUILD_DIR)/rsp/%.s
+$(BUILD_DIR)/rsp/%.s: rsp/%.s
+	$(CPP) $(CPPFLAGS) -D_LANGUAGE_ASSEMBLY $(GBI_DEFINES) -MMD -MP -MT $@ -I include -I include/ultra64 -I rsp $< -o $@
+
+ifneq ($(UCODE_ASM_DEBUG),0)
+# Instruct armips to output a symbol map and a processed view of the asm
+ARMIPS_FLAGS = -sym2 $(<:.s=.sym) -temp $(<:.s=.tmp.s)
+else
+ARMIPS_FLAGS =
+endif
+
+.PRECIOUS: $(BUILD_DIR)/rsp/%.text.bin $(BUILD_DIR)/rsp/%.data.bin
+$(BUILD_DIR)/rsp/%.text.bin $(BUILD_DIR)/rsp/%.data.bin: $(BUILD_DIR)/rsp/%.s
+# assemble to code and data binaries
+	$(ARMIPS) -strequ CODE_FILE $(<:.s=.text.bin) -strequ DATA_FILE $(<:.s=.data.bin) $< $(ARMIPS_FLAGS)
+# create an empty file if armips did not error but one of the files was not created
+	touch $(<:.s=.text.bin) $(<:.s=.data.bin)
+
+# The default microcode name equals the source file name with dots substituted for underscores.
+UC_NAME = $(subst .,_,$(@F:.o=))
+
+# Override the name for the antipiracy rspboot variant to just be "rspboot"
+$(BUILD_DIR)/rsp/rspboot_ap.o: UC_NAME = rspboot
+
+RSP2ELF_DEFS =                              \
+    -D UC_NAME=$(UC_NAME)                   \
+    -D UC_TEXT_SECTION=$(RSP_TEXT_SECTION)  \
+    -D UC_DATA_SECTION=$(RSP_DATA_SECTION)  \
+    -D UC_TEXT_BIN_PATH="$(@:.o=.text.bin)" \
+    -D UC_DATA_BIN_PATH="$(@:.o=.data.bin)"
+
+$(BUILD_DIR)/rsp/%.o: $(BUILD_DIR)/rsp/%.text.bin $(BUILD_DIR)/rsp/%.data.bin rsp/rsp2elf.s
+	$(CPP) $(CPPFLAGS) $(RSP2ELF_DEFS) rsp/rsp2elf.s | $(AS) $(ASFLAGS) -o $@
 
 $(BUILD_DIR)/src/%.o: src/%.c
 	$(CC_CHECK) $< -o $@
