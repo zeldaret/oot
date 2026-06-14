@@ -138,7 +138,7 @@ load_ucode_data:
     mfc0    $1, SP_DMA_BUSY
     bnez    $1, @@while_dma_busy
      li     $ra, load_ucode_text_and_enter
-    mtc0    $zero, SP_SEMAPHORE
+    mtc0    $zero, SP_SEMAPHORE // Release the semaphore just in case a prior task or the CPU failed to release it
     vxor    $v16, $v16, $v16    // set $v16 to 0, some F3DZEX versions rely on this being set to function properly
     sw      $4, OSTASK_FIELD(UBOOT)
     j       check_yield

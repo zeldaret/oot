@@ -43,7 +43,8 @@ load_ucode_text_and_enter:
     // Check yield one more time
     jal     check_yield
      nop
-    // Return the semaphore and jump to the ucode that was loaded
+    // Release the semaphore just in case a prior task or the CPU failed to release it
+    // and jump to the ucode that was loaded
     jr      $7
      mtc0   $zero, SP_SEMAPHORE
 
@@ -57,7 +58,7 @@ check_yield:
     // No need to yield, return to caller
     jr      $ra
 yield_break:
-    // Return the semaphore (note this happens even if there is no yield as it
+    // Release the semaphore (note this happens even if there is no yield as it
     // is in the delay slot of the above instruction)
      mtc0   $zero, SP_SEMAPHORE
     // Update the RSP status to signal task complete and yielded, clear the
