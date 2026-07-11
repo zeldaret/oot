@@ -212,7 +212,7 @@ void ConsoleLogo_Destroy(GameState* thisx) {
     Sram_InitSram(&this->state, &this->sramCtx);
 
 #if PLATFORM_N64
-    func_800014E8();
+    CIC6105_EnableAudio();
 #endif
 }
 

@@ -9,20 +9,14 @@
 
 .balign 16
 
-glabel aspMainTextStart
-    .incbin "incbin/aspMainText"
-glabel aspMainTextEnd
-
-#ifndef F3DEX_GBI_PL
 glabel gspF3DZEX2_NoN_fifoTextStart
     .incbin "incbin/gspF3DZEX2_NoN_fifoText"
 glabel gspF3DZEX2_NoN_fifoTextEnd
-#endif
 
-glabel gspS2DEX2d_fifoTextStart
-    .incbin "incbin/gspS2DEX2d_fifoText"
-glabel gspS2DEX2d_fifoTextEnd
+.section .rodata
 
-glabel njpgdspMainTextStart
-    .incbin "incbin/njpgdspMainText"
-glabel njpgdspMainTextEnd
+.balign 16
+
+glabel gspF3DZEX2_NoN_fifoDataStart
+    .incbin "incbin/gspF3DZEX2_NoN_fifoData"
+glabel gspF3DZEX2_NoN_fifoDataEnd

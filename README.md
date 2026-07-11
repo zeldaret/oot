@@ -1,9 +1,9 @@
 # The Legend of Zelda: Ocarina of Time
 
-[![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
+[![Build Status][gha-badge]][gha] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
 
-[jenkins]: https://jenkins.deco.mp/job/OOT/job/main
-[jenkins-badge]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.deco.mp%2Fjob%2FOOT%2Fjob%2Fmain
+[gha]: https://github.com/zeldaret/oot/actions/workflows/ci.yml?query=branch%3Amain+event%3Apush
+[gha-badge]: https://img.shields.io/github/actions/workflow/status/zeldaret/oot/ci.yml
 
 [progress]: https://zelda.deco.mp/games/oot
 [progress-badge]: https://img.shields.io/endpoint?url=https://zelda.deco.mp/assets/csv/progress-oot-shield.json
@@ -83,7 +83,6 @@ The build process has the following package requirements:
 
 * git
 * build-essential
-* binutils-mips-linux-gnu
 * curl
 * python3
 * python3-pip
@@ -96,18 +95,18 @@ Under Debian / Ubuntu (which we recommend using), you can install them with the 
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu curl python3 python3-pip python3-venv libxml2-dev
+sudo apt-get install git build-essential curl python3 python3-pip python3-venv libxml2-dev
 ```
 
-If you are using GCC as the compiler for Ocarina of Time, you will also need:
+In addition to these packages, a MIPS binutils installation is required. The project aims to support a couple of commonly-encountered MIPS toolchains out-of-the-box, only one is required and is automatically detected:
 
-* gcc-mips-linux-gnu
+* mips64-ultra-elf- or mips64- from the [practicerom toolchain](https://github.com/PracticeROM/packages)
+* mips64-elf- from the [libdragon n64 homebrew library](https://github.com/DragonMinded/libdragon/releases/tag/toolchain-continuous-prerelease)
+* mips-linux-gnu- or mips64-linux-gnu- found in common distribution package managers as e.g. `binutils-mips-linux-gnu`
 
-which can be installed under Debian / Ubuntu with:
+If none of these are available to install, the makefile exposes `MIPS_BINUTILS_PREFIX` as a means to set your own toolchain prefix. Otherwise, consider building one of the first two options from source.
 
-```bash
-sudo apt-get install gcc-mips-linux-gnu
-```
+If you are using GCC as the compiler for Ocarina of Time, you will also need the corresponding gcc compiler for the chosen toolchain. For the first two options above, gcc is included automatically. For mips-linux-gnu- or mips64-linux-gnu- it is often a separate package, e.g. `gcc-mips-linux-gnu`.
 
 #### 2. Clone the repository
 
