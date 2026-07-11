@@ -202,6 +202,7 @@ void ConsoleLogo_Destroy(GameState* thisx) {
 
 #if PLATFORM_N64
     if (this->unk_1E0) {
+        // some DD stuff?
         if (func_801C7818() != 0) {
             Freeze_CurrentThread();
         }

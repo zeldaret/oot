@@ -641,7 +641,10 @@ s32 n64dd_clearCopyBufs(void) {
     return 0;
 }
 
-void n64dd_SetDiskVersion(s32 arg0) {
+/**
+ * If arg0 is 1, setup game to load extras from the disk.
+*/
+void n64dd_toggleExtras(s32 arg0) {
     if (arg0 != 0) {
         if (pDDLoad0 == 0) {
             n64dd_setupDiskRead();

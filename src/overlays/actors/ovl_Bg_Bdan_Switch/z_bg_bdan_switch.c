@@ -45,7 +45,7 @@ void func_8086DA1C(BgBdanSwitch* this, PlayState* play);
 void func_8086DAB4(BgBdanSwitch* this);
 void func_8086DAC4(BgBdanSwitch* this, PlayState* play);
 void func_8086DB24(BgBdanSwitch* this);
-void func_8086DB40(BgBdanSwitch* this, PlayState* play);
+void BgBdanSwitch_DoNothing(BgBdanSwitch* this, PlayState* play);
 void func_8086DB4C(BgBdanSwitch* this);
 void func_8086DB68(BgBdanSwitch* this, PlayState* play);
 void func_8086DC30(BgBdanSwitch* this);
@@ -405,6 +405,7 @@ void func_8086DAB4(BgBdanSwitch* this) {
     this->actionFunc = func_8086DAC4;
 }
 
+// stepping on a switch?
 void func_8086DAC4(BgBdanSwitch* this, PlayState* play) {
     this->unk_1C8 += 0.2f;
     if (this->unk_1C8 >= 1.0f) {
@@ -415,10 +416,10 @@ void func_8086DAC4(BgBdanSwitch* this, PlayState* play) {
 
 void func_8086DB24(BgBdanSwitch* this) {
     this->unk_1C8 = 0.1f;
-    this->actionFunc = func_8086DB40;
+    this->actionFunc = BgBdanSwitch_DoNothing;
 }
 
-void func_8086DB40(BgBdanSwitch* this, PlayState* play) {
+void BgBdanSwitch_DoNothing(BgBdanSwitch* this, PlayState* play) {
 }
 
 void func_8086DB4C(BgBdanSwitch* this) {

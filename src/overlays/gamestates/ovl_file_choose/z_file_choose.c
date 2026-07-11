@@ -1956,7 +1956,7 @@ void FileSelect_LoadGame(GameState* thisx) {
     if (n64dd_isDiskContentRunning != 0) {
         s32 fileNum = gSaveContext.fileNum;
 
-        n64dd_SetDiskVersion(this->n64ddFlags[fileNum]);
+        n64dd_toggleExtras(this->n64ddFlags[fileNum]);
     }
 #endif
 }
