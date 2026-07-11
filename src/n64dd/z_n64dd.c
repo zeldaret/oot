@@ -35,7 +35,7 @@ typedef struct n64dd_QueuedTransfersList { // This basically has a list of queue
     /* 0x98 */ IrqMgr* pIRQMgr;
 } n64dd_QueuedTransfersList; // size = 0x9C
 
-s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* arg0);
+s32 n64dd_CheckIfDiskIsValid(n64dd_driveCmdQueue* diskData);
 
 void* pTmpReadBuf = &gN64DDDiskReadTemporaryBuffer;
 s32 (*pCheckIfDiskIsValid)(n64dd_driveCmdQueue*) = n64dd_CheckIfDiskIsValid;
@@ -643,7 +643,7 @@ s32 n64dd_clearCopyBufs(void) {
 
 /**
  * If arg0 is 1, setup game to load extras from the disk.
-*/
+ */
 void n64dd_toggleExtras(s32 arg0) {
     if (arg0 != 0) {
         if (pDDLoad0 == 0) {

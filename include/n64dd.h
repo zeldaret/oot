@@ -115,15 +115,15 @@ void n64dd_loadData(void* dest, s32 offset, s32 size);
 void n64dd_empty2(void);
 void n64dd_toggleExtras(s32 arg0);
 
-s32 n64dd_parsePacketData(n64dd_drivePacketData* arg0);
+s32 n64dd_parsePacketData(n64dd_drivePacketData* ddPacket);
 s32 func_801C81C4(void);
-void func_801C81EC(n64dd_driveCmdQueue* arg0);
-void func_801C8298(n64dd_driveCmdQueue* arg0);
-void func_801C82E0(n64dd_driveCmdQueue* arg0);
-void func_801C832C(n64dd_driveCmdQueue* arg0);
-void func_801C83A0(n64dd_driveCmdQueue* arg0);
-void func_801C8414(n64dd_driveCmdQueue* arg0);
-s32 func_801C873C(n64dd_driveCmdQueue* arg0);
+void func_801C81EC(n64dd_driveCmdQueue* ddPacket);
+void func_801C8298(n64dd_driveCmdQueue* ddPacket);
+void func_801C82E0(n64dd_driveCmdQueue* ddPacket);
+void func_801C832C(n64dd_driveCmdQueue* ddPacket);
+void func_801C83A0(n64dd_driveCmdQueue* ddPacket);
+void func_801C8414(n64dd_driveCmdQueue* ddPacket);
+s32 func_801C873C(n64dd_driveCmdQueue* ddPacket);
 
 void func_801C8AA8(void);
 s32 func_801C91E0(n64dd_driveCmdQueue*);

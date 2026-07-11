@@ -557,17 +557,11 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     // For iQue, the word "PRESS" is drawn below as a Chinese character instead (gTitlePressCHN)
     static u8 pressStartFontIndices[] = {
 #if !PLATFORM_IQUE
-        FILENAME_UPPERCASE('P'),
-        FILENAME_UPPERCASE('R'),
-        FILENAME_UPPERCASE('E'),
-        FILENAME_UPPERCASE('S'),
-        FILENAME_UPPERCASE('S'),
+        FILENAME_UPPERCASE('P'), FILENAME_UPPERCASE('R'), FILENAME_UPPERCASE('E'),
+        FILENAME_UPPERCASE('S'), FILENAME_UPPERCASE('S'),
 #endif
-        FILENAME_UPPERCASE('S'),
-        FILENAME_UPPERCASE('T'),
-        FILENAME_UPPERCASE('A'),
-        FILENAME_UPPERCASE('R'),
-        FILENAME_UPPERCASE('T'),
+        FILENAME_UPPERCASE('S'), FILENAME_UPPERCASE('T'), FILENAME_UPPERCASE('A'),
+        FILENAME_UPPERCASE('R'), FILENAME_UPPERCASE('T'),
     };
     static void* effectMaskTextures[] = {
         gTitleEffectMask00Tex, gTitleEffectMask01Tex, gTitleEffectMask02Tex,

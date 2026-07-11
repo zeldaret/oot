@@ -119,7 +119,7 @@ void ArrowIce_Charge(ArrowIce* this, PlayState* play) {
 
 /**
  * Used to move the arrow actor to the same world position of the arrow.
-*/
+ */
 void ArrowIce_MoveActor(Vec3f* actorPos, Vec3f* icePos, f32 scale) {
     actorPos->x += ((icePos->x - actorPos->x) * scale);
     actorPos->y += ((icePos->y - actorPos->y) * scale);

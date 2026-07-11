@@ -188,7 +188,7 @@ void n64dd_textboxPrintSpaces(n64dd_Textbox* textbox, char c) {
             }
         }
         n64dd_printTextFB(textbox->charTexBuf, textbox->posX, textbox->posY, dx, dy, cy, textbox->frameBuf,
-                        textbox->screenWidth);
+                          textbox->screenWidth);
         textbox->posX += (dx == 16 ? dx : dx + 2);
     }
 }

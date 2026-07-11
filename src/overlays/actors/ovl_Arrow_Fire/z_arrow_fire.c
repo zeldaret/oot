@@ -119,7 +119,7 @@ void ArrowFire_Charge(ArrowFire* this, PlayState* play) {
 
 /**
  * Used to move the arrow actor to the same world position of the arrow.
-*/
+ */
 void ArrowFire_MoveActor(Vec3f* actorPos, Vec3f* firePos, f32 scale) {
     actorPos->x += ((firePos->x - actorPos->x) * scale);
     actorPos->y += ((firePos->y - actorPos->y) * scale);

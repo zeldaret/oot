@@ -4,8 +4,7 @@ AudioContext gAudioCtx;
 AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 s32 D_801755D8[3]; // unused
 
-#define DEFAULT_REVERB_SETTINGS \
-    { 1, 0x30, 0x3000, 0, 0, 0x7FFF, 0x0000, 0x0000, 0xFF, 0x3000, 0x0, 0x0 }
+#define DEFAULT_REVERB_SETTINGS { 1, 0x30, 0x3000, 0, 0, 0x7FFF, 0x0000, 0x0000, 0xFF, 0x3000, 0x0, 0x0 }
 
 ReverbSettings sReverbSettings[][3] = {
     {
