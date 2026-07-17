@@ -144,9 +144,9 @@ typedef enum WallType {
 } WallType;
 
 #define WALL_FLAG_0 (1 << 0)
-#define WALL_FLAG_1 (1 << 1)
-#define WALL_FLAG_2 (1 << 2)
-#define WALL_FLAG_3 (1 << 3)
+#define WALL_FLAG_LADDER (1 << 1)
+#define WALL_FLAG_LADDER_TOP (1 << 2)
+#define WALL_FLAG_CLIMBABLE (1 << 3)
 #define WALL_FLAG_CRAWLSPACE_1 (1 << 4)
 #define WALL_FLAG_CRAWLSPACE_2 (1 << 5)
 #define WALL_FLAG_6 (1 << 6)
@@ -441,8 +441,8 @@ u32 SurfaceType_GetFloorType(CollisionContext* colCtx, CollisionPoly* poly, s32 
 u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 SurfaceType_GetWallFlags(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 SurfaceType_CheckWallFlag0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s32 SurfaceType_CheckWallFlag1(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s32 SurfaceType_CheckWallFlag2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_CheckWallFlagLadder(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_CheckWallFlagLadderTop(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetFloorProperty(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);

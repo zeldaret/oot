@@ -1171,7 +1171,7 @@ s32 func_8002DDE4(PlayState* play) {
 s32 func_8002DDF4(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    return player->stateFlags2 & PLAYER_STATE2_12;
+    return player->stateFlags2 & PLAYER_STATE2_CLIMB_STILL;
 }
 
 /**
@@ -1866,7 +1866,7 @@ s32 Actor_OfferGetItem(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange
 
     if (!(player->stateFlags1 &
           (PLAYER_STATE1_DEAD | PLAYER_STATE1_CHARGING_SPIN_ATTACK | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
-           PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21)) &&
+           PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_CLIMBING)) &&
         Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (player->talkActor == actor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
@@ -1940,7 +1940,7 @@ u32 Actor_SetRideActor(PlayState* play, Actor* horse, s32 mountSide) {
 
     if (!(player->stateFlags1 &
           (PLAYER_STATE1_DEAD | PLAYER_STATE1_CARRYING_ACTOR | PLAYER_STATE1_CHARGING_SPIN_ATTACK | PLAYER_STATE1_13 |
-           PLAYER_STATE1_14 | PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21))) {
+           PLAYER_STATE1_14 | PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_CLIMBING))) {
         player->rideActor = horse;
         player->mountSide = mountSide;
         return true;
