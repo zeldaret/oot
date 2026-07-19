@@ -314,9 +314,9 @@ void Player_Action_808464B0(Player* this, PlayState* play);
 void Player_Action_80846578(Player* this, PlayState* play);
 void Player_Action_8084B1D8(Player* this, PlayState* play);
 void Player_Action_Talk(Player* this, PlayState* play);
-void Player_Action_GrabHoldBlock(Player* this, PlayState* play);
-void Player_Action_PushBlock(Player* this, PlayState* play);
-void Player_Action_PullBlock(Player* this, PlayState* play);
+void Player_Action_GrabHoldDynapoly(Player* this, PlayState* play);
+void Player_Action_PushDynapoly(Player* this, PlayState* play);
+void Player_Action_PullDynapoly(Player* this, PlayState* play);
 void Player_Action_8084BBE4(Player* this, PlayState* play);
 void Player_Action_8084BDFC(Player* this, PlayState* play);
 void Player_Action_8084BF1C(Player* this, PlayState* play);
@@ -5669,8 +5669,8 @@ void func_8083A360(PlayState* play, Player* this) {
 /**
  * Only function call, without animation etc setup
  */
-void Player_SetupGrabHoldBlockAfterPutAway(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_GrabHoldBlock, 0);
+void Player_SetupGrabHoldDynapolyAfterPutAway(PlayState* play, Player* this) {
+    Player_SetupAction(play, this, Player_Action_GrabHoldDynapoly, 0);
 }
 
 void func_8083A3B0(PlayState* play, Player* this) {
@@ -7785,9 +7785,9 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
     return false;
 }
 
-void Player_SetupGrabHoldBlock(Player* this, LinkAnimationHeader* anim, PlayState* play) {
-    if (!Player_SetupWaitForPutAway(play, this, Player_SetupGrabHoldBlockAfterPutAway)) {
-        Player_SetupAction(play, this, Player_Action_GrabHoldBlock, 0);
+void Player_SetupGrabHoldDynapoly(Player* this, LinkAnimationHeader* anim, PlayState* play) {
+    if (!Player_SetupWaitForPutAway(play, this, Player_SetupGrabHoldDynapolyAfterPutAway)) {
+        Player_SetupAction(play, this, Player_Action_GrabHoldDynapoly, 0);
     }
 
     Player_AnimPlayOnce(play, this, anim);
@@ -7842,7 +7842,7 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
                 }
 
                 // Other objects use push/pull action
-                Player_SetupGrabHoldBlock(this, &gPlayerAnim_link_normal_push_wait, play);
+                Player_SetupGrabHoldDynapoly(this, &gPlayerAnim_link_normal_push_wait, play);
 
                 return 1;
             }
@@ -7853,11 +7853,11 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
 }
 
 /**
- * Check if player is still holding on to a movable object.
+ * Check if player is still holding on to a movable dynapoly actor.
  * If no longer holding, setup idle.
  * @return false if holding on and not moving, true if holding and moving or no longer holding
  */
-s32 Player_StillGrabbingBlock(PlayState* play, Player* this) {
+s32 Player_StillGrabbingDynapoly(PlayState* play, Player* this) {
     // If player is still holding on to the movable object, either by moving or holding A/grab
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         ((this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
@@ -7876,21 +7876,21 @@ s32 Player_StillGrabbingBlock(PlayState* play, Player* this) {
         }
     }
 
-    // Player is no longer grabbing the object, enter idle
+    // Player is no longer grabbing the actor, enter idle
     func_80839FFC(this, play);
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_wait_end);
     this->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
     return true;
 }
 
-void Player_SetupPushBlock(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_PushBlock, 0);
+void Player_SetupPushDynapoly(Player* this, PlayState* play) {
+    Player_SetupAction(play, this, Player_Action_PushDynapoly, 0);
     this->stateFlags2 |= PLAYER_STATE2_PUSH_PULL;
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_start);
 }
 
-void Player_SetupPullBlock(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_PullBlock, 0);
+void Player_SetupPullDynapoly(Player* this, PlayState* play) {
+    Player_SetupAction(play, this, Player_Action_PullDynapoly, 0);
     this->stateFlags2 |= PLAYER_STATE2_PUSH_PULL;
     Player_AnimPlayOnce(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_start, this->modelAnimType));
 }
@@ -7970,10 +7970,10 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, PlayState* play) {
 
 /**
  * Check if player is moving forward, backward or standing still.
- * Used by grab/pushing/pulling actions, like for blocks.
+ * Used by grab/pushing/pulling actions with dynapoly.
  * @return 1, -1 or 0 respectively if moving forward (pushing), backward (pulling) or standing still
  */
-s32 Player_GetBlockMoveDirection(Player* this, f32* speedTarget, s16* yawTarget) {
+s32 Player_GetDynapolyMoveDirection(Player* this, f32* speedTarget, s16* yawTarget) {
     s16 yaw = *yawTarget - this->actor.shape.rot.y;
     u16 absYaw = ABS(yaw);
     f32 cosYaw = Math_CosS(absYaw);
@@ -12628,9 +12628,9 @@ void Player_Action_Talk(Player* this, PlayState* play) {
 }
 
 /**
- * Grab and hold onto a movable object such as blocks, Armos statues, Forest Temple movable wall.
+ * Grab and hold onto a movable dynapoly actor such as blocks, Armos statues, Forest Temple movable wall.
  */
-void Player_Action_GrabHoldBlock(Player* this, PlayState* play) {
+void Player_Action_GrabHoldDynapoly(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
     s32 direction;
@@ -12639,13 +12639,13 @@ void Player_Action_GrabHoldBlock(Player* this, PlayState* play) {
     func_8083F524(play, this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        if (!Player_StillGrabbingBlock(play, this)) {
+        if (!Player_StillGrabbingDynapoly(play, this)) {
             Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-            direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
+            direction = Player_GetDynapolyMoveDirection(this, &speedTarget, &yawTarget);
             if (direction > 0) {
-                Player_SetupPushBlock(this, play);
+                Player_SetupPushDynapoly(this, play);
             } else if (direction < 0) {
-                Player_SetupPullBlock(this, play);
+                Player_SetupPullDynapoly(this, play);
             }
         }
     }
@@ -12654,7 +12654,7 @@ void Player_Action_GrabHoldBlock(Player* this, PlayState* play) {
 /**
  * Sets variables of the dynapoly actor being moved to signal movement.
  */
-void Player_PushPullBlock(PlayState* play, Player* this, f32 arg2) {
+void Player_MoveDynapoly(PlayState* play, Player* this, f32 arg2) {
     if (this->actor.wallBgId != BGCHECK_SCENE) {
         DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
 
@@ -12664,15 +12664,15 @@ void Player_PushPullBlock(PlayState* play, Player* this, f32 arg2) {
     }
 }
 
-static AnimSfxEntry sBlockPushSfx[] = {
+static AnimSfxEntry sDynapolyPushSfx[] = {
     { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 3) },
     { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 21) },
 };
 
 /**
- * Push movable objects forward
+ * Push movable dynapoly actors forward
  */
-void Player_Action_PushBlock(Player* this, PlayState* play) {
+void Player_Action_PushDynapoly(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_GRAB_HOLD | PLAYER_STATE2_6 | PLAYER_STATE2_PUSH_PULL_CAMERA;
 
     if (func_80832CB0(play, this, &gPlayerAnim_link_normal_pushing)) {
@@ -12683,39 +12683,39 @@ void Player_Action_PushBlock(Player* this, PlayState* play) {
         }
     }
 
-    Player_ProcessAnimSfxList(this, sBlockPushSfx);
+    Player_ProcessAnimSfxList(this, sDynapolyPushSfx);
     func_8083F524(play, this);
 
-    if (!Player_StillGrabbingBlock(play, this)) {
+    if (!Player_StillGrabbingDynapoly(play, this)) {
         f32 speedTarget;
         s16 yawTarget;
         s32 direction;
 
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-        direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
+        direction = Player_GetDynapolyMoveDirection(this, &speedTarget, &yawTarget);
         if (direction < 0) {
-            Player_SetupPullBlock(this, play);
+            Player_SetupPullDynapoly(this, play);
         } else if (direction == 0) {
-            Player_SetupGrabHoldBlock(this, &gPlayerAnim_link_normal_push_end, play);
+            Player_SetupGrabHoldDynapoly(this, &gPlayerAnim_link_normal_push_end, play);
         } else {
             this->stateFlags2 |= PLAYER_STATE2_PUSH_PULL;
         }
     }
 
     if (this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) {
-        Player_PushPullBlock(play, this, 2.0f);
+        Player_MoveDynapoly(play, this, 2.0f);
         this->speedXZ = 2.0f;
     }
 }
 
-static AnimSfxEntry blockPullSfx[] = {
+static AnimSfxEntry sDynapolyPullSfx[] = {
     { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 4) },
     { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 24) },
 };
 
 static Vec3f sPullRaycastOffset = { 0.0f, 26.0f, -40.0f };
 
-void Player_Action_PullBlock(Player* this, PlayState* play) {
+void Player_Action_PullDynapoly(Player* this, PlayState* play) {
     LinkAnimationHeader* anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pulling, this->modelAnimType);
 
     this->stateFlags2 |= PLAYER_STATE2_GRAB_HOLD | PLAYER_STATE2_6 | PLAYER_STATE2_PUSH_PULL_CAMERA;
@@ -12729,23 +12729,23 @@ void Player_Action_PullBlock(Player* this, PlayState* play) {
             }
             if (!DEBUG_FEATURES) {}
         } else {
-            Player_ProcessAnimSfxList(this, blockPullSfx);
+            Player_ProcessAnimSfxList(this, sDynapolyPullSfx);
         }
     }
 
     func_8083F524(play, this);
 
-    if (!Player_StillGrabbingBlock(play, this)) {
+    if (!Player_StillGrabbingDynapoly(play, this)) {
         f32 speedTarget;
         s16 yawTarget;
         s32 direction;
 
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-        direction = Player_GetBlockMoveDirection(this, &speedTarget, &yawTarget);
+        direction = Player_GetDynapolyMoveDirection(this, &speedTarget, &yawTarget);
         if (direction > 0) {
-            Player_SetupPushBlock(this, play);
+            Player_SetupPushDynapoly(this, play);
         } else if (direction == 0) {
-            Player_SetupGrabHoldBlock(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_end, this->modelAnimType), play);
+            Player_SetupGrabHoldDynapoly(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_end, this->modelAnimType), play);
         } else {
             this->stateFlags2 |= PLAYER_STATE2_PUSH_PULL;
         }
@@ -12767,7 +12767,7 @@ void Player_Action_PullBlock(Player* this, PlayState* play) {
             curPos.y = relPos.y;
             if (!BgCheck_EntityLineTest1(&play->colCtx, &curPos, &relPos, &posResult, &outPoly, true, false, false,
                                          true, &bgId)) {
-                Player_PushPullBlock(play, this, -2.0f);
+                Player_MoveDynapoly(play, this, -2.0f);
                 return;
             }
         }
