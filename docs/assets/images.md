@@ -63,6 +63,10 @@ Otherwise the images are automatically co-quantized and the resulting images and
 Note the N64 supports CI images with IA16 palettes instead of RGBA16 palettes, but OoT doesn't have such textures.
 For simplicity, CI images with IA16 palettes are not supported in the build system, and all CI images are assumed to use RGBA16 palettes.
 
+### Automatic Palette Generation
+
+`n64texconv` supports automatically generating palettes when converting a png without a stored palette to a CI formatted image. However note that this process makes a number of assumptions about alpha channel handling for RGBA16 palettes. If using a CI image with an alpha channel it is strongly recommended to pre-generate a palette externally to ensure the results are optimal for the particular use. `n64texconv` will convert the alpha channel to single-bit with a fixed threshold of 128 and set the rgb content of all transparent pixels to transparent black, prioritizing filling the generated palette with visible pixels. This comes at the cost of black texture samples bleeding into visible pixels when filtered. Especially for CI4, since there are only 16 channels it is inadvisable to rely on correct bilinear sampling adjacent to alpha pixels, as storing multiple transparent pixels with different rgb contents will starve the palette of visible colors.
+
 # Skybox textures
 
 Skybox textures, located in (`extracted/VERSION/`)`assets/textures/skyboxes`, are ci8 images with the additional specificity of being limited to a palette of 128 colors that can be loaded as either the first or last 128 colors of a 256-colors palette, depending on the skybox.

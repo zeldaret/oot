@@ -406,6 +406,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                             len_pngs_with_tlut++;
                         }
                     }
+                    free(direntry_tlut_name);
                 }
             }
             free(direntry_name_buf);
@@ -538,7 +539,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             const float dither_level = 0.5f;
 
             success = n64texconv_quantize_shared(out_indices, out_pal, &out_pal_count, texels, widths, heights,
-                                                 num_images, max_colors, dither_level) == 0;
+                                                 num_images, max_colors, dither_level, G_IM_FMT_RGBA) == 0;
             if (!success) {
                 fprintf(stderr, "Could not co-palettize images\n");
             }
@@ -642,6 +643,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
     }
 
     if (ref_img != NULL) {
+        n64texconv_palette_free(ref_img->pal);
         n64texconv_image_free(ref_img);
     }
 

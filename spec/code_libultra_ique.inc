@@ -22,8 +22,10 @@
     include "$(BUILD_DIR)/src/libultra/gu/us2dex.o"
     include "$(BUILD_DIR)/src/libultra/libc/ll.o"
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/spgetstat.o"
@@ -81,7 +83,9 @@
     include "$(BUILD_DIR)/src/libultra/io/vimodempalhpf2.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallpn1.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallpf1.o"
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallaf1.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallpn2.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallpf2.o"
@@ -118,10 +122,14 @@
     include "$(BUILD_DIR)/src/libultra/audio/heapalloc.o"
     include "$(BUILD_DIR)/src/libultra/audio/copy.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
     include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
     include "$(BUILD_DIR)/src/libultra/mgu/normalize.o"
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+#endif

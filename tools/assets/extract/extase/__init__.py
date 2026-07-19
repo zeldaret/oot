@@ -8,7 +8,7 @@ import enum
 import reprlib
 
 import io
-from typing import TYPE_CHECKING, Sequence, Optional, Union, Any, Iterable
+from typing import TYPE_CHECKING, Sequence, Optional, Union, Any, Iterable, Generator
 
 from pprint import pprint
 
@@ -398,6 +398,8 @@ class File:
         # Ignore markers falling within existing resources
         result, resource = self.get_resource_at(file_start)
         if result == GetResourceAtResult.DEFINITIVE:
+            assert resource is not None
+            assert resource.range_end is not None
             if resource.range_start <= file_start < file_end <= resource.range_end:
                 assert isinstance(resource, resource_type)
                 resource.reporters.add(reporter)
@@ -491,6 +493,8 @@ class File:
                     self.add_resource(resource)
                 else:
                     assert result == GetResourceAtResult.DEFINITIVE
+                    assert resource is not None
+                    assert resource.range_end is not None
                     assert (
                         resource.range_start
                         <= rbm.file_start
@@ -515,6 +519,7 @@ class File:
         unaccounted_resources: list[Resource] = []
 
         def add_unaccounted(range_start, range_end):
+            assert self.data is not None
             if I_D_OMEGALUL:
                 # IDO aligns every declaration to 4, so declaring zeros
                 # that is actually padding for that purpose throws off matching.
@@ -577,6 +582,10 @@ class File:
 
             # Add unaccounted if needed at the end of the file
             resource_last = self._resources[-1]
+            assert resource_last.range_end is not None, (
+                "add_unaccounted_resources should be called once all"
+                " resources are parsed and have a definitive range"
+            )
             if resource_last.range_end < len(self.data):
                 add_unaccounted(
                     resource_last.range_end,
@@ -589,6 +598,10 @@ class File:
         for i in range(1, len(self._resources)):
             resource_a = self._resources[i - 1]
             resource_b = self._resources[i]
+            assert resource_a.range_end is not None, (
+                "add_unaccounted_resources should be called once all"
+                " resources are parsed and have a definitive range"
+            )
             assert resource_a.range_end <= resource_b.range_start
 
             # Add unaccounted if needed between two successive resources
@@ -641,11 +654,12 @@ class File:
         self.source_h_path = source_path / f"{file_name}.h"
 
     def write_source(self):
-        def strip_extracted_prefix(path : Path) -> Path:
+        def strip_extracted_prefix(path: Path) -> Path:
             parts = path.parts
             if parts[0] == "extracted":
                 return Path(*parts[2:])  # Skip first two parts
             return path  # Return original path if condition not met
+
         assert hasattr(
             self, "source_c_path"
         ), "set_source_path must be called before write_source"
@@ -665,7 +679,9 @@ class File:
                         referenced_file,
                     )
                     assert hasattr(referenced_file, "source_h_path")
-                    file_include_paths_complete.append(strip_extracted_prefix(referenced_file.source_h_path))
+                    file_include_paths_complete.append(
+                        strip_extracted_prefix(referenced_file.source_h_path)
+                    )
 
                 # Same as file_include_paths_complete,
                 # but paths that can be are made relative to the source C.
@@ -838,7 +854,7 @@ class Resource(abc.ABC):
         TODO figure out what to do with this, for now thinking debugging"""
 
     @abc.abstractmethod
-    def try_parse_data(self, memory_context: "MemoryContext"):
+    def try_parse_data(self, memory_context: "MemoryContext") -> object:
         """Parse this resource's data bytes
 
         This can typically result in finding more resources,
@@ -879,7 +895,7 @@ class Resource(abc.ABC):
         """
         ...
 
-    def get_c_expression_length(self, resource_offset: int):
+    def get_c_expression_length(self, resource_offset: int) -> str:
         """Get a C expression for referencing the length of data in this resource
 
         The offset `resource_offset` is relative to the resource, as in get_c_reference.
@@ -1049,7 +1065,7 @@ class Resource(abc.ABC):
             + ")"
         )
 
-    def __rich_repr__(self):
+    def __rich_repr__(self) -> Generator[str | tuple[str, Any], None, None]:
         yield self.name
         yield (
             f"0x{self.range_start:08X}-"
@@ -1070,13 +1086,15 @@ class ZeroPaddingResource(Resource):
         *,
         include_in_source=True,
     ):
-        # TODO move to try_parse_data ?
-        assert set(file.data[range_start:range_end]) == {0}
         super().__init__(file, range_start, range_end, name)
         self.include_in_source = include_in_source
 
     def try_parse_data(self, memory_context):
-        # Nothing specific to do
+        # Check the data is 0s
+        assert self.file.data is not None
+        if set(self.file.data[self.range_start : self.range_end]) != {0}:
+            raise ResourceParseImpossible("Not zero padding")
+
         return RESOURCE_PARSE_SUCCESS
 
     def get_c_reference(self, resource_offset):
@@ -1090,6 +1108,7 @@ class ZeroPaddingResource(Resource):
         pass
 
     def get_c_declaration_base(self):
+        assert self.range_end is not None
         length_bytes = self.range_end - self.range_start
         assert length_bytes > 0
         return f"u8 {self.symbol_name}[{length_bytes}]"
@@ -1116,6 +1135,7 @@ class BinaryBlobResource(Resource):
         return RESOURCE_PARSE_SUCCESS
 
     def get_as_xml(self):
+        assert self.range_end is not None
         return f"""\
         <Blob Name="{self.symbol_name}" Size="0x{self.range_end - self.range_start:X}" Offset="0x{self.range_start:X}"/>"""
 
@@ -1129,6 +1149,8 @@ class BinaryBlobResource(Resource):
         return ("ultra64.h",)
 
     def write_extracted(self, memory_context):
+        assert self.file.data is not None
+        assert self.range_end is not None
         data = self.file.data[self.range_start : self.range_end]
         assert len(data) == self.range_end - self.range_start
         self.extract_to_path.write_bytes(data)
