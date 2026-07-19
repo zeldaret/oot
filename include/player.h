@@ -742,7 +742,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER (1 << 1) // Can accept a talk offer. "Speak" or "Check" is shown on the A button.
 #define PLAYER_STATE2_2 (1 << 2)
 #define PLAYER_STATE2_3 (1 << 3)
-#define PLAYER_STATE2_PUSH_PULL (1 << 4) // Set by pushing and pulling actions. Blocks, graves, etc. Often removed by the movable actor! (to limit distance etc.)
+#define PLAYER_STATE2_PUSH_PULL (1 << 4) // Set by pushing and pulling actions. Blocks, graves, etc. Removed by the movable actor! (to limit distance etc.)
 #define PLAYER_STATE2_5 (1 << 5)
 #define PLAYER_STATE2_6 (1 << 6)
 #define PLAYER_STATE2_7 (1 << 7)
