@@ -7836,9 +7836,9 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
                         return 1;
                     }
 
-                    this->grabbedActor = &wallPolyActor->actor;
+                    this->grabbedDynaActor = &wallPolyActor->actor;
                 } else {
-                    this->grabbedActor = NULL;
+                    this->grabbedDynaActor = NULL;
                 }
 
                 // Other objects use push/pull action
@@ -7857,7 +7857,7 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
  * If no longer holding, setup idle.
  * @return false if holding on and not moving, true if holding and moving or no longer holding
  */
-s32 Player_StillGrabbingDynapoly(PlayState* play, Player* this) {
+s32 Player_NotGrabbingDynapoly(PlayState* play, Player* this) {
     // If player is still holding on to the movable object, either by moving or holding A/grab
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         ((this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
@@ -7867,7 +7867,7 @@ s32 Player_StillGrabbingDynapoly(PlayState* play, Player* this) {
             wallPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
         }
 
-        if (&wallPolyActor->actor == this->grabbedActor) {
+        if (&wallPolyActor->actor == this->grabbedDynaActor) {
             if (this->stateFlags2 & PLAYER_STATE2_PUSH_PULL) {
                 return true; // Player is actively moving the object
             } else {
@@ -12639,7 +12639,7 @@ void Player_Action_GrabHoldDynapoly(Player* this, PlayState* play) {
     func_8083F524(play, this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        if (!Player_StillGrabbingDynapoly(play, this)) {
+        if (!Player_NotGrabbingDynapoly(play, this)) {
             Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
             direction = Player_GetDynapolyMoveDirection(this, &speedTarget, &yawTarget);
             if (direction > 0) {
@@ -12686,7 +12686,7 @@ void Player_Action_PushDynapoly(Player* this, PlayState* play) {
     Player_ProcessAnimSfxList(this, sDynapolyPushSfx);
     func_8083F524(play, this);
 
-    if (!Player_StillGrabbingDynapoly(play, this)) {
+    if (!Player_NotGrabbingDynapoly(play, this)) {
         f32 speedTarget;
         s16 yawTarget;
         s32 direction;
@@ -12735,7 +12735,7 @@ void Player_Action_PullDynapoly(Player* this, PlayState* play) {
 
     func_8083F524(play, this);
 
-    if (!Player_StillGrabbingDynapoly(play, this)) {
+    if (!Player_NotGrabbingDynapoly(play, this)) {
         f32 speedTarget;
         s16 yawTarget;
         s32 direction;
