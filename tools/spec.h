@@ -14,6 +14,7 @@ typedef enum {
     STMT_entry,
     STMT_flags,
     STMT_include,
+    STMT_include_once,
     STMT_name,
     STMT_number,
     STMT_romalign,

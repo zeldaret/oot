@@ -77,7 +77,7 @@
 #endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
-    include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
+    include_once "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
     include "$(BUILD_DIR)/src/libultra/os/yieldthread.o"
     include "$(BUILD_DIR)/src/libultra/os/getcause.o"
