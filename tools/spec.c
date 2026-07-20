@@ -319,44 +319,6 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
     }
 }
 
-/**
- * @brief Parses the spec, looking only for the segment with the name `segmentName`.
- * Returns true if the segment was found, false otherwise
- *
- * @param[out] dstSegment The Segment to be filled. Will only contain the data of the searched segment, or garbage if the segment was not found. dstSegment must be previously allocated, a stack variable is recommended
- * @param[in,out] spec A null-terminated string containing the whole spec file. This string will be modified by this function
- * @param[in] segmentName The name of the segment being searched
- */
-bool get_single_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName) {
-    struct Segment *segments;
-    int segment_count;
-
-    // We need to parse the whole spec just to get a single segment for
-    // processing include_once directives.
-    parse_rom_spec(spec, &segments, &segment_count);
-    for (int i = 0; i < segment_count; i++) {
-        if (strcmp(segments[i].name, segmentName) == 0) {
-            *dstSegment = segments[i];
-            free_rom_spec(segments, segment_count);
-            return true;
-        }
-    }
-
-    free_rom_spec(segments, segment_count);
-    return false;
-}
-
-/**
- * @brief Frees the elements of the passed Segment. Will not free the pointer itself
- *
- * @param segment
- */
-void free_single_segment_elements(struct Segment *segment) {
-    if (segment->includes != NULL) {
-        free(segment->includes);
-    }
-}
-
 void free_rom_spec(struct Segment *segments, int segment_count)
 {
     int i;
