@@ -2125,13 +2125,13 @@ void EnHorse_UpdateIngoRace(EnHorse* this, PlayState* play) {
     }
 
     if (this->stateFlags & ENHORSE_INGO_WON) {
-        ((EnIn*)this->rider)->animationIdx = ENIN_HORSE_ANIM_WHOOPING;
+        ((EnIn*)this->rider)->horsebackAnimationIdx = ENIN_HORSE_ANIM_WHOOPING;
         ((EnIn*)this->rider)->horsebackAnimFrame = 0;
         return;
     }
 
     EnHorse_SetIngoAnimation(this->animationIdx, this->skin.skelAnime.curFrame, this->ingoRaceFlags & INGO_FLAG_LASHING,
-                             &((EnIn*)this->rider)->animationIdx, &((EnIn*)this->rider)->horsebackAnimFrame);
+                             &((EnIn*)this->rider)->horsebackAnimationIdx, &((EnIn*)this->rider)->horsebackAnimFrame);
 }
 
 void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
