@@ -2021,13 +2021,9 @@ void EnHorse_InitIngoHorse(EnHorse* this) {
 void EnHorse_SetIngoAnimation(s32 index, f32 curFrame, s32 isLashing, s16* animIdxOut, f32* curFrameOut) {
     *animIdxOut = sIngoAnimations[index];
     *curFrameOut = curFrame;
-    switch (index) {
-        case ENHORSE_ANIM_REARING:
-        case ENHORSE_ANIM_LOW_JUMP:
-        case ENHORSE_ANIM_HIGH_JUMP:
-        case ENHORSE_ANIM_WALK:
-            *curFrameOut = 0.0f;
-            break;
+    if ((index == ENHORSE_ANIM_REARING) || (index == ENHORSE_ANIM_LOW_JUMP) || (index == ENHORSE_ANIM_HIGH_JUMP) ||
+        (index == ENHORSE_ANIM_WALK)) {
+        *curFrameOut = 0.0f;
     }
     if (isLashing == INGO_FLAG_LASHING) {
         if (index == ENHORSE_ANIM_TROT) {
