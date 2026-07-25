@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_in" Segment="6">
-        <Animation Name="object_in_Anim_0003B4" Offset="0x3B4"/>
-        <Animation Name="object_in_Anim_000CB0" Offset="0xCB0"/>
-        <Animation Name="object_in_Anim_001BE0" Offset="0x1BE0"/>
-        <Animation Name="object_in_Anim_001CC0" Offset="0x1CC0"/>
+        <Animation Name="gIngoRunningAnim" Offset="0x3B4"/>
+        <Animation Name="gIngoGloatingAnim" Offset="0xCB0"/>
+        <Animation Name="gIngoLosingAnim" Offset="0x1BE0"/>
+        <Animation Name="gIngoStandingAnim" Offset="0x1CC0"/>
         <Texture Name="gIngoTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1CD0"/>
         <Texture Name="gIngoSkinGradientTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1ED0"/>
         <Texture Name="gIngoUnusedEyeTex" Format="rgba16" Width="32" Height="32" Offset="0x2150"/>
@@ -238,18 +238,18 @@
 
         <Skeleton Name="gIngoSkel" Type="Flex" LimbType="Standard" LimbNone="INGO_LIMB_NONE" LimbMax="INGO_LIMB_MAX" EnumName="IngoLimb" Offset="0x13B88"/>
 
-        <Animation Name="object_in_Anim_013C6C" Offset="0x13C6C"/>
-        <Animation Name="object_in_Anim_013D60" Offset="0x13D60"/>
-        <Animation Name="object_in_Anim_01431C" Offset="0x1431C"/>
-        <Animation Name="object_in_Anim_014CA8" Offset="0x14CA8"/>
-        <Animation Name="object_in_Anim_0151C8" Offset="0x151C8"/>
-        <Animation Name="object_in_Anim_015814" Offset="0x15814"/>
-        <Animation Name="object_in_Anim_015DF0" Offset="0x15DF0"/>
-        <Animation Name="object_in_Anim_01646C" Offset="0x1646C"/>
-        <Animation Name="object_in_Anim_016B3C" Offset="0x16B3C"/>
-        <Animation Name="object_in_Anim_0175D0" Offset="0x175D0"/>
-        <Animation Name="object_in_Anim_017B58" Offset="0x17B58"/>
-        <Animation Name="object_in_Anim_018C38" Offset="0x18C38"/>
+        <Animation Name="gIngoStandingAnim2" Offset="0x13C6C"/>
+        <Animation Name="gIngoSleepingAnim" Offset="0x13D60"/>
+        <Animation Name="gIngoObedientAnim" Offset="0x1431C"/>
+        <Animation Name="gIngoWorkingAnim" Offset="0x14CA8"/>
+        <Animation Name="gIngoHorsebackSlowRideAnim" Offset="0x151C8"/>
+        <Animation Name="gIngoHorsebackLashingFastAnim" Offset="0x15814"/>
+        <Animation Name="gIngoHorsebackSittingForwardAnim" Offset="0x15DF0"/>
+        <Animation Name="gIngoHorsebackLashingSlowAnim" Offset="0x1646C"/>
+        <Animation Name="gIngoHorsebackRearingAnim" Offset="0x16B3C"/>
+        <Animation Name="gIngoHorsebackKickingAnim" Offset="0x175D0"/>
+        <Animation Name="gIngoHorsebackSittingUprightAnim" Offset="0x17B58"/>
+        <Animation Name="gIngoHorsebackWhoopingAnim" Offset="0x18C38"/>
 
         <!-- No idea what these are -->
         <Blob Name="gIngoBlob_0020D0" Size="0x80" Offset="0x20D0"/>
