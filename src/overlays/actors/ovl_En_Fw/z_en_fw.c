@@ -73,7 +73,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
 typedef enum EnFwAnimation {
     /* 0 */ ENFW_ANIM_0,
@@ -202,7 +202,7 @@ void EnFw_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x10), &D_80A1FB94);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x10), &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01f);
     this->runDirection = -this->actor.params;
     this->actionFunc = EnFw_Bounce;

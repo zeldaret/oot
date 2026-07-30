@@ -78,7 +78,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 9, 26, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit D_80BA1BC0 = { 0, 0xC, 0x3C, MASS_IMMOVABLE };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 0xC, 0x3C, MASS_IMMOVABLE };
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 150, ICHAIN_CONTINUE),    ICHAIN_F32(cullingVolumeDistance, 900, ICHAIN_CONTINUE),
@@ -135,7 +135,7 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_80BA0E98(this, play);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &D_80BA1BC0);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (func_80BA0DF4(this, play) == 0) {
         Actor_Kill(&this->actor);
     } else {

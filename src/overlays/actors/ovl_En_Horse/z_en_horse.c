@@ -170,7 +170,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit D_80A65F38 = { 10, 35, 100, MASS_HEAVY };
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 typedef struct EnHorseSpawnpoint {
     /* 0x0 */ s16 sceneId;
@@ -841,7 +841,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     Collider_SetCylinder(play, &this->colliderCylinder2, &this->actor, &sCylinderInit2);
     Collider_InitJntSph(play, &this->colliderJntSph);
     Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, DamageTable_Get(0xB), &D_80A65F38);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, DamageTable_Get(0xB), &sColChkInfoInit);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
     this->playerControlled = false;

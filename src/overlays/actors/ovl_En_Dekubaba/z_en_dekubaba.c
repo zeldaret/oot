@@ -146,7 +146,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit D_809E8FD8 = { 2, 0x19, 0x19, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 2, 25, 25, MASS_IMMOVABLE };
 static DamageTable D_809E8FE0 = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
@@ -246,7 +246,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         if (!LINK_IS_ADULT) {
             D_809E9000.table[0x1B] = 4;
         }
-        CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E9000, &D_809E8FD8);
+        CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E9000, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
         this->actor.attentionRangeType = ATTENTION_RANGE_2;
@@ -259,7 +259,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         if (!LINK_IS_ADULT) {
             D_809E8FE0.table[0x1B] = 4;
         }
-        CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E8FE0, &D_809E8FD8);
+        CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E8FE0, &sColChkInfoInit);
         this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
         this->actor.attentionRangeType = ATTENTION_RANGE_1;
     }

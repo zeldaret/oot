@@ -113,9 +113,9 @@ static ColliderTrisElementInit sSpikedWallTrisElementsInit[2] = {
 };
 
 static ColliderTrisInit sSpikedWallTrisInit = { { 0xA, 0, 9, 0, 0x20, 2 }, 2, sSpikedWallTrisElementsInit };
-CollisionCheckInfoInit D_80881008 = { 0, 0x50, 0x64, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 100, MASS_IMMOVABLE };
 
-InitChainEntry sInitChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -195,7 +195,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = &BgHakaTrap_FanBlade_Idle;
         this->dyna.actor.cullingVolumeScale = 500.0f;
     }
-    CollisionCheck_SetInfo(&this->dyna.actor.colChkInfo, NULL, &D_80881008);
+    CollisionCheck_SetInfo(&this->dyna.actor.colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {

@@ -56,7 +56,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     },
 };
 static ColliderJntSphInit sJntSphInit = { { 3, 0x11, 9, 0x39, 0x10, 0 }, 1, sJntSphElementsInit };
-static CollisionCheckInfoInit D_80A14F64 = { 1, 0xA, 0xA, 0x1E };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 10, 10, 30 };
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
@@ -132,7 +132,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnime, &gKeeseSkeleton, &gKeeseFlyAnim, this->jointTable, this->morphTable, 0x1C);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &D_80A14F64);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
         this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
         thisx->draw = EnFirefly_DrawXlu;

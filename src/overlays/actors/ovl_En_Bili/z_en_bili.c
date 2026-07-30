@@ -86,7 +86,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 9, 28, -20, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 D_809C166C = { 1, 9, 0x1C, -0x14, 0x1E };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 9, 28, -20, 30 };
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
@@ -138,7 +138,7 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
                    this->morphTable, 5);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &D_809C166C);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->unk195 = 0;
     if (this->actor.params == -1) {
         func_809BF9BC(this);

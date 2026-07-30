@@ -1,4 +1,5 @@
 #include "z_en_md.h"
+#include "actor.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "libc64/math64.h"
@@ -65,7 +66,7 @@ static ColliderCylinderInit sCylinderInit = {
     },
     { 36, 46, 0, { 0, 0, 0 } },
 };
-CollisionCheckInfoInit2 D_80AAC33C = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnMdAnimSequence {
     /* 0x0 */ ENMD_ANIM_SEQ_NONE,
@@ -680,7 +681,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->unk258, this->unk2BE, MIDO_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AAC33C);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (func_80AAB03C(this, play) == 0) {
         Actor_Kill(&this->actor);
         return;

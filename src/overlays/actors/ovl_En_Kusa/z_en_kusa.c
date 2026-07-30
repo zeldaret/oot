@@ -79,7 +79,7 @@ static ColliderCylinderInit sCylinderInit = {
     },
     { 12, 44, 0, { 0, 0, 0 } },
 };
-static CollisionCheckInfoInit D_80A9C234 = { 0, 0xC, 0x1E, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 30, MASS_IMMOVABLE };
 static Vec3f sUnitDirections[4] = {
     { 0.0f, 0.7071f, 0.7071f },
     { 0.7071f, 0.7071f, 0.0f },
@@ -232,7 +232,7 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
         this->actor.cullingVolumeDistance += 1000.0f;
     }
     func_80A9B630(&this->actor, play);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &D_80A9C234);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.home.rot.y = this->actor.world.rot.y = (s16)(s32)Rand_ZeroFloat(65536.0f);
     }

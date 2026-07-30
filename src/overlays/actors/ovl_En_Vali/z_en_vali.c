@@ -93,7 +93,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 17, 35, -15, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit D_80B2891C = { 2, 0x12, 0x20, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
@@ -152,7 +152,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->unk37C, &this->actor, &sColliderQuadInit);
     Collider_InitCylinder(play, &this->unk3FC);
     Collider_SetCylinder(play, &this->unk3FC, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &D_80B2891C);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     func_80B26878(this);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.floorHeight =
