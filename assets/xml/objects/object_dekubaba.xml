@@ -13,19 +13,19 @@
         <Array Name="object_dekubaba_Vtx_000D00" Count="63" Offset="0xD00">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_0010F0" Offset="0x10F0"/>
+        <DList Name="object_dekubaba_DL_0010F0" Offset="0x10F0"/> <!-- leaf base -->
         <Array Name="object_dekubaba_Vtx_001230" Count="16" Offset="0x1230">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_001330" Offset="0x1330"/>
+        <DList Name="object_dekubaba_DL_001330" Offset="0x1330"/> <!-- mid third of stem -->
         <Array Name="object_dekubaba_Vtx_0013E8" Count="36" Offset="0x13E8">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_001628" Offset="0x1628"/>
+        <DList Name="object_dekubaba_DL_001628" Offset="0x1628"/> <!-- lower third of stem -->
         <Array Name="object_dekubaba_Vtx_001728" Count="16" Offset="0x1728">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_001828" Offset="0x1828"/>
+        <DList Name="object_dekubaba_DL_001828" Offset="0x1828"/> <!-- upper third of stem -->
         <Texture Name="object_dekubaba_Tex_0018D0" Format="rgba16" Width="16" Height="32" Offset="0x18D0"/>
         <Texture Name="object_dekubaba_Tex_001CD0" Format="rgba16" Width="32" Height="32" Offset="0x1CD0"/>
         <Texture Name="object_dekubaba_Tex_0024D0" Format="rgba16" Width="16" Height="32" Offset="0x24D0"/>
@@ -42,7 +42,7 @@
         <Array Name="object_dekubaba_Vtx_002A50" Count="98" Offset="0x2A50">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_003070" Offset="0x3070"/>
+        <DList Name="object_dekubaba_DL_003070" Offset="0x3070"/> <!-- deku stick drop -->
         <Texture Name="object_dekubaba_Tex_0031C0" Format="rgba16" Width="32" Height="32" Offset="0x31C0"/>
     </File>
 </Root>

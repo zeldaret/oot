@@ -19,6 +19,7 @@
 #include "save.h"
 
 #include "assets/objects/gameplay_keep/shadow_circle.h"
+#include "assets/objects/object_dekubaba/object_dekubaba.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
@@ -100,20 +101,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_WITHERED_DEKU_BABA, ICHAIN_STOP),
 };
 
-extern SkeletonHeader D_06002A40;
-extern AnimationHeader D_060002B8;
-extern Gfx D_06003070[]; // deku stick drop
-extern Gfx D_060010F0[]; // leaf base
-extern Gfx D_06001828[]; // upper third of stem
-extern Gfx D_06001330[]; // mid third of stem
-extern Gfx D_06001628[]; // lower third of stem
-
 void EnKarebaba_Init(Actor* thisx, PlayState* play) {
     EnKarebaba* this = (EnKarebaba*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
-    SkelAnime_Init(play, &this->skelAnime, &D_06002A40, &D_060002B8, this->jointTable, this->morphTable, 8);
+    SkelAnime_Init(play, &this->skelAnime, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->jointTable,
+                   this->morphTable, 8);
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sBodyColliderInit);
     Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
@@ -162,8 +156,8 @@ void EnKarebaba_SetupIdle(EnKarebaba* this) {
 }
 
 void EnKarebaba_SetupAwaken(EnKarebaba* this) {
-    Animation_Change(&this->skelAnime, &D_060002B8, 4.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), ANIMMODE_LOOP,
-                     -3.0f);
+    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, 4.0f, 0.0f,
+                     Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_LOOP, -3.0f);
     Actor_PlaySfx(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnKarebaba_Awaken;
 }
@@ -214,14 +208,14 @@ void EnKarebaba_SetupDeadItemDrop(EnKarebaba* this, PlayState* play) {
 }
 
 void EnKarebaba_SetupRetract(EnKarebaba* this) {
-    Animation_Change(&this->skelAnime, &D_060002B8, -3.0f, Animation_GetLastFrame(&D_060002B8), 0.0f, ANIMMODE_ONCE,
-                     -3.0f);
+    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, -3.0f,
+                     Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), 0.0f, ANIMMODE_ONCE, -3.0f);
     EnKarebaba_ResetCollider(this);
     this->actionFunc = EnKarebaba_Retract;
 }
 
 void EnKarebaba_SetupDead(EnKarebaba* this) {
-    Animation_Change(&this->skelAnime, &D_060002B8, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f);
     EnKarebaba_ResetCollider(this);
     this->actor.shape.rot.x = -0x4000;
     this->actor.params = 200;
@@ -476,7 +470,7 @@ void EnKarebaba_DrawCenterShadow(EnKarebaba* this, PlayState* play) {
 
 void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
     static Color_RGBA8 black = { 0, 0, 0, 0 };
-    static Gfx* dLists[] = { D_06001330, D_06001628, D_06001828 };
+    static Gfx* dLists[] = { object_dekubaba_DL_001330, object_dekubaba_DL_001628, object_dekubaba_DL_001828 };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     EnKarebaba* this = (EnKarebaba*)thisx;
     s32 i;
@@ -491,7 +485,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
         if (this->actor.params > 40 || PARAMS_GET_U(this->actor.params, 0, 1)) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
             MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1066);
-            gSPDisplayList(POLY_OPA_DISP++, D_06003070);
+            gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_003070);
         }
     } else if (this->actionFunc != EnKarebaba_Dead) {
         func_80026230(play, &black, 1, 2);
@@ -536,12 +530,12 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(BINANG_TO_RAD(this->actor.home.rot.y), MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1144);
-    gSPDisplayList(POLY_OPA_DISP++, D_060010F0);
+    gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_0010F0);
 
     if (this->actionFunc == EnKarebaba_Dying) {
         Matrix_RotateZYX(-0x4000, (s16)(this->actor.shape.rot.y - this->actor.home.rot.y), 0, MTXMODE_APPLY);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1155);
-        gSPDisplayList(POLY_OPA_DISP++, D_06001828);
+        gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_001828);
     }
 
     func_80026608(play);
