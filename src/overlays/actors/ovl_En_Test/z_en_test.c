@@ -76,24 +76,6 @@ void func_80862FA8(EnTest* this, PlayState* play);
 
 s32 EnTest_ReactToProjectile(PlayState* play, EnTest* this);
 
-extern SkeletonHeader D_06007C28;
-extern AnimationHeader D_0600316C; // ready stance
-extern AnimationHeader D_06001978; // jump back
-extern AnimationHeader D_0600B00C; // slash 1
-extern AnimationHeader D_0600B4E4; // slash 1 end
-extern AnimationHeader D_0600BE4C; // slash 2
-extern AnimationHeader D_0600A324; // jumpslash start
-extern AnimationHeader D_0600A99C; // jumpslash
-extern AnimationHeader D_0600E2B0; // sidestep
-extern AnimationHeader D_060081B4; // walk forward?
-extern AnimationHeader D_06001C20; // block
-extern AnimationHeader D_060026D4; //?
-extern AnimationHeader D_06000444;
-extern AnimationHeader D_06001420;
-extern AnimationHeader D_06008604;
-extern AnimationHeader D_06009A90;
-extern AnimationHeader D_0600C438;
-
 static u8 sUpperBodyLimbCopyMap[] = {
     false, false, false, false, true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
     true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
@@ -235,9 +217,10 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    SkelAnime_Init(play, &this->skelAnime, &D_06007C28, &D_0600316C, this->jointTable, this->morphTable, 61);
-    SkelAnime_Init(play, &this->upperSkelanime, &D_06007C28, &D_0600316C, this->upperJointTable, this->upperMorphTable,
+    SkelAnime_Init(play, &this->skelAnime, &gStalfosSkel, &gStalfosFightingWaitAnim, this->jointTable, this->morphTable,
                    61);
+    SkelAnime_Init(play, &this->upperSkelanime, &gStalfosSkel, &gStalfosFightingWaitAnim, this->upperJointTable,
+                   this->upperMorphTable, 61);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
 
@@ -399,7 +382,7 @@ void EnTest_ChooseAction(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupWaitGround(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
+    Animation_PlayLoop(&this->skelAnime, &gStalfosFightingWaitAnim);
     this->unk_7C8 = 0;
     this->timer = 15;
     this->actor.scale.y = 0.0f;
@@ -430,7 +413,7 @@ void EnTest_WaitGround(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupWaitAbove(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
+    Animation_PlayLoop(&this->skelAnime, &gStalfosFightingWaitAnim);
     this->unk_7C8 = 0;
     this->actor.world.pos.y = this->actor.home.pos.y + 150.0f;
     Actor_SetScale(&this->actor, 0.0f);
@@ -451,7 +434,7 @@ void EnTest_WaitAbove(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupIdle(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
+    Animation_PlayLoop(&this->skelAnime, &gStalfosFightingWaitAnim);
     this->unk_7C8 = 0xA;
     this->timer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->actor.speed = 0.0f;
@@ -511,7 +494,7 @@ void EnTest_Idle(EnTest* this, PlayState* play) {
 }
 
 void EnTest_Fall(EnTest* this, PlayState* play) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_0600C438, 0.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalfosLandingAnim, 0.0f);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
@@ -531,8 +514,9 @@ void EnTest_Land(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupWalkAndBlock(EnTest* this) {
-    Animation_Change(&this->upperSkelanime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
-    Animation_PlayLoop(&this->skelAnime, &D_060081B4);
+    Animation_Change(&this->upperSkelanime, &gStalfosDefendAnim, 2.0f, 0.0f,
+                     Animation_GetLastFrame(&gStalfosDefendAnim), 2, 2.0f);
+    Animation_PlayLoop(&this->skelAnime, &gStalfosFightingWalkAnim);
     this->timer = (s16)(Rand_ZeroOne() * 5.0f);
     this->unk_7C8 = 0xD;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -576,12 +560,12 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         if (ABS(this->actor.speed) < 3.0f) {
             s32 pad;
 
-            Animation_Change(&this->skelAnime, &D_060081B4, 0.0f, this->skelAnime.curFrame,
-                             Animation_GetLastFrame(&D_060081B4), 0, -6.0f);
+            Animation_Change(&this->skelAnime, &gStalfosFightingWalkAnim, 0.0f, this->skelAnime.curFrame,
+                             Animation_GetLastFrame(&gStalfosFightingWalkAnim), 0, -6.0f);
             playSpeed = this->actor.speed * 10.0f;
         } else {
-            Animation_Change(&this->skelAnime, &D_060026D4, 0.0f, this->skelAnime.curFrame,
-                             Animation_GetLastFrame(&D_060026D4), 0, -4.0f);
+            Animation_Change(&this->skelAnime, &gStalfosFightingRunAnim, 0.0f, this->skelAnime.curFrame,
+                             Animation_GetLastFrame(&gStalfosFightingRunAnim), 0, -4.0f);
             playSpeed = this->actor.speed * 10.0f * 0.02f;
         }
 
@@ -685,7 +669,7 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
 
 // a variation of sidestep
 void func_80860BDC(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_0600E2B0);
+    Animation_PlayLoop(&this->skelAnime, &gStalfosSideWalkAnim);
     this->unk_7C8 = 0xE;
     EnTest_SetupAction(this, func_80860C24);
 }
@@ -757,7 +741,7 @@ void func_80860C24(EnTest* this, PlayState* play) {
 
 // a variation of sidestep
 void func_80860EC0(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_0600E2B0);
+    Animation_PlayLoop(&this->skelAnime, &gStalfosSideWalkAnim);
     this->unk_7C8 = 0xF;
     this->actor.speed = (Rand_ZeroOne() > 0.5f) ? -0.5f : 0.5f;
     this->timer = (s16)((Rand_ZeroOne() * 15.0f) + 25.0f);
@@ -873,7 +857,7 @@ void func_80860F84(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupSlashDown(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_0600B00C);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosKiruAnim);
     Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x10;
@@ -913,7 +897,7 @@ void EnTest_SlashDown(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupSlashDownEnd(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_0600B4E4);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosKiruEndAnim);
     this->unk_7C8 = 0x12;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashDownEnd);
@@ -973,7 +957,7 @@ void EnTest_SlashDownEnd(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupSlashUp(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_0600BE4C);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosKiruFinshAnim);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
     this->swordCollider.elem.atDmgInfo.damage = 16;
@@ -1004,7 +988,7 @@ void EnTest_SlashUp(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupJumpBack(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06001978);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosBackJumpAnim);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->unk_7C8 = 0x14;
     this->timer = 5;
@@ -1055,7 +1039,7 @@ void EnTest_JumpBack(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupJumpslash(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_0600A324);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosJumpKiruAnim);
     Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->timer = 0;
     this->unk_7C8 = 0x17;
@@ -1075,7 +1059,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
 void EnTest_Jumpslash(EnTest* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer == 0) {
-            Animation_PlayOnce(&this->skelAnime, &D_0600A99C);
+            Animation_PlayOnce(&this->skelAnime, &gStalfosJumpKiruEndAnim);
             this->timer = 1;
             this->swordState = 1;
             Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_SAKEBI);
@@ -1102,7 +1086,7 @@ void EnTest_Jumpslash(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupJumpUp(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_0600A324);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosJumpKiruAnim);
     this->timer = 0;
     this->unk_7C8 = 4;
     this->actor.velocity.y = 14.0f;
@@ -1130,13 +1114,14 @@ void EnTest_JumpUp(EnTest* this, PlayState* play) {
         this->actor.speed = 0.0f;
         this->unk_7C8 = 0xC;
         this->timer = 4;
-        Animation_Change(&this->skelAnime, &D_0600C438, 0.0f, 0.0f, 0.0f, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gStalfosLandingAnim, 0.0f, 0.0f, 0.0f, 2, 0.0f);
         EnTest_SetupAction(this, EnTest_Land);
     }
 }
 
 void EnTest_SetupStopAndBlock(EnTest* this) {
-    Animation_Change(&this->skelAnime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
+    Animation_Change(&this->skelAnime, &gStalfosDefendAnim, 2.0f, 0.0f, Animation_GetLastFrame(&gStalfosDefendAnim), 2,
+                     2.0f);
     this->unk_7C8 = 0x15;
     this->actor.speed = 0.0f;
     this->timer = (Rand_ZeroOne() * 10.0f) + 11.0f;
@@ -1163,7 +1148,7 @@ void EnTest_StopAndBlock(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupIdleFromBlock(EnTest* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_0600316C, -4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gStalfosFightingWaitAnim, -4.0f);
     this->unk_7C8 = 0x16;
     EnTest_SetupAction(this, EnTest_IdleFromBlock);
 }
@@ -1187,7 +1172,7 @@ void EnTest_IdleFromBlock(EnTest* this, PlayState* play) {
 }
 
 void func_80862154(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06008604);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosFrontDamageAnim);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 8;
     this->actor.speed = -2.0f;
@@ -1231,7 +1216,7 @@ void func_808621D4(EnTest* this, PlayState* play) {
 }
 
 void func_80862398(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06000444);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosBackDamageAnim);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 9;
     this->actor.speed = -2.0f;
@@ -1285,7 +1270,7 @@ void EnTest_SetupStunned(EnTest* this) {
         if (this->lastDamageReaction == STALFOS_DMG_REACT_FREEZE) {
             this->iceTimer = 36;
         } else {
-            Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06008604, 0.0f);
+            Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalfosFrontDamageAnim, 0.0f);
         }
     }
 
@@ -1329,7 +1314,7 @@ void func_808627C4(EnTest* this, PlayState* play) {
         return;
     }
 
-    Animation_MorphToLoop(&this->skelAnime, &D_0600E2B0, -2.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gStalfosSideWalkAnim, -2.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     this->actor.speed = ((play->gameplayFrames % 2) != 0) ? -4.0f : 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
@@ -1515,7 +1500,7 @@ void func_80862E6C(EnTest* this, PlayState* play) {
 }
 
 void func_80862FA8(EnTest* this, PlayState* play) {
-    Animation_PlayOnce(&this->skelAnime, &D_06001420);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosBackDownAnim);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7DE = 0;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
@@ -1544,7 +1529,7 @@ void func_80863044(EnTest* this, PlayState* play) {
 }
 
 void func_808630F0(EnTest* this, PlayState* play) {
-    Animation_PlayOnce(&this->skelAnime, &D_06009A90);
+    Animation_PlayOnce(&this->skelAnime, &gStalfosFrontDownAnim);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7C8 = 6;
     this->actor.colorFilterTimer = 0;
@@ -1722,8 +1707,8 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
                 break;
 
             case 1:
-                Animation_Change(&this->upperSkelanime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2,
-                                 2.0f);
+                Animation_Change(&this->upperSkelanime, &gStalfosDefendAnim, 2.0f, 0.0f,
+                                 Animation_GetLastFrame(&gStalfosDefendAnim), 2, 2.0f);
                 AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                               this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 this->unk_7DE++;
@@ -1957,7 +1942,7 @@ void EnTest_Draw(Actor* thisx, PlayState* play) {
 
 // a variation of sidestep
 void func_80864158(EnTest* this, f32 xzSpeed) {
-    Animation_MorphToLoop(&this->skelAnime, &D_0600E2B0, -2.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gStalfosSideWalkAnim, -2.0f);
     this->actor.speed = xzSpeed;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 15.0f;
