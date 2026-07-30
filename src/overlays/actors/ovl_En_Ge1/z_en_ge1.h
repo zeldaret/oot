@@ -10,7 +10,7 @@ typedef void (*EnGe1ActionFunc)(struct EnGe1*, struct PlayState*);
 
 typedef struct EnGe1 {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ ColliderCylinder unk14C;
+    /* 0x14C */ ColliderCylinder collider;
     /* 0x198 */ SkelAnime unk198;
     /* 0x1DC */ Vec3s unk1DC[16];
     /* 0x23C */ Vec3s unk23C[16];

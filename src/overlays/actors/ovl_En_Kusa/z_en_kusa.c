@@ -219,9 +219,9 @@ void func_80A9B574(EnKusa* this, PlayState* play) {
 void func_80A9B630(Actor* thisx, PlayState* play) {
     EnKusa* this = (EnKusa*)thisx;
 
-    Collider_InitCylinder(play, &this->unk150);
-    Collider_SetCylinder(play, &this->unk150, &this->actor, &sCylinderInit);
-    Collider_UpdateCylinder(&this->actor, &this->unk150);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
 void EnKusa_Init(Actor* thisx, PlayState* play) {
@@ -253,7 +253,7 @@ void EnKusa_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     EnKusa* this = (EnKusa*)thisx;
 
-    Collider_DestroyCylinder(play, &this->unk150);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void EnKusa_SetupWaitForObject(EnKusa* this) {
@@ -284,8 +284,8 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         func_80A9BA98(this);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
-    } else if (this->unk150.base.acFlags & AC_HIT) {
-        this->unk150.base.acFlags &= ~AC_HIT;
+    } else if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_80A9B21C(this, play);
         func_80A9B07C(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
@@ -299,14 +299,14 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
         EnKusa_SetupCut(this);
         this->actor.flags |= ACTOR_FLAG_GRASS_DESTROYED;
     } else {
-        if (!(this->unk150.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
-            this->unk150.base.ocFlags1 |= OC1_TYPE_PLAYER;
+        if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
+            this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
         if (this->actor.xzDistToPlayer < 600.0f) {
-            Collider_UpdateCylinder(&this->actor, &this->unk150);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk150.base);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer < 400.0f) {
-                CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk150.base);
+                CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
                 if (this->actor.xzDistToPlayer < 100.0f) {
                     Actor_OfferCarry(&this->actor, play);
                 }
@@ -394,8 +394,8 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
                                 UPDBGCHECKINFO_FLAG_7);
-    Collider_UpdateCylinder(&this->actor, &this->unk150);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk150.base);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 
 void EnKusa_SetupCut(EnKusa* this) {
@@ -450,7 +450,7 @@ void EnKusa_Regrow(EnKusa* this, PlayState* play) {
     if (isFullyGrown) {
         Actor_SetScale(&this->actor, 0.4f);
         EnKusa_SetupMain(this);
-        this->unk150.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
+        this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
     }
 }
 

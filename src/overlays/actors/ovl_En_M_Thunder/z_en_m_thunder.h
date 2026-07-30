@@ -11,7 +11,7 @@ typedef void (*EnMThunderActionFunc)(struct EnMThunder*, struct PlayState*);
 
 typedef struct EnMThunder {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ ColliderCylinder unk14C;
+    /* 0x14C */ ColliderCylinder collider;
     /* 0x198 */ LightNode* unk198;
     /* 0x19C */ LightInfo unk19C;
     /* 0x1AA */ char pad1AA[2];

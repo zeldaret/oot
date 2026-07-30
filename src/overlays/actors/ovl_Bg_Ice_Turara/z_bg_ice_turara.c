@@ -78,9 +78,9 @@ void BgIceTurara_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, D_8089266C);
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002594, &sp24);
-    Collider_InitCylinder(play, &this->unk16C);
-    Collider_SetCylinder(play, &this->unk16C, &this->dyna.actor, &sCylinderInit);
-    Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp24);
     if (this->dyna.actor.params == 0) {
         this->unk164 = func_80892220;
@@ -95,7 +95,7 @@ void BgIceTurara_Destroy(Actor* thisx, PlayState* play) {
     BgIceTurara* this = (BgIceTurara*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    Collider_DestroyCylinder(play, &this->unk16C);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void func_80892040(BgIceTurara* this, PlayState* play, f32 arg2) {
@@ -122,11 +122,11 @@ void func_80892040(BgIceTurara* this, PlayState* play, f32 arg2) {
 }
 
 void func_80892220(BgIceTurara* this, PlayState* play) {
-    if (this->unk16C.base.acFlags & AC_HIT) {
+    if (this->collider.base.acFlags & AC_HIT) {
         func_80892040(this, play, 50.0f);
         Actor_Kill(&this->dyna.actor);
     } else {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk16C.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
@@ -150,8 +150,8 @@ void func_808922B8(BgIceTurara* this, PlayState* play) {
     if (this->unk168 == 0) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
-        Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk16C.base);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->unk164 = func_80892424;
     } else {
@@ -173,8 +173,8 @@ void func_808922B8(BgIceTurara* this, PlayState* play) {
 }
 
 void func_80892424(BgIceTurara* this, PlayState* play) {
-    if ((this->unk16C.base.atFlags & AT_HIT) || (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        this->unk16C.base.atFlags &= ~AT_HIT;
+    if ((this->collider.base.atFlags & AT_HIT) || (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+        this->collider.base.atFlags &= ~AT_HIT;
         this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         if (this->dyna.actor.world.pos.y < this->dyna.actor.floorHeight) {
             this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
@@ -192,8 +192,8 @@ void func_80892424(BgIceTurara* this, PlayState* play) {
         this->dyna.actor.world.pos.y += 40.0f;
         Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->dyna.actor.world.pos.y -= 40.0f;
-        Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk16C.base);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 }
 

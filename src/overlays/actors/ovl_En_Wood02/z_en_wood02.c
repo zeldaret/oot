@@ -178,8 +178,8 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
     this->actor.params = PARAMS_GET_U(this->actor.params, 0, 8);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (this->actor.params < EN_WOOD_02_TYPE_11) {
-        Collider_InitCylinder(play, &this->unk158);
-        Collider_SetCylinder(play, &this->unk158, &this->actor, &sCylinderInit);
+        Collider_InitCylinder(play, &this->collider);
+        Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         var_t0_sp4E = 0;
     }
     switch (this->actor.params) {
@@ -290,7 +290,7 @@ void EnWood02_Destroy(Actor* thisx, PlayState* play) {
     EnWood02* this = (EnWood02*)thisx;
 
     if (this->actor.params < EN_WOOD_02_TYPE_11) {
-        Collider_DestroyCylinder(play, &this->unk158);
+        Collider_DestroyCylinder(play, &this->collider);
     }
 }
 
@@ -317,8 +317,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
         EnWood02_SpawnUnculledChildren(this, play);
     }
     if (thisx->params < EN_WOOD_02_TYPE_11) {
-        if (this->unk158.base.acFlags & AC_HIT) {
-            this->unk158.base.acFlags &= ~AC_HIT;
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
             Actor_PlaySfx(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
         if (this->actor.home.rot.y != 0) {
@@ -353,9 +353,9 @@ void EnWood02_Update(Actor* thisx, PlayState* play) {
             this->actor.home.rot.y = 0;
         }
         if (this->actor.xzDistToPlayer < 600.0f) {
-            Collider_UpdateCylinder(&this->actor, &this->unk158);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk158.base);
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk158.base);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         }
     } else if (this->actor.params < EN_WOOD_02_TYPE_23) {
         Player* player;

@@ -603,7 +603,7 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
     }
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     if ((this->unk190 != EnMd_ListenToOcarina) && canUpdateTalking) {
-        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unk194.dim.radius + 30.0f,
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           func_80AAAE94, EnMd_UpdateTalkState);
     }
 }
@@ -678,8 +678,8 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(play, &this->unk14C, &gMidoSkel, NULL, this->unk258, this->unk2BE, MIDO_LIMB_MAX);
-    Collider_InitCylinder(play, &this->unk194);
-    Collider_SetCylinder(play, &this->unk194, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AAC33C);
     if (func_80AAB03C(this, play) == 0) {
         Actor_Kill(&this->actor);
@@ -708,7 +708,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
 void EnMd_Destroy(Actor* thisx, PlayState* play) {
     EnMd* this = (EnMd*)thisx;
 
-    Collider_DestroyCylinder(play, &this->unk194);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void EnMd_Idle(EnMd* this, PlayState* play) {
@@ -775,7 +775,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
                 sp2C->unk_6A8 = &this->actor;
                 Message_StartOcarina(play, OCARINA_ACTION_CHECK_SARIA);
                 this->unk190 = EnMd_ListenToOcarina;
-            } else if (this->actor.xzDistToPlayer < (30.0f + (f32)this->unk194.dim.radius)) {
+            } else if (this->actor.xzDistToPlayer < (30.0f + (f32)this->collider.dim.radius)) {
                 sp2C->stateFlags2 |= PLAYER_STATE2_23;
             }
         }
@@ -792,7 +792,7 @@ void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
         this->actor.textId = 0x1067;
-        Actor_OfferTalk(&this->actor, play, (f32)this->unk194.dim.radius + 30.0f);
+        Actor_OfferTalk(&this->actor, play, (f32)this->collider.dim.radius + 30.0f);
         this->unk190 = EnMd_BlockPath;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
@@ -823,8 +823,8 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
     EnMd* this = (EnMd*)thisx;
     s32 pad;
 
-    Collider_UpdateCylinder(&this->actor, &this->unk194);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk194.base);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->unk14C);
     func_80AAB0E0(this);
     EnMd_UpdateAlphaByDistance(this, play);

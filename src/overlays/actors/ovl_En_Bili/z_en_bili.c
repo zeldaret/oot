@@ -107,8 +107,8 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(play, &this->unk14C, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6, 5);
-    Collider_InitCylinder(play, &this->unk1D4);
-    Collider_SetCylinder(play, &this->unk1D4, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_809C1678, &D_809C166C);
     this->unk195 = 0;
     if (this->actor.params == -1) {
@@ -121,18 +121,18 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
 void EnBili_Destroy(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
 
-    Collider_DestroyCylinder(play, &this->unk1D4);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void func_809BF9BC(EnBili* this) {
     this->actor.speed = 0.7f;
-    this->unk1D4.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_ELECTRIC;
+    this->collider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_ELECTRIC;
     this->unk196 = 0x20;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
-    this->unk1D4.base.atFlags |= AT_ON;
-    this->unk1D4.base.acFlags |= AC_ON;
+    this->collider.base.atFlags |= AT_ON;
+    this->collider.base.acFlags |= AC_ON;
     this->unk190 = func_809C0174;
 }
 
@@ -142,7 +142,7 @@ void func_809BFA14(EnBili* this) {
     this->actor.velocity.y = 6.0f;
     this->actor.gravity = -0.3f;
     this->actor.speed = 3.0f;
-    this->unk1D4.base.atFlags &= ~AT_ON;
+    this->collider.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C0260;
 }
 
@@ -156,7 +156,7 @@ void func_809BFA8C(EnBili* this) {
 
 void func_809BFAE8(EnBili* this) {
     Animation_PlayOnce(&this->unk14C, &object_bl_Anim_000064);
-    this->unk1D4.base.atFlags &= ~AT_ON;
+    this->collider.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C04B4;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -172,7 +172,7 @@ void func_809BFB5C(EnBili* this) {
     this->unk196 = 0x60;
     this->actor.speed = 0.9f;
     this->actor.home.pos.y = this->actor.world.pos.y;
-    this->unk1D4.base.atFlags |= 1;
+    this->collider.base.atFlags |= 1;
     this->unk190 = func_809C0600;
 }
 
@@ -180,8 +180,8 @@ void func_809BFBC4(EnBili* this) {
     if (this->unk14C.animation != &object_bl_Anim_0000A4) {
         Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
     }
-    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->unk1D4.base.ac->prevPos) + 0x8000;
-    this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->unk1D4.base.ac->prevPos);
+    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.ac->prevPos) + 0x8000;
+    this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->collider.base.ac->prevPos);
     this->unk190 = func_809C067C;
     this->actor.speed = 5.0f;
 }
@@ -191,8 +191,8 @@ void func_809BFC48(EnBili* this) {
         Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
     }
     this->unk196 = 0x14;
-    this->unk1D4.base.atFlags &= ~AT_ON;
-    this->unk1D4.base.acFlags &= ~AC_ON;
+    this->collider.base.atFlags &= ~AT_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 20);
@@ -208,12 +208,12 @@ void func_809BFCE8(EnBili* this) {
 
 void func_809BFD18(EnBili* this) {
     this->unk196 = 0x50;
-    this->unk1D4.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_NONE;
+    this->collider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_NONE;
     this->actor.gravity = -1.0f;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    this->unk1D4.base.atFlags &= ~AT_ON;
+    this->collider.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C0980;
 }
 
@@ -235,8 +235,8 @@ void func_809BFD94(EnBili* this, PlayState* play) {
     }
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 10);
-    this->unk1D4.base.atFlags &= ~AT_ON;
-    this->unk1D4.base.acFlags &= ~AC_ON;
+    this->collider.base.atFlags &= ~AT_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->unk196 = 0x12C;
     this->unk190 = func_809C09E0;
 }
@@ -498,9 +498,9 @@ void func_809C09E0(EnBili* this, PlayState* play) {
 }
 
 void func_809C0A70(EnBili* this, PlayState* play) {
-    if ((this->actor.colChkInfo.health != 0) && (this->unk1D4.base.acFlags & AC_HIT)) {
-        this->unk1D4.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->unk1D4.elem, true);
+    if ((this->actor.colChkInfo.health != 0) && (this->collider.base.acFlags & AC_HIT)) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if ((((this->actor.colChkInfo.damageReaction != 0)) || (this->actor.colChkInfo.damage != 0))) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_DEAD);
@@ -531,7 +531,7 @@ void func_809C0A70(EnBili* this, PlayState* play) {
             } else {
                 func_809BFC48(this);
             }
-            if (this->unk1D4.elem.acHitElem->atDmgInfo.dmgFlags & DMG_ARROW) {
+            if (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             }
         }
@@ -542,8 +542,8 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
     EnBili* this = (EnBili*)thisx;
     PlayState* play = play2;
 
-    if (this->unk1D4.base.atFlags & AT_HIT) {
-        this->unk1D4.base.atFlags &= ~AT_HIT;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_809BFA8C(this);
     }
     func_809C0A70(this, play);
@@ -565,16 +565,16 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
         } else {
             Actor_MoveXZGravity(&this->actor);
         }
-        Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, this->unk1D4.dim.radius, this->unk1D4.dim.height,
+        Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
-        Collider_UpdateCylinder(&this->actor, &this->unk1D4);
-        if (this->unk1D4.base.atFlags & 1) {
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk1D4.base);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        if (this->collider.base.atFlags & 1) {
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
-        if (this->unk1D4.base.acFlags & 1) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk1D4.base);
+        if (this->collider.base.acFlags & 1) {
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk1D4.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         Actor_SetFocus(&this->actor, 0.0f);
     }
 }

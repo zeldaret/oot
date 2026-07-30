@@ -13,7 +13,7 @@ typedef struct BgPoSyokudai {
     /* 0x14E */ s16 unk14E;
     /* 0x150 */ LightNode* unk150;
     /* 0x154 */ LightInfo unk154;
-    /* 0x164 */ ColliderCylinder unk164;
+    /* 0x164 */ ColliderCylinder collider;
 } BgPoSyokudai; // size = 0x01B0
 
 #endif

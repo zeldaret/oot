@@ -125,9 +125,9 @@ s32 func_80BA0DF4(ObjTsubo* this, PlayState* play) {
 void func_80BA0E98(ObjTsubo* this2, PlayState* play) {
     ObjTsubo* this = this2;
 
-    Collider_InitCylinder(play, &this->unk150);
-    Collider_SetCylinder(play, &this->unk150, &this->actor, &sCylinderInit);
-    Collider_UpdateCylinder(&this->actor, &this->unk150);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
 void ObjTsubo_Init(Actor* thisx, PlayState* play) {
@@ -154,7 +154,7 @@ void ObjTsubo_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     ObjTsubo* this = (ObjTsubo*)thisx;
 
-    Collider_DestroyCylinder(play, &this->unk150);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void func_80BA100C(ObjTsubo* this, PlayState* play) {
@@ -259,8 +259,8 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         func_80BA0D60(this, play);
         Actor_Kill(&this->actor);
-    } else if ((this->unk150.base.acFlags & AC_HIT) &&
-               (this->unk150.elem.acHitElem->atDmgInfo.dmgFlags &
+    } else if ((this->collider.base.acFlags & AC_HIT) &&
+               (this->collider.elem.acHitElem->atDmgInfo.dmgFlags &
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         func_80BA100C(this, play);
         func_80BA0D60(this, play);
@@ -268,11 +268,11 @@ void func_80BA15BC(ObjTsubo* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         if (this->actor.xzDistToPlayer < 600.0f) {
-            Collider_UpdateCylinder(&this->actor, &this->unk150);
-            this->unk150.base.acFlags &= ~AC_HIT;
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk150.base);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            this->collider.base.acFlags &= ~AC_HIT;
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer < 150.0f) {
-                CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk150.base);
+                CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             }
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
@@ -318,7 +318,7 @@ void func_80BA1958(ObjTsubo* this, PlayState* play) {
     s32 pad[2];
 
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
-        (this->unk150.base.atFlags & AT_HIT)) {
+        (this->collider.base.atFlags & AT_HIT)) {
         func_80BA100C(this, play);
         func_80BA0D60(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
@@ -337,9 +337,9 @@ void func_80BA1958(ObjTsubo* this, PlayState* play) {
         this->actor.shape.rot.y += D_80BA1B5C;
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 15.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
-        Collider_UpdateCylinder(&this->actor, &this->unk150);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk150.base);
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk150.base);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 }
 

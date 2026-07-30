@@ -81,15 +81,15 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
     Player* player;
 
     player = GET_PLAYER(play);
-    Collider_InitCylinder(play, &this->unk14C);
-    Collider_SetCylinder(play, &this->unk14C, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->swordType = PARAMS_GET_U(this->actor.params, 0, 8) - 1;
     Lights_PointNoGlowSetInfo(&this->unk19C, this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                               255, 255, 255, 0);
     this->unk198 = LightContext_InsertLight(play, &play->lightCtx, &this->unk19C);
-    this->unk14C.dim.radius = 0;
-    this->unk14C.dim.height = 40;
-    this->unk14C.dim.yShift = -20;
+    this->collider.dim.radius = 0;
+    this->collider.dim.height = 40;
+    this->collider.dim.yShift = -20;
     this->followPlayerTimer = 8;
     this->spinTrailTexScroll = 0.0f;
     this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
@@ -111,7 +111,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play) {
         }
         player->stateFlags2 &= ~PLAYER_STATE2_17;
         this->isUsingMagic = true;
-        this->unk14C.elem.atDmgInfo.dmgFlags = sSpinAttackDmgFlags[this->swordType];
+        this->collider.elem.atDmgInfo.dmgFlags = sSpinAttackDmgFlags[this->swordType];
         this->attackStrength = M_THUNDER_ATTACK_WEAK;
         if (this->swordType == M_THUNDER_SWORD_KOKIRI) {
             this->targetScale = 2;
@@ -134,7 +134,7 @@ void EnMThunder_Destroy(Actor* thisx, PlayState* play) {
     if (this->isUsingMagic) {
         Magic_Reset(play);
     }
-    Collider_DestroyCylinder(play, &this->unk14C);
+    Collider_DestroyCylinder(play, &this->collider);
     EnMThunder_AdjustEnvLights(play, 0.0f);
     LightContext_RemoveLight(play, &play->lightCtx, this->unk198);
 }
@@ -202,7 +202,7 @@ void EnMThunder_ChargingSpinAttack(EnMThunder* this, PlayState* play) {
             gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
         }
         if (player->unk_858 < 0.85f) {
-            this->unk14C.elem.atDmgInfo.dmgFlags = sSpinAttackDmgFlags[this->swordType];
+            this->collider.elem.atDmgInfo.dmgFlags = sSpinAttackDmgFlags[this->swordType];
             this->attackStrength = M_THUNDER_ATTACK_WEAK;
             if (this->swordType == M_THUNDER_SWORD_KOKIRI) {
                 this->targetScale = 2;
@@ -210,7 +210,7 @@ void EnMThunder_ChargingSpinAttack(EnMThunder* this, PlayState* play) {
                 this->targetScale = 4;
             }
         } else {
-            this->unk14C.elem.atDmgInfo.dmgFlags = sJumpAttackDmgFlags[this->swordType];
+            this->collider.elem.atDmgInfo.dmgFlags = sJumpAttackDmgFlags[this->swordType];
             this->attackStrength = M_THUNDER_ATTACK_STRONG;
             if (this->swordType == M_THUNDER_SWORD_KOKIRI) {
                 this->targetScale = 4;
@@ -294,9 +294,9 @@ void EnMThunder_SpinAttacking(EnMThunder* this, PlayState* play) {
     } else {
         Math_SmoothStepToF(&this->actor.scale.x, (s32)this->targetScale, 0.6f, 0.8f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
-        this->unk14C.dim.radius = this->actor.scale.x * 25.0f;
-        Collider_UpdateCylinder(&this->actor, &this->unk14C);
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk14C.base);
+        this->collider.dim.radius = this->actor.scale.x * 25.0f;
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
     if (this->followPlayerTimer > 0) {
         this->actor.world.pos.x = player->bodyPartsPos[PLAYER_BODYPART_WAIST].x;

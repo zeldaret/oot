@@ -78,11 +78,11 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     this->unk150 = LightContext_InsertLight(play, &play->lightCtx, &this->unk154);
     Lights_PointGlowSetInfo(&this->unk154, this->actor.world.pos.x, (s16)this->actor.world.pos.y + 65,
                             this->actor.world.pos.z, 0, 0, 0, 0);
-    Collider_InitCylinder(play, &this->unk164);
-    Collider_SetCylinder(play, &this->unk164, &this->actor, &sCylinderInit);
-    this->unk164.dim.pos.x = this->actor.world.pos.x;
-    this->unk164.dim.pos.y = this->actor.world.pos.y;
-    this->unk164.dim.pos.z = this->actor.world.pos.z;
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
+    this->collider.dim.pos.x = this->actor.world.pos.x;
+    this->collider.dim.pos.y = this->actor.world.pos.y;
+    this->collider.dim.pos.z = this->actor.world.pos.z;
     if ((this->unk14C == 0) && Flags_GetSwitch(play, 0x1F) && Flags_GetSwitch(play, 0x1E) &&
         Flags_GetSwitch(play, 0x1D) && !Flags_GetSwitch(play, this->actor.params)) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0, this->actor.params);
@@ -102,7 +102,7 @@ void BgPoSyokudai_Destroy(Actor* thisx, PlayState* play) {
     BgPoSyokudai* this = (BgPoSyokudai*)thisx;
 
     LightContext_RemoveLight(play, &play->lightCtx, this->unk150);
-    Collider_DestroyCylinder(play, &this->unk164);
+    Collider_DestroyCylinder(play, &this->collider);
     if (play->envCtx.lightSettingOverride != LIGHT_SETTING_OVERRIDE_NONE) {
         play->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
     }
@@ -112,8 +112,8 @@ void BgPoSyokudai_Update(Actor* thisx, PlayState* play) {
     BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     s32 pad;
 
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk164.base);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk164.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     if (Flags_GetSwitch(play, this->actor.params)) {
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }

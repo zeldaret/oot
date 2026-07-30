@@ -82,8 +82,8 @@ void EnGe3_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->unk198, &gGerudoRedSkel, NULL, this->unk1DC, this->unk26C, 24);
     Animation_PlayLoop(&this->unk198, &gGerudoRedStandAnim);
-    Collider_InitCylinder(play, &this->unk14C);
-    Collider_SetCylinder(play, &this->unk14C, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.world.rot.z = 0;
@@ -99,7 +99,7 @@ void EnGe3_Init(Actor* thisx, PlayState* play) {
 void EnGe3_Destroy(Actor* thisx, PlayState* play) {
     EnGe3* this = (EnGe3*)thisx;
 
-    Collider_DestroyCylinder(play, &this->unk14C);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void func_80A347F4(EnGe3* this, PlayState* play) {
@@ -185,8 +185,8 @@ void func_80A34B90(EnGe3* this, PlayState* play) {
 void func_80A34C40(EnGe3* this, PlayState* play) {
     s32 pad[2];
 
-    Collider_UpdateCylinder(&this->actor, &this->unk14C);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (!(this->unk30C & 2) && SkelAnime_Update(&this->unk198)) {
         this->unk30C |= 2;

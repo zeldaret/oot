@@ -42,7 +42,7 @@ typedef struct EnWood02 {
     /* 0x153 */ u8 unk153;
     /* 0x154 */ u8 unk154;
     /* 0x155 */ char pad155[3];
-    /* 0x158 */ ColliderCylinder unk158;
+    /* 0x158 */ ColliderCylinder collider;
 } EnWood02; // size = 0x1A4
 
 #endif

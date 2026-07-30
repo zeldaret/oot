@@ -62,7 +62,7 @@ ActorProfile En_Dns_Profile = {
     /**/ EnDns_Update,
     /**/ EnDns_Draw,
 };
-static ColliderCylinderInitType1 D_809F03E0 = {
+static ColliderCylinderInitType1 sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -181,8 +181,8 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_809F052C);
     SkelAnime_InitFlex(play, &this->unk14C, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim, this->unk190,
                        this->unk1FC, 0x12);
-    Collider_InitCylinder(play, &this->unk26C);
-    Collider_SetCylinderType1(play, &this->unk26C, &this->actor, &D_809F03E0);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     this->actor.textId = sStartingTextIds[DNS_GET_TYPE(&this->actor)];
     Actor_SetScale(&this->actor, 0.01f);
@@ -200,7 +200,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
 void EnDns_Destroy(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
-    Collider_DestroyCylinder(play, &this->unk26C);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void EnDns_ChangeAnim(EnDns* this, u8 arg1) {
@@ -358,7 +358,7 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk268 = func_809EFC9C;
     } else {
-        if ((this->unk26C.base.ocFlags1 & OC1_HIT) || (this->actor.isLockedOn != 0)) {
+        if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->actor.isLockedOn != 0)) {
             this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         } else {
             this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
@@ -520,8 +520,8 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     }
     if (this->isColliderEnabled != 0) {
-        Collider_UpdateCylinder(&this->actor, &this->unk26C);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk26C.base);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 

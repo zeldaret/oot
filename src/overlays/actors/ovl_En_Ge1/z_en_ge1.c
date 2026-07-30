@@ -80,8 +80,8 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->unk198, &object_ge1_000330_Skel, &object_ge1_000228_Anim, this->unk1DC,
                        this->unk23C, 16);
     Animation_PlayOnce(&this->unk198, &object_ge1_000228_Anim);
-    Collider_InitCylinder(play, &this->unk14C);
-    Collider_SetCylinder(play, &this->unk14C, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->unk2B0 = &object_ge1_000228_Anim;
     this->unk2B8 = func_80A323B0;
@@ -158,7 +158,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
 void EnGe1_Destroy(Actor* thisx, PlayState* play) {
     EnGe1* this = (EnGe1*)thisx;
 
-    Collider_DestroyCylinder(play, &this->unk14C);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 s32 func_80A30C70(EnGe1* this, PlayState* play, u16 arg2, f32 arg3, EnGe1ActionFunc arg4) {
@@ -228,10 +228,10 @@ void func_80A30F48(EnGe1* this, PlayState* play) {
     if ((ABS(temp_v0) < 0x4301) && (this->actor.xzDistToPlayer < 100.0f)) {
         func_80A30EE8(this, play);
     }
-    if (this->unk14C.base.acFlags & 2) {
+    if (this->collider.base.acFlags & 2) {
         func_80A30EE8(this, play);
     }
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk14C.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 }
 
 void func_80A31000(EnGe1* this, PlayState* play) {
@@ -269,10 +269,10 @@ void func_80A310C4(EnGe1* this, PlayState* play) {
     if ((this->actor.xzDistToPlayer < 50.0f) || ((ABS(temp_v0) < 0x4301) && (this->actor.xzDistToPlayer < 400.0f))) {
         func_80A30EE8(this, play);
     }
-    if (this->unk14C.base.acFlags & 2) {
+    if (this->collider.base.acFlags & 2) {
         func_80A30EE8(this, play);
     }
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk14C.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 }
 
 void func_80A3118C(EnGe1* this, PlayState* play) {
@@ -672,8 +672,8 @@ void EnGe1_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     EnGe1* this = (EnGe1*)thisx;
 
-    Collider_UpdateCylinder(&this->actor, &this->unk14C);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->unk2B8(this);

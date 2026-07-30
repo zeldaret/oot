@@ -13,7 +13,7 @@ typedef struct BgIceTurara {
     /* 0x164 */ BgIceTuraraActionFunc unk164;
     /* 0x168 */ s16 unk168;
     /* 0x16A */ char pad16A[2];
-    /* 0x16C */ ColliderCylinder unk16C;
+    /* 0x16C */ ColliderCylinder collider;
 } BgIceTurara; // size = 0x01B8
 
 #endif

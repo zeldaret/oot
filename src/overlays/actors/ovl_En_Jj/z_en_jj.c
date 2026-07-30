@@ -232,8 +232,8 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&object_jj_000A1C_Col, &sp4C);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-            Collider_InitCylinder(play, &this->unk2B0);
-            Collider_SetCylinder(play, &this->unk2B0, &this->dyna.actor, &sCylinderInit);
+            Collider_InitCylinder(play, &this->collider);
+            Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
             this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
             return;
 
@@ -264,7 +264,7 @@ void EnJj_Destroy(Actor* thisx, PlayState* play) {
     switch (this->dyna.actor.params) {
         case -1:
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-            Collider_DestroyCylinder(play, &this->unk2B0);
+            Collider_DestroyCylinder(play, &this->collider);
             return;
 
         case 0:
@@ -316,10 +316,10 @@ void func_80A87C30(EnJj* this, PlayState* play) {
         this->unk30C = 0x64;
         func_80A87800(this, func_80A87CEC);
     }
-    this->unk2B0.dim.pos.x = -0x4DD;
-    this->unk2B0.dim.pos.y = 0x14;
-    this->unk2B0.dim.pos.z = -0x30;
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk2B0.base);
+    this->collider.dim.pos.x = -0x4DD;
+    this->collider.dim.pos.y = 0x14;
+    this->collider.dim.pos.z = -0x30;
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 
 void func_80A87CEC(EnJj* this, PlayState* play) {

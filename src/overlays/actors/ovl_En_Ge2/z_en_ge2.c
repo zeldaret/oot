@@ -107,8 +107,8 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->unk198, &object_gla_008968_Skel, NULL, this->unk1DC, this->unk260, 22);
     Animation_PlayLoop(&this->unk198, &object_gla_009ED4_Anim);
-    Collider_InitCylinder(play, &this->unk14C);
-    Collider_SetCylinder(play, &this->unk14C, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     if (play->sceneId == SCENE_GERUDO_VALLEY) {
@@ -160,7 +160,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
 void EnGe2_Destroy(Actor* thisx, PlayState* play) {
     EnGe2* this = (EnGe2*)thisx;
 
-    Collider_DestroyCylinder(play, &this->unk14C);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 s32 func_80A32ECC(PlayState* play, EnGe2* this) {
@@ -459,8 +459,8 @@ void func_80A33B7C(EnGe2* this, PlayState* play) {
 void func_80A33BE8(EnGe2* this, PlayState* play) {
     s32 pad[2];
 
-    Collider_UpdateCylinder(&this->actor, &this->unk14C);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (!(this->unk2F4 & 2) && SkelAnime_Update(&this->unk198)) {
         this->unk2F4 |= 2;
@@ -515,9 +515,9 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     if ((this->unk2F4 & 4) || (this->unk2F4 & 8)) {
         this->unk308(this, play);
     } else {
-        if (this->unk14C.base.acFlags & AC_HIT) {
-            if ((this->unk14C.elem.acHitElem != NULL) &&
-                (this->unk14C.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
+        if (this->collider.base.acFlags & AC_HIT) {
+            if ((this->collider.elem.acHitElem != NULL) &&
+                (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
                 //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the
                 //! colorfilter.
                 //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
@@ -544,7 +544,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     }
     if (!(this->unk2F4 & 4) &&
         ((PARAMS_GET_S(this->actor.params, 0, 8) == 0) || (PARAMS_GET_S(this->actor.params, 0, 8) == 1))) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk14C.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
     func_80A33C8C(this, play);
     if ((func_80A330A0() != 0) && !(this->unk2F4 & 4)) {
@@ -557,11 +557,12 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     EnGe2* this = (EnGe2*)thisx;
 
-    Collider_UpdateCylinder(&this->actor, &this->unk14C);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    if ((this->unk14C.base.acFlags & AC_HIT) && (((this->unk14C.elem.acHitElem == NULL)) ||
-                                                 !(this->unk14C.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT))) {
+    if ((this->collider.base.acFlags & AC_HIT) &&
+        (((this->collider.elem.acHitElem == NULL)) ||
+         !(this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
         func_80A32BD0(this, 3);
         this->unk305 = 0x64;
@@ -569,7 +570,7 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
         this->actor.speed = 0.0f;
         Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
     }
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk14C.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     if (func_80A330A0() != 0) {
         this->actor.update = func_80A33D10;
         this->actor.attentionRangeType = ATTENTION_RANGE_6;
