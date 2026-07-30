@@ -127,7 +127,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_80B20DE0(EnTp* this, void (*arg1)(EnTp*, PlayState*)) {
-    this->unk154 = arg1;
+    this->unk_154 = arg1;
 }
 
 void EnTp_Init(Actor* thisx, PlayState* play2) {
@@ -142,15 +142,15 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
-    this->unk150 = 0;
+    this->unk_150 = 0;
     this->actor.colChkInfo.health = 1;
     var_s5 = this;
-    this->unk15E = 255;
+    this->unk_15E = 255;
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     if (this->actor.params < 0) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
-        this->unk15A = 0;
+        this->unk_15A = 0;
         this->collider.base.acFlags |= AC_HARD;
         this->collider.elements[0].dim.worldSphere.radius = 8;
         this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius;
@@ -165,18 +165,18 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
             if (temp_v0_2 != NULL) {
                 var_s5->actor.child = &temp_v0_2->actor;
                 temp_v0_2->actor.parent = &var_s5->actor;
-                temp_v0_2->unk162 = (s16)(var_s1 + 1);
-                temp_v0_2->unk1D4 = this;
+                temp_v0_2->unk_162 = (s16)(var_s1 + 1);
+                temp_v0_2->unk_1D4 = this;
                 Actor_SetScale(&temp_v0_2->actor, 0.3f);
                 if (var_s1 == 2) {
                     temp_v0_2->actor.flags |=
                         ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
-                    temp_v0_2->unk150 = 1;
+                    temp_v0_2->unk_150 = 1;
                 }
-                temp_v0_2->unk15C = var_s1 * -5;
-                temp_v0_2->unk15A = var_s1 * -5;
+                temp_v0_2->unk_15C = var_s1 * -5;
+                temp_v0_2->unk_15A = var_s1 * -5;
                 var_s5 = temp_v0_2;
-                temp_v0_2->unk16C = 6.0f - ((f32)var_s1 * 0.75f);
+                temp_v0_2->unk_16C = 6.0f - ((f32)var_s1 * 0.75f);
             }
         }
     } else if (this->actor.params == 0) {
@@ -193,7 +193,7 @@ void EnTp_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80B21084(EnTp* this) {
-    this->unk14C = 2;
+    this->unk_14C = 2;
     func_80B20DE0(this, func_80B210B0);
 }
 
@@ -202,35 +202,35 @@ void func_80B210B0(EnTp* this, PlayState* play) {
     s16 temp_a0_sp34;
 
     if (this->actor.params == 0xB) {
-        this->unk14C = 1;
+        this->unk_14C = 1;
         if (this->actor.parent == NULL) {
             func_80B21454(this);
         }
     } else {
-        if (this->unk150 != 0) {
+        if (this->unk_150 != 0) {
             this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         }
-        if (this->unk1D4->unk150 != 0) {
-            this->actor.speed = this->unk160 = this->actor.velocity.y = this->unk168 = 0.0f;
-            if (this->actor.world.pos.y < this->unk1D4->actor.home.pos.y) {
+        if (this->unk_1D4->unk_150 != 0) {
+            this->actor.speed = this->unk_160 = this->actor.velocity.y = this->unk_168 = 0.0f;
+            if (this->actor.world.pos.y < this->unk_1D4->actor.home.pos.y) {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
             this->actor.world.pos = this->actor.parent->prevPos;
         } else {
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.parent->world.pos.y - 4.0f, 1.0f, 1.0f, 0.0f);
-            sp36 = this->unk1D4->actor.shape.rot.y + 0x4000;
-            temp_a0_sp34 = (this->unk1D4->unk15C + this->unk15A) * 0x7D0;
+            sp36 = this->unk_1D4->actor.shape.rot.y + 0x4000;
+            temp_a0_sp34 = (this->unk_1D4->unk_15C + this->unk_15A) * 0x7D0;
             this->actor.world.pos.x =
-                (Math_SinS(temp_a0_sp34) * (Math_SinS(sp36) * this->unk16C)) + this->actor.home.pos.x;
+                (Math_SinS(temp_a0_sp34) * (Math_SinS(sp36) * this->unk_16C)) + this->actor.home.pos.x;
             this->actor.world.pos.z =
-                (Math_SinS(temp_a0_sp34) * (Math_CosS(sp36) * this->unk16C)) + this->actor.home.pos.z;
+                (Math_SinS(temp_a0_sp34) * (Math_CosS(sp36) * this->unk_16C)) + this->actor.home.pos.z;
         }
     }
 }
 
 void func_80B2128C(EnTp* this) {
-    this->unk14C = 7;
-    this->unk15A = 0xC8;
+    this->unk_14C = 7;
+    this->unk_15A = 0xC8;
     func_80B20DE0(this, func_80B212C0);
 }
 
@@ -243,20 +243,20 @@ void func_80B212C0(EnTp* this, PlayState* play) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->collider.base.at) {
-            this->unk15A = 1;
+            this->unk_15A = 1;
         }
     }
-    if (this->unk160 < 255) {
-        this->unk160 += 15;
+    if (this->unk_160 < 255) {
+        this->unk_160 += 15;
     }
-    if (Math_CosF(this->unk168) == 0.0f) {
-        this->unk170 = 2.0f * Rand_ZeroOne();
+    if (Math_CosF(this->unk_168) == 0.0f) {
+        this->unk_170 = 2.0f * Rand_ZeroOne();
     }
-    this->actor.world.pos.y += Math_CosF(this->unk168) * (2.0f + this->unk170);
-    this->unk168 += 0.2f;
+    this->actor.world.pos.y += Math_CosF(this->unk_168) * (2.0f + this->unk_170);
+    this->unk_168 += 0.2f;
     Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
-    this->unk15A -= 1;
-    if (this->unk15A != 0) {
+    this->unk_15A -= 1;
+    if (this->unk_15A != 0) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.shape.rot.y = this->actor.world.rot.y;
     } else {
@@ -267,7 +267,7 @@ void func_80B212C0(EnTp* this, PlayState* play) {
 void func_80B21454(EnTp* this) {
     Actor* var_v0;
 
-    this->unk15A = 2;
+    this->unk_15A = 2;
     if (this->actor.params < 0) {
         var_v0 = this->actor.child;
         while (var_v0 != NULL) {
@@ -275,10 +275,10 @@ void func_80B21454(EnTp* this) {
             var_v0->colChkInfo.health = 0;
             var_v0 = var_v0->child;
         }
-        this->unk15A = 0xD;
+        this->unk_15A = 0xD;
         Actor_PlaySfx(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
-    this->unk14C = 1;
+    this->unk_14C = 1;
     func_80B20DE0(this, func_80B214CC);
 }
 
@@ -289,8 +289,8 @@ void func_80B214CC(EnTp* this, PlayState* play) {
     Vec3f sp78 = { 0.0f, 0.5f, 0.0f };
     Vec3f sp6C = { 0.0f, 0.0f, 0.0f };
 
-    this->unk15A -= 1;
-    if (this->unk15A <= 0) {
+    this->unk_15A -= 1;
+    if (this->unk_15A <= 0) {
         if (this->actor.params == 0xC) {
             sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
@@ -313,7 +313,7 @@ void func_80B214CC(EnTp* this, PlayState* play) {
                                              this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xA);
                 if (temp_v0 != NULL) {
                     Actor_SetScale(&temp_v0->actor, this->actor.scale.z * 0.5f);
-                    temp_v0->unk160 = this->unk160;
+                    temp_v0->unk_160 = this->unk_160;
                 }
             }
         }
@@ -322,13 +322,13 @@ void func_80B214CC(EnTp* this, PlayState* play) {
             this->actor.child->params = 0xB;
             this->actor.child->colChkInfo.health = 0;
         }
-        this->unk150 = 2;
+        this->unk_150 = 2;
         Actor_Kill(&this->actor);
     }
 }
 
 void func_80B217FC(EnTp* this) {
-    this->unk14C = 0;
+    this->unk_14C = 0;
     this->actor.world.pos.x += (Rand_ZeroOne() - 0.5f) * 5.0f;
     this->actor.world.pos.y += (Rand_ZeroOne() - 0.5f) * 5.0f;
     this->actor.world.pos.z += (Rand_ZeroOne() - 0.5f) * 5.0f;
@@ -341,16 +341,16 @@ void func_80B217FC(EnTp* this) {
 
 void func_80B21900(EnTp* this, PlayState* play) {
     Actor_UpdatePos(&this->actor);
-    this->unk15E -= 20;
-    if (this->unk15E < 20) {
-        this->unk15E = 0;
+    this->unk_15E -= 20;
+    if (this->unk_15E < 20) {
+        this->unk_15E = 0;
         Actor_Kill(&this->actor);
     }
 }
 
 void func_80B2194C(EnTp* this) {
-    this->unk15A = (Rand_ZeroOne() * 15.0f) + 40.0f;
-    this->unk14C = 8;
+    this->unk_15A = (Rand_ZeroOne() * 15.0f) + 40.0f;
+    this->unk_14C = 8;
     func_80B20DE0(this, func_80B219A8);
 }
 
@@ -360,41 +360,41 @@ void func_80B219A8(EnTp* this, PlayState* play) {
 
     player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
-    Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk16C, 1.0f,
+    Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk_16C, 1.0f,
                        this->actor.speed * 0.25f, 0.0f);
     SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->collider.base.at) {
-            this->unk15C = 1;
+            this->unk_15C = 1;
         }
     }
-    if (this->unk160 != 0) {
-        this->unk160 -= 15;
+    if (this->unk_160 != 0) {
+        this->unk_160 -= 15;
     }
-    if (Math_CosF(this->unk168) == 0.0f) {
-        this->unk170 = Rand_ZeroOne() * 4.0f;
+    if (Math_CosF(this->unk_168) == 0.0f) {
+        this->unk_170 = Rand_ZeroOne() * 4.0f;
     }
-    this->actor.world.pos.y += Math_CosF(this->unk168) * ((this->actor.speed * 0.25f) + this->unk170);
-    this->actor.world.rot.y += this->unk164;
-    this->unk168 += 0.2f;
-    if (this->unk15A != 0) {
-        this->unk15A -= 1;
+    this->actor.world.pos.y += Math_CosF(this->unk_168) * ((this->actor.speed * 0.25f) + this->unk_170);
+    this->actor.world.rot.y += this->unk_164;
+    this->unk_168 += 0.2f;
+    if (this->unk_15A != 0) {
+        this->unk_15A -= 1;
     }
     Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos), 1,
                        0x2EE, 0);
-    if (this->unk15A == 0) {
+    if (this->unk_15A == 0) {
         func_80B2128C(this);
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 void func_80B21B90(EnTp* this) {
-    this->unk14C = 4;
-    this->unk150 = 0;
+    this->unk_14C = 4;
+    this->unk_150 = 0;
     this->actor.shape.rot.x = -0x4000;
-    this->unk15A = 0x3C;
-    this->unk15C = 0;
+    this->unk_15A = 0x3C;
+    this->unk_15C = 0;
     this->actor.speed = 0.0f;
     func_80B20DE0(this, func_80B21BDC);
 }
@@ -404,39 +404,39 @@ void func_80B21BDC(EnTp* this, PlayState* play) {
     s16 sp32;
 
     player = GET_PLAYER(play);
-    this->unk15C -= 1;
+    this->unk_15C -= 1;
     if (this->actor.xzDistToPlayer < 200.0f) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             if (&player->actor == this->collider.base.at) {
-                this->unk15A = 0;
+                this->unk_15A = 0;
             }
         }
-        if (this->unk15A != 0) {
-            this->unk15A -= 1;
+        if (this->unk_15A != 0) {
+            this->unk_15A -= 1;
             Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 0x1F4, 0);
             Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
             sp32 = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos) + 0x4000;
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 0.3f, 1.0f, 0.3f);
             this->actor.world.pos.x =
-                (Math_SinS(this->unk15C * 0x7D0) * (Math_SinS(sp32) * this->unk16C)) + this->actor.home.pos.x;
+                (Math_SinS(this->unk_15C * 0x7D0) * (Math_SinS(sp32) * this->unk_16C)) + this->actor.home.pos.x;
             this->actor.world.pos.z =
-                (Math_SinS(this->unk15C * 0x7D0) * (Math_CosS(sp32) * this->unk16C)) + this->actor.home.pos.z;
+                (Math_SinS(this->unk_15C * 0x7D0) * (Math_CosS(sp32) * this->unk_16C)) + this->actor.home.pos.z;
         } else {
             this->actor.shape.rot.x = 0;
-            this->unk150 = 1;
+            this->unk_150 = 1;
             func_80B2194C(this);
         }
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.x, -0x4000, 1, 0x1F4, 0);
         if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.3f, 1.5f, 0.3f) == 0.0f) {
-            this->unk15A = 0x3C;
+            this->unk_15A = 0x3C;
         } else {
             sp32 = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
             this->actor.world.pos.x =
-                (Math_SinS(this->unk15C * 0x7D0) * (Math_SinS(sp32) * 6.0f)) + this->actor.home.pos.x;
+                (Math_SinS(this->unk_15C * 0x7D0) * (Math_SinS(sp32) * 6.0f)) + this->actor.home.pos.x;
             this->actor.world.pos.z =
-                (Math_SinS(this->unk15C * 0x7D0) * (Math_CosS(sp32) * 6.0f)) + this->actor.home.pos.z;
+                (Math_SinS(this->unk_15C * 0x7D0) * (Math_CosS(sp32) * 6.0f)) + this->actor.home.pos.z;
         }
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -446,8 +446,8 @@ void func_80B21BDC(EnTp* this, PlayState* play) {
 }
 
 void func_80B21EE8(EnTp* this) {
-    this->unk14C = 9;
-    this->unk15A = 0;
+    this->unk_14C = 9;
+    this->unk_15A = 0;
     func_80B20DE0(this, func_80B21F18);
 }
 
@@ -462,21 +462,21 @@ void func_80B21F18(EnTp* this, PlayState* play) {
     s16 new_var;
 
     sp44 = 0;
-    this->unk15C -= 1;
-    if ((this->unk15A != 0) || ((this->actor.home.pos.y - this->actor.world.pos.y) > 60.0f)) {
+    this->unk_15C -= 1;
+    if ((this->unk_15A != 0) || ((this->actor.home.pos.y - this->actor.world.pos.y) > 60.0f)) {
         if (1) {
-            this->unk15A -= 1;
+            this->unk_15A -= 1;
         }
-        if ((new_var = this->unk15A) == 0) {
+        if ((new_var = this->unk_15A) == 0) {
             func_80B21B90(this);
             var_v0 = (EnTp*)this->actor.child;
             while (var_v0 != NULL) {
-                var_v0->unk15C = var_v0->unk15A;
+                var_v0->unk_15C = var_v0->unk_15A;
                 var_v0 = (EnTp*)var_v0->actor.child;
             }
         } else {
             if (this->actor.shape.rot.x != -0x4000) {
-                this->unk15A = 0x50;
+                this->unk_15A = 0x50;
                 this->actor.velocity.y = 0.0f;
                 this->actor.speed = 0.0f;
                 this->actor.world.pos = this->actor.home.pos;
@@ -490,14 +490,14 @@ void func_80B21F18(EnTp* this, PlayState* play) {
                     var_v0 = (EnTp*)var_v0->actor.child;
                 }
             }
-            this->actor.world.pos.y = this->actor.home.pos.y - (f32)this->unk15A;
+            this->actor.world.pos.y = this->actor.home.pos.y - (f32)this->unk_15A;
         }
     } else {
         if (this->actor.shape.rot.x != 0x4000) {
             this->actor.shape.rot.x -= 0x400;
         }
-        if (this->unk160 != 0) {
-            this->unk160 -= 15;
+        if (this->unk_160 != 0) {
+            this->unk_160 -= 15;
         }
         this->actor.speed = 2.0f * Math_CosS(this->actor.shape.rot.x);
         this->actor.velocity.y = Math_SinS(this->actor.shape.rot.x) * -2.0f;
@@ -526,7 +526,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
     s32 var_s4;
     EnTp* new_var;
 
-    if ((this->collider.base.acFlags & AC_HIT) && (this->unk14C >= 2)) {
+    if ((this->collider.base.acFlags & AC_HIT) && (this->unk_14C >= 2)) {
         var_s2 = 0;
         var_s4 = 0;
         if (this->actor.params < 0) {
@@ -534,7 +534,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
         }
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
-        this->unk158 = this->actor.colChkInfo.damageReaction;
+        this->unk_158 = this->actor.colChkInfo.damageReaction;
         if (this->actor.colChkInfo.damageReaction != 0) {
             if (this->actor.colChkInfo.damageReaction == 1) {
                 var_s4 = 1;
@@ -544,10 +544,10 @@ void func_80B221E8(EnTp* this, PlayState* play) {
             }
             if (this->actor.colChkInfo.health == 0) {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                new_var = this->unk1D4;
+                new_var = this->unk_1D4;
                 if (new_var->actor.params < 0) {
                     func_80B21454(new_var);
-                    new_var->unk158 = this->actor.colChkInfo.damageReaction;
+                    new_var->unk_158 = this->actor.colChkInfo.damageReaction;
                     new_var->actor.params = 0xC;
                 }
             } else {
@@ -612,15 +612,15 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     player = GET_PLAYER(play);
 
     if (player->stateFlags1 & PLAYER_STATE1_26) {
-        this->unk158 = 0;
+        this->unk_158 = 0;
     }
     if (this->actor.colChkInfo.health != 0) {
         func_80B221E8(this, play);
     }
-    this->unk154(this, play);
+    this->unk_154(this, play);
     if (this->actor.params < 0) {
         Actor_MoveXZGravity(&this->actor);
-        if (this->unk14C != 9) {
+        if (this->unk_14C != 9) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 15.0f, 10.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
@@ -639,20 +639,20 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
         if (this->actor.shape.rot.z == 0) {
             SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_CRY);
         }
-        if (this->unk14C >= 2) {
+        if (this->unk_14C >= 2) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
     }
     if (this->actor.params != 0xB) {
-        this->unk162 -= 1;
-        this->unk162 &= 7;
+        this->unk_162 -= 1;
+        this->unk_162 &= 7;
     }
     this->actor.focus.pos = this->actor.world.pos;
-    if (this->unk158 == 0xE) {
+    if (this->unk_158 == 0xE) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
-    if ((this->unk162 & 7) == 0) {
-        sp40.r = this->unk160;
+    if ((this->unk_162 & 7) == 0) {
+        sp40.r = this->unk_160;
         sp50.x = -this->actor.velocity.x * 0.25f;
         sp50.y = -this->actor.velocity.y * 0.25f;
         sp50.z = -this->actor.velocity.z * 0.25f;
@@ -661,7 +661,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
         sp44.z = ((Rand_ZeroOne() - 0.5f) * 25.0f) + this->actor.world.pos.z;
         EffectSsKiraKira_SpawnSmall(play, &sp44, &sp5C, &sp50, &sp40, &sp3C);
     }
-    if ((this->unk14C >= 2) && (this->actor.colChkInfo.health != 0)) {
+    if ((this->unk_14C >= 2) && (this->actor.colChkInfo.health != 0)) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
@@ -671,7 +671,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
     EnTp* this = (EnTp*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_tp.c", 1451);
-    if (this->unk150 != 2) {
+    if (this->unk_150 != 2) {
         temp_v0 = this->actor.params;
         if ((temp_v0 < 0) || (temp_v0 == 0xC)) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -681,7 +681,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
         } else {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_ReplaceRotation(&play->billboardMtxF);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, this->unk160, 0, 255, this->unk15E);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, this->unk_160, 0, 255, this->unk_15E);
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
                               TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
