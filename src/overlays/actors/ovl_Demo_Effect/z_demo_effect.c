@@ -87,9 +87,6 @@ void DemoEffect_SetStartPosFromCue(DemoEffect* this, PlayState* play, s32 cueCha
 void DemoEffect_SetPosRotFromCue(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing);
 void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed);
 
-extern TransformUpdateIndex D_06000050; // timewarpTransformUpdateIndex
-extern SkelCurveLimbList D_060012E8;    // timewarpLimbList
-
 ActorProfile Demo_Effect_Profile = {
     /**/ ACTOR_DEMO_EFFECT,
     /**/ ACTORCAT_BG,
@@ -691,12 +688,12 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
 void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
     s32 effectType = PARAMS_GET_S(this->actor.params, 0, 8);
 
-    if (!SkelCurve_Init(play, &this->skelCurve, &D_060012E8, &D_06000050)) {
+    if (!SkelCurve_Init(play, &this->skelCurve, &object_efc_tw_0012E8_Skel, &object_efc_tw_000050_Anim)) {
         ASSERT(0, "0", "../z_demo_effect.c", 1283);
     }
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 1.0f, 1.7f);
+        SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 59.0f, 1.0f, 1.7f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_InitTimeWarpTimeblock;
 
@@ -707,12 +704,12 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
         }
     } else if (gSaveContext.sceneLayer == 5 || gSaveContext.sceneLayer == 4 ||
                (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 59.0f, 0.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
         PRINTF(VT_FGCOL(CYAN) T(" 縮むバージョン \n", " Shrinking version \n") VT_RST);
     } else {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 1.0f, 1.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 59.0f, 1.0f, 1.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpPullMasterSword;
         PRINTF(VT_FGCOL(CYAN) T(" 通常 バージョン \n", " Normal version \n") VT_RST);
@@ -731,7 +728,7 @@ void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play)
         }
 
         if (SkelCurve_Update(play, &this->skelCurve)) {
-            SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
+            SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 60.0f, 59.0f, 0.0f);
         }
     }
 }
@@ -824,7 +821,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, PlayState* play) {
     Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 
     if (SkelCurve_Update(play, &this->skelCurve)) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 60.0f, 59.0f, 0.0f);
         this->updateFunc = DemoEffect_UpdateTimeWarpTimeblock;
         this->timeWarp.shrinkTimer = 0;
     }

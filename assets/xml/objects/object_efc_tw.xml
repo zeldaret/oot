@@ -1,12 +1,13 @@
 <Root>
     <File Name="object_efc_tw" Segment="6">
+        <CurveAnimation Name="object_efc_tw_000050_Anim" SkelOffset="0x12E8" Offset="0x50"/> <!-- timewarpTransformUpdateIndex -->
         <Array Name="object_efc_tw_000060_Vtx" Count="21" Offset="0x60">
             <Vtx/>
         </Array>
         <DList Name="object_efc_tw_0001B0_DL" Offset="0x1B0"/>
         <Texture Name="object_efc_tw_0002C8_Tex" Format="i8" Width="64" Height="64" Offset="0x2C8"/>
-        <Limb Name="object_efc_tw_0012C8_Limb" LimbType="Standard" Offset="0x12C8"/>
-        <Limb Name="object_efc_tw_0012D4_Limb" LimbType="Standard" Offset="0x12D4"/>
-        <Skeleton Name="object_efc_tw_0012E8_Skel" Type="Normal" LimbType="Standard" Offset="0x12E8"/>
+        <Limb Name="object_efc_tw_0012C8_Limb" LimbType="Curve" Offset="0x12C8"/>
+        <Limb Name="object_efc_tw_0012D4_Limb" LimbType="Curve" Offset="0x12D4"/>
+        <Skeleton Name="object_efc_tw_0012E8_Skel" Type="Curve" LimbType="Curve" Offset="0x12E8"/> <!-- timewarpLimbList -->
     </File>
 </Root>
