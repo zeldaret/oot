@@ -1,11 +1,5 @@
 /**
- * @file z_vismono.c
- *
- * This file implements a full-screen framebuffer effect for desaturating the contents of the framebuffer image.
- *
- * Broadly, this effect is achieved by reinterpreting the contents of the RGBA16 color image as indices into an IA16
- * color palette that converts each color into the desaturated equivalent. More precise details can be found in inline
- * comments.
+ * Color frame buffer effect to desaturate the colors.
  */
 
 #include "libc64/malloc.h"
@@ -17,8 +11,8 @@
 
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
-// the half of TMEM dedicated to color-indexed data.
-#define VISMONO_CFBFRAG_HEIGHT ((TMEM_SIZE / 2) / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
+// the half of tmem (0x800 bytes) dedicated to color-indexed data.
+#define VISMONO_CFBFRAG_HEIGHT (0x800 / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
 
 // Maximum size of the dlist written by `VisMono_DesaturateDList`.
 // `VisMono_DesaturateDList` consistently uses `VISMONO_DLSIZE - 2` double words, so this can be 2 less.
@@ -37,16 +31,16 @@ extern u16 D_0F000000[];
 
 void VisMono_Init(VisMono* this) {
     bzero(this, sizeof(VisMono));
-    this->vis.type = 0;
-    this->vis.scissorType = VIS_NO_SETSCISSOR;
-    this->vis.primColor.r = 255;
-    this->vis.primColor.g = 255;
-    this->vis.primColor.b = 255;
-    this->vis.primColor.a = 255;
-    this->vis.envColor.r = 0;
-    this->vis.envColor.g = 0;
-    this->vis.envColor.b = 0;
-    this->vis.envColor.a = 0;
+    this->unk_00 = 0;
+    this->setScissor = false;
+    this->primColor.r = 255;
+    this->primColor.g = 255;
+    this->primColor.b = 255;
+    this->primColor.a = 255;
+    this->envColor.r = 0;
+    this->envColor.g = 0;
+    this->envColor.b = 0;
+    this->envColor.a = 0;
 }
 
 void VisMono_Destroy(VisMono* this) {
@@ -105,8 +99,6 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
 
         // Set texel 1 to be a CI8 image with width `SCREEN_WIDTH * 2` and height `VISMONO_CFBFRAG_HEIGHT`
         // Its position in texture image space is shifted along +S by 1
-        // Note the palette index for this tile has also been incremented from 0 to 1, however the palette index is
-        // ignored for CI8 texture sampling.
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, 1, 1,
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
         gDPSetTileSize(gfx++, 1, 1 << 2, 0, (SCREEN_WIDTH * 2) << 2, (height - 1) << 2);
@@ -141,8 +133,8 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     return gfx;
 }
 
-void VisMono_Draw(VisMono* this, Gfx** gfxP) {
-    Gfx* gfx = *gfxP;
+void VisMono_Draw(VisMono* this, Gfx** gfxp) {
+    Gfx* gfx = *gfxp;
     u16* tlut;
     Gfx* dList;
     Gfx* dListEnd;
@@ -171,12 +163,12 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP) {
 
     gDPPipeSync(gfx++);
 
-    if (this->vis.scissorType == VIS_SETSCISSOR) {
+    if (this->setScissor == true) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->vis.primColor.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->vis.envColor.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->primColor.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->envColor.rgba);
 
     gDPLoadTLUT_pal256(gfx++, tlut);
 
@@ -184,7 +176,7 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP) {
 
     gDPPipeSync(gfx++);
 
-    *gfxP = gfx;
+    *gfxp = gfx;
 }
 
 void VisMono_DrawOld(VisMono* this) {
