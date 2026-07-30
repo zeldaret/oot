@@ -14,9 +14,8 @@
  */
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex) {
 #if OOT_NTSC
-    DMA_REQUEST_SYNC(&font->charTexBuf[codePointIndex],
-                     (uintptr_t)_kanjiSegmentRomStart + func_800D71F0(character), FONT_CHAR_TEX_SIZE,
-                     "../z_kanfont.c", UNK_LINE);
+    DMA_REQUEST_SYNC(&font->charTexBuf[codePointIndex], (uintptr_t)_kanjiSegmentRomStart + func_800D71F0(character),
+                     FONT_CHAR_TEX_SIZE, "../z_kanfont.c", UNK_LINE);
 #endif
 }
 
