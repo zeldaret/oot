@@ -160,11 +160,39 @@ static ColliderCylinderInit D_80B37A5C = {
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
-static DamageTable D_80B37A88 = {
-    {
-        0x10, 2,    1,    2,    0x10, 2, 2, 0x10, 1, 2, 4, 0xE4, 2, 2, 2, 2,
-        2,    0xE4, 0x60, 0xD3, 0,    0, 1, 4,    2, 2, 8, 4,    0, 0, 4, 0,
-    },
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(4, 0xE),
+    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(4, 0xE),
+    /* Ice magic     */ DMG_ENTRY(0, 0x6),
+    /* Light magic   */ DMG_ENTRY(3, 0xD),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 ActorProfile En_Wf_Profile = {
@@ -198,7 +226,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, D_80B37AC8);
-    this->actor.colChkInfo.damageTable = &D_80B37A88;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.colChkInfo.mass = MASS_HEAVY;

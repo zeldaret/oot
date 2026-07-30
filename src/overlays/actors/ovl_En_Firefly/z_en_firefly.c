@@ -57,10 +57,39 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 };
 static ColliderJntSphInit sJntSphInit = { { 3, 0x11, 9, 0x39, 0x10, 0 }, 1, sJntSphElementsInit };
 static CollisionCheckInfoInit D_80A14F64 = { 1, 0xA, 0xA, 0x1E };
-static DamageTable D_80A14F6C = {
-    {
-        0x10, 2, 1, 2, 1, 2, 2, 2, 1, 2, 4, 0xF2, 0x34, 2, 2, 2, 2, 0x20, 0x34, 0, 0, 0, 1, 4, 2, 2, 8, 4, 0, 0, 4, 0,
-    },
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xF),
+    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x2),
+    /* Ice magic     */ DMG_ENTRY(4, 0x3),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 static InitChainEntry D_80A14F8C[5] = {
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
@@ -103,7 +132,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnime, &gKeeseSkeleton, &gKeeseFlyAnim, this->jointTable, this->morphTable, 0x1C);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80A14F6C, &D_80A14F64);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &D_80A14F64);
     if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
         this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
         thisx->draw = EnFirefly_DrawXlu;

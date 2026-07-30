@@ -88,11 +88,39 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static DamageTable D_80B22AC4 = {
-    {
-        0x10, 0xF2, 0, 0, 0xF1, 0, 0xE2, 0,    0xE1, 0xE2, 0xE4, 0,    0, 0, 0,    0,
-        0,    0,    0, 0, 0,    0, 0xE1, 0xE4, 0xE2, 0xE2, 0xE8, 0xE4, 0, 0, 0xE4, 0,
-    },
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0xF),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(0, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0xF),
+    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xE),
+    /* Hookshot      */ DMG_ENTRY(0, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xE),
+    /* Master sword  */ DMG_ENTRY(2, 0xE),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xE),
+    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
+    /* Light arrow   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0xE),
+    /* Giant spin    */ DMG_ENTRY(4, 0xE),
+    /* Master spin   */ DMG_ENTRY(2, 0xE),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0xE),
+    /* Giant jump    */ DMG_ENTRY(8, 0xE),
+    /* Master jump   */ DMG_ENTRY(4, 0xE),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xE),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 static InitChainEntry D_80B22AE4[] = {
     ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
@@ -112,7 +140,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
 
     Actor_ProcessInitChain(&this->actor, D_80B22AE4);
     this->actor.attentionRangeType = ATTENTION_RANGE_3;
-    this->actor.colChkInfo.damageTable = &D_80B22AC4;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
     this->unk150 = 0;
     this->actor.colChkInfo.health = 1;

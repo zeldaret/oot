@@ -118,7 +118,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static DamageTable D_809EC620 = {
+static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),
     /* Deku stick    */ DMG_ENTRY(2, 0xF),
     /* Slingshot     */ DMG_ENTRY(0, 0x0),
@@ -168,7 +168,7 @@ void EnDh_Init(Actor* thisx, PlayState* play) {
     EnDh* this = (EnDh*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.colChkInfo.damageTable = &D_809EC620;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_dh_Skel_007E88, &object_dh_Anim_005880, this->jointTable,
                        this->limbRotTable, 16);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 64.0f);

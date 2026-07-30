@@ -94,11 +94,39 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit D_80B2891C = { 2, 0x12, 0x20, 0xFE };
-static DamageTable D_80B28924 = {
-    {
-        0x10, 2,    0xE0, 2, 0x10, 2, 2, 2, 0xF1, 0xF2, 0xF4, 0x24, 0x34, 2, 2, 2,
-        2,    0x24, 0x34, 0, 0,    0, 1, 4, 2,    2,    8,    4,    0,    0, 4, 0,
-    },
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0xE),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
+    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(4, 0x2),
+    /* Ice magic     */ DMG_ENTRY(4, 0x3),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 static InitChainEntry D_80B28944[3] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BARI, ICHAIN_CONTINUE),
@@ -124,7 +152,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->unk37C, &this->actor, &sColliderQuadInit);
     Collider_InitCylinder(play, &this->unk3FC);
     Collider_SetCylinder(play, &this->unk3FC, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80B28924, &D_80B2891C);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &D_80B2891C);
     func_80B26878(this);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.floorHeight =

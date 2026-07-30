@@ -87,11 +87,39 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit2 D_809C166C = { 1, 9, 0x1C, -0x14, 0x1E };
-static DamageTable D_809C1678 = {
-    {
-        0x10, 2,    0xE0, 2, 1, 2, 2, 2, 0xF1, 0xF2, 0xF4, 0x24, 0x34, 2, 2, 2,
-        2,    0x24, 0x34, 0, 0, 0, 1, 4, 2,    2,    8,    4,    0,    0, 4, 0,
-    },
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0xE),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
+    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(4, 0x2),
+    /* Ice magic     */ DMG_ENTRY(4, 0x3),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 static InitChainEntry D_809C1698[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BIRI, ICHAIN_CONTINUE),
@@ -110,7 +138,7 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
                    this->morphTable, 5);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_809C1678, &D_809C166C);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &D_809C166C);
     this->unk195 = 0;
     if (this->actor.params == -1) {
         func_809BF9BC(this);

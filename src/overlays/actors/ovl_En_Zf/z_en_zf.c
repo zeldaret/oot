@@ -133,11 +133,39 @@ static ColliderQuadInit sColliderQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static DamageTable D_80B4A254 = {
-    {
-        0x10, 2,    0xD1, 2,    0x10, 2, 2, 0x10, 1, 2, 4, 0xD2, 0xF4, 0xD2, 0xD2, 0xD2,
-        0xD2, 0x60, 0xF3, 0x60, 0,    0, 1, 4,    2, 2, 8, 4,    0,    0,    4,    0,
-    },
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0xD),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xD),
+    /* Ice arrow     */ DMG_ENTRY(4, 0xF),
+    /* Light arrow   */ DMG_ENTRY(2, 0xD),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0xD),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0xD),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0xD),
+    /* Fire magic    */ DMG_ENTRY(0, 0x6),
+    /* Ice magic     */ DMG_ENTRY(3, 0xF),
+    /* Light magic   */ DMG_ENTRY(0, 0x6),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 static InitChainEntry D_80B4A274[3] = {
     ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
@@ -243,7 +271,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
     this->unk3E0 = 0;
     this->actor.colChkInfo.mass = MASS_HEAVY;
-    this->actor.colChkInfo.damageTable = &D_80B4A254;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     sp4C.p1StartColor[0] = sp4C.p1StartColor[1] = sp4C.p1StartColor[2] = sp4C.p1StartColor[3] = sp4C.p2StartColor[0] =
         sp4C.p2StartColor[1] = sp4C.p2StartColor[2] = sp4C.p1EndColor[0] = sp4C.p1EndColor[1] = sp4C.p1EndColor[2] =
             sp4C.p2EndColor[0] = sp4C.p2EndColor[1] = sp4C.p2EndColor[2] = 255;
