@@ -216,8 +216,8 @@ static InitChainEntry sInitChain[2] = {
 static Vec3f D_80B37AD0 = { 0.0f, 0.5f, 0.0f };
 static Vec3f D_80B37ADC = { 1200.0f, 0.0f, 0.0f };
 static Vec3f D_80B37AE8 = { 0.0f, 0.0f, 0.0f };
-static s32 D_80B37AF4[4] = { 0x06007B68, 0x06008368, 0x06008568, 0x06008368 };
-static s32 D_80B37B04[4] = { 0x06000300, 0x060027D8, 0x060029D8, 0x060027D8 };
+static void* D_80B37AF4[4] = { object_wf_Tex_007B68, object_wf_Tex_008368, object_wf_Tex_008568, object_wf_Tex_008368 };
+static void* D_80B37B04[4] = { object_wf_Tex_000300, object_wf_Tex_0027D8, object_wf_Tex_0029D8, object_wf_Tex_0027D8 };
 
 void func_80B33CB0(EnWf* this, void (*arg1)(EnWf*, PlayState*)) {
     this->unk2DC = arg1;

@@ -5,7 +5,7 @@
         <Texture Name="object_wf_Tex_000180" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
         <Texture Name="object_wf_Tex_000200" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
         <Texture Name="object_wf_Tex_000280" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
-        <Blob Name="object_wf_Blob_000300" Size="0x200" Offset="0x300"/>
+        <Texture Name="object_wf_Tex_000300" Format="rgba16" Width="16" Height="16" Offset="0x300"/>
         <Array Name="object_wf_Vtx_000500" Count="19" Offset="0x500">
             <Vtx/>
         </Array>
@@ -62,7 +62,8 @@
         <DList Name="object_wf_DL_002490" Offset="0x2490"/>
         <DList Name="object_wf_DL_0025A0" Offset="0x25A0"/>
         <DList Name="object_wf_DL_0026C8" Offset="0x26C8"/>
-        <Blob Name="object_wf_Blob_0027D8" Size="0x400" Offset="0x27D8"/>
+        <Texture Name="object_wf_Tex_0027D8" Format="rgba16" Width="16" Height="16" Offset="0x27D8"/>
+        <Texture Name="object_wf_Tex_0029D8" Format="rgba16" Width="16" Height="16" Offset="0x29D8"/>
         <Array Name="object_wf_Vtx_002BD8" Count="5" Offset="0x2BD8">
             <Vtx/>
         </Array>
@@ -170,13 +171,14 @@
         <DList Name="object_wf_DL_007830" Offset="0x7830"/>
         <DList Name="object_wf_DL_007940" Offset="0x7940"/>
         <DList Name="object_wf_DL_007A58" Offset="0x7A58"/>
-        <Blob Name="object_wf_Blob_007B68" Size="0x200" Offset="0x7B68"/>
+        <Texture Name="object_wf_Tex_007B68" Format="rgba16" Width="16" Height="16" Offset="0x7B68"/>
         <Texture Name="object_wf_Tex_007D68" Format="rgba16" Width="16" Height="32" Offset="0x7D68"/>
         <Texture Name="object_wf_Tex_008168" Format="rgba16" Width="8" Height="8" Offset="0x8168"/>
         <Texture Name="object_wf_Tex_0081E8" Format="rgba16" Width="8" Height="8" Offset="0x81E8"/>
         <Texture Name="object_wf_Tex_008268" Format="rgba16" Width="8" Height="8" Offset="0x8268"/>
         <Texture Name="object_wf_Tex_0082E8" Format="rgba16" Width="8" Height="8" Offset="0x82E8"/>
-        <Blob Name="object_wf_Blob_008368" Size="0x400" Offset="0x8368"/>
+        <Texture Name="object_wf_Tex_008368" Format="rgba16" Width="16" Height="16" Offset="0x8368"/>
+        <Texture Name="object_wf_Tex_008568" Format="rgba16" Width="16" Height="16" Offset="0x8568"/>
         <Array Name="object_wf_Vtx_008768" Count="5" Offset="0x8768">
             <Vtx/>
         </Array>
