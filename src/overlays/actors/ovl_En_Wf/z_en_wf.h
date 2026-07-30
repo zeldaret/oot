@@ -10,8 +10,8 @@ typedef struct EnWf {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3s unk14C[10];
     /* 0x188 */ SkelAnime skelAnime;
-    /* 0x1CC */ Vec3s unk1CC[22];
-    /* 0x250 */ Vec3s unk250[22];
+    /* 0x1CC */ Vec3s jointTable[22];
+    /* 0x250 */ Vec3s morphTable[22];
     /* 0x2D4 */ s32 unk2D4;
     /* 0x2D8 */ char pad2D8[4];
     /* 0x2DC */ void (*unk2DC)(struct EnWf*, struct PlayState*);

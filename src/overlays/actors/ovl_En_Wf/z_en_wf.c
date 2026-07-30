@@ -246,13 +246,13 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->unk470);
     Collider_SetCylinder(play, &this->unk470, &this->actor, &D_80B37A5C);
     if (this->actor.params == 0) {
-        SkelAnime_InitFlex(play, &this->skelAnime, &object_wf_Skel_009690, &object_wf_Anim_00A4AC, this->unk1CC,
-                           this->unk250, 22);
+        SkelAnime_InitFlex(play, &this->skelAnime, &object_wf_Skel_009690, &object_wf_Anim_00A4AC, this->jointTable,
+                           this->morphTable, 22);
         Actor_SetScale(&this->actor, 0.0075f);
         this->actor.naviEnemyId = NAVI_ENEMY_WOLFOS;
     } else {
-        SkelAnime_InitFlex(play, &this->skelAnime, &object_wf_Skel_003BC0, &object_wf_Anim_00A4AC, this->unk1CC,
-                           this->unk250, 22);
+        SkelAnime_InitFlex(play, &this->skelAnime, &object_wf_Skel_003BC0, &object_wf_Anim_00A4AC, this->jointTable,
+                           this->morphTable, 22);
         Actor_SetScale(&this->actor, 0.01f);
         this->unk304.elements[0].base.atDmgInfo.damage = this->unk304.elements[1].base.atDmgInfo.damage = 8;
         this->actor.naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
