@@ -1,9 +1,11 @@
-#include "code_800D71F0.h"
+#include "versions.h"
+#if OOT_NTSC
+#include "kanji_tex.h"
+#endif
 #include "message_data_static.h"
 #include "printf.h"
 #include "segment_symbols.h"
 #include "translation.h"
-#include "versions.h"
 #include "dma.h"
 #include "font.h"
 #include "message.h"
@@ -14,8 +16,9 @@
  */
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex) {
 #if OOT_NTSC
-    DMA_REQUEST_SYNC(&font->charTexBuf[codePointIndex], (uintptr_t)_kanjiSegmentRomStart + func_800D71F0(character),
-                     FONT_CHAR_TEX_SIZE, "../z_kanfont.c", UNK_LINE);
+    DMA_REQUEST_SYNC(&font->charTexBuf[codePointIndex],
+                     (uintptr_t)_kanjiSegmentRomStart + KanjiTex_CodepointToOffset(character), FONT_CHAR_TEX_SIZE,
+                     "../z_kanfont.c", UNK_LINE);
 #endif
 }
 
@@ -82,7 +85,7 @@ void Font_LoadOrderedFont(Font* font) {
         }
 
         if (font->msgBufWide[codePointIndex] != MESSAGE_WIDE_NEWLINE) {
-            offset = func_800D71F0(font->msgBufWide[codePointIndex]);
+            offset = KanjiTex_CodepointToOffset(font->msgBufWide[codePointIndex]);
             DMA_REQUEST_SYNC(&font->fontBuf[fontBufIndex * 8], (uintptr_t)_kanjiSegmentRomStart + offset,
                              FONT_CHAR_TEX_SIZE, "../z_kanfont.c", UNK_LINE);
             fontBufIndex += FONT_CHAR_TEX_SIZE / 8;
@@ -134,7 +137,7 @@ void Font_LoadOrderedFont(Font* font) {
         }
 
         if (msgBufWide[codePointIndex] != MESSAGE_WIDE_NEWLINE) {
-            offset = func_800D71F0(msgBufWide[codePointIndex]);
+            offset = KanjiTex_CodepointToOffset(msgBufWide[codePointIndex]);
             DMA_REQUEST_SYNC(&font->fontBuf[fontBufIndex * 8], (uintptr_t)_kanjiSegmentRomStart + offset,
                              FONT_CHAR_TEX_SIZE, "../z_kanfont.c", UNK_LINE);
             fontBufIndex += FONT_CHAR_TEX_SIZE / 8;
