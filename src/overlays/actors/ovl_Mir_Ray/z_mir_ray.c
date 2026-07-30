@@ -62,13 +62,13 @@ static ColliderQuadInit D_80B8E674 = {
         { 0.0f, 0.0f, 0.0f },
     } },
 };
-static ColliderJntSphElementInit D_80B8E6C4[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         { 0, { 0x200000, 0, 0 }, { 0, 0, 0 }, 1, 0, 0 },
         { 0, { { 0, 0, 0 }, 0x32 }, 0x64 },
     },
 };
-static ColliderJntSphInit D_80B8E6E8 = { { 0xA, 9, 0, 0, 0, 0 }, 1, D_80B8E6C4 };
+static ColliderJntSphInit sJntSphInit = { { 0xA, 9, 0, 0, 0, 0 }, 1, sJntSphElementsInit };
 typedef struct struct_80B8E6F8 {
     /* 0x00 */ Vec3s coneFrustumCenterTop;
     /* 0x06 */ Vec3s coneFrustumCenterBase;
@@ -305,7 +305,7 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     this->reflectionOriginModelPositions[5].y = -800.0f;
     if (temp_s1->unk1F & UNK1F_1) {
         Collider_InitJntSph(play, &this->unk14C);
-        Collider_SetJntSph(play, &this->unk14C, &this->actor, &D_80B8E6E8, &this->unk16C);
+        Collider_SetJntSph(play, &this->unk14C, &this->actor, &sJntSphInit, &this->unk16C);
         if (!(temp_s1->unk1F & UNK1F_2)) {
             MirRay_UpdateColliderSphereShape(this);
         }

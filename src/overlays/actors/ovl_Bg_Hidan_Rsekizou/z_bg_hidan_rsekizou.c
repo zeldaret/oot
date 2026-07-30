@@ -37,7 +37,7 @@ ActorProfile Bg_Hidan_Rsekizou_Profile = {
     /**/ BgHidanRsekizou_Draw,
 };
 
-static ColliderJntSphElementInit D_8088CC80[6] = {
+static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
         { 0, { 0x20000000, 1, 4 }, { 0, 0, 0 }, 0x19, 0, 0 },
         { 1, { { 0, 0x1E, 0x28 }, 0x19 }, 0x64 },
@@ -63,7 +63,7 @@ static ColliderJntSphElementInit D_8088CC80[6] = {
         { 1, { { 0x50, 0x23, -0x82 }, 0x2A }, 0x64 },
     },
 };
-ColliderJntSphInit D_8088CD58 = { { 0xA, 0x11, 0, 0, 0x20, 0 }, 6, D_8088CC80 };
+static ColliderJntSphInit sJntSphInit = { { 0xA, 0x11, 0, 0, 0x20, 0 }, 6, sJntSphElementsInit };
 InitChainEntry D_8088CD68[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
@@ -87,7 +87,7 @@ void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &sp30);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp30);
     Collider_InitJntSph(play, &this->unk168);
-    Collider_SetJntSph(play, &this->unk168, &this->dyna.actor, &D_8088CD58, this->unk188);
+    Collider_SetJntSph(play, &this->unk168, &this->dyna.actor, &sJntSphInit, this->unk188);
     for (i = 0; i < 6; i++) {
         this->unk168.elements[i].dim.worldSphere.radius = this->unk168.elements[i].dim.modelSphere.radius;
     }

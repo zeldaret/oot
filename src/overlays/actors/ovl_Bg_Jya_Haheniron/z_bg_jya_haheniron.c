@@ -43,13 +43,13 @@ ActorProfile Bg_Jya_Haheniron_Profile = {
     /**/ BgJyaHaheniron_Update,
     /**/ BgJyaHaheniron_Draw,
 };
-static ColliderJntSphElementInit D_80898740[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         { 0, { 0xFFCFFFFF, 0, 4 }, { 0, 0, 0 }, 1, 0, 0 },
         { 0, { { 0, 0, 0 }, 0xA }, 0x64 },
     },
 };
-static ColliderJntSphInit D_80898764 = { { 0xA, 0x11, 1, 0, 0, 0 }, 1, D_80898740 };
+static ColliderJntSphInit sJntSphInit = { { 0xA, 0x11, 1, 0, 0, 0 }, 1, sJntSphElementsInit };
 static s16 D_80898774[5] = { 5, 8, 0xB, 0xE, 0x11 };
 static InitChainEntry D_80898780[5] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),      ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
@@ -69,7 +69,7 @@ void func_808980C0(BgJyaHaheniron* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->unk150);
-    Collider_SetJntSph(play, &this->unk150, &this->actor, &D_80898764, this->unk170);
+    Collider_SetJntSph(play, &this->unk150, &this->actor, &sJntSphInit, this->unk170);
 }
 
 void func_80898114(PlayState* play, Vec3f* arg1, Vec3f* arg2) {

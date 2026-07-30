@@ -61,7 +61,7 @@ ActorProfile En_Tp_Profile = {
     /**/ EnTp_Draw,
 };
 
-static ColliderJntSphElementInit D_80B22A90[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -75,7 +75,7 @@ static ColliderJntSphElementInit D_80B22A90[1] = {
     },
 };
 
-static ColliderJntSphInit D_80B22AB4 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COL_MATERIAL_HIT1,
         AT_ON | AT_TYPE_ENEMY,
@@ -85,7 +85,7 @@ static ColliderJntSphInit D_80B22AB4 = {
         COLSHAPE_JNTSPH,
     },
     1,
-    D_80B22A90,
+    sJntSphElementsInit,
 };
 
 static DamageTable D_80B22AC4 = {
@@ -119,7 +119,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     var_s5 = this;
     this->unk15E = 0xFF;
     Collider_InitJntSph(play, &this->unk174);
-    Collider_SetJntSph(play, &this->unk174, &this->actor, &D_80B22AB4, &this->unk194);
+    Collider_SetJntSph(play, &this->unk174, &this->actor, &sJntSphInit, &this->unk194);
     if (this->actor.params < 0) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->unk15A = 0;

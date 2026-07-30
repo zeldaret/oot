@@ -53,7 +53,7 @@ ActorProfile En_Dekubaba_Profile = {
     /**/ EnDekubaba_Draw,
 };
 
-static ColliderJntSphElementInit D_809E8ECC[7] = {
+static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -133,7 +133,7 @@ static ColliderJntSphElementInit D_809E8ECC[7] = {
     },
 };
 
-static ColliderJntSphInit D_809E8FC8 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
@@ -143,7 +143,7 @@ static ColliderJntSphInit D_809E8FC8 = {
         COLSHAPE_JNTSPH,
     },
     7,
-    D_809E8ECC,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit D_809E8FD8 = { 2, 0x19, 0x19, 0xFF };
@@ -179,12 +179,13 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Init(play, &this->unk17C, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->unk1D0,
                    this->unk200, 8);
     Collider_InitJntSph(play, &this->unk238);
-    Collider_SetJntSph(play, &this->unk238, &this->actor, &D_809E8FC8, this->unk258);
+    Collider_SetJntSph(play, &this->unk238, &this->actor, &sJntSphInit, this->unk258);
     if (this->actor.params == 1) {
         this->unk230 = 2.50f;
-        for (var_a0 = 0; var_a0 < D_809E8FC8.count; var_a0++) {
+        for (var_a0 = 0; var_a0 < sJntSphInit.count; var_a0++) {
             this->unk238.elements[var_a0].dim.worldSphere.radius =
-                this->unk238.elements[var_a0].dim.modelSphere.radius = D_809E8ECC[var_a0].dim.modelSphere.radius * 2.5f;
+                this->unk238.elements[var_a0].dim.modelSphere.radius =
+                    sJntSphElementsInit[var_a0].dim.modelSphere.radius * 2.5f;
         }
         if (!LINK_IS_ADULT) {
             D_809E9000.table[0x1B] = 4;
@@ -195,7 +196,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         this->actor.attentionRangeType = ATTENTION_RANGE_2;
     } else {
         this->unk230 = 1.0f;
-        for (var_a0 = 0; var_a0 < D_809E8FC8.count; var_a0++) {
+        for (var_a0 = 0; var_a0 < sJntSphInit.count; var_a0++) {
             this->unk238.elements[var_a0].dim.worldSphere.radius = this->unk238.elements[var_a0].dim.modelSphere.radius;
         }
         if (!LINK_IS_ADULT) {

@@ -60,7 +60,7 @@ void func_80B36C8C(EnWf* this);
 void func_80B36D3C(EnWf* this, PlayState* play);
 s32 func_80B37830(PlayState* play, EnWf* this);
 
-static ColliderJntSphElementInit D_80B37990[4] = {
+static ColliderJntSphElementInit sJntSphElementsInit[4] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -107,7 +107,7 @@ static ColliderJntSphElementInit D_80B37990[4] = {
     },
 };
 
-static ColliderJntSphInit D_80B37A20 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
@@ -117,7 +117,7 @@ static ColliderJntSphInit D_80B37A20 = {
         COLSHAPE_JNTSPH,
     },
     4,
-    D_80B37990,
+    sJntSphElementsInit,
 };
 
 static ColliderCylinderInit D_80B37A30 = {
@@ -210,7 +210,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     this->unk302 = 0;
     this->unk2F4 = 10.0f;
     Collider_InitJntSph(play, &this->unk304);
-    Collider_SetJntSph(play, &this->unk304, &this->actor, &D_80B37A20, this->unk324);
+    Collider_SetJntSph(play, &this->unk304, &this->actor, &sJntSphInit, this->unk324);
     Collider_InitCylinder(play, &this->unk424);
     Collider_SetCylinder(play, &this->unk424, &this->actor, &D_80B37A30);
     Collider_InitCylinder(play, &this->unk470);

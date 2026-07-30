@@ -56,7 +56,7 @@ void EnSkb_TakeDamage(EnSkb* this, PlayState* play);
 void EnSkb_SetupDeath(EnSkb* this, PlayState* play);
 void EnSkb_Death(EnSkb* this, PlayState* play);
 
-static ColliderJntSphElementInit D_80AFE020[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -81,7 +81,7 @@ static ColliderJntSphElementInit D_80AFE020[2] = {
     },
 };
 
-static ColliderJntSphInit D_80AFE068 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
@@ -91,7 +91,7 @@ static ColliderJntSphInit D_80AFE068 = {
         COLSHAPE_JNTSPH,
     },
     2,
-    D_80AFE020,
+    sJntSphElementsInit,
 };
 
 static DamageTable D_80AFE078 = {
@@ -158,7 +158,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
                    20);
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
     Collider_InitJntSph(play, &this->unk2A4);
-    Collider_SetJntSph(play, &this->unk2A4, &this->actor, &D_80AFE068, this->unk2C4);
+    Collider_SetJntSph(play, &this->unk2A4, &this->actor, &sJntSphInit, this->unk2C4);
     Actor_SetScale(&this->actor, ((this->actor.params * 0.1f) + 1.0f) * 0.01f);
     this->unk2A4.elements[0].dim.modelSphere.radius = this->unk2A4.elements[0].dim.worldSphere.radius =
         this->actor.params + 10;

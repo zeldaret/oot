@@ -49,11 +49,13 @@ ActorProfile En_Firefly_Profile = {
     /**/ EnFirefly_Update,
     /**/ EnFirefly_DrawOpa,
 };
-static ColliderJntSphElementInit D_80A14F30 = {
-    { 0, { 0xFFCFFFFF, 1, 8 }, { 0xFFCFFFFF, 0, 0 }, 9, 1, 1 },
-    { 1, { { 0, 0x3E8, 0 }, 0xF }, 0x64 },
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+    {
+        { 0, { 0xFFCFFFFF, 1, 8 }, { 0xFFCFFFFF, 0, 0 }, 9, 1, 1 },
+        { 1, { { 0, 0x3E8, 0 }, 0xF }, 0x64 },
+    },
 };
-static ColliderJntSphInit D_80A14F54 = { { 3, 0x11, 9, 0x39, 0x10, 0 }, 1, &D_80A14F30 };
+static ColliderJntSphInit sJntSphInit = { { 3, 0x11, 9, 0x39, 0x10, 0 }, 1, sJntSphElementsInit };
 static CollisionCheckInfoInit D_80A14F64 = { 1, 0xA, 0xA, 0x1E };
 static DamageTable D_80A14F6C = {
     {
@@ -100,7 +102,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_Init(play, &this->skelAnime, &gKeeseSkeleton, &gKeeseFlyAnim, this->unk1BE, this->unk266, 0x1C);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &D_80A14F54, this->colliderElements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80A14F6C, &D_80A14F64);
     if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
         this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
@@ -139,7 +141,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
             this->unk1B8 = 0;
         }
     }
-    this->collider.elements->dim.worldSphere.radius = D_80A14F54.elements->dim.modelSphere.radius;
+    this->collider.elements->dim.worldSphere.radius = sJntSphInit.elements->dim.modelSphere.radius;
 }
 
 void EnFirefly_Destroy(Actor* thisx, PlayState* play) {

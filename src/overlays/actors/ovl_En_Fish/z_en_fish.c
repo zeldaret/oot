@@ -56,7 +56,7 @@ static EnFish* D_80A17010 = NULL;
 static f32 D_80A17014 = 0.0f;
 static f32 D_80A17018 = 0.0f;
 
-static ColliderJntSphElementInit D_80A1701C[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -70,7 +70,7 @@ static ColliderJntSphElementInit D_80A1701C[1] = {
     },
 };
 
-static ColliderJntSphInit D_80A17040 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -80,7 +80,7 @@ static ColliderJntSphInit D_80A17040 = {
         COLSHAPE_JNTSPH,
     },
     1,
-    D_80A1701C,
+    sJntSphElementsInit,
 };
 
 ActorProfile En_Fish_Profile = {
@@ -167,7 +167,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_80A17070);
     SkelAnime_InitFlex(play, &this->unk1AC, &gFishSkel, &gFish2Anim, this->unk1F0, this->unk21A, 7);
     Collider_InitJntSph(play, &this->unk14C);
-    Collider_SetJntSph(play, &this->unk14C, &this->actor, &D_80A17040, &this->unk16C);
+    Collider_SetJntSph(play, &this->unk14C, &this->actor, &sJntSphInit, &this->unk16C);
     this->actor.colChkInfo.mass = 0x32;
     this->unk24C = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
     this->unk24E = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
