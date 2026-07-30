@@ -52,7 +52,7 @@ ActorProfile Mir_Ray_Profile = {
 };
 
 static u8 D_80B8E670 = false;
-static ColliderQuadInit D_80B8E674 = {
+static ColliderQuadInit sColliderQuadInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -320,7 +320,7 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
         }
     }
     Collider_InitQuad(play, &this->unk1AC);
-    Collider_SetQuad(play, &this->unk1AC, &this->actor, &D_80B8E674);
+    Collider_SetQuad(play, &this->unk1AC, &this->actor, &sColliderQuadInit);
     if ((this->actor.params == 5) || (this->actor.params == 7) || (this->actor.params == 8)) {
         this->actor.room = -1;
     }

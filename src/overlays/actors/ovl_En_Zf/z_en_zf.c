@@ -113,7 +113,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderQuadInit D_80B4A204 = {
+static ColliderQuadInit sColliderQuadInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -263,7 +263,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->unk418);
     Collider_SetCylinder(play, &this->unk418, &this->actor, &sCylinderInit);
     Collider_InitQuad(play, &this->unk464);
-    Collider_SetQuad(play, &this->unk464, &this->actor, &D_80B4A204);
+    Collider_SetQuad(play, &this->unk464, &this->actor, &sColliderQuadInit);
     if (this->actor.params == -2) {
         this->actor.colChkInfo.health = 12;
         this->actor.naviEnemyId = NAVI_ENEMY_DINOLFOS;
