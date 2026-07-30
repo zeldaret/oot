@@ -121,13 +121,13 @@ f32 func_80A15280(Vec3f* arg0, Vec3f* arg1) {
 }
 
 void func_80A152AC(EnFish* this) {
-    Animation_Change(&this->unk1AC, &gFish2Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish2Anim), ANIMMODE_LOOP_INTERP,
-                     2.0f);
+    Animation_Change(&this->skelAnime, &gFish2Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish2Anim),
+                     ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
 void func_80A15310(EnFish* this) {
-    Animation_Change(&this->unk1AC, &gFish1Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish1Anim), ANIMMODE_LOOP_INTERP,
-                     2.0f);
+    Animation_Change(&this->skelAnime, &gFish1Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish1Anim),
+                     ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
 void func_80A15374(EnFish* this) {
@@ -166,7 +166,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
 
     sp3A = this->actor.params;
     Actor_ProcessInitChain(&this->actor, D_80A17070);
-    SkelAnime_InitFlex(play, &this->unk1AC, &gFishSkel, &gFish2Anim, this->unk1F0, this->unk21A, 7);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gFishSkel, &gFish2Anim, this->unk1F0, this->unk21A, 7);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 0x32;
@@ -228,8 +228,8 @@ void func_80A157A4(EnFish* this) {
 void func_80A157FC(EnFish* this, PlayState* play) {
     func_80A155D0(this);
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.05f, 0.3f, 0.0f);
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.4f) + 0.8f, 2.0f);
-    SkelAnime_Update(&this->unk1AC);
+    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speed * 1.4f) + 0.8f, 2.0f);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->unk248 <= 0) {
         func_80A158EC(this);
@@ -264,8 +264,8 @@ void func_80A15944(EnFish* this, PlayState* play) {
         }
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
-    SkelAnime_Update(&this->unk1AC);
+    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk248 <= 0) {
         func_80A157A4(this);
     } else if (this->actor.child == &this->actor) {
@@ -318,8 +318,8 @@ void func_80A15B2C(EnFish* this, PlayState* play) {
         }
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
-    SkelAnime_Update(&this->unk1AC);
+    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk248 <= 0) || !sp34) {
         func_80A157A4(this);
     } else if (this->actor.child == &this->actor) {
@@ -363,8 +363,8 @@ void func_80A15D68(EnFish* this, PlayState* play) {
         Math_StepToAngleS(&this->actor.world.rot.y, v, 0xBB8);
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
-    SkelAnime_Update(&this->unk1AC);
+    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk248 <= 0) {
         func_80A157A4(this);
     }
@@ -387,7 +387,7 @@ void func_80A15F84(EnFish* this, PlayState* play) {
     this->actor.shape.rot.x = this->actor.world.rot.x;
     this->actor.shape.rot.y = this->actor.world.rot.y;
     this->actor.shape.rot.z = this->actor.world.rot.z;
-    SkelAnime_Update(&this->unk1AC);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->unk248 = 0x190;
         func_80A160BC(this);
@@ -449,7 +449,7 @@ void func_80A16200(EnFish* this, PlayState* play) {
     this->actor.world.rot.y +=
         (s16)(s32)(((Math_SinS(this->unk24C) * 2000.0f) + (Math_SinS(this->unk24E) * 1000.0f)) * Rand_ZeroOne());
     this->actor.shape.rot = this->actor.world.rot;
-    SkelAnime_Update(&this->unk1AC);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk248 <= 0) {
         Actor_Kill(&this->actor);
         return;
@@ -499,8 +499,8 @@ void func_80A16450(EnFish* this, PlayState* play) {
     if (this->unk248 < 0x64) {
         Actor_SetScale(&this->actor, this->actor.scale.x * 0.982f);
     }
-    this->unk1AC.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 1.0f, 4.0f);
-    SkelAnime_Update(&this->unk1AC);
+    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 1.0f, 4.0f);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk248 <= 0) {
         Actor_Kill(&this->actor);
     }
@@ -550,8 +550,8 @@ void func_80A16670(EnFish* this, PlayState* play) {
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
     //! @bug swapped min and max clamp bounds
-    this->unk1AC.playSpeed = CLAMP((this->actor.speed * 1.2f) + 0.2f + sp44, 1.5f, 0.5);
-    SkelAnime_Update(&this->unk1AC);
+    this->skelAnime.playSpeed = CLAMP((this->actor.speed * 1.2f) + 0.2f + sp44, 1.5f, 0.5);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk248 <= 0) {
         this->unk248 = Rand_S16Offset(5, 0x50);
     }
@@ -575,8 +575,8 @@ void func_80A16898(EnFish* this, PlayState* play) {
     } else {
         D_80A17018 -= 0.4f;
     }
-    this->unk1AC.playSpeed = ((sp24 + sp20) * 0.5f) + 2.0f;
-    SkelAnime_Update(&this->unk1AC);
+    this->skelAnime.playSpeed = ((sp24 + sp20) * 0.5f) + 2.0f;
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void func_80A169C8(EnFish* this, PlayState* play) {
@@ -589,8 +589,8 @@ void func_80A169C8(EnFish* this, PlayState* play) {
     this->actor.shape.rot.x -= 0x1F4;
     this->actor.shape.rot.z += 0x64;
     Math_StepToF(&D_80A17014, 0.0f, 1.0f);
-    this->unk1AC.playSpeed = ((sp28 + sp24) * 0.5f) + 2.0f;
-    SkelAnime_Update(&this->unk1AC);
+    this->skelAnime.playSpeed = ((sp28 + sp24) * 0.5f) + 2.0f;
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void func_80A16A64(EnFish* this, PlayState* play) {
@@ -724,7 +724,7 @@ void EnFish_Draw(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(play, this->unk1AC.skeleton, this->unk1AC.jointTable, this->unk1AC.dListCount, NULL, NULL,
-                          NULL);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          NULL, NULL);
     Collider_UpdateSpheres(0, &this->collider);
 }

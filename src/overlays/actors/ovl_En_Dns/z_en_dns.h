@@ -47,7 +47,7 @@ typedef struct EnDnsPurchaseInfo {
 
 typedef struct EnDns {
     /* 0x0000 */ Actor actor;
-    /* 0x14C */ SkelAnime unk14C;
+    /* 0x14C */ SkelAnime skelAnime;
     /* 0x190 */ Vec3s unk190[BUSINESS_SCRUB_LIMB_MAX];
     /* 0x1FC */ Vec3s unk1FC[BUSINESS_SCRUB_LIMB_MAX];
     /* 0x268 */ void (*unk268)(struct EnDns*, struct PlayState*);

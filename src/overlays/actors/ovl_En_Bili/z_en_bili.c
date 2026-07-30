@@ -106,7 +106,8 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_809C1698);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(play, &this->unk14C, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6, 5);
+    SkelAnime_Init(play, &this->skelAnime, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6,
+                   5);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_809C1678, &D_809C166C);
@@ -137,7 +138,7 @@ void func_809BF9BC(EnBili* this) {
 }
 
 void func_809BFA14(EnBili* this) {
-    Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
+    Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
     this->unk196 = 0x19;
     this->actor.velocity.y = 6.0f;
     this->actor.gravity = -0.3f;
@@ -147,7 +148,7 @@ void func_809BFA14(EnBili* this) {
 }
 
 void func_809BFA8C(EnBili* this) {
-    Animation_PlayLoop(&this->unk14C, &object_bl_Anim_000024);
+    Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_000024);
     this->unk196 = 0xA;
     this->unk190 = func_809C02B8;
     this->actor.speed = 0.0f;
@@ -155,7 +156,7 @@ void func_809BFA8C(EnBili* this) {
 }
 
 void func_809BFAE8(EnBili* this) {
-    Animation_PlayOnce(&this->unk14C, &object_bl_Anim_000064);
+    Animation_PlayOnce(&this->skelAnime, &object_bl_Anim_000064);
     this->collider.base.atFlags &= ~AT_ON;
     this->unk190 = func_809C04B4;
     this->actor.speed = 0.0f;
@@ -168,7 +169,7 @@ void func_809BFB40(EnBili* this) {
 }
 
 void func_809BFB5C(EnBili* this) {
-    Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
+    Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
     this->unk196 = 0x60;
     this->actor.speed = 0.9f;
     this->actor.home.pos.y = this->actor.world.pos.y;
@@ -177,8 +178,8 @@ void func_809BFB5C(EnBili* this) {
 }
 
 void func_809BFBC4(EnBili* this) {
-    if (this->unk14C.animation != &object_bl_Anim_0000A4) {
-        Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
+    if (this->skelAnime.animation != &object_bl_Anim_0000A4) {
+        Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
     }
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.ac->prevPos) + 0x8000;
     this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->collider.base.ac->prevPos);
@@ -188,7 +189,7 @@ void func_809BFBC4(EnBili* this) {
 
 void func_809BFC48(EnBili* this) {
     if (this->unk190 == func_809C04B4) {
-        Animation_PlayLoop(&this->unk14C, &object_bl_Anim_0000A4);
+        Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
     }
     this->unk196 = 0x14;
     this->collider.base.atFlags &= ~AT_ON;
@@ -247,7 +248,7 @@ void func_809BFF6C(EnBili* this) {
     s16 temp_ft1;
     s16 temp_v1_3;
 
-    temp_ft1 = this->unk14C.curFrame;
+    temp_ft1 = this->skelAnime.curFrame;
     if (this->unk190 == func_809C02B8) {
         temp_v1_2 = 3 - temp_ft1;
         this->unk194 = (ABS(temp_v1_2) + 5) % 8;
@@ -298,7 +299,7 @@ void func_809C008C(EnBili* this) {
 }
 
 void func_809C0174(EnBili* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk196 != 0) {
         this->unk196--;
     }
@@ -315,7 +316,7 @@ void func_809C0174(EnBili* this, PlayState* play) {
 }
 
 void func_809C0260(EnBili* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk196 != 0) {
         this->unk196--;
     }
@@ -338,13 +339,13 @@ void func_809C02B8(EnBili* this, PlayState* play) {
             EffectSsLightning_Spawn(play, (Vec3f*)&sp78, &D_809C16A0, &D_809C16A4, 0xF, (s16)(s32)temp_s1, 6, 2);
         }
     }
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
     if (this->unk196 != 0) {
         this->unk196--;
     }
     this->actor.velocity.y *= -1.0f;
-    if ((this->unk196 == 0) && Animation_OnFrame(&this->unk14C, 0.0f)) {
+    if ((this->unk196 == 0) && Animation_OnFrame(&this->skelAnime, 0.0f)) {
         if (this->actor.params == 1) {
             func_809BFCE8(this);
         } else {
@@ -357,9 +358,9 @@ void func_809C04B4(EnBili* this, PlayState* play) {
     s32 animFinished;
     f32 sp28;
 
-    animFinished = SkelAnime_Update(&this->unk14C);
-    sp28 = this->unk14C.curFrame;
-    if (Animation_OnFrame(&this->unk14C, 9.0f)) {
+    animFinished = SkelAnime_Update(&this->skelAnime);
+    sp28 = this->skelAnime.curFrame;
+    if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         Actor_PlaySfx(&this->actor, 0x3899U);
     }
     if (sp28 > 9.0f) {
@@ -372,7 +373,7 @@ void func_809C04B4(EnBili* this, PlayState* play) {
 }
 
 void func_809C0570(EnBili* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x71C);
     if (this->unk196 != 0) {
         this->unk196--;
@@ -387,7 +388,7 @@ void func_809C0570(EnBili* this, PlayState* play) {
 }
 
 void func_809C0600(EnBili* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk196 != 0) {
         this->unk196--;
     }
@@ -399,7 +400,7 @@ void func_809C0600(EnBili* this, PlayState* play) {
 }
 
 void func_809C067C(EnBili* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (Math_StepToF(&this->actor.speed, 0.0f, 0.3f) != 0) {
         this->actor.world.rot.y += 0x8000;
         func_809BF9BC(this);
@@ -407,7 +408,7 @@ void func_809C067C(EnBili* this, PlayState* play) {
 }
 
 void func_809C06E0(EnBili* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
         this->actor.colorFilterTimer = 0x14;
     } else {
@@ -550,7 +551,7 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
     this->unk190(this, play);
     if (this->unk190 != func_809C0754) {
         func_809BFF6C(this);
-        if (Animation_OnFrame(&this->unk14C, 9.0f) &&
+        if (Animation_OnFrame(&this->skelAnime, 9.0f) &&
             (((this->unk190 == func_809C0174)) || (this->unk190 == func_809C0600) || (this->unk190 == func_809C0570) ||
              (this->unk190 == func_809C067C))) {
             if (this->unk195 != 0) {
@@ -666,7 +667,7 @@ s32 EnBili_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, 
     f32 temp_fv0;
 
     sp20 = D_809C16C0;
-    temp_fv0 = this->unk14C.curFrame;
+    temp_fv0 = this->skelAnime.curFrame;
     if (arg1 == 3) {
         func_809C0E08(this, temp_fv0, &sp20);
     } else if (arg1 == 2) {
@@ -691,7 +692,7 @@ void EnBili_Draw(Actor* thisx, PlayState* play) {
     } else {
         gSPSegment(POLY_XLU_DISP++, 9, D_809C1700);
     }
-    POLY_XLU_DISP = SkelAnime_Draw(play, this->unk14C.skeleton, this->unk14C.jointTable, EnBili_OverrideLimbDraw, NULL,
-                                   this, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnBili_OverrideLimbDraw,
+                                   NULL, this, POLY_XLU_DISP);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bili.c", 1552);
 }

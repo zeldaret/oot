@@ -154,7 +154,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(play, &this->unk14C, &object_skb_0041F8_Skel, &object_skb_001854_Anim, this->unk190, this->unk208,
+    SkelAnime_Init(play, &this->skelAnime, &object_skb_0041F8_Skel, &object_skb_001854_Anim, this->unk190, this->unk208,
                    20);
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
     Collider_InitJntSph(play, &this->collider);
@@ -202,7 +202,7 @@ void EnSkb_DecideNextAction(EnSkb* this) {
 }
 
 void EnSkb_SetupRiseFromGround(EnSkb* this) {
-    Animation_PlayOnceSetSpeed(&this->unk14C, &object_skb_001854_Anim, 1.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &object_skb_001854_Anim, 1.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_APPEAR);
@@ -210,7 +210,7 @@ void EnSkb_SetupRiseFromGround(EnSkb* this) {
 }
 
 void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
-    if (this->unk14C.curFrame < 4.0f) {
+    if (this->skelAnime.curFrame < 4.0f) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     } else {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
@@ -220,13 +220,13 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
     if (play->gameplayFrames & 1) {
         func_80AFC9A8(play, this, &this->actor.world.pos);
     }
-    if (SkelAnime_Update(&this->unk14C) && (this->actor.shape.yOffset == 0.0f)) {
+    if (SkelAnime_Update(&this->skelAnime) && (this->actor.shape.yOffset == 0.0f)) {
         EnSkb_DecideNextAction(this);
     }
 }
 
 void EnSkb_SetupDespawn(EnSkb* this) {
-    Animation_Change(&this->unk14C, &object_skb_001854_Anim, -1.0f, Animation_GetLastFrame(&object_skb_001854_Anim),
+    Animation_Change(&this->skelAnime, &object_skb_001854_Anim, -1.0f, Animation_GetLastFrame(&object_skb_001854_Anim),
                      0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->setColliderAT = false;
@@ -242,13 +242,13 @@ void EnSkb_Despawn(EnSkb* this, PlayState* play) {
         func_80AFC9A8(play, this, &this->actor.world.pos);
     }
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 0.0f, 1.0f, 2.5f, 0.0f);
-    if (SkelAnime_Update(&this->unk14C)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         Actor_Kill(&this->actor);
     }
 }
 
 void EnSkb_SetupWalkForward(EnSkb* this) {
-    Animation_Change(&this->unk14C, &object_skb_0047E0_Anim, 0.96000004f, 0.0f,
+    Animation_Change(&this->skelAnime, &object_skb_0047E0_Anim, 0.96000004f, 0.0f,
                      Animation_GetLastFrame(&object_skb_0047E0_Anim), ANIMMODE_LOOP, -4.0f);
     this->actionState = SKB_BEHAVIOR_WALKING;
     this->headlessYawOffset = 0;
@@ -268,12 +268,12 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
     }
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->headlessYawOffset, 1, 0x2EE, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    temp_ft2_sp34 = (s32)this->unk14C.curFrame;
-    SkelAnime_Update(&this->unk14C);
-    var_fv1_2 = ABS(this->unk14C.playSpeed);
-    temp_ft4 = (s32)(this->unk14C.curFrame - var_fv1_2);
-    var_fv1_2 = ABS(this->unk14C.playSpeed);
-    if ((temp_ft2_sp34 != (s32)this->unk14C.curFrame) &&
+    temp_ft2_sp34 = (s32)this->skelAnime.curFrame;
+    SkelAnime_Update(&this->skelAnime);
+    var_fv1_2 = ABS(this->skelAnime.playSpeed);
+    temp_ft4 = (s32)(this->skelAnime.curFrame - var_fv1_2);
+    var_fv1_2 = ABS(this->skelAnime.playSpeed);
+    if ((temp_ft2_sp34 != (s32)this->skelAnime.curFrame) &&
         (((temp_ft4 < 9) && (((s32)var_fv1_2 + temp_ft2_sp34) >= 8)) ||
          ((temp_ft4 < 0x10) && (((s32)var_fv1_2 + temp_ft2_sp34) >= 0xF)))) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_WALK);
@@ -287,7 +287,7 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupAttack(EnSkb* this) {
-    Animation_Change(&this->unk14C, &object_skb_000460_Anim, 0.6f, 0.0f,
+    Animation_Change(&this->skelAnime, &object_skb_000460_Anim, 0.6f, 0.0f,
                      Animation_GetLastFrame(&object_skb_000460_Anim), ANIMMODE_ONCE_INTERP, 4.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
     this->actionState = SKB_BEHAVIOR_ATTACKING;
@@ -299,7 +299,7 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
     s32 temp_ft1;
     u8 temp_v0;
 
-    temp_ft1 = (s32)this->unk14C.curFrame;
+    temp_ft1 = (s32)this->skelAnime.curFrame;
     if (temp_ft1 == 3) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->setColliderAT = true;
@@ -309,13 +309,13 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
     if (this->collider.base.atFlags & AT_BOUNCED) {
         this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         EnSkb_SetupRecoil(this);
-    } else if (SkelAnime_Update(&this->unk14C)) {
+    } else if (SkelAnime_Update(&this->skelAnime)) {
         EnSkb_DecideNextAction(this);
     }
 }
 
 void EnSkb_SetupRecoil(EnSkb* this) {
-    Animation_Change(&this->unk14C, &object_skb_000460_Anim, -0.4f, this->unk14C.curFrame - 1.0f, 0.0f,
+    Animation_Change(&this->skelAnime, &object_skb_000460_Anim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f,
                      ANIMMODE_ONCE_INTERP, 0.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
     this->actionState = SKB_BEHAVIOR_RECOILING;
@@ -324,7 +324,7 @@ void EnSkb_SetupRecoil(EnSkb* this) {
 }
 
 void EnSkb_Recoil(EnSkb* this, PlayState* play) {
-    if (SkelAnime_Update(&this->unk14C)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnSkb_DecideNextAction(this);
     }
 }
@@ -360,7 +360,7 @@ void EnSkb_Stunned(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupTakeDamage(EnSkb* this) {
-    Animation_MorphToPlayOnce(&this->unk14C, &object_skb_000D98_Anim, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_skb_000D98_Anim, -4.0f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speed = -4.0f;
     }
@@ -387,14 +387,14 @@ void EnSkb_TakeDamage(EnSkb* this, PlayState* play) {
             }
         }
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
-        if (SkelAnime_Update(&this->unk14C) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+        if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             EnSkb_DecideNextAction(this);
         }
     }
 }
 
 void EnSkb_SetupDeath(EnSkb* this, PlayState* play) {
-    Animation_MorphToPlayOnce(&this->unk14C, &object_skb_0009DC_Anim, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_skb_0009DC_Anim, -4.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speed = -6.0f;
@@ -544,5 +544,5 @@ void EnSkb_Draw(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    SkelAnime_DrawOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, func_80AFDD30, func_80AFDF24, this);
+    SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, func_80AFDD30, func_80AFDF24, this);
 }

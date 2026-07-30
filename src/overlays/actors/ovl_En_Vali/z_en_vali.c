@@ -116,8 +116,8 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_80B28944);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(play, &this->unk14C, &object_vali_004848_Skel, &object_vali_Anim_0014AC, this->unk198, this->unk246,
-                   29);
+    SkelAnime_Init(play, &this->skelAnime, &object_vali_004848_Skel, &object_vali_Anim_0014AC, this->unk198,
+                   this->unk246, 29);
     Collider_InitQuad(play, &this->unk2FC);
     Collider_SetQuad(play, &this->unk2FC, &this->actor, &sColliderQuadInit);
     Collider_InitQuad(play, &this->unk37C);
@@ -143,7 +143,7 @@ void EnVali_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80B26878(EnVali* this) {
-    Animation_PlayLoop(&this->unk14C, &object_vali_Anim_0014AC);
+    Animation_PlayLoop(&this->skelAnime, &object_vali_Anim_0014AC);
     this->actor.draw = NULL;
     this->unk3FC.base.acFlags &= ~AC_ON;
     this->unk190 = func_80B27098;
@@ -168,7 +168,7 @@ void func_80B268FC(EnVali* this) {
     f32 temp_fv1;
     s32 pad[6];
 
-    Animation_MorphToLoop(&this->unk14C, &object_vali_Anim_000710, -3.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_vali_Anim_000710, -3.0f);
     sp3C = this->actor.world.pos;
     this->unk37C.dim.quad[1] = sp3C;
     sp48 = sp3C;
@@ -209,7 +209,7 @@ void func_80B26B18(EnVali* this) {
 }
 
 void func_80B26B4C(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_000854, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_vali_Anim_000854, -5.0f);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
     this->actor.params = 0;
     this->unk3FC.base.acFlags &= ~AC_ON;
@@ -217,7 +217,7 @@ void func_80B26B4C(EnVali* this) {
 }
 
 void func_80B26BBC(EnVali* this) {
-    Animation_PlayOnce(&this->unk14C, &object_vali_Anim_000B34);
+    Animation_PlayOnce(&this->skelAnime, &object_vali_Anim_000B34);
     this->unk190 = func_80B2742C;
 }
 
@@ -249,7 +249,7 @@ void func_80B26C50(EnVali* this, PlayState* play) {
 }
 
 void func_80B26D54(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_000710, 10.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_vali_Anim_000710, 10.0f);
     this->unk196 = 0x50;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
@@ -268,7 +268,7 @@ void func_80B26DE0(EnVali* this) {
 }
 
 void func_80B26E40(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->unk14C, &object_vali_Anim_0014AC, 10.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_vali_Anim_0014AC, 10.0f);
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk190 = func_80B278A0;
@@ -302,7 +302,7 @@ void func_80B27098(EnVali* this, PlayState* play) {
 }
 
 void func_80B270D8(EnVali* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.velocity.y *= 1.5f;
     this->actor.velocity.y = CLAMP_MAX(this->actor.velocity.y, 40.0f);
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
@@ -314,11 +314,11 @@ void func_80B270D8(EnVali* this, PlayState* play) {
 void func_80B2716C(EnVali* this, PlayState* play) {
     s32 var_v1;
 
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk195 != 0) {
         this->unk195 -= 1;
     }
-    var_v1 = (s32)this->unk14C.curFrame;
+    var_v1 = (s32)this->skelAnime.curFrame;
     Math_StepToF(&this->unk2F8, this->actor.floorHeight + 40.0f, 1.2f);
     this->actor.world.pos.y = this->unk2F8 - (sinf(var_v1 * 3.1415927f * 0.0125f) * 8.0f);
     if (this->unk195 != 0) {
@@ -361,7 +361,7 @@ void func_80B27318(EnVali* this, PlayState* play) {
 }
 
 void func_80B273D0(EnVali* this, PlayState* play) {
-    if (SkelAnime_Update(&this->unk14C)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health != 0) {
             func_80B26BBC(this);
         } else {
@@ -371,7 +371,7 @@ void func_80B273D0(EnVali* this, PlayState* play) {
 }
 
 void func_80B2742C(EnVali* this, PlayState* play) {
-    if (SkelAnime_Update(&this->unk14C)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         func_80B268FC(this);
     }
 }
@@ -427,7 +427,7 @@ static Gfx D_80B289A8[] = {
 };
 
 void func_80B27654(EnVali* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk196 != 0) {
         this->unk196 -= 1;
     }
@@ -474,7 +474,7 @@ void func_80B27710(EnVali* this, PlayState* play) {
 }
 
 void func_80B278A0(EnVali* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f, 15.0f, 0.1f) < 0.01f) {
         func_80B26878(this);
     }
@@ -658,7 +658,7 @@ s32 func_80B281F0(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg
         *arg2 = NULL;
         return 0;
     } else {
-        new_var = this->unk14C.curFrame;
+        new_var = this->skelAnime.curFrame;
         if (((arg1 == 9) || (arg1 == 0x12)) && (func_80B28054(this, new_var) != 0)) {
             Matrix_Scale(this->unk2F4, 1.0f, 1.0f, MTXMODE_APPLY);
         }
@@ -699,7 +699,7 @@ void func_80B28344(EnVali* this, PlayState* play) {
     sp68 = D_80B28988;
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vali.c", 1428);
     Matrix_Get(&sp80);
-    sp74 = this->unk14C.curFrame;
+    sp74 = this->skelAnime.curFrame;
     func_80B27E38(this, sp74, &sp68);
     Matrix_Scale(sp68.x, sp68.y, sp68.z, 1U);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1436);
@@ -742,7 +742,7 @@ void EnVali_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_XLU_DISP++, 9, D_80B289A8);
     }
     func_80B28344(this, play);
-    POLY_XLU_DISP = SkelAnime_Draw(play, this->unk14C.skeleton, this->unk14C.jointTable, func_80B281F0, func_80B28280,
-                                   this, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, func_80B281F0,
+                                   func_80B28280, this, POLY_XLU_DISP);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_vali.c", 1538);
 }

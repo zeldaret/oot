@@ -8,7 +8,7 @@ struct EnZf;
 
 typedef struct EnZf {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ SkelAnime unk14C;
+    /* 0x14C */ SkelAnime skelAnime;
     /* 0x190 */ Vec3s unk190[49];
     /* 0x2B6 */ Vec3s unk2B6[49];
     /* 0x3DC */ s32 unk3DC;

@@ -9,7 +9,7 @@ struct EnGe3;
 typedef struct EnGe3 {
     /* 0x000 */ Actor actor;
     /* 0x14C */ ColliderCylinder collider;
-    /* 0x198 */ SkelAnime unk198;
+    /* 0x198 */ SkelAnime skelAnime;
     /* 0x1DC */ Vec3s unk1DC[24];
     /* 0x26C */ Vec3s unk26C[24];
     /* 0x2FC */ s16 unk2FC;

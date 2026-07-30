@@ -213,9 +213,9 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
     switch (this->dyna.actor.params) {
         case -1:
-            SkelAnime_InitFlex(play, &this->unk164, &object_jj_00B9A8_Skel, &object_jj_001F4C_Anim, this->unk1A8,
+            SkelAnime_InitFlex(play, &this->skelAnime, &object_jj_00B9A8_Skel, &object_jj_001F4C_Anim, this->unk1A8,
                                this->unk22C, 22);
-            Animation_PlayLoop(&this->unk164, &object_jj_001F4C_Anim);
+            Animation_PlayLoop(&this->skelAnime, &object_jj_001F4C_Anim);
             this->unk30A = 0;
             this->unk30E = 0;
             this->unk30F = 0;
@@ -399,14 +399,14 @@ void EnJj_Update(Actor* thisx, PlayState* play) {
         func_80A87D94(this, play);
     } else {
         this->unk2FC(this, play);
-        if (this->unk164.curFrame == 41.0f) {
+        if (this->skelAnime.curFrame == 41.0f) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
     func_80A87B1C(this);
-    SkelAnime_Update(&this->unk164);
+    SkelAnime_Update(&this->skelAnime);
     Actor_SetScale(&this->dyna.actor, 0.087f);
-    this->unk164.jointTable[10].z = (s16)this->unk308;
+    this->skelAnime.jointTable[10].z = (s16)this->unk308;
 }
 
 void EnJj_Draw(Actor* thisx, PlayState* play) {
@@ -415,10 +415,10 @@ void EnJj_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_jj.c", 879);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
-    Matrix_Translate(0.0f, (cosf(this->unk164.curFrame * 0.076624215f) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
+    Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * 0.076624215f) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A88CFC[this->unk30E]));
-    SkelAnime_DrawFlexOpa(play, this->unk164.skeleton, this->unk164.jointTable, (s32)this->unk164.dListCount, NULL,
-                          NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, (s32)this->skelAnime.dListCount,
+                          NULL, NULL, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_jj.c", 898);
 }

@@ -8,7 +8,7 @@ struct EnJj;
 
 typedef struct EnJj {
     /* 0x000 */ DynaPolyActor dyna;
-    /* 0x164 */ SkelAnime unk164;
+    /* 0x164 */ SkelAnime skelAnime;
     /* 0x1A8 */ Vec3s unk1A8[22];
     /* 0x22C */ Vec3s unk22C[22];
     /* 0x2B0 */ ColliderCylinder collider;

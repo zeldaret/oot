@@ -179,7 +179,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     }
     PRINTF("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
     Actor_ProcessInitChain(&this->actor, D_809F052C);
-    SkelAnime_InitFlex(play, &this->unk14C, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim, this->unk190,
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim, this->unk190,
                        this->unk1FC, 0x12);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit);
@@ -208,7 +208,7 @@ void EnDns_ChangeAnim(EnDns* this, u8 arg1) {
 
     temp_ft0 = Animation_GetLastFrame(sAnimationInfo[arg1].animation);
     this->animIndex = arg1;
-    Animation_Change(&this->unk14C, sAnimationInfo[arg1].animation, 1.0f, 0.0f, temp_ft0, sAnimationInfo[arg1].mode,
+    Animation_Change(&this->skelAnime, sAnimationInfo[arg1].animation, 1.0f, 0.0f, temp_ft0, sAnimationInfo[arg1].mode,
                      sAnimationInfo[arg1].morphFrames);
 }
 
@@ -345,7 +345,7 @@ void EnDns_PayForDekuNutUpgrade(EnDns* this) {
 }
 
 void EnDns_SetupIdle(EnDns* this, PlayState* play) {
-    if (this->unk14C.curFrame == this->unk14C.endFrame) {
+    if (this->skelAnime.curFrame == this->skelAnime.endFrame) {
         this->unk268 = EnDns_Idle;
         EnDns_ChangeAnim(this, DNS_ANIM_IDLE);
     }
@@ -470,7 +470,7 @@ void EnDns_SetupNoSaleBurrow(EnDns* this, PlayState* play) {
 void EnDns_Burrow(EnDns* this, PlayState* play) {
     f32 f = Animation_GetLastFrame(&gBusinessScrubLeaveBurrowAnim);
 
-    if (this->unk14C.curFrame == f) {
+    if (this->skelAnime.curFrame == f) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->unk268 = EnDns_PostBurrow;
         this->unk2BC = 0;
@@ -513,7 +513,7 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
     this->actor.textId = sStartingTextIds[DNS_GET_TYPE(&this->actor)];
     Actor_SetFocus(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     Actor_MoveXZGravity(&this->actor);
     this->unk268(this, play);
     if (this->unk2BC != 0) {
@@ -529,6 +529,6 @@ void EnDns_Draw(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount, NULL, NULL,
-                          &this->actor);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          NULL, &this->actor);
 }

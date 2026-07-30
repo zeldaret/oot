@@ -95,7 +95,7 @@ static s32 D_80A343BC[3] = {
 
 void func_80A32BD0(EnGe2* this, s32 arg1) {
     this->unk308 = D_80A3433C[arg1];
-    Animation_Change(&this->unk198, D_80A34360[arg1], 1.0f, 0.0f, Animation_GetLastFrame(D_80A34360[arg1]),
+    Animation_Change(&this->skelAnime, D_80A34360[arg1], 1.0f, 0.0f, Animation_GetLastFrame(D_80A34360[arg1]),
                      D_80A34384[arg1], -8.0f);
     this->unk2F4 &= ~2;
 }
@@ -105,8 +105,8 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->unk198, &object_gla_008968_Skel, NULL, this->unk1DC, this->unk260, 22);
-    Animation_PlayLoop(&this->unk198, &object_gla_009ED4_Anim);
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_gla_008968_Skel, NULL, this->unk1DC, this->unk260, 22);
+    Animation_PlayLoop(&this->skelAnime, &object_gla_009ED4_Anim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -462,7 +462,7 @@ void func_80A33BE8(EnGe2* this, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    if (!(this->unk2F4 & 2) && SkelAnime_Update(&this->unk198)) {
+    if (!(this->unk2F4 & 2) && SkelAnime_Update(&this->skelAnime)) {
         this->unk2F4 |= 2;
     }
 }
@@ -606,7 +606,7 @@ void EnGe2_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A343BC[this->unk2E4]));
     func_8002EBCC(&this->actor, play, 0);
-    SkelAnime_DrawFlexOpa(play, this->unk198.skeleton, this->unk198.jointTable, this->unk198.dListCount, func_80A3415C,
-                          func_80A341A0, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          func_80A3415C, func_80A341A0, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge2.c", 1291);
 }

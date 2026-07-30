@@ -77,7 +77,7 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     EnSyatekiNiw* temp_v0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->unk14C, &object_bg_006EB0_Skel, &object_bg_000710_Anim, &this->unk190,
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_bg_006EB0_Skel, &object_bg_000710_Anim, &this->unk190,
                        &this->unk1D2, 0xB);
     PRINTF("\x1b[32m☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n\x1b[m");
     PRINTF("\x1b[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
@@ -103,8 +103,8 @@ void EnBomBowlMan_Destroy(Actor* thisx, PlayState* play) {
 
 void func_809C3820(EnBomBowlMan* this, PlayState* play) {
     this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_000710_Anim);
-    Animation_Change(&this->unk14C, &object_bg_000710_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_LOOP,
-                     -10.0f);
+    Animation_Change(&this->skelAnime, &object_bg_000710_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount,
+                     ANIMMODE_LOOP, -10.0f);
     this->actor.textId = 0xC0;
     this->unk22E = TEXT_STATE_EVENT;
     this->actionFunc = func_809C38A8_WaitTalk;
@@ -114,7 +114,7 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, PlayState* play) {
     s16 relYawTowardsPlayer;
     s16 relYawTowardsPlayerAbs;
 
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_809C395C;
     } else {
@@ -127,7 +127,7 @@ void func_809C38A8_WaitTalk(EnBomBowlMan* this, PlayState* play) {
 }
 
 void func_809C395C(EnBomBowlMan* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_809C39D0;
@@ -136,8 +136,8 @@ void func_809C395C(EnBomBowlMan* this, PlayState* play) {
 
 void func_809C39D0(EnBomBowlMan* this, PlayState* play) {
     this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_000080_Anim);
-    Animation_Change(&this->unk14C, &object_bg_000080_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount, ANIMMODE_ONCE,
-                     -10.0f);
+    Animation_Change(&this->skelAnime, &object_bg_000080_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount,
+                     ANIMMODE_ONCE, -10.0f);
     this->unk238 = 1;
     this->actionFunc = func_809C3A54;
 }
@@ -145,8 +145,8 @@ void func_809C39D0(EnBomBowlMan* this, PlayState* play) {
 void func_809C3A54(EnBomBowlMan* this, PlayState* play) {
     f32 sp1C;
 
-    sp1C = this->unk14C.curFrame;
-    SkelAnime_Update(&this->unk14C);
+    sp1C = this->skelAnime.curFrame;
+    SkelAnime_Update(&this->skelAnime);
     if (sp1C == 30.0f) {
         this->unk22E = TEXT_STATE_EVENT;
         if (GET_EVENTCHKINF(EVENTCHKINF_25) || (gRegEditor->data[0x962] != 0)) {
@@ -166,11 +166,11 @@ void func_809C3A54(EnBomBowlMan* this, PlayState* play) {
 }
 
 void func_809C3B50(EnBomBowlMan* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         this->unk254_curAnimFraceCount = Animation_GetLastFrame(&object_bg_0072AC_Anim);
-        Animation_Change(&this->unk14C, &object_bg_0072AC_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount,
+        Animation_Change(&this->skelAnime, &object_bg_0072AC_Anim, 1.0f, 0.0f, this->unk254_curAnimFraceCount,
                          ANIMMODE_LOOP, -10.0f);
         this->unk238 = 3;
         this->unk236 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
@@ -186,7 +186,7 @@ void func_809C3B50(EnBomBowlMan* this, PlayState* play) {
 }
 
 void func_809C3C7C(EnBomBowlMan* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_809C3CD4;
     } else {
@@ -195,7 +195,7 @@ void func_809C3C7C(EnBomBowlMan* this, PlayState* play) {
 }
 
 void func_809C3CD4(EnBomBowlMan* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         this->actionFunc = func_809C3C7C;
@@ -203,7 +203,7 @@ void func_809C3CD4(EnBomBowlMan* this, PlayState* play) {
 }
 
 void func_809C3D40(EnBomBowlMan* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_258 == 0) {
         if (this->unk232 == 0) {
             this->actor.textId = 0x18;
@@ -222,7 +222,7 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
     s16 relYawTowardsPlayer;
     s16 relYawTowardsPlayerAbs;
 
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (gRegEditor->data[0x963] != 0) {
         PRINTF("\x1b[31m☆ game_play->bomchu_game_flag ☆ %d\n\x1b[m", play->bombchuBowlingStatus);
         PRINTF("\x1b[31m☆ 壁１の状態どう？ ☆ %d\n\x1b[m", this->unk23E_arr[0]);
@@ -274,7 +274,7 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
 }
 
 void func_809C4040(EnBomBowlMan* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         switch (play->msgCtx.choiceIndex) {
@@ -319,7 +319,7 @@ void func_809C4040(EnBomBowlMan* this, PlayState* play) {
 }
 
 void func_809C41FC(EnBomBowlMan* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (((this->actor.textId == 0x2D) || (this->actor.textId == 0x85)) && Flags_GetSwitch(play, 0x38)) {
@@ -346,7 +346,7 @@ void func_809C4318(EnBomBowlMan* this, PlayState* play) {
     Vec3f sp38 = D_809C4A54;
     Vec3f sp2C;
 
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         sp2C.x = 148.0f;
         sp2C.y = 40.0f;
@@ -362,7 +362,7 @@ void func_809C441C(EnBomBowlMan* this, PlayState* play) {
     s16 var_v1;
     s32 pad;
 
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk22A == 0) {
         switch (this->unk242) {
             case 0:
@@ -418,7 +418,7 @@ void func_809C441C(EnBomBowlMan* this, PlayState* play) {
 }
 
 void func_809C4664(EnBomBowlMan* this, PlayState* play) {
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk22E == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
@@ -495,7 +495,7 @@ void EnBomBowlMan_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809C4AA8[this->unk234]));
-    SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnBomBowlMan_OverrideLimbDraw, NULL, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bom_bowl_man.c", 923);
 }

@@ -77,9 +77,9 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->unk198, &object_ge1_000330_Skel, &object_ge1_000228_Anim, this->unk1DC,
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_ge1_000330_Skel, &object_ge1_000228_Anim, this->unk1DC,
                        this->unk23C, 16);
-    Animation_PlayOnce(&this->unk198, &object_ge1_000228_Anim);
+    Animation_PlayOnce(&this->skelAnime, &object_ge1_000228_Anim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -167,7 +167,7 @@ s32 func_80A30C70(EnGe1* this, PlayState* play, u16 arg2, f32 arg3, EnGe1ActionF
         this->unk2B8 = func_80A323EC;
         this->unk2AC &= ~4;
         this->unk2B0 = &object_ge1_000228_Anim;
-        Animation_Change(&this->unk198, &object_ge1_000228_Anim, 1.0f, 0.0f,
+        Animation_Change(&this->skelAnime, &object_ge1_000228_Anim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_ge1_000228_Anim), ANIMMODE_ONCE, -8.0f);
         return 1;
     } else {
@@ -180,7 +180,7 @@ s32 func_80A30C70(EnGe1* this, PlayState* play, u16 arg2, f32 arg3, EnGe1ActionF
 }
 
 void func_80A30D48(EnGe1* this) {
-    Animation_Change(&this->unk198, &object_ge1_000228_Anim, -1.0f, Animation_GetLastFrame(&object_ge1_000228_Anim),
+    Animation_Change(&this->skelAnime, &object_ge1_000228_Anim, -1.0f, Animation_GetLastFrame(&object_ge1_000228_Anim),
                      0.0f, ANIMMODE_ONCE, 8.0f);
     this->unk2B0 = &object_ge1_000228_Anim;
     this->unk2B8 = func_80A323B0;
@@ -301,7 +301,7 @@ void func_80A31234(EnGe1* this, PlayState* play) {
         Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         this->unk2AF = 0x32;
         Message_CloseTextbox(play);
-    } else if ((this->unk198.curFrame == 15.0f) || (this->unk198.curFrame == 19.0f)) {
+    } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
         Actor_PlaySfx(&this->actor, 0x184DU);
     }
 }
@@ -309,7 +309,7 @@ void func_80A31234(EnGe1* this, PlayState* play) {
 void func_80A312E4(EnGe1* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         this->unk2B4 = func_80A31234;
-        Animation_Change(&this->unk198, &object_ge1_00A048_Anim, 1.0f, 0.0f,
+        Animation_Change(&this->skelAnime, &object_ge1_00A048_Anim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_ge1_00A048_Anim), ANIMMODE_ONCE, -3.0f);
         this->unk2B0 = &object_ge1_00A048_Anim;
         this->unk2B8 = func_80A323EC;
@@ -389,7 +389,7 @@ void func_80A31644(EnGe1* this, PlayState* play) {
         Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         this->unk2AF = 0x32;
         Message_CloseTextbox(play);
-    } else if ((this->unk198.curFrame == 15.0f) || (this->unk198.curFrame == 19.0f)) {
+    } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_IT_HAND_CLAP);
     }
 }
@@ -398,7 +398,7 @@ void func_80A316F4(EnGe1* this, PlayState* play) {
     this->unk2AC |= 1;
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         this->unk2B4 = func_80A31644;
-        Animation_Change(&this->unk198, &object_ge1_00A048_Anim, 1.0f, 0.0f,
+        Animation_Change(&this->skelAnime, &object_ge1_00A048_Anim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_ge1_00A048_Anim), ANIMMODE_ONCE, -3.0f);
         this->unk2B0 = &object_ge1_00A048_Anim;
         this->unk2B8 = func_80A323EC;
@@ -431,7 +431,7 @@ void func_80A31880(EnGe1* this, PlayState* play) {
     if (func_80A30C70(this, play, textId, 100.0f, func_80A3183C) != 0) {
         this->unk2B8 = func_80A323B0;
         this->unk2B0 = &object_ge1_00A498_Anim;
-        Animation_Change(&this->unk198, &object_ge1_00A498_Anim, 1.0f, 0.0f,
+        Animation_Change(&this->skelAnime, &object_ge1_00A498_Anim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_ge1_00A498_Anim), ANIMMODE_ONCE, -8.0f);
     }
 }
@@ -695,14 +695,14 @@ void EnGe1_Update(Actor* thisx, PlayState* play) {
 }
 
 void func_80A323B0(EnGe1* this) {
-    if (SkelAnime_Update(&this->unk198) != 0) {
-        Animation_PlayOnce(&this->unk198, this->unk2B0);
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
+        Animation_PlayOnce(&this->skelAnime, this->unk2B0);
     }
 }
 
 void func_80A323EC(EnGe1* this) {
     if (!(this->unk2AC & 4)) {
-        if (SkelAnime_Update(&this->unk198) != 0) {
+        if (SkelAnime_Update(&this->skelAnime) != 0) {
             this->unk2AC |= 4;
         }
         this->unk2AC |= 8;
@@ -748,7 +748,7 @@ void EnGe1_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge1.c", 1442);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A327B4[this->unk2A8]));
-    SkelAnime_DrawFlexOpa(play, this->unk198.skeleton, this->unk198.jointTable, this->unk198.dListCount,
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe1_OverrideLimbDraw, EnGe1_PostLimbDraw, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge1.c", 1459);
 }

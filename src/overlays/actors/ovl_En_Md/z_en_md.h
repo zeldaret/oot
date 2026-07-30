@@ -16,7 +16,7 @@ typedef void (*EnMdActionFunc)(struct EnMd*, struct PlayState*);
 
 typedef struct EnMd {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ SkelAnime unk14C;
+    /* 0x14C */ SkelAnime skelAnime;
     /* 0x190 */ EnMdActionFunc unk190;
     /* 0x194 */ ColliderCylinder collider;
     /* 0x1E0 */ NpcInteractInfo interactInfo;

@@ -8,7 +8,7 @@ struct EnSkb;
 
 typedef struct EnSkb {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ SkelAnime unk14C;
+    /* 0x14C */ SkelAnime skelAnime;
     /* 0x190 */ Vec3s unk190[20];
     /* 0x208 */ Vec3s unk208[20];
     /* 0x280 */ u8 actionState;

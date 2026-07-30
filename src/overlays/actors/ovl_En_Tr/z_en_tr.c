@@ -95,18 +95,18 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitFlex(play, &this->unk14C, &gKoumeSkel, &gKotakeKoumeStandingBroomOverRightShoulderAnim,
+            SkelAnime_InitFlex(play, &this->skelAnime, &gKoumeSkel, &gKotakeKoumeStandingBroomOverRightShoulderAnim,
                                this->unk190, this->unk232, KOTAKE_KOUME_LIMB_MAX);
-            Animation_PlayOnce(&this->unk14C, &gKotakeKoumeStandingBroomOverRightShoulderAnim);
+            Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverRightShoulderAnim);
             this->unk2E4 = NULL;
             EnTr_SetupAction(this, func_80B23A88);
             this->cueChannel = 3;
             break;
 
         case 1:
-            SkelAnime_InitFlex(play, &this->unk14C, &gKotakeSkel, &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
+            SkelAnime_InitFlex(play, &this->skelAnime, &gKotakeSkel, &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
                                this->unk190, this->unk232, KOTAKE_KOUME_LIMB_MAX);
-            Animation_PlayOnce(&this->unk14C, &gKotakeKoumeStandingBroomOverLeftShoulderAnim);
+            Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverLeftShoulderAnim);
             this->unk2E4 = NULL;
             EnTr_SetupAction(this, func_80B23A88);
             this->cueChannel = 2;
@@ -153,7 +153,7 @@ void func_80B22F28(EnTr* this, PlayState* play) {
                     break;
 
                 case 6:
-                    Animation_Change(&this->unk14C, D_80B24380[this->actor.params], 1.0f, 0.0f,
+                    Animation_Change(&this->skelAnime, D_80B24380[this->actor.params], 1.0f, 0.0f,
                                      Animation_GetLastFrame(D_80B24380[this->actor.params]), ANIMMODE_ONCE, -5.0f);
                     EnTr_SetupAction(this, func_80B22E6C);
                     this->unk2E4 = D_80B24378[this->actor.params];
@@ -296,7 +296,7 @@ void func_80B23820(EnTr* this, PlayState* play) {
             this->unk2D6 = 0x22;
             EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
             EnTr_SetupAction(this, func_80B23690);
-            Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
+            Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
             this->unk2E4 = NULL;
             Actor_SetScale(&this->actor, 0.003f);
         }
@@ -311,7 +311,7 @@ void func_80B238E0(EnTr* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         temp_v0 = play->csCtx.actorCues[this->cueChannel];
         if ((temp_v0 != NULL) && (temp_v0->id == 3)) {
-            Animation_Change(&this->unk14C, D_80B24378[this->actor.params], 1.0f, 0.0f, temp_fv0, 0U, -10.0f);
+            Animation_Change(&this->skelAnime, D_80B24378[this->actor.params], 1.0f, 0.0f, temp_fv0, 0U, -10.0f);
             this->unk2E4 = NULL;
             EnTr_SetupAction(this, func_80B22F28);
         }
@@ -326,7 +326,7 @@ void func_80B239A8(EnTr* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         temp_v0 = play->csCtx.actorCues[this->cueChannel];
         if ((temp_v0 != NULL) && (temp_v0->id == 2)) {
-            Animation_Change(&this->unk14C, D_80B24368[this->actor.params], 1.0f, 0.0f, temp_fv0, 2U, -4.0f);
+            Animation_Change(&this->skelAnime, D_80B24368[this->actor.params], 1.0f, 0.0f, temp_fv0, 2U, -4.0f);
             this->unk2E4 = D_80B24370[this->actor.params];
             EnTr_SetupAction(this, func_80B238E0);
         }
@@ -350,7 +350,7 @@ void func_80B23A88(EnTr* this, PlayState* play) {
                 case 3:
                     EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
                     EnTr_SetupAction(this, func_80B22F28);
-                    Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
+                    Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
                     this->unk2E4 = NULL;
                     break;
 
@@ -361,7 +361,7 @@ void func_80B23A88(EnTr* this, PlayState* play) {
 
                 case 7:
                     EnTr_SetupAction(this, func_80B230D8);
-                    Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
+                    Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
                     this->unk2E4 = NULL;
                     if (this->actor.params != 0) {
                         this->unk2D6 = ((u8)temp_a3 * 0x400) + 0x8000;
@@ -380,7 +380,7 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
-    if (SkelAnime_Update(&this->unk14C)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->unk2E4 != NULL) {
             if ((this->unk2E4 == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
                 (this->unk2E4 == &gKotakeKoumeLookingOverRightShoulderAnim)) {
@@ -389,17 +389,17 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
                 } else {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
                 }
-                Animation_PlayLoop(&this->unk14C, this->unk2E4);
+                Animation_PlayLoop(&this->skelAnime, this->unk2E4);
             } else if (this->unk2E4 == &gKotakeKoumeFlyAnim) {
                 EnTr_SetupAction(this, func_80B22F28);
-                Animation_Change(&this->unk14C, &gKotakeKoumeFlyAnim, 1.0f, 0.0f,
+                Animation_Change(&this->skelAnime, &gKotakeKoumeFlyAnim, 1.0f, 0.0f,
                                  Animation_GetLastFrame(&gKotakeKoumeFlyAnim), ANIMMODE_LOOP, -5.0f);
             } else {
-                Animation_PlayLoop(&this->unk14C, this->unk2E4);
+                Animation_PlayLoop(&this->skelAnime, this->unk2E4);
             }
             this->unk2E4 = NULL;
         } else {
-            this->unk14C.curFrame = 0.0f;
+            this->skelAnime.curFrame = 0.0f;
         }
     }
     Actor_SetFocus(&this->actor, 0.0f);
@@ -443,7 +443,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_37Opa(play->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80B243D0[this->unk2E0]));
         func_8002EBCC(&this->actor, play, 0);
-        SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnTr_OverrideLimbDraw, NULL, this);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_tr.c", 854);
     }

@@ -126,23 +126,23 @@ void EnMd_ReverseAnimation(EnMd* this) {
     f32 temp_fv0;
     f32 temp_fv1;
 
-    temp_fv0 = this->unk14C.startFrame;
-    temp_fv1 = this->unk14C.endFrame;
-    this->unk14C.startFrame = temp_fv1;
-    this->unk14C.curFrame = temp_fv1;
-    this->unk14C.endFrame = temp_fv0;
-    this->unk14C.playSpeed = -1.0f;
+    temp_fv0 = this->skelAnime.startFrame;
+    temp_fv1 = this->skelAnime.endFrame;
+    this->skelAnime.startFrame = temp_fv1;
+    this->skelAnime.curFrame = temp_fv1;
+    this->skelAnime.endFrame = temp_fv0;
+    this->skelAnime.playSpeed = -1.0f;
 }
 
 void EnMd_UpdateAnimSequence_IdleToHalt(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_HALT);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_HALT);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_HALT);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT);
                 this->animSequenceEntry++;
             }
             break;
@@ -152,12 +152,12 @@ void EnMd_UpdateAnimSequence_IdleToHalt(EnMd* this) {
 void EnMd_UpdateAnimSequence_HaltToCurious(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_HALT_TO_CURIOUS);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT_TO_CURIOUS);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_CURIOUS);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_CURIOUS);
                 this->animSequenceEntry++;
             }
             break;
@@ -167,21 +167,21 @@ void EnMd_UpdateAnimSequence_HaltToCurious(EnMd* this) {
 void EnMd_UpdateAnimSequence_WalkAway(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_HALT);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_HALT);
             EnMd_ReverseAnimation(this);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_WALK);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_WALK);
                 this->animSequenceEntry++;
             } else {
                 break;
             }
             FALLTHROUGH;
         case 2:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_WALK);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_WALK);
                 this->animSequenceEntry++;
             }
             break;
@@ -191,12 +191,12 @@ void EnMd_UpdateAnimSequence_WalkAway(EnMd* this) {
 void EnMd_UpdateAnimSequence_TwitchIdle_Unused(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_WALK);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_WALK);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
                 this->animSequenceEntry++;
             }
             break;
@@ -206,13 +206,13 @@ void EnMd_UpdateAnimSequence_TwitchIdle_Unused(EnMd* this) {
 void EnMd_UpdateAnimSequence_HaltToIdle(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_HALT);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_HALT);
             EnMd_ReverseAnimation(this);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
                 this->animSequenceEntry++;
             }
             break;
@@ -222,12 +222,12 @@ void EnMd_UpdateAnimSequence_HaltToIdle(EnMd* this) {
 void EnMd_UpdateAnimSequence_SurpriseToAnnoyed(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_SURPISE);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_SURPISE);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
                 this->animSequenceEntry++;
             }
             break;
@@ -237,13 +237,13 @@ void EnMd_UpdateAnimSequence_SurpriseToAnnoyed(EnMd* this) {
 void EnMd_UpdateAnimSequence_SurpriseToIdle(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_SURPISE);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_SURPISE);
             EnMd_ReverseAnimation(this);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
                 this->animSequenceEntry++;
             }
             break;
@@ -253,12 +253,12 @@ void EnMd_UpdateAnimSequence_SurpriseToIdle(EnMd* this) {
 void EnMd_UpdateAnimSequence_CuriousToAnnoyed(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_CURIOUS_TO_ANNOYED);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_CURIOUS_TO_ANNOYED);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
                 this->animSequenceEntry++;
             }
             break;
@@ -268,12 +268,12 @@ void EnMd_UpdateAnimSequence_CuriousToAnnoyed(EnMd* this) {
 void EnMd_UpdateAnimSequence_AnnoyedToHalt(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_TO_HALT);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_TO_HALT);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_HALT);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT);
                 this->animSequenceEntry++;
             }
             break;
@@ -283,12 +283,12 @@ void EnMd_UpdateAnimSequence_AnnoyedToHalt(EnMd* this) {
 void EnMd_UpdateAnimSequence_IdleToAnnoyed(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_ANNOYED);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_ANNOYED);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
                 this->animSequenceEntry++;
             }
             break;
@@ -298,13 +298,13 @@ void EnMd_UpdateAnimSequence_IdleToAnnoyed(EnMd* this) {
 void EnMd_UpdateAnimSequence_StopWalking(EnMd* this) {
     switch (this->animSequenceEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_WALK);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_WALK);
             EnMd_ReverseAnimation(this);
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->unk14C, this->unk14C.endFrame) != 0) {
-                Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
                 this->animSequenceEntry++;
             }
             break;
@@ -401,8 +401,8 @@ void EnMd_UpdateAnimSequence_WithTalking(EnMd* this) {
                 }
                 break;
         }
-    } else if (this->unk14C.animation != &gMidoIdleAnim) {
-        Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
+    } else if (this->skelAnime.animation != &gMidoIdleAnim) {
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
         EnMd_SetAnimSequence(this, ENMD_ANIM_SEQ_NONE);
     }
     EnMd_UpdateAnimSequence(this);
@@ -677,7 +677,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(play, &this->unk14C, &gMidoSkel, NULL, this->unk258, this->unk2BE, MIDO_LIMB_MAX);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->unk258, this->unk2BE, MIDO_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AAC33C);
@@ -685,7 +685,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    Animation_ChangeByInfo(&this->unk14C, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_DEFAULT);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_DEFAULT);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->unk210 = 255;
@@ -712,7 +712,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnMd_Idle(EnMd* this, PlayState* play) {
-    if (this->unk14C.animation == &gMidoIdleAnim) {
+    if (this->skelAnime.animation == &gMidoIdleAnim) {
         Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) &&
                (this->animSequence != ENMD_ANIM_SEQ_SURPRISE_TO_IDLE)) {
@@ -722,7 +722,7 @@ void EnMd_Idle(EnMd* this, PlayState* play) {
 }
 
 void EnMd_Watch(EnMd* this, PlayState* play) {
-    if (this->unk14C.animation == &gMidoIdleAnim) {
+    if (this->skelAnime.animation == &gMidoIdleAnim) {
         Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     }
     EnMd_UpdateAnimSequence(this);
@@ -746,7 +746,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
         this->actor.world.pos.z = this->actor.home.pos.z;
         this->actor.world.pos.z += 60.0f * Math_CosS(temp_v0_3);
         temp_fv1 = fabsf((f32)this->actor.yawTowardsPlayer - (f32)temp_v0_3) * 0.001f * 3.0f;
-        this->unk14C.playSpeed = CLAMP(temp_fv1, 1.0f, 3.0f);
+        this->skelAnime.playSpeed = CLAMP(temp_fv1, 1.0f, 3.0f);
     }
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
@@ -766,7 +766,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
         this->unk190 = EnMd_Walk;
         this->actor.speed = 1.5f;
     } else {
-        if (this->unk14C.animation == &gMidoIdleAnim) {
+        if (this->skelAnime.animation == &gMidoIdleAnim) {
             Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
         }
         if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (play->sceneId == SCENE_LOST_WOODS)) {
@@ -812,7 +812,7 @@ void EnMd_Walk(EnMd* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         EnMd_SetAnimSequence(this, ENMD_ANIM_SEQ_STOP_WALKING);
-        this->unk14C.playSpeed = 0.0f;
+        this->skelAnime.playSpeed = 0.0f;
         this->actor.speed = 0.0f;
         this->actor.home.pos = this->actor.world.pos;
         this->unk190 = EnMd_Watch;
@@ -825,7 +825,7 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    SkelAnime_Update(&this->unk14C);
+    SkelAnime_Update(&this->skelAnime);
     func_80AAB0E0(this);
     EnMd_UpdateAlphaByDistance(this, play);
     Actor_MoveXZGravity(&this->actor);
@@ -874,10 +874,10 @@ void EnMd_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_md.c", 1280);
     if (this->unk210 == 255) {
         gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
-        func_80034BA0(play, &this->unk14C, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
+        func_80034BA0(play, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
     } else if (this->unk210 != 0) {
         gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
-        func_80034CC4(play, &this->unk14C, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
+        func_80034CC4(play, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_md.c", 1317);
 }

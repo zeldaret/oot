@@ -176,7 +176,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, D_809E9020);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
-    SkelAnime_Init(play, &this->unk17C, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->unk1D0,
+    SkelAnime_Init(play, &this->skelAnime, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->unk1D0,
                    this->unk200, 8);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
@@ -252,7 +252,7 @@ void func_809E5ABC(EnDekubaba* this) {
 void func_809E5D28(EnDekubaba* this) {
     s32 i;
 
-    Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8,
+    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8,
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8) * 0.06666667f, 0.0f,
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_ONCE, 0.0f);
     this->unk1C6 = 0xF;
@@ -268,7 +268,7 @@ void func_809E5D28(EnDekubaba* this) {
 void func_809E5E58(EnDekubaba* this) {
     s32 i;
 
-    Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8, -1.5f,
+    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, -1.5f,
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), 0.0f, ANIMMODE_ONCE, -3.0f);
     this->unk1C6 = 0xF;
     for (i = 2; i < 7; i++) {
@@ -279,24 +279,24 @@ void func_809E5E58(EnDekubaba* this) {
 
 void func_809E5F44(EnDekubaba* this) {
     this->unk1C6 = Animation_GetLastFrame(&object_dekubaba_Anim_0002B8) * 2;
-    Animation_MorphToLoop(&this->unk17C, &object_dekubaba_Anim_0002B8, -3.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_dekubaba_Anim_0002B8, -3.0f);
     this->unk1C0 = func_809E6ED4;
 }
 
 void func_809E5F9C(EnDekubaba* this) {
     this->unk1C6 = 8;
     this->unk1C0 = func_809E738C;
-    this->unk17C.playSpeed = 0.0f;
+    this->skelAnime.playSpeed = 0.0f;
 }
 
 void func_809E5FBC(EnDekubaba* this) {
-    Animation_PlayOnce(&this->unk17C, &object_dekubaba_Anim_000208);
+    Animation_PlayOnce(&this->skelAnime, &object_dekubaba_Anim_000208);
     this->unk1C6 = 0;
     this->unk1C0 = func_809E7104;
 }
 
 void func_809E6000(EnDekubaba* this) {
-    Animation_Change(&this->unk17C, &object_dekubaba_Anim_000208, 1.0f, 15.0f,
+    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_000208, 1.0f, 15.0f,
                      Animation_GetLastFrame(&object_dekubaba_Anim_000208), ANIMMODE_ONCE, -3.0f);
     this->unk1C6 = 0;
     this->unk1C0 = func_809E7458;
@@ -306,11 +306,11 @@ void func_809E6078(EnDekubaba* this) {
     this->unk1C6 = 9;
     this->collider.base.acFlags |= AC_ON;
     this->unk1C0 = func_809E77E4;
-    this->unk17C.playSpeed = -1.0f;
+    this->skelAnime.playSpeed = -1.0f;
 }
 
 void func_809E60A8(EnDekubaba* this, s32 arg1) {
-    Animation_MorphToPlayOnce(&this->unk17C, &object_dekubaba_Anim_000208, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_dekubaba_Anim_000208, -5.0f);
     this->unk1C6 = arg1;
     this->collider.base.acFlags &= ~AC_ON;
     Actor_SetScale(&this->actor, this->unk230 * 0.01f);
@@ -324,7 +324,7 @@ void func_809E60A8(EnDekubaba* this, s32 arg1) {
 
 void func_809E6170(EnDekubaba* this) {
     this->unk1C6 = 0;
-    this->unk17C.playSpeed = 0.0f;
+    this->skelAnime.playSpeed = 0.0f;
     this->actor.gravity = -0.8f;
     this->actor.velocity.y = 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
@@ -335,7 +335,7 @@ void func_809E6170(EnDekubaba* this) {
 }
 
 void func_809E61E0(EnDekubaba* this) {
-    Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8, -1.5f,
+    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, -1.5f,
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), 0.0f, ANIMMODE_ONCE, -3.0f);
     this->collider.base.acFlags &= ~AC_ON;
     this->unk1C0 = func_809E7F14;
@@ -348,11 +348,11 @@ void func_809E6264(EnDekubaba* this) {
         this->collider.elements[i].base.acElemFlags |= ACELEM_ON;
     }
     if (this->unk1C6 == 1) {
-        Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8, 4.0f, 0.0f,
+        Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, 4.0f, 0.0f,
                          Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_LOOP, -3.0f);
         this->unk1C6 = 0x28;
     } else {
-        Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8, 0.0f, 0.0f,
+        Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, 0.0f, 0.0f,
                          Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_LOOP, -3.0f);
         this->unk1C6 = 0x3C;
     }
@@ -410,7 +410,7 @@ void func_809E65A0(EnDekubaba* this, PlayState* play) {
     if (this->unk1C6 != 0) {
         this->unk1C6--;
     }
-    SkelAnime_Update(&this->unk17C);
+    SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
         this->unk230 * 0.01f * (0.5f + (((0xF - this->unk1C6) * 0.5f) / 15.0f));
@@ -471,7 +471,7 @@ void func_809E6A04(EnDekubaba* this, PlayState* play) {
     if (this->unk1C6 != 0) {
         this->unk1C6 -= 1;
     }
-    SkelAnime_Update(&this->unk17C);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
         this->unk230 * 0.01f * (0.5f + (this->unk1C6 * 0.033333335f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
@@ -530,8 +530,8 @@ void func_809E6ED4(EnDekubaba* this, PlayState* play) {
     Actor* sp34;
 
     sp34 = play->actorCtx.actorLists[2].head;
-    SkelAnime_Update(&this->unk17C);
-    if (Animation_OnFrame(&this->unk17C, 0.0f) || Animation_OnFrame(&this->unk17C, 12.0f)) {
+    SkelAnime_Update(&this->skelAnime);
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
         if (this->actor.params == 1) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_MOUTH);
         } else {
@@ -575,9 +575,9 @@ void func_809E7104(EnDekubaba* this, PlayState* play) {
     s16 sp4A;
     Vec3f sp3C;
 
-    SkelAnime_Update(&this->unk17C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk1C6 == 0) {
-        if (Animation_OnFrame(&this->unk17C, 1.0f)) {
+        if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
             if (this->actor.params == 1) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_ATTACK);
             } else {
@@ -585,13 +585,13 @@ void func_809E7104(EnDekubaba* this, PlayState* play) {
             }
         }
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x222);
-        sp4A = this->unk17C.curFrame * 10.0f;
+        sp4A = this->skelAnime.curFrame * 10.0f;
         sp4C = true;
         sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[0], -0xE38, sp4A + 0x38E);
         sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[1], -0xE38, sp4A + 0x71C);
         sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[2], -0xE38, sp4A + 0xE38);
         if (sp4C) {
-            Animation_PlayLoopSetSpeed(&this->unk17C, &object_dekubaba_Anim_0002B8, 4.0f);
+            Animation_PlayLoopSetSpeed(&this->skelAnime, &object_dekubaba_Anim_0002B8, 4.0f);
             sp3C.x = Math_SinS(this->actor.shape.rot.y) * 5.0f;
             sp3C.y = 0.0f;
             sp3C.z = Math_CosS(this->actor.shape.rot.y) * 5.0f;
@@ -607,7 +607,7 @@ void func_809E7104(EnDekubaba* this, PlayState* play) {
         if ((this->unk1C6 >= 4) && !Actor_IsFacingPlayer(&this->actor, 0x16C)) {
             Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 15, 0x71C);
         }
-        if (Animation_OnFrame(&this->unk17C, 0.0f) || Animation_OnFrame(&this->unk17C, 12.0f)) {
+        if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
             if (this->actor.params == 1) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_MOUTH);
             } else {
@@ -642,7 +642,7 @@ void func_809E7458(EnDekubaba* this, PlayState* play) {
     f32 var_fv1;
     s32 var_v0;
 
-    SkelAnime_Update(&this->unk17C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk1C6 == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x38E);
         Math_ScaledStepToS(&this->unk1CA_arr[0], -0x888, 0x16C);
@@ -710,7 +710,7 @@ void func_809E7458(EnDekubaba* this, PlayState* play) {
 void func_809E77E4(EnDekubaba* this, PlayState* play) {
     s32 temp_s0;
 
-    SkelAnime_Update(&this->unk17C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk1C6 >= 9) {
         temp_s0 = 0;
         temp_s0 |= Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 1, 0x11C6, 0x71C);
@@ -734,7 +734,7 @@ void func_809E77E4(EnDekubaba* this, PlayState* play) {
 void func_809E78DC(EnDekubaba* this, PlayState* play) {
     s32 temp_s0;
 
-    SkelAnime_Update(&this->unk17C);
+    SkelAnime_Update(&this->skelAnime);
     temp_s0 = true;
     temp_s0 &= Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38);
     temp_s0 &= Math_ScaledStepToS(&this->unk1CA_arr[0], -0x4000, 0xE38);
@@ -760,7 +760,7 @@ void func_809E78DC(EnDekubaba* this, PlayState* play) {
 }
 
 void func_809E79EC(EnDekubaba* this, PlayState* play) {
-    SkelAnime_Update(&this->unk17C);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk1C6 != 0) {
         this->unk1C6 -= 1;
     }
@@ -777,7 +777,7 @@ void func_809E79EC(EnDekubaba* this, PlayState* play) {
 void func_809E7A88(EnDekubaba* this, PlayState* play) {
     s16 temp_v0;
 
-    SkelAnime_Update(&this->unk17C);
+    SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1CA_arr[0], 0x71C);
     Math_ScaledStepToS(&this->unk1CA_arr[0], this->unk1CA_arr[1], 0x71C);
     Math_ScaledStepToS(&this->unk1CA_arr[1], this->unk1CA_arr[2], 0x71C);
@@ -1094,7 +1094,7 @@ void EnDekubaba_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2752);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (this->unk1C0 != func_809E80D8) {
-        SkelAnime_DrawOpa(play, this->unk17C.skeleton, this->unk17C.jointTable, NULL, func_809E8C0C, this);
+        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, func_809E8C0C, this);
         if (this->unk1C0 == func_809E64F4) {
             func_809E858C(this, play);
         } else {

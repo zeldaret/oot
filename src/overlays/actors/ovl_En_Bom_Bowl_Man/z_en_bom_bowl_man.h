@@ -10,7 +10,7 @@ typedef void (*EnBomBowlManActionFunc)(struct EnBomBowlMan*, struct PlayState*);
 
 typedef struct EnBomBowlMan {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ SkelAnime unk14C;
+    /* 0x14C */ SkelAnime skelAnime;
     /* 0x190 */ Vec3s unk190;
     /* 0x196 */ char pad196[0x3C]; /* maybe part of unk190[0xB]? */
     /* 0x1D2 */ Vec3s unk1D2;

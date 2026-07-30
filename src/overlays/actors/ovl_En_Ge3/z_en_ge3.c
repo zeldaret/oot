@@ -70,7 +70,7 @@ static s32 D_80A351D4[3] = { 0x06005FE8, 0x060065A8, 0x06006D28 };
 
 void func_80A34620(EnGe3* this, s32 arg1) {
     this->unk310 = D_80A351BC[arg1];
-    Animation_Change(&this->unk198, D_80A351C0[arg1], 1.0f, 0.0f, Animation_GetLastFrame(D_80A351C0[arg1]),
+    Animation_Change(&this->skelAnime, D_80A351C0[arg1], 1.0f, 0.0f, Animation_GetLastFrame(D_80A351C0[arg1]),
                      D_80A351C4[arg1], -8.0f);
     this->unk30C &= ~2;
 }
@@ -80,8 +80,8 @@ void EnGe3_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->unk198, &gGerudoRedSkel, NULL, this->unk1DC, this->unk26C, 24);
-    Animation_PlayLoop(&this->unk198, &gGerudoRedStandAnim);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, NULL, this->unk1DC, this->unk26C, 24);
+    Animation_PlayLoop(&this->skelAnime, &gGerudoRedStandAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -188,7 +188,7 @@ void func_80A34C40(EnGe3* this, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    if (!(this->unk30C & 2) && SkelAnime_Update(&this->unk198)) {
+    if (!(this->unk30C & 2) && SkelAnime_Update(&this->skelAnime)) {
         this->unk30C |= 2;
     }
 }
@@ -292,7 +292,7 @@ void EnGe3_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A351D4[this->unk2FC]));
     func_8002EBCC(&this->actor, play, 0);
-    SkelAnime_DrawFlexOpa(play, this->unk198.skeleton, this->unk198.jointTable, this->unk198.dListCount, func_80A34E58,
-                          func_80A35004, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          func_80A34E58, func_80A35004, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 631);
 }
