@@ -862,7 +862,7 @@ venv:
 	$(PYTHON) -m pip install -U -r requirements.txt
 
 setup: venv
-	$(MAKE) -C tools -j
+	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 $(EXTRACTED_DIR)/baserom -v $(VERSION)
 	$(PYTHON) -m tools.assets.extract $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR) -v $(VERSION) -j$(N_THREADS)
