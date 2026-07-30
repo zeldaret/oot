@@ -1,9 +1,11 @@
+version: "3"
 services:
   oot:
-    build:
-      context: .
-      dockerfile: Dockerfile
     volumes:
-      - ./:/oot
+      - oot-sync:/oot:nocopy
+    image: "oot:latest"
     tty: true
-    stdin_open: true
+
+volumes:
+  oot-sync:
+    external: true

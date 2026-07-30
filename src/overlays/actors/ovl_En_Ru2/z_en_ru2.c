@@ -259,19 +259,19 @@ CsCmdActorCue* EnRu2_GetCue(PlayState* play, s32 cueChannel) {
 s32 EnRu2_CheckCueMatchingId(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
-    if ((cue != NULL) && (cue->id == cueId)) {
-        return true;
+    if (cue != NULL && cue->id == cueId) {
+        return 1;
     }
-    return false;
+    return 0;
 }
 
 s32 EnRu2_CheckCueNotMatchingId(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
-    if ((cue != NULL) && (cue->id != cueId)) {
-        return true;
+    if (cue != NULL && cue->id != cueId) {
+        return 1;
     }
-    return false;
+    return 0;
 }
 
 /**
@@ -366,7 +366,7 @@ void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     Player* player;
     s16 yaw;
 
-    if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_WATER) && !IS_CUTSCENE_LAYER) {
+    if (gSaveContext.chamberCutsceneNum == CHAMBER_CS_WATER && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = ENRU2_AWAIT_BLUE_WARP;
         play->csCtx.script = gWaterMedallionCs;
@@ -384,8 +384,7 @@ void EnRu2_CheckIfBlueWarpShouldSpawn(EnRu2* this, PlayState* play) {
 
     if (csCtx->state != CS_STATE_IDLE) {
         cue = csCtx->actorCues[3];
-
-        if ((cue != NULL) && (cue->id == 2)) {
+        if (cue != NULL && cue->id == 2) {
             this->action = ENRU2_RISE_THROUGH_BLUE_WARP;
             this->drawConfig = ENRU2_DRAW_OPA;
             EnRu2_SpawnBlueWarp(this, play);
@@ -412,8 +411,7 @@ void EnRu2_CheckStartRaisingArms(EnRu2* this, PlayState* play) {
 
     if (play->csCtx.state != CS_STATE_IDLE) {
         cue = play->csCtx.actorCues[3];
-
-        if ((cue != NULL) && (cue->id == 3)) {
+        if (cue != NULL && cue->id == 3) {
             Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
                              0.0f);
             this->action = ENRU2_RAISE_ARMS;
@@ -439,8 +437,7 @@ void EnRu2_CheckIfWaterMedallionShouldSpawn(EnRu2* this, PlayState* play) {
 
     if (play->csCtx.state != CS_STATE_IDLE) {
         cue = play->csCtx.actorCues[6];
-
-        if ((cue != NULL) && (cue->id == 2)) {
+        if (cue != NULL && cue->id == 2) {
             this->action = ENRU2_FINISH_WATER_MEDALLION_CS;
             EnRu2_SpawnWaterMedallion(this, play);
         }
@@ -710,8 +707,7 @@ void EnRu2_NextCreditsAction(EnRu2* this, PlayState* play) {
                     EnRu2_SetupTurnHeadDownLeftAnimation(this);
                     break;
                 default:
-                    PRINTF(T("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
-                             "En_Ru2_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
+                    PRINTF("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
             this->cueId = nextCueId;
@@ -778,7 +774,7 @@ void EnRu2_PlayFanfare(void) {
 void EnRu2_SwimUpProgress(EnRu2* this) {
     f32 funcFloat;
 
-    this->swimmingUpFrame++;
+    this->swimmingUpFrame += 1;
     funcFloat = Environment_LerpWeightAccelDecel((kREG(2) + 0x96) & 0xFFFF, 0, this->swimmingUpFrame, 8, 0);
     this->actor.world.pos.y = this->actor.home.pos.y + (300.0f * funcFloat);
 }
@@ -842,11 +838,11 @@ void EnRu2_DialogCameraHandler(EnRu2* this, PlayState* play) {
 
     if (dialogState == TEXT_STATE_DONE_FADING) {
         if (this->lastDialogState != TEXT_STATE_DONE_FADING) {
-            PRINTF(T("おれが小松だ！ \n", "I'm Komatsu! \n")); // (cinema scene dev)
+            PRINTF("おれが小松だ！ \n");
             this->textboxCount++;
             if (this->textboxCount % 6 == 3) {
                 player = GET_PLAYER(play);
-                PRINTF(T("うおりゃー！ \n", "uorya-! \n")); // (screaming sound)
+                PRINTF("うおりゃー！ \n");
                 Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
@@ -872,7 +868,7 @@ void EnRu2_StartSwimmingUp(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_EndSwimmingUp(EnRu2* this, PlayState* play) {
-    if (this->swimmingUpFrame > ((((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96))) & 0xFFFF)) {
+    if (this->swimmingUpFrame > (((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96)) & 0xFFFF)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -928,7 +924,7 @@ void EnRu2_WaterTempleSwimmingUp(EnRu2* this, PlayState* play) {
 void EnRu2_Update(Actor* thisx, PlayState* play) {
     EnRu2* this = (EnRu2*)thisx;
 
-    if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
+    if (this->action < 0 || this->action >= 20 || sActionFuncs[this->action] == 0) {
         PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
                                "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
@@ -988,8 +984,7 @@ void EnRu2_DrawOpa(EnRu2* this, PlayState* play) {
 void EnRu2_Draw(Actor* thisx, PlayState* play) {
     EnRu2* this = (EnRu2*)thisx;
 
-    if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
-        (sDrawFuncs[this->drawConfig] == NULL)) {
+    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
         PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
                                "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;

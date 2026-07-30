@@ -26,8 +26,8 @@ void EnDyExtra_Destroy(Actor* thisx, PlayState* play);
 void EnDyExtra_Update(Actor* thisx, PlayState* play);
 void EnDyExtra_Draw(Actor* thisx, PlayState* play);
 
-void EnDyExtra_WaitForTrigger(EnDyExtra* this, PlayState* play);
-void EnDyExtra_FallAndKill(EnDyExtra* this, PlayState* play);
+void func_809FF7AC(EnDyExtra* this, PlayState* play);
+void func_809FF840(EnDyExtra* this, PlayState* play);
 
 ActorProfile En_Dy_Extra_Profile = {
     /**/ ACTOR_EN_DY_EXTRA,
@@ -51,30 +51,30 @@ void EnDyExtra_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Big fairy effect ☆☆☆☆☆ %d\n") VT_RST,
            this->actor.params);
     this->type = this->actor.params;
-    this->scale.x = 0.025f;
-    this->scale.y = 0.039f;
-    this->scale.z = 0.025f;
+    this->unk_15C.x = 0.025f;
+    this->unk_15C.y = 0.039f;
+    this->unk_15C.z = 0.025f;
     this->unk_168 = this->actor.world.pos;
     this->actor.gravity = -0.2f;
     this->unk_158 = 1.0f;
-    this->timer = 60;
-    this->actionFunc = EnDyExtra_WaitForTrigger;
+    this->unk_154 = 0x3C;
+    this->actionFunc = func_809FF7AC;
 }
 
-void EnDyExtra_WaitForTrigger(EnDyExtra* this, PlayState* play) {
+void func_809FF7AC(EnDyExtra* this, PlayState* play) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->actor.world.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
-    if (this->timer == 0 && this->trigger != 0) {
-        this->timer = 200;
-        this->actionFunc = EnDyExtra_FallAndKill;
+    if (this->unk_154 == 0 && this->unk_152 != 0) {
+        this->unk_154 = 0xC8;
+        this->actionFunc = func_809FF840;
     }
 }
 
-void EnDyExtra_FallAndKill(EnDyExtra* this, PlayState* play) {
+void func_809FF840(EnDyExtra* this, PlayState* play) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
-    if (this->timer == 0 || this->unk_158 < 0.02f) {
+    if (this->unk_154 == 0 || this->unk_158 < 0.02f) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -87,12 +87,10 @@ void EnDyExtra_FallAndKill(EnDyExtra* this, PlayState* play) {
 void EnDyExtra_Update(Actor* thisx, PlayState* play) {
     EnDyExtra* this = (EnDyExtra*)thisx;
 
-    if (this->timer != 0) {
-        this->timer--;
-    }
-    this->actor.scale.x = this->scale.x;
-    this->actor.scale.y = this->scale.y;
-    this->actor.scale.z = this->scale.z;
+    DECR(this->unk_154);
+    this->actor.scale.x = this->unk_15C.x;
+    this->actor.scale.y = this->unk_15C.y;
+    this->actor.scale.z = this->unk_15C.z;
     Actor_PlaySfx(&this->actor, NA_SE_PL_SPIRAL_HEAL_BEAM - SFX_FLAG);
     this->actionFunc(this, play);
     Actor_MoveXZGravity(&this->actor);

@@ -26,13 +26,12 @@ void EnTr_Destroy(Actor* thisx, PlayState* play);
 void EnTr_Update(Actor* thisx, PlayState* play);
 void EnTr_Draw(Actor* thisx, PlayState* play);
 
-void EnTr_DoNothing(EnTr* this, PlayState* play);
-void EnTr_ShrinkVanish(EnTr* this, PlayState* play);
-void EnTr_WaitToReappear(EnTr* this, PlayState* play);
-void EnTr_ChooseAction1(EnTr* this, PlayState* play);
-
-void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
+void func_80B22F1C(EnTr* this, PlayState* play);
+void func_80B234D4(EnTr* this, PlayState* play);
+void func_80B23820(EnTr* this, PlayState* play);
+void func_80B23A88(EnTr* this, PlayState* play);
 void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel);
+void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 
 ActorProfile En_Tr_Profile = {
@@ -46,51 +45,41 @@ ActorProfile En_Tr_Profile = {
     /**/ EnTr_Update,
     /**/ EnTr_Draw,
 };
-
-// The first elements of these animation arrays are for Koume, the second for Kotake
-
-static AnimationHeader* unused[] = {
+static AnimationHeader* D_80B24360[2] = {
     &gKotakeKoumeStandingBroomOverRightShoulderAnim,
     &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
 };
-
-static AnimationHeader* D_80B24368[] = {
+static AnimationHeader* D_80B24368[2] = {
     &gKotakeKoumeLookOverLeftShoulderAnim,
     &gKotakeKoumeLookOverRightShoulderAnim,
 };
-
-static AnimationHeader* D_80B24370[] = {
+static AnimationHeader* D_80B24370[2] = {
     &gKotakeKoumeLookingOverLeftShoulderAnim,
     &gKotakeKoumeLookingOverRightShoulderAnim,
 };
-
-static AnimationHeader* D_80B24378[] = {
+static AnimationHeader* D_80B24378[2] = {
     &gKotakeKoumeFlyAnim,
     &gKotakeKoumeFlyAnim,
 };
-
-static AnimationHeader* D_80B24380[] = {
+static AnimationHeader* D_80B24380[2] = {
     &gKotakeKoumeCastMagicAnim,
     &gKotakeKoumeCastMagicAnim,
 };
-
-static f32 D_80B24388[] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
-
-static f32 D_80B243A4[] = { 0.0f, 30.0f, 0.0f, -30.0f, 30.0f, -30.0f, 0.0f };
-
-// Has to be 1-dimensional to match
+static f32 D_80B24388[7] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
+static f32 D_80B243A4[7] = { 0.0f, 30.0f, 0.0f, -30.0f, 30.0f, -30.0f, 0.0f };
 static Color_RGBA8 D_80B243C0[4] = {
-    { 255, 200, 0, 255 },
-    { 255, 0, 0, 255 },
-    { 255, 255, 255, 255 },
-    { 0, 0, 255, 255 },
+    { 0xFF, 0xC8, 0, 0xFF },
+    { 0xFF, 0, 0, 0xFF },
+    { 0xFF, 0xFF, 0xFF, 0xFF },
+    { 0, 0, 0xFF, 0xFF },
 };
-
-static void* sEyeTextures[] = {
+static void* D_80B243D0[3] = {
     gKotakeKoumeEyeOpenTex,
     gKotakeKoumeEyeHalfTex,
     gKotakeKoumeEyeClosedTex,
 };
+static Vec3f D_80B243DC = { 2300.0f, 0.0f, -600.0f };
+static Vec3f D_80B243E8 = { 0.0f, 0.0f, 0.0f };
 
 void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -100,32 +89,31 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
     EnTr* this = (EnTr*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    EnTr_SetupAction(this, EnTr_DoNothing);
-    this->unk_2D4 = 0; // Set and not used
+    EnTr_SetupAction(this, func_80B22F1C);
+    this->unk2D4 = 0;
     this->actor.child = NULL;
     Actor_SetScale(&this->actor, 0.01f);
-
     switch (this->actor.params) {
-        case TR_KOUME:
-            SkelAnime_InitFlex(play, &this->skelAnime, &gKoumeSkel, &gKotakeKoumeStandingBroomOverRightShoulderAnim,
-                               this->jointTable, this->morphTable, KOTAKE_KOUME_LIMB_MAX);
-            Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverRightShoulderAnim);
-            this->animation = NULL;
-            EnTr_SetupAction(this, EnTr_ChooseAction1);
+        case 0:
+            SkelAnime_InitFlex(play, &this->unk14C, &gKoumeSkel, &gKotakeKoumeStandingBroomOverRightShoulderAnim,
+                               this->unk190, this->unk232, KOTAKE_KOUME_LIMB_MAX);
+            Animation_PlayOnce(&this->unk14C, &gKotakeKoumeStandingBroomOverRightShoulderAnim);
+            this->unk2E4 = NULL;
+            EnTr_SetupAction(this, func_80B23A88);
             this->cueChannel = 3;
             break;
 
-        case TR_KOTAKE:
-            SkelAnime_InitFlex(play, &this->skelAnime, &gKotakeSkel, &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
-                               this->jointTable, this->morphTable, KOTAKE_KOUME_LIMB_MAX);
-            Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverLeftShoulderAnim);
-            this->animation = NULL;
-            EnTr_SetupAction(this, EnTr_ChooseAction1);
+        case 1:
+            SkelAnime_InitFlex(play, &this->unk14C, &gKotakeSkel, &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
+                               this->unk190, this->unk232, KOTAKE_KOUME_LIMB_MAX);
+            Animation_PlayOnce(&this->unk14C, &gKotakeKoumeStandingBroomOverLeftShoulderAnim);
+            this->unk2E4 = NULL;
+            EnTr_SetupAction(this, func_80B23A88);
             this->cueChannel = 2;
             break;
 
         default:
-            ASSERT(0, "0", "../z_en_tr.c", 277);
+            ASSERT(0, "0", "../z_en_tr.c", 0x115);
             break;
     }
 }
@@ -133,43 +121,43 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
 void EnTr_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EnTr_CrySpellcast(EnTr* this, PlayState* play) {
-    if (this->timer == 11) {
-        // Both cry in the title screen cutscene, but only Kotake in the in-game cutscene
-        if ((this->actor.params != TR_KOUME) || (gSaveContext.sceneLayer == 6)) {
-            SFX_PLAY_CENTERED(NA_SE_EN_TWINROBA_SHOOT_VOICE);
-        }
+void func_80B22E6C(EnTr* this, PlayState* play) {
+    if ((this->unk2D6 == 0xB) && ((this->actor.params != 0) || (gSaveContext.sceneLayer == 6))) {
+        SFX_PLAY_CENTERED(NA_SE_EN_TWINROBA_SHOOT_VOICE);
     }
-
-    if (this->timer > 0) {
-        this->timer--;
-    } else if (this->actor.child != NULL) {
-        this->actor.child = NULL;
+    if (this->unk2D6 > 0) {
+        this->unk2D6--;
+    } else {
+        if (this->actor.child != NULL) {
+            this->actor.child = NULL;
+        }
     }
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
-void EnTr_DoNothing(EnTr* this, PlayState* play) {
+void func_80B22F1C(EnTr* this, PlayState* play) {
 }
 
-void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.actorCues[this->cueChannel] != NULL) {
-            switch (play->csCtx.actorCues[this->cueChannel]->id) {
+void func_80B22F28(EnTr* this, PlayState* play) {
+    CsCmdActorCue* temp_v0;
 
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        temp_v0 = play->csCtx.actorCues[this->cueChannel];
+        if (temp_v0 != NULL) {
+            switch (temp_v0->id) {
                 case 4:
                     Actor_SetScale(&this->actor, 0.01f);
-                    EnTr_SetupAction(this, EnTr_ShrinkVanish);
-                    this->timer = 24;
+                    EnTr_SetupAction(this, func_80B234D4);
+                    this->unk2D6 = 0x18;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DEAD2);
                     break;
 
                 case 6:
-                    Animation_Change(&this->skelAnime, D_80B24380[this->actor.params], 1.0f, 0.0f,
+                    Animation_Change(&this->unk14C, D_80B24380[this->actor.params], 1.0f, 0.0f,
                                      Animation_GetLastFrame(D_80B24380[this->actor.params]), ANIMMODE_ONCE, -5.0f);
-                    EnTr_SetupAction(this, EnTr_CrySpellcast);
-                    this->animation = D_80B24378[this->actor.params];
-                    this->timer = 39;
+                    EnTr_SetupAction(this, func_80B22E6C);
+                    this->unk2E4 = D_80B24378[this->actor.params];
+                    this->unk2D6 = 0x27;
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                        this->actor.params + 9);
@@ -186,30 +174,30 @@ void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
     }
 }
 
-void EnTr_FlyKidnapCutscene(EnTr* this, PlayState* play) {
-    Vec3f originalPos = this->actor.world.pos;
+void func_80B230D8(EnTr* this, PlayState* play) {
+    Vec3f sp34;
+    CsCmdActorCue* temp_v0;
 
+    sp34 = this->actor.world.pos;
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.actorCues[this->cueChannel] != NULL) {
-            if (play->csCtx.actorCues[this->cueChannel]->id == 8) {
+        temp_v0 = play->csCtx.actorCues[this->cueChannel];
+        if (temp_v0 != NULL) {
+            if (temp_v0->id == 8) {
                 func_80B24038(this, play, this->cueChannel);
                 this->actor.world.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
-                Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 10, 0x400, 0x100);
+                Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0xA, 0x400, 0x100);
                 this->actor.world.rot.y = this->actor.shape.rot.y;
             } else {
                 EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
-                this->actor.world.pos.x += Math_SinS(this->timer) * 150.0f;
+                this->actor.world.pos.x += Math_SinS(this->unk2D6) * 150.0f;
                 this->actor.world.pos.y += -100.0f;
-                this->actor.world.pos.z += Math_CosS(this->timer) * 150.0f;
-
-                this->actor.shape.rot.y = (s16)(this->timer) + 0x4000;
-                this->timer += 0x400;
-
-                this->actor.velocity.x = this->actor.world.pos.x - originalPos.x;
-                this->actor.velocity.y = this->actor.world.pos.y - originalPos.y;
-                this->actor.velocity.z = this->actor.world.pos.z - originalPos.z;
+                this->actor.world.pos.z += Math_CosS(this->unk2D6) * 150.0f;
+                this->actor.shape.rot.y = (s16)this->unk2D6 + 0x4000;
+                this->unk2D6 += 0x400;
+                this->actor.velocity.x = this->actor.world.pos.x - sp34.x;
+                this->actor.velocity.y = this->actor.world.pos.y - sp34.y;
+                this->actor.velocity.z = this->actor.world.pos.z - sp34.z;
             }
-
             if (play->csCtx.curFrame < 670) {
                 Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
             }
@@ -217,164 +205,169 @@ void EnTr_FlyKidnapCutscene(EnTr* this, PlayState* play) {
     }
 }
 
-void func_80B23254(EnTr* this, PlayState* play, s32 arg2, f32 arg3, f32 scale) {
-    Vec3f pos;
-    Vec3f velocity;
-    Vec3f accel;
+void func_80B23254(EnTr* this, PlayState* play, s32 arg2, f32 arg3, f32 arg4) {
+    Vec3f sp7C;
+    Vec3f sp70;
+    Vec3f sp64;
     Vec3f sp58;
-    Color_RGBA8* primColor;
-    Color_RGBA8* envColor;
-    Vec3f cameraEye = GET_ACTIVE_CAM(play)->eye;
-    s16 yaw = Math_Vec3f_Yaw(&cameraEye, &this->actor.world.pos);
-    s16 reversePitch = -Math_Vec3f_Pitch(&cameraEye, &this->actor.world.pos);
-    f32 sp3C;
+    Color_RGBA8* sp54;
+    Color_RGBA8* sp50;
+    Vec3f sp44;
+    s16 temp_s0;
+    s16 sp40;
 
-    accel.x = accel.z = 0.0f;
-    sp3C = Math_SinS(yaw);
-    velocity.x = Math_CosS(reversePitch) * (arg3 * sp3C);
-    velocity.y = Math_SinS(reversePitch) * arg3;
-    sp3C = Math_CosS(yaw);
-    velocity.z = Math_CosS(reversePitch) * (arg3 * sp3C);
-    accel.y = 0.5f;
-
-    primColor = &D_80B243C0[2 * this->actor.params];
-    envColor = &D_80B243C0[2 * this->actor.params + 1];
-
+    sp44 = GET_ACTIVE_CAM(play)->eye;
+    temp_s0 = Math_Vec3f_Yaw(&sp44, &this->actor.world.pos);
+    sp40 = -Math_Vec3f_Pitch(&sp44, &this->actor.world.pos);
+    sp64.z = 0.0f;
+    sp64.x = 0.0f;
+    sp70.x = arg3 * Math_SinS(temp_s0) * Math_CosS(sp40);
+    sp70.y = arg3 * Math_SinS(sp40);
+    sp70.z = arg3 * Math_CosS(temp_s0) * Math_CosS(sp40);
+    sp64.y = 0.5f;
+    sp54 = &D_80B243C0[(this->actor.params * 2) + 0];
+    sp50 = &D_80B243C0[(this->actor.params * 2) + 1];
     sp58 = this->actor.world.pos;
-    sp58.x -= velocity.x * 10.0f;
-    sp58.y -= velocity.y * 10.0f;
-    sp58.z -= velocity.z * 10.0f;
-
-    pos.x = sp58.x + ((D_80B24388[arg2] * scale) * Math_CosS(yaw));
-    pos.y = sp58.y + (D_80B243A4[arg2] * scale);
-    pos.z = sp58.z - ((D_80B24388[arg2] * scale) * Math_SinS(yaw));
-    func_8002829C(play, &pos, &velocity, &accel, primColor, envColor, (s32)(800.0f * scale), (s32)(80.0f * scale));
+    sp58.x -= sp70.x * 10.0f;
+    sp58.y -= sp70.y * 10.0f;
+    sp58.z -= sp70.z * 10.0f;
+    sp7C.x = sp58.x + (D_80B24388[arg2] * arg4 * Math_CosS(temp_s0));
+    sp7C.y = sp58.y + (D_80B243A4[arg2] * arg4);
+    sp7C.z = sp58.z - (D_80B24388[arg2] * arg4 * Math_SinS(temp_s0));
+    func_8002829C(play, &sp7C, &sp70, &sp64, sp54, sp50, 800.0f * arg4, 80.0f * arg4);
 }
 
-void EnTr_ShrinkVanish(EnTr* this, PlayState* play) {
+void func_80B234D4(EnTr* this, PlayState* play) {
     s32 temp_hi;
 
-    if (this->timer >= 17) {
-        this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->timer * 0x28F)) + 0x3D68;
+    if (this->unk2D6 >= 0x11) {
+        this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->unk2D6 * 0x28F)) + 0x3D68;
+    } else if (this->unk2D6 >= 5) {
+        Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
+        this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->unk2D6 * 0x28F)) + 0x3D68;
+    } else if (this->unk2D6 > 0) {
+        temp_hi = (this->unk2D6 * 2) % 7;
+        func_80B23254(this, play, temp_hi, 5.0f, 0.2f);
+        func_80B23254(this, play, (temp_hi + 1) % 7, 5.0f, 0.2f);
+        Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
+        this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->unk2D6 * 0x28F)) + 0x3D68;
     } else {
-        if (this->timer >= 5) {
-            Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
-            this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->timer * 0x28F)) + 0x3D68;
-        } else if (this->timer > 0) {
-            temp_hi = (this->timer * 2) % 7;
-
-            func_80B23254(this, play, temp_hi, 5.0f, 0.2f);
-            func_80B23254(this, play, (temp_hi + 1) % 7, 5.0f, 0.2f);
-            Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
-            this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->timer * 0x28F)) + 0x3D68;
-        } else {
-            EnTr_SetupAction(this, EnTr_WaitToReappear);
-            this->actor.draw = NULL;
-        }
+        EnTr_SetupAction(this, func_80B23820);
+        this->actor.draw = NULL;
     }
-
-    if (this->timer == 4) {
+    if (this->unk2D6 == 4) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLE_DOWN);
     }
-
-    if (this->timer > 0) {
-        this->timer--;
+    if (this->unk2D6 > 0) {
+        this->unk2D6--;
     }
 }
 
-void EnTr_Reappear(EnTr* this, PlayState* play) {
-    if (this->timer >= 31) {
-        s32 temp_hi = (this->timer * 2) % 7;
+void func_80B23690(EnTr* this, PlayState* play) {
+    s32 temp_hi;
 
+    if (this->unk2D6 >= 0x1F) {
+        temp_hi = (this->unk2D6 * 2) % 7;
         func_80B23254(this, play, temp_hi, 5.0f, 1.0f);
         func_80B23254(this, play, (temp_hi + 1) % 7, 5.0f, 1.0f);
-    } else if (this->timer == 30) {
+    } else if (this->unk2D6 == 0x1E) {
         this->actor.draw = EnTr_Draw;
-        this->actor.shape.rot.y += this->timer * 0x1A6;
-    } else if (this->timer > 0) {
-        this->actor.shape.rot.y += this->timer * 0x1A6;
+        this->actor.shape.rot.y += this->unk2D6 * 0x1A6;
+    } else if (this->unk2D6 > 0) {
+        this->actor.shape.rot.y += this->unk2D6 * 0x1A6;
         Actor_SetScale(&this->actor, (this->actor.scale.x * 0.8f) + 0.002f);
     } else {
-        EnTr_SetupAction(this, EnTr_ChooseAction2);
+        EnTr_SetupAction(this, func_80B22F28);
         Actor_SetScale(&this->actor, 0.01f);
     }
-
-    if (this->timer > 0) {
-        this->timer--;
+    if (this->unk2D6 > 0) {
+        this->unk2D6--;
     }
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
-void EnTr_WaitToReappear(EnTr* this, PlayState* play) {
+void func_80B23820(EnTr* this, PlayState* play) {
+    CsCmdActorCue* temp_v0;
+
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if ((play->csCtx.actorCues[this->cueChannel] != NULL) && ((play->csCtx.actorCues[this->cueChannel]->id == 3) ||
-                                                                  (play->csCtx.actorCues[this->cueChannel]->id == 5))) {
-            Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
-            this->timer = 34;
+        temp_v0 = play->csCtx.actorCues[this->cueChannel];
+        if ((temp_v0 != NULL) && (((temp_v0->id == 3)) || (temp_v0->id == 5))) {
+            Actor_PlaySfx(&this->actor, 0x390DU);
+            this->unk2D6 = 0x22;
             EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
-            EnTr_SetupAction(this, EnTr_Reappear);
-            Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
-            this->animation = NULL;
+            EnTr_SetupAction(this, func_80B23690);
+            Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
+            this->unk2E4 = NULL;
             Actor_SetScale(&this->actor, 0.003f);
         }
     }
 }
 
-void EnTr_TakeOff(EnTr* this, PlayState* play) {
-    f32 lastFrame = Animation_GetLastFrame(D_80B24378[this->actor.params]);
+void func_80B238E0(EnTr* this, PlayState* play) {
+    CsCmdActorCue* temp_v0;
+    f32 temp_fv0;
 
+    temp_fv0 = Animation_GetLastFrame(D_80B24378[this->actor.params]);
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if ((play->csCtx.actorCues[this->cueChannel] != NULL) && (play->csCtx.actorCues[this->cueChannel]->id == 3)) {
-            Animation_Change(&this->skelAnime, D_80B24378[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP,
-                             -10.0f);
-            this->animation = NULL;
-            EnTr_SetupAction(this, EnTr_ChooseAction2);
+        temp_v0 = play->csCtx.actorCues[this->cueChannel];
+        if ((temp_v0 != NULL) && (temp_v0->id == 3)) {
+            Animation_Change(&this->unk14C, D_80B24378[this->actor.params], 1.0f, 0.0f, temp_fv0, 0U, -10.0f);
+            this->unk2E4 = NULL;
+            EnTr_SetupAction(this, func_80B22F28);
         }
     }
 }
 
-void EnTr_TurnLookOverShoulder(EnTr* this, PlayState* play) {
-    f32 lastFrame = Animation_GetLastFrame(D_80B24368[this->actor.params]);
+void func_80B239A8(EnTr* this, PlayState* play) {
+    CsCmdActorCue* temp_v0;
+    f32 temp_fv0;
 
+    temp_fv0 = Animation_GetLastFrame(D_80B24368[this->actor.params]);
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if ((play->csCtx.actorCues[this->cueChannel] != NULL) && (play->csCtx.actorCues[this->cueChannel]->id == 2)) {
-            Animation_Change(&this->skelAnime, D_80B24368[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE,
-                             -4.0f);
-            this->animation = D_80B24370[this->actor.params];
-            EnTr_SetupAction(this, EnTr_TakeOff);
+        temp_v0 = play->csCtx.actorCues[this->cueChannel];
+        if ((temp_v0 != NULL) && (temp_v0->id == 2)) {
+            Animation_Change(&this->unk14C, D_80B24368[this->actor.params], 1.0f, 0.0f, temp_fv0, 2U, -4.0f);
+            this->unk2E4 = D_80B24370[this->actor.params];
+            EnTr_SetupAction(this, func_80B238E0);
         }
     }
 }
 
-void EnTr_ChooseAction1(EnTr* this, PlayState* play) {
-    u32 frames = play->gameplayFrames;
+void func_80B23A88(EnTr* this, PlayState* play) {
+    u32 temp_a3;
+    CsCmdActorCue* temp_v1;
 
+    temp_a3 = play->gameplayFrames;
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.actorCues[this->cueChannel] != NULL) {
-            switch (play->csCtx.actorCues[this->cueChannel]->id) {
+        temp_v1 = play->csCtx.actorCues[this->cueChannel];
+        if (temp_v1 != NULL) {
+            switch (temp_v1->id) {
                 case 1:
                     EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
-                    EnTr_SetupAction(this, EnTr_TurnLookOverShoulder);
+                    EnTr_SetupAction(this, func_80B239A8);
                     break;
 
                 case 3:
                     EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
-                    EnTr_SetupAction(this, EnTr_ChooseAction2);
-                    Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
-                    this->animation = NULL;
+                    EnTr_SetupAction(this, func_80B22F28);
+                    Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
+                    this->unk2E4 = NULL;
                     break;
 
                 case 4:
-                    EnTr_SetupAction(this, EnTr_WaitToReappear);
+                    EnTr_SetupAction(this, func_80B23820);
                     this->actor.draw = NULL;
                     break;
 
                 case 7:
-                    EnTr_SetupAction(this, EnTr_FlyKidnapCutscene);
-                    Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
-                    this->animation = NULL;
-                    this->timer =
-                        ((this->actor.params != TR_KOUME) ? ((u8)frames * 0x400) + 0x8000 : (u8)frames * 0x400);
+                    EnTr_SetupAction(this, func_80B230D8);
+                    Animation_PlayLoop(&this->unk14C, &gKotakeKoumeFlyAnim);
+                    this->unk2E4 = NULL;
+                    if (this->actor.params != 0) {
+                        this->unk2D6 = ((u8)temp_a3 * 0x400) + 0x8000;
+                    } else {
+                        this->unk2D6 = (u8)temp_a3 * 0x400;
+                    }
                     break;
             }
         }
@@ -382,158 +375,159 @@ void EnTr_ChooseAction1(EnTr* this, PlayState* play) {
 }
 
 void EnTr_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
     EnTr* this = (EnTr*)thisx;
+    s32 pad;
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
-
-    if (SkelAnime_Update(&this->skelAnime)) {
-        if (this->animation != NULL) {
-            if ((this->animation == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
-                (this->animation == &gKotakeKoumeLookingOverRightShoulderAnim)) {
-                if (this->actor.params != TR_KOUME) {
+    if (SkelAnime_Update(&this->unk14C)) {
+        if (this->unk2E4 != NULL) {
+            if ((this->unk2E4 == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
+                (this->unk2E4 == &gKotakeKoumeLookingOverRightShoulderAnim)) {
+                if (this->actor.params != 0) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
                 } else {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
                 }
-                Animation_PlayLoop(&this->skelAnime, this->animation);
-            } else if (this->animation == &gKotakeKoumeFlyAnim) {
-                EnTr_SetupAction(this, EnTr_ChooseAction2);
-                Animation_Change(&this->skelAnime, &gKotakeKoumeFlyAnim, 1.0f, 0.0f,
+                Animation_PlayLoop(&this->unk14C, this->unk2E4);
+            } else if (this->unk2E4 == &gKotakeKoumeFlyAnim) {
+                EnTr_SetupAction(this, func_80B22F28);
+                Animation_Change(&this->unk14C, &gKotakeKoumeFlyAnim, 1.0f, 0.0f,
                                  Animation_GetLastFrame(&gKotakeKoumeFlyAnim), ANIMMODE_LOOP, -5.0f);
             } else {
-                Animation_PlayLoop(&this->skelAnime, this->animation);
+                Animation_PlayLoop(&this->unk14C, this->unk2E4);
             }
-            this->animation = NULL;
+            this->unk2E4 = NULL;
         } else {
-            this->skelAnime.curFrame = 0.0f;
+            this->unk14C.curFrame = 0.0f;
         }
     }
     Actor_SetFocus(&this->actor, 0.0f);
-
-    if (DECR(this->blinkTimer) == 0) {
-        this->blinkTimer = Rand_S16Offset(60, 60);
+    if (DECR(this->unk2E2) == 0) {
+        this->unk2E2 = Rand_S16Offset(0x3C, 0x3C);
     }
-    this->eyeIndex = this->blinkTimer;
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+    this->unk2E0 = this->unk2E2;
+    if (this->unk2E0 >= 3) {
+        this->unk2E0 = 0;
     }
 }
 
-s32 EnTr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    Vec3f src = { 2300.0f, 0.0f, -600.0f };
-    Vec3f dest = { 0.0f, 0.0f, 0.0f };
-    EnTr* this = (EnTr*)thisx;
-    Actor* child = this->actor.child;
+s32 EnTr_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx) {
+    Vec3f sp34;
+    Vec3f sp28;
+    EnTr* this = thisx;
+    Actor* sp20;
 
-    if ((child != NULL) && (limbIndex == KOTAKE_KOUME_LIMB_RIGHT_HAND)) {
-        Matrix_MultVec3f(&src, &dest);
-        dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))));
-        dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))));
-        child->world.pos = dest;
+    sp34 = D_80B243DC;
+    sp28 = D_80B243E8;
+    sp20 = this->actor.child;
+    if ((sp20 != NULL) && (arg1 == KOTAKE_KOUME_LIMB_RIGHT_HAND)) {
+        Matrix_MultVec3f(&sp34, &sp28);
+        sp28.x -= 10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)));
+        sp28.z -= 10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)));
+        sp20->world.pos = sp28;
     }
     return 0;
 }
 
 void EnTr_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
     EnTr* this = (EnTr*)thisx;
-
-    if (1) {}
+    s32 pad;
 
     if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.actorCues[this->cueChannel] == NULL)) {
         this->actor.shape.shadowDraw = NULL;
     } else {
+        if (1) {}
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
-
         OPEN_DISPS(play->state.gfxCtx, "../z_en_tr.c", 840);
         Gfx_SetupDL_37Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80B243D0[this->unk2E0]));
         func_8002EBCC(&this->actor, play, 0);
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+        SkelAnime_DrawFlexOpa(play, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount,
                               EnTr_OverrideLimbDraw, NULL, this);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_tr.c", 854);
     }
 }
 
-f32 func_80B23FDC(PlayState* play, s32 cueChannel) {
-    f32 phi_f2 = Environment_LerpWeight(play->csCtx.actorCues[cueChannel]->endFrame,
-                                        play->csCtx.actorCues[cueChannel]->startFrame, play->csCtx.curFrame);
-    phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
-    return phi_f2;
+f32 func_80B23FDC(PlayState* arg0, s32 cueChannel) {
+    CsCmdActorCue* temp_v0;
+    f32 temp_fv0;
+    f32 var_fv1;
+
+    temp_v0 = arg0->csCtx.actorCues[cueChannel];
+    temp_fv0 = Environment_LerpWeight(temp_v0->endFrame, temp_v0->startFrame, arg0->csCtx.curFrame);
+    var_fv1 = temp_fv0;
+    if (temp_fv0 > 1.0f) {
+        var_fv1 = 1.0f;
+    }
+    return var_fv1;
 }
 
 void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel) {
-    Vec3f startPos;
-    Vec3f endPos;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 phi_f12;
+    Vec3f sp34;
+    Vec3f sp28;
+    f32 temp_fv0;
+    f32 var_fa0;
+    CsCmdActorCue* v;
 
-    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
-    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
-    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
-
-    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
-    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
-    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
-
-    temp_f0 = func_80B23FDC(play, cueChannel);
-
-    startPos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
-    startPos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
-    startPos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
-
-    endPos.x = (startPos.x - this->actor.world.pos.x) * 0.1f;
-    endPos.y = (startPos.y - this->actor.world.pos.y) * 0.1f;
-    endPos.z = (startPos.z - this->actor.world.pos.z) * 0.1f;
-
-    temp_f0_2 = sqrtf(SQ(endPos.x) + SQ(endPos.y) + SQ(endPos.z));
-    phi_f12 = CLAMP(temp_f0_2, 0.0f, 20.0f);
-
-    if ((temp_f0_2 != phi_f12) && (temp_f0_2 != 0.0f)) {
-        endPos.x *= phi_f12 / temp_f0_2;
-        endPos.y *= phi_f12 / temp_f0_2;
-        endPos.z *= phi_f12 / temp_f0_2;
+    v = play->csCtx.actorCues[cueChannel];
+    sp34.x = v->startPos.x;
+    sp34.y = v->startPos.y;
+    sp34.z = v->startPos.z;
+    sp28.x = v->endPos.x;
+    sp28.y = v->endPos.y;
+    sp28.z = v->endPos.z;
+    temp_fv0 = func_80B23FDC(play, (s32)cueChannel);
+    sp34.x = ((sp28.x - sp34.x) * temp_fv0) + sp34.x;
+    sp34.y = ((sp28.y - sp34.y) * temp_fv0) + sp34.y;
+    sp34.z = ((sp28.z - sp34.z) * temp_fv0) + sp34.z;
+    sp28.x = (sp34.x - this->actor.world.pos.x) * 0.1f;
+    sp28.y = (sp34.y - this->actor.world.pos.y) * 0.1f;
+    sp28.z = (sp34.z - this->actor.world.pos.z) * 0.1f;
+    temp_fv0 = sqrtf(SQXYZ(sp28));
+    var_fa0 = CLAMP(temp_fv0, 0.0f, 20.0f);
+    if ((temp_fv0 != var_fa0) && (temp_fv0 != 0.0f)) {
+        sp28.x *= var_fa0 / temp_fv0;
+        sp28.y *= var_fa0 / temp_fv0;
+        sp28.z *= var_fa0 / temp_fv0;
     }
-
-    Math_StepToF(&this->actor.velocity.x, endPos.x, 1.0f);
-    Math_StepToF(&this->actor.velocity.y, endPos.y, 1.0f);
-    Math_StepToF(&this->actor.velocity.z, endPos.z, 1.0f);
+    Math_StepToF(&this->actor.velocity.x, sp28.x, 1.0f);
+    Math_StepToF(&this->actor.velocity.y, sp28.y, 1.0f);
+    Math_StepToF(&this->actor.velocity.z, sp28.z, 1.0f);
     Actor_UpdatePos(&this->actor);
 }
 
 void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel) {
-    s16 rotY = play->csCtx.actorCues[cueChannel]->rot.y;
-    s32 rotDiff = this->actor.world.rot.y - rotY;
-    s32 rotSign;
+    s32 var_v0;
+    s16 new_var;
+    s32 var_v1;
 
-    if (rotDiff < 0) {
-        rotDiff = -rotDiff;
-        rotSign = 1;
+    new_var = play->csCtx.actorCues[cueChannel]->rot.y;
+    var_v1 = this->actor.world.rot.y - new_var;
+    if (var_v1 < 0) {
+        var_v1 = -var_v1;
+        var_v0 = 1;
     } else {
-        rotSign = -1;
+        var_v0 = -1;
     }
-
-    if (rotDiff >= 0x8000) {
-        rotSign = -rotSign;
-        rotDiff = 0x10000 - rotDiff;
+    if (var_v1 >= 0x8000) {
+        var_v0 = -var_v0;
+        var_v1 = 0x10000 - var_v1;
     }
-
-    rotDiff *= 0.1f;
-
-    this->actor.world.rot.y += rotDiff * rotSign;
+    var_v1 *= 0.1f;
+    this->actor.world.rot.y += var_v1 * var_v0;
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 cueChannel) {
-    Vec3f startPos;
+    Vec3f spC;
+    s16 temp_v1;
 
-    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
-    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
-    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
-
-    this->actor.world.pos = startPos;
-    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.actorCues[cueChannel]->rot.y;
+    spC.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    spC.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    spC.z = play->csCtx.actorCues[cueChannel]->startPos.z;
+    this->actor.world.pos = spC;
+    temp_v1 = play->csCtx.actorCues[cueChannel]->rot.y;
+    this->actor.shape.rot.y = temp_v1;
+    this->actor.world.rot.y = temp_v1;
 }

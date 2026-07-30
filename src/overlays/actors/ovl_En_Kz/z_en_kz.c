@@ -302,7 +302,7 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
 #endif
 
     if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId,
-                           EnKz_UpdateTalkState)) {
+                           EnKz_UpdateTalkState) != 0) {
         if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
             if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;

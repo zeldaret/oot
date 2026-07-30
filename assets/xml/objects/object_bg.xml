@@ -1,80 +1,63 @@
 <Root>
     <File Name="object_bg" Segment="6">
-
-        <!-- Bombchu Bowling Girl skeleton -->
-        <Skeleton Name="gChuGirlSkel" Type="Flex" LimbType="Standard" Offset="0x6EB0"/>
-
-        <!-- Bombchu Bowling Girl animations -->
-        <Animation Name="gChuGirlWakeUpAnim" Offset="0x80"/>
-        <Animation Name="gChuGirlNoddingOffAnim" Offset="0x710"/>
-        <Animation Name="gChuGirlLeanOverCounterAnim" Offset="0x72AC"/>
-
-        <!-- Bombchu Bowling Girl limb displaylists -->
-        <DList Name="gChuGirlWaistDL" Offset="0x4038"/>
-        <DList Name="gChuGirlTorsoDL" Offset="0x3DB0"/>
-        <DList Name="gChuGirlNeckDL" Offset="0x33C8"/>
-        <DList Name="gChuGirlHeadDL" Offset="0x2EE0"/>
-        <DList Name="gChuGirlLeftUpperArmDL" Offset="0x3780"/>
-        <DList Name="gChuGirlLeftForearmDL" Offset="0x3670"/>
-        <DList Name="gChuGirlLeftHandDL" Offset="0x3520"/>
-        <DList Name="gChuGirlRightUpperArmDL" Offset="0x3BC8"/>
-        <DList Name="gChuGirlRightForearmDL" Offset="0x3AB8"/>
-        <DList Name="gChuGirlRightHandDL" Offset="0x3968"/>
-
-        <!-- Bombchu Bowling Girl limbs -->
-        <Limb Name="gChuGirlWaistLimb" LimbType="Standard" Offset="0x6E10"/>
-        <Limb Name="gChuGirlTorsoLimb" LimbType="Standard" Offset="0x6E1C"/>
-        <Limb Name="gChuGirlNeckLimb" LimbType="Standard" Offset="0x6E28"/>
-        <Limb Name="gChuGirlHeadLimb" LimbType="Standard" Offset="0x6E34"/>
-        <Limb Name="gChuGirlLeftUpperArmLimb" LimbType="Standard" Offset="0x6E40"/>
-        <Limb Name="gChuGirlLeftForearmLimb" LimbType="Standard" Offset="0x6E4C"/>
-        <Limb Name="gChuGirlLeftHandLimb" LimbType="Standard" Offset="0x6E58"/>
-        <Limb Name="gChuGirlRightUpperArmLimb" LimbType="Standard" Offset="0x6E64"/>
-        <Limb Name="gChuGirlRightForearmLimb" LimbType="Standard" Offset="0x6E70"/>
-        <Limb Name="gChuGirlRightHandLimb" LimbType="Standard" Offset="0x6E7C"/>
-
-        <!-- Bombchu Bowling Girl limb textures -->
-        <Texture Name="gChuGirlMouthTex" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="gChuGirlSkinGradientTex" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="gChuGirlSweaterTex" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="gChuGirlUmbEarLicusTex" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="gChuGirlHairTex" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
-
-        <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
-
-        <!-- Vertices -->
-        <Array Name="gChuGirlHeadVtx" Count="221" Offset="0x720">
+        <Animation Name="object_bg_000080_Anim" Offset="0x80"/>
+        <Animation Name="object_bg_000710_Anim" Offset="0x710"/>
+        <Array Name="object_bg_000720_Vtx" Count="221" Offset="0x720">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlNeckVtx" Count="31" Offset="0x14F0">
+        <Array Name="object_bg_0014F0_Vtx" Count="31" Offset="0x14F0">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlLeftHandVtx" Count="38" Offset="0x16E0">
+        <Array Name="object_bg_0016E0_Vtx" Count="38" Offset="0x16E0">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlLeftForearmVtx" Count="29" Offset="0x1940">
+        <Array Name="object_bg_001940_Vtx" Count="29" Offset="0x1940">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlLeftUpperArmVtx" Count="53" Offset="0x1B10">
+        <Array Name="object_bg_001B10_Vtx" Count="53" Offset="0x1B10">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlRightHandVtx" Count="36" Offset="0x1E60">
+        <Array Name="object_bg_001E60_Vtx" Count="36" Offset="0x1E60">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlRightForearmVtx" Count="29" Offset="0x20A0">
+        <Array Name="object_bg_0020A0_Vtx" Count="29" Offset="0x20A0">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlRightUpperArmVtx" Count="49" Offset="0x2270">
+        <Array Name="object_bg_002270_Vtx" Count="49" Offset="0x2270">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlTorsoVtx" Count="137" Offset="0x2580">
+        <Array Name="object_bg_002580_Vtx" Count="137" Offset="0x2580">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlWaistVtx" Count="13" Offset="0x2E10">
+        <Array Name="object_bg_002E10_Vtx" Count="13" Offset="0x2E10">
             <Vtx/>
         </Array>
+        <DList Name="object_bg_002EE0_DL" Offset="0x2EE0"/>
+        <DList Name="object_bg_0033C8_DL" Offset="0x33C8"/>
+        <DList Name="object_bg_003520_DL" Offset="0x3520"/>
+        <DList Name="object_bg_003670_DL" Offset="0x3670"/>
+        <DList Name="object_bg_003780_DL" Offset="0x3780"/>
+        <DList Name="object_bg_003968_DL" Offset="0x3968"/>
+        <DList Name="object_bg_003AB8_DL" Offset="0x3AB8"/>
+        <DList Name="object_bg_003BC8_DL" Offset="0x3BC8"/>
+        <DList Name="object_bg_003DB0_DL" Offset="0x3DB0"/>
+        <DList Name="object_bg_004038_DL" Offset="0x4038"/>
+        <Texture Name="object_bg_005910_Tex" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="object_bg_006110_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="object_bg_006310_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="object_bg_006510_Tex" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="object_bg_006D10_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
+        <Limb Name="object_bg_006E10_Limb" LimbType="Standard" Offset="0x6E10"/>
+        <Limb Name="object_bg_006E1C_Limb" LimbType="Standard" Offset="0x6E1C"/>
+        <Limb Name="object_bg_006E28_Limb" LimbType="Standard" Offset="0x6E28"/>
+        <Limb Name="object_bg_006E34_Limb" LimbType="Standard" Offset="0x6E34"/>
+        <Limb Name="object_bg_006E40_Limb" LimbType="Standard" Offset="0x6E40"/>
+        <Limb Name="object_bg_006E4C_Limb" LimbType="Standard" Offset="0x6E4C"/>
+        <Limb Name="object_bg_006E58_Limb" LimbType="Standard" Offset="0x6E58"/>
+        <Limb Name="object_bg_006E64_Limb" LimbType="Standard" Offset="0x6E64"/>
+        <Limb Name="object_bg_006E70_Limb" LimbType="Standard" Offset="0x6E70"/>
+        <Limb Name="object_bg_006E7C_Limb" LimbType="Standard" Offset="0x6E7C"/>
+        <Skeleton Name="object_bg_006EB0_Skel" Type="Flex" LimbType="Standard" Offset="0x6EB0"/>
+        <Animation Name="object_bg_0072AC_Anim" Offset="0x72AC"/>
     </File>
 </Root>

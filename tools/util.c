@@ -12,18 +12,18 @@ void util_fatal_error(const char *msgfmt, ...)
 {
     va_list args;
 
-    fputs(ERRMSG_START, stderr);
+    fputs("error: ", stderr);
 
     va_start(args, msgfmt);
     vfprintf(stderr, msgfmt, args);
     va_end(args);
 
-    fputs(ERRMSG_END "\n", stderr);
+    fputc('\n', stderr);
 
     exit(1);
 }
 
-// reads a whole file into memory, and returns a malloc'd pointer to the data.
+// reads a whole file into memory, and returns a pointer to the data
 void *util_read_whole_file(const char *filename, size_t *pSize)
 {
     FILE *file = fopen(filename, "rb");

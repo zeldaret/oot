@@ -1,6 +1,6 @@
 /*
  * File: z_bg_spot12_saku.c
- * Overlay: ovl_Bg_Spot12_Saku
+ * Overlay: Bg_Spot12_Saku
  * Description:
  */
 
@@ -50,20 +50,19 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_808B3420(BgSpot12Saku* this, PlayState* play, CollisionHeader* collision, s32 flags) {
-    s32 pad;
+    Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
 #if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        s32 pad2;
+        s32 pad[2];
 
-        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
-                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
-               "../z_bg_spot12_saku.c", 140, this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_saku.c", 140, thisx->id,
+               thisx->params);
     }
 #endif
 }
@@ -72,8 +71,8 @@ void BgSpot12Saku_Init(Actor* thisx, PlayState* play) {
     BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
     func_808B3420(this, play, &gGerudoFortressGTGShutterCol, 0);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
+    Actor_ProcessInitChain(thisx, sInitChain);
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         func_808B3714(this);
     } else {
         func_808B3550(this);
@@ -87,22 +86,26 @@ void BgSpot12Saku_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808B3550(BgSpot12Saku* this) {
+    Actor* thisx = &this->dyna.actor;
+
     this->actionFunc = func_808B357C;
-    this->dyna.actor.scale.x = 0.1f;
-    this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
-    this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
+    thisx->scale.x = 0.1f;
+    thisx->world.pos.x = thisx->home.pos.x;
+    thisx->world.pos.z = thisx->home.pos.z;
 }
 
 void func_808B357C(BgSpot12Saku* this, PlayState* play) {
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
+    Actor* thisx = &this->dyna.actor;
+
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         func_808B35E4(this);
-        this->timer = 20;
-        OnePointCutscene_Init(play, 4170, -99, &this->dyna.actor, CAM_ID_MAIN);
+        this->unk_168 = 0x14;
+        OnePointCutscene_Init(play, 4170, -99, thisx, CAM_ID_MAIN);
     }
 }
 
 void func_808B35E4(BgSpot12Saku* this) {
-    if (this->timer == 0) {
+    if (this->unk_168 == 0) {
         this->actionFunc = func_808B3604;
     }
 }
@@ -124,12 +127,12 @@ void func_808B3604(BgSpot12Saku* this, PlayState* play) {
 }
 
 void func_808B3714(BgSpot12Saku* this) {
+    Actor* thisx = &this->dyna.actor;
+
     this->actionFunc = func_808B37AC;
-    this->dyna.actor.scale.x = 0.001f / 0.14f;
-    this->dyna.actor.world.pos.x =
-        this->dyna.actor.home.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
-    this->dyna.actor.world.pos.z =
-        this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
+    thisx->scale.x = 0.001f / 0.14f;
+    thisx->world.pos.x = thisx->home.pos.x - (Math_SinS(thisx->shape.rot.y + 0x4000) * 78.0f);
+    thisx->world.pos.z = thisx->home.pos.z - (Math_CosS(thisx->shape.rot.y + 0x4000) * 78.0f);
 }
 
 void func_808B37AC(BgSpot12Saku* this, PlayState* play) {
@@ -138,8 +141,8 @@ void func_808B37AC(BgSpot12Saku* this, PlayState* play) {
 void BgSpot12Saku_Update(Actor* thisx, PlayState* play) {
     BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
-    if (this->timer > 0) {
-        this->timer--;
+    if (this->unk_168 > 0) {
+        this->unk_168 -= 1;
     }
     this->actionFunc(this, play);
 }

@@ -114,9 +114,10 @@ void func_80889ACC(BgHidanKousi* this) {
     Vec3s* rot = &this->dyna.actor.world.rot;
     f32 temp1 = D_80889E40[PARAMS_GET_U(this->dyna.actor.params, 0, 8)] * Math_SinS(rot->y);
     f32 temp2 = D_80889E40[PARAMS_GET_U(this->dyna.actor.params, 0, 8)] * Math_CosS(rot->y);
+    Vec3f* initPos = &this->dyna.actor.home.pos;
 
-    this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + temp1;
-    this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z + temp2;
+    this->dyna.actor.world.pos.x = initPos->x + temp1;
+    this->dyna.actor.world.pos.z = initPos->z + temp2;
 }
 
 void func_80889B5C(BgHidanKousi* this, PlayState* play) {

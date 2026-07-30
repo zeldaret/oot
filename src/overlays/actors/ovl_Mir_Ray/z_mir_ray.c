@@ -1,7 +1,7 @@
 /*
  * File: z_mir_ray.c
  * Overlay: ovl_Mir_Ray
- * Description: Reflectable Light Beam and reflections
+ * Description: Reflectable Light Beam
  */
 
 #include "z_mir_ray.h"
@@ -30,21 +30,14 @@ void MirRay_Destroy(Actor* thisx, PlayState* play);
 void MirRay_Update(Actor* thisx, PlayState* play);
 void MirRay_Draw(Actor* thisx, PlayState* play);
 
-s32 MirRay_CheckInFrustum(Vec3f* vecA, Vec3f* vecB, f32 pointx, f32 pointy, f32 pointz, s16 radiusA, s16 radiusB);
+typedef struct struct_80B8D8A0 {
+    /* 0x00 */ Vec3f reflectionPos;
+    /* 0x0C */ MtxF reflectionTransform;
+    /* 0x4C */ CollisionPoly* unk4C;
+    /* 0x50 */ u8 unk50;
+} struct_80B8D8A0; // size = 0x54
 
-// Locations of light beams in sMirRayData
-typedef enum MirRayBeamLocations {
-    /* 0 */ MIRRAY_SPIRIT_BOMBCHUIWAROOM_DOWNLIGHT,
-    /* 1 */ MIRRAY_SPIRIT_SUNBLOCKROOM_DOWNLIGHT,
-    /* 2 */ MIRRAY_SPIRIT_SINGLECOBRAROOM_DOWNLIGHT,
-    /* 3 */ MIRRAY_SPIRIT_ARMOSROOM_DOWNLIGHT,
-    /* 4 */ MIRRAY_SPIRIT_TOPROOM_DOWNLIGHT,
-    /* 5 */ MIRRAY_SPIRIT_TOPROOM_CEILINGMIRROR,
-    /* 6 */ MIRRAY_SPIRIT_SINGLECOBRAROOM_COBRA,
-    /* 7 */ MIRRAY_SPIRIT_TOPROOM_COBRA1,
-    /* 8 */ MIRRAY_SPIRIT_TOPROOM_COBRA2,
-    /* 9 */ MIRRAY_GANONSCASTLE_SPIRITTRIAL_DOWNLIGHT
-} MirRayBeamLocations;
+s32 MirRay_IsInConeFrustum(Vec3f* centerTop, Vec3f* centerBase, f32 x, f32 y, f32 z, s16 radiusTop, s16 radiusBase);
 
 ActorProfile Mir_Ray_Profile = {
     /**/ ACTOR_MIR_RAY,
@@ -58,183 +51,267 @@ ActorProfile Mir_Ray_Profile = {
     /**/ MirRay_Draw,
 };
 
-static u8 D_80B8E670 = 0;
-
-static ColliderQuadInit sQuadInit = {
-    {
-        COL_MATERIAL_NONE,
-        AT_ON | AT_TYPE_PLAYER,
-        AC_NONE,
-        OC1_NONE,
-        OC2_NONE,
-        COLSHAPE_QUAD,
-    },
-    {
-        ELEM_MATERIAL_UNK0,
-        { 0x00200000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
-        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
-        ATELEM_ON | ATELEM_SFX_NORMAL,
-        ACELEM_NONE,
-        OCELEM_NONE,
-    },
-    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+static u8 D_80B8E670 = false;
+static ColliderQuadInit D_80B8E674 = {
+    { 0xA, 9, 0, 0, 0, 3 },
+    { 0, { 0x200000, 0, 0 }, { 0xFFCFFFFF, 0, 0 }, 1, 0, 0 },
+    { {
+        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, 0.0f },
+    } },
 };
-
-static ColliderJntSphElementInit sJntSphElementsInit[] = {
+static ColliderJntSphElementInit D_80B8E6C4[1] = {
     {
-        {
-            ELEM_MATERIAL_UNK0,
-            { 0x00200000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
-            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
-            ATELEM_ON | ATELEM_SFX_NORMAL,
-            ACELEM_NONE,
-            OCELEM_NONE,
-        },
-        { 0, { { 0, 0, 0 }, 50 }, 100 },
+        { 0, { 0x200000, 0, 0 }, { 0, 0, 0 }, 1, 0, 0 },
+        { 0, { { 0, 0, 0 }, 0x32 }, 0x64 },
     },
 };
-
-static ColliderJntSphInit sJntSphInit = {
+static ColliderJntSphInit D_80B8E6E8 = { { 0xA, 9, 0, 0, 0, 0 }, 1, D_80B8E6C4 };
+typedef struct struct_80B8E6F8 {
+    /* 0x00 */ Vec3s coneFrustumCenterTop;
+    /* 0x06 */ Vec3s coneFrustumCenterBase;
+    /* 0x0C */ s16 coneFrustumRadiusTop;
+    /* 0x0E */ s16 coneFrustumRadiusBase;
+    /* 0x10 */ f32 unk10_sphereColliderPosRatioTowardsBase;
+    /* 0x14 */ s16 unk14_sphereColliderRadiusModel;
+    /* 0x16 */ s16 unk16_pointLightRadius;
+    /* 0x18 */ f32 unk18_pointLightPosRatio;
+    /* 0x1C */ Color_RGB8 unk1C_lightColor;
+#define UNK1F_0 (1 << 0)
+#define UNK1F_1 (1 << 1)
+#define UNK1F_2 (1 << 2)
+#define UNK1F_POINTLIGHTPOS_TO_PLAYER (1 << 3)
+    /* 0x1F */ u8 unk1F;
+} struct_80B8E6F8;
+static struct_80B8E6F8 D_80B8E6F8[0xA] = {
     {
-        COL_MATERIAL_NONE,
-        AT_ON | AT_TYPE_PLAYER,
-        AC_NONE,
-        OC1_NONE,
-        OC2_NONE,
-        COLSHAPE_JNTSPH,
+        { -1160, 686, -880 },
+        { -920, 480, -889 },
+        30,
+        50,
+        1.0f,
+        50,
+        150,
+        0.8f,
+        { 255, 255, 255 },
+        UNK1F_1,
     },
-    ARRAY_COUNT(sJntSphElementsInit),
-    sJntSphElementsInit,
+    {
+        { -1856, 1092, -190 },
+        { -1703, 841, -186 },
+        30,
+        70,
+        0.88f,
+        54,
+        150,
+        0.8f,
+        { 255, 255, 255 },
+        UNK1F_1,
+    },
+    {
+        { 1367, 738, -860 },
+        { 1091, 476, -860 },
+        30,
+        85,
+        0.0f,
+        0,
+        150,
+        0.8f,
+        { 255, 255, 255 },
+        0,
+    },
+    {
+        { 2200, 1103, -220 },
+        { 2040, 843, -220 },
+        30,
+        60,
+        0.0f,
+        0,
+        150,
+        0.8f,
+        { 255, 255, 255 },
+        UNK1F_0,
+    },
+    {
+        { -560, 2169, -310 },
+        { -560, 1743, -310 },
+        30,
+        70,
+        0.0f,
+        0,
+        150,
+        0.8f,
+        { 255, 255, 255 },
+        0,
+    },
+    {
+        { 60, 1802, -1090 },
+        { 60, 973, -1090 },
+        30,
+        70,
+        0.0f,
+        0,
+        150,
+        0.9f,
+        { 255, 255, 255 },
+        UNK1F_0 | UNK1F_2 | UNK1F_POINTLIGHTPOS_TO_PLAYER,
+    },
+    {
+        { 1140, 480, -860 },
+        { 1140, 480, -860 },
+        30,
+        30,
+        1.0f,
+        10,
+        100,
+        0.9f,
+        { 255, 255, 255 },
+        UNK1F_1 | UNK1F_2 | UNK1F_POINTLIGHTPOS_TO_PLAYER,
+    },
+    {
+        { -560, 1743, -310 },
+        { -560, 1743, -310 },
+        30,
+        30,
+        0.0f,
+        0,
+        100,
+        0.94f,
+        { 255, 255, 255 },
+        UNK1F_2 | UNK1F_POINTLIGHTPOS_TO_PLAYER,
+    },
+    {
+        { 60, 1743, -310 },
+        { 60, 1743, -310 },
+        30,
+        30,
+        0.0f,
+        0,
+        100,
+        0.94f,
+        { 255, 255, 255 },
+        UNK1F_2 | UNK1F_POINTLIGHTPOS_TO_PLAYER,
+    },
+    {
+        { -1174, 448, 1194 },
+        { -1174, 148, 1194 },
+        50,
+        100,
+        1.0f,
+        50,
+        150,
+        0.8f,
+        { 255, 255, 255 },
+        UNK1F_0 | UNK1F_1,
+    },
 };
-
-static MirRayDataEntry sMirRayData[] = {
-    { { -1160, 686, -880 }, { -920, 480, -889 }, 30, 50, 1.0f, 50, 150, 0.8f, 255, 255, 255, 0x02 },
-    { { -1856, 1092, -190 }, { -1703, 841, -186 }, 30, 70, 0.88f, 54, 150, 0.8f, 255, 255, 255, 0x02 },
-    { { 1367, 738, -860 }, { 1091, 476, -860 }, 30, 85, 0.0f, 0, 150, 0.8f, 255, 255, 255, 0x00 },
-    { { 2200, 1103, -220 }, { 2040, 843, -220 }, 30, 60, 0.0f, 0, 150, 0.8f, 255, 255, 255, 0x01 },
-    { { -560, 2169, -310 }, { -560, 1743, -310 }, 30, 70, 0.0f, 0, 150, 0.8f, 255, 255, 255, 0x00 },
-    { { 60, 1802, -1090 }, { 60, 973, -1090 }, 30, 70, 0.0f, 0, 150, 0.9f, 255, 255, 255, 0x0D },
-    { { 1140, 480, -860 }, { 1140, 480, -860 }, 30, 30, 1.0f, 10, 100, 0.9f, 255, 255, 255, 0x0E },
-    { { -560, 1743, -310 }, { -560, 1743, -310 }, 30, 30, 0.0f, 0, 100, 0.94f, 255, 255, 255, 0x0C },
-    { { 60, 1743, -310 }, { 60, 1743, -310 }, 30, 30, 0.0f, 0, 100, 0.94f, 255, 255, 255, 0x0C },
-    { { -1174, 448, 1194 }, { -1174, 148, 1194 }, 50, 100, 1.0f, 50, 150, 0.8f, 255, 255, 255, 0x03 }
-};
-
-static InitChainEntry sInitChain[] = {
+static InitChainEntry D_80B8E838[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
-void MirRay_SetupCollider(MirRay* this) {
-    Vec3f colliderOffset;
-    MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
+void MirRay_UpdateColliderSphereShape(MirRay* this) {
+    Vec3f vec;
+    struct_80B8E6F8* temp_v0;
+    ColliderJntSphElement* new_var;
 
-    colliderOffset.x = (this->poolPt.x - this->sourcePt.x) * dataEntry->unk_10;
-    colliderOffset.y = (this->poolPt.y - this->sourcePt.y) * dataEntry->unk_10;
-    colliderOffset.z = (this->poolPt.z - this->sourcePt.z) * dataEntry->unk_10;
-    this->colliderJntSph.elements[0].dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
-    this->colliderJntSph.elements[0].dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
-    this->colliderJntSph.elements[0].dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
-    this->colliderJntSph.elements[0].dim.worldSphere.radius =
-        dataEntry->unk_14 * this->colliderJntSph.elements->dim.scale;
+    temp_v0 = &D_80B8E6F8[this->actor.params];
+    vec.x = (this->coneFrustumCenterBase.x - this->coneFrustumCenterTop.x) *
+            temp_v0->unk10_sphereColliderPosRatioTowardsBase;
+    vec.y = (this->coneFrustumCenterBase.y - this->coneFrustumCenterTop.y) *
+            temp_v0->unk10_sphereColliderPosRatioTowardsBase;
+    vec.z = (this->coneFrustumCenterBase.z - this->coneFrustumCenterTop.z) *
+            temp_v0->unk10_sphereColliderPosRatioTowardsBase;
+    this->unk14C.elements[0].dim.worldSphere.center.x = this->coneFrustumCenterTop.x + vec.x;
+    this->unk14C.elements[0].dim.worldSphere.center.y = this->coneFrustumCenterTop.y + vec.y;
+    this->unk14C.elements[0].dim.worldSphere.center.z = this->coneFrustumCenterTop.z + vec.z;
+    new_var = &this->unk14C.elements[0];
+    new_var->dim.worldSphere.radius = temp_v0->unk14_sphereColliderRadiusModel * new_var->dim.scale;
 }
 
-// Set up a light point between source point and reflection point. Reflection point is the pool point (for windows) or
-// at the player position (for mirrors)
-void MirRay_MakeShieldLight(MirRay* this, PlayState* play) {
-    Player* player = GET_PLAYER(play);
-    MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
-    Vec3f reflectionPt;
-    Vec3s lightPt;
+void MirRay_UpdateLight(MirRay* this, PlayState* play) {
+    Player* player;
+    struct_80B8E6F8* temp_s1;
+    Vec3f sp44;
+    Vec3s pointLightPos;
 
-    if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, player->actor.world.pos.x,
-                              player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->sourceEndRad,
-                              this->poolEndRad)) {
-
-        if (PARAMS_GET_NOSHIFT(dataEntry->params, 3, 1)) { // Light beams from mirrors
-            Math_Vec3f_Diff(&player->actor.world.pos, &this->sourcePt, &reflectionPt);
-        } else { // Light beams from windows
-            Math_Vec3f_Diff(&this->poolPt, &this->sourcePt, &reflectionPt);
+    player = GET_PLAYER(play);
+    temp_s1 = &D_80B8E6F8[this->actor.params];
+    if (MirRay_IsInConeFrustum(&this->coneFrustumCenterTop, &this->coneFrustumCenterBase, player->actor.world.pos.x,
+                               player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->coneFrustumRadiusTop,
+                               this->coneFrustumRadiusBase)) {
+        if (temp_s1->unk1F & UNK1F_POINTLIGHTPOS_TO_PLAYER) {
+            Math_Vec3f_Diff(&player->actor.world.pos, &this->coneFrustumCenterTop, &sp44);
+        } else {
+            Math_Vec3f_Diff(&this->coneFrustumCenterBase, &this->coneFrustumCenterTop, &sp44);
         }
-
-        lightPt.x = (dataEntry->unk_18 * reflectionPt.x) + this->sourcePt.x;
-        lightPt.y = (dataEntry->unk_18 * reflectionPt.y) + this->sourcePt.y;
-        lightPt.z = (dataEntry->unk_18 * reflectionPt.z) + this->sourcePt.z;
-
-        // Fade up
-        Math_StepToS(&this->lightPointRad, dataEntry->lgtPtMaxRad, 6);
-        Lights_PointNoGlowSetInfo(&this->lightInfo, lightPt.x, lightPt.y, lightPt.z, dataEntry->color.r,
-                                  dataEntry->color.g, dataEntry->color.b, this->lightPointRad);
+        pointLightPos.x = (temp_s1->unk18_pointLightPosRatio * sp44.x) + this->coneFrustumCenterTop.x;
+        pointLightPos.y = (temp_s1->unk18_pointLightPosRatio * sp44.y) + this->coneFrustumCenterTop.y;
+        pointLightPos.z = (temp_s1->unk18_pointLightPosRatio * sp44.z) + this->coneFrustumCenterTop.z;
+        Math_StepToS(&this->pointLightRadius, temp_s1->unk16_pointLightRadius, 6);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, pointLightPos.x, pointLightPos.y, pointLightPos.z,
+                                  temp_s1->unk1C_lightColor.r, temp_s1->unk1C_lightColor.g, temp_s1->unk1C_lightColor.b,
+                                  this->pointLightRadius);
     } else {
-        // Fade down
-        Math_StepToS(&this->lightPointRad, 0, 6);
-        Lights_PointSetColorAndRadius(&this->lightInfo, dataEntry->color.r, dataEntry->color.g, dataEntry->color.b,
-                                      this->lightPointRad);
+        Math_StepToS(&this->pointLightRadius, 0, 6);
+        Lights_PointSetColorAndRadius(&this->lightInfo, temp_s1->unk1C_lightColor.r, temp_s1->unk1C_lightColor.g,
+                                      temp_s1->unk1C_lightColor.b, this->pointLightRadius);
     }
 }
 
 void MirRay_Init(Actor* thisx, PlayState* play) {
     s32 pad;
+    struct_80B8E6F8* temp_s1;
     MirRay* this = (MirRay*)thisx;
-    MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    temp_s1 = &D_80B8E6F8[this->actor.params];
+    Actor_ProcessInitChain(&this->actor, D_80B8E838);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-    PRINTF(T("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-             "Spawn of reflectable light!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
-    LOG_NUM("this->actor.arg_data", this->actor.params, "../z_mir_ray.c", 518);
-
-    if (this->actor.params >= 0xA) {
-        LOG_STRING_T("反射光 発生失敗", "Reflected light failed to spawn", "../z_mir_ray.c", 521);
+    PRINTF("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#if DEBUG_FEATURES
+    LogUtils_LogThreadId("../z_mir_ray.c", 518);
+    PRINTF("this->actor.arg_data = %d\n", this->actor.params);
+#endif
+    if (this->actor.params >= ARRAY_COUNT(D_80B8E6F8)) {
+        LOG_STRING("反射光 発生失敗", "../z_mir_ray.c", 521);
         Actor_Kill(&this->actor);
     }
-
-    this->sourcePt.x = dataEntry->sourcePoint.x;
-    this->sourcePt.y = dataEntry->sourcePoint.y;
-    this->sourcePt.z = dataEntry->sourcePoint.z;
-    this->sourceEndRad = dataEntry->sourceEndRadius;
-
-    this->poolPt.x = dataEntry->poolPoint.x;
-    this->poolPt.y = dataEntry->poolPoint.y;
-    this->poolPt.z = dataEntry->poolPoint.z;
-    this->poolEndRad = dataEntry->poolEndRadius;
-
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->sourcePt.x, this->sourcePt.y, this->sourcePt.z, 255, 255, 255,
-                              100);
+    this->coneFrustumCenterTop.x = temp_s1->coneFrustumCenterTop.x;
+    this->coneFrustumCenterTop.y = temp_s1->coneFrustumCenterTop.y;
+    this->coneFrustumCenterTop.z = temp_s1->coneFrustumCenterTop.z;
+    this->coneFrustumRadiusTop = temp_s1->coneFrustumRadiusTop;
+    this->coneFrustumCenterBase.x = temp_s1->coneFrustumCenterBase.x;
+    this->coneFrustumCenterBase.y = temp_s1->coneFrustumCenterBase.y;
+    this->coneFrustumCenterBase.z = temp_s1->coneFrustumCenterBase.z;
+    this->coneFrustumRadiusBase = temp_s1->coneFrustumRadiusBase;
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->coneFrustumCenterTop.x, this->coneFrustumCenterTop.y,
+                              this->coneFrustumCenterTop.z, 255, 255, 255, 100);
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
-
-    this->shieldCorners[0].x = -536.0f;
-    this->shieldCorners[0].y = -939.0f;
-
-    this->shieldCorners[1].x = -1690.0f;
-    this->shieldCorners[1].y = 0.0f;
-
-    this->shieldCorners[2].x = -536.0f;
-    this->shieldCorners[2].y = 938.0f;
-
-    this->shieldCorners[3].x = 921.0f;
-    this->shieldCorners[3].y = 0.0f;
-
-    this->shieldCorners[4].x = 758.0f;
-    this->shieldCorners[4].y = 800.0f;
-
-    this->shieldCorners[5].x = 758.0f;
-    this->shieldCorners[5].y = -800.0f;
-
-    if (PARAMS_GET_NOSHIFT(dataEntry->params, 1, 1)) {
-        Collider_InitJntSph(play, &this->colliderJntSph);
-        Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
-        if (!PARAMS_GET_NOSHIFT(dataEntry->params, 2, 1)) { // Beams not from mirrors
-            MirRay_SetupCollider(this);
+    this->reflectionOriginModelPositions[0].x = -536.0f;
+    this->reflectionOriginModelPositions[0].y = -939.0f;
+    this->reflectionOriginModelPositions[1].x = -1690.0f;
+    this->reflectionOriginModelPositions[1].y = 0.0f;
+    this->reflectionOriginModelPositions[2].x = -536.0f;
+    this->reflectionOriginModelPositions[2].y = 938.0f;
+    this->reflectionOriginModelPositions[3].x = 921.0f;
+    this->reflectionOriginModelPositions[3].y = 0.0f;
+    this->reflectionOriginModelPositions[4].x = 758.0f;
+    this->reflectionOriginModelPositions[4].y = 800.0f;
+    this->reflectionOriginModelPositions[5].x = 758.0f;
+    this->reflectionOriginModelPositions[5].y = -800.0f;
+    if (temp_s1->unk1F & UNK1F_1) {
+        Collider_InitJntSph(play, &this->unk14C);
+        Collider_SetJntSph(play, &this->unk14C, &this->actor, &D_80B8E6E8, &this->unk16C);
+        if (!(temp_s1->unk1F & UNK1F_2)) {
+            MirRay_UpdateColliderSphereShape(this);
         }
     }
-
-    Collider_InitQuad(play, &this->shieldRay);
-    Collider_SetQuad(play, &this->shieldRay, &this->actor, &sQuadInit);
-
-    // Spirit Temple top room mirrors
+    Collider_InitQuad(play, &this->unk1AC);
+    Collider_SetQuad(play, &this->unk1AC, &this->actor, &D_80B8E674);
     if ((this->actor.params == 5) || (this->actor.params == 7) || (this->actor.params == 8)) {
         this->actor.room = -1;
     }
@@ -244,239 +321,247 @@ void MirRay_Destroy(Actor* thisx, PlayState* play) {
     MirRay* this = (MirRay*)thisx;
 
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
-
-    if (sMirRayData[this->actor.params].params & 2) {
-        Collider_DestroyJntSph(play, &this->colliderJntSph);
+    if (D_80B8E6F8[this->actor.params].unk1F & UNK1F_1) {
+        Collider_DestroyJntSph(play, &this->unk14C);
     }
-
-    Collider_DestroyQuad(play, &this->shieldRay);
+    Collider_DestroyQuad(play, &this->unk1AC);
 }
 
 void MirRay_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    s32 pad[2];
+    Player* player;
     MirRay* this = (MirRay*)thisx;
-    Player* player = GET_PLAYER(play);
 
-    D_80B8E670 = 0;
-
-    if (!this->unLit) {
-        if (sMirRayData[this->actor.params].params & 2) {
-            if (sMirRayData[this->actor.params].params & 4) { // Beams from mirrors
-                MirRay_SetupCollider(this);
+    player = GET_PLAYER(play);
+    D_80B8E670 = false;
+    if (this->unk2AE == 0) {
+        if (D_80B8E6F8[this->actor.params].unk1F & UNK1F_1) {
+            if (D_80B8E6F8[this->actor.params].unk1F & UNK1F_2) {
+                MirRay_UpdateColliderSphereShape(this);
             }
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk14C.base);
         }
-        if (this->reflectIntensity > 0.0f) {
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->shieldRay.base);
+        if (this->lightReflectionFactor > 0.0f) {
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk1AC.base);
         }
-        MirRay_MakeShieldLight(this, play);
-
-        if (this->reflectIntensity > 0.0f) {
+        MirRay_UpdateLight(this, play);
+        if (this->lightReflectionFactor > 0.0f) {
             Actor_PlaySfx_Flagged2(&player->actor, NA_SE_IT_SHIELD_BEAM - SFX_FLAG);
         }
     }
 }
 
-void MirRay_SetIntensity(MirRay* this, PlayState* play) {
-    f32 sp4C[3];
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f2_2;
-    s32 pad;
-    Player* player = GET_PLAYER(play);
-    MtxF* shieldMtx = &player->shieldMf;
+void func_80B8D6F0(MirRay* this, PlayState* play) {
+    Vec3f sp4C_lightShineDirection;
+    f32 temp_fv0;
+    f32 temp_fv0_2;
+    f32 temp_fv1_2;
+    MtxF* shieldMf;
+    Player* player;
 
-    this->reflectIntensity = 0.0f;
-
-    if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, shieldMtx->xw, shieldMtx->yw, shieldMtx->zw,
-                              this->sourceEndRad, this->poolEndRad)) {
-
-        temp_f0 = sqrtf(SQ(shieldMtx->zz) + (SQ(shieldMtx->xz) + SQ(shieldMtx->yz)));
-
-        if (temp_f0 == 0.0f) {
-            this->reflectRange = 1.0f;
+    player = GET_PLAYER(play);
+    this->lightReflectionFactor = 0.0f;
+    shieldMf = &player->shieldMf;
+    if (MirRay_IsInConeFrustum(&this->coneFrustumCenterTop, &this->coneFrustumCenterBase, shieldMf->xw, shieldMf->yw,
+                               shieldMf->zw, this->coneFrustumRadiusTop, this->coneFrustumRadiusBase)) {
+        temp_fv0 = sqrtf(SQ(shieldMf->zz) + (SQ(shieldMf->xz) + SQ(shieldMf->yz)));
+        if (temp_fv0 == 0.0f) {
+            this->shieldForwardNormalizeFactor = 1.0f;
         } else {
-            this->reflectRange = 1.0f / temp_f0;
+            this->shieldForwardNormalizeFactor = 1.0f / temp_fv0;
         }
-
-        // If light beam is adirectional, always reflect, else only reflect if shield is pointing in correct direction
-        if (sMirRayData[this->actor.params].params & 1) {
-            this->reflectIntensity = 1.0f;
+        if (D_80B8E6F8[this->actor.params].unk1F & UNK1F_0) {
+            this->lightReflectionFactor = 1.0f;
         } else {
-            sp4C[0] = this->poolPt.x - this->sourcePt.x;
-            sp4C[1] = this->poolPt.y - this->sourcePt.y;
-            sp4C[2] = this->poolPt.z - this->sourcePt.z;
-
-            temp_f2_2 = -shieldMtx->xz * sp4C[0] - shieldMtx->yz * sp4C[1] - shieldMtx->zz * sp4C[2];
-
-            if (temp_f2_2 < 0.0f) {
-                temp_f0_2 = sqrtf(SQ(sp4C[0]) + SQ(sp4C[1]) + SQ(sp4C[2]));
-                if ((temp_f0 != 0.0f) && (temp_f0_2 != 0.0f)) {
-                    this->reflectIntensity = -temp_f2_2 / (temp_f0 * temp_f0_2);
+            sp4C_lightShineDirection.x = this->coneFrustumCenterBase.x - this->coneFrustumCenterTop.x;
+            sp4C_lightShineDirection.y = this->coneFrustumCenterBase.y - this->coneFrustumCenterTop.y;
+            sp4C_lightShineDirection.z = this->coneFrustumCenterBase.z - this->coneFrustumCenterTop.z;
+            sp4C_lightShineDirection = sp4C_lightShineDirection; //! FAKE
+            // The shield's forward direction is -z in model space
+            temp_fv1_2 = (-shieldMf->xz * sp4C_lightShineDirection.x) - (shieldMf->yz * sp4C_lightShineDirection.y) -
+                         (sp4C_lightShineDirection.z * shieldMf->zz);
+            if (temp_fv1_2 < 0.0f) {
+                temp_fv0_2 = sqrtf(SQ(sp4C_lightShineDirection.z) +
+                                   (SQ(sp4C_lightShineDirection.x) + SQ(sp4C_lightShineDirection.y)));
+                if ((temp_fv0 != 0.0f) && (temp_fv0_2 != 0.0f)) {
+                    this->lightReflectionFactor = -temp_fv1_2 / (temp_fv0 * temp_fv0_2);
                 }
             }
         }
     }
 }
 
-// Draws six images, one for each corner of the shield, by finding the intersection of a line segment from the corner
-// perpendicular to the shield with the nearest collision (if any).
-void MirRay_SetupReflectionPolys(MirRay* this, PlayState* play, MirRayShieldReflection* reflection) {
-    Player* player = GET_PLAYER(play);
-    MtxF* shieldMtx;
+void func_80B8D8A0(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
+    Player* player; // v0
+    MtxF* shieldMf; // s0
     s32 i;
-    Vec3f posA;
-    Vec3f posB;
-    Vec3f posResult;
-    CollisionPoly* outPoly;
-    f32 sp60[3];
+    Vec3f reflectionOriginPos; // sp88
+    Vec3f reflectionMaxPos;    // sp7C
+    Vec3f sp70;                // sp70
+    CollisionPoly* sp6C;       // sp6C
+    Vec3f forwards;            // sp60
 
-    shieldMtx = &player->shieldMf;
-
-    sp60[0] = -((*shieldMtx).xz * this->reflectRange) * this->reflectIntensity * 400.0f;
-    sp60[1] = -((*shieldMtx).yz * this->reflectRange) * this->reflectIntensity * 400.0f;
-    sp60[2] = -((*shieldMtx).zz * this->reflectRange) * this->reflectIntensity * 400.0f;
-
+    player = GET_PLAYER(play);
+    shieldMf = &player->shieldMf;
+    forwards.x = -(shieldMf->xz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
+    forwards.y = -(shieldMf->yz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
+    forwards.z = -(shieldMf->zz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
     for (i = 0; i < 6; i++) {
-        posA.x = ((*shieldMtx).xw + (this->shieldCorners[i].x * (*shieldMtx).xx)) +
-                 (this->shieldCorners[i].y * (*shieldMtx).xy);
-        posA.y = ((*shieldMtx).yw + (this->shieldCorners[i].x * (*shieldMtx).yx)) +
-                 (this->shieldCorners[i].y * (*shieldMtx).yy);
-        posA.z = ((*shieldMtx).zw + (this->shieldCorners[i].x * (*shieldMtx).zx)) +
-                 (this->shieldCorners[i].y * (*shieldMtx).zy);
-        posB.x = sp60[0] + posA.x;
-        posB.y = sp60[1] + posA.y;
-        posB.z = sp60[2] + posA.z;
-        if (BgCheck_AnyLineTest1(&play->colCtx, &posA, &posB, &posResult, &outPoly, 1)) {
-            reflection[i].reflectionPoly = outPoly;
+        if (!(&forwards) != 0) {} //! FAKE
+        //! FAKE (*shieldMf)
+        reflectionOriginPos.x = shieldMf->xw + (this->reflectionOriginModelPositions[i].x * shieldMf->xx) +
+                                (this->reflectionOriginModelPositions[i].y * (*shieldMf).xy);
+        reflectionOriginPos.y = shieldMf->yw + (this->reflectionOriginModelPositions[i].x * shieldMf->yx) +
+                                (this->reflectionOriginModelPositions[i].y * (*shieldMf).yy);
+        reflectionOriginPos.z = shieldMf->zw + (this->reflectionOriginModelPositions[i].x * shieldMf->zx) +
+                                (this->reflectionOriginModelPositions[i].y * (*shieldMf).zy);
+        reflectionMaxPos.x = forwards.x + reflectionOriginPos.x;
+        reflectionMaxPos.y = forwards.y + reflectionOriginPos.y;
+        reflectionMaxPos.z = forwards.z + reflectionOriginPos.z;
+        if (BgCheck_AnyLineTest1(&play->colCtx, &reflectionOriginPos, &reflectionMaxPos, &sp70, &sp6C, 1) != 0) {
+            arg2[i].unk4C = sp6C;
         } else {
-            reflection[i].reflectionPoly = NULL;
+            arg2[i].unk4C = NULL;
         }
     }
 }
 
-// Remove reflections that are in the same position and are sufficiently near to the same plane
-void MirRay_RemoveSimilarReflections(MirRayShieldReflection* reflection) {
+void func_80B8DA78(struct_80B8D8A0* arg0) {
     s32 i;
     s32 j;
 
     for (i = 0; i < 6; i++) {
         for (j = i + 1; j < 6; j++) {
-            if (reflection[i].reflectionPoly != NULL) {
-                if ((reflection[j].reflectionPoly != NULL) &&
-                    (ABS(reflection[i].reflectionPoly->normal.x - reflection[j].reflectionPoly->normal.x) < 100) &&
-                    (ABS(reflection[i].reflectionPoly->normal.y - reflection[j].reflectionPoly->normal.y) < 100) &&
-                    (ABS(reflection[i].reflectionPoly->normal.z - reflection[j].reflectionPoly->normal.z) < 100) &&
-                    (reflection[i].reflectionPoly->dist == reflection[j].reflectionPoly->dist)) {
-                    reflection[j].reflectionPoly = NULL;
-                }
+            if ((arg0[i].unk4C != NULL) && (arg0[j].unk4C != NULL) &&
+                (ABS(arg0[i].unk4C->normal.x - arg0[j].unk4C->normal.x) < 100) &&
+                (ABS(arg0[i].unk4C->normal.y - arg0[j].unk4C->normal.y) < 100) &&
+                (ABS(arg0[i].unk4C->normal.z - arg0[j].unk4C->normal.z) < 100) &&
+                (arg0[i].unk4C->dist == arg0[j].unk4C->dist)) {
+                arg0[j].unk4C = NULL;
             }
         }
     }
 }
 
-// Creates the reflected beam's collider (to interact with objects) and places and orients the shield images
-void MirRay_ReflectedBeam(MirRay* this, PlayState* play, MirRayShieldReflection* reflection) {
-    Player* player = GET_PLAYER(play);
-    s32 i;
-    f32 temp_f0;
-    Vec3f vecB;
-    Vec3f vecD;
-    Vec3f sp118;
-    Vec3f sp10C;
-    Vec3f sp100;
-    Vec3f intersection;
-    f32 spE8[3];
-    f32 polyNormal[3];
-    MtxF* shieldMtx;
+void func_80B8DB7C(MirRay* this, PlayState* play, struct_80B8D8A0* arg2) {
+    MirRay* new_var4 = this;
+    float new_var2;
+    MtxF* shieldMf;             // s1
+    Vec3f originPos;            // sp130
+    Vec3f inFrontPos;           // sp124
+    Vec3f intersect;            // sp118
+    Vec3f originPosWithOffset;  // sp10C
+    Vec3f inFrontPosWithOffset; // sp100
+    Vec3f intersectWithOffset;  // spF4
+    Vec3f forwards;             // spE8
+    Vec3f spDC;                 // spDC
+    Player* player;             // s3
 
-    shieldMtx = &player->shieldMf;
-
-    spE8[0] = -(shieldMtx->xz * this->reflectRange) * this->reflectIntensity * 400.0f;
-    spE8[1] = -(shieldMtx->yz * this->reflectRange) * this->reflectIntensity * 400.0f;
-    spE8[2] = -(shieldMtx->zz * this->reflectRange) * this->reflectIntensity * 400.0f;
-
-    vecB.x = shieldMtx->xw;
-    vecB.y = shieldMtx->yw;
-    vecB.z = shieldMtx->zw;
-
-    vecD.x = spE8[0] + vecB.x;
-    vecD.y = spE8[1] + vecB.y;
-    vecD.z = spE8[2] + vecB.z;
+    player = GET_PLAYER(play);
+    shieldMf = &player->shieldMf;
+    forwards.x = -(shieldMf->xz * this->shieldForwardNormalizeFactor) * this->lightReflectionFactor * 400.0f;
+    new_var2 = 100.0f;
+    forwards.y = -(shieldMf->yz * this->shieldForwardNormalizeFactor) * new_var4->lightReflectionFactor * 400.0f;
+    forwards.z = -(shieldMf->zz * new_var4->shieldForwardNormalizeFactor) * new_var4->lightReflectionFactor * 400.0f;
+    // Where the mirror shield is located
+    originPos.x = shieldMf->xw;
+    originPos.y = shieldMf->yw;
+    originPos.z = shieldMf->zw;
+    // In front of the mirror shield
+    inFrontPos.x = forwards.x + originPos.x;
+    inFrontPos.y = forwards.y + originPos.y;
+    inFrontPos.z = forwards.z + originPos.z;
 
     {
-        Vec3f vecA;
-        Vec3f vecC;
+        Vec3f upPos;             // spCC
+        Vec3f upAndInFrontPos;   // spC0
+        s32 i;                   // s2
+        struct_80B8D8A0* var_s0; // s0
+        float new_var3;
+        f32* new_var;
+        f32 sp80; // sp80
+        s32 pad2;
+        f32 temp_fv0;
 
-        vecA.x = vecB.x + (shieldMtx->xx * 300.0f);
-        vecA.y = vecB.y + (shieldMtx->yx * 300.0f);
-        vecA.z = vecB.z + (shieldMtx->zx * 300.0f);
-
-        vecC.x = vecD.x + (shieldMtx->xx * 300.0f);
-        vecC.y = vecD.y + (shieldMtx->yx * 300.0f);
-        vecC.z = vecD.z + (shieldMtx->zx * 300.0f);
-
-        Collider_SetQuadVertices(&this->shieldRay, &vecA, &vecB, &vecC, &vecD);
-
+        // Above the mirror shield origin
+        upPos.x = (shieldMf->xx * 300.0f) + originPos.x;
+        upPos.y = (shieldMf->yx * 300.0f) + originPos.y;
+        upPos.z = (shieldMf->zx * 300.0f) + originPos.z;
+        // Above and in front of the origin
+        upAndInFrontPos.x = (shieldMf->xx * 300.0f) + inFrontPos.x;
+        upAndInFrontPos.y = (shieldMf->yx * 300.0f) + inFrontPos.y;
+        upAndInFrontPos.z = (shieldMf->zx * 300.0f) + inFrontPos.z;
+        Collider_SetQuadVertices(&this->unk1AC, &upPos, &originPos, &upAndInFrontPos, &inFrontPos);
         for (i = 0; i < 6; i++) {
-            if (reflection[i].reflectionPoly != NULL) {
-                polyNormal[0] = COLPOLY_GET_NORMAL(reflection[i].reflectionPoly->normal.x);
-                polyNormal[1] = COLPOLY_GET_NORMAL(reflection[i].reflectionPoly->normal.y);
-                polyNormal[2] = COLPOLY_GET_NORMAL(reflection[i].reflectionPoly->normal.z);
-
-                if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
-                                          reflection[i].reflectionPoly->dist, &vecB, &vecD, &sp118, 1)) {
-
-                    reflection[i].pos.x = sp118.x;
-                    reflection[i].pos.y = sp118.y;
-                    reflection[i].pos.z = sp118.z;
-
-                    temp_f0 = sqrtf(SQ(sp118.x - vecB.x) + SQ(sp118.y - vecB.y) + SQ(sp118.z - vecB.z));
-
-                    if (temp_f0 < (this->reflectIntensity * 600.0f)) {
-                        reflection[i].opacity = 200;
+            new_var = &spDC.x; //! FAKE
+            var_s0 = &arg2[i];
+            if (var_s0->unk4C != NULL) {
+                if (&forwards) {} //! FAKE
+                spDC.x = COLPOLY_GET_NORMAL(var_s0->unk4C->normal.x);
+                spDC.y = COLPOLY_GET_NORMAL(var_s0->unk4C->normal.y);
+                spDC.z = COLPOLY_GET_NORMAL(var_s0->unk4C->normal.z);
+                if (Math3D_LineSegVsPlane(*new_var, spDC.y, spDC.z, var_s0->unk4C->dist, &originPos, &inFrontPos,
+                                          &intersect, true)) {
+                    var_s0->reflectionPos.x = intersect.x;
+                    var_s0->reflectionPos.y = intersect.y;
+                    var_s0->reflectionPos.z = intersect.z;
+                    temp_fv0 = sqrtf(SQ(intersect.x - originPos.x) + SQ(intersect.y - originPos.y) +
+                                     SQ(intersect.z - originPos.z));
+                    //! @bug temp_fv0 is at most
+                    //! norm(sp124_inFront - sp130_origin) = norm(spE8_forwards) = this->lightReflectionFactor * 400
+                    //! so this condition always passes. This logic was probably meant to fade the reflections with
+                    //! distance. (TODO test in-game)
+                    if (temp_fv0 < (this->lightReflectionFactor * 600.0f)) {
+                        var_s0->unk50 = 200;
                     } else {
-                        reflection[i].opacity = (s32)(800.0f - temp_f0);
+                        var_s0->unk50 = (u8)(s32)(800.0f - temp_fv0);
                     }
 
-                    sp10C.x = (shieldMtx->xx * 100.0f) + vecB.x;
-                    sp10C.y = (shieldMtx->yx * 100.0f) + vecB.y;
-                    sp10C.z = (shieldMtx->zx * 100.0f) + vecB.z;
+                    // The rest of the function computes a transformation that transforms the XY plane (corresponding to
+                    // the reflection in model space) into the surface plane. It does so by computing the same
+                    // intersection as above but with an offset in the x direction, which gives the transformation for
+                    // the x axis, then the same in the y direction.
 
-                    sp100.x = (spE8[0] * 4.0f) + sp10C.x;
-                    sp100.y = (spE8[1] * 4.0f) + sp10C.y;
-                    sp100.z = (spE8[2] * 4.0f) + sp10C.z;
+                    originPosWithOffset.x = (shieldMf->xx * new_var2) + originPos.x;
+                    originPosWithOffset.y = (shieldMf->yx * new_var2) + originPos.y;
+                    originPosWithOffset.z = (shieldMf->zx * 100.0f) + originPos.z;
+                    inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
+                    inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
+                    inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
+                    var_s0->reflectionTransform.xx = var_s0->reflectionTransform.yy = var_s0->reflectionTransform.zz =
+                        var_s0->reflectionTransform.ww = 1.0f;
 
-                    reflection[i].mtx.zw = 0.0f;
-
-                    reflection[i].mtx.xx = reflection[i].mtx.yy = reflection[i].mtx.zz = reflection[i].mtx.ww = 1.0f;
-                    reflection[i].mtx.yx = reflection[i].mtx.zx = reflection[i].mtx.wx = reflection[i].mtx.xy =
-                        reflection[i].mtx.zy = reflection[i].mtx.wy = reflection[i].mtx.xz = reflection[i].mtx.yz =
-                            reflection[i].mtx.wz = reflection[i].mtx.xw = reflection[i].mtx.yw = reflection[i].mtx.zw;
-
-                    if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
-                                              reflection[i].reflectionPoly->dist, &sp10C, &sp100, &intersection, 1)) {
-                        reflection[i].mtx.xx = intersection.x - sp118.x;
-                        reflection[i].mtx.yx = intersection.y - sp118.y;
-                        reflection[i].mtx.zx = intersection.z - sp118.z;
+                    //! FAKE
+                    sp80 = var_s0->reflectionTransform.zw = 0.0f;
+                    new_var3 = var_s0->reflectionTransform.xz = var_s0->reflectionTransform.yz =
+                        var_s0->reflectionTransform.wz = var_s0->reflectionTransform.xw =
+                            var_s0->reflectionTransform.yw = sp80;
+                    var_s0->reflectionTransform.yx = var_s0->reflectionTransform.zx = var_s0->reflectionTransform.wx =
+                        var_s0->reflectionTransform.xy = var_s0->reflectionTransform.zy =
+                            var_s0->reflectionTransform.wy = new_var3;
+                    if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->dist, &originPosWithOffset,
+                                              &inFrontPosWithOffset, &intersectWithOffset, true)) {
+                        do {
+                        } while (0); //! FAKE
+                        var_s0->reflectionTransform.xx = intersectWithOffset.x - intersect.x;
+                        var_s0->reflectionTransform.yx = intersectWithOffset.y - intersect.y;
+                        var_s0->reflectionTransform.zx = intersectWithOffset.z - intersect.z;
                     }
-
-                    sp10C.x = (shieldMtx->xy * 100.0f) + vecB.x;
-                    sp10C.y = (shieldMtx->yy * 100.0f) + vecB.y;
-                    sp10C.z = (shieldMtx->zy * 100.0f) + vecB.z;
-
-                    sp100.x = (spE8[0] * 4.0f) + sp10C.x;
-                    sp100.y = (spE8[1] * 4.0f) + sp10C.y;
-                    sp100.z = (spE8[2] * 4.0f) + sp10C.z;
-
-                    if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
-                                              reflection[i].reflectionPoly->dist, &sp10C, &sp100, &intersection, 1)) {
-                        reflection[i].mtx.xy = intersection.x - sp118.x;
-                        reflection[i].mtx.yy = intersection.y - sp118.y;
-                        reflection[i].mtx.zy = intersection.z - sp118.z;
+                    originPosWithOffset.x = (shieldMf->xy * 100.0f) + originPos.x;
+                    originPosWithOffset.y = (shieldMf->yy * 100.0f) + originPos.y;
+                    originPosWithOffset.z = (shieldMf->zy * 100.0f) + originPos.z;
+                    inFrontPosWithOffset.x = (forwards.x * 4.0f) + originPosWithOffset.x;
+                    inFrontPosWithOffset.y = (forwards.y * 4.0f) + originPosWithOffset.y;
+                    inFrontPosWithOffset.z = (forwards.z * 4.0f) + originPosWithOffset.z;
+                    if (Math3D_LineSegVsPlane(spDC.x, spDC.y, spDC.z, var_s0->unk4C->dist, &originPosWithOffset,
+                                              &inFrontPosWithOffset, &intersectWithOffset, true)) {
+                        if (!intersect.z) {} //! FAKE
+                        var_s0->reflectionTransform.xy = intersectWithOffset.x - intersect.x;
+                        var_s0->reflectionTransform.yy = intersectWithOffset.y - intersect.y;
+                        var_s0->reflectionTransform.zy = intersectWithOffset.z - intersect.z;
                     }
                 } else {
-                    reflection[i].reflectionPoly = NULL;
+                    var_s0->unk4C = NULL;
                 }
             }
         }
@@ -485,113 +570,106 @@ void MirRay_ReflectedBeam(MirRay* this, PlayState* play, MirRayShieldReflection*
 
 void MirRay_Draw(Actor* thisx, PlayState* play) {
     MirRay* this = (MirRay*)thisx;
-    Player* player = GET_PLAYER(play);
     s32 i;
-    MirRayShieldReflection reflection[6];
     s32 pad;
+    struct_80B8D8A0 sp7C[6];
+    Player* player;
 
-    this->reflectIntensity = 0.0f;
-    if ((D_80B8E670 == 0) && !this->unLit && Player_HasMirrorShieldSetToDraw(play)) {
+    player = GET_PLAYER(play);
+    this->lightReflectionFactor = 0.0f;
+    if (!D_80B8E670 && (this->unk2AE == 0) && Player_HasMirrorShieldSetToDraw(play)) {
         Matrix_Mult(&player->shieldMf, MTXMODE_NEW);
-        MirRay_SetIntensity(this, play);
-        if (!(this->reflectIntensity <= 0.0f)) {
+        func_80B8D6F0(this, play);
+        if (!(this->lightReflectionFactor <= 0.0f)) {
             OPEN_DISPS(play->state.gfxCtx, "../z_mir_ray.c", 966);
-
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-            Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, MTXMODE_APPLY);
+            Matrix_Scale(1.0f, 1.0f, this->lightReflectionFactor * 5.0f, MTXMODE_APPLY);
             MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_mir_ray.c", 972);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s32)(this->reflectIntensity * 100.0f) & 0xFF);
-            gSPDisplayList(POLY_XLU_DISP++, gShieldBeamGlowDL);
-            MirRay_SetupReflectionPolys(this, play, reflection);
-            MirRay_RemoveSimilarReflections(reflection);
-            MirRay_ReflectedBeam(this, play, reflection);
-
-            if (reflection[0].reflectionPoly == NULL) {
-                reflection[0].opacity = 0;
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 150,
+                            (u8)(s32)(this->lightReflectionFactor * 100.0f));
+            gSPDisplayList(POLY_XLU_DISP++, object_mir_ray_000C50_DL);
+            func_80B8D8A0(this, play, sp7C);
+            func_80B8DA78(sp7C);
+            func_80B8DB7C(this, play, sp7C);
+            if (sp7C[0].unk4C == NULL) {
+                sp7C[0].unk50 = 0;
             }
-            for (i = 1; i < 6; i++) {
-                if (reflection[i].reflectionPoly != NULL) {
-                    if (reflection[0].opacity < reflection[i].opacity) {
-                        reflection[0].opacity = reflection[i].opacity;
+            for (i = 1; i < ARRAY_COUNT(sp7C); i++) {
+                if (sp7C[i].unk4C != NULL) {
+                    if (sp7C[0].unk50 < sp7C[i].unk50) {
+                        sp7C[0].unk50 = sp7C[i].unk50;
                     }
                 }
             }
-            for (i = 0; i < 6; i++) {
-                if (reflection[i].reflectionPoly != NULL) {
-                    Matrix_Translate(reflection[i].pos.x, reflection[i].pos.y, reflection[i].pos.z, MTXMODE_NEW);
+            for (i = 0; i < ARRAY_COUNT(sp7C); i++) {
+                if (sp7C[i].unk4C != NULL) {
+                    Matrix_Translate(sp7C[i].reflectionPos.x, sp7C[i].reflectionPos.y, sp7C[i].reflectionPos.z,
+                                     MTXMODE_NEW);
                     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-                    Matrix_Mult(&reflection[i].mtx, MTXMODE_APPLY);
+                    Matrix_Mult(&sp7C[i].reflectionTransform, MTXMODE_APPLY);
                     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_mir_ray.c", 1006);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
-                    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, reflection[0].opacity);
-                    gSPDisplayList(POLY_XLU_DISP++, gShieldBeamImageDL);
+                    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 150, sp7C[0].unk50);
+                    gSPDisplayList(POLY_XLU_DISP++, object_mir_ray_0000B0_DL);
                 }
             }
-
-            D_80B8E670 = 1;
-
+            D_80B8E670 = true;
             CLOSE_DISPS(play->state.gfxCtx, "../z_mir_ray.c", 1027);
         }
     }
 }
 
-// Computes if the Point (pointx, pointy, pointz) lies within the right conical frustum with one end centred at vecA
-// with radius radiusA, the other at vecB with radius radiusB
-s32 MirRay_CheckInFrustum(Vec3f* vecA, Vec3f* vecB, f32 pointx, f32 pointy, f32 pointz, s16 radiusA, s16 radiusB) {
-    f32 coneRadius;
-    f32 closestPtx;
-    f32 closestPty;
-    f32 closestPtz;
-    Vec3f vecdiff;
-    f32 dist;
-    Vec3f sp5C;
-    Vec3f sp50;
-    Vec3f sp44;
+/**
+ * Checks if coordinates (x,y,z) lie inside the cone frustum defined by the given top face (a disk centered on
+ * `centerTop` with radius `radiusTop`) and base face (a disk centered on `centerBase` with radius `radiusBase`).
+ */
+s32 MirRay_IsInConeFrustum(Vec3f* centerTop, Vec3f* centerBase, f32 x, f32 y, f32 z, s16 radiusTop, s16 radiusBase) {
+    f32 f;
+    f32 xProj;
+    f32 yProj;
+    f32 zProj;
+    Vec3f hVec;
+    f32 radiusLocal;
+    Vec3f hVec2;
+    Vec3f topToPos;
+    Vec3f baseToPos;
 
-    vecdiff.x = vecB->x - vecA->x;
-    vecdiff.y = vecB->y - vecA->y;
-    vecdiff.z = vecB->z - vecA->z;
-
-    dist = SQ(vecdiff.x) + SQ(vecdiff.y) + SQ(vecdiff.z);
-
-    if (dist == 0.0f) {
-        return 0;
+    hVec.x = centerBase->x - centerTop->x;
+    hVec.y = centerBase->y - centerTop->y;
+    hVec.z = centerBase->z - centerTop->z;
+    f = SQ(hVec.x) + SQ(hVec.y) + SQ(hVec.z);
+    if (f == 0.0f) {
+        return false;
     }
+    f = (((x - centerTop->x) * hVec.x) + ((y - centerTop->y) * hVec.y) + ((z - centerTop->z) * hVec.z)) / f;
+    // Project (x,y,z) onto the top-base line
+    xProj = (hVec.x * f) + centerTop->x;
+    yProj = (hVec.y * f) + centerTop->y;
+    zProj = (hVec.z * f) + centerTop->z;
+    // Lerp radius to get local radius
+    radiusLocal = ((radiusBase - radiusTop) * f) + radiusTop;
+    // If the point lies in the infinitely extended double cone containing the frustum of interest
+    if ((SQ(xProj - x) + SQ(yProj - y) + SQ(zProj - z)) <= SQ(radiusLocal)) {
+        Math_Vec3f_Diff(centerBase, centerTop, &hVec2);
 
-    dist =
-        (((pointx - vecA->x) * vecdiff.x) + ((pointy - vecA->y) * vecdiff.y) + ((pointz - vecA->z) * vecdiff.z)) / dist;
-
-    // Closest point on line A-B to Point
-    closestPtx = (vecdiff.x * dist) + vecA->x;
-    closestPty = (vecdiff.y * dist) + vecA->y;
-    closestPtz = (vecdiff.z * dist) + vecA->z;
-
-    // Diameter of the double cone on the perpendicular plane through the closest point
-    coneRadius = ((radiusB - radiusA) * dist) + radiusA;
-
-    // If the Point is within the bounding double cone, check if it is in the frustum by checking whether it is between
-    // the bounding planes
-    if ((SQ(closestPtx - pointx) + SQ(closestPty - pointy) + SQ(closestPtz - pointz)) <= SQ(coneRadius)) {
-
-        // Stores the vector difference again
-        Math_Vec3f_Diff(vecB, vecA, &sp5C);
-
-        sp50.x = pointx - vecA->x;
-        sp50.y = pointy - vecA->y;
-        sp50.z = pointz - vecA->z;
-
-        if (Math3D_Cos(&sp5C, &sp50) < 0.0f) {
-            return 0;
+        topToPos.x = x - centerTop->x;
+        topToPos.y = y - centerTop->y;
+        topToPos.z = z - centerTop->z;
+        // If the point lies above the top face
+        if (Math3D_Cos(&hVec2, &topToPos) < 0.0f) {
+            return false;
         }
 
-        sp44.x = pointx - vecB->x;
-        sp44.y = pointy - vecB->y;
-        sp44.z = pointz - vecB->z;
-
-        if (Math3D_Cos(&sp5C, &sp44) > 0.0f) {
-            return 0;
+        baseToPos.x = x - centerBase->x;
+        baseToPos.y = y - centerBase->y;
+        baseToPos.z = z - centerBase->z;
+        // If the point lies below the base face
+        if (Math3D_Cos(&hVec2, &baseToPos) > 0.0f) {
+            return false;
         }
-        return 1;
+
+        return true;
+    } else {
+        return false;
     }
-    return 0;
 }

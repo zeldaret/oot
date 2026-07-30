@@ -6,28 +6,23 @@
 
 struct EnDekubaba;
 
-typedef void (*EnDekubabaActionFunc)(struct EnDekubaba*, struct PlayState*);
-
-typedef enum DekuBabaType {
-    /* 0 */ DEKUBABA_NORMAL,
-    /* 1 */ DEKUBABA_BIG
-} DekuBabaType;
-
 typedef struct EnDekubaba {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ Vec3f bodyPartsPos[4];
-    /* 0x017C */ SkelAnime skelAnime;
-    /* 0x01C0 */ EnDekubabaActionFunc actionFunc;
-    /* 0x01C4 */ char pad[0x2];
-    /* 0x01C6 */ s16 timer;
-    /* 0x01C8 */ s16 targetSwayAngle;
-    /* 0x01CA */ s16 stemSectionAngle[3]; // Used to calculate the position of the stem sections and head with spherical trigonometry
-    /* 0x01D0 */ Vec3s jointTable[8];
-    /* 0x0200 */ Vec3s morphTable[8];
-    /* 0x0230 */ f32 size; // Used everywhere to rescale offsets etc. for Big ones
-    /* 0x0234 */ struct CollisionPoly* boundFloor;
-    /* 0x0238 */ ColliderJntSph collider;
-    /* 0x0258 */ ColliderJntSphElement colliderElements[7];
-} EnDekubaba; // size = 0x0418
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ Vec3f unk14C[2];
+    /* 0x164 */ Vec3f unk164;
+    /* 0x170 */ Vec3f unk170;
+    /* 0x17C */ SkelAnime unk17C;
+    /* 0x1C0 */ void (*unk1C0)(struct EnDekubaba*, struct PlayState*);
+    /* 0x1C4 */ char pad1C4[2];
+    /* 0x1C6 */ s16 unk1C6;
+    /* 0x1C8 */ s16 unk1C8;
+    /* 0x1CA */ s16 unk1CA_arr[3];
+    /* 0x1D0 */ Vec3s unk1D0[8];
+    /* 0x200 */ Vec3s unk200[8];
+    /* 0x230 */ f32 unk230;
+    /* 0x234 */ struct CollisionPoly* unk234;
+    /* 0x238 */ ColliderJntSph unk238;
+    /* 0x258 */ ColliderJntSphElement unk258[7];
+} EnDekubaba; // size = 0x418
 
 #endif

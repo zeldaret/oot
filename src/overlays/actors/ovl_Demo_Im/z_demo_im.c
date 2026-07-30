@@ -1174,7 +1174,7 @@ void DemoIm_Destroy(Actor* thisx, PlayState* play) {
     DemoIm_DestroyCollider(thisx, play);
 }
 
-s32 DemoIm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 func_80987514(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     DemoIm* this = (DemoIm*)thisx;
     s32* unk_2D0 = &this->unk_2D0;
 
@@ -1194,14 +1194,15 @@ s32 DemoIm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         }
     }
 
-    if ((*unk_2D0 != 0) && (limbIndex == IMPA_LIMB_RIGHT_HAND)) {
-        *dList = gImpaHandPointingDL;
+    if (*unk_2D0 != 0) {
+        if (limbIndex == IMPA_LIMB_RIGHT_HAND) {
+            *dList = gImpaHandPointingDL;
+        }
     }
-
-    return false;
+    return 0;
 }
 
-void DemoIm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void func_809875C0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     DemoIm* this = (DemoIm*)thisx;
 
     if (limbIndex == IMPA_LIMB_HEAD) {
@@ -1236,8 +1237,8 @@ void DemoIm_DrawSolid(DemoIm* this, PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
-                          DemoIm_OverrideLimbDraw, DemoIm_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, func_80987514,
+                          func_809875C0, this);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_im.c", 925);
 }

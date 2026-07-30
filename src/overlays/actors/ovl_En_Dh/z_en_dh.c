@@ -32,13 +32,13 @@
      ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 typedef enum EnDhAction {
-    /* 0 */ DH_WAIT,
-    /* 1 */ DH_RETREAT,
-    /* 2 */ DH_BURROW,
-    /* 3 */ DH_WALK,
-    /* 4 */ DH_ATTACK,
-    /* 5 */ DH_DEATH,
-    /* 6 */ DH_DAMAGE
+    DH_WAIT,
+    DH_RETREAT,
+    DH_BURROW,
+    DH_WALK,
+    DH_ATTACK,
+    DH_DEATH,
+    DH_DAMAGE
 } EnDhAction;
 
 void EnDh_Init(Actor* thisx, PlayState* play);

@@ -3,72 +3,72 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+
+#define BG_DY_YOSEIZO_EFFECT_COUNT 200
+
+typedef struct BgDyYoseizoEffect {
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ char pad1[3]; /* maybe part of unk0[4]? */
+    /* 0x04 */ Vec3f unk4;
+    /* 0x10 */ Vec3f unk10;
+    /* 0x1C */ Vec3f unk1C;
+    /* 0x28 */ Color_RGB8 unk28;
+    /* 0x2B */ Color_RGB8 unk2B;
+    /* 0x2E */ s16 unk2E;
+    /* 0x30 */ f32 unk30;
+    /* 0x34 */ s16 unk34;
+    /* 0x36 */ s16 unk36;
+    /* 0x38 */ f32 unk38;
+    /* 0x3C */ f32 unk3C;
+    /* 0x40 */ f32 unk40;
+} BgDyYoseizoEffect; // size = 0x44
 
 struct BgDyYoseizo;
 
 typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, struct PlayState*);
 
-#define BG_DY_YOSEIZO_EFFECT_COUNT 200
-
-typedef struct BgDyYoseizoEffect {
-    /* 0x00 */ u8 alive; // drawn if 1, respawn if 0
-    /* 0x04 */ Vec3f pos;
-    /* 0x10 */ Vec3f velocity;
-    /* 0x1C */ Vec3f accel;
-    /* 0x28 */ Color_RGB8 primColor;
-    /* 0x2B */ Color_RGB8 envColor;
-    /* 0x2E */ s16 alpha;
-    /* 0x30 */ f32 scale;
-    /* 0x34 */ s16 timer; // lifetime
-    /* 0x36 */ s16 type; // 0 is general radiance, else is directed towards Player
-    /* 0x38 */ f32 pitch;
-    /* 0x3C */ f32 yaw;
-    /* 0x40 */ f32 roll;
-} BgDyYoseizoEffect; // size = 0x44
-
 typedef struct BgDyYoseizo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ BgDyYoseizoActionFunc actionFunc;
+    /* 0x014C */ void (*actionFunc)(struct BgDyYoseizo*, struct PlayState*);
     /* 0x0150 */ SkelAnime skelAnime;
-    /* 0x0194 */ Vec3s jointTable[28];
-    /* 0x023C */ Vec3s morphTable[28];
-    /* 0x02E4 */ u8 lightBallSpawned;
-    /* 0x02E5 */ u8 giveDefenseHearts;
-    /* 0x02E6 */ u8 healing;
-    /* 0x02E8 */ s16 vanishTimer;
-    /* 0x02EA */ s16 givingSpell;
-    /* 0x02EC */ s16 fountainType;
-    /* 0x02EE */ s16 dialogState;
-    /* 0x02F0 */ s16 absoluteTimer;
-    /* 0x02F2 */ s16 eyeState;
-    /* 0x02F4 */ s16 eyeState2; // Used, but does not actually change the actor's eyes
-    /* 0x02F6 */ s16 mouthState;
-    /* 0x02F8 */ s16 blinkTimer;
-    /* 0x02FA */ s16 unusedTimer;
-    /* 0x02FC */ s16 animationChanged;
-    /* 0x02FE */ s16 finishedSpinGrow;
-    /* 0x0300 */ s16 itemSpawned;
-    /* 0x0302 */ s16 healingTimer;
-    /* 0x0304 */ s16 warpEffectSpawned;
-    /* 0x0306 */ s16 refillTimer;
-    /* 0x0308 */ f32 scale;
-    /* 0x030C */ f32 grownHeight;
-    /* 0x0310 */ f32 vanishHeight;
-    /* 0x0314 */ f32 heightFraction;
-    /* 0x0318 */ f32 scaleFraction;
-    /* 0x031C */ f32 targetHeight;
-    /* 0x0320 */ f32 bobOffset;
-    /* 0x0324 */ f32 bobTimer;
-    /* 0x0328 */ f32 heightOffset;
-    /* 0x032C */ f32 frameCount;
-    /* 0x0330 */ char unk_330[4];
-    /* 0x0334 */ Vec3s headRot;
-    /* 0x033A */ Vec3s torsoRot;
-    /* 0x0340 */ EnDyExtra* beam;
-    /* 0x0344 */ EnExItem* item;
-    /* 0x0348 */ char unk_348[0x4C];
+    /* 0x0194 */ Vec3s unk194[28];
+    /* 0x023C */ Vec3s unk23C[28];
+    /* 0x02E4 */ u8 unk2E4;
+    /* 0x02E5 */ u8 unk2E5;
+    /* 0x02E6 */ u8 unk2E6;
+    /* 0x02E7 */ char pad2E7[1];
+    /* 0x02E8 */ s16 unk2E8;
+    /* 0x02EA */ s16 unk2EA;
+    /* 0x02EC */ s16 unk2EC;
+    /* 0x02EE */ s16 unk2EE;
+    /* 0x02F0 */ s16 unk2F0;
+    /* 0x02F2 */ s16 unk2F2;
+    /* 0x02F4 */ s16 unk2F4;
+    /* 0x02F6 */ s16 unk2F6;
+    /* 0x02F8 */ s16 unk2F8;
+    /* 0x02FA */ s16 unk2FA;
+    /* 0x02FC */ s16 unk2FC;
+    /* 0x02FE */ s16 unk2FE;
+    /* 0x0300 */ s16 unk300;
+    /* 0x0302 */ s16 unk302;
+    /* 0x0304 */ s16 unk304;
+    /* 0x0306 */ s16 unk306;
+    /* 0x0308 */ f32 unk308;
+    /* 0x030C */ f32 unk30C;
+    /* 0x0310 */ f32 unk310;
+    /* 0x0314 */ f32 unk314;
+    /* 0x0318 */ f32 unk318;
+    /* 0x031C */ f32 unk31C;
+    /* 0x0320 */ f32 unk320;
+    /* 0x0324 */ f32 unk324;
+    /* 0x0328 */ f32 unk328;
+    /* 0x032C */ f32 unk32C;
+    /* 0x0330 */ char pad330[4];
+    /* 0x0334 */ Vec3s unk334;
+    /* 0x033A */ Vec3s unk33A;
+    /* 0x0340 */ struct EnDyExtra* unk340;
+    /* 0x0344 */ struct EnExItem* unk344;
+    /* 0x0348 */ char pad348[0x4C];
     /* 0x0394 */ BgDyYoseizoEffect effects[BG_DY_YOSEIZO_EFFECT_COUNT];
 } BgDyYoseizo; // size = 0x38B4
 

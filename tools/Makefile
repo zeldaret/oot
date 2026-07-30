@@ -62,7 +62,6 @@ mkspecrules_SOURCES        := mkspecrules.c spec.c util.c
 preprocess_pragmas_SOURCES := preprocess_pragmas.c
 vtxdis_SOURCES             := vtxdis.c
 
-
 define COMPILE =
 $(1): $($1_SOURCES)
 	$(CC) $(CFLAGS) $$^ -o $$@

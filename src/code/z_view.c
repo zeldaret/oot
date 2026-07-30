@@ -35,7 +35,7 @@ View* View_New(GraphicsContext* gfxCtx) {
     View* view = SYSTEM_ARENA_MALLOC(sizeof(View), "../z_view.c", 285);
 
     if (view != NULL) {
-        memset(view, 0, sizeof(View));
+        func_80106860(view, 0, sizeof(View)); // memset
         View_Init(view, gfxCtx);
     }
 
@@ -563,8 +563,8 @@ s32 View_UpdateViewingMatrix(View* view) {
     return 1;
 }
 
-s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP) {
-    Gfx* gfx = *gfxP;
+s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
+    Gfx* gfx = *gfxp;
     GraphicsContext* gfxCtx = view->gfxCtx;
     s32 width;
     s32 height;
@@ -631,7 +631,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP) {
     }
 
     view->flags = 0;
-    *gfxP = gfx;
+    *gfxp = gfx;
 
     return 1;
 }

@@ -24,10 +24,12 @@
 #include "player.h"
 #include "save.h"
 
+#include "functions.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:16" \
-                               "ntsc-1.1:16 ntsc-1.2:16 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 #if !PLATFORM_IQUE
 #define MSG_BUF_DECODED (msgCtx->msgBufDecoded)
@@ -3686,8 +3688,8 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                         T("録音終了！！！！！！！！！録音終了\n", "Recording complete!!!!!!!!! Recording Complete\n"));
                     PRINTF_COLOR_YELLOW();
                     PRINTF("\n====================================================================\n");
-                    MemCpy(gSaveContext.save.info.scarecrowLongSong, gScarecrowLongSongPtr,
-                           sizeof(gSaveContext.save.info.scarecrowLongSong));
+                    MemCopy(gSaveContext.save.info.scarecrowLongSong, gScarecrowLongSongPtr,
+                            sizeof(gSaveContext.save.info.scarecrowLongSong));
                     for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.scarecrowLongSong); i++) {
                         PRINTF("%d, ", gSaveContext.save.info.scarecrowLongSong[i]);
                     }
@@ -3750,8 +3752,8 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                     PRINTF_COLOR_YELLOW();
                     PRINTF("\n====================================================================\n");
-                    MemCpy(gSaveContext.save.info.scarecrowSpawnSong, gScarecrowSpawnSongPtr,
-                           sizeof(gSaveContext.save.info.scarecrowSpawnSong));
+                    MemCopy(gSaveContext.save.info.scarecrowSpawnSong, gScarecrowSpawnSongPtr,
+                            sizeof(gSaveContext.save.info.scarecrowSpawnSong));
                     for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.scarecrowSpawnSong); i++) {
                         PRINTF("%d, ", gSaveContext.save.info.scarecrowSpawnSong[i]);
                     }

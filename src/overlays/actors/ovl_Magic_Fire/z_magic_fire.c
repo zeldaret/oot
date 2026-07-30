@@ -136,7 +136,7 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play) {
     if (this->actionTimer > 0) {
         this->actionTimer--;
     } else {
-        this->actor.update = MagicFire_Update;
+        this->actor.update = &MagicFire_Update;
         Player_PlaySfx(player, NA_SE_PL_MAGIC_FIRE);
     }
     this->actor.world.pos = player->actor.world.pos;

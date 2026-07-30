@@ -146,7 +146,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
             distXYZScale = 0.12f;
         }
 
-        if ((target != &player->actor) && ((target->update == NULL) || (ABS(yawDiff) > 0x4000))) {
+        if ((target != (Actor*)player) && ((target->update == NULL) || (ABS(yawDiff) > 0x4000))) {
             //! @bug  This condition is why the boomerang will randomly fly off in a the down left direction sometimes.
             //      If the actor targeted is not Link and the difference between the 2 y angles is greater than 0x4000,
             //      the moveTo pointer is nulled and it flies off in a seemingly random direction.

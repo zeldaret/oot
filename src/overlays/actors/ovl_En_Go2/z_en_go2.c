@@ -793,6 +793,7 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
 
 s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnGo2* this = (EnGo2*)thisx;
+
     switch (PARAMS_GET_S(this->actor.params, 0, 5)) {
         case GORON_CITY_ROLLING_BIG:
             return EnGo2_UpdateTalkStateGoronCityRollingBig(play, this);

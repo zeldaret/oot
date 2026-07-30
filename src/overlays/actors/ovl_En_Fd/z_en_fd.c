@@ -1,9 +1,3 @@
-/*
- * File: z_en_fd.c
- * Overlay: ovl_En_Fd
- * Description: Flare Dancer (enflamed form)
- */
-
 #include "z_en_fd.h"
 
 #include "libc64/math64.h"
@@ -340,7 +334,7 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
  */
 s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, PlayState* play) {
     CollisionPoly* colPoly;
-    s32 bgId;
+    u32 bgId;
     Vec3f colPoint;
     s16 angle;
     s32 pad;
@@ -428,7 +422,7 @@ Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
 
 s32 EnFd_ShouldStopRunning(EnFd* this, PlayState* play, f32 radius, s16* runDir) {
     CollisionPoly* poly;
-    s32 bgId;
+    u32 bgId;
     Vec3f colPoint;
     Vec3f pos;
 
@@ -653,7 +647,7 @@ void EnFd_Run(EnFd* this, PlayState* play) {
 #define FLG_COREDONE (0x8000)
 
 /**
- * En_Fw will set `this` params when it is done with its action.
+ * En_Fw will set `this` params when it is done with it's action.
  * It will set FLG_COREDONE when the core has returned to `this`'s initial
  * position, and FLG_COREDEAD when there is no health left
  */

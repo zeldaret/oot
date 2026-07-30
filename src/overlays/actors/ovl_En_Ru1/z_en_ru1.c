@@ -1,7 +1,7 @@
 /*
  * File: z_en_ru1.c
  * Overlay: En_Ru1
- * Description: Ruto (child)
+ * Description:
  */
 
 #include "z_en_ru1.h"
@@ -14,7 +14,6 @@
 #include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
-#include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
@@ -422,14 +421,16 @@ s32 EnRu1_IsTextboxClosing(PlayState* play) {
 
 #if DEBUG_FEATURES
 void func_80AEB1D8(EnRu1* this) {
+    Actor* thisx = &this->actor;
+
     this->action = ENRU1_ACTION_THROWN_ONTO_SAPPHIRE_PLATFORM;
     this->drawConfig = ENRU1_DRAW_NOTHING;
-    this->actor.velocity.x = 0.0f;
-    this->actor.velocity.y = 0.0f;
-    this->actor.velocity.z = 0.0f;
-    this->actor.speed = 0.0f;
-    this->actor.gravity = 0.0f;
-    this->actor.minVelocityY = 0.0f;
+    thisx->velocity.x = 0.0f;
+    thisx->velocity.y = 0.0f;
+    thisx->velocity.z = 0.0f;
+    thisx->speed = 0.0f;
+    thisx->gravity = 0.0f;
+    thisx->minVelocityY = 0.0f;
     EnRu1_SetPlatformCamSetting(this, 0);
 }
 
@@ -508,9 +509,9 @@ void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
     Vec3f pos;
     Actor* thisx = &this->actor;
 
-    pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + this->actor.depthInWater;
-    pos.z = this->actor.world.pos.z;
+    pos.x = thisx->world.pos.x;
+    pos.y = thisx->world.pos.y + thisx->depthInWater;
+    pos.z = thisx->world.pos.z;
     EffectSsGRipple_Spawn(play, &pos, 100, radiusMax, life);
 }
 
@@ -530,10 +531,11 @@ void EnRu1_SpawnThreeRipples(EnRu1* this, PlayState* play) {
 
 void EnRu1_SpawnSplash(EnRu1* this, PlayState* play) {
     Vec3f pos;
+    Actor* thisx = &this->actor;
 
-    pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + this->actor.depthInWater;
-    pos.z = this->actor.world.pos.z;
+    pos.x = thisx->world.pos.x;
+    pos.y = thisx->world.pos.y + thisx->depthInWater;
+    pos.z = thisx->world.pos.z;
 
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 1, 0);
 }
@@ -581,14 +583,14 @@ f32 EnRu1_Lerp(f32 scale, s32 startPos, s32 endPos) {
 }
 
 void EnRu1_InitPositionFromFountainCue(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
     CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
 
     if (cue != NULL) {
-        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
-
-        this->actor.world.pos.x = cue->startPos.x;
-        this->actor.world.pos.y = cue->startPos.y;
-        this->actor.world.pos.z = cue->startPos.z;
+        thisx->world.rot.y = thisx->shape.rot.y = cue->rot.y;
+        thisx->world.pos.x = cue->startPos.x;
+        thisx->world.pos.y = cue->startPos.y;
+        thisx->world.pos.z = cue->startPos.z;
     }
 }
 
@@ -608,11 +610,11 @@ void EnRu1_SwimTowardLink(EnRu1* this, PlayState* play) {
     Vec3f* thisPos;
     f32 swimProximity;
     CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
-    s32 pad;
+    Actor* thisx = &this->actor;
 
     if (cue != NULL) {
         swimProximity = EnRu1_GetSwimLerpFactor(cue, play);
-        thisPos = &this->actor.world.pos;
+        thisPos = &thisx->world.pos;
         thisPos->x = EnRu1_Lerp(swimProximity, cue->startPos.x, cue->endPos.x);
         thisPos->y = EnRu1_Lerp(swimProximity, cue->startPos.y, cue->endPos.y);
         thisPos->z = EnRu1_Lerp(swimProximity, cue->startPos.z, cue->endPos.z);
@@ -629,11 +631,11 @@ void EnRu1_SwimAwayFromLink(EnRu1* this, PlayState* play) {
     Vec3f* thisPos;
     f32 proximity;
     CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
-    s32 pad2;
+    Actor* thisx = &this->actor;
 
     if (cue != NULL) {
         proximity = EnRu1_GetSwimLerpFactor(cue, play);
-        thisPos = &this->actor.world.pos;
+        thisPos = &thisx->world.pos;
         thisPos->x = EnRu1_Lerp(proximity, treadStartPos->x, cue->endPos.x);
         thisPos->y = EnRu1_Lerp(proximity, treadStartPos->y, cue->endPos.y);
         thisPos->z = EnRu1_Lerp(proximity, treadStartPos->z, cue->endPos.z);
@@ -847,6 +849,8 @@ void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
+
     if (!GET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME)) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = ENRU1_ACTION_MEETING_RANGE_CHECK;
@@ -857,18 +861,18 @@ void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
             s8 actorRoom;
 
             EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
-            actorRoom = this->actor.room;
+            actorRoom = thisx->room;
             this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
-            this->actor.room = -1;
+            thisx->room = -1;
             this->drawConfig = ENRU1_DRAW_NOTHING;
             this->roomNum1 = actorRoom;
             this->roomNum3 = actorRoom;
             this->roomNum2 = actorRoom;
         } else {
-            Actor_Kill(&this->actor);
+            Actor_Kill(thisx);
         }
     } else {
-        Actor_Kill(&this->actor);
+        Actor_Kill(thisx);
     }
 }
 
@@ -876,49 +880,53 @@ void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
  * Accelerates Ruto forward as she starts to walk away. This lasts for eight frames.
  */
 void EnRu1_AccelerateAway(EnRu1* this) {
+    Actor* thisx = &this->actor;
     f32 walkingFrame = this->walkingFrame;
 
     if (walkingFrame < 8.0f) {
-        this->actor.speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * walkingFrame;
+        thisx->speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * walkingFrame;
     } else {
-        this->actor.speed = (kREG(3) * 0.01f) + 2.7f;
+        thisx->speed = (kREG(3) * 0.01f) + 2.7f;
     }
-    this->actor.velocity.y = -1.0f;
-    Actor_MoveXZGravity(&this->actor);
+    thisx->velocity.y = -1.0f;
+    Actor_MoveXZGravity(thisx);
 }
 
 /**
  * Moves Ruto forward at a constant speed walking away from Link.
  */
 void EnRu1_MoveForwardConstant(EnRu1* this) {
-    this->actor.velocity.y = -1.0f;
-    Actor_MoveXZGravity(&this->actor);
+    Actor* thisx = &this->actor;
+    thisx->velocity.y = -1.0f;
+    Actor_MoveXZGravity(thisx);
 }
 
 /**
  * Accelerate's Ruto's actor downward as she falls down the hole.
  */
 void EnRu1_AccelerateDownHole(EnRu1* this) {
-    f32* speedXZ = &this->actor.speed;
+    Actor* thisx = &this->actor;
+    f32* speedXZ = &thisx->speed;
     f32* walkingFrame = &this->walkingFrame;
 
     if (this->walkingFrame < 8.0f) {
         *walkingFrame += 1.0f;
         *speedXZ *= (8.0f - *walkingFrame) / 8.0f;
-        this->actor.velocity.y = -*walkingFrame * (((kREG(4) * 0.01f) + 13.0f) / 8.0f);
+        thisx->velocity.y = -*walkingFrame * (((kREG(4) * 0.01f) + 13.0f) / 8.0f);
     } else {
         *speedXZ = 0.0f;
-        this->actor.velocity.y = -((kREG(4) * 0.01f) + 13.0f);
+        thisx->velocity.y = -((kREG(4) * 0.01f) + 13.0f);
     }
-    Actor_MoveXZGravity(&this->actor);
+    Actor_MoveXZGravity(thisx);
 }
 
 s32 EnRu1_IsPlayerInRangeForFirstEncounter(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    f32 thisPosZ = this->actor.world.pos.z;
+    Actor* thisx = &this->actor;
+    f32 thisPosZ = thisx->world.pos.z;
     f32 playerPosZ = player->actor.world.pos.z;
 
-    if ((playerPosZ - thisPosZ <= 265.0f) && (player->actor.world.pos.y >= this->actor.world.pos.y)) {
+    if ((playerPosZ - thisPosZ <= 265.0f) && (player->actor.world.pos.y >= thisx->world.pos.y)) {
         return true;
     }
     return false;
@@ -967,17 +975,18 @@ void EnRu1_CheckStartFirstEncounter(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SetupPositionForFirstEncounter(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
     CsCmdActorCue* cue;
     s16 newRotY;
 
     if (EnRu1_CheckCueNotMatchingId(play, 1, 3)) {
         cue = play->csCtx.actorCues[3];
-        this->actor.world.pos.x = cue->startPos.x;
-        this->actor.world.pos.y = cue->startPos.y;
-        this->actor.world.pos.z = cue->startPos.z;
+        thisx->world.pos.x = cue->startPos.x;
+        thisx->world.pos.y = cue->startPos.y;
+        thisx->world.pos.z = cue->startPos.z;
         newRotY = cue->rot.y;
-        this->actor.shape.rot.y = newRotY;
-        this->actor.world.rot.y = newRotY;
+        thisx->shape.rot.y = newRotY;
+        thisx->world.rot.y = newRotY;
         this->action = ENRU1_ACTION_MEETING_FACING_LINK;
         this->drawConfig = ENRU1_DRAW_OPA;
     }
@@ -1011,12 +1020,13 @@ void EnRu1_AdvanceWalkingAway(EnRu1* this) {
 }
 
 void EnRu1_CheckStartFalling(EnRu1* this) {
-    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    Actor* thisx = &this->actor;
+    if (!(thisx->bgCheckFlags & BGCHECKFLAG_GROUND)) {
         s32 pad;
 
         this->action = ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE;
         this->walkingFrame = 0.0f;
-        this->actor.velocity.y = 0.0f;
+        thisx->velocity.y = 0.0f;
     }
 }
 
@@ -1086,16 +1096,16 @@ void EnRu1_Meeting_End(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SpawnBlueWarp(EnRu1* this, PlayState* play) {
-    s32 pad;
+    Actor* thisx = &this->actor;
     Vec3f* pos;
     s16 yawTowardsPlayer;
     f32 spawnX;
     f32 spawnY;
     f32 spawnZ;
-    s32 pad2[2];
+    s32 pad[2];
 
-    yawTowardsPlayer = this->actor.yawTowardsPlayer;
-    pos = &this->actor.world.pos;
+    yawTowardsPlayer = thisx->yawTowardsPlayer;
+    pos = &thisx->world.pos;
     spawnX = ((kREG(1) + 12.0f) * Math_SinS(yawTowardsPlayer)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsPlayer)) + pos->z;
@@ -1122,13 +1132,13 @@ void EnRu1_Rise(EnRu1* this, PlayState* play) {
  * Ruto rises up in sync with Link as they warp out together.
  */
 void EnRu1_RiseWithLink(EnRu1* this, PlayState* play) {
-    s32 pad2;
+    Actor* thisx = &this->actor;
     Player* player = GET_PLAYER(play);
     Vec3f* playerPos = &player->actor.world.pos;
     s16 shapeRotY = player->actor.shape.rot.y;
     s32 pad;
     f32 xzDistToPlayer = this->xzDistToPlayerInBlueWarp;
-    Vec3f* pos = &this->actor.world.pos;
+    Vec3f* pos = &thisx->world.pos;
 
     pos->x = (Math_SinS(shapeRotY) * xzDistToPlayer) + playerPos->x;
     pos->y = playerPos->y;
@@ -1136,11 +1146,11 @@ void EnRu1_RiseWithLink(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SetPlayerMarkInBlueWarp(EnRu1* this, PlayState* play) {
-    s32 pad;
+    Actor* thisx = &this->actor;
     Player* player = GET_PLAYER(play);
     Vec3f* player_unk_450 = &player->unk_450;
-    Vec3f* pos = &this->actor.world.pos;
-    s16 shapeRotY = this->actor.shape.rot.y;
+    Vec3f* pos = &thisx->world.pos;
+    s16 shapeRotY = thisx->shape.rot.y;
 
     player_unk_450->x = ((kREG(2) + 30.0f) * Math_SinS(shapeRotY)) + pos->x;
     player_unk_450->z = ((kREG(2) + 30.0f) * Math_CosS(shapeRotY)) + pos->z;
@@ -1205,9 +1215,10 @@ void EnRu1_SetupRiseThroughBlueWarp(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_EndRise(EnRu1* this) {
-    if (this->actor.shape.yOffset >= 0.0f) {
+    Actor* thisx = &this->actor;
+    if (thisx->shape.yOffset >= 0.0f) {
         this->action = ENRU1_ACTION_WAIT_INSIDE_BLUE_WARP;
-        this->actor.shape.yOffset = 0.0f;
+        thisx->shape.yOffset = 0.0f;
         EnRu1_SetBlueWarpState(this, WARP_BLUE_RUTO_STATE_READY);
     }
 }
@@ -1280,23 +1291,25 @@ void EnRu1_BossRoom_WarpingOut(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
+
     if (GET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME) && !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) &&
         !GET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH) && !GET_INFTABLE(INFTABLE_RUTO_BROUGHT_BACK_TO_HOLES_ROOM)) {
         if (!EnRu1_IsAssistingLink(this, play)) {
             s8 actorRoom;
 
             EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
-            actorRoom = this->actor.room;
+            actorRoom = thisx->room;
             this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
-            this->actor.room = -1;
+            thisx->room = -1;
             this->roomNum1 = actorRoom;
             this->roomNum3 = actorRoom;
             this->roomNum2 = actorRoom;
         } else {
-            Actor_Kill(&this->actor);
+            Actor_Kill(thisx);
         }
     } else {
-        Actor_Kill(&this->actor);
+        Actor_Kill(thisx);
     }
 }
 
@@ -1330,14 +1343,15 @@ void func_80AED600(EnRu1* this) {
 }
 
 s32 func_80AED624(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
     if (this->roomNum2 != curRoomNum) {
-        Actor_Kill(&this->actor);
+        Actor_Kill(thisx);
         return false;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
                // roomNum2 is always curRoomNum here
-               (this->actor.depthInWater > kREG(16) + 50.0f) && (this->action != ENRU1_ACTION_SITTING_DISAPPEARING)) {
+               (thisx->depthInWater > kREG(16) + 50.0f) && (this->action != ENRU1_ACTION_SITTING_DISAPPEARING)) {
         this->action = ENRU1_ACTION_SITTING_DISAPPEARING;
         this->drawConfig = ENRU1_DRAW_XLU;
         this->alpha = 0xFF;
@@ -1426,10 +1440,11 @@ void EnRu1_UpdateHeadRotation(EnRu1* this) {
 }
 
 void EnRu1_ResetBgCheckFlags(EnRu1* this, PlayState* play) {
-    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
+    Actor* thisx = &this->actor;
+    DynaPolyActor* dyna = DynaPoly_GetActor(&play->colCtx, thisx->floorBgId);
 
-    if (dynaPolyActor == NULL || dynaPolyActor->actor.id == ACTOR_EN_BOX) {
-        this->actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING);
+    if (dyna == NULL || dyna->actor.id == ACTOR_EN_BOX) {
+        thisx->bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING);
     }
 }
 
@@ -1439,14 +1454,14 @@ void EnRu1_UpdateBouncing(EnRu1* this, PlayState* play) {
     f32* gravity;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        DynaPolyActor* dynaPolyActor;
+        DynaPolyActor* temp_dyna;
 
         velocityY = &this->actor.velocity.y;
-        dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
+        temp_dyna = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speed;
-            if (dynaPolyActor != NULL) {
-                if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
+            if (temp_dyna != NULL) {
+                if (temp_dyna->actor.id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
                 }
             } else {
@@ -1457,8 +1472,8 @@ void EnRu1_UpdateBouncing(EnRu1* this, PlayState* play) {
                 }
             }
             gravity = &this->actor.gravity;
-            if (dynaPolyActor != NULL) {
-                if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
+            if (temp_dyna != NULL) {
+                if (temp_dyna->actor.id != ACTOR_EN_BOX) {
                     *velocityY = 0.0f;
                     this->actor.minVelocityY = 0.0f;
                     *gravity = 0.0f;
@@ -1525,9 +1540,9 @@ void EnRu1_UpdateBouncing(EnRu1* this, PlayState* play) {
 
 void EnRu1_UpdateSpeedXZ(EnRu1* this, PlayState* play) {
     f32* speedXZ = &this->actor.speed;
-    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
+    DynaPolyActor* dyna = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
-    if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_EN_BOX) {
+    if (dyna != NULL && dyna->actor.id == ACTOR_EN_BOX) {
         if (*speedXZ != 0.0f) {
             *speedXZ *= 1.1f;
         } else {
@@ -1548,12 +1563,14 @@ void EnRu1_UpdatePosition(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_StopMoving(EnRu1* this) {
-    this->actor.velocity.x = 0.0f;
-    this->actor.velocity.y = 0.0f;
-    this->actor.velocity.z = 0.0f;
-    this->actor.speed = 0.0f;
-    this->actor.gravity = 0.0f;
-    this->actor.minVelocityY = 0.0f;
+    Actor* thisx = &this->actor;
+
+    thisx->velocity.x = 0.0f;
+    thisx->velocity.y = 0.0f;
+    thisx->velocity.z = 0.0f;
+    thisx->speed = 0.0f;
+    thisx->gravity = 0.0f;
+    thisx->minVelocityY = 0.0f;
 }
 
 void EnRu1_UpdateWaterState(EnRu1* this) {
@@ -1613,17 +1630,19 @@ void EnRu1_UpdateWaterState(EnRu1* this) {
 }
 
 s32 EnRu1_TalkOfferAccepted(EnRu1* this, PlayState* play) {
-    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+    Actor* thisx = &this->actor;
+
+    if (!Actor_TalkOfferAccepted(thisx, play)) {
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         if (GET_INFTABLE(INFTABLE_RUTO_LET_LINK_CARRY)) {
-            this->actor.textId = 0x404E;
-            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
+            thisx->textId = 0x404E;
+            Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
         } else if (GET_INFTABLE(INFTABLE_RUTO_EXPLAINED_WHY_IN_JABU)) {
-            this->actor.textId = 0x404D;
-            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
+            thisx->textId = 0x404D;
+            Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
         } else {
-            this->actor.textId = 0x404C;
-            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
+            thisx->textId = 0x404C;
+            Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
         }
         return false;
     }
@@ -1631,14 +1650,14 @@ s32 EnRu1_TalkOfferAccepted(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_CheckForDoorSwitch(EnRu1* this, PlayState* play) {
-    DynaPolyActor* dynaPolyActor;
+    DynaPolyActor* dyna;
     s32 floorBgId;
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.floorBgId != BGCHECK_SCENE)) {
         floorBgId = this->actor.floorBgId;
-        dynaPolyActor = DynaPoly_GetActor(&play->colCtx, floorBgId);
-        if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_BG_BDAN_SWITCH)) {
-            if (PARAMS_GET_U(dynaPolyActor->actor.params, 8, 6) == 0x38) {
+        dyna = DynaPoly_GetActor(&play->colCtx, floorBgId);
+        if ((dyna != NULL) && (dyna->actor.id == ACTOR_BG_BDAN_SWITCH)) {
+            if (PARAMS_GET_U(dyna->actor.params, 8, 6) == 0x38) {
                 SET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH);
                 return;
             }
@@ -1650,21 +1669,21 @@ void EnRu1_CheckForDoorSwitch(EnRu1* this, PlayState* play) {
 s32 EnRu1_IsOnSapphirePlatform(EnRu1* this, PlayState* play) {
     s32 pad[2];
     CollisionContext* colCtx;
-    DynaPolyActor* dynaPolyActor;
+    DynaPolyActor* dynaActor;
     s32 floorBgId;
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.floorBgId != BGCHECK_SCENE) {
         colCtx = &play->colCtx;
         floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
-        dynaPolyActor = DynaPoly_GetActor(colCtx, floorBgId);
-        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
-            dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
+        dynaActor = DynaPoly_GetActor(colCtx, floorBgId);
+        if (dynaActor != NULL && dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS && dynaActor->actor.params == 0 &&
+            !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
             EnRu1_StopMoving(this);
             play->csCtx.script = gRutoObtainingSapphireCs;
             gSaveContext.cutsceneTrigger = 1;
             this->action = ENRU1_ACTION_THROWN_ONTO_SAPPHIRE_PLATFORM;
             this->drawConfig = ENRU1_DRAW_NOTHING;
-            this->bigOctoPlatform = (BgBdanObjects*)dynaPolyActor;
+            this->bigOctoPlatform = (BgBdanObjects*)dynaActor;
             this->actor.shape.shadowAlpha = 0;
             return true;
         }
@@ -1673,28 +1692,30 @@ s32 EnRu1_IsOnSapphirePlatform(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_UpdateSittingAction(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
     s8 curRoomNum;
 
     // Test if Link is picking Ruto up
-    if (Actor_HasParent(&this->actor, play)) {
+    if (Actor_HasParent(thisx, play)) {
         // Ruto has been picked up
         curRoomNum = play->roomCtx.curRoom.num;
         this->roomNum3 = curRoomNum;
         this->action = ENRU1_ACTION_SITTING_CARRIED;
         EnRu1_PlayLiftingSfx(this, play);
-    } else if (!EnRu1_IsOnSapphirePlatform(this, play) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    } else if ((!EnRu1_IsOnSapphirePlatform(this, play)) && (!(thisx->bgCheckFlags & BGCHECKFLAG_GROUND))) {
         s32 pad;
 
-        this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
-        this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
+        thisx->minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
+        thisx->gravity = -((kREG(23) * 0.01f) + 1.3f);
         this->action = ENRU1_ACTION_SITTING_RELEASED;
     }
 }
 
 void EnRu1_CheckLanding(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
+
     if (!EnRu1_IsOnSapphirePlatform(this, play)) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speed == 0.0f) &&
-            (this->actor.minVelocityY == 0.0f)) {
+        if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND) && (thisx->speed == 0.0f) && (thisx->minVelocityY == 0.0f)) {
             s32 pad;
 
             EnRu1_StopMoving(this);
@@ -1704,7 +1725,7 @@ void EnRu1_CheckLanding(EnRu1* this, PlayState* play) {
             return;
         }
 
-        if (this->actor.depthInWater > 0.0f) {
+        if (thisx->depthInWater > 0.0f) {
             this->action = ENRU1_ACTION_SITTING_ENTERING_WATER;
             this->waterState = ENRU1_WATER_OUTSIDE;
         }
@@ -1815,11 +1836,13 @@ s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_CheckSinkingState(EnRu1* this, PlayState* play) {
-    if ((!EnRu1_CheckHitBottomUnderwater(this, play)) && (this->waterState == ENRU1_WATER_SINKING)) {
+    Actor* thisx = &this->actor;
+
+    if ((EnRu1_CheckHitBottomUnderwater(this, play) == 0) && (this->waterState == ENRU1_WATER_SINKING)) {
         this->action = ENRU1_ACTION_SITTING_SINKING;
         EnRu1_StopMoving(this);
-        this->actor.gravity = -0.1f;
-        this->actor.minVelocityY = -((kREG(18) * 0.1f) + 0.7f);
+        thisx->gravity = -0.1f;
+        thisx->minVelocityY = -((kREG(18) * 0.1f) + 0.7f);
     }
 }
 
@@ -2076,6 +2099,7 @@ void EnRu1_LookUpAtSapphire(EnRu1* this) {
 }
 
 void EnRu1_SetupRetrievingSapphireAnimation(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
     f32 frameCount;
     CsCmdActorCue* cue;
     CsCmdActorCue* cue2;
@@ -2086,24 +2110,24 @@ void EnRu1_SetupRetrievingSapphireAnimation(EnRu1* this, PlayState* play) {
         // this weird part with the redundant variable is necessary to match for some reason
         cue2 = play->csCtx.actorCues[3];
         cue = cue2;
-        this->actor.world.pos.x = cue->startPos.x;
-        this->actor.world.pos.y = cue->startPos.y;
-        this->actor.world.pos.z = cue->startPos.z;
+        thisx->world.pos.x = cue->startPos.x;
+        thisx->world.pos.y = cue->startPos.y;
+        thisx->world.pos.z = cue->startPos.z;
         newRotTmp = cue->rot.x;
-        this->actor.shape.rot.x = newRotTmp;
-        this->actor.world.rot.x = newRotTmp;
+        thisx->shape.rot.x = newRotTmp;
+        thisx->world.rot.x = newRotTmp;
         newRotTmp = cue->rot.y;
-        this->actor.shape.rot.y = newRotTmp;
-        this->actor.world.rot.y = newRotTmp;
+        thisx->shape.rot.y = newRotTmp;
+        thisx->world.rot.y = newRotTmp;
         newRotTmp = cue->rot.z;
-        this->actor.shape.rot.z = newRotTmp;
-        this->actor.world.rot.z = newRotTmp;
+        thisx->shape.rot.z = newRotTmp;
+        thisx->world.rot.z = newRotTmp;
         Animation_Change(&this->skelAnime, &gRutoChildWalkToAndHoldUpSapphireAnim, 1.0f, 0.0f, frameCount,
                          ANIMMODE_ONCE, 0.0f);
         EnRu1_StartWalkingTowardSapphire(this, play);
         this->action = ENRU1_ACTION_RETRIEVING_SAPPHIRE;
         this->drawConfig = ENRU1_DRAW_OPA;
-        this->actor.shape.shadowAlpha = 0xFF;
+        thisx->shape.shadowAlpha = 0xFF;
     }
 }
 
@@ -2147,13 +2171,15 @@ void EnRu1_EndRetrievalCutscene(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_RespondToAbduction(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
+
     if (EnRu1_GetPlatformCamSetting(this) == 3) {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
-        this->actor.textId = 0x4048;
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+        thisx->textId = 0x4048;
 #if !OOT_PAL_N64
-        Message_ContinueTextbox(play, this->actor.textId);
+        Message_ContinueTextbox(play, thisx->textId);
 #else
-        Message_StartTextbox(play, this->actor.textId, NULL);
+        Message_StartTextbox(play, thisx->textId, NULL);
 #endif
         EnRu1_PlayAbductedSfx(this, play);
         this->action = ENRU1_ACTION_BEING_ABDUCTED;
@@ -2243,6 +2269,8 @@ void EnRu1_SapphireRoom_BeingAbducted(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
+
     if (GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) && !GET_INFTABLE(INFTABLE_RUTO_ABDUCTED)) {
         s32 pad;
 
@@ -2250,9 +2278,9 @@ void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
         this->action = ENRU1_ACTION_WAITING_IN_SAPPHIRE_ROOM;
         this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
         EnRu1_SetPlatformCamSetting(this, 1);
-        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        thisx->flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
-        Actor_Kill(&this->actor);
+        Actor_Kill(thisx);
     }
 }
 
@@ -2266,24 +2294,28 @@ void EnRu1_SapphireRoom_Waiting(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitBesideKingZora(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
+
     if (GET_EVENTCHKINF(EVENTCHKINF_37) && LINK_IS_CHILD) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
-        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+        thisx->flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->action = ENRU1_ACTION_THRONE_IDLE;
         this->drawConfig = ENRU1_DRAW_OPA;
     } else {
-        Actor_Kill(&this->actor);
+        Actor_Kill(thisx);
     }
 }
 
 s32 EnRu1_ThroneRoomTalkOfferAccepted(EnRu1* this, PlayState* play) {
-    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
-        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
-        if (this->actor.textId == 0) {
-            this->actor.textId = 0x402C;
+    Actor* thisx = &this->actor;
+
+    if (!Actor_TalkOfferAccepted(thisx, play)) {
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+        thisx->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
+        if (thisx->textId == 0) {
+            thisx->textId = 0x402C;
         }
-        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(thisx, play);
         return false;
     }
     return true;
@@ -2330,22 +2362,23 @@ void EnRu1_ThroneRoom_Talk(EnRu1* this, PlayState* play) {
  * Places Ruto beside the door switch outside the room with the map.
  */
 void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
+    Actor* thisx = &this->actor;
     s8 actorRoom;
 
     if (GET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME) && GET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH) &&
         !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) && !(EnRu1_IsAssistingLink(this, play))) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
-        actorRoom = this->actor.room;
+        actorRoom = thisx->room;
         this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;
-        this->actor.room = -1;
+        thisx->room = -1;
         this->drawConfig = ENRU1_DRAW_NOTHING;
         this->roomNum1 = actorRoom;
         this->roomNum3 = actorRoom;
         this->roomNum2 = actorRoom;
-        PRINTF(T("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n", "Ruto switch set!!!!!!!!!!!!!!!!!!!!!!\n"));
+        PRINTF("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n");
     } else {
-        PRINTF(T("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n", "Ruto switch not set!!!!!!!!!!!!!!!!!!!!!!\n"));
-        Actor_Kill(&this->actor);
+        PRINTF("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n");
+        Actor_Kill(thisx);
     }
 }
 
@@ -2362,7 +2395,7 @@ void func_80AF0050(EnRu1* this, PlayState* play) {
 void EnRu1_Update(Actor* thisx, PlayState* play) {
     EnRu1* this = (EnRu1*)thisx;
 
-    if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
+    if (this->action < 0 || this->action >= 46 || sActionFuncs[this->action] == NULL) {
         PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
                                "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
@@ -2372,10 +2405,10 @@ void EnRu1_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnRu1_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     EnRu1* this = (EnRu1*)thisx;
+    s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
     EnRu1_InitColliders(&this->actor, play);
     switch (EnRu1_GetType(this)) {
@@ -2406,8 +2439,8 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
             break;
 #endif
         default:
-            Actor_Kill(&this->actor);
-            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), EnRu1_GetType(this));
+            Actor_Kill(thisx);
+            PRINTF("該当 arge_data = %d 無し\n", EnRu1_GetType(this));
             break;
     }
 }
@@ -2434,8 +2467,7 @@ s32 EnRu1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if ((this->preLimbDrawIndex < 0) || (this->preLimbDrawIndex > 0) ||
         (*sPreLimbDrawFuncs[this->preLimbDrawIndex] == NULL)) {
-        PRINTF(VT_FGCOL(RED) T("首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-                               "Neck rotation mode is improper!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
+        PRINTF(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sPreLimbDrawFuncs[this->preLimbDrawIndex](this, play, limbIndex, rot);
     }
@@ -2516,7 +2548,7 @@ void EnRu1_DrawXlu(EnRu1* this, PlayState* play) {
 void EnRu1_Draw(Actor* thisx, PlayState* play) {
     EnRu1* this = (EnRu1*)thisx;
 
-    if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
+    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
         PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
                                "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;

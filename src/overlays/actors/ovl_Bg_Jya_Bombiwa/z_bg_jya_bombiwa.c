@@ -1,9 +1,3 @@
-/*
- * File: z_bg_jya_bombiwa.c
- * Overlay: ovl_Bg_Jya_Bombiwa
- * Description: Spirit Temple top room bombable wall
- */
-
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
@@ -92,31 +86,31 @@ void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHe
 }
 
 void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
-    s32 pad;
+    Actor* thisx = &this->dyna.actor;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
+    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, &this->colliderElements);
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
     BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
-    if (PARAMS_GET_U(this->dyna.actor.params, 0, 6) != 0x29) {
+    if (PARAMS_GET_U(thisx->params, 0, 6) != 0x29) {
         PRINTF_COLOR_WARNING();
         PRINTF(T("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n",
                  "Warning : Switch Number has been changed (%s %d)(SW %d)\n"),
-               "../z_bg_jya_bombiwa.c", 218, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
+               "../z_bg_jya_bombiwa.c", 218, PARAMS_GET_U(thisx->params, 0, 6));
         PRINTF_RST();
     }
     BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, 0);
     BgJyaBombiwa_InitCollider(this, play);
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
-        Actor_Kill(&this->dyna.actor);
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
+        Actor_Kill(thisx);
     } else {
-        Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+        Actor_ProcessInitChain(thisx, sInitChain);
 
         PRINTF(T("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", "(jya bomb destroys rocks)(arg_data 0x%04x)\n"),
-               this->dyna.actor.params);
+               thisx->params);
     }
 }
 

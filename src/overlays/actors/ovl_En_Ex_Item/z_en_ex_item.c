@@ -325,7 +325,7 @@ void EnExItem_BowlPrize(EnExItem* this, PlayState* play) {
         PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n", " ☆☆☆☆☆ Is it moving? ☆☆☆☆☆ %x\n") VT_RST,
                this->actor.parent->update);
         if ((this->actor.parent != NULL) && (this->actor.parent->update != NULL)) {
-            ((EnBomBowlPit*)this->actor.parent)->exItemDone = 1;
+            ((EnBomBowlPit*)this->actor.parent)->unk156 = 1;
             PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Now it's gone! ☆☆☆☆☆ \n") VT_RST);
         }
         Actor_Kill(&this->actor);
@@ -402,30 +402,30 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play) {
             this->actor.world.pos.z += (tmpf3 / tmpf4) * 5.0f;
         }
     } else {
-        s32 getItemId;
+        s32 itemId;
 
         this->actor.draw = NULL;
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actor.parent = NULL;
         if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
-            getItemId = GI_BULLET_BAG_40;
+            itemId = GI_BULLET_BAG_40;
         } else {
-            getItemId = GI_BULLET_BAG_50;
+            itemId = GI_BULLET_BAG_50;
         }
-        Actor_OfferGetItem(&this->actor, play, getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, itemId, 2000.0f, 1000.0f);
         this->actionFunc = EnExItem_TargetPrizeGive;
     }
 }
 
 void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play) {
-    s32 getItemId;
+    s32 itemId;
 
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = EnExItem_TargetPrizeFinish;
     } else {
-        getItemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
+        itemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
 
-        Actor_OfferGetItem(&this->actor, play, getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, itemId, 2000.0f, 1000.0f);
     }
 }
 

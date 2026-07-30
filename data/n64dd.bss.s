@@ -1,0 +1,2 @@
+.bss
+.space 0xDC80

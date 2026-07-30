@@ -35,8 +35,8 @@ void BgSpot00Hanebasi_Destroy(Actor* thisx, PlayState* play);
 void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play);
 void BgSpot00Hanebasi_Draw(Actor* thisx, PlayState* play);
 
-void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play);
-void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* play);
+void BgSpot00Hanebasi_DrawBridgeWait(BgSpot00Hanebasi* this, PlayState* play);
+void BgSpot00Hanebasi_DrawBridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play);
 
 ActorProfile Bg_Spot00_Hanebasi_Profile = {
@@ -114,7 +114,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
             Actor_Kill(&this->dyna.actor);
         }
 
-        this->actionFunc = BgSpot00Hanebasi_DrawbridgeWait;
+        this->actionFunc = BgSpot00Hanebasi_DrawBridgeWait;
         this->destAngle = 40;
     } else if (this->dyna.actor.params == DT_CHAIN_1) {
         if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT00_HANEBASI,
@@ -148,20 +148,19 @@ void BgSpot00Hanebasi_Destroy(Actor* thisx, PlayState* play) {
     }
 }
 
-void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
+void BgSpot00Hanebasi_DrawBridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
     BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->dyna.actor.child;
 
     if (!IS_CUTSCENE_LAYER && CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
         CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
         return;
     }
-
     if ((this->dyna.actor.shape.rot.x != 0) && (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY))) {
-        this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
+        this->actionFunc = BgSpot00Hanebasi_DrawBridgeRiseAndFall;
         this->destAngle = 0;
         child->destAngle = 0;
     } else if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
-        this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
+        this->actionFunc = BgSpot00Hanebasi_DrawBridgeRiseAndFall;
         this->destAngle = -0x4000;
         child->destAngle = -0xFE0;
     }
@@ -170,13 +169,13 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
 void BgSpot00Hanebasi_DoNothing(BgSpot00Hanebasi* this, PlayState* play) {
 }
 
-void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* play) {
+void BgSpot00Hanebasi_DrawBridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* play) {
     BgSpot00Hanebasi* child;
     Actor* childsChild;
     s16 angle = 80;
 
     if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, this->destAngle, 80)) {
-        this->actionFunc = BgSpot00Hanebasi_DrawbridgeWait;
+        this->actionFunc = BgSpot00Hanebasi_DrawBridgeWait;
     }
 
     if (this->dyna.actor.shape.rot.x >= -0x27D8) {
@@ -188,13 +187,13 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
     }
 
     if (this->destAngle < 0) {
-        if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
+        if (this->actionFunc == BgSpot00Hanebasi_DrawBridgeWait) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE_STOP);
         } else {
             Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
         }
     } else {
-        if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
+        if (this->actionFunc == BgSpot00Hanebasi_DrawBridgeWait) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
         } else {
             Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);

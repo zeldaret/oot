@@ -52,7 +52,7 @@ static ColliderQuadInit sQuadInit = {
         ACELEM_NONE,
         OCELEM_NONE,
     },
-    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+    { 0 },
 };
 
 static Vec3f sUnusedVec1 = { 0.0f, 0.5f, 0.0f };

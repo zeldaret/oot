@@ -1,7 +1,7 @@
 
 /*
  * File: z_bg_spot18_obj.c
- * Overlay: ovl_Bg_Spot18_Obj
+ * Overlay: Bg_Spot18_Obj
  * Description:
  */
 

@@ -20,8 +20,6 @@ void BgMizuUzu_Destroy(Actor* thisx, PlayState* play);
 void BgMizuUzu_Update(Actor* thisx, PlayState* play);
 void BgMizuUzu_Draw(Actor* thisx, PlayState* play);
 
-void func_8089F788(BgMizuUzu* this, PlayState* play);
-
 ActorProfile Bg_Mizu_Uzu_Profile = {
     /**/ ACTOR_BG_MIZU_UZU,
     /**/ ACTORCAT_PROP,
@@ -40,16 +38,18 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
+void func_8089F788(BgMizuUzu* this, PlayState* play);
+
 void BgMizuUzu_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgMizuUzu* this = (BgMizuUzu*)thisx;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gObjectMizuObjectsUzuCol_0074EC, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->actionFunc = func_8089F788;
 }
 

@@ -426,7 +426,6 @@ void EnDha_UpdateHealth(EnDha* this, PlayState* play) {
             }
         }
     }
-
     if ((this->actor.parent != NULL) && (this->actor.parent->params == ENDH_DEATH)) {
         EnDha_SetupDeath(this);
     }

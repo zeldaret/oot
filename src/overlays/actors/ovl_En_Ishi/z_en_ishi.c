@@ -106,16 +106,9 @@ static ColliderCylinderInit sCylinderInits[] = {
             OC2_TYPE_2,
             COLSHAPE_CYLINDER,
         },
-        {
-            ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x4FC1FFF6, 0x00, 0x00 },
-            ATELEM_NONE,
-            ACELEM_ON,
-            OCELEM_ON,
-        },
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 55, 70, 0, { 0, 0, 0 } },
-    },
+    }
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
@@ -386,7 +379,6 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
         if (this->actor.xzDistToPlayer < 400.0f) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer < 90.0f) {
-                // GI_NONE in these cases allows the player to lift the actor
                 if (type == ROCK_LARGE) {
                     Actor_OfferGetItem(&this->actor, play, GI_NONE, 80.0f, 20.0f);
                 } else {

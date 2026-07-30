@@ -1,6 +1,6 @@
 /*
  * File: z_bg_hidan_syoku.c
- * Overlay: ovl_Bg_Hidan_Syoku
+ * Overlay: Bg_Hidan_Syoku
  * Description: Stone Elevator in the Fire Temple
  */
 
@@ -40,8 +40,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanSyoku_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -59,24 +59,24 @@ void BgHidanSyoku_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_8088F47C(BgHidanSyoku* this) {
-    this->timer = 60;
+    this->unk_16A = 0x3C;
     Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     this->actionFunc = func_8088F62C;
 }
 
 void func_8088F4B8(BgHidanSyoku* this, PlayState* play) {
     if (Flags_GetClear(play, this->dyna.actor.room) && DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
-        this->timer = 140;
+        this->unk_16A = 0x8C;
         this->actionFunc = func_8088F514;
     }
 }
 
 void func_8088F514(BgHidanSyoku* this, PlayState* play) {
-    if (this->timer != 0) {
-        this->timer--;
+    if (this->unk_16A != 0) {
+        this->unk_16A -= 1;
     }
-    this->dyna.actor.world.pos.y = (cosf(this->timer * (M_PI / 140)) * 540.0f) + this->dyna.actor.home.pos.y;
-    if (this->timer == 0) {
+    this->dyna.actor.world.pos.y = (cosf(this->unk_16A * (M_PI / 140)) * 540.0f) + this->dyna.actor.home.pos.y;
+    if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
@@ -84,11 +84,11 @@ void func_8088F514(BgHidanSyoku* this, PlayState* play) {
 }
 
 void func_8088F5A0(BgHidanSyoku* this, PlayState* play) {
-    if (this->timer != 0) {
-        this->timer--;
+    if (this->unk_16A != 0) {
+        this->unk_16A -= 1;
     }
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->timer * (M_PI / 140)) * 540.0f);
-    if (this->timer == 0) {
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->unk_16A * (M_PI / 140)) * 540.0f);
+    if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
@@ -96,11 +96,11 @@ void func_8088F5A0(BgHidanSyoku* this, PlayState* play) {
 }
 
 void func_8088F62C(BgHidanSyoku* this, PlayState* play) {
-    if (this->timer != 0) {
-        this->timer--;
+    if (this->unk_16A != 0) {
+        this->unk_16A -= 1;
     }
-    if (this->timer == 0) {
-        this->timer = 140;
+    if (this->unk_16A == 0) {
+        this->unk_16A = 0x8c;
         if (this->dyna.actor.world.pos.y < this->dyna.actor.home.pos.y) {
             this->actionFunc = func_8088F514;
         } else {

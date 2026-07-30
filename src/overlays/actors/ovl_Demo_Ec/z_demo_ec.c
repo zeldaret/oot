@@ -724,7 +724,7 @@ void DemoEc_DrawCarpenter(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitGerudo(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &gGerudoWhiteSkel);
+    DemoEc_InitSkelAnime(this, play, &object_ge1_000330_Skel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcGerudoAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -743,11 +743,11 @@ void DemoEc_UpdateGerudo(DemoEc* this, PlayState* play) {
 Gfx* DemoEc_GetGerudoPostLimbDList(DemoEc* this) {
     switch (this->actor.params) {
         case 16:
-            return gGerudoWhiteHairstyleBobDL;
+            return object_ge1_009198_DL;
         case 17:
-            return gGerudoWhiteHairstyleStraightFringeDL;
+            return object_ge1_009430_DL;
         case 18:
-            return gGerudoWhiteHairstyleSpikyDL;
+            return object_ge1_009690_DL;
         default:
             PRINTF(VT_FGCOL(RED) T("かつらが無い!!!!!!!!!!!!!!!!\n", "No wig!!!!!!!!!!!!!!!!\n") VT_RST);
             return NULL;
@@ -766,9 +766,9 @@ void DemoEc_GerudoPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 
 void DemoEc_DrawGerudo(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        gGerudoWhiteEyeOpenTex,
-        gGerudoWhiteEyeHalfTex,
-        gGerudoWhiteEyeClosedTex,
+        (UNK_PTR)0x06000708,
+        (UNK_PTR)0x06000F08,
+        (UNK_PTR)0x06001708,
     };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];

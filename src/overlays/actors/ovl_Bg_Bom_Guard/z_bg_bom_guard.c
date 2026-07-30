@@ -72,7 +72,7 @@ void func_8086E638(BgBomGuard* this, PlayState* play) {
 
     while (it != NULL) {
         if (it->id == ACTOR_EN_BOM_BOWL_MAN) {
-            if ((((EnBomBowlMan*)it)->minigamePlayStatus != 0) && (fabsf(play->view.eye.x) > -20.0f) &&
+            if ((((EnBomBowlMan*)it)->unk_258 != 0) && (fabsf(play->view.eye.x) > -20.0f) &&
                 (fabsf(play->view.eye.y) > 110.0f)) {
                 this->unk_168 = 1;
             }

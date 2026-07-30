@@ -4,28 +4,18 @@
 #include "ultra64.h"
 #include "actor.h"
 
-#include "assets/objects/object_bl/object_bl.h"
-
 struct EnBili;
 
-typedef void (*EnBiliActionFunc)(struct EnBili*, struct PlayState*);
-
 typedef struct EnBili {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ EnBiliActionFunc actionFunc;
-    /* 0x0194 */ u8 tentaclesTexIndex;
-    /* 0x0195 */ u8 playFlySfx;
-    /* 0x0196 */ s16 timer;
-    /* 0x0198 */ Vec3s jointTable[BIRI_LIMB_MAX];
-    /* 0x01B6 */ Vec3s morphTable[BIRI_LIMB_MAX];
-    /* 0x01D4 */ ColliderCylinder collider;
-} EnBili; // size = 0x0220
-
-typedef enum EnBiliType {
-    /* -1 */ EN_BILI_TYPE_NORMAL = -1,
-    /*  0 */ EN_BILI_TYPE_VALI_SPAWNED,
-    /*  1 */ EN_BILI_TYPE_DYING
-} EnBiliType;
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ SkelAnime unk14C;
+    /* 0x190 */ void (*unk190)(struct EnBili*, struct PlayState*);
+    /* 0x194 */ u8 unk194;
+    /* 0x195 */ u8 unk195;
+    /* 0x196 */ s16 unk196;
+    /* 0x198 */ Vec3s unk198[5];
+    /* 0x1B6 */ Vec3s unk1B6[5];
+    /* 0x1D4 */ ColliderCylinder unk1D4;
+} EnBili; // size = 0x220
 
 #endif

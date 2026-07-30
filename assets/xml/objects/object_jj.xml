@@ -1,111 +1,90 @@
 <Root>
     <File Name="object_jj" Segment="6">
-
-        <!-- Jabu Jabu animation (waggling fins etc.) -->
-        <Animation Name="gJabuJabuAnim" Offset="0x1F4C"/>
-
-        <!-- Jabu Jabu eye textures -->
-        <Texture Name="gJabuJabuEyeOpenTex" Format="rgba16" Width="16" Height="32" Offset="0x7698"/>
-        <Texture Name="gJabuJabuEyeHalfTex" Format="rgba16" Width="16" Height="32" Offset="0x7A98"/>
-        <Texture Name="gJabuJabuEyeClosedTex" Format="rgba16" Width="16" Height="32" Offset="0x7E98"/>
-
-        <!-- Jabu Jabu skeleton -->
-        <Skeleton Name="gJabuJabuSkel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
-
-        <!-- Jabu Jabu limb Vertices -->
-        <Array Name="gJabuJabuLeftFrillVtx" Count="4" Offset="0x1F60">
+        <Collision Name="object_jj_000A1C_Col" Offset="0xA1C"/>
+        <Collision Name="object_jj_001830_Col" Offset="0x1830"/>
+        <Animation Name="object_jj_001F4C_Anim" Offset="0x1F4C"/>
+        <Array Name="object_jj_001F60_Vtx" Count="4" Offset="0x1F60">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuRightFrillVtx" Count="4" Offset="0x1FA0">
+        <Array Name="object_jj_001FA0_Vtx" Count="4" Offset="0x1FA0">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuHeadVtx" Count="365" Offset="0x1FE0">
+        <Array Name="object_jj_001FE0_Vtx" Count="365" Offset="0x1FE0">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuLeftLowerFlipperVtx" Count="8" Offset="0x36B0">
+        <Array Name="object_jj_0036B0_Vtx" Count="8" Offset="0x36B0">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuLeftMidFlipperVtx" Count="16" Offset="0x3730">
+        <Array Name="object_jj_003730_Vtx" Count="16" Offset="0x3730">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuLeftUpperFlipperVtx" Count="16" Offset="0x3830">
+        <Array Name="object_jj_003830_Vtx" Count="16" Offset="0x3830">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuRightLowerFlipperVtx" Count="8" Offset="0x3930">
+        <Array Name="object_jj_003930_Vtx" Count="8" Offset="0x3930">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuRightMidFlipperVtx" Count="12" Offset="0x39B0">
+        <Array Name="object_jj_0039B0_Vtx" Count="12" Offset="0x39B0">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuRightUpperFlipperVtx" Count="16" Offset="0x3A70">
+        <Array Name="object_jj_003A70_Vtx" Count="16" Offset="0x3A70">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuFlukeVtx" Count="14" Offset="0x3B70">
+        <Array Name="object_jj_003B70_Vtx" Count="14" Offset="0x3B70">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuBodyVtx" Count="133" Offset="0x3C50">
+        <Array Name="object_jj_003C50_Vtx" Count="133" Offset="0x3C50">
             <Vtx/>
         </Array>
-
-        <!-- Jabu Jabu limb displaylists -->
-        <DList Name="gJabuJabuBodyDL" Offset="0x5690"/>
-        <DList Name="gJabuJabuLeftUpperFlipperDL" Offset="0x55B0"/>
-        <DList Name="gJabuJabuLeftMidFlipperDL" Offset="0x54D0"/>
-        <DList Name="gJabuJabuLeftLowerFlipperDL" Offset="0x5400"/>
-        <DList Name="gJabuJabuHeadDL" Offset="0x4920"/>
-        <DList Name="gJabuJabuLeftFrillDL" Offset="0x4880"/>
-        <DList Name="gJabuJabuRightFrillDL" Offset="0x47E0"/>
-        <DList Name="gJabuJabuRightUpperFlipperDL" Offset="0x4700"/>
-        <DList Name="gJabuJabuRightMidFlipperDL" Offset="0x4648"/>
-        <DList Name="gJabuJabuRightLowerFlipperDL" Offset="0x4578"/>
-        <DList Name="gJabuJabuFlukeDL" Offset="0x44A0"/>
-
-        <!-- Jabu Jabu limbs -->
-        <Limb Name="object_jj_00B858_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B858" Offset="0xB858"/>
-        <Limb Name="object_jj_00B864_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B864" Offset="0xB864"/>
-        <Limb Name="object_jj_00B870_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B870" Offset="0xB870"/>
-        <Limb Name="gJabuJabuBodyLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B87C" Offset="0xB87C"/>
-        <Limb Name="object_jj_00B888_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B888" Offset="0xB888"/>
-        <Limb Name="gJabuJabuLeftUpperFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B894" Offset="0xB894"/>
-        <Limb Name="object_jj_00B8A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8A0" Offset="0xB8A0"/>
-        <Limb Name="gJabuJabuLeftMidFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8AC" Offset="0xB8AC"/>
-        <Limb Name="gJabuJabuLeftLowerFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8B8" Offset="0xB8B8"/>
-        <Limb Name="gJabuJabuHeadLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8C4" Offset="0xB8C4"/>
-        <Limb Name="object_jj_00B8D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8D0" Offset="0xB8D0"/>
-        <Limb Name="gJabuJabuLeftFrillLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8DC" Offset="0xB8DC"/>
-        <Limb Name="object_jj_00B8E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8E8" Offset="0xB8E8"/>
-        <Limb Name="gJabuJabuRightFrillLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8F4" Offset="0xB8F4"/>
-        <Limb Name="object_jj_00B900_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B900" Offset="0xB900"/>
-        <Limb Name="gJabuJabuRightUpperFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B90C" Offset="0xB90C"/>
-        <Limb Name="object_jj_00B918_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B918" Offset="0xB918"/>
-        <Limb Name="gJabuJabuRightMidFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B924" Offset="0xB924"/>
-        <Limb Name="gJabuJabuRightLowerFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B930" Offset="0xB930"/>
-        <Limb Name="object_jj_00B93C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B93C" Offset="0xB93C"/>
-        <Limb Name="gJabuJabuFlukeLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B948" Offset="0xB948"/>
-
-        <!-- Jabu Jabu Limb textures -->
-        <Texture Name="gJabuJabuFrillTex" Format="rgba16" Width="32" Height="32" Offset="0x5B58"/>
-        <Texture Name="gJabuJabuNostrilTex" Format="rgba16" Width="32" Height="16" Offset="0x6358"/>
-        <Texture Name="gJabuJabuNoseDecorationTex" Format="rgba16" Width="8" Height="32" Offset="0x6758"/>
-        <Texture Name="gJabuJabuToothTex" Format="rgba16" Width="8" Height="16" Offset="0x6958"/>
-        <Texture Name="gJabuJabuLipTex" Format="rgba16" Width="8" Height="16" Offset="0x6A58"/>
-        <Texture Name="gJabuJabuLipMouthCornerTex" Format="rgba16" Width="16" Height="16" Offset="0x6B58"/>
-        <Texture Name="gJabuJabuDiademSideTex" Format="rgba16" Width="8" Height="16" Offset="0x6D58"/>
-        <Texture Name="gJabuJabuLateralTex" Format="rgba16" Width="16" Height="64" Offset="0x6E58"/>
-        <Texture Name="gJabuJabuEyeOrbitTex" Format="rgba16" Width="4" Height="8" Offset="0x7658"/>
-        <Texture Name="gJabuJabuDorsalTex" Format="rgba16" Width="32" Height="64" Offset="0x8298"/>
-        <Texture Name="gJabuJabuCapOuterTex" Format="rgba16" Width="4" Height="8" Offset="0x9298"/>
-        <Texture Name="gJabuJabuCapInnerTex" Format="rgba16" Width="8" Height="8" Offset="0x92D8"/>
-        <Texture Name="gJabuJabuMouthRoofTex" Format="rgba16" Width="32" Height="64" Offset="0x9358"/>
-        <Texture Name="gJabuJabuDiademCenterTex" Format="rgba16" Width="16" Height="32" Offset="0xA358"/>
-        <Texture Name="gJabuJabuFinTex" Format="rgba16" Width="16" Height="8" Offset="0xA758"/>
-        <Texture Name="gJabuJabuMouthFloorTex" Format="rgba16" Width="32" Height="64" Offset="0xA858"/>
-
-        <!-- Jabu Jabu collision -->
-        <Collision Name="gJabuJabuHeadCol" Offset="0x0A1C"/>
-        <Collision Name="gJabuJabuBodyCol" Offset="0x1830"/>
-        <Collision Name="gJabuJabuUnusedCol" Offset="0xBA8C"/>
-
-
+        <DList Name="object_jj_0044A0_DL" Offset="0x44A0"/>
+        <DList Name="object_jj_004578_DL" Offset="0x4578"/>
+        <DList Name="object_jj_004648_DL" Offset="0x4648"/>
+        <DList Name="object_jj_004700_DL" Offset="0x4700"/>
+        <DList Name="object_jj_0047E0_DL" Offset="0x47E0"/>
+        <DList Name="object_jj_004880_DL" Offset="0x4880"/>
+        <DList Name="object_jj_004920_DL" Offset="0x4920"/>
+        <DList Name="object_jj_005400_DL" Offset="0x5400"/>
+        <DList Name="object_jj_0054D0_DL" Offset="0x54D0"/>
+        <DList Name="object_jj_0055B0_DL" Offset="0x55B0"/>
+        <DList Name="object_jj_005690_DL" Offset="0x5690"/>
+        <Texture Name="object_jj_005B58_Tex" Format="rgba16" Width="32" Height="32" Offset="0x5B58"/>
+        <Texture Name="object_jj_006358_Tex" Format="rgba16" Width="32" Height="16" Offset="0x6358"/>
+        <Texture Name="object_jj_006758_Tex" Format="rgba16" Width="8" Height="32" Offset="0x6758"/>
+        <Texture Name="object_jj_006958_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6958"/>
+        <Texture Name="object_jj_006A58_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6A58"/>
+        <Texture Name="object_jj_006B58_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6B58"/>
+        <Texture Name="object_jj_006D58_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6D58"/>
+        <Texture Name="object_jj_006E58_Tex" Format="rgba16" Width="16" Height="64" Offset="0x6E58"/>
+        <Texture Name="object_jj_007658_Tex" Format="rgba16" Width="4" Height="8" Offset="0x7658"/>
+        <Texture Name="object_jj_008298_Tex" Format="rgba16" Width="32" Height="64" Offset="0x8298"/>
+        <Texture Name="object_jj_009298_Tex" Format="rgba16" Width="4" Height="8" Offset="0x9298"/>
+        <Texture Name="object_jj_0092D8_Tex" Format="rgba16" Width="8" Height="8" Offset="0x92D8"/>
+        <Texture Name="object_jj_009358_Tex" Format="rgba16" Width="32" Height="64" Offset="0x9358"/>
+        <Texture Name="object_jj_00A358_Tex" Format="rgba16" Width="16" Height="32" Offset="0xA358"/>
+        <Texture Name="object_jj_00A758_Tex" Format="rgba16" Width="16" Height="8" Offset="0xA758"/>
+        <Texture Name="object_jj_00A858_Tex" Format="rgba16" Width="32" Height="64" Offset="0xA858"/>
+        <Limb Name="object_jj_00B858_Limb" LimbType="Standard" Offset="0xB858"/>
+        <Limb Name="object_jj_00B864_Limb" LimbType="Standard" Offset="0xB864"/>
+        <Limb Name="object_jj_00B870_Limb" LimbType="Standard" Offset="0xB870"/>
+        <Limb Name="object_jj_00B87C_Limb" LimbType="Standard" Offset="0xB87C"/>
+        <Limb Name="object_jj_00B888_Limb" LimbType="Standard" Offset="0xB888"/>
+        <Limb Name="object_jj_00B894_Limb" LimbType="Standard" Offset="0xB894"/>
+        <Limb Name="object_jj_00B8A0_Limb" LimbType="Standard" Offset="0xB8A0"/>
+        <Limb Name="object_jj_00B8AC_Limb" LimbType="Standard" Offset="0xB8AC"/>
+        <Limb Name="object_jj_00B8B8_Limb" LimbType="Standard" Offset="0xB8B8"/>
+        <Limb Name="object_jj_00B8C4_Limb" LimbType="Standard" Offset="0xB8C4"/>
+        <Limb Name="object_jj_00B8D0_Limb" LimbType="Standard" Offset="0xB8D0"/>
+        <Limb Name="object_jj_00B8DC_Limb" LimbType="Standard" Offset="0xB8DC"/>
+        <Limb Name="object_jj_00B8E8_Limb" LimbType="Standard" Offset="0xB8E8"/>
+        <Limb Name="object_jj_00B8F4_Limb" LimbType="Standard" Offset="0xB8F4"/>
+        <Limb Name="object_jj_00B900_Limb" LimbType="Standard" Offset="0xB900"/>
+        <Limb Name="object_jj_00B90C_Limb" LimbType="Standard" Offset="0xB90C"/>
+        <Limb Name="object_jj_00B918_Limb" LimbType="Standard" Offset="0xB918"/>
+        <Limb Name="object_jj_00B924_Limb" LimbType="Standard" Offset="0xB924"/>
+        <Limb Name="object_jj_00B930_Limb" LimbType="Standard" Offset="0xB930"/>
+        <Limb Name="object_jj_00B93C_Limb" LimbType="Standard" Offset="0xB93C"/>
+        <Limb Name="object_jj_00B948_Limb" LimbType="Standard" Offset="0xB948"/>
+        <Skeleton Name="object_jj_00B9A8_Skel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
+        <Collision Name="object_jj_00BA8C_Col" Offset="0xBA8C"/>
     </File>
 </Root>

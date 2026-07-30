@@ -1,104 +1,67 @@
 <Root>
     <File Name="object_vali" Segment="6">
-        <!-- Bari animations -->
-        <Animation Name="gBariWaitingAnim" Offset="0x710"/><!-- Flap arms wide -->
-        <Animation Name="gBariRetaliatingAnim" Offset="0x854"/><!-- Swing arms up quickly -->
-        <Animation Name="gBariMovingArmsDownAnim" Offset="0xB34"/><!-- Fold arms down -->
-        <Animation Name="gBariUnusedAnim_000D9C" Offset="0xD9C"/><!-- Arms down, moving back and forth a little -->
-        <Animation Name="gBariLurkingAnim" Offset="0x14AC"/><!-- Flap arms medium and slow -->
-
-        <!-- Bari Vertices -->
-        <Array Name="gBariInnerHoodVtx" Count="53" Offset="0x14C0">
+        <Animation Name="object_vali_Anim_000710" Offset="0x710"/>
+        <Animation Name="object_vali_Anim_000854" Offset="0x854"/>
+        <Animation Name="object_vali_Anim_000B34" Offset="0xB34"/>
+        <Animation Name="object_vali_Anim_000D9C" Offset="0xD9C"/>
+        <Animation Name="object_vali_Anim_0014AC" Offset="0x14AC"/>
+        <Array Name="object_vali_Vtx_0014C0" Count="53" Offset="0x14C0">
             <Vtx/>
         </Array>
-        <Array Name="gBariNucleusVtx" Count="4" Offset="0x1810">
+        <Array Name="object_vali_Vtx_001810" Count="4" Offset="0x1810">
             <Vtx/>
         </Array>
-        <Array Name="gBariOuterHoodVtx" Count="46" Offset="0x1850">
+        <Array Name="object_vali_Vtx_001850" Count="46" Offset="0x1850">
             <Vtx/>
         </Array>
-        <Array Name="gBariRightMandibleVtx" Count="18" Offset="0x1B30">
+        <Array Name="object_vali_Vtx_001B30" Count="18" Offset="0x1B30">
             <Vtx/>
         </Array>
-        <Array Name="gBariLeftMandibleVtx" Count="18" Offset="0x1C50">
+        <Array Name="object_vali_Vtx_001C50" Count="18" Offset="0x1C50">
             <Vtx/>
         </Array>
-        <Array Name="gBariRightClawTipVtx" Count="12" Offset="0x1D70">
+        <Array Name="object_vali_Vtx_001D70" Count="12" Offset="0x1D70">
             <Vtx/>
         </Array>
-        <Array Name="gBariRightClawBodyVtx" Count="18" Offset="0x1E30">
+        <Array Name="object_vali_Vtx_001E30" Count="18" Offset="0x1E30">
             <Vtx/>
         </Array>
-        <Array Name="gBariRightForearmVtx" Count="19" Offset="0x1F50">
+        <Array Name="object_vali_Vtx_001F50" Count="19" Offset="0x1F50">
             <Vtx/>
         </Array>
-        <Array Name="gBariRightUpperArmVtx" Count="20" Offset="0x2080">
+        <Array Name="object_vali_Vtx_002080" Count="20" Offset="0x2080">
             <Vtx/>
         </Array>
-        <Array Name="gBariLeftClawTipVtx" Count="12" Offset="0x21C0">
+        <Array Name="object_vali_Vtx_0021C0" Count="12" Offset="0x21C0">
             <Vtx/>
         </Array>
-        <Array Name="gBariLeftClawBodyVtx" Count="18" Offset="0x2280">
+        <Array Name="object_vali_Vtx_002280" Count="18" Offset="0x2280">
             <Vtx/>
         </Array>
-        <Array Name="gBariLeftForearmVtx" Count="19" Offset="0x23A0">
+        <Array Name="object_vali_Vtx_0023A0" Count="19" Offset="0x23A0">
             <Vtx/>
         </Array>
-        <Array Name="gBariLeftUpperArmVtx" Count="20" Offset="0x24D0">
+        <Array Name="object_vali_Vtx_0024D0" Count="20" Offset="0x24D0">
             <Vtx/>
         </Array>
-
-        <!-- Bari DLists -->
-        <DList Name="gBariInnerHoodDL" Offset="0x2610"/>
-        <DList Name="gBariNucleusDL" Offset="0x2740"/>
-        <DList Name="gBariOuterHoodDL" Offset="0x27D8"/>
-        <DList Name="gBariRightMandibleDL" Offset="0x2968"/>
-        <DList Name="gBariLeftMandibleDL" Offset="0x2A28"/>
-        <DList Name="gBariRightClawTipDL" Offset="0x2AE8"/>
-        <DList Name="gBariRightClawBodyDL" Offset="0x2B80"/>
-        <DList Name="gBariRightForearmDL" Offset="0x2C20"/>
-        <DList Name="gBariRightUpperArmDL" Offset="0x2D50"/>
-        <DList Name="gBariLeftClawTipDL" Offset="0x2DF8"/>
-        <DList Name="gBariLeftClawBodyDL" Offset="0x2E90"/>
-        <DList Name="gBariLeftForearmDL" Offset="0x2F30"/>
-        <DList Name="gBariLeftUpperArmDL" Offset="0x3060"/>
-
-        <!-- Bari DList textures -->
-        <Texture Name="gBariNucleusTex" Format="ia16" Width="32" Height="32" Offset="0x3108"/>
-        <Texture Name="gBariMandibleClawTex" Format="ia16" Width="8" Height="8" Offset="0x3908"/>
-        <Texture Name="gBariOuterHoodForearmTex" Format="ia16" Width="16" Height="32" Offset="0x3988"/>
-        <Texture Name="gBariOuterHoodBottomTex" Format="ia16" Width="8" Height="16" Offset="0x3D88"/>
-        <Texture Name="gBariInnerHoodTex" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
-
-        <!-- Bari Limbs and Skeleton -->
-        <Limb Name="gBariNucleusBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_NUCLEUS_BASE" Offset="0x4688"/>
-        <Limb Name="gBariNucleusLimb" LimbType="Standard" EnumName="VALI_LIMB_NUCLEUS" Offset="0x4694"/>
-        <Limb Name="gBariRightMandibleBaseBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_MANDIBLE_BASE_BASE" Offset="0x46A0"/>
-        <Limb Name="gBariRightMandibleBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_MANDIBLE_BASE" Offset="0x46AC"/>
-        <Limb Name="gBariRightMandibleLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_MANDIBLE" Offset="0x46B8"/>
-        <Limb Name="gBariLeftMandibleBaseBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_MANDIBLE_BASE_BASE" Offset="0x46C4"/>
-        <Limb Name="gBariLeftMandibleBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_MANDIBLE_BASE" Offset="0x46D0"/>
-        <Limb Name="gBariLeftMandibleLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_MANDIBLE" Offset="0x46DC"/>
-        <Limb Name="gBariLeftArmBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_ARM_BASE" Offset="0x46E8"/>
-        <Limb Name="gBariLeftUpperArmBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_UPPER_ARM_BASE" Offset="0x46F4"/>
-        <Limb Name="gBariLeftForearmBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_FOREARM_BASE" Offset="0x4700"/>
-        <Limb Name="gBariLeftClawBodyBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_CLAW_BODY_BASE" Offset="0x470C"/>
-        <Limb Name="gBariLeftClawTipBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_CLAW_TIP_BASE" Offset="0x4718"/>
-        <Limb Name="gBariLeftClawTipLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_CLAW_TIP" Offset="0x4724"/>
-        <Limb Name="gBariLeftClawBodyLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_CLAW_BODY" Offset="0x4730"/>
-        <Limb Name="gBariLeftForearmLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_FOREARM" Offset="0x473C"/>
-        <Limb Name="gBariLeftUpperArmLimb" LimbType="Standard" EnumName="VALI_LIMB_LEFT_UPPER_ARM" Offset="0x4748"/>
-        <Limb Name="gBariRightArmBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_ARM_BASE" Offset="0x4754"/>
-        <Limb Name="gBariRightUpperArmBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_UPPER_ARM_BASE" Offset="0x4760"/>
-        <Limb Name="gBariRightForearmBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_FOREARM_BASE" Offset="0x476C"/>
-        <Limb Name="gBariRightClawBodyBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_CLAW_BODY_BASE" Offset="0x4778"/>
-        <Limb Name="gBariRightClawTipBaseLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_CLAW_TIP_BASE" Offset="0x4784"/>
-        <Limb Name="gBariRightClawTipLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_CLAW_TIP" Offset="0x4790"/>
-        <Limb Name="gBariRightClawBodyLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_CLAW_BODY" Offset="0x479C"/>
-        <Limb Name="gBariRightForearmLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_FOREARM" Offset="0x47A8"/>
-        <Limb Name="gBariRightUpperArmLimb" LimbType="Standard" EnumName="VALI_LIMB_RIGHT_UPPER_ARM" Offset="0x47B4"/>
-        <Limb Name="gBariInnerHoodLimb" LimbType="Standard" EnumName="VALI_LIMB_INNER_HOOD" Offset="0x47C0"/>
-        <Limb Name="gBariOuterHoodLimb" LimbType="Standard" EnumName="VALI_LIMB_OUTER_HOOD" Offset="0x47CC"/>
-        <Skeleton Name="gBariSkel" Type="Normal" LimbType="Standard" LimbNone="VALI_LIMB_NONE" LimbMax="VALI_LIMB_MAX" EnumName="ValiLimb" Offset="0x4848"/>
+        <DList Name="object_vali_DL_002610" Offset="0x2610"/>
+        <DList Name="object_vali_DL_002740" Offset="0x2740"/>
+        <DList Name="object_vali_DL_0027D8" Offset="0x27D8"/>
+        <DList Name="object_vali_DL_002968" Offset="0x2968"/>
+        <DList Name="object_vali_DL_002A28" Offset="0x2A28"/>
+        <DList Name="object_vali_DL_002AE8" Offset="0x2AE8"/>
+        <DList Name="object_vali_DL_002B80" Offset="0x2B80"/>
+        <DList Name="object_vali_DL_002C20" Offset="0x2C20"/>
+        <DList Name="object_vali_DL_002D50" Offset="0x2D50"/>
+        <DList Name="object_vali_DL_002DF8" Offset="0x2DF8"/>
+        <DList Name="object_vali_DL_002E90" Offset="0x2E90"/>
+        <DList Name="object_vali_DL_002F30" Offset="0x2F30"/>
+        <DList Name="object_vali_DL_003060" Offset="0x3060"/>
+        <Texture Name="object_vali_Tex_003108" Format="ia16" Width="32" Height="32" Offset="0x3108"/>
+        <Texture Name="object_vali_Tex_003908" Format="ia16" Width="8" Height="8" Offset="0x3908"/>
+        <Texture Name="object_vali_Tex_003988" Format="ia16" Width="16" Height="32" Offset="0x3988"/>
+        <Texture Name="object_vali_Tex_003D88" Format="ia16" Width="8" Height="16" Offset="0x3D88"/>
+        <Texture Name="object_vali_Tex_003E88" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
+        <Skeleton Name="object_vali_004848_Skel" Type="Normal" LimbType="Standard" Offset="0x4848"/>
     </File>
 </Root>

@@ -351,7 +351,7 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_LON_LON_RANCH, 882, 0, -2256, 0 },
     { SCENE_LON_LON_RANCH, -1003, 0, -755, 0 }, // Hardcoded to always load in lon lon
     { SCENE_LON_LON_RANCH, -2254, 0, -629, 0 },
-    { SCENE_LON_LON_RANCH, 907, 0, -2336, 0 },
+    { SCENE_LON_LON_RANCH, 907, 0, -2336, 0 }
 };
 
 typedef struct BridgeJumpPoint {
@@ -3232,7 +3232,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     obstaclePos.z += intersectDist * Math_CosS(this->actor.world.rot.y);
     obstacleTop = obstaclePos;
     obstacleTop.y = BgCheck_EntityRaycastDown3(&play->colCtx, &obstacleFloor, &bgId, &obstaclePos);
-    if (obstacleTop.y == BGCHECK_Y_MIN) {
+    if (obstacleTop.y == -32000.0f) {
         return;
     }
     obstacleHeight = obstacleTop.y - this->actor.world.pos.y;
@@ -3281,7 +3281,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 
     obstacleTop = obstaclePos;
     obstacleTop.y = BgCheck_EntityRaycastDown3(&play->colCtx, &obstacleFloor, &bgId, &obstaclePos);
-    if (obstacleTop.y == BGCHECK_Y_MIN) {
+    if (obstacleTop.y == -32000.0f) {
         return;
     }
 

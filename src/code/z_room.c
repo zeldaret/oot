@@ -102,7 +102,7 @@ typedef enum RoomCullableDebugMode {
 
 typedef struct RoomShapeCullableEntryLinked {
     /* 0x00 */ RoomShapeCullableEntry* entry;
-    /* 0x04 */ f32 boundsNearZ;
+    /* 0x04 */ f32 startZ;
     /* 0x08 */ struct RoomShapeCullableEntryLinked* prev;
     /* 0x0C */ struct RoomShapeCullableEntryLinked* next;
 } RoomShapeCullableEntryLinked; // size = 0x10
@@ -111,10 +111,10 @@ typedef struct RoomShapeCullableEntryLinked {
  * Handle room drawing for the "cullable" type of room shape.
  *
  * Each entry referenced by the room shape struct is attached to display lists, and a position and radius indicating the
- * bounding sphere for the geometry drawn.
- * The first step Z-sorts the entries, and excludes the entries with a bounding sphere that is entirely before or
+ * volume those display lists take.
+ * The first step is Z-sorting the entries, also excluding the entries which bounding sphere is entirely before or
  * beyond the rendered depth range.
- * The second step draws the entries that remain, from nearest to furthest.
+ * The second step is drawing the entries that remain, in ascending depth.
  */
 void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     RoomShapeCullable* roomShape;
@@ -133,7 +133,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     s32 pad2;
     RoomShapeCullableEntry* roomShapeCullableEntries;
     RoomShapeCullableEntry* roomShapeCullableEntryIter;
-    f32 entryBoundsNearZ;
+    f32 entryStartZ;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
 
@@ -171,27 +171,27 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
         pos.z = roomShapeCullableEntry->boundsSphereCenter.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
 
-        // If the entry bounding sphere isn't fully before the rendered depth range
+        // If the entry isn't fully before the rendered depth range
         if (-(f32)roomShapeCullableEntry->boundsSphereRadius < projectedPos.z) {
 
-            // Compute the depth of the nearest point in the entry's bounding sphere
-            entryBoundsNearZ = projectedPos.z - roomShapeCullableEntry->boundsSphereRadius;
+            // Compute the depth at which this entry starts
+            entryStartZ = projectedPos.z - roomShapeCullableEntry->boundsSphereRadius;
 
-            // If the entry bounding sphere isn't fully beyond the rendered depth range
-            if (entryBoundsNearZ < play->lightCtx.zFar) {
+            // If the entry isn't fully beyond the rendered depth range
+            if (entryStartZ < play->lightCtx.zFar) {
 
                 // This entry will be rendered
                 insert->entry = roomShapeCullableEntry;
-                insert->boundsNearZ = entryBoundsNearZ;
+                insert->startZ = entryStartZ;
 
-                // Insert into the linked list, ordered by ascending depth of the nearest point in the bounding sphere
+                // Insert into the linked list, ordered by ascending start depth
                 iter = head;
                 if (iter == NULL) {
                     head = tail = insert;
                     insert->prev = insert->next = NULL;
                 } else {
                     do {
-                        if (insert->boundsNearZ < iter->boundsNearZ) {
+                        if (insert->startZ < iter->startZ) {
                             break;
                         }
                         iter = iter->next;
@@ -403,10 +403,9 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     roomShape = &room->roomShape->image.single;
     entry = SEGMENTED_TO_VIRTUAL(roomShape->base.entry);
-    drawBackground = (flags & ROOM_DRAW_OPA) && isFixedCamera && (roomShape->source != NULL) &&
-                     !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_BACKGROUND);
-    drawOpa = (flags & ROOM_DRAW_OPA) && (entry->opa != NULL) && !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_OPA);
-    drawXlu = (flags & ROOM_DRAW_XLU) && (entry->xlu != NULL) && !(R_ROOM_IMAGE_NODRAW_FLAGS & ROOM_IMAGE_NODRAW_XLU);
+    drawBackground = (flags & 1) && isFixedCamera && (roomShape->source != NULL) && !(SREG(25) & 1);
+    drawOpa = (flags & 1) && entry->opa != NULL && !(SREG(25) & 2);
+    drawXlu = (flags & 2) && entry->xlu != NULL && !(SREG(25) & 4);
 
     if (drawOpa || drawBackground) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -693,7 +692,7 @@ s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
         ASSERT(roomNum < play->roomList.count, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
         size = play->roomList.romFiles[roomNum].vromEnd - play->roomList.romFiles[roomNum].vromStart;
-        roomCtx->roomRequestAddr = (void*)ALIGN16((uintptr_t)roomCtx->bufPtrs[roomCtx->activeBufPage] -
+        roomCtx->roomRequestAddr = (void*)ALIGN16((intptr_t)roomCtx->bufPtrs[roomCtx->activeBufPage] -
                                                   ((size + 8) * roomCtx->activeBufPage + 7));
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);

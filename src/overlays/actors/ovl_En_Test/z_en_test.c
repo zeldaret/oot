@@ -76,68 +76,29 @@ void func_80862FA8(EnTest* this, PlayState* play);
 
 s32 EnTest_ReactToProjectile(PlayState* play, EnTest* this);
 
+extern SkeletonHeader D_06007C28;
+extern AnimationHeader D_0600316C; // ready stance
+extern AnimationHeader D_06001978; // jump back
+extern AnimationHeader D_0600B00C; // slash 1
+extern AnimationHeader D_0600B4E4; // slash 1 end
+extern AnimationHeader D_0600BE4C; // slash 2
+extern AnimationHeader D_0600A324; // jumpslash start
+extern AnimationHeader D_0600A99C; // jumpslash
+extern AnimationHeader D_0600E2B0; // sidestep
+extern AnimationHeader D_060081B4; // walk forward?
+extern AnimationHeader D_06001C20; // block
+extern AnimationHeader D_060026D4; //?
+extern AnimationHeader D_06000444;
+extern AnimationHeader D_06001420;
+extern AnimationHeader D_06008604;
+extern AnimationHeader D_06009A90;
+extern AnimationHeader D_0600C438;
+
 static u8 sUpperBodyLimbCopyMap[] = {
-    false, // STALFOS_LIMB_NONE
-    false, // STALFOS_LIMB_ROOT
-    false, // STALFOS_LIMB_UPPERBODY_ROOT
-    false, // STALFOS_LIMB_CORE_LOWER_ROOT
-    true,  // STALFOS_LIMB_CORE_UPPER_ROOT
-    true,  // STALFOS_LIMB_NECK_ROOT
-    true,  // STALFOS_LIMB_HEAD_ROOT
-    true,  // STALFOS_LIMB_7
-    true,  // STALFOS_LIMB_8
-    true,  // STALFOS_LIMB_JAW_ROOT
-    true,  // STALFOS_LIMB_JAW
-    true,  // STALFOS_LIMB_HEAD
-    true,  // STALFOS_LIMB_NECK_UPPER
-    true,  // STALFOS_LIMB_NECK_LOWER
-    true,  // STALFOS_LIMB_CORE_UPPER
-    true,  // STALFOS_LIMB_CHEST
-    true,  // STALFOS_LIMB_SHOULDER_R_ROOT
-    true,  // STALFOS_LIMB_SHOULDER_ARMOR_R_ROOT
-    true,  // STALFOS_LIMB_SHOULDER_ARMOR_R
-    true,  // STALFOS_LIMB_SHOULDER_L_ROOT
-    true,  // STALFOS_LIMB_SHOULDER_ARMOR_L_ROOT
-    true,  // STALFOS_LIMB_SHOULDER_ARMOR_L
-    true,  // STALFOS_LIMB_ARM_L_ROOT
-    true,  // STALFOS_LIMB_UPPERARM_L_ROOT
-    true,  // STALFOS_LIMB_FOREARM_L_ROOT
-    true,  // STALFOS_LIMB_HAND_L_ROOT
-    true,  // STALFOS_LIMB_HAND_L
-    true,  // STALFOS_LIMB_SHIELD
-    true,  // STALFOS_LIMB_FOREARM_L
-    true,  // STALFOS_LIMB_UPPERARM_L
-    true,  // STALFOS_LIMB_ARM_R_ROOT
-    true,  // STALFOS_LIMB_UPPERARM_R_ROOT
-    true,  // STALFOS_LIMB_FOREARM_R_ROOT
-    true,  // STALFOS_LIMB_HAND_R_ROOT
-    true,  // STALFOS_LIMB_SWORD
-    true,  // STALFOS_LIMB_HAND_R
-    true,  // STALFOS_LIMB_FOREARM_R
-    true,  // STALFOS_LIMB_UPPERARM_R
-    true,  // STALFOS_LIMB_CORE_LOWER
-    false, // STALFOS_LIMB_LOWERBODY_ROOT
-    false, // STALFOS_LIMB_WAIST_ROOT
-    false, // STALFOS_LIMB_LEGS_ROOT
-    false, // STALFOS_LIMB_LEG_L_ROOT
-    false, // STALFOS_LIMB_THIGH_L_ROOT
-    false, // STALFOS_LIMB_LOWERLEG_L_ROOT
-    false, // STALFOS_LIMB_ANKLE_L_ROOT
-    false, // STALFOS_LIMB_ANKLE_L
-    false, // STALFOS_LIMB_FOOT_L_ROOT
-    false, // STALFOS_LIMB_FOOT_L
-    false, // STALFOS_LIMB_LOWERLEG_L
-    false, // STALFOS_LIMB_THIGH_L
-    false, // STALFOS_LIMB_LEG_R_ROOT
-    false, // STALFOS_LIMB_THIGH_R_ROOT
-    false, // STALFOS_LIMB_LOWERLEG_R_ROOT
-    false, // STALFOS_LIMB_ANKLE_R_ROOT
-    false, // STALFOS_LIMB_ANKLE_R
-    false, // STALFOS_LIMB_FOOT_R_ROOT
-    false, // STALFOS_LIMB_FOOT_R
-    false, // STALFOS_LIMB_LOWERLEG_R
-    false, // STALFOS_LIMB_THIGH_R
-    false, // STALFOS_LIMB_WAIST
+    false, false, false, false, true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+    true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+    true,  true,  true,  true,  true,  true,  true,  false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false,
 };
 
 ActorProfile En_Test_Profile = {
@@ -274,10 +235,9 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    SkelAnime_Init(play, &this->skelAnime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->jointTable, this->morphTable,
-                   STALFOS_LIMB_MAX);
-    SkelAnime_Init(play, &this->upperSkelanime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->upperJointTable,
-                   this->upperMorphTable, STALFOS_LIMB_MAX);
+    SkelAnime_Init(play, &this->skelAnime, &D_06007C28, &D_0600316C, this->jointTable, this->morphTable, 61);
+    SkelAnime_Init(play, &this->upperSkelanime, &D_06007C28, &D_0600316C, this->upperJointTable, this->upperMorphTable,
+                   61);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
 
@@ -439,7 +399,7 @@ void EnTest_ChooseAction(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupWaitGround(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &gStalfosMiddleGuardAnim);
+    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
     this->unk_7C8 = 0;
     this->timer = 15;
     this->actor.scale.y = 0.0f;
@@ -470,7 +430,7 @@ void EnTest_WaitGround(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupWaitAbove(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &gStalfosMiddleGuardAnim);
+    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
     this->unk_7C8 = 0;
     this->actor.world.pos.y = this->actor.home.pos.y + 150.0f;
     Actor_SetScale(&this->actor, 0.0f);
@@ -491,7 +451,7 @@ void EnTest_WaitAbove(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupIdle(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &gStalfosMiddleGuardAnim);
+    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
     this->unk_7C8 = 0xA;
     this->timer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->actor.speed = 0.0f;
@@ -551,7 +511,7 @@ void EnTest_Idle(EnTest* this, PlayState* play) {
 }
 
 void EnTest_Fall(EnTest* this, PlayState* play) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalfosLandFromLeapAnim, 0.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_0600C438, 0.0f);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
@@ -571,9 +531,8 @@ void EnTest_Land(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupWalkAndBlock(EnTest* this) {
-    Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
-                     Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
-    Animation_PlayLoop(&this->skelAnime, &gStalfosSlowAdvanceAnim);
+    Animation_Change(&this->upperSkelanime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
+    Animation_PlayLoop(&this->skelAnime, &D_060081B4);
     this->timer = (s16)(Rand_ZeroOne() * 5.0f);
     this->unk_7C8 = 0xD;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -617,12 +576,12 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         if (ABS(this->actor.speed) < 3.0f) {
             s32 pad;
 
-            Animation_Change(&this->skelAnime, &gStalfosSlowAdvanceAnim, 0.0f, this->skelAnime.curFrame,
-                             Animation_GetLastFrame(&gStalfosSlowAdvanceAnim), 0, -6.0f);
+            Animation_Change(&this->skelAnime, &D_060081B4, 0.0f, this->skelAnime.curFrame,
+                             Animation_GetLastFrame(&D_060081B4), 0, -6.0f);
             playSpeed = this->actor.speed * 10.0f;
         } else {
-            Animation_Change(&this->skelAnime, &gStalfosFastAdvanceAnim, 0.0f, this->skelAnime.curFrame,
-                             Animation_GetLastFrame(&gStalfosFastAdvanceAnim), 0, -4.0f);
+            Animation_Change(&this->skelAnime, &D_060026D4, 0.0f, this->skelAnime.curFrame,
+                             Animation_GetLastFrame(&D_060026D4), 0, -4.0f);
             playSpeed = this->actor.speed * 10.0f * 0.02f;
         }
 
@@ -656,11 +615,12 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
 
         prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+
+        beforeCurFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
         absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            s32 afterPrevFrame = absPlaySpeed + prevFrame;
+            s32 afterPrevFrame = (s32)absPlaySpeed + prevFrame;
 
             if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_WALK);
@@ -725,7 +685,7 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
 
 // a variation of sidestep
 void func_80860BDC(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &gStalfosSidestepAnim);
+    Animation_PlayLoop(&this->skelAnime, &D_0600E2B0);
     this->unk_7C8 = 0xE;
     EnTest_SetupAction(this, func_80860C24);
 }
@@ -738,7 +698,7 @@ void func_80860C24(EnTest* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
     s32 afterPrevFrame;
-    s32 absPlaySpeed;
+    f32 absPlaySpeed;
 
     if (!EnTest_ReactToProjectile(play, this)) {
         yawDiff = this->actor.yawTowardsPlayer;
@@ -764,13 +724,17 @@ void func_80860C24(EnTest* this, PlayState* play) {
             this->skelAnime.playSpeed = playSpeed;
         }
 
-        prevFrame = (s32)this->skelAnime.curFrame;
+        prevFrame = this->skelAnime.curFrame;
+
         SkelAnime_Update(&this->skelAnime);
-        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
-        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
+
+        beforeCurFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+        absPlaySpeed = ABS(this->skelAnime.playSpeed);
+
+        if (1) {}
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            afterPrevFrame = absPlaySpeed + prevFrame;
+            afterPrevFrame = (s32)absPlaySpeed + prevFrame;
 
             if (((afterPrevFrame > 2) && (beforeCurFrame <= 0)) || ((beforeCurFrame < 7) && (afterPrevFrame >= 9))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_WALK);
@@ -793,7 +757,7 @@ void func_80860C24(EnTest* this, PlayState* play) {
 
 // a variation of sidestep
 void func_80860EC0(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime, &gStalfosSidestepAnim);
+    Animation_PlayLoop(&this->skelAnime, &D_0600E2B0);
     this->unk_7C8 = 0xF;
     this->actor.speed = (Rand_ZeroOne() > 0.5f) ? -0.5f : 0.5f;
     this->timer = (s16)((Rand_ZeroOne() * 15.0f) + 25.0f);
@@ -812,7 +776,8 @@ void func_80860F84(EnTest* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 checkDist = 0.0f;
     s16 newYaw;
-    s32 absPlaySpeed;
+    f32 absPlaySpeed;
+    s32 afterPrevFrame;
 
     if (!EnTest_ReactToProjectile(play, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
@@ -878,14 +843,14 @@ void func_80860F84(EnTest* this, PlayState* play) {
         }
 
         this->skelAnime.playSpeed = this->actor.speed * 0.5f;
-
-        prevFrame = (s32)this->skelAnime.curFrame;
+        prevFrame = this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
-        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
+
+        beforeCurFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+        absPlaySpeed = ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            s32 afterPrevFrame = absPlaySpeed + prevFrame;
+            afterPrevFrame = (s32)absPlaySpeed + prevFrame;
 
             if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_WALK);
@@ -908,7 +873,7 @@ void func_80860F84(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupSlashDown(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosDownSlashAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_0600B00C);
     Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x10;
@@ -948,7 +913,7 @@ void EnTest_SlashDown(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupSlashDownEnd(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosRecoverFromDownSlashAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_0600B4E4);
     this->unk_7C8 = 0x12;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashDownEnd);
@@ -1008,7 +973,7 @@ void EnTest_SlashDownEnd(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupSlashUp(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosUpSlashAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_0600BE4C);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
     this->swordCollider.elem.atDmgInfo.damage = 16;
@@ -1039,7 +1004,7 @@ void EnTest_SlashUp(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupJumpBack(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosJumpBackwardsAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_06001978);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->unk_7C8 = 0x14;
     this->timer = 5;
@@ -1090,7 +1055,7 @@ void EnTest_JumpBack(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupJumpslash(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosJumpAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_0600A324);
     Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->timer = 0;
     this->unk_7C8 = 0x17;
@@ -1110,7 +1075,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
 void EnTest_Jumpslash(EnTest* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer == 0) {
-            Animation_PlayOnce(&this->skelAnime, &gStalfosJumpslashAnim);
+            Animation_PlayOnce(&this->skelAnime, &D_0600A99C);
             this->timer = 1;
             this->swordState = 1;
             Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_SAKEBI);
@@ -1137,7 +1102,7 @@ void EnTest_Jumpslash(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupJumpUp(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosJumpAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_0600A324);
     this->timer = 0;
     this->unk_7C8 = 4;
     this->actor.velocity.y = 14.0f;
@@ -1165,14 +1130,13 @@ void EnTest_JumpUp(EnTest* this, PlayState* play) {
         this->actor.speed = 0.0f;
         this->unk_7C8 = 0xC;
         this->timer = 4;
-        Animation_Change(&this->skelAnime, &gStalfosLandFromLeapAnim, 0.0f, 0.0f, 0.0f, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_0600C438, 0.0f, 0.0f, 0.0f, 2, 0.0f);
         EnTest_SetupAction(this, EnTest_Land);
     }
 }
 
 void EnTest_SetupStopAndBlock(EnTest* this) {
-    Animation_Change(&this->skelAnime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
-                     Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
+    Animation_Change(&this->skelAnime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
     this->unk_7C8 = 0x15;
     this->actor.speed = 0.0f;
     this->timer = (Rand_ZeroOne() * 10.0f) + 11.0f;
@@ -1199,7 +1163,7 @@ void EnTest_StopAndBlock(EnTest* this, PlayState* play) {
 }
 
 void EnTest_SetupIdleFromBlock(EnTest* this) {
-    Animation_MorphToLoop(&this->skelAnime, &gStalfosMiddleGuardAnim, -4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_0600316C, -4.0f);
     this->unk_7C8 = 0x16;
     EnTest_SetupAction(this, EnTest_IdleFromBlock);
 }
@@ -1223,7 +1187,7 @@ void EnTest_IdleFromBlock(EnTest* this, PlayState* play) {
 }
 
 void func_80862154(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosFlinchFromHitFrontAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_06008604);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 8;
     this->actor.speed = -2.0f;
@@ -1267,7 +1231,7 @@ void func_808621D4(EnTest* this, PlayState* play) {
 }
 
 void func_80862398(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosFlinchFromHitBehindAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_06000444);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 9;
     this->actor.speed = -2.0f;
@@ -1321,7 +1285,7 @@ void EnTest_SetupStunned(EnTest* this) {
         if (this->lastDamageReaction == STALFOS_DMG_REACT_FREEZE) {
             this->iceTimer = 36;
         } else {
-            Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalfosFlinchFromHitFrontAnim, 0.0f);
+            Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06008604, 0.0f);
         }
     }
 
@@ -1365,7 +1329,7 @@ void func_808627C4(EnTest* this, PlayState* play) {
         return;
     }
 
-    Animation_MorphToLoop(&this->skelAnime, &gStalfosSidestepAnim, -2.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_0600E2B0, -2.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     this->actor.speed = ((play->gameplayFrames % 2) != 0) ? -4.0f : 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
@@ -1386,6 +1350,7 @@ void func_808628C8(EnTest* this, PlayState* play) {
     f32 checkDist = 0.0f;
     s16 newYaw;
     f32 absPlaySpeed;
+    s32 afterPrevFrame;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
 
@@ -1464,7 +1429,7 @@ void func_808628C8(EnTest* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_WARAU);
     }
     if ((s32)this->skelAnime.curFrame != prevFrame) {
-        s32 afterPrevFrame = (s32)absPlaySpeed + prevFrame;
+        afterPrevFrame = (s32)absPlaySpeed + prevFrame;
 
         if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_WALK);
@@ -1550,7 +1515,7 @@ void func_80862E6C(EnTest* this, PlayState* play) {
 }
 
 void func_80862FA8(EnTest* this, PlayState* play) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosFallOverBackwardsAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_06001420);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7DE = 0;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
@@ -1579,7 +1544,7 @@ void func_80863044(EnTest* this, PlayState* play) {
 }
 
 void func_808630F0(EnTest* this, PlayState* play) {
-    Animation_PlayOnce(&this->skelAnime, &gStalfosFallOverForwardsAnim);
+    Animation_PlayOnce(&this->skelAnime, &D_06009A90);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7C8 = 6;
     this->actor.colorFilterTimer = 0;
@@ -1757,8 +1722,8 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
                 break;
 
             case 1:
-                Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
-                                 Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
+                Animation_Change(&this->upperSkelanime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2,
+                                 2.0f);
                 AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                               this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 this->unk_7DE++;
@@ -1841,11 +1806,11 @@ s32 EnTest_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f*
     EnTest* this = (EnTest*)thisx;
     PlayState* play = (PlayState*)play2;
 
-    if (limbIndex == STALFOS_LIMB_HEAD_ROOT) {
+    if (limbIndex == 6) {
         rot->x += this->headRot.y;
         rot->y -= this->headRot.x;
         rot->z += this->headRot.z;
-    } else if (limbIndex == STALFOS_LIMB_HEAD) {
+    } else if (limbIndex == 11) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_test.c", 3582);
 
         gDPPipeSync(POLY_OPA_DISP++);
@@ -1886,7 +1851,7 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
 
     BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 
-    if (limbIndex == STALFOS_LIMB_SWORD) {
+    if (limbIndex == 34) {
         Matrix_MultVec3f(&D_8086467C, &this->swordCollider.dim.quad[1]);
         Matrix_MultVec3f(&D_80864688, &this->swordCollider.dim.quad[0]);
         Matrix_MultVec3f(&D_80864694, &this->swordCollider.dim.quad[3]);
@@ -1906,16 +1871,16 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
             this->swordState = -1;
         }
 
-    } else if ((limbIndex == STALFOS_LIMB_SHIELD) && (this->unk_7DE != 0)) {
+    } else if ((limbIndex == 27) && (this->unk_7DE != 0)) {
         Matrix_MultVec3f(&D_80864670, &sp64);
 
         this->shieldCollider.dim.pos.x = sp64.x;
         this->shieldCollider.dim.pos.y = sp64.y;
         this->shieldCollider.dim.pos.z = sp64.z;
     } else {
-        Actor_SetFeetPos(&this->actor, limbIndex, STALFOS_LIMB_FOOT_L, &D_80864658, STALFOS_LIMB_ANKLE_R, &D_80864658);
+        Actor_SetFeetPos(&this->actor, limbIndex, 48, &D_80864658, 55, &D_80864658);
 
-        if ((limbIndex == STALFOS_LIMB_FOOT_L) || (limbIndex == STALFOS_LIMB_ANKLE_R)) {
+        if ((limbIndex == 48) || (limbIndex == 55)) {
             if ((this->unk_7C8 == 0x15) || (this->unk_7C8 == 0x16)) {
                 if (this->actor.speed != 0.0f) {
                     Matrix_MultVec3f(&D_80864658, &sp64);
@@ -1927,31 +1892,31 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
 
     if (this->iceTimer != 0) {
         switch (limbIndex) {
-            case STALFOS_LIMB_HEAD:
+            case 11:
                 bodyPart = 0;
                 break;
-            case STALFOS_LIMB_CHEST:
+            case 15:
                 bodyPart = 1;
                 break;
-            case STALFOS_LIMB_SWORD:
+            case 34:
                 bodyPart = 2;
                 break;
-            case STALFOS_LIMB_SHIELD:
+            case 27:
                 bodyPart = 3;
                 break;
-            case STALFOS_LIMB_UPPERARM_R:
+            case 37:
                 bodyPart = 4;
                 break;
-            case STALFOS_LIMB_UPPERARM_L:
+            case 29:
                 bodyPart = 5;
                 break;
-            case STALFOS_LIMB_WAIST:
+            case 60:
                 bodyPart = 6;
                 break;
-            case STALFOS_LIMB_FOOT_L:
+            case 48:
                 bodyPart = 7;
                 break;
-            case STALFOS_LIMB_FOOT_R:
+            case 57:
                 bodyPart = 8;
                 break;
         }
@@ -1992,7 +1957,7 @@ void EnTest_Draw(Actor* thisx, PlayState* play) {
 
 // a variation of sidestep
 void func_80864158(EnTest* this, f32 xzSpeed) {
-    Animation_MorphToLoop(&this->skelAnime, &gStalfosSidestepAnim, -2.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_0600E2B0, -2.0f);
     this->actor.speed = xzSpeed;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 15.0f;

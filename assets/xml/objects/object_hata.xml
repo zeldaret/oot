@@ -1,79 +1,66 @@
 <Root>
     <File Name="object_hata" Segment="6">
-        <!-- Flagpole Collision -->
-        <Collision Name="gFlagpoleCol" Offset="0xC0"/>
-
-        <!-- Flagpole Animation -->
-        <Animation Name="gFlagpoleFlapAnim" Offset="0x444"/>
-
-        <!-- Flagpole Skeleton -->
-        <Skeleton Name="gFlagpoleSkel" Type="Normal" LimbType="Standard" LimbNone="FLAGPOLE_LIMB_NONE" LimbMax="FLAGPOLE_LIMB_MAX" EnumName="FlagpoleLimb" Offset="0x2FD0"/>
-
-        <!-- Flagpole Limbs -->
-        <Limb Name="gFlagpolePoleBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_POLE_BASE" Offset="0x2E90"/>
-        <Limb Name="gFlagpolePoleLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_POLE" Offset="0x2E9C"/>
-        <Limb Name="gFlagpoleFlag1BaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_BASE" Offset="0x2EA8"/>
-        <Limb Name="gFlagpoleFlag1HoistEndBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE" Offset="0x2EB4"/>
-        <Limb Name="gFlagpoleFlag1HoistMidBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_HOIST_MID_BASE" Offset="0x2EC0"/>
-        <Limb Name="gFlagpoleFlag1FlyMidBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_FLY_MID_BASE" Offset="0x2ECC"/>
-        <Limb Name="gFlagpoleFlag1FlyEndBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_FLY_END_BASE" Offset="0x2ED8"/>
-        <Limb Name="gFlagpoleFlag1FlyEndLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_FLY_END" Offset="0x2EE4"/>
-        <Limb Name="gFlagpoleFlag1FlyMidLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_FLY_MID" Offset="0x2EF0"/>
-        <Limb Name="gFlagpoleFlag1HoistMidLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_HOIST_MID" Offset="0x2EFC"/>
-        <Limb Name="gFlagpoleFlag1HoistEndLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_HOIST_END" Offset="0x2F08"/>
-        <Limb Name="gFlagpoleFlag2BaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_BASE" Offset="0x2F14"/>
-        <Limb Name="gFlagpoleFlag2HoistEndBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_HOIST_END_BASE" Offset="0x2F20"/>
-        <Limb Name="gFlagpoleFlag2HoistMidBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_HOIST_MID_BASE" Offset="0x2F2C"/>
-        <Limb Name="gFlagpoleFlag2FlyMidBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_FLY_MID_BASE" Offset="0x2F38"/>
-        <Limb Name="gFlagpoleFlag2FlyEndBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_FLY_END_BASE" Offset="0x2F44"/>
-        <Limb Name="gFlagpoleFlag2FlyEndLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_FLY_END" Offset="0x2F50"/>
-        <Limb Name="gFlagpoleFlag2FlyMidLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_FLY_MID" Offset="0x2F5C"/>
-        <Limb Name="gFlagpoleFlag2HoistMidLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_HOIST_MID" Offset="0x2F68"/>
-        <Limb Name="gFlagpoleFlag2HoistEndLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_HOIST_END" Offset="0x2F74"/>
-
-        <!-- Flagpole Vertices -->
-        <Array Name="gFlagpolePoleVtx" Count="39" Offset="0x2460">
+        <Collision Name="object_hata_0000C0_Col" Offset="0xC0"/>
+        <Animation Name="object_hata_000444_Anim" Offset="0x444"/>
+        <Texture Name="object_hata_000460_Tex" Format="rgba16" Width="32" Height="32" Offset="0x460"/>
+        <Texture Name="object_hata_000C60_Tex" Format="rgba16" Width="32" Height="32" Offset="0xC60"/>
+        <Texture Name="object_hata_001460_Tex" Format="ia8" Width="128" Height="32" Offset="0x1460"/>
+        <Array Name="object_hata_002460_Vtx" Count="39" Offset="0x2460">
             <Vtx/>
         </Array>
-        <Array Name="gFlagpoleFlag1HoistEndVtx" Count="4" Offset="0x2810">
+        <DList Name="object_hata_0026D0_DL" Offset="0x26D0"/>
+        <Array Name="object_hata_002810_Vtx" Count="4" Offset="0x2810">
             <Vtx/>
         </Array>
-        <Array Name="gFlagpoleFlag1HoistMidVtx" Count="4" Offset="0x28E0">
+        <DList Name="object_hata_002850_DL" Offset="0x2850"/>
+        <Array Name="object_hata_0028E0_Vtx" Count="4" Offset="0x28E0">
             <Vtx/>
         </Array>
-        <Array Name="gFlagpoleFlag1FlyMidVtx" Count="4" Offset="0x29B0">
+        <DList Name="object_hata_002920_DL" Offset="0x2920"/>
+        <Array Name="object_hata_0029B0_Vtx" Count="4" Offset="0x29B0">
             <Vtx/>
         </Array>
-        <Array Name="gFlagpoleFlag1FlyEndVtx" Count="4" Offset="0x2A80">
+        <DList Name="object_hata_0029F0_DL" Offset="0x29F0"/>
+        <Array Name="object_hata_002A80_Vtx" Count="4" Offset="0x2A80">
             <Vtx/>
         </Array>
-        <Array Name="gFlagpoleFlag2HoistEndVtx" Count="4" Offset="0x2B50">
+        <DList Name="object_hata_002AC0_DL" Offset="0x2AC0"/>
+        <Array Name="object_hata_002B50_Vtx" Count="4" Offset="0x2B50">
             <Vtx/>
         </Array>
-        <Array Name="gFlagpoleFlag2HoistMidVtx" Count="4" Offset="0x2C20">
+        <DList Name="object_hata_002B90_DL" Offset="0x2B90"/>
+        <Array Name="object_hata_002C20_Vtx" Count="4" Offset="0x2C20">
             <Vtx/>
         </Array>
-        <Array Name="gFlagpoleFlag2FlyMidVtx" Count="4" Offset="0x2CF0">
+        <DList Name="object_hata_002C60_DL" Offset="0x2C60"/>
+        <Array Name="object_hata_002CF0_Vtx" Count="4" Offset="0x2CF0">
             <Vtx/>
         </Array>
-        <Array Name="gFlagpoleFlag2FlyEndVtx" Count="4" Offset="0x2DC0">
+        <DList Name="object_hata_002D30_DL" Offset="0x2D30"/>
+        <Array Name="object_hata_002DC0_Vtx" Count="4" Offset="0x2DC0">
             <Vtx/>
         </Array>
-
-        <!-- Flagpole DLists -->
-        <DList Name="gFlagpolePoleDL" Offset="0x26D0"/>
-        <DList Name="gFlagpoleFlag1FlyEndDL" Offset="0x2AC0"/>
-        <DList Name="gFlagpoleFlag1FlyMidDL" Offset="0x29F0"/>
-        <DList Name="gFlagpoleFlag1HoistMidDL" Offset="0x2920"/>
-        <DList Name="gFlagpoleFlag1HoistEndDL" Offset="0x2850"/>
-        <DList Name="gFlagpoleFlag2FlyEndDL" Offset="0x2E00"/>
-        <DList Name="gFlagpoleFlag2FlyMidDL" Offset="0x2D30"/>
-        <DList Name="gFlagpoleFlag2HoistMidDL" Offset="0x2C60"/>
-        <DList Name="gFlagpoleFlag2HoistEndDL" Offset="0x2B90"/>
-
-        <!-- Flagpole Textures -->
-        <Texture Name="gFlagpolePoleTex" Format="rgba16" Width="32" Height="32" Offset="0x460"/>
-        <Texture Name="gFlagpoleTopTex" Format="rgba16" Width="32" Height="32" Offset="0xC60"/>
-        <Texture Name="gFlagpoleFlagTex" Format="ia8" Width="128" Height="32" Offset="0x1460"/>
+        <DList Name="object_hata_002E00_DL" Offset="0x2E00"/>
+        <Limb Name="object_hata_002E90_Limb" LimbType="Standard" Offset="0x2E90"/>
+        <Limb Name="object_hata_002E9C_Limb" LimbType="Standard" Offset="0x2E9C"/>
+        <Limb Name="object_hata_002EA8_Limb" LimbType="Standard" Offset="0x2EA8"/>
+        <Limb Name="object_hata_002EB4_Limb" LimbType="Standard" Offset="0x2EB4"/>
+        <Limb Name="object_hata_002EC0_Limb" LimbType="Standard" Offset="0x2EC0"/>
+        <Limb Name="object_hata_002ECC_Limb" LimbType="Standard" Offset="0x2ECC"/>
+        <Limb Name="object_hata_002ED8_Limb" LimbType="Standard" Offset="0x2ED8"/>
+        <Limb Name="object_hata_002EE4_Limb" LimbType="Standard" Offset="0x2EE4"/>
+        <Limb Name="object_hata_002EF0_Limb" LimbType="Standard" Offset="0x2EF0"/>
+        <Limb Name="object_hata_002EFC_Limb" LimbType="Standard" Offset="0x2EFC"/>
+        <Limb Name="object_hata_002F08_Limb" LimbType="Standard" Offset="0x2F08"/>
+        <Limb Name="object_hata_002F14_Limb" LimbType="Standard" Offset="0x2F14"/>
+        <Limb Name="object_hata_002F20_Limb" LimbType="Standard" Offset="0x2F20"/>
+        <Limb Name="object_hata_002F2C_Limb" LimbType="Standard" Offset="0x2F2C"/>
+        <Limb Name="object_hata_002F38_Limb" LimbType="Standard" Offset="0x2F38"/>
+        <Limb Name="object_hata_002F44_Limb" LimbType="Standard" Offset="0x2F44"/>
+        <Limb Name="object_hata_002F50_Limb" LimbType="Standard" Offset="0x2F50"/>
+        <Limb Name="object_hata_002F5C_Limb" LimbType="Standard" Offset="0x2F5C"/>
+        <Limb Name="object_hata_002F68_Limb" LimbType="Standard" Offset="0x2F68"/>
+        <Limb Name="object_hata_002F74_Limb" LimbType="Standard" Offset="0x2F74"/>
+        <Skeleton Name="object_hata_002FD0_Skel" Type="Normal" LimbType="Standard" Offset="0x2FD0"/>
     </File>
 </Root>

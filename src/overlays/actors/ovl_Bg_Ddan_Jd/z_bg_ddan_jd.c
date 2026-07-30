@@ -42,10 +42,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 typedef enum BgDdanJdState {
-    /* 0 */ STATE_GO_BOTTOM,
-    /* 1 */ STATE_GO_MIDDLE_FROM_BOTTOM,
-    /* 2 */ STATE_GO_MIDDLE_FROM_TOP,
-    /* 3 */ STATE_GO_TOP
+    STATE_GO_BOTTOM,
+    STATE_GO_MIDDLE_FROM_BOTTOM,
+    STATE_GO_MIDDLE_FROM_TOP,
+    STATE_GO_TOP,
 } BgDdanJdState;
 
 #define MOVE_HEIGHT_MIDDLE 140.0f
@@ -59,14 +59,14 @@ typedef enum BgDdanJdState {
 #define SHORTCUT_Y_SPEED 5
 
 void BgDdanJd_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgDdanJd* this = (BgDdanJd*)thisx;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gDodongoRisingPlatformCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->idleTimer = IDLE_FRAMES;
     this->state = STATE_GO_BOTTOM;
 

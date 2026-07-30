@@ -6,31 +6,23 @@
 
 struct EnJj;
 
-typedef void (*EnJjActionFunc)(struct EnJj*, struct PlayState*);
-
 typedef struct EnJj {
-    /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ SkelAnime skelAnime;
-    /* 0x01A8 */ Vec3s jointTable[22];
-    /* 0x022C */ Vec3s morphTable[22];
-    /* 0x02B0 */ ColliderCylinder collider;
-    /* 0x02FC */ EnJjActionFunc actionFunc;
-    /* 0x0300 */ DynaPolyActor* bodyCollisionActor;
-    /* 0x0304 */ Actor* dust;
-    /* 0x0308 */ s16 mouthOpenAngle;
-    /* 0x030A */ u16 unk_30A;
-    /* 0x030C */ s16 cutsceneCountdownTimer;
-    /* 0x030E */ u8 eyeIndex;
-    /* 0x030F */ u8 blinkTimer;
-    /* 0x0310 */ u8 extraBlinkCounter;
-    /* 0x0311 */ u8 extraBlinkTotal;
-} EnJj; // size = 0x0314
-
-typedef enum EnJjType {
-    /* -1 */ JABUJABU_MAIN = -1, // Head, drawn body, handles updating
-    /*  0 */ JABUJABU_COLLISION, // Static collision for body
-    /*  1 */ JABUJABU_UNUSED_COLLISION // Shaped like a screen
-} EnJjType;
-
+    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x164 */ SkelAnime unk164;
+    /* 0x1A8 */ Vec3s unk1A8[22];
+    /* 0x22C */ Vec3s unk22C[22];
+    /* 0x2B0 */ ColliderCylinder unk2B0;
+    /* 0x2FC */ void (*unk2FC)(struct EnJj*, struct PlayState*);
+    /* 0x300 */ struct EnJj* unk300;
+    /* 0x304 */ Actor* unk304;
+    /* 0x308 */ s16 unk308;
+    /* 0x30A */ u16 unk30A;
+    /* 0x30C */ s16 unk30C;
+    /* 0x30E */ u8 unk30E;
+    /* 0x30F */ u8 unk30F;
+    /* 0x310 */ u8 unk310;
+    /* 0x311 */ u8 unk311;
+    /* 0x312 */ char pad312[2];
+} EnJj; // size = 0x314
 
 #endif

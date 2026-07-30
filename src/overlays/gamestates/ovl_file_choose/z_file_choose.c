@@ -34,6 +34,8 @@
 #include "ss_sram.h"
 #include "view.h"
 
+#include "functions.h"
+
 #if OOT_PAL_N64
 #include "assets/objects/object_mag/object_mag.h"
 #endif
@@ -543,7 +545,7 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
                 this->newFileNameCharCount = 0;
                 this->nameEntryBoxPosX = 120;
                 this->nameEntryBoxAlpha = 0;
-                MemCpy(&this->fileNames[this->buttonIndex][0], &emptyName, sizeof(emptyName));
+                MemCopy(&this->fileNames[this->buttonIndex][0], &emptyName, 8);
             } else if (this->n64ddFlags[this->buttonIndex] == this->n64ddFlag) {
                 SFX_PLAY_CENTERED(NA_SE_SY_FSEL_DECIDE_L);
                 this->actionTimer = 8;

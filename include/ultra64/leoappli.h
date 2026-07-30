@@ -1,72 +1,101 @@
-#ifndef ULTRA64_LEOAPPLI_H
-#define ULTRA64_LEOAPPLI_H
+/*
+ *  F i l e N a m e  :  l e o a p p l i . h
+ *
+ ****************************************************************************
+ *                   (C) Copyright ALPS Electric Co., Ltd. 1995-1997
+ ****************************************************************************
+ *  Version
+ *
+ *  ver     Date
+ *  ----  --------
+ *  1.01  '97-11-18  Add MOTOR BRAKE definition for control bit.
+ ****************************************************************************
+*/
+/*-----------------------------------*/
+/*   DRIVE PARAMETER                 */
+/*-----------------------------------*/
+#define  LEO_DISK_TYPE_MIN    0
+#define  LEO_DISK_TYPE_MAX    6
 
-#include "thread.h"
-#include "message.h"
+#define  LEO_LBA_MIN          0
+#define  LEO_LBA_MAX          4291
 
-#define LEO_DISK_TYPE_MIN 0
-#define LEO_DISK_TYPE_MAX 6
+#define  LEO_LBA_ROM_TOP      LEO_LBA_MIN
+#define  LEO_LBA_ROM_END0     1417
+#define  LEO_LBA_ROM_END1     1965
+#define  LEO_LBA_ROM_END2     2513
+#define  LEO_LBA_ROM_END3     3061
+#define  LEO_LBA_ROM_END4     3609
+#define  LEO_LBA_ROM_END5     4087
+#define  LEO_LBA_ROM_END6     LEO_LBA_MAX
+#define  LEO_LBA_RAM_TOP0     (LEO_LBA_ROM_END0+1)
+#define  LEO_LBA_RAM_TOP1     (LEO_LBA_ROM_END1+1)
+#define  LEO_LBA_RAM_TOP2     (LEO_LBA_ROM_END2+1)
+#define  LEO_LBA_RAM_TOP3     (LEO_LBA_ROM_END3+1)
+#define  LEO_LBA_RAM_TOP4     (LEO_LBA_ROM_END4+1)
+#define  LEO_LBA_RAM_TOP5     (LEO_LBA_ROM_END5+1)
+#define  LEO_LBA_RAM_TOP6     (LEO_LBA_ROM_END6+1)
+#define  LEO_LBA_RAM_END6     LEO_LBA_MAX
 
-#define LEO_LBA_MIN 0
-#define LEO_LBA_MAX 4291
+/*-----------------------------------*/
+/*   LEO FUNCTION DEFINITIONS        */
+/*-----------------------------------*/
+extern void leoInitialize(OSPri PRI_WRK, OSPri PRI_INT, OSMesg *command_que_buf, u32 cmd_buff_size);
+extern void leoCommand(void *CDB);
+extern void LeoReset(void);
+extern s32  LeoResetClear(void);
 
-#define LEO_LBA_ROM_TOP  LEO_LBA_MIN
-#define LEO_LBA_ROM_END0 1417
-#define LEO_LBA_ROM_END1 1965
-#define LEO_LBA_ROM_END2 2513
-#define LEO_LBA_ROM_END3 3061
-#define LEO_LBA_ROM_END4 3609
-#define LEO_LBA_ROM_END5 4087
-#define LEO_LBA_ROM_END6 LEO_LBA_MAX
-#define LEO_LBA_RAM_TOP0 (LEO_LBA_ROM_END0+1)
-#define LEO_LBA_RAM_TOP1 (LEO_LBA_ROM_END1+1)
-#define LEO_LBA_RAM_TOP2 (LEO_LBA_ROM_END2+1)
-#define LEO_LBA_RAM_TOP3 (LEO_LBA_ROM_END3+1)
-#define LEO_LBA_RAM_TOP4 (LEO_LBA_ROM_END4+1)
-#define LEO_LBA_RAM_TOP5 (LEO_LBA_ROM_END5+1)
-#define LEO_LBA_RAM_TOP6 (LEO_LBA_ROM_END6+1)
-#define LEO_LBA_RAM_END6 LEO_LBA_MAX
+/*-----------------------------------*/
+/*   THREAD PRIORITY                 */
+/*-----------------------------------*/
+#define  LEO_PRIORITY_WRK   (OS_PRIORITY_PIMGR-1)
+#define  LEO_PRIORITY_INT   OS_PRIORITY_PIMGR
 
-void leoInitialize(OSPri compri, OSPri intpri, OSMesg* command_que_buf, u32 cmd_buff_size);
-void leoCommand(void* cmd_blk_addr);
-void LeoReset(void);
-s32 LeoResetClear(void);
+/*-----------------------------------*/
+/*   COMMAND CODE                    */
+/*-----------------------------------*/
+#define LEO_COMMAND_CLEAR_QUE         0x01
+#define LEO_COMMAND_INQUIRY           0x02
+#define LEO_COMMAND_TEST_UNIT_READY   0x03
+#define LEO_COMMAND_REZERO            0x04
+#define LEO_COMMAND_READ              0x05
+#define LEO_COMMAND_WRITE             0x06
+#define LEO_COMMAND_SEEK              0x07
+#define LEO_COMMAND_START_STOP        0x08
+#define LEO_COMMAND_READ_CAPACITY     0x09
+#define LEO_COMMAND_TRANSLATE         0x0a
+#define LEO_COMMAND_MODE_SELECT       0x0b
+#define LEO_COMMAND_READ_DISK_ID      0x0c
+#define LEO_COMMAND_READ_TIMER        0x0d
+#define LEO_COMMAND_SET_TIMER         0x0e
 
-#define LEO_PRIORITY_WRK (OS_PRIORITY_PIMGR-1)
-#define LEO_PRIORITY_INT OS_PRIORITY_PIMGR
+/*-----------------------------------*/
+/* CONTROL BIT                       */
+/*-----------------------------------*/
+#define LEO_CONTROL_POST              0x80   /* ENABLE POST QUEUE */
+#define LEO_CONTROL_START             0x01   /* START COMMAND */
+#define LEO_CONTROL_STBY              0x02   /* STAND-BY MODE(NOT SLEEP MODE) */
+#define LEO_CONTROL_WRT               0x01   /* READ RE-WRITE-ABLE CAPACITY */
+#define LEO_CONTROL_TBL               0x01   /* TRANSLATE BYTE TO LBA */
+#define LEO_CONTROL_BRAKE             0x04   /* SLEEP MODE(BRAKE ON) */
 
-#define LEO_COMMAND_CLEAR_QUE       0x01
-#define LEO_COMMAND_INQUIRY         0x02
-#define LEO_COMMAND_TEST_UNIT_READY 0x03
-#define LEO_COMMAND_REZERO          0x04
-#define LEO_COMMAND_READ            0x05
-#define LEO_COMMAND_WRITE           0x06
-#define LEO_COMMAND_SEEK            0x07
-#define LEO_COMMAND_START_STOP      0x08
-#define LEO_COMMAND_READ_CAPACITY   0x09
-#define LEO_COMMAND_TRANSLATE       0x0A
-#define LEO_COMMAND_MODE_SELECT     0x0B
-#define LEO_COMMAND_READ_DISK_ID    0x0C
-#define LEO_COMMAND_READ_TIMER      0x0D
-#define LEO_COMMAND_SET_TIMER       0x0E
-// should be
-// #define LEO_COMMAND_CLEAR_RESET 0x0F
+/*-----------------------------------*/
+/* BIT FIELD PARAMETER               */
+/*-----------------------------------*/
+#define LEO_TEST_UNIT_MR              0x01   /* MEDIUM REMOVED */
+#define LEO_TEST_UNIT_RE              0x02   /* HEAD RETRACTED */
+#define LEO_TEST_UNIT_SS              0x04   /* SPINDLE STOPPED */
 
-#define LEO_CONTROL_POST            0x80   // ENABLE POST QUEUE
-#define LEO_CONTROL_START           0x01   // START COMMAND
-#define LEO_CONTROL_STBY            0x02   // STAND-BY MODE(NOT SLEEP MODE)
-#define LEO_CONTROL_WRT             0x01   // READ RE-WRITE-ABLE CAPACITY
-#define LEO_CONTROL_TBL             0x01   // TRANSLATE BYTE TO LBA
-#define LEO_CONTROL_BRAKE           0x04   // SLEEP MODE(BRAKE ON)
+/*-----------------------------------*/
+/* STATUS                            */
+/*-----------------------------------*/
+#define LEO_STATUS_GOOD               0x00
+#define LEO_STATUS_CHECK_CONDITION    0x02
+#define LEO_STATUS_BUSY               0x08
 
-#define LEO_TEST_UNIT_MR            0x01   // MEDIUM REMOVED
-#define LEO_TEST_UNIT_RE            0x02   // HEAD RETRACTED
-#define LEO_TEST_UNIT_SS            0x04   // SPINDLE STOPPED
-
-#define LEO_STATUS_GOOD             0x00
-#define LEO_STATUS_CHECK_CONDITION  0x02
-#define LEO_STATUS_BUSY             0x08
-
+/*-----------------------------------*/
+/* SENSE CODE                        */
+/*-----------------------------------*/
 #define LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION   00
 #define LEO_SENSE_DRIVE_NOT_READY                  01
 #define LEO_SENSE_DIAGNOSTIC_FAILURE               02
@@ -78,7 +107,7 @@ s32 LeoResetClear(void);
 #define LEO_SENSE_NO_SEEK_COMPLETE                 21
 #define LEO_SENSE_WRITE_FAULT                      22
 #define LEO_SENSE_UNRECOVERED_READ_ERROR           23
-#define LEO_SENSE_NO_REFERENCE_POSITION_FOUND      24
+#define LEO_SENSE_NO_REFERENCE_POSITION_FOUND      24 
 #define LEO_SENSE_TRACK_FOLLOWING_ERROR            25
 #define LEO_SENSE_TRACKING_OR_SPDL_SERVO_FAILURE   25
 #define LEO_SENSE_INVALID_COMMAND_OPERATION_CODE   31
@@ -94,105 +123,152 @@ s32 LeoResetClear(void);
 #define LEO_SENSE_MEDIUM_MAY_HAVE_CHANGED          47
 #define LEO_SENSE_EJECTED_ILLEGALLY_RESUME         49
 
-typedef struct LEOCmdHeader {
-    /* 0x0 */ u8 command;
-    /* 0x1 */ u8 reserve1;
-    /* 0x2 */ u8 control;
-    /* 0x3 */ u8 reserve3;
-    /* 0x4 */ u8 status;
-    /* 0x5 */ u8 sense;
-    /* 0x6 */ u8 reserve6;
-    /* 0x7 */ u8 reserve7;
-    /* 0x8 */ OSMesgQueue* post;
-} LEOCmdHeader; // 0xC
+/*-----------------------------------*/
+/* Command Block Header              */
+/*-----------------------------------*/
+typedef struct{
+    u8    command;
+    u8    reserve1;
+    u8    control;
+    u8    reserve3;
+    u8    status;
+    u8    sense;
+    u8    reserve6;
+    u8    reserve7;
+    OSMesgQueue  *post;
+} LEOCmdHeader;
 
-typedef struct LEOCmdClearQueue {
-    /* 0x0 */ LEOCmdHeader header;
-} LEOCmdClearQueue; // 0xC
+/*-----------------------------------*/
+/* CLEAR QUEUE(01H) command          */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+} LEOCmdClearQue;
 
-typedef struct LEOCmdInquiry {
-    /* 0x00 */ LEOCmdHeader header;
-    /* 0x0C */ u8 devType;
-    /* 0x0D */ u8 version;
-    /* 0x0E */ u8 devNum;
-    /* 0x0F */ u8 leoBiosVer;
-    /* 0x10 */ u32 reserve5;
-} LEOCmdInquiry; // size = 0x14
+/*-----------------------------------*/
+/* INQUIRY(02H) command              */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    u8            dev_type;
+    u8            version;
+    u8            dev_num;
+    u8            leo_bios_ver;
+    u32           reserve5;
+} LEOCmdInquiry;
 
-typedef struct LEOCmdTestUnitReady {
-    /* 0x0 */ LEOCmdHeader header;
-    /* 0xC */ u8 test;
-    /* 0xD */ u8 reserve2;
-    /* 0xE */ u8 reserve3;
-    /* 0xF */ u8 reserve4;
-} LEOCmdTestUnitReady; // size = 0x10
+/*-----------------------------------*/
+/* TEST UNIT READY(03H) command      */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    u8            test;
+    u8            reserve2;
+    u8            reserve3;
+    u8            reserve4;
+} LEOCmdTestUnitReady;
 
-typedef struct LEOCmdRezero {
-    /* 0x0 */ LEOCmdHeader header;
-} LEOCmdRezero; // size = 0xC
+/*-----------------------------------*/
+/* REZERO(04H) command               */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+} LEOCmdRezero;
 
-typedef struct LEOCmdRead {
-    /* 0x00 */ LEOCmdHeader header;
-    /* 0x0C */ u32 lba;
-    /* 0x10 */ u32 transferBlks;
-    /* 0x14 */ void* buffPtr;
-    /* 0x18 */ u32 rwBytes;
-} LEOCmdRead; // size = 0x1C
+/*-----------------------------------*/
+/* READ(05H) command                 */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    u32           lba;
+    u32           xfer_blks;
+    void         *buff_ptr;
+    u32           rw_bytes;
+} LEOCmdRead;
 
+/*-----------------------------------*/
+/* WRITE(06H) command                */
+/*-----------------------------------*/
 typedef LEOCmdRead LEOCmdWrite;
 
-typedef struct LEOCmdSeek {
-    /* 0x0 */ LEOCmdHeader header;
-    /* 0xC */ u32 lba;
-} LEOCmdSeek; // size = 0x10
+/*-----------------------------------*/
+/* SEEK(07H) command                 */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    u32           lba;
+} LEOCmdSeek;
 
-typedef struct LEOCmdStartStop {
-    /* 0x0 */ LEOCmdHeader header;
-} LEOCmdStartStop; // size = 0xC
+/*-----------------------------------*/
+/* START/STOP(08H) command           */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+} LEOCmdStartStop;
 
-typedef struct LEOCmdReadCapacity {
-    /* 0x00 */ LEOCmdHeader header;
-    /* 0x0C */ u32 startLba;
-    /* 0x10 */ u32 endLba;
-    /* 0x14 */ u32 capaBytes;
-} LEOCmdReadCapacity; // size = 0x18
+/*-----------------------------------*/
+/* READ CAPACITY(09H) command        */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    u32           start_lba;
+    u32           end_lba;
+    u32           capa_bytes;
+} LEOCmdReadCapacity;
 
-typedef struct LEOCmdTranslate {
-    /* 0x00 */ LEOCmdHeader header;
-    /* 0x0C */ u32 startLba;
-    /* 0x10 */ u32 inParam;
-    /* 0x14 */ u32 outParam;
-} LEOCmdTranslate; // size = 0x18
+/*-----------------------------------*/
+/* TRANSLATE(0AH) command            */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    u32           start_lba;
+    u32           in_param;
+    u32           out_param;
+} LEOCmdTranslate;
 
-typedef struct LEOCmdModeSelect {
-    /* 0x00 */ LEOCmdHeader header;
-    /* 0x0C */ u8 pageCode;
-    /* 0x0D */ u8 reserve1;
-    /* 0x0E */ u8 standbyTime;
-    /* 0x0F */ u8 sleepTime;
-    /* 0x10 */ u8 ledOnTime;
-    /* 0x11 */ u8 ledOffTime;
-    /* 0x12 */ u8 reserve18;
-    /* 0x13 */ u8 reserve19;
-} LEOCmdModeSelect; // size = 0x14
+/*-----------------------------------*/
+/* MODE SELECT(0BH) command          */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    u8            page_code;
+    u8            reserve1;
+    u8            standby_time;
+    u8            sleep_time;
+    u8            led_on_time;
+    u8            led_off_time;
+    u8            reserve18;
+    u8            reserve19;
+} LEOCmdModeSelect;
 
-typedef struct LEOCmdReadDiskId {
-    /* 0x0 */ LEOCmdHeader header;
-    /* 0xC */ void* bufferPointer;
-} LEOCmdReadDiskId; // size = 0x10
+/*-----------------------------------*/
+/* READ DISK ID(0CH) command         */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    void         *buffer_pointer;
+} LEOCmdReadDiskId;
 
-typedef struct LEOCmdReadTimer {
-    /* 0x00 */ LEOCmdHeader header;
-    /* 0x0C */ u8 reserve12;
-    /* 0x0D */ u8 reserve13;
-    /* 0x0E */ u8 year;
-    /* 0x0F */ u8 month;
-    /* 0x10 */ u8 day;
-    /* 0x11 */ u8 hour;
-    /* 0x12 */ u8 minute;
-    /* 0x13 */ u8 second;
-} LEOCmdReadTimer; // size = 0x14
+/*-----------------------------------*/
+/* READ TIMER(0DH) command           */
+/*-----------------------------------*/
+typedef struct {
+    LEOCmdHeader  header;
+    u8            reserve12;
+    u8            reserve13;
+    u8            year;
+    u8            month;
+    u8            day;
+    u8            hour;
+    u8            minute;
+    u8            second;
+} LEOCmdReadTimer;
 
+/*-----------------------------------*/
+/* SET TIMER(0EH) command            */
+/*-----------------------------------*/
 typedef LEOCmdReadTimer LEOCmdSetTimer;
 
-#endif
+/*-------end of leoappli.h--------------------------*/
+
+

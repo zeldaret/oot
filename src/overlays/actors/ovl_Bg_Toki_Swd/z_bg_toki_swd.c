@@ -47,30 +47,28 @@ ActorProfile Bg_Toki_Swd_Profile = {
     /**/ BgTokiSwd_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit = {
-    {
-        COL_MATERIAL_NONE,
-        AT_NONE,
-        AC_NONE,
-        OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE_1 | OC2_UNK1,
-        COLSHAPE_CYLINDER,
-    },
-    {
-        ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
-        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
-        ATELEM_NONE,
-        ACELEM_NONE,
-        OCELEM_ON,
-    },
-    { 10, 70, 0, { 0, 0, 0 } },
-};
+static ColliderCylinderInit sCylinderInit = { {
+                                                  COL_MATERIAL_NONE,
+                                                  AT_NONE,
+                                                  AC_NONE,
+                                                  OC1_ON | OC1_TYPE_ALL,
+                                                  OC2_TYPE_1 | OC2_UNK1,
+                                                  COLSHAPE_CYLINDER,
+                                              },
+                                              {
+                                                  ELEM_MATERIAL_UNK0,
+                                                  { 0xFFCFFFFF, 0x00, 0x00 },
+                                                  { 0xFFCFFFFF, 0x00, 0x00 },
+                                                  ATELEM_NONE,
+                                                  ACELEM_NONE,
+                                                  OCELEM_ON,
+                                              },
+                                              { 10, 70, 0, { 0 } } };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_STOP),
+    ICHAIN_VEC3F_DIV1000(scale, 0x19, ICHAIN_STOP),
 };
 
 void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
@@ -78,15 +76,15 @@ void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
 }
 
 void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgTokiSwd* this = (BgTokiSwd*)thisx;
+    s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     this->actor.shape.yOffset = 800.0f;
     BgTokiSwd_SetupAction(this, func_808BAF40);
 
     if (LINK_IS_ADULT) {
-        this->actor.draw = NULL;
+        thisx->draw = NULL;
     }
 
     if (gSaveContext.sceneLayer == 5) {
@@ -95,8 +93,8 @@ void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
-    Collider_UpdateCylinder(&this->actor, &this->collider);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    Collider_UpdateCylinder(thisx, &this->collider);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, PlayState* play) {

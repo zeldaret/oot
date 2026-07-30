@@ -4,24 +4,21 @@
 #include "ultra64.h"
 #include "actor.h"
 
-#include "assets/objects/object_geldb/object_geldb.h"
-
 struct EnGe3;
 
-typedef void (*EnGe3ActionFunc)(struct EnGe3*, struct PlayState*);
-
 typedef struct EnGe3 {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinder collider;
-    /* 0x0198 */ SkelAnime skelAnime;
-    /* 0x01DC */ Vec3s jointTable[GERUDO_RED_LIMB_MAX];
-    /* 0x026C */ Vec3s morphTable[GERUDO_RED_LIMB_MAX];
-    /* 0x02FC */ s16 eyeIndex;
-    /* 0x02FE */ s16 blinkTimer;
-    /* 0x0300 */ Vec3s headRot;
-    /* 0x0306 */ Vec3s unk_306;
-    /* 0x030C */ u16 unk_30C;
-    /* 0x0310 */ EnGe3ActionFunc actionFunc;
-} EnGe3; // size = 0x0314
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ ColliderCylinder unk14C;
+    /* 0x198 */ SkelAnime unk198;
+    /* 0x1DC */ Vec3s unk1DC[24];
+    /* 0x26C */ Vec3s unk26C[24];
+    /* 0x2FC */ s16 unk2FC;
+    /* 0x2FE */ s16 unk2FE;
+    /* 0x300 */ Vec3s unk300;
+    /* 0x306 */ Vec3s unk306;
+    /* 0x30C */ u16 unk30C;
+    /* 0x30E */ char pad30E[2];
+    /* 0x310 */ void (*unk310)(struct EnGe3*, struct PlayState*);
+} EnGe3; // size = 0x314
 
 #endif

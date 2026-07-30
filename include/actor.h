@@ -780,15 +780,15 @@ void Gfx_DrawDListXlu(struct PlayState* play, Gfx* dlist);
 
 Actor* Actor_FindNearby(struct PlayState* play, Actor* refActor, s16 actorId, u8 actorCategory, f32 range);
 s32 func_800354B4(struct PlayState* play, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5);
-void func_8003555C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
-void func_800355B8(struct PlayState* play, Vec3f* pos);
+void func_8003555C(struct PlayState* play, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3);
+void func_800355B8(struct PlayState* play, Vec3f* arg1);
 u8 func_800355E4(struct PlayState* play, Collider* collider);
 u8 Actor_ApplyDamage(Actor* actor);
 void Actor_SetDropFlag(Actor* actor, ColliderElement* elem, s32 freezeFlag);
 void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
-Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
-                     struct PlayState* play, s16 params, Gfx* dList);
+struct EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
+                             struct PlayState* play, s16 params, Gfx* dList);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
 s32 Flags_GetEventChkInf(s32 flag);
 void Flags_SetEventChkInf(s32 flag);

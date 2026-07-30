@@ -8,12 +8,12 @@
 struct BgPoSyokudai;
 
 typedef struct BgPoSyokudai {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u8 flameColor;
-    /* 0x014E */ s16 flameTextureScroll;
-    /* 0x0150 */ LightNode* lightNode;
-    /* 0x0154 */ LightInfo lightInfo;
-    /* 0x0164 */ ColliderCylinder collider;
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ u8 unk14C;
+    /* 0x14E */ s16 unk14E;
+    /* 0x150 */ LightNode* unk150;
+    /* 0x154 */ LightInfo unk154;
+    /* 0x164 */ ColliderCylinder unk164;
 } BgPoSyokudai; // size = 0x01B0
 
 #endif

@@ -1,9 +1,3 @@
-/*
- * File: z_bg_jya_megami.c
- * Overlay: ovl_Bg_Jya_Megami
- * Description: Face of Spirit Temple Goddess Statue
- */
-
 #include "z_bg_jya_megami.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 

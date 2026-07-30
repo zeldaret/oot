@@ -6,28 +6,28 @@
 
 struct EnGe2;
 
-typedef void (*EnGe2ActionFunc)(struct EnGe2*, struct PlayState*);
-
 typedef struct EnGe2 {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinder collider;
-    /* 0x0198 */ SkelAnime skelAnime;
-    /* 0x01DC */ Vec3s jointTable[22];
-    /* 0x0260 */ Vec3s morphTable[22];
-    /* 0x02E4 */ s16 eyeIndex;
-    /* 0x02E6 */ s16 blinkTimer;
-    /* 0x02E8 */ Vec3s headRot;
-    /* 0x02EE */ Vec3s unk_2EE;
-    /* 0x02F4 */ u16 stateFlags;
-    /* 0x02F6 */ s16 walkDirection;
-    /* 0x02F8 */ s16 yawTowardsPlayer;
-    /* 0x02FC */ f32 yDetectRange;
-    /* 0x0300 */ u16 walkDuration;
-    /* 0x0302 */ u16 walkTimer;
-    /* 0x0304 */ u8 unk_304;
-    /* 0x0305 */ u8 timer;
-    /* 0x0306 */ u8 playerSpottedParam;
-    /* 0x0308 */ EnGe2ActionFunc actionFunc;
-} EnGe2; // size = 0x030C
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ ColliderCylinder unk14C;
+    /* 0x198 */ SkelAnime unk198;
+    /* 0x1DC */ Vec3s unk1DC[22];
+    /* 0x260 */ Vec3s unk260[22];
+    /* 0x2E4 */ s16 unk2E4;
+    /* 0x2E6 */ s16 unk2E6;
+    /* 0x2E8 */ Vec3s unk2E8;
+    /* 0x2EE */ Vec3s unk2EE;
+    /* 0x2F4 */ u16 unk2F4;
+    /* 0x2F6 */ s16 unk2F6;
+    /* 0x2F8 */ s16 unk2F8;
+    /* 0x2FA */ char pad2FA[2];
+    /* 0x2FC */ f32 unk2FC;
+    /* 0x300 */ u16 unk300;
+    /* 0x302 */ u16 unk302;
+    /* 0x304 */ s8 unk304;
+    /* 0x305 */ u8 unk305;
+    /* 0x306 */ u8 unk306;
+    /* 0x307 */ char pad307[1];
+    /* 0x308 */ void (*unk308)(struct EnGe2*, struct PlayState*);
+} EnGe2; // size = 0x30C
 
 #endif
