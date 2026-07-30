@@ -40,8 +40,8 @@
 /*-----------------------------------*/
 /*   LEO FUNCTION DEFINITIONS        */
 /*-----------------------------------*/
-extern void leoInitialize(OSPri PRI_WRK, OSPri PRI_INT, OSMesg *command_que_buf, u32 cmd_buff_size);
-extern void leoCommand(void *CDB);
+extern void leoInitialize(OSPri compri, OSPri intpri, OSMesg* command_que_buf, u32 cmd_buff_size);
+extern void leoCommand(void* cmd_blk_addr);
 extern void LeoReset(void);
 extern s32  LeoResetClear(void);
 
@@ -107,7 +107,7 @@ extern s32  LeoResetClear(void);
 #define LEO_SENSE_NO_SEEK_COMPLETE                 21
 #define LEO_SENSE_WRITE_FAULT                      22
 #define LEO_SENSE_UNRECOVERED_READ_ERROR           23
-#define LEO_SENSE_NO_REFERENCE_POSITION_FOUND      24 
+#define LEO_SENSE_NO_REFERENCE_POSITION_FOUND      24
 #define LEO_SENSE_TRACK_FOLLOWING_ERROR            25
 #define LEO_SENSE_TRACKING_OR_SPDL_SERVO_FAILURE   25
 #define LEO_SENSE_INVALID_COMMAND_OPERATION_CODE   31

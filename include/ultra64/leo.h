@@ -1,7 +1,7 @@
 
 /*---------------------------------------------------------------------*
         Copyright (C) 1998 Nintendo.
-        
+
         $RCSfile: leo.h,v $
         $Revision: 1.29 $
         $Date: 1998/12/21 07:30:15 $
@@ -106,7 +106,7 @@ typedef struct
       u8	    sleep_time;
       u32	    reserve3;
     } modeselect;
-    
+
   } data;
 
 } LEOCmd;
@@ -178,7 +178,7 @@ typedef struct
 #define LEO_ERROR_NO_SEEK_COMPLETE                 21
 #define LEO_ERROR_WRITE_FAULT                      22
 #define LEO_ERROR_UNRECOVERED_READ_ERROR           23
-#define LEO_ERROR_NO_REFERENCE_POSITION_FOUND      24 
+#define LEO_ERROR_NO_REFERENCE_POSITION_FOUND      24
 #define LEO_ERROR_TRACK_FOLLOWING_ERROR            25
 #define LEO_ERROR_TRACKING_OR_SPDL_SERVO_FAILURE   25
 #define LEO_ERROR_INVALID_COMMAND_OPERATION_CODE   31
@@ -244,8 +244,8 @@ extern  u32 LeoDriveExist(void);
 
 /* Synchronous functions */
 extern	s32 LeoClearQueue(void);
-extern	s32 LeoByteToLBA(s32 startLBA, u32 nbytes, s32 *lbas);
-extern	s32 LeoLBAToByte(s32 startLBA, u32 nLBAs, s32 *bytes);
+extern s32 LeoByteToLBA(s32 startlba, u32 nbytes, s32* lba);
+extern s32 LeoLBAToByte(s32 startlba, u32 nlbas, s32* bytes);
 extern	s32 LeoReadCapacity(LEOCapacity *cap, s32 dir);
 extern	s32 LeoInquiry(LEOVersion *ver);
 extern	s32 LeoTestUnitReady(LEOStatus *status);
