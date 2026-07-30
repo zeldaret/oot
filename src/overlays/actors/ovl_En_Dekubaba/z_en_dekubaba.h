@@ -21,8 +21,8 @@ typedef struct EnDekubaba {
     /* 0x200 */ Vec3s unk200[8];
     /* 0x230 */ f32 unk230;
     /* 0x234 */ struct CollisionPoly* unk234;
-    /* 0x238 */ ColliderJntSph unk238;
-    /* 0x258 */ ColliderJntSphElement unk258[7];
+    /* 0x238 */ ColliderJntSph collider;
+    /* 0x258 */ ColliderJntSphElement colliderElements[7];
 } EnDekubaba; // size = 0x418
 
 #endif

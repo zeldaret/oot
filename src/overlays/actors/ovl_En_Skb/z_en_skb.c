@@ -157,12 +157,12 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Init(play, &this->unk14C, &object_skb_0041F8_Skel, &object_skb_001854_Anim, this->unk190, this->unk208,
                    20);
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
-    Collider_InitJntSph(play, &this->unk2A4);
-    Collider_SetJntSph(play, &this->unk2A4, &this->actor, &sJntSphInit, this->unk2C4);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     Actor_SetScale(&this->actor, ((this->actor.params * 0.1f) + 1.0f) * 0.01f);
-    this->unk2A4.elements[0].dim.modelSphere.radius = this->unk2A4.elements[0].dim.worldSphere.radius =
+    this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius =
         this->actor.params + 10;
-    this->unk2A4.elements[1].dim.modelSphere.radius = this->unk2A4.elements[1].dim.worldSphere.radius =
+    this->collider.elements[1].dim.modelSphere.radius = this->collider.elements[1].dim.worldSphere.radius =
         (this->actor.params + 10) * 2;
     this->actor.home.pos = this->actor.world.pos;
     this->actor.floorHeight = this->actor.world.pos.y;
@@ -187,7 +187,7 @@ void EnSkb_Destroy(Actor* thisx, PlayState* play) {
             }
         }
     }
-    Collider_DestroyJntSph(play, &this->unk2A4);
+    Collider_DestroyJntSph(play, &this->collider);
 }
 
 void EnSkb_DecideNextAction(EnSkb* this) {
@@ -289,7 +289,7 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
 void EnSkb_SetupAttack(EnSkb* this) {
     Animation_Change(&this->unk14C, &object_skb_000460_Anim, 0.6f, 0.0f,
                      Animation_GetLastFrame(&object_skb_000460_Anim), ANIMMODE_ONCE_INTERP, 4.0f);
-    this->unk2A4.base.atFlags &= ~AT_BOUNCED;
+    this->collider.base.atFlags &= ~AT_BOUNCED;
     this->actionState = SKB_BEHAVIOR_ATTACKING;
     this->actor.speed = 0.0f;
     func_80AFC9A0(this, EnSkb_Attack);
@@ -306,8 +306,8 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
     } else if (temp_ft1 == 6) {
         this->setColliderAT = false;
     }
-    if (this->unk2A4.base.atFlags & AT_BOUNCED) {
-        this->unk2A4.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
+    if (this->collider.base.atFlags & AT_BOUNCED) {
+        this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         EnSkb_SetupRecoil(this);
     } else if (SkelAnime_Update(&this->unk14C)) {
         EnSkb_DecideNextAction(this);
@@ -317,7 +317,7 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
 void EnSkb_SetupRecoil(EnSkb* this) {
     Animation_Change(&this->unk14C, &object_skb_000460_Anim, -0.4f, this->unk14C.curFrame - 1.0f, 0.0f,
                      ANIMMODE_ONCE_INTERP, 0.0f);
-    this->unk2A4.base.atFlags &= ~AT_BOUNCED;
+    this->collider.base.atFlags &= ~AT_BOUNCED;
     this->actionState = SKB_BEHAVIOR_RECOILING;
     this->setColliderAT = false;
     func_80AFC9A0(this, EnSkb_Recoil);
@@ -438,11 +438,11 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
         this->actor.colChkInfo.health = 0;
         this->setColliderAT = false;
         EnSkb_SetupDeath(this, play);
-    } else if ((this->actionState >= SKB_BEHAVIOR_ATTACKING) && (this->unk2A4.base.acFlags & AC_HIT)) {
-        this->unk2A4.base.acFlags &= ~AC_HIT;
+    } else if ((this->actionState >= SKB_BEHAVIOR_ATTACKING) && (this->collider.base.acFlags & AC_HIT)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         if (((this->actor.colChkInfo.damageReaction != 6))) {
             this->lastDamageReaction = this->actor.colChkInfo.damageReaction;
-            Actor_SetDropFlag(&this->actor, &this->unk2A4.elements[1].base, true);
+            Actor_SetDropFlag(&this->actor, &this->collider.elements[1].base, true);
             this->setColliderAT = false;
             if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionState != SKB_BEHAVIOR_STUNNED) {
@@ -499,13 +499,13 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 3000.0f * this->actor.scale.y;
     if (this->setColliderAT) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk2A4.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
     if ((this->actionState >= SKB_BEHAVIOR_ATTACKING) &&
         ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk2A4.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk2A4.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 
 s32 func_80AFDD30(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg5, void* thisx) {
@@ -532,7 +532,7 @@ s32 func_80AFDD30(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg
 void func_80AFDF24(PlayState* arg0, s32 arg1, Gfx** arg2, Vec3s* arg3, void* thisx) {
     EnSkb* this = thisx;
 
-    Collider_UpdateSpheres(arg1, &this->unk2A4);
+    Collider_UpdateSpheres(arg1, &this->collider);
     if ((this->breakFlags ^ 1) == 0) {
         BodyBreak_SetInfo(&this->bodyBreak, arg1, 11, 12, 18, arg2, BODYBREAK_OBJECT_SLOT_DEFAULT);
     } else if ((this->breakFlags ^ (this->breakFlags | 4)) == 0) {

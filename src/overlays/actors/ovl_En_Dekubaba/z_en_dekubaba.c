@@ -178,13 +178,13 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
     SkelAnime_Init(play, &this->unk17C, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->unk1D0,
                    this->unk200, 8);
-    Collider_InitJntSph(play, &this->unk238);
-    Collider_SetJntSph(play, &this->unk238, &this->actor, &sJntSphInit, this->unk258);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     if (this->actor.params == 1) {
         this->unk230 = 2.50f;
         for (var_a0 = 0; var_a0 < sJntSphInit.count; var_a0++) {
-            this->unk238.elements[var_a0].dim.worldSphere.radius =
-                this->unk238.elements[var_a0].dim.modelSphere.radius =
+            this->collider.elements[var_a0].dim.worldSphere.radius =
+                this->collider.elements[var_a0].dim.modelSphere.radius =
                     sJntSphElementsInit[var_a0].dim.modelSphere.radius * 2.5f;
         }
         if (!LINK_IS_ADULT) {
@@ -197,7 +197,8 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
     } else {
         this->unk230 = 1.0f;
         for (var_a0 = 0; var_a0 < sJntSphInit.count; var_a0++) {
-            this->unk238.elements[var_a0].dim.worldSphere.radius = this->unk238.elements[var_a0].dim.modelSphere.radius;
+            this->collider.elements[var_a0].dim.worldSphere.radius =
+                this->collider.elements[var_a0].dim.modelSphere.radius;
         }
         if (!LINK_IS_ADULT) {
             D_809E8FE0.table[0x1B] = 4;
@@ -215,14 +216,14 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
 void EnDekubaba_Destroy(Actor* thisx, PlayState* play) {
     EnDekubaba* this = (EnDekubaba*)thisx;
 
-    Collider_DestroyJntSph(play, &this->unk238);
+    Collider_DestroyJntSph(play, &this->collider);
 }
 
 void func_809E5A38(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
-        this->unk238.elements[i].base.acElemFlags &= ~ACELEM_ON;
+        this->collider.elements[i].base.acElemFlags &= ~ACELEM_ON;
     }
 }
 
@@ -236,11 +237,11 @@ void func_809E5ABC(EnDekubaba* this) {
     this->actor.world.pos.z = this->actor.home.pos.z;
     this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->unk230);
     Actor_SetScale(&this->actor, this->unk230 * 0.01f * 0.5f);
-    this->unk238.base.colMaterial = COL_MATERIAL_HARD;
-    this->unk238.base.acFlags |= AC_HARD;
+    this->collider.base.colMaterial = COL_MATERIAL_HARD;
+    this->collider.base.acFlags |= AC_HARD;
     this->unk1C6 = 0x2D;
     for (i = 1; i < 7; i++) {
-        temp_v0_2 = &this->unk238.elements[i];
+        temp_v0_2 = &this->collider.elements[i];
         temp_v0_2->dim.worldSphere.center.x = this->actor.world.pos.x;
         temp_v0_2->dim.worldSphere.center.y = (s16)this->actor.world.pos.y - 7;
         temp_v0_2->dim.worldSphere.center.z = this->actor.world.pos.z;
@@ -256,10 +257,10 @@ void func_809E5D28(EnDekubaba* this) {
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_ONCE, 0.0f);
     this->unk1C6 = 0xF;
     for (i = 2; i < 7; i++) {
-        this->unk238.elements[i].base.ocElemFlags |= 1;
+        this->collider.elements[i].base.ocElemFlags |= 1;
     }
-    this->unk238.base.colMaterial = COL_MATERIAL_HIT6;
-    this->unk238.base.acFlags &= ~AC_HARD;
+    this->collider.base.colMaterial = COL_MATERIAL_HIT6;
+    this->collider.base.acFlags &= ~AC_HARD;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DUMMY482);
     this->unk1C0 = func_809E65A0;
 }
@@ -271,7 +272,7 @@ void func_809E5E58(EnDekubaba* this) {
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), 0.0f, ANIMMODE_ONCE, -3.0f);
     this->unk1C6 = 0xF;
     for (i = 2; i < 7; i++) {
-        this->unk238.elements[i].base.ocElemFlags &= ~1;
+        this->collider.elements[i].base.ocElemFlags &= ~1;
     }
     this->unk1C0 = func_809E6A04;
 }
@@ -303,7 +304,7 @@ void func_809E6000(EnDekubaba* this) {
 
 void func_809E6078(EnDekubaba* this) {
     this->unk1C6 = 9;
-    this->unk238.base.acFlags |= AC_ON;
+    this->collider.base.acFlags |= AC_ON;
     this->unk1C0 = func_809E77E4;
     this->unk17C.playSpeed = -1.0f;
 }
@@ -311,7 +312,7 @@ void func_809E6078(EnDekubaba* this) {
 void func_809E60A8(EnDekubaba* this, s32 arg1) {
     Animation_MorphToPlayOnce(&this->unk17C, &object_dekubaba_Anim_000208, -5.0f);
     this->unk1C6 = arg1;
-    this->unk238.base.acFlags &= ~AC_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     Actor_SetScale(&this->actor, this->unk230 * 0.01f);
     if (arg1 == 2) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 155, COLORFILTER_BUFFLAG_OPA, 62);
@@ -328,7 +329,7 @@ void func_809E6170(EnDekubaba* this) {
     this->actor.velocity.y = 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->actor.speed = this->unk230 * 3.0f;
-    this->unk238.base.acFlags &= ~AC_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     this->unk1C0 = func_809E7BB0;
 }
@@ -336,7 +337,7 @@ void func_809E6170(EnDekubaba* this) {
 void func_809E61E0(EnDekubaba* this) {
     Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8, -1.5f,
                      Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), 0.0f, ANIMMODE_ONCE, -3.0f);
-    this->unk238.base.acFlags &= ~AC_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->unk1C0 = func_809E7F14;
 }
 
@@ -344,7 +345,7 @@ void func_809E6264(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
-        this->unk238.elements[i].base.acElemFlags |= ACELEM_ON;
+        this->collider.elements[i].base.acElemFlags |= ACELEM_ON;
     }
     if (this->unk1C6 == 1) {
         Animation_Change(&this->unk17C, &object_dekubaba_Anim_0002B8, 4.0f, 0.0f,
@@ -367,7 +368,7 @@ void func_809E63EC(EnDekubaba* this) {
     this->unk1CA_arr[1] = -0x4800;
     func_809E5A38(this);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 35);
-    this->unk238.base.acFlags &= ~AC_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->unk1C0 = func_809E7A88;
 }
 
@@ -597,7 +598,7 @@ void func_809E7104(EnDekubaba* this, PlayState* play) {
             func_8002829C(play, &this->actor.world.pos, &sp3C, &D_809E8EA0, &D_809E9024, &D_809E9028, 1,
                           this->unk230 * 100.0f);
             this->unk1C6 = 1;
-            this->unk238.base.acFlags |= AC_ON;
+            this->collider.base.acFlags |= AC_ON;
         }
     } else if (this->unk1C6 >= 0xB) {
         func_809E6000(this);
@@ -743,7 +744,7 @@ void func_809E78DC(EnDekubaba* this, PlayState* play) {
         if (this->actor.colChkInfo.health == 0) {
             func_809E61E0(this);
         } else {
-            this->unk238.base.acFlags |= AC_ON;
+            this->collider.base.acFlags |= AC_ON;
             if (this->unk1C6 == 0) {
                 if (this->actor.xzDistToPlayer < (80.0f * this->unk230)) {
                     func_809E5F9C(this);
@@ -785,7 +786,7 @@ void func_809E7A88(EnDekubaba* this, PlayState* play) {
     }
     temp_v0 = this->unk1C8 + 0x4000;
     if (ABS(temp_v0) < 0x100) {
-        this->unk238.base.acFlags |= AC_ON;
+        this->collider.base.acFlags |= AC_ON;
         if (this->actor.xzDistToPlayer < (80.0f * this->unk230)) {
             func_809E5F9C(this);
         } else {
@@ -877,10 +878,10 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
     s32 var_s0;
     s32 i;
 
-    if (this->unk238.base.acFlags & AC_HIT) {
-        this->unk238.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlagJntSph(&this->actor, &this->unk238, true);
-        if ((this->unk238.base.colMaterial != COL_MATERIAL_HARD) &&
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
+        if ((this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
             (((this->actor.colChkInfo.damageReaction != 0)) || (this->actor.colChkInfo.damage != 0))) {
             var_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
             if (this->unk1C0 != func_809E79EC) {
@@ -923,7 +924,7 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
         } else {
             return;
         }
-    } else if ((play->actorCtx.unk_02 != 0) && (this->unk238.base.colMaterial != COL_MATERIAL_HARD) &&
+    } else if ((play->actorCtx.unk_02 != 0) && (this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
                (this->unk1C0 != func_809E79EC) && (this->unk1C0 != func_809E78DC) &&
                (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;
@@ -952,8 +953,8 @@ void EnDekubaba_Update(Actor* thisx, PlayState* play) {
     EnDekubaba* this = (EnDekubaba*)thisx;
     s32 pad;
 
-    if (this->unk238.base.atFlags & AT_HIT) {
-        this->unk238.base.atFlags &= ~AT_HIT;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_809E6078(this);
     }
     func_809E8140(this, play);
@@ -971,14 +972,14 @@ void EnDekubaba_Update(Actor* thisx, PlayState* play) {
         }
     }
     if (this->unk1C0 == func_809E7104) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk238.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     }
-    if (this->unk238.base.acFlags & 1) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk238.base);
+    if (this->collider.base.acFlags & 1) {
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
     if (this->unk1C0 != func_809E80D8) {
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk238.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
@@ -1030,8 +1031,8 @@ void func_809E86B8(EnDekubaba* this, PlayState* play) {
         Matrix_RotateZYX(this->unk1CA_arr[i__var_s2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dekubaba.c", 2533);
         gSPDisplayList(POLY_OPA_DISP++, D_809E902C[i__var_s2]);
-        Collider_UpdateSpheres(0x33 + (i__var_s2 * 2), &this->unk238);
-        Collider_UpdateSpheres(0x34 + (i__var_s2 * 2), &this->unk238);
+        Collider_UpdateSpheres(0x33 + (i__var_s2 * 2), &this->collider);
+        Collider_UpdateSpheres(0x34 + (i__var_s2 * 2), &this->collider);
         if (i__var_s2 == 0) {
             if (this->unk1C0 != func_809E7A88) {
                 this->actor.focus.pos.x = spB0.mf[3][0];
@@ -1057,8 +1058,8 @@ void func_809E89E4(EnDekubaba* this, PlayState* play) {
     Matrix_RotateZYX(this->unk1CA_arr[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dekubaba.c", 2586);
     gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_001828);
-    Collider_UpdateSpheres(0x37, &this->unk238);
-    Collider_UpdateSpheres(0x38, &this->unk238);
+    Collider_UpdateSpheres(0x37, &this->collider);
+    Collider_UpdateSpheres(0x38, &this->collider);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2596);
 }
 
@@ -1082,7 +1083,7 @@ void func_809E8C0C(PlayState* play, s32 arg1, Gfx** arg2, Vec3s* arg3, void* thi
     EnDekubaba* this = thisx;
 
     if (arg1 == 1) {
-        Collider_UpdateSpheres(arg1, &this->unk238);
+        Collider_UpdateSpheres(arg1, &this->collider);
     }
 }
 

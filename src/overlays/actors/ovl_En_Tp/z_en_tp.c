@@ -118,14 +118,14 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     this->actor.colChkInfo.health = 1;
     var_s5 = this;
     this->unk15E = 0xFF;
-    Collider_InitJntSph(play, &this->unk174);
-    Collider_SetJntSph(play, &this->unk174, &this->actor, &sJntSphInit, &this->unk194);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     if (this->actor.params < 0) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->unk15A = 0;
-        this->unk174.base.acFlags |= 4;
-        this->unk174.elements[0].dim.worldSphere.radius = 8;
-        this->unk174.elements[0].dim.modelSphere.radius = this->unk174.elements[0].dim.worldSphere.radius;
+        this->collider.base.acFlags |= 4;
+        this->collider.elements[0].dim.worldSphere.radius = 8;
+        this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius;
         func_80B21B90(this);
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
@@ -161,7 +161,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
 void EnTp_Destroy(Actor* thisx, PlayState* play) {
     EnTp* this = (EnTp*)thisx;
 
-    Collider_DestroyJntSph(play, &this->unk174);
+    Collider_DestroyJntSph(play, &this->collider);
 }
 
 void func_80B21084(EnTp* this) {
@@ -212,9 +212,9 @@ void func_80B212C0(EnTp* this, PlayState* play) {
     player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
     SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
-    if (this->unk174.base.atFlags & AT_HIT) {
-        this->unk174.base.atFlags &= ~AT_HIT;
-        if (&player->actor == this->unk174.base.at) {
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
+        if (&player->actor == this->collider.base.at) {
             this->unk15A = 1;
         }
     }
@@ -335,9 +335,9 @@ void func_80B219A8(EnTp* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk16C, 1.0f,
                        this->actor.speed * 0.25f, 0.0f);
     SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
-    if (this->unk174.base.atFlags & AT_HIT) {
-        this->unk174.base.atFlags &= ~AT_HIT;
-        if (&player->actor == this->unk174.base.at) {
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
+        if (&player->actor == this->collider.base.at) {
             this->unk15C = 1;
         }
     }
@@ -378,9 +378,9 @@ void func_80B21BDC(EnTp* this, PlayState* play) {
     player = GET_PLAYER(play);
     this->unk15C -= 1;
     if (this->actor.xzDistToPlayer < 200.0f) {
-        if (this->unk174.base.atFlags & AT_HIT) {
-            this->unk174.base.atFlags &= ~AT_HIT;
-            if (&player->actor == this->unk174.base.at) {
+        if (this->collider.base.atFlags & AT_HIT) {
+            this->collider.base.atFlags &= ~AT_HIT;
+            if (&player->actor == this->collider.base.at) {
                 this->unk15A = 0;
             }
         }
@@ -498,14 +498,14 @@ void func_80B221E8(EnTp* this, PlayState* play) {
     s32 var_s4;
     EnTp* new_var;
 
-    if ((this->unk174.base.acFlags & AC_HIT) && (this->unk14C >= 2)) {
+    if ((this->collider.base.acFlags & AC_HIT) && (this->unk14C >= 2)) {
         var_s2 = 0;
         var_s4 = 0;
         if (this->actor.params < 0) {
             var_s2 = 1;
         }
-        this->unk174.base.acFlags &= ~2;
-        Actor_SetDropFlagJntSph(&this->actor, &this->unk174, true);
+        this->collider.base.acFlags &= ~2;
+        Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
         this->unk158 = this->actor.colChkInfo.damageReaction;
         if (this->actor.colChkInfo.damageReaction != 0) {
             if (this->actor.colChkInfo.damageReaction == 1) {
@@ -536,7 +536,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
                 }
                 var_s0 = (EnTp*)this->actor.parent;
                 while (var_s0 != NULL) {
-                    var_s0->unk174.base.acFlags &= ~AC_HIT;
+                    var_s0->collider.base.acFlags &= ~AC_HIT;
                     if (var_s4 != 0) {
                         var_s0->actor.freezeTimer = 80;
                         Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -552,7 +552,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
                 }
                 var_s0_2 = (EnTp*)this->actor.child;
                 while (var_s0_2 != NULL) {
-                    var_s0_2->unk174.base.acFlags &= ~AC_HIT;
+                    var_s0_2->collider.base.acFlags &= ~AC_HIT;
                     if (var_s4 != 0) {
                         var_s0_2->actor.freezeTimer = 80;
                         if (var_s2 != 0) {
@@ -612,7 +612,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
             SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_CRY);
         }
         if (this->unk14C >= 2) {
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk174.base);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
     }
     if (this->actor.params != 0xB) {
@@ -621,7 +621,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     }
     this->actor.focus.pos = this->actor.world.pos;
     if (this->unk158 == 0xE) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk174.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
     if ((this->unk162 & 7) == 0) {
         sp40.r = this->unk160;
@@ -634,7 +634,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
         EffectSsKiraKira_SpawnSmall(play, &sp44, &sp5C, &sp50, &sp40, &sp3C);
     }
     if ((this->unk14C >= 2) && (this->actor.colChkInfo.health != 0)) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk174.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
@@ -667,6 +667,6 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_tp.c", 0x5D7);
     if ((this->actor.params <= 0) || (this->actor.params == 0xB)) {
-        Collider_UpdateSpheres(0, &this->unk174);
+        Collider_UpdateSpheres(0, &this->collider);
     }
 }

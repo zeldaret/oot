@@ -86,10 +86,10 @@ void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &sp30);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp30);
-    Collider_InitJntSph(play, &this->unk168);
-    Collider_SetJntSph(play, &this->unk168, &this->dyna.actor, &sJntSphInit, this->unk188);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
     for (i = 0; i < 6; i++) {
-        this->unk168.elements[i].dim.worldSphere.radius = this->unk168.elements[i].dim.modelSphere.radius;
+        this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     this->unk166 = 0;
     this->unk164 = 0;
@@ -99,7 +99,7 @@ void BgHidanRsekizou_Destroy(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    Collider_DestroyJntSph(play, &this->unk168);
+    Collider_DestroyJntSph(play, &this->collider);
 }
 
 void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
@@ -121,7 +121,7 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
     sp24 = Math_SinS(this->dyna.actor.shape.rot.y);
     temp_fv0 = Math_CosS(this->dyna.actor.shape.rot.y);
     for (i = 0; i < 6; i++) {
-        temp_v0_2 = &this->unk168.elements[i];
+        temp_v0_2 = &this->collider.elements[i];
         temp_v0_2->dim.worldSphere.center.x = this->dyna.actor.home.pos.x +
                                               (temp_fv0 * temp_v0_2->dim.modelSphere.center.x) +
                                               (sp24 * temp_v0_2->dim.modelSphere.center.z);
@@ -130,7 +130,7 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
                                               (sp24 * temp_v0_2->dim.modelSphere.center.x) +
                                               (temp_fv0 * temp_v0_2->dim.modelSphere.center.z);
     }
-    CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk168.base);
+    CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     Actor_PlaySfx_Flagged(&this->dyna.actor, 0x2033U);
 }
 

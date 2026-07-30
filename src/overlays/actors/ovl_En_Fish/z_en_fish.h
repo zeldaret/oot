@@ -8,8 +8,8 @@ struct EnFish;
 
 typedef struct EnFish {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ ColliderJntSph unk14C;
-    /* 0x16C */ ColliderJntSphElement unk16C;
+    /* 0x14C */ ColliderJntSph collider;
+    /* 0x16C */ ColliderJntSphElement colliderElements[1];
     /* 0x1AC */ SkelAnime unk1AC;
     /* 0x1F0 */ Vec3s unk1F0[7];
     /* 0x21A */ Vec3s unk21A[7];

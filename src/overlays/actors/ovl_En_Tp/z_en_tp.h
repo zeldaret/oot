@@ -23,8 +23,8 @@ typedef struct EnTp {
     /* 0x168 */ f32 unk168;
     /* 0x16C */ f32 unk16C;
     /* 0x170 */ f32 unk170;
-    /* 0x174 */ ColliderJntSph unk174;
-    /* 0x194 */ ColliderJntSphElement unk194;
+    /* 0x174 */ ColliderJntSph collider;
+    /* 0x194 */ ColliderJntSphElement colliderElements[1];
     /* 0x1D4 */ struct EnTp* unk1D4;
 } EnTp; // size = 0x1D8
 

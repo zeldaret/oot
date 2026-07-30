@@ -167,8 +167,8 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     sp3A = this->actor.params;
     Actor_ProcessInitChain(&this->actor, D_80A17070);
     SkelAnime_InitFlex(play, &this->unk1AC, &gFishSkel, &gFish2Anim, this->unk1F0, this->unk21A, 7);
-    Collider_InitJntSph(play, &this->unk14C);
-    Collider_SetJntSph(play, &this->unk14C, &this->actor, &sJntSphInit, &this->unk16C);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 0x32;
     this->unk24C = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
     this->unk24E = (s16)(s32)(Rand_ZeroOne() * 65535.5f);
@@ -187,7 +187,7 @@ void EnFish_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     EnFish* this = (EnFish*)thisx;
 
-    Collider_DestroyJntSph(play, &this->unk14C);
+    Collider_DestroyJntSph(play, &this->collider);
 }
 
 void func_80A155D0(EnFish* this) {
@@ -664,7 +664,7 @@ void func_80A16C68(EnFish* this, PlayState* play) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 17.5f, 4.0f, 0.0f, this->unk250);
         }
         if (this->actor.xzDistToPlayer < 70.0f) {
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk14C.base);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         }
         Actor_SetFocus(&this->actor, this->actor.shape.yOffset * 0.01f);
         if (Actor_HasParent(&this->actor, play)) {
@@ -726,5 +726,5 @@ void EnFish_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->unk1AC.skeleton, this->unk1AC.jointTable, this->unk1AC.dListCount, NULL, NULL,
                           NULL);
-    Collider_UpdateSpheres(0, &this->unk14C);
+    Collider_UpdateSpheres(0, &this->collider);
 }

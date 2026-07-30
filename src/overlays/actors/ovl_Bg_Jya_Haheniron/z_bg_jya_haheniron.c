@@ -68,8 +68,8 @@ static Gfx* D_808987B8[] = {
 void func_808980C0(BgJyaHaheniron* this, PlayState* play) {
     s32 pad;
 
-    Collider_InitJntSph(play, &this->unk150);
-    Collider_SetJntSph(play, &this->unk150, &this->actor, &sJntSphInit, this->unk170);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 }
 
 void func_80898114(PlayState* play, Vec3f* arg1, Vec3f* arg2) {
@@ -121,7 +121,7 @@ void BgJyaHaheniron_Destroy(Actor* thisx, PlayState* play) {
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {
-        Collider_DestroyJntSph(play, &this->unk150);
+        Collider_DestroyJntSph(play, &this->collider);
     }
 }
 
@@ -136,8 +136,8 @@ void func_8089844C(BgJyaHaheniron* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 8.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
-        ((this->unk150.base.atFlags & AT_HIT) && (this->unk150.base.at != NULL) &&
-         (this->unk150.base.at->category == 2))) {
+        ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.at != NULL) &&
+         (this->collider.base.at->category == 2))) {
         sp2C.x = -Rand_ZeroOne() * this->actor.velocity.x;
         sp2C.y = -Rand_ZeroOne() * this->actor.velocity.y;
         sp2C.z = -Rand_ZeroOne() * this->actor.velocity.z;
@@ -146,7 +146,7 @@ void func_8089844C(BgJyaHaheniron* this, PlayState* play) {
     } else if (this->unk1B0 >= 0x3D) {
         Actor_Kill(&this->actor);
     } else {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->unk150.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
     this->actor.shape.rot.y += 0x4B0;
     this->actor.shape.rot.x += 0xFA0;
@@ -190,7 +190,7 @@ void BgJyaHaheniron_Draw(Actor* thisx, PlayState* play) {
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
     if (this->actor.params == 0) {
-        Collider_UpdateSpheres(0, &this->unk150);
+        Collider_UpdateSpheres(0, &this->collider);
     }
     Gfx_DrawDListOpa(play, D_808987B8[this->actor.params]);
 }
