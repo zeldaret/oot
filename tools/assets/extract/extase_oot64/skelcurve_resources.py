@@ -50,7 +50,7 @@ class KnotCountsArrayResource(CDataResource, can_size_be_unknown=True):
         return ("ultra64.h",)
 
 
-class CurveInterpKnotArrayResource(CDataResource, can_size_be_unknown=True):
+class TransformDataArrayResource(CDataResource, can_size_be_unknown=True):
     elem_cdata_ext = CDataExt_Struct(
         (
             ("flags", CDataExt_Value.u16),
@@ -74,7 +74,7 @@ class CurveInterpKnotArrayResource(CDataResource, can_size_be_unknown=True):
             raise ResourceParseWaiting(waiting_for=["self.length"])
 
     def get_c_declaration_base(self):
-        return f"CurveInterpKnot {self.symbol_name}[]"
+        return f"TransformData {self.symbol_name}[]"
 
     def get_c_reference(self, resource_offset: int):
         if resource_offset == 0:
@@ -114,7 +114,7 @@ class ConstantDataArrayResource(CDataResource, can_size_be_unknown=True):
         return ("ultra64.h",)
 
 
-class CurveAnimationHeaderResource(CDataResource):
+class TransformUpdateIndexResource(CDataResource):
     def report_knotCounts(resource, memory_context: "MemoryContext", v):
         assert isinstance(v, int)
         address = v
@@ -142,8 +142,8 @@ class CurveAnimationHeaderResource(CDataResource):
         memory_context.report_resource_at_segmented(
             resource,
             address,
-            CurveInterpKnotArrayResource,
-            lambda file, offset: CurveInterpKnotArrayResource(
+            TransformDataArrayResource,
+            lambda file, offset: TransformDataArrayResource(
                 file, offset, f"{resource.name}_{address:08X}_InterpolationData"
             ),
         )
@@ -191,7 +191,7 @@ class CurveAnimationHeaderResource(CDataResource):
                 CDataExt_Value("I")
                 .set_report(report_interpolationData)
                 .set_write(write_interpolationData),
-            ),  # CurveInterpKnot*
+            ),  # TransformData*
             (
                 "constantData",
                 CDataExt_Value("I")
@@ -213,7 +213,7 @@ class CurveAnimationHeaderResource(CDataResource):
         )
         resource_interpolationData = memory_context.resolve_segmented(
             interpolationData
-        ).get_resource(CurveInterpKnotArrayResource)
+        ).get_resource(TransformDataArrayResource)
         resource_constantData = memory_context.resolve_segmented(
             constantData
         ).get_resource(ConstantDataArrayResource)
@@ -248,7 +248,7 @@ class CurveAnimationHeaderResource(CDataResource):
             raise NotImplementedError
 
     def get_c_declaration_base(self):
-        return f"CurveAnimationHeader {self.symbol_name}"
+        return f"TransformUpdateIndex {self.symbol_name}"
 
     def get_c_reference(self, resource_offset: int):
         raise ValueError()
@@ -331,7 +331,7 @@ class SkelCurveLimbArrayResource(CDataResource):
         return ("animation.h",)
 
 
-class CurveSkeletonHeaderResource(CDataResource):
+class SkelCurveLimbListResource(CDataResource):
     def report_limbs(resource, memory_context: "MemoryContext", v):
         assert isinstance(v, int)
         address = v
@@ -369,7 +369,7 @@ class CurveSkeletonHeaderResource(CDataResource):
     )
 
     def get_c_declaration_base(self):
-        return f"CurveSkeletonHeader {self.symbol_name}"
+        return f"SkelCurveLimbList {self.symbol_name}"
 
     def get_c_reference(self, resource_offset: int):
         raise ValueError()

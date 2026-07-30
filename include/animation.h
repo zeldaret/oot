@@ -478,11 +478,4 @@ typedef struct SkelAnimeCurve {
 typedef s32 (*OverrideCurveLimbDraw)(struct PlayState* play, SkelAnimeCurve* skelCurve, s32 limbIndex, void*);
 typedef void (*PostCurveLimbDraw)(struct PlayState* play, SkelAnimeCurve* skelCurve, s32 limbIndex, void*);
 
-// "reverse" compatibility typedefs
-// These map Elliptic's "new" names, as used by ZAPD,
-// to "old" names, as kept in this branch after dropping Elliptic's commits.
-typedef TransformData CurveInterpKnot;
-typedef TransformUpdateIndex CurveAnimationHeader;
-typedef SkelCurveLimbList CurveSkeletonHeader;
-
 #endif
