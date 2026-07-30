@@ -17,8 +17,8 @@ typedef struct EnDekubaba {
     /* 0x1C6 */ s16 unk1C6;
     /* 0x1C8 */ s16 unk1C8;
     /* 0x1CA */ s16 unk1CA_arr[3];
-    /* 0x1D0 */ Vec3s unk1D0[8];
-    /* 0x200 */ Vec3s unk200[8];
+    /* 0x1D0 */ Vec3s jointTable[8];
+    /* 0x200 */ Vec3s morphTable[8];
     /* 0x230 */ f32 unk230;
     /* 0x234 */ struct CollisionPoly* unk234;
     /* 0x238 */ ColliderJntSph collider;

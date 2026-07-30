@@ -267,13 +267,13 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == -2) {
         this->actor.colChkInfo.health = 12;
         this->actor.naviEnemyId = NAVI_ENEMY_DINOLFOS;
-        SkelAnime_Init(play, &this->skelAnime, &object_zf_Skel_006690, &object_zf_Anim_00B10C, this->unk190,
-                       this->unk2B6, 0x31);
+        SkelAnime_Init(play, &this->skelAnime, &object_zf_Skel_006690, &object_zf_Anim_00B10C, this->jointTable,
+                       this->morphTable, 0x31);
     } else {
         this->actor.colChkInfo.health = 6;
         this->actor.naviEnemyId = NAVI_ENEMY_LIZALFOS;
-        SkelAnime_Init(play, &this->skelAnime, &object_zf_Skel_0104B8, &object_zf_Anim_00B10C, this->unk190,
-                       this->unk2B6, 0x31);
+        SkelAnime_Init(play, &this->skelAnime, &object_zf_Skel_0104B8, &object_zf_Anim_00B10C, this->jointTable,
+                       this->morphTable, 0x31);
     }
     if (this->actor.params < 0) {
         this->unk3FE = -1;

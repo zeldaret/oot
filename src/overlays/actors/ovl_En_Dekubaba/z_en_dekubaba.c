@@ -176,8 +176,8 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, D_809E9020);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
-    SkelAnime_Init(play, &this->skelAnime, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->unk1D0,
-                   this->unk200, 8);
+    SkelAnime_Init(play, &this->skelAnime, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->jointTable,
+                   this->morphTable, 8);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     if (this->actor.params == 1) {

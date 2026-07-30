@@ -13,8 +13,8 @@ typedef struct EnBili {
     /* 0x194 */ u8 unk194;
     /* 0x195 */ u8 unk195;
     /* 0x196 */ s16 unk196;
-    /* 0x198 */ Vec3s unk198[5];
-    /* 0x1B6 */ Vec3s unk1B6[5];
+    /* 0x198 */ Vec3s jointTable[5];
+    /* 0x1B6 */ Vec3s morphTable[5];
     /* 0x1D4 */ ColliderCylinder collider;
 } EnBili; // size = 0x220
 

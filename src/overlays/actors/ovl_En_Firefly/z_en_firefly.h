@@ -24,8 +24,8 @@ typedef struct EnFirefly {
     /* 0x1B9 */ u8 unk1B9;
     /* 0x1BA */ s16 unk1BA_timer;
     /* 0x1BC */ s16 unk1BC_targetRotX;
-    /* 0x1BE */ Vec3s unk1BE[0x1C];
-    /* 0x266 */ Vec3s unk266[0x1C];
+    /* 0x1BE */ Vec3s jointTable[0x1C];
+    /* 0x266 */ Vec3s morphTable[0x1C];
     /* 0x310 */ f32 unk310_homeY;
     /* 0x314 */ ColliderJntSph collider;
     /* 0x334 */ ColliderJntSphElement colliderElements[1];

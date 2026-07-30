@@ -106,8 +106,8 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_809C1698);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(play, &this->skelAnime, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6,
-                   5);
+    SkelAnime_Init(play, &this->skelAnime, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->jointTable,
+                   this->morphTable, 5);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_809C1678, &D_809C166C);

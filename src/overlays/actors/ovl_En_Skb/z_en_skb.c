@@ -154,8 +154,8 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(play, &this->skelAnime, &object_skb_0041F8_Skel, &object_skb_001854_Anim, this->unk190, this->unk208,
-                   20);
+    SkelAnime_Init(play, &this->skelAnime, &object_skb_0041F8_Skel, &object_skb_001854_Anim, this->jointTable,
+                   this->morphTable, 20);
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);

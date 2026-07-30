@@ -116,8 +116,8 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, D_80B28944);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(play, &this->skelAnime, &object_vali_004848_Skel, &object_vali_Anim_0014AC, this->unk198,
-                   this->unk246, 29);
+    SkelAnime_Init(play, &this->skelAnime, &object_vali_004848_Skel, &object_vali_Anim_0014AC, this->jointTable,
+                   this->morphTable, 29);
     Collider_InitQuad(play, &this->unk2FC);
     Collider_SetQuad(play, &this->unk2FC, &this->actor, &sColliderQuadInit);
     Collider_InitQuad(play, &this->unk37C);
