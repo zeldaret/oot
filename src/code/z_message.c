@@ -3687,7 +3687,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     PRINTF_COLOR_YELLOW();
                     PRINTF("\n====================================================================\n");
                     MemCopy(gSaveContext.save.info.scarecrowLongSong, gScarecrowLongSongPtr,
-                           sizeof(gSaveContext.save.info.scarecrowLongSong));
+                            sizeof(gSaveContext.save.info.scarecrowLongSong));
                     for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.scarecrowLongSong); i++) {
                         PRINTF("%d, ", gSaveContext.save.info.scarecrowLongSong[i]);
                     }
@@ -3751,7 +3751,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     PRINTF_COLOR_YELLOW();
                     PRINTF("\n====================================================================\n");
                     MemCopy(gSaveContext.save.info.scarecrowSpawnSong, gScarecrowSpawnSongPtr,
-                           sizeof(gSaveContext.save.info.scarecrowSpawnSong));
+                            sizeof(gSaveContext.save.info.scarecrowSpawnSong));
                     for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.scarecrowSpawnSong); i++) {
                         PRINTF("%d, ", gSaveContext.save.info.scarecrowSpawnSong[i]);
                     }
