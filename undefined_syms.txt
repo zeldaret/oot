@@ -1,5 +1,3 @@
-#include "include/versions.h"
-
 // z_kankyo, z_demo_kankyo, z_en_viewer, z_object_kankyo, z_eff_ss_dead_dd
 D_01000000 = 0x01000000;
 

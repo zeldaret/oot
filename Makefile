@@ -40,7 +40,7 @@ COMPILER ?= ido
 #   gc-jp-ce       GameCube Japan (Collector's Edition disc)
 #   ique-cn        iQue Player (Simplified Chinese)
 VERSION ?= gc-eu-mq-dbg
-# Number of threads to compress with.
+# Number of threads to extract assets and compress with.
 N_THREADS ?= $(shell nproc)
 # If DEBUG_OBJECTS is 1, produce additional debugging files such as objdump output or raw binaries for assets
 DEBUG_OBJECTS ?= 0
@@ -843,56 +843,6 @@ ifneq ($(COMPARE),0)
  endif
 endif
 
-ifeq ($(PLATFORM),IQUE)
-  COMPRESS_ARGS := --format gzip --pad-to 0x4000
-  CIC = 6102
-else
-  COMPRESS_ARGS := --format yaz0 --pad-to 0x800000 --fill-padding-bytes
-  CIC = 6105
-endif
-
-$(ROM): $(ELF)
-# Here we extract the value of the _RomSize symbol to know to what size the ROM should be padded to
-	$(OBJCOPY) --pad-to 0x$$($(OBJDUMP) -t $< | grep _RomSize | cut -d ' ' -f 1) -O binary $< $@
-	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
-
-$(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
-	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
-	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
-
-LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs -Map $(MAP)
-
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(SEGMENT_FILES) $(RELOC_O_FILES) $(LDSCRIPT) $(MAKEROM_O_FILES) \
-        $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
-        $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
-        $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
-	$(LD) $(LDFLAGS) -o $@
-
-$(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
-	$(CPP) -I include $(CPPFLAGS) $< > $@
-
-$(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
-	$(CPP) $(CPPFLAGS) -MD -MP -MF $@.d -MT $@ -I. $< | $(BUILD_DIR_REPLACE) > $@
-
-$(LDSCRIPT): $(BUILD_DIR)/spec
-	$(MKLDSCRIPT) $< $@ $(BUILD_DIR)/src/makerom $(SEGMENTS_DIR)
-
-# Generates a makefile containing rules for building .plf files
-# from overlay .o files for every overlay defined in the spec.
-$(SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/spec
-	$(MKSPECRULES) $< $(SEGMENTS_DIR) $@
-
-# Generates relocations for each overlay after partial linking so that the final
-# link step cannot later insert padding between individual overlay files after
-# relocations have already been calculated.
-$(SEGMENTS_DIR)/%.reloc.o: $(SEGMENTS_DIR)/%.plf
-	$(FADO) $< -n $(notdir $*) -o $(@:.o=.s)
-	$(POSTPROCESS_OBJ) $(@:.o=.s)
-	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
-
-$(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
-	$(CPP) $(CPPFLAGS) $< > $(BUILD_DIR)/undefined_syms.txt
-
 clean:
 	$(RM) -r $(BUILD_DIR)
 
@@ -935,6 +885,60 @@ endif
 .DEFAULT_GOAL := rom
 
 #### Various Recipes ####
+
+ifeq ($(PLATFORM),IQUE)
+  COMPRESS_ARGS := --format gzip --pad-to 0x4000
+  CIC = 6102
+else
+  COMPRESS_ARGS := --format yaz0 --pad-to 0x800000 --fill-padding-bytes
+  CIC = 6105
+endif
+
+$(ROM): $(ELF)
+# Here we extract the value of the _RomSize symbol to know to what size the ROM should be padded to
+	$(OBJCOPY) --pad-to 0x$$($(OBJDUMP) -t $< | grep _RomSize | cut -d ' ' -f 1) -O binary $< $@
+	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
+
+$(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
+	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
+
+LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs -Map $(MAP)
+
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(SEGMENT_FILES) $(RELOC_O_FILES) $(LDSCRIPT) $(MAKEROM_O_FILES) \
+        $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
+        $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
+        $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
+	$(LD) $(LDFLAGS) -o $@
+
+$(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
+	$(CPP) -I include $(CPPFLAGS) $< > $@
+
+o_files: $(O_FILES)
+$(RELOC_O_FILES): | o_files
+.PHONY: o_files
+
+$(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
+	$(CPP) $(CPPFLAGS) -MD -MP -MF $@.d -MT $@ -I. $< | $(BUILD_DIR_REPLACE) > $@
+
+$(LDSCRIPT): $(BUILD_DIR)/spec
+	$(MKLDSCRIPT) $< $@ $(BUILD_DIR)/src/makerom $(SEGMENTS_DIR)
+
+# Generates a makefile containing rules for building .plf files
+# from overlay .o files for every overlay defined in the spec.
+$(SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/spec
+	$(MKSPECRULES) $< $(SEGMENTS_DIR) $@
+
+# Generates relocations for each overlay after partial linking so that the final
+# link step cannot later insert padding between individual overlay files after
+# relocations have already been calculated.
+$(SEGMENTS_DIR)/%.reloc.o: $(SEGMENTS_DIR)/%.plf
+	$(FADO) $< -n $(notdir $*) -o $(@:.o=.s)
+	$(POSTPROCESS_OBJ) $(@:.o=.s)
+	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+
+$(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
+	$(CPP) $(CPPFLAGS) $< > $(BUILD_DIR)/undefined_syms.txt
 
 $(BUILD_DIR)/baserom/%.o: $(EXTRACTED_DIR)/baserom/%
 	$(OBJCOPY) -I binary -O $(LD_OFORMAT) $< $@
@@ -1024,10 +1028,6 @@ $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)
 # Dependencies for files that may include the dmadata header automatically generated from the spec file
 $(BUILD_DIR)/src/boot/z_std_dma.o: $(BUILD_DIR)/dmadata_table_spec.h
 $(BUILD_DIR)/src/dmadata/dmadata.o: $(BUILD_DIR)/dmadata_table_spec.h
-
-o_files: $(O_FILES)
-$(RELOC_O_FILES): | o_files
-.PHONY: o_files
 
 $(BUILD_DIR)/src/%.o: src/%.c
 	$(CC_CHECK) $< -o $@
