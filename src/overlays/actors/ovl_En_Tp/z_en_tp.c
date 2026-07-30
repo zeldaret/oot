@@ -145,7 +145,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     this->unk150 = 0;
     this->actor.colChkInfo.health = 1;
     var_s5 = this;
-    this->unk15E = 0xFF;
+    this->unk15E = 255;
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     if (this->actor.params < 0) {
@@ -175,8 +175,8 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
                 }
                 temp_v0_2->unk15C = var_s1 * -5;
                 temp_v0_2->unk15A = var_s1 * -5;
-                var_s5 = (EnTp*)temp_v0_2;
-                temp_v0_2->unk16C = (f32)(6.0f - ((f32)var_s1 * 0.75f));
+                var_s5 = temp_v0_2;
+                temp_v0_2->unk16C = 6.0f - ((f32)var_s1 * 0.75f);
             }
         }
     } else if (this->actor.params == 0) {
@@ -246,8 +246,8 @@ void func_80B212C0(EnTp* this, PlayState* play) {
             this->unk15A = 1;
         }
     }
-    if (this->unk160 < 0xFF) {
-        this->unk160 += 0xF;
+    if (this->unk160 < 255) {
+        this->unk160 += 15;
     }
     if (Math_CosF(this->unk168) == 0.0f) {
         this->unk170 = 2.0f * Rand_ZeroOne();
@@ -295,11 +295,11 @@ void func_80B214CC(EnTp* this, PlayState* play) {
             sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             sp6C.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+            EffectSsDeadDb_Spawn(play, &sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
             sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             sp6C.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(play, (Vec3f*)&sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+            EffectSsDeadDb_Spawn(play, &sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
                                        COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_5, false));
         } else {
@@ -313,7 +313,7 @@ void func_80B214CC(EnTp* this, PlayState* play) {
                                              this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xA);
                 if (temp_v0 != NULL) {
                     Actor_SetScale(&temp_v0->actor, this->actor.scale.z * 0.5f);
-                    temp_v0->unk160 = (s16)this->unk160;
+                    temp_v0->unk160 = this->unk160;
                 }
             }
         }
@@ -341,8 +341,8 @@ void func_80B217FC(EnTp* this) {
 
 void func_80B21900(EnTp* this, PlayState* play) {
     Actor_UpdatePos(&this->actor);
-    this->unk15E -= 0x14;
-    if (this->unk15E < 0x14) {
+    this->unk15E -= 20;
+    if (this->unk15E < 20) {
         this->unk15E = 0;
         Actor_Kill(&this->actor);
     }
@@ -370,7 +370,7 @@ void func_80B219A8(EnTp* this, PlayState* play) {
         }
     }
     if (this->unk160 != 0) {
-        this->unk160 -= 0xF;
+        this->unk160 -= 15;
     }
     if (Math_CosF(this->unk168) == 0.0f) {
         this->unk170 = Rand_ZeroOne() * 4.0f;
@@ -453,8 +453,8 @@ void func_80B21EE8(EnTp* this) {
 
 void func_80B21F18(EnTp* this, PlayState* play) {
     static Vec3f D_80B22B00 = { 0.0f, -0.5f, 0.0f };
-    static Color_RGBA8 D_80B22B0C = { 0xFF, 0xFF, 0xFF, 0xFF };
-    static Color_RGBA8 D_80B22B10 = { 0x96, 0x96, 0x96, 0 };
+    static Color_RGBA8 D_80B22B0C = { 255, 255, 255, 255 };
+    static Color_RGBA8 D_80B22B10 = { 150, 150, 150, 0 };
     Vec3f sp54;
     Vec3f sp48;
     s32 sp44;
@@ -497,7 +497,7 @@ void func_80B21F18(EnTp* this, PlayState* play) {
             this->actor.shape.rot.x -= 0x400;
         }
         if (this->unk160 != 0) {
-            this->unk160 -= 0xF;
+            this->unk160 -= 15;
         }
         this->actor.speed = 2.0f * Math_CosS(this->actor.shape.rot.x);
         this->actor.velocity.y = Math_SinS(this->actor.shape.rot.x) * -2.0f;
@@ -670,14 +670,14 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
     s16 temp_v0;
     EnTp* this = (EnTp*)thisx;
 
-    OPEN_DISPS(play->state.gfxCtx, "../z_en_tp.c", 0x5AB);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_tp.c", 1451);
     if (this->unk150 != 2) {
         temp_v0 = this->actor.params;
         if ((temp_v0 < 0) || (temp_v0 == 0xC)) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
             MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1459);
             gSPDisplayList(POLY_OPA_DISP++, object_tp_0008D0_DL);
-            Matrix_Translate(0.0f, 0.0f, 8.0f, 1U);
+            Matrix_Translate(0.0f, 0.0f, 8.0f, MTXMODE_APPLY);
         } else {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_ReplaceRotation(&play->billboardMtxF);
@@ -693,7 +693,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
             gSPDisplayList(POLY_XLU_DISP++, object_tp_000000_DL);
         }
     }
-    CLOSE_DISPS(play->state.gfxCtx, "../z_en_tp.c", 0x5D7);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_tp.c", 1495);
     if ((this->actor.params <= 0) || (this->actor.params == 0xB)) {
         Collider_UpdateSpheres(0, &this->collider);
     }
