@@ -847,7 +847,7 @@
             <Vtx/>
         </Array>
         <DList Name="gEffFireCircleDL" Length="30"/>
-        <Animation Name="gFishOutOfWaterAnim" Offset=".+0x5C"/>
+        <Animation Name="gFish1Anim" Offset=".+0x5C"/>
         <Array Name="gameplay_keep_Vtx_018610" Count="4" Offset=".+0x4">
             <Vtx/>
         </Array>
@@ -869,7 +869,7 @@
         <Limb Name="gFishSkelLimb_4" LimbType="Standard" EnumName="FISH_LIMB_4"/>
         <Limb Name="gFishSkelLimb_5" LimbType="Standard" EnumName="FISH_LIMB_5"/>
         <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset=".+0x18"/>
-        <Animation Name="gFishInWaterAnim" Offset=".+0xB0"/>
+        <Animation Name="gFish2Anim" Offset=".+0xB0"/>
         <Texture Name="gEffShockwaveTex" Format="i8" Width="64" Height="64" Offset=".+0x4"/>
         <DList Name="gEffShockwaveDL" Length="14"/>
         <Array Name="gGameplayKeepVtx_01A120" Count="4">
@@ -1351,8 +1351,8 @@
         </Array>
         <DList Name="gEffFire1DL" Length="24"/>
         <DList Name="gEffFire2DL" Length="24"/>
-        <Texture Name="gDecorativeFlameMaskTex" Format="i4" Width="32" Height="128"/>
-        <Texture Name="gDecorativeFlameTex" Format="i8" Width="32" Height="64"/>
+        <Texture Name="gEffFire1Tex" Format="i4" Width="32" Height="128"/>
+        <Texture Name="gEffFire2Tex" Format="i8" Width="32" Height="64"/>
         <Array Name="gUnusedUnknownShape1Vtx" Count="197">
             <Vtx/>
         </Array>

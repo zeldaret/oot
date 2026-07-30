@@ -20,8 +20,8 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gFishInWaterAnim.h"
-#include "assets/objects/gameplay_keep/gFishOutOfWaterAnim.h"
+#include "assets/objects/gameplay_keep/gFish2Anim.h"
+#include "assets/objects/gameplay_keep/gFish1Anim.h"
 #include "assets/objects/gameplay_keep/gameplay_keep_0x18610.h"
 
 #define FLAGS 0
@@ -104,12 +104,12 @@ f32 EnFish_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
 }
 
 void EnFish_SetInWaterAnimation(EnFish* this) {
-    Animation_Change(&this->skelAnime, &gFishInWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishInWaterAnim),
+    Animation_Change(&this->skelAnime, &gFish2Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish2Anim),
                      ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
 void EnFish_SetOutOfWaterAnimation(EnFish* this) {
-    Animation_Change(&this->skelAnime, &gFishOutOfWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishOutOfWaterAnim),
+    Animation_Change(&this->skelAnime, &gFish1Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish1Anim),
                      ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
@@ -148,7 +148,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     s16 params = this->actor.params;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gFishSkel, &gFishInWaterAnim, this->jointTable, this->morphTable, 7);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gFishSkel, &gFish2Anim, this->jointTable, this->morphTable, 7);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 50;
