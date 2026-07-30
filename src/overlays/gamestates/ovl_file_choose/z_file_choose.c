@@ -34,8 +34,6 @@
 #include "ss_sram.h"
 #include "view.h"
 
-#include "functions.h"
-
 #if OOT_PAL_N64
 #include "assets/objects/object_mag/object_mag.h"
 #endif

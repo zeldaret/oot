@@ -30,8 +30,6 @@
 #include "player.h"
 #include "save.h"
 
-#include "functions.h"
-
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 
 #include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"

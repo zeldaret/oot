@@ -24,8 +24,6 @@
 #include "player.h"
 #include "save.h"
 
-#include "functions.h"
-
 #include "assets/textures/parameter_static/parameter_static.h"
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
