@@ -47,9 +47,23 @@ ActorProfile En_Md_Profile = {
 };
 
 ColliderCylinderInit D_80AAC310 = {
-    { 0xA, 0, 0, 0x39, 0x20, 1 },
-    { 0, { 0, 0, 0 }, { 0, 0, 0 }, 0, 0, 1 },
-    { 0x24, 0x2E, 0, { 0, 0, 0 } },
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    { 36, 46, 0, { 0, 0, 0 } },
 };
 CollisionCheckInfoInit2 D_80AAC33C = { 0, 0, 0, 0, 0xFF };
 

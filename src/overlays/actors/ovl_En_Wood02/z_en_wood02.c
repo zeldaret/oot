@@ -50,9 +50,23 @@ ActorProfile En_Wood02_Profile = {
     /**/ EnWood02_Draw,
 };
 static ColliderCylinderInit D_80B3BF00 = {
-    { 0xD, 0, 0xD, 0x39, 0x10, 1 },
-    { 5, { 0, 0, 0 }, { 0x0FC0074A, 0, 0 }, 0, 1, 1 },
-    { 0x12, 0x3C, 0, { 0, 0, 0 } },
+    {
+        COL_MATERIAL_TREE,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK5,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x0FC0074A, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
+    { 18, 60, 0, { 0, 0, 0 } },
 };
 static f32 sSpawnDistances[] = { 707.0f, 525.0f, 510.0f, 500.0f, 566.0f, 141.0f };
 static s16 sSpawnAngles[] = { 0x1FFF, 0x4C9E, 0x77F5, 0xA5C9, -0x293D, 0xA000 };

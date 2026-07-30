@@ -61,9 +61,23 @@ static s16 D_80A9C200[4] = {
     OBJECT_KUSA,
 };
 static ColliderCylinderInit D_80A9C208 = {
-    { 0xA, 0, 9, 0x29, 0x20, 1 },
-    { 0, { 0, 0, 0 }, { 0x4FC00758, 0, 0 }, 0, 1, 1 },
-    { 0xC, 0x2C, 0, { 0, 0, 0 } },
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_2,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x4FC00758, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
+    { 12, 44, 0, { 0, 0, 0 } },
 };
 static CollisionCheckInfoInit D_80A9C234 = { 0, 0xC, 0x1E, 0xFF };
 static Vec3f sUnitDirections[4] = {

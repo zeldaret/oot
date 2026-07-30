@@ -53,7 +53,7 @@ ActorProfile En_Dekubaba_Profile = {
     /**/ EnDekubaba_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[7] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -142,7 +142,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    7,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

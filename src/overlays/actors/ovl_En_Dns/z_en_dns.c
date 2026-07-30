@@ -63,9 +63,22 @@ ActorProfile En_Dns_Profile = {
     /**/ EnDns_Draw,
 };
 static ColliderCylinderInitType1 D_809F03E0 = {
-    { 0xA, 0, 9, 0x39, 1 },
-    { 0, { 0, 0, 0 }, { 0xFFCFFFFF, 0, 0 }, 0, 1, 1 },
-    { 0x12, 0x20, 0, { 0, 0, 0 } },
+    {
+        COL_MATERIAL_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
+    { 18, 32, 0, { 0, 0, 0 } },
 };
 static u16 sStartingTextIds[] = {
     0x10A0, // DNS_TYPE_DEKU_NUTS_5

@@ -53,14 +53,23 @@ ActorProfile Mir_Ray_Profile = {
 
 static u8 D_80B8E670 = false;
 static ColliderQuadInit D_80B8E674 = {
-    { 0xA, 9, 0, 0, 0, 3 },
-    { 0, { 0x200000, 0, 0 }, { 0xFFCFFFFF, 0, 0 }, 1, 0, 0 },
-    { {
-        { 0.0f, 0.0f, 0.0f },
-        { 0.0f, 0.0f, 0.0f },
-        { 0.0f, 0.0f, 0.0f },
-        { 0.0f, 0.0f, 0.0f },
-    } },
+    {
+        COL_MATERIAL_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00200000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
+        OCELEM_NONE,
+    },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {

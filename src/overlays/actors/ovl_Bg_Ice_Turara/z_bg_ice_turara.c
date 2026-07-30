@@ -30,9 +30,23 @@ void func_80892424(BgIceTurara*, PlayState*);
 void func_80892574(BgIceTurara*, PlayState*);
 
 static ColliderCylinderInit D_80892620 = {
-    { 0xA, 0x11, 9, 0, 0x20, 1 },
-    { 0, { 0xFFCFFFFF, 0, 4 }, { 0x4FC007CA, 0, 0 }, 1, 1, 0 },
-    { 0xD, 0x78, 0, { 0, 0, 0 } },
+    {
+        COL_MATERIAL_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+        { 0x4FC007CA, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
+        OCELEM_NONE,
+    },
+    { 13, 120, 0, { 0, 0, 0 } },
 };
 ActorProfile Bg_Ice_Turara_Profile = {
     /**/ ACTOR_BG_ICE_TURARA,

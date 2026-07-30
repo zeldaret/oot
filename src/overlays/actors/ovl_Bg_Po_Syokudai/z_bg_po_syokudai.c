@@ -20,9 +20,23 @@ void BgPoSyokudai_Update(Actor* thisx, PlayState* play);
 void BgPoSyokudai_Draw(Actor* thisx, PlayState* play);
 
 static ColliderCylinderInit D_808A8960 = {
-    { 9, 0, 0xD, 0x39, 0x20, 1 },
-    { 0, { 0, 0, 0 }, { 0xFFCFFFFF, 0, 0 }, 0, 1, 1 },
-    { 0xC, 0x3C, 0, { 0, 0, 0 } },
+    {
+        COL_MATERIAL_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
+    { 12, 60, 0, { 0, 0, 0 } },
 };
 static Color_RGBA8 D_808A898C[4] = {
     { 0xFF, 0xAA, 0xFF, 0xFF },

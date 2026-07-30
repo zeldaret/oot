@@ -72,9 +72,23 @@ ActorProfile Bg_Haka_Trap_Profile = {
 };
 
 ColliderCylinderInit D_80880F54 = {
-    { 9, 0x11, 0xD, 9, 0x20, 1 },
-    { 0, { 0xFFCFFFFF, 0, 4 }, { 0xFFCFFFFF, 0, 0 }, 1, 1, 1 },
-    { 0x1E, 0x5A, 0, { 0, 0, 0 } },
+    {
+        COL_MATERIAL_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
+    { 30, 90, 0, { 0, 0, 0 } },
 };
 
 static ColliderTrisElementInit sSpikedWallTrisElementsInit[2] = {
