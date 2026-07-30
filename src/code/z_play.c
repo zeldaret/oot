@@ -45,12 +45,10 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "vis.h"
 
-#include "functions.h"
-#include "z64.h"
-
-#pragma increment_block_number "gc-eu:226 gc-eu-mq:226 gc-jp:226 gc-jp-ce:226 gc-jp-mq:226 gc-us:226 gc-us-mq:226" \
-                               "ique-cn:226 ntsc-1.0:226 ntsc-1.1:226 ntsc-1.2:226 pal-1.0:226 pal-1.1:226"
+#pragma increment_block_number "gc-eu:227 gc-eu-mq:227 gc-jp:227 gc-jp-ce:227 gc-jp-mq:227 gc-us:227 gc-us-mq:227" \
+                               "ique-cn:227 ntsc-1.0:227 ntsc-1.1:227 ntsc-1.2:227 pal-1.0:227 pal-1.1:227"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;

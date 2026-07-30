@@ -1,8 +1,6 @@
 #include "ultra64.h"
 #include "gfx.h"
-
-#include "functions.h"
-#include "z64.h"
+#include "vis.h"
 
 // Note : This file is related to z_vismono, the original name was probably z_vis<something after "mono" alphabetically>
 
