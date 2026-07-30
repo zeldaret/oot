@@ -67,6 +67,10 @@ assets:
   xml_path: assets/xml/code/fbdemo_wipe1.xml
   start_offset: 0xEB7C0
   end_offset: 0xEC248
+- name: misc/n64dd
+  xml_path: assets/xml/misc/n64dd.xml
+  start_offset: 0xC140
+  end_offset: 0x11D40
 - name: misc/link_animetion
   xml_path: assets/xml/misc/link_animetion.xml
 - name: misc/z_select_static
