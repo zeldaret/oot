@@ -46,7 +46,7 @@ ActorProfile En_Md_Profile = {
     /**/ EnMd_Draw,
 };
 
-ColliderCylinderInit D_80AAC310 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -679,7 +679,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(play, &this->unk14C, &gMidoSkel, NULL, this->unk258, this->unk2BE, MIDO_LIMB_MAX);
     Collider_InitCylinder(play, &this->unk194);
-    Collider_SetCylinder(play, &this->unk194, &this->actor, &D_80AAC310);
+    Collider_SetCylinder(play, &this->unk194, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AAC33C);
     if (func_80AAB03C(this, play) == 0) {
         Actor_Kill(&this->actor);

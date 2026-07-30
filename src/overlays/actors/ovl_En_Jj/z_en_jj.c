@@ -170,7 +170,7 @@ static CutsceneData gJabuInhalingCs[0x2D4] = {
     { -1 },          { 0 },           { 0 },           { 0 },
 };
 
-static ColliderCylinderInit D_80A88CB4 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -233,7 +233,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             CollisionHeader_GetVirtual(&object_jj_000A1C_Col, &sp4C);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
             Collider_InitCylinder(play, &this->unk2B0);
-            Collider_SetCylinder(play, &this->unk2B0, &this->dyna.actor, &D_80A88CB4);
+            Collider_SetCylinder(play, &this->unk2B0, &this->dyna.actor, &sCylinderInit);
             this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
             return;
 

@@ -58,7 +58,7 @@ static s16 D_80BA1B80[2] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
 static Gfx* D_80BA1B84[2] = { gPotDL, object_tsubo_DL_0017C0 };
 static Gfx* D_80BA1B8C[2] = { gPotFragmentDL, object_tsubo_DL_001960 };
 
-static ColliderCylinderInit D_80BA1B94 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_PLAYER,
@@ -126,7 +126,7 @@ void func_80BA0E98(ObjTsubo* this2, PlayState* play) {
     ObjTsubo* this = this2;
 
     Collider_InitCylinder(play, &this->unk150);
-    Collider_SetCylinder(play, &this->unk150, &this->actor, &D_80BA1B94);
+    Collider_SetCylinder(play, &this->unk150, &this->actor, &sCylinderInit);
     Collider_UpdateCylinder(&this->actor, &this->unk150);
 }
 

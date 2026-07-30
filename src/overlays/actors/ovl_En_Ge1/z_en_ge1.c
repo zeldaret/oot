@@ -48,7 +48,7 @@ ActorProfile En_Ge1_Profile = {
     /**/ EnGe1_Draw,
 };
 
-static ColliderCylinderInit D_80A32770 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -81,7 +81,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
                        this->unk23C, 16);
     Animation_PlayOnce(&this->unk198, &object_ge1_000228_Anim);
     Collider_InitCylinder(play, &this->unk14C);
-    Collider_SetCylinder(play, &this->unk14C, &this->actor, &D_80A32770);
+    Collider_SetCylinder(play, &this->unk14C, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->unk2B0 = &object_ge1_000228_Anim;
     this->unk2B8 = func_80A323B0;

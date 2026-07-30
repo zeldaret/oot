@@ -73,7 +73,7 @@ static ColliderQuadInit D_80B288A0 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static ColliderCylinderInit D_80B288F0 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_HIT8,
         AT_ON | AT_TYPE_ENEMY,
@@ -123,7 +123,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     Collider_InitQuad(play, &this->unk37C);
     Collider_SetQuad(play, &this->unk37C, &this->actor, &D_80B288A0);
     Collider_InitCylinder(play, &this->unk3FC);
-    Collider_SetCylinder(play, &this->unk3FC, &this->actor, &D_80B288F0);
+    Collider_SetCylinder(play, &this->unk3FC, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80B28924, &D_80B2891C);
     func_80B26878(this);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;

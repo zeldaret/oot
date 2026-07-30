@@ -29,7 +29,7 @@ void func_808922B8(BgIceTurara*, PlayState*);
 void func_80892424(BgIceTurara*, PlayState*);
 void func_80892574(BgIceTurara*, PlayState*);
 
-static ColliderCylinderInit D_80892620 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -79,7 +79,7 @@ void BgIceTurara_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002594, &sp24);
     Collider_InitCylinder(play, &this->unk16C);
-    Collider_SetCylinder(play, &this->unk16C, &this->dyna.actor, &D_80892620);
+    Collider_SetCylinder(play, &this->unk16C, &this->dyna.actor, &sCylinderInit);
     Collider_UpdateCylinder(&this->dyna.actor, &this->unk16C);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp24);
     if (this->dyna.actor.params == 0) {

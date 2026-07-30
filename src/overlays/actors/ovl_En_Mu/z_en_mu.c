@@ -26,7 +26,7 @@ void EnMu_Draw(Actor* thisx, PlayState* play);
 void EnMu_Pose(EnMu* this, PlayState* play);
 s16 EnMu_UpdateTalkState(PlayState* play, Actor* thisx);
 
-static ColliderCylinderInit D_80AB0BD0 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -146,7 +146,7 @@ void EnMu_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 160.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &object_mu_Skel_004F70, &object_mu_Anim_0003F4, NULL, NULL, 0);
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->actor, &D_80AB0BD0);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AB0BFC);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);

@@ -19,7 +19,7 @@ void BgPoSyokudai_Destroy(Actor* thisx, PlayState* play);
 void BgPoSyokudai_Update(Actor* thisx, PlayState* play);
 void BgPoSyokudai_Draw(Actor* thisx, PlayState* play);
 
-static ColliderCylinderInit D_808A8960 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_METAL,
         AT_NONE,
@@ -79,7 +79,7 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     Lights_PointGlowSetInfo(&this->unk154, this->actor.world.pos.x, (s16)this->actor.world.pos.y + 65,
                             this->actor.world.pos.z, 0, 0, 0, 0);
     Collider_InitCylinder(play, &this->unk164);
-    Collider_SetCylinder(play, &this->unk164, &this->actor, &D_808A8960);
+    Collider_SetCylinder(play, &this->unk164, &this->actor, &sCylinderInit);
     this->unk164.dim.pos.x = this->actor.world.pos.x;
     this->unk164.dim.pos.y = this->actor.world.pos.y;
     this->unk164.dim.pos.z = this->actor.world.pos.z;

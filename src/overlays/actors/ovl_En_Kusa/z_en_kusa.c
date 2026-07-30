@@ -60,7 +60,7 @@ static s16 D_80A9C200[4] = {
     OBJECT_KUSA,
     OBJECT_KUSA,
 };
-static ColliderCylinderInit D_80A9C208 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -220,7 +220,7 @@ void func_80A9B630(Actor* thisx, PlayState* play) {
     EnKusa* this = (EnKusa*)thisx;
 
     Collider_InitCylinder(play, &this->unk150);
-    Collider_SetCylinder(play, &this->unk150, &this->actor, &D_80A9C208);
+    Collider_SetCylinder(play, &this->unk150, &this->actor, &sCylinderInit);
     Collider_UpdateCylinder(&this->actor, &this->unk150);
 }
 

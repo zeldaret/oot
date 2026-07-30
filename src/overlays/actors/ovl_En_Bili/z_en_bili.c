@@ -66,7 +66,7 @@ ActorProfile En_Bili_Profile = {
     /**/ EnBili_Draw,
 };
 
-static ColliderCylinderInit D_809C1640 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_HIT8,
         AT_ON | AT_TYPE_ENEMY,
@@ -108,7 +108,7 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(play, &this->unk14C, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->unk198, this->unk1B6, 5);
     Collider_InitCylinder(play, &this->unk1D4);
-    Collider_SetCylinder(play, &this->unk1D4, &this->actor, &D_809C1640);
+    Collider_SetCylinder(play, &this->unk1D4, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_809C1678, &D_809C166C);
     this->unk195 = 0;
     if (this->actor.params == -1) {

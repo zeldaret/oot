@@ -49,7 +49,7 @@ ActorProfile En_Wood02_Profile = {
     /**/ EnWood02_Update,
     /**/ EnWood02_Draw,
 };
-static ColliderCylinderInit D_80B3BF00 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_TREE,
         AT_NONE,
@@ -179,7 +179,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (this->actor.params < EN_WOOD_02_TYPE_11) {
         Collider_InitCylinder(play, &this->unk158);
-        Collider_SetCylinder(play, &this->unk158, &this->actor, &D_80B3BF00);
+        Collider_SetCylinder(play, &this->unk158, &this->actor, &sCylinderInit);
         var_t0_sp4E = 0;
     }
     switch (this->actor.params) {

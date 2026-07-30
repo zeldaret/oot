@@ -42,7 +42,7 @@ ActorProfile En_Ge3_Profile = {
     /**/ EnGe3_Draw,
 };
 
-static ColliderCylinderInit D_80A35190 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -83,7 +83,7 @@ void EnGe3_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->unk198, &gGerudoRedSkel, NULL, this->unk1DC, this->unk26C, 24);
     Animation_PlayLoop(&this->unk198, &gGerudoRedStandAnim);
     Collider_InitCylinder(play, &this->unk14C);
-    Collider_SetCylinder(play, &this->unk14C, &this->actor, &D_80A35190);
+    Collider_SetCylinder(play, &this->unk14C, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.world.rot.z = 0;

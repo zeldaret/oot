@@ -71,7 +71,7 @@ ActorProfile Bg_Haka_Trap_Profile = {
     /**/ BgHakaTrap_Draw,
 };
 
-ColliderCylinderInit D_80880F54 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
@@ -132,7 +132,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     spikedCrusherFlipPtr = &sSpikedCrusherFlip;
     if (this->dyna.actor.params != BG_HAKA_TRAP_FAN_BLADE) {
         Collider_InitCylinder(play, &this->unk178);
-        Collider_SetCylinder(play, &this->unk178, &this->dyna.actor, &D_80880F54);
+        Collider_SetCylinder(play, &this->unk178, &this->dyna.actor, &sCylinderInit);
         if ((this->dyna.actor.params == BG_HAKA_TRAP_GUILLOTINE) ||
             (this->dyna.actor.params == BG_HAKA_TRAP_GUILLOTINE_FAST)) {
             this->unk168 = 0x14;

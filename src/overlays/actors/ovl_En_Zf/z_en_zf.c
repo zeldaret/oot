@@ -93,7 +93,7 @@ ActorProfile En_Zf_Profile = {
     /**/ EnZf_Draw,
 };
 
-static ColliderCylinderInit D_80B4A1D8 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_HIT0,
         AT_NONE,
@@ -261,7 +261,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.cylRadius = 40;
     this->actor.colChkInfo.cylHeight = 100;
     Collider_InitCylinder(play, &this->unk418);
-    Collider_SetCylinder(play, &this->unk418, &this->actor, &D_80B4A1D8);
+    Collider_SetCylinder(play, &this->unk418, &this->actor, &sCylinderInit);
     Collider_InitQuad(play, &this->unk464);
     Collider_SetQuad(play, &this->unk464, &this->actor, &D_80B4A204);
     if (this->actor.params == -2) {

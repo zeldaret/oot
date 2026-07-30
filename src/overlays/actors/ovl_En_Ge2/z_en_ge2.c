@@ -49,7 +49,7 @@ ActorProfile En_Ge2_Profile = {
     /**/ EnGe2_Draw,
 };
 
-static ColliderCylinderInit D_80A34310 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -108,7 +108,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->unk198, &object_gla_008968_Skel, NULL, this->unk1DC, this->unk260, 22);
     Animation_PlayLoop(&this->unk198, &object_gla_009ED4_Anim);
     Collider_InitCylinder(play, &this->unk14C);
-    Collider_SetCylinder(play, &this->unk14C, &this->actor, &D_80A34310);
+    Collider_SetCylinder(play, &this->unk14C, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     if (play->sceneId == SCENE_GERUDO_VALLEY) {
