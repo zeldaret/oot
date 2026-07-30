@@ -201,7 +201,7 @@ void func_809BFB5C(EnBili* this) {
     this->unk196 = 0x60;
     this->actor.speed = 0.9f;
     this->actor.home.pos.y = this->actor.world.pos.y;
-    this->collider.base.atFlags |= 1;
+    this->collider.base.atFlags |= AT_ON;
     this->unk190 = func_809C0600;
 }
 
@@ -597,10 +597,10 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
-        if (this->collider.base.atFlags & 1) {
+        if (this->collider.base.atFlags & AT_ON) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
-        if (this->collider.base.acFlags & 1) {
+        if (this->collider.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

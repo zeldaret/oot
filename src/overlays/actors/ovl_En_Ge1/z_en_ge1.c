@@ -228,7 +228,7 @@ void func_80A30F48(EnGe1* this, PlayState* play) {
     if ((ABS(temp_v0) < 0x4301) && (this->actor.xzDistToPlayer < 100.0f)) {
         func_80A30EE8(this, play);
     }
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         func_80A30EE8(this, play);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
@@ -269,7 +269,7 @@ void func_80A310C4(EnGe1* this, PlayState* play) {
     if ((this->actor.xzDistToPlayer < 50.0f) || ((ABS(temp_v0) < 0x4301) && (this->actor.xzDistToPlayer < 400.0f))) {
         func_80A30EE8(this, play);
     }
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         func_80A30EE8(this, play);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

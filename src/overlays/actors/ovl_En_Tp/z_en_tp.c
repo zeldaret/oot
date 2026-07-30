@@ -151,7 +151,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     if (this->actor.params < 0) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->unk15A = 0;
-        this->collider.base.acFlags |= 4;
+        this->collider.base.acFlags |= AC_HARD;
         this->collider.elements[0].dim.worldSphere.radius = 8;
         this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius;
         func_80B21B90(this);
@@ -532,7 +532,7 @@ void func_80B221E8(EnTp* this, PlayState* play) {
         if (this->actor.params < 0) {
             var_s2 = 1;
         }
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
         this->unk158 = this->actor.colChkInfo.damageReaction;
         if (this->actor.colChkInfo.damageReaction != 0) {

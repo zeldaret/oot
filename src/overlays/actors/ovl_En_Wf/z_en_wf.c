@@ -713,7 +713,7 @@ void func_80B35024(EnWf* this, PlayState* play) {
 
 void func_80B35540(EnWf* this) {
     Animation_PlayOnce(&this->skelAnime, &object_wf_Anim_004638);
-    this->unk304.base.atFlags &= ~4;
+    this->unk304.base.atFlags &= ~AT_BOUNCED;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk2D4 = 8;
     this->unk2FA = 0;
