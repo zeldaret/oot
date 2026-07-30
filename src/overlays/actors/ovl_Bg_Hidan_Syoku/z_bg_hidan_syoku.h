@@ -15,4 +15,4 @@ typedef struct BgHidanSyoku {
     /* 0x016A */ s16 unk_16A;
 } BgHidanSyoku; // size = 0x016C
 
-#endif;
+#endif

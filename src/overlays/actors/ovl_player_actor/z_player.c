@@ -110,10 +110,10 @@ typedef enum AnimSfxType {
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
 
-#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame)&0x7FF)))
+#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame) & 0x7FF)))
 
-#define ANIMSFX_GET_TYPE(data) ((data)&0x7800)
-#define ANIMSFX_GET_FRAME(data) ((data)&0x7FF)
+#define ANIMSFX_GET_TYPE(data) ((data) & 0x7800)
+#define ANIMSFX_GET_FRAME(data) ((data) & 0x7FF)
 
 typedef struct AnimSfxEntry {
     /* 0x00 */ u16 sfxId;
@@ -794,9 +794,9 @@ static GetItemEntry sGetItemTable[] = {
     // GI_BULLET_BAG_50
     GET_ITEM(ITEM_BULLET_BAG_50, OBJECT_GI_DEKUPOUCH, GID_BULLET_BAG_50, 0x6C, 0x80, CHEST_ANIM_LONG),
     // GI_ICE_TRAP
-    { ITEM_NONE },
+    { ITEM_NONE, 0, 0, 0, 0 },
     // GI_TEXT_0
-    { ITEM_NONE },
+    { ITEM_NONE, 0, 0, 0, 0 },
 };
 
 #define GET_PLAYER_ANIM(group, type) D_80853914[group * PLAYER_ANIMTYPE_MAX + type]
@@ -5357,7 +5357,7 @@ f32 func_8083973C(PlayState* play, Player* this, Vec3f* arg2, Vec3f* arg3) {
  * Point B of the line is at player's world position offset by the entire `offset` vector.
  * Point A and B are always at the same height, meaning this is a horizontal line test.
  */
-s32 Player_PosVsWallLineTest(PlayState* play, Player* this, Vec3f* offset, CollisionPoly** wallPoly, u32* bgId,
+s32 Player_PosVsWallLineTest(PlayState* play, Player* this, Vec3f* offset, CollisionPoly** wallPoly, s32* bgId,
                              Vec3f* posResult) {
     Vec3f posA;
     Vec3f posB;
@@ -5750,7 +5750,7 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
     //! The intention seems to be to prevent ledge hanging or vine grabbing when walking off of a steep enough slope.
     if ((this->actor.depthInWater < -80.0f) && (ABS(this->floorPitch) < 0xAAA) && (ABS(this->floorPitchAlt) < 0xAAA)) {
         CollisionPoly* sp84;
-        u32 sp80;
+        s32 sp80;
         Vec3f sp74;
         Vec3f sp68;
         f32 temp1;
@@ -7682,7 +7682,7 @@ s32 Player_TryEnteringCrawlspace(Player* this, PlayState* play, u32 interactWall
 
 s32 func_8083F360(PlayState* play, Player* this, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     CollisionPoly* wallPoly;
-    u32 wallBgId;
+    s32 wallBgId;
     Vec3f sp6C;
     Vec3f sp60;
     Vec3f sp54;
@@ -9066,7 +9066,7 @@ void func_80842D20(PlayState* play, Player* this) {
 s32 func_80842DF4(PlayState* play, Player* this) {
     f32 phi_f2;
     CollisionPoly* groundPoly;
-    u32 bgId;
+    s32 bgId;
     Vec3f sp68;
     Vec3f sp5C;
     Vec3f baseToTip;
@@ -11190,7 +11190,7 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         CollisionPoly* wallPoly;
-        u32 wallBgId;
+        s32 wallBgId;
         s16 yawDiff;
         s32 pad;
 
@@ -11242,7 +11242,7 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
                 f32 yDistToLedge;
                 CollisionPoly* ledgeFloorPoly;
                 CollisionPoly* poly;
-                u32 bgId;
+                s32 bgId;
                 Vec3f ledgeCheckPos;
                 f32 ledgePosY;
                 f32 ceillingPosY;
@@ -12723,7 +12723,7 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
         Vec3f sp5C;
         f32 temp2;
         CollisionPoly* sp54;
-        u32 sp50;
+        s32 sp50;
         Vec3f sp44;
         Vec3f sp38;
 
@@ -13099,7 +13099,7 @@ int func_8084C89C(PlayState* play, Player* this, s32 arg2, f32* arg3) {
     Vec3f sp40;
     Vec3f sp34;
     CollisionPoly* sp30;
-    u32 sp2C;
+    s32 sp2C;
 
     sp50 = rideActor->actor.world.pos.y + 20.0f;
     sp4C = rideActor->actor.world.pos.y - 20.0f;

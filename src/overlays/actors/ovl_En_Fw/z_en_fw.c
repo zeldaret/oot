@@ -111,7 +111,7 @@ s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
 s32 EnFw_PlayerInRange(EnFw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     CollisionPoly* poly;
-    u32 bgId;
+    s32 bgId;
     Vec3f collisionPos;
 
     if (this->actor.xzDistToPlayer > 300.0f) {

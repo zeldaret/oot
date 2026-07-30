@@ -15,7 +15,7 @@ STATIC const u32 wt_mseq_code[0x10] = {
 };
 
 void leoSet_mseq(u16 rwmode) {
-    u32* tbl;
+    const u32* tbl;
     u32 sct_byte_x;
     u32 sct_byte_u;
     u8 i;

@@ -42,7 +42,6 @@ typedef struct struct_80893EF4 {
     /* 0x0C */ s16 unkC;
     /* 0x0E */ s16 unkE;
     /* 0x10 */ s16 unk10;
-    /* 0x12 */ char pad12[2];
 } struct_80893EF4;
 static struct_80893EF4 D_80893EF4[2] = {
     { { -560.0f, 1743.0f, -310.0f }, -0xFF, 0x4000, 0x8000 },

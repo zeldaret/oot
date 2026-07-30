@@ -45,7 +45,7 @@ typedef enum BgDdanJdState {
     STATE_GO_BOTTOM,
     STATE_GO_MIDDLE_FROM_BOTTOM,
     STATE_GO_MIDDLE_FROM_TOP,
-    STATE_GO_TOP,
+    STATE_GO_TOP
 } BgDdanJdState;
 
 #define MOVE_HEIGHT_MIDDLE 140.0f

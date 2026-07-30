@@ -868,7 +868,7 @@ void EnRu2_StartSwimmingUp(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_EndSwimmingUp(EnRu2* this, PlayState* play) {
-    if (this->swimmingUpFrame > (((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96)) & 0xFFFF)) {
+    if (this->swimmingUpFrame > (((u16)(kREG(3) + 0x28) + (u16)(kREG(2) + 0x96)) & 0xFFFF)) {
         Actor_Kill(&this->actor);
     }
 }

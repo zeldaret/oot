@@ -121,7 +121,7 @@ typedef enum ShellbladeBehavior {
     /* 0x01 */ SHELLBLADE_WAIT_CLOSED,
     /* 0x02 */ SHELLBLADE_WAIT_OPEN,
     /* 0x03 */ SHELLBLADE_LUNGE,
-    /* 0x04 */ SHELLBLADE_BOUNCE,
+    /* 0x04 */ SHELLBLADE_BOUNCE
 } ShellbladeBehavior;
 
 void EnSb_Init(Actor* thisx, PlayState* play) {

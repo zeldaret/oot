@@ -76,6 +76,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
         PRINTF(T("Warning : セット位置が変更されています。プログラムを修正しましょう。\n",
                  "Warning : The set position has been changed. Let's fix the program.\n"));
     }
+    //! @bug rot.y is a s16, it will never equal 0x8000
     if (this->dyna.actor.home.rot.y != 0x8000) {
         PRINTF(T("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n",
                  "Warning : The set Angle has changed. Let's fix the program.\n"));

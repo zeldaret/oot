@@ -4,7 +4,7 @@
 
 extern u16 LEOrw_flags;
 
-void (*cmd_tbl[])() = {
+void (*cmd_tbl[])(void) = {
     NULL,          leoClr_queue, leoInquiry,    leoTest_unit_rdy, leoRezero,    leoRead,
     leoWrite,      leoSeek,      leoStart_stop, leoRd_capacity,   leoTranslate, leoMode_sel,
     leoReadDiskId, leoReadTimer, leoSetTimer,   leoClr_reset,
