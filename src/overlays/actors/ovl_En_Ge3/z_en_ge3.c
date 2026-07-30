@@ -30,9 +30,6 @@ void func_80A34A80(EnGe3* this, PlayState* play);
 void func_80A34B90(EnGe3* this, PlayState* play);
 void func_80A34D68(Actor* thisx, PlayState* play);
 
-extern FlexSkeletonHeader D_600A458;
-extern AnimationHeader D_600B07C;
-
 ActorProfile En_Ge3_Profile = {
     /**/ ACTOR_EN_GE3,
     /**/ ACTORCAT_NPC,
@@ -66,7 +63,7 @@ static ColliderCylinderInit D_80A35190 = {
 };
 
 static void (*D_80A351BC[1])(EnGe3*, PlayState*) = { func_80A34A80 };
-static AnimationHeader* D_80A351C0[1] = { &D_600B07C };
+static AnimationHeader* D_80A351C0[1] = { &gGerudoRedStandAnim };
 static u8 D_80A351C4[1] = { ANIMMODE_LOOP };
 static Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
 static s32 D_80A351D4[3] = { 0x06005FE8, 0x060065A8, 0x06006D28 };
@@ -83,8 +80,8 @@ void EnGe3_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->unk198, &D_600A458, NULL, this->unk1DC, this->unk26C, 24);
-    Animation_PlayLoop(&this->unk198, &D_600B07C);
+    SkelAnime_InitFlex(play, &this->unk198, &gGerudoRedSkel, NULL, this->unk1DC, this->unk26C, 24);
+    Animation_PlayLoop(&this->unk198, &gGerudoRedStandAnim);
     Collider_InitCylinder(play, &this->unk14C);
     Collider_SetCylinder(play, &this->unk14C, &this->actor, &D_80A35190);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
