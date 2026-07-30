@@ -1,3 +1,5 @@
+#include "animation.h"
+#include "animation_curve.h"
 #include "gfx.h"
 #include "printf.h"
 #include "regs.h"
@@ -7,8 +9,6 @@
 #include "zelda_arena.h"
 #include "actor.h"
 #include "play_state.h"
-
-#include "functions.h"
 
 void SkelCurve_Clear(SkelAnimeCurve* skelCurve) {
     skelCurve->limbCount = 0;

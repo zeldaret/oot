@@ -1,6 +1,7 @@
 #include "z_demo_tre_lgt.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 
+#include "animation_curve.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -8,8 +9,6 @@
 #include "translation.h"
 #include "play_state.h"
 #include "save.h"
-
-#include "functions.h"
 
 #include "assets/objects/object_box/object_box.h"
 

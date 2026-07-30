@@ -6,6 +6,7 @@
 
 #include "z_magic_wind.h"
 
+#include "animation_curve.h"
 #include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -14,8 +15,6 @@
 #include "translation.h"
 #include "play_state.h"
 #include "player.h"
-
-#include "functions.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 

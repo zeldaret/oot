@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
+#include "animation_curve.h"
 
 struct MagicWind;
 

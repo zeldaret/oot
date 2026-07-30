@@ -15,7 +15,7 @@
 #include "skin_matrix.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:40 ntsc-1.1:40 ntsc-1.2:40"
+                               "ique-cn:128 ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);

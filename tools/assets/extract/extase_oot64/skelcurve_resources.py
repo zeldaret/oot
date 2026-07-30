@@ -83,7 +83,7 @@ class TransformDataArrayResource(CDataResource, can_size_be_unknown=True):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("animation.h",)
+        return ("animation_curve.h",)
 
 
 class ConstantDataArrayResource(CDataResource, can_size_be_unknown=True):
@@ -254,7 +254,7 @@ class TransformUpdateIndexResource(CDataResource):
         raise ValueError()
 
     def get_h_includes(self):
-        return ("animation.h",)
+        return ("animation_curve.h",)
 
 
 class SkelCurveLimbResource(CDataResource):
@@ -283,7 +283,7 @@ class SkelCurveLimbResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("animation.h",)
+        return ("animation_curve.h",)
 
 
 class SkelCurveLimbArrayResource(CDataResource):
@@ -328,7 +328,7 @@ class SkelCurveLimbArrayResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("animation.h",)
+        return ("animation_curve.h",)
 
 
 class SkelCurveLimbListResource(CDataResource):
@@ -375,4 +375,4 @@ class SkelCurveLimbListResource(CDataResource):
         raise ValueError()
 
     def get_h_includes(self):
-        return ("animation.h",)
+        return ("animation_curve.h",)

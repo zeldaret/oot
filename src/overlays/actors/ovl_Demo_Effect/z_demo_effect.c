@@ -2,6 +2,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "animation_curve.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -22,8 +23,6 @@
 #include "effect.h"
 #include "play_state.h"
 #include "save.h"
-
-#include "functions.h"
 
 #include "assets/objects/gameplay_keep/eff_flash.h"
 #include "assets/objects/object_efc_crystal_light/object_efc_crystal_light.h"
