@@ -122,7 +122,7 @@ static DamageTable sDamageTable = {
     /* Hammer jump   */ DMG_ENTRY(4, 0xE),
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
-static InitChainEntry D_80B22AE4[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
 };
 
@@ -138,7 +138,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     s64 new_var;
 
-    Actor_ProcessInitChain(&this->actor, D_80B22AE4);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);

@@ -121,7 +121,7 @@ static DamageTable sDamageTable = {
     /* Hammer jump   */ DMG_ENTRY(4, 0x0),
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
-static InitChainEntry D_809C1698[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BIRI, ICHAIN_CONTINUE),
     ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_STOP),
 };
@@ -131,7 +131,7 @@ static Color_RGBA8 D_809C16A4 = { 0xC8, 0xFF, 0xFF, 0xFF };
 void EnBili_Init(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
 
-    Actor_ProcessInitChain(&this->actor, D_809C1698);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(play, &this->skelAnime, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->jointTable,

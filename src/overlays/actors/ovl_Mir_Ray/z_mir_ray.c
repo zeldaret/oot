@@ -216,7 +216,7 @@ static struct_80B8E6F8 D_80B8E6F8[0xA] = {
         UNK1F_0 | UNK1F_1,
     },
 };
-static InitChainEntry D_80B8E838[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
@@ -278,7 +278,7 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     MirRay* this = (MirRay*)thisx;
 
     temp_s1 = &D_80B8E6F8[this->actor.params];
-    Actor_ProcessInitChain(&this->actor, D_80B8E838);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     PRINTF("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 #if DEBUG_FEATURES

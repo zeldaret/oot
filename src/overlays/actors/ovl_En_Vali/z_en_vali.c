@@ -128,7 +128,7 @@ static DamageTable sDamageTable = {
     /* Hammer jump   */ DMG_ENTRY(4, 0x0),
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
-static InitChainEntry D_80B28944[3] = {
+static InitChainEntry sInitChain[3] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BARI, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(lockOnArrowOffset, 5000, ICHAIN_STOP),
@@ -141,7 +141,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     EnVali* this = (EnVali*)thisx;
     s32 sp34;
 
-    Actor_ProcessInitChain(&this->actor, D_80B28944);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(play, &this->skelAnime, &object_vali_004848_Skel, &object_vali_Anim_0014AC, this->jointTable,

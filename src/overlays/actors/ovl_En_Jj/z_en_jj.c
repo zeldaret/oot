@@ -190,7 +190,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 170, 150, 0, { 0, 0, 0 } },
 };
 
-static InitChainEntry D_80A88CE0[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 87, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 3300, ICHAIN_CONTINUE),
@@ -209,7 +209,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* sp4C;
 
     sp4C = NULL;
-    Actor_ProcessInitChain(&this->dyna.actor, D_80A88CE0);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
     switch (this->dyna.actor.params) {
         case -1:

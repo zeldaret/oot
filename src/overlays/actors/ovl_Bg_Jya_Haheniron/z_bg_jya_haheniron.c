@@ -51,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 };
 static ColliderJntSphInit sJntSphInit = { { 0xA, 0x11, 1, 0, 0, 0 }, 1, sJntSphElementsInit };
 static s16 D_80898774[5] = { 5, 8, 0xB, 0xE, 0x11 };
-static InitChainEntry D_80898780[5] = {
+static InitChainEntry sInitChain[5] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),      ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
@@ -104,7 +104,7 @@ void func_80898114(PlayState* play, Vec3f* arg1, Vec3f* arg2) {
 void BgJyaHaheniron_Init(Actor* thisx, PlayState* play) {
     BgJyaHaheniron* this = (BgJyaHaheniron*)thisx;
 
-    Actor_ProcessInitChain(&this->actor, D_80898780);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, D_80898794[this->actor.params]);
     if (this->actor.params == 0) {
         func_808980C0(this, play);

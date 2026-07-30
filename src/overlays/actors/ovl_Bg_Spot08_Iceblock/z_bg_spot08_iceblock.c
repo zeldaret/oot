@@ -47,7 +47,7 @@ static f32 D_808B16C8[3] = { 1.4285714e-8f, 5.714286e-9f, 1.4285715e-9f };
 static f32 D_808B16D4[3] = { 0.96f, 0.96f, 0.98f };
 static f32 D_808B16E0[3] = { 0.22495104f, 0.22495104f, 0.03489947f };
 static f32 D_808B16EC[3] = { 0.97437006f, 0.97437006f, 0.99939084f };
-static InitChainEntry D_808B16F8[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeDistance, 3000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 2200, ICHAIN_STOP),
@@ -286,7 +286,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    Actor_ProcessInitChain(&this->dyna.actor, D_808B16F8);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 4, 4)) {
         case 0:
             Actor_SetScale(&this->dyna.actor, 0.2f);

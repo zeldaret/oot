@@ -207,7 +207,7 @@ ActorProfile En_Wf_Profile = {
     /**/ EnWf_Draw,
 };
 
-static InitChainEntry D_80B37AC8[2] = {
+static InitChainEntry sInitChain[2] = {
     ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
@@ -225,7 +225,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     EnWf* this = (EnWf*)thisx;
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, D_80B37AC8);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;

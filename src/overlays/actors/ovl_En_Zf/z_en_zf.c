@@ -167,7 +167,7 @@ static DamageTable sDamageTable = {
     /* Hammer jump   */ DMG_ENTRY(4, 0x0),
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
-static InitChainEntry D_80B4A274[3] = {
+static InitChainEntry sInitChain[3] = {
     ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
@@ -261,7 +261,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     EnZf* this = (EnZf*)thisx;
 
     player = GET_PLAYER(play);
-    Actor_ProcessInitChain(&this->actor, D_80B4A274);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->unk3FC = PARAMS_GET_S(thisx->params, 8, 8);
     this->actor.params &= 0xFF;

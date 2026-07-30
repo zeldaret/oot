@@ -115,7 +115,7 @@ static ColliderTrisElementInit sSpikedWallTrisElementsInit[2] = {
 static ColliderTrisInit sSpikedWallTrisInit = { { 0xA, 0, 9, 0, 0x20, 2 }, 2, sSpikedWallTrisElementsInit };
 CollisionCheckInfoInit D_80881008 = { 0, 0x50, 0x64, 0xFF };
 
-InitChainEntry D_80881010[] = {
+InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -127,7 +127,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* sp2C;
 
     sp2C = NULL;
-    Actor_ProcessInitChain(&this->dyna.actor, D_80881010);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->dyna.actor.params &= 0xFF;
     spikedCrusherFlipPtr = &sSpikedCrusherFlip;
     if (this->dyna.actor.params != BG_HAKA_TRAP_FAN_BLADE) {

@@ -143,7 +143,7 @@ ActorProfile En_Skb_Profile = {
 
 static Vec3f D_80AFE0B8 = { 0.0f, 8.0f, 0.0f };
 static Vec3f D_80AFE0C4 = { 0.0f, -1.5f, 0.0f };
-static InitChainEntry D_80AFE0D0[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
@@ -175,7 +175,7 @@ void func_80AFC9A8(PlayState* play, EnSkb* this, Vec3f* arg2) {
 void EnSkb_Init(Actor* thisx, PlayState* play) {
     EnSkb* this = (EnSkb*)thisx;
 
-    Actor_ProcessInitChain(&this->actor, D_80AFE0D0);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;

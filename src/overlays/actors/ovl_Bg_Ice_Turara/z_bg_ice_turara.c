@@ -59,7 +59,7 @@ ActorProfile Bg_Ice_Turara_Profile = {
     /**/ BgIceTurara_Update,
     /**/ BgIceTurara_Draw,
 };
-static InitChainEntry D_8089266C[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeScale, 600, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -3, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -30, ICHAIN_CONTINUE),
@@ -75,7 +75,7 @@ void BgIceTurara_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* sp24;
 
     sp24 = NULL;
-    Actor_ProcessInitChain(&this->dyna.actor, D_8089266C);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002594, &sp24);
     Collider_InitCylinder(play, &this->collider);

@@ -63,7 +63,7 @@ ActorProfile Bg_Po_Syokudai_Profile = {
     /**/ BgPoSyokudai_Draw,
 };
 
-static InitChainEntry D_808A89CC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -71,7 +71,7 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, D_808A89CC);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->unk14C = PARAMS_GET_U(thisx->params, 8, 8);
     this->actor.params &= 0x3F;
     this->actor.colChkInfo.mass = 0xFF;

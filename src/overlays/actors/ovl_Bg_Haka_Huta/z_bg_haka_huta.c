@@ -39,7 +39,7 @@ ActorProfile Bg_Haka_Huta_Profile = {
     /**/ BgHakaHuta_Update,
     /**/ BgHakaHuta_Draw,
 };
-static InitChainEntry D_8087D940[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 static Vec3f D_8087D944 = { 0.0f, 0.0f, 0.0f };
@@ -52,7 +52,7 @@ void BgHakaHuta_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* sp24;
 
     sp24 = NULL;
-    Actor_ProcessInitChain(&this->dyna.actor, D_8087D940);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gBotwCoffinLidCol, &sp24);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp24);

@@ -96,7 +96,7 @@ ActorProfile En_Fish_Profile = {
     /**/ EnFish_Draw,
 };
 
-static InitChainEntry D_80A17070[4] = {
+static InitChainEntry sInitChain[4] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDistance, 900, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 40, ICHAIN_CONTINUE),
@@ -165,7 +165,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     s16 sp3A;
 
     sp3A = this->actor.params;
-    Actor_ProcessInitChain(&this->actor, D_80A17070);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gFishSkel, &gFish2Anim, this->unk1F0, this->unk21A, 7);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);

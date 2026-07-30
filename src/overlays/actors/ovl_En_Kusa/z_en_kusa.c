@@ -89,7 +89,7 @@ static Vec3f sUnitDirections[4] = {
 static s16 sFragmentScales[8] = {
     0x6C, 0x66, 0x60, 0x54, 0x42, 0x37, 0x2A, 0x26,
 };
-static InitChainEntry D_80A9C27C[6] = {
+static InitChainEntry sInitChain[6] = {
     ICHAIN_VEC3F_DIV1000(scale, 400, ICHAIN_CONTINUE),         ICHAIN_F32_DIV1000(gravity, -3200, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE),      ICHAIN_F32(cullingVolumeDownward, 120, ICHAIN_STOP),
@@ -227,7 +227,7 @@ void func_80A9B630(Actor* thisx, PlayState* play) {
 void EnKusa_Init(Actor* thisx, PlayState* play) {
     EnKusa* this = (EnKusa*)thisx;
 
-    Actor_ProcessInitChain(&this->actor, D_80A9C27C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     if (play->csCtx.state != CS_STATE_IDLE) {
         this->actor.cullingVolumeDistance += 1000.0f;
     }

@@ -59,7 +59,7 @@ typedef struct struct_80BA0AF0 {
 } struct_80BA0AF0;
 struct_80BA0AF0 D_80BA0AF0[2] = { { 1.0f, 60.0f, 0x18 }, { 0.6f, 40.0f, 0x19 } };
 static f32 D_80BA0B08[8] = { 60.0f, 100.0f, 140.0f, 180.0f, 220.0f, 260.0f, 300.0f, 300.0f };
-static InitChainEntry D_80BA0B28[4] = {
+static InitChainEntry sInitChain[4] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDistance, 1800, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 300, ICHAIN_CONTINUE),
@@ -122,7 +122,7 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
     CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &sp2C);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp2C);
-    Actor_ProcessInitChain(&this->dyna.actor, D_80BA0B28);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Actor_SetScale(&this->dyna.actor, D_80BA0AF0[PARAMS_GET_U(this->dyna.actor.params, 8, 1)].unk0);
     if (PARAMS_GET_U(this->dyna.actor.params, 6, 1)) {
         this->unk177 = 0;

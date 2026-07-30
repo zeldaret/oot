@@ -35,7 +35,7 @@ ActorProfile Bg_Toki_Hikari_Profile = {
     /**/ BgTokiHikari_Draw,
 };
 
-static InitChainEntry D_808BAC70[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -46,7 +46,7 @@ void BgTokiHikari_Init(Actor* thisx, PlayState* play) {
     temp_v0 = this->actor.params;
     switch (temp_v0) { /* irregular */
         case 0:
-            Actor_ProcessInitChain(&this->actor, D_808BAC70);
+            Actor_ProcessInitChain(&this->actor, sInitChain);
             this->unk150 = func_808B9F98;
             return;
         case 1:

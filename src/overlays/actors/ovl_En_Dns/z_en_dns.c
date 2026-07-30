@@ -154,7 +154,7 @@ static EnDnsPurchaseInfo* sEnDnsPurchaseInfos[] = {
     &sItemDekuStickUpgrade, // DNS_TYPE_DEKU_STICK_UPGRADE
     &sItemDekuNutUpgrade,   // DNS_TYPE_DEKU_NUT_UPGRADE
 };
-static InitChainEntry D_809F052C[3] = {
+static InitChainEntry sInitChain[3] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
@@ -178,7 +178,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
         this->actor.params = DNS_TYPE_DEKU_SEEDS_30;
     }
     PRINTF("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
-    Actor_ProcessInitChain(&this->actor, D_809F052C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim, this->unk190,
                        this->unk1FC, 0x12);
     Collider_InitCylinder(play, &this->collider);

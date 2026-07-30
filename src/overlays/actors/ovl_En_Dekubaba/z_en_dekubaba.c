@@ -215,7 +215,7 @@ static DamageTable D_809E9000 = {
     /* Hammer jump   */ DMG_ENTRY(4, 0x0),
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
-static InitChainEntry D_809E9020[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(lockOnArrowOffset, 1500, ICHAIN_STOP),
 };
 static Color_RGBA8 D_809E9024 = { 0x69, 0xFF, 0x69, 0xFF };
@@ -230,7 +230,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
     s32 var_a0;
     EnDekubaba* this = (EnDekubaba*)thisx;
 
-    Actor_ProcessInitChain(&this->actor, D_809E9020);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
     SkelAnime_Init(play, &this->skelAnime, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->jointTable,
                    this->morphTable, 8);
