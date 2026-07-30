@@ -11,6 +11,8 @@ Equivalent C code:
 
 extern s16 low_codepoints_lookup_table[];
 s32 KanjiTex_CodepointToOffset(s32 codepoint) {
+    s32 i;
+
     if (codepoint < 0x8800) {
         i = (codepoint & 0xFF) - 0x40;
         if (i >= 0x40) {
