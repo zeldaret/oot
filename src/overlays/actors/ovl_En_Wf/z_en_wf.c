@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wf.h"
+#include "src/overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -17,6 +18,7 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "terminal.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "audio.h"
@@ -215,7 +217,7 @@ static Vec3f D_80B37AD0 = { 0.0f, 0.5f, 0.0f };
 static Vec3f D_80B37ADC = { 1200.0f, 0.0f, 0.0f };
 static Vec3f D_80B37AE8 = { 0.0f, 0.0f, 0.0f };
 static s32 D_80B37AF4[4] = { 0x06007B68, 0x06008368, 0x06008568, 0x06008368 };
-static s32 D_80B37B04[7] = { 0x06000300, 0x060027D8, 0x060029D8, 0x060027D8, 0, 0, 0 };
+static s32 D_80B37B04[4] = { 0x06000300, 0x060027D8, 0x060029D8, 0x060027D8 };
 
 void func_80B33CB0(EnWf* this, void (*arg1)(EnWf*, PlayState*)) {
     this->unk2DC = arg1;
@@ -261,15 +263,9 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-typedef struct UnkActor {
-    Actor actor;
-    char pad14C[0x152 - 0x14C];
-    s16 unk152;
-} UnkActor;
-
 void EnWf_Destroy(Actor* thisx, PlayState* play) {
     EnWf* this = (EnWf*)thisx;
-    UnkActor* temp_v1;
+    EnEncount1* temp_v1;
 
     Collider_DestroyJntSph(play, &this->unk304);
     Collider_DestroyCylinder(play, &this->unk424);
@@ -278,14 +274,14 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
         func_800F5B58();
     }
     if ((this->actor.parent != NULL)) {
-        temp_v1 = (UnkActor*)this->actor.parent;
+        temp_v1 = (EnEncount1*)this->actor.parent;
         if ((temp_v1->actor.update != NULL)) {
 
-            if (temp_v1->unk152 > 0) {
-                temp_v1->unk152 -= 1;
+            if (temp_v1->curNumSpawn > 0) {
+                temp_v1->curNumSpawn--;
             }
             PRINTF("\n\n");
-            PRINTF("\x1b[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n\x1b[m", temp_v1->unk152);
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, temp_v1->unk152);
             PRINTF("\n\n");
         }
     }
@@ -311,11 +307,11 @@ s32 func_80B33FB0(PlayState* play, EnWf* this, s16 arg2) {
     if (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y) != 0) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             func_80B36288(this);
-            return 1;
+            return true;
         }
         if (play->gameplayFrames & 1) {
             func_80B36288(this);
-            return 1;
+            return true;
         }
     }
 
@@ -324,19 +320,19 @@ s32 func_80B33FB0(PlayState* play, EnWf* this, s16 arg2) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             if ((ABS(var_t0) < 0x2EE0) && (this->actor.xzDistToPlayer < 120.0f)) {
                 func_80B360E8(this);
-                return 1;
+                return true;
             }
         }
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             func_80B36288(this);
-            return 1;
+            return true;
         }
         if ((this->actor.xzDistToPlayer < 80.0f) && (play->gameplayFrames & 1)) {
             func_80B36288(this);
-            return 1;
+            return true;
         }
         func_80B35B94(this);
-        return 1;
+        return true;
     } else {
         Actor* temp_v0_2;
 
@@ -349,39 +345,39 @@ s32 func_80B33FB0(PlayState* play, EnWf* this, s16 arg2) {
                     if ((Actor_WorldDistXYZToActor(&this->actor, temp_v0_2) < 80.0f) &&
                         ((s16)(this->actor.shape.rot.y - temp_v0_2->world.rot.y + 0x8000) < 0x3E80)) {
                         func_80B360E8(this);
-                        return 1;
+                        return true;
                     }
                 }
                 func_80B365A8(this, play);
-                return 1;
+                return true;
             }
             func_80B35B94(this);
-            return 1;
+            return true;
         }
     }
 
-    if (arg2 != 0) {
+    if (arg2) {
         s16 temp_v1_3;
 
         if (var_v1 >= 0x1B58) {
             func_80B365A8(this, play);
-            return 1;
+            return true;
         }
         temp_v1_3 = player->actor.shape.rot.y - this->actor.shape.rot.y;
         if (this->actor.xzDistToPlayer <= 80.0f) {
-            if (Actor_OtherIsLockedOn(play, &this->actor) == 0) {
+            if (!Actor_OtherIsLockedOn(play, &this->actor)) {
 
                 if ((play->gameplayFrames & 7) || (ABS(temp_v1_3) < 0x38E0)) {
                     func_80B35540(this);
-                    return 1;
+                    return true;
                 }
             }
         }
         func_80B34F28(this);
 
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80B34380(EnWf* this) {
@@ -450,7 +446,7 @@ void func_80B345E4(EnWf* this, PlayState* play) {
     if (var_v1_sp26 < 0) {
         var_v1_sp26 *= -1;
     }
-    if (func_80B37830(play, this) == 0) {
+    if (!func_80B37830(play, this)) {
         if (this->unk2E0 != 0) {
             this->unk2E0 -= 1;
             if (var_v1_sp26 < 0x1FFE) {
@@ -458,7 +454,7 @@ void func_80B345E4(EnWf* this, PlayState* play) {
             } else {
                 return;
             }
-        } else if (func_80B33FB0(play, this, 0) != 0) {
+        } else if (func_80B33FB0(play, this, false)) {
             return;
         }
         var_v1_sp26 = player->actor.shape.rot.y - this->actor.shape.rot.y;
@@ -510,7 +506,7 @@ void func_80B3487C(EnWf* this, PlayState* play) {
 
     sp50_real = 0.0f;
     sp48_real = GET_PLAYER(play);
-    if (func_80B37830(play, this) == 0) {
+    if (!func_80B37830(play, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (Actor_OtherIsLockedOn(play, &this->actor)) {
@@ -560,7 +556,7 @@ void func_80B3487C(EnWf* this, PlayState* play) {
                 }
             }
         }
-        if (func_80B33FB0(play, this, 0) == 0) {
+        if (!func_80B33FB0(play, this, false)) {
             if ((play->gameplayFrames & 0x5F) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_WOLFOS_CRY);
             }
@@ -584,7 +580,7 @@ void func_80B34D48(EnWf* this, PlayState* play) {
     s16 temp_v0;
     s16 temp_v1;
 
-    if ((func_80B37830(play, this) == 0) && (func_80B33FB0(play, this, 0) == 0)) {
+    if (!func_80B37830(play, this) && !func_80B33FB0(play, this, false)) {
         temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         if (temp_v0 > 0) {
             temp_v1 = (temp_v0 * 0.25f) + 2000.0f;
@@ -649,7 +645,7 @@ void func_80B35024(EnWf* this, PlayState* play) {
     sp4C_real = 0.0f;
     player = GET_PLAYER(play);
     Math_SmoothStepToS(&this->actor.shape.rot.y, (s16)(this->actor.yawTowardsPlayer + this->unk2FE), 1, 0xFA0, 1);
-    if ((func_80B37830(play, this) == 0) && (func_80B33FB0(play, this, 0) == 0)) {
+    if (!func_80B37830(play, this) && !func_80B33FB0(play, this, false)) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         sp56_real = player->actor.shape.rot.y + this->unk2FE + 0x8000;
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
@@ -750,7 +746,7 @@ void func_80B355BC(EnWf* this, PlayState* play) {
             this->actor.shape.rot.y += (s16)(s32)(3276.0f * (1.5f + ((this->unk2E8 - 4) * 0.4f)));
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 50, 50, true);
             this->unk2E8 -= 1;
-        } else if ((Actor_IsFacingPlayer(&this->actor, 0x1554) == 0) && (var_a2_sp3C != 0xF)) {
+        } else if (!Actor_IsFacingPlayer(&this->actor, 0x1554) && (var_a2_sp3C != 0xF)) {
             func_80B3455C(this);
             this->unk2E8 = (s32)((Rand_ZeroOne() * 5.0f) + 5.0f);
             if (sp40 > 0x32C8) {
@@ -770,7 +766,7 @@ void func_80B355BC(EnWf* this, PlayState* play) {
                             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                             func_80B34F28(this);
                         } else {
-                            func_80B33FB0(play, this, 1);
+                            func_80B33FB0(play, this, true);
                         }
                     } else {
                         func_80B34F28(this);
@@ -827,7 +823,7 @@ void func_80B359A8(EnWf* this, PlayState* play) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     func_80B34F28(this);
                 } else {
-                    func_80B33FB0(play, this, 1);
+                    func_80B33FB0(play, this, true);
                 }
             } else {
                 func_80B34F28(this);
@@ -887,7 +883,7 @@ void func_80B35D90(EnWf* this, PlayState* play) {
         if (this->actor.colChkInfo.health == 0) {
             func_80B36C8C(this);
         } else {
-            func_80B33FB0(play, this, 1);
+            func_80B33FB0(play, this, true);
         }
     }
 }
@@ -920,7 +916,7 @@ void func_80B35EE4(EnWf* this, PlayState* play) {
         this->unk300 = 0;
     }
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
-    if ((func_80B33FB0(play, this, 0) == 0) && SkelAnime_Update(&this->skelAnime) &&
+    if (!func_80B33FB0(play, this, false) && SkelAnime_Update(&this->skelAnime) &&
         (((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) != 0))) {
         var_v1 = this->actor.wallYaw - this->actor.shape.rot.y;
         if (var_v1 < 0) {
@@ -929,7 +925,7 @@ void func_80B35EE4(EnWf* this, PlayState* play) {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(var_v1) < 0x2EE0) &&
             (this->actor.xzDistToPlayer < 120.0f)) {
             func_80B360E8(this);
-        } else if (func_80B37830(play, this) == 0) {
+        } else if (!func_80B37830(play, this)) {
             if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
                 ((play->gameplayFrames & 7) != 0)) {
                 func_80B35540(this);
@@ -1118,7 +1114,7 @@ void func_80B36740(EnWf* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
     absPlaySpeed = new_var = ABS(this->skelAnime.playSpeed);
-    if (func_80B33FB0(play, this, 0) == 0) {
+    if (!func_80B33FB0(play, this, false)) {
         this->unk2E8 -= 1;
         if (this->unk2E8 == 0) {
             var_v0_2_probreal = player->actor.shape.rot.y - this->actor.yawTowardsPlayer;
@@ -1415,7 +1411,7 @@ s32 func_80B37830(PlayState* play, EnWf* this) {
                 func_80B35B94(this);
             }
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
