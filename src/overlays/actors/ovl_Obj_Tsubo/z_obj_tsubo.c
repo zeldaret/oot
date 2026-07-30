@@ -18,6 +18,7 @@
 #include "play_state.h"
 #include "player.h"
 
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_tsubo/object_tsubo.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_THROW_ONLY)
@@ -35,11 +36,6 @@ void func_80BA180C(ObjTsubo* this, PlayState* play);
 void func_80BA188C(ObjTsubo* this);
 void func_80BA1958(ObjTsubo* this, PlayState* play);
 void func_80BA1B0C(Actor* thisx, PlayState* play);
-
-extern Gfx D_5017870[];
-extern Gfx D_5017A60[];
-extern Gfx D_60017C0[];
-extern Gfx D_6001960[];
 
 static s16 D_80BA1B50 = 0;
 static s16 D_80BA1B54 = 0;
@@ -59,8 +55,8 @@ ActorProfile Obj_Tsubo_Profile = {
 };
 
 static s16 D_80BA1B80[2] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
-static Gfx* D_80BA1B84[2] = { D_5017870, object_tsubo_DL_0017C0 };
-static Gfx* D_80BA1B8C[2] = { D_5017A60, object_tsubo_DL_001960 };
+static Gfx* D_80BA1B84[2] = { gPotDL, object_tsubo_DL_0017C0 };
+static Gfx* D_80BA1B8C[2] = { gPotFragmentDL, object_tsubo_DL_001960 };
 
 static ColliderCylinderInit D_80BA1B94 = {
     {
