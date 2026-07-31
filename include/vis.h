@@ -28,22 +28,23 @@ typedef struct VisMono {
     /* 0x14 */ Gfx* dList;
 } VisMono; // size = 0x18
 
-// Vis...
-typedef struct struct_80166500 {
+typedef struct VisZBuffer {
     /* 0x00 */ u32 useRgba;
     /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8_u32 primColor;
     /* 0x08 */ Color_RGBA8_u32 envColor;
-} struct_80166500; // size = 0x10
+} VisZBuffer; // size = 0x10
 
 void VisCvg_Init(VisCvg* this);
 void VisCvg_Destroy(VisCvg* this);
 void VisCvg_Draw(VisCvg* this, Gfx** gfxp);
+
 void VisMono_Init(VisMono* this);
 void VisMono_Destroy(VisMono* this);
 void VisMono_Draw(VisMono* this, Gfx** gfxp);
-void func_800AD920(struct_80166500* this);
-void func_800AD950(struct_80166500* this);
-void func_800AD958(struct_80166500* this, Gfx** gfxp);
+
+void VisZBuffer_Init(VisZBuffer* this);
+void VisZBuffer_Destroy(VisZBuffer* this);
+void VisZBuffer_Draw(VisZBuffer* this, Gfx** gfxp);
 
 #endif
