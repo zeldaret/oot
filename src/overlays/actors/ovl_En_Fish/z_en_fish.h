@@ -5,9 +5,9 @@
 #include "actor.h"
 
 typedef enum EnFishType {
-    EN_FISH_TYPE_NEG1 = -1,
-    EN_FISH_TYPE_DROPPED,
-    EN_FISH_TYPE_1
+    EN_FISH_TYPE_NORMAL = -1, // Typically ObjMure-handled (also used in some Zora's fountain cutscene layers)
+    EN_FISH_TYPE_DROPPED,     // Dropped by the player
+    EN_FISH_TYPE_TINY_POND    // Used in grottos, the fish doesn't reappear
 } EnFishType;
 
 struct EnFish;
