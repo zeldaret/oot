@@ -157,7 +157,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     this->modeVar = 0;
     this->actor.colChkInfo.health = 1;
     prevChild = this;
-    this->bodyElementAlpha_ = 255;
+    this->bodyElemAlpha = 255;
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     if (this->actor.params < 0) { // ENTP_TYPE_HEAD
@@ -189,7 +189,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
                 newChild->timer2 = i * -5;
                 newChild->timer = i * -5;
                 prevChild = newChild;
-                newChild->bodyElemDist_ = 6.0f - ((f32)i * 0.75f);
+                newChild->bodyElemDist = 6.0f - ((f32)i * 0.75f);
             }
         }
     } else if (this->actor.params == ENTP_TYPE_BODYELEM) {
@@ -234,9 +234,9 @@ void EnTp_BodyElem(EnTp* this, PlayState* play) {
             sp36 = this->headInstance->actor.shape.rot.y + 0x4000;
             temp_a0_sp34 = (this->headInstance->timer2 + this->timer) * 0x7D0;
             this->actor.world.pos.x =
-                (Math_SinS(temp_a0_sp34) * (Math_SinS(sp36) * this->bodyElemDist_)) + this->actor.home.pos.x;
+                (Math_SinS(temp_a0_sp34) * (Math_SinS(sp36) * this->bodyElemDist)) + this->actor.home.pos.x;
             this->actor.world.pos.z =
-                (Math_SinS(temp_a0_sp34) * (Math_CosS(sp36) * this->bodyElemDist_)) + this->actor.home.pos.z;
+                (Math_SinS(temp_a0_sp34) * (Math_CosS(sp36) * this->bodyElemDist)) + this->actor.home.pos.z;
         }
     }
 }
@@ -355,9 +355,9 @@ void EnTp_SetupBodyElemRemnant(EnTp* this) {
 
 void EnTp_BodyElemRemnant(EnTp* this, PlayState* play) {
     Actor_UpdatePos(&this->actor);
-    this->bodyElementAlpha_ -= 20;
-    if (this->bodyElementAlpha_ < 20) {
-        this->bodyElementAlpha_ = 0;
+    this->bodyElemAlpha -= 20;
+    if (this->bodyElemAlpha < 20) {
+        this->bodyElemAlpha = 0;
         Actor_Kill(&this->actor);
     }
 }
@@ -375,7 +375,7 @@ void EnTp_Head_Hover(EnTp* this, PlayState* play) {
     player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     // bodyElemDist_ is always 0 here
-    Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->bodyElemDist_, 1.0f,
+    Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->bodyElemDist, 1.0f,
                        this->actor.speed * 0.25f, 0.0f);
     SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
     if (this->collider.base.atFlags & AT_HIT) {
@@ -436,9 +436,9 @@ void EnTp_Head_WaitPlayerAndRise(EnTp* this, PlayState* play) {
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 0.3f, 1.0f, 0.3f);
             // bodyElemDist_ is always 0 here
             this->actor.world.pos.x =
-                (Math_SinS(this->timer2 * 0x7D0) * (Math_SinS(sp32) * this->bodyElemDist_)) + this->actor.home.pos.x;
+                (Math_SinS(this->timer2 * 0x7D0) * (Math_SinS(sp32) * this->bodyElemDist)) + this->actor.home.pos.x;
             this->actor.world.pos.z =
-                (Math_SinS(this->timer2 * 0x7D0) * (Math_CosS(sp32) * this->bodyElemDist_)) + this->actor.home.pos.z;
+                (Math_SinS(this->timer2 * 0x7D0) * (Math_CosS(sp32) * this->bodyElemDist)) + this->actor.home.pos.z;
         } else {
             this->actor.shape.rot.x = 0;
             this->modeVar = 1;
@@ -707,7 +707,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
         } else { // ENTP_TYPE_BODYELEM, ENTP_TYPE_BODYELEMREMNANT, ENTP_TYPE_BODYELEM_DYING
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_ReplaceRotation(&play->billboardMtxF);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, this->redShineAmount, 0, 255, this->bodyElementAlpha_);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, this->redShineAmount, 0, 255, this->bodyElemAlpha);
             gDPPipeSync(POLY_XLU_DISP++);
             // Note: gTailpasaranBodyElemDL overrides the combiner before drawing
             gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,

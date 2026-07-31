@@ -23,13 +23,13 @@ typedef struct EnTp {
     /* 0x159 */ char pad_159[1];
     /* 0x15A */ s16 timer;
     /* 0x15C */ s16 timer2;
-    /* 0x15E */ s16 bodyElementAlpha_;
+    /* 0x15E */ s16 bodyElemAlpha;
     /* 0x160 */ s16 redShineAmount;
     /* 0x162 */ s16 sparkTimer;
     /* 0x164 */ s16 unk_164;
     /* 0x166 */ char pad_166[2];
     /* 0x168 */ f32 unk_168;
-    /* 0x16C */ f32 bodyElemDist_;
+    /* 0x16C */ f32 bodyElemDist;
     /* 0x170 */ f32 unk_170;
     /* 0x174 */ ColliderJntSph collider;
     /* 0x194 */ ColliderJntSphElement colliderElements[1];
