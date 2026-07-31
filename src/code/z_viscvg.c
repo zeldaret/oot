@@ -60,12 +60,12 @@ Gfx sVisCvgFadeToPrimAndModulateFramebuffer[] = {
 };
 
 void VisCvg_Init(VisCvg* this) {
-    this->type = VISCVG_TYPE_NOP;
-    this->setScissor = false;
-    this->color.r = 255;
-    this->color.g = 255;
-    this->color.b = 255;
-    this->color.a = 255;
+    this->params.type = VISCVG_TYPE_NOP;
+    this->params.setScissor = false;
+    this->params.color1.r = 255;
+    this->params.color1.g = 255;
+    this->params.color1.b = 255;
+    this->params.color1.a = 255;
 }
 
 void VisCvg_Destroy(VisCvg* this) {
@@ -78,27 +78,27 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
     // Primitive depth and G_ZS_PRIM are set but this is useless since neither Z_CMD nor Z_UPD are set.
     gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
 
-    if (this->setScissor == true) {
+    if (this->params.setScissor == true) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    switch (this->type) {
+    switch (this->params.type) {
         case VISCVG_TYPE_MODULATE_FB:
             gSPDisplayList(gfx++, sVisCvgModulateFramebufferDL);
             break;
 
         case VISCVG_TYPE_FADE_AND_MODULATE_FB:
-            gDPSetColor(gfx++, G_SETPRIMCOLOR, this->color.rgba);
+            gDPSetColor(gfx++, G_SETPRIMCOLOR, this->params.color1.rgba);
             gSPDisplayList(gfx++, sVisCvgFadeToPrimAndModulateFramebuffer);
             break;
 
         case VISCVG_TYPE_MODULATE_COLOR:
-            gDPSetColor(gfx++, G_SETBLENDCOLOR, this->color.rgba);
+            gDPSetColor(gfx++, G_SETBLENDCOLOR, this->params.color1.rgba);
             gSPDisplayList(gfx++, sVisCvgModulateBlendColorDL);
             break;
 
         case VISCVG_TYPE_MODULATE_FB_ADDITIVE_COLOR:
-            gDPSetColor(gfx++, G_SETFOGCOLOR, this->color.rgba);
+            gDPSetColor(gfx++, G_SETFOGCOLOR, this->params.color1.rgba);
             gSPDisplayList(gfx++, sVisCvgModulateFramebufferAdditiveFogDL);
             break;
     }

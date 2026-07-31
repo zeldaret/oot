@@ -1,6 +1,9 @@
 /**
  * Color frame buffer effect to desaturate the colors.
  *
+ * The result of the desaturation is used to LERP from color2 (0) to color1 (1).
+ * In the simplest case, to get a grayscale result, set color1 to white and color2 to black.
+ *
  * This effect is achieved by making the RDP read the rgba16 framebuffer as a ci8 texture using a specific ia16 palette.
  * For every two-bytes pixel in the rgba16 framebuffer, the palette maps in particular an intensity to the high byte and
  * an alpha value to the low byte. The sum of those intensity and alpha value corresponds to the gray level of the
@@ -37,16 +40,16 @@ extern u16 D_0F000000[];
 
 void VisMono_Init(VisMono* this) {
     bzero(this, sizeof(VisMono));
-    this->unk_00 = 0;
-    this->setScissor = false;
-    this->primColor.r = 255;
-    this->primColor.g = 255;
-    this->primColor.b = 255;
-    this->primColor.a = 255;
-    this->envColor.r = 0;
-    this->envColor.g = 0;
-    this->envColor.b = 0;
-    this->envColor.a = 0;
+    this->params.type = 0;
+    this->params.setScissor = false;
+    this->params.color1.r = 255;
+    this->params.color1.g = 255;
+    this->params.color1.b = 255;
+    this->params.color1.a = 255;
+    this->params.color2.r = 0;
+    this->params.color2.g = 0;
+    this->params.color2.b = 0;
+    this->params.color2.a = 0;
 }
 
 void VisMono_Destroy(VisMono* this) {
@@ -170,12 +173,12 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
 
-    if (this->setScissor == true) {
+    if (this->params.setScissor == true) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->primColor.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->envColor.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->params.color1.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->params.color2.rgba);
 
     gDPLoadTLUT_pal256(gfx++, tlut);
 

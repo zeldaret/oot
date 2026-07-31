@@ -47,8 +47,8 @@
 #include "save.h"
 #include "vis.h"
 
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ique-cn:224 ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
+#pragma increment_block_number "gc-eu:221 gc-eu-mq:221 gc-jp:221 gc-jp-ce:221 gc-jp-mq:221 gc-us:221 gc-us-mq:221" \
+                               "ique-cn:221 ntsc-1.0:221 ntsc-1.1:221 ntsc-1.2:221 pal-1.0:221 pal-1.1:221"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -1217,7 +1217,7 @@ void Play_Draw(PlayState* this) {
             if (gVisMonoColor.a > 0)
 #endif
             {
-                sPlayVisMono.primColor.rgba = gVisMonoColor.rgba;
+                sPlayVisMono.params.color1.rgba = gVisMonoColor.rgba;
                 VisMono_Draw(&sPlayVisMono, &gfxP);
             }
 
