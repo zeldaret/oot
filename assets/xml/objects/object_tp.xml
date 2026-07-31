@@ -1,22 +1,22 @@
 <Root>
     <File Name="object_tp" Segment="6">
-        <DList Name="object_tp_000000_DL" Offset="0x0"/>
-        <Array Name="object_tp_000070_Vtx" Count="4" Offset="0x70">
+        <DList Name="gTailpasaranBodyElemDL" Offset="0x0"/>
+        <Array Name="gTailpasaranBodyElemVtx" Count="4" Offset="0x70">
             <Vtx/>
         </Array>
-        <Array Name="object_tp_0000B0_Vtx" Count="70" Offset="0xB0">
+        <Array Name="gTailpasaranHeadBodyVtx" Count="70" Offset="0xB0">
             <Vtx/>
         </Array>
-        <Array Name="object_tp_000510_Vtx" Count="24" Offset="0x510">
+        <Array Name="gTailpasaranHeadElectricityVtx" Count="24" Offset="0x510">
             <Vtx/>
         </Array>
-        <DList Name="object_tp_000690_DL" Offset="0x690"/>
-        <DList Name="object_tp_000840_DL" Offset="0x840"/>
-        <DList Name="object_tp_0008D0_DL" Offset="0x8D0"/>
-        <Texture Name="object_tp_0008E8_Tex" Format="rgba16" Width="8" Height="16" Offset="0x8E8"/>
-        <Texture Name="object_tp_0009E8_Tex" Format="rgba16" Width="8" Height="8" Offset="0x9E8"/>
-        <Texture Name="object_tp_000A68_Tex" Format="rgba16" Width="16" Height="16" Offset="0xA68"/>
-        <Texture Name="object_tp_000C68_Tex" Format="ia8" Width="64" Height="64" Offset="0xC68"/>
-        <Texture Name="object_tp_001C68_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1C68"/>
+        <DList Name="gTailpasaranHeadBodyDL" Offset="0x690"/>
+        <DList Name="gTailpasaranHeadElectricityDL" Offset="0x840"/>
+        <DList Name="gTailpasaranHeadDL" Offset="0x8D0"/>
+        <Texture Name="gTailpasaranHeadBackTex" Format="rgba16" Width="8" Height="16" Offset="0x8E8"/>
+        <Texture Name="gTailpasaranHeadCoreTex" Format="rgba16" Width="8" Height="8" Offset="0x9E8"/>
+        <Texture Name="gTailpasaranHeadClawTex" Format="rgba16" Width="16" Height="16" Offset="0xA68"/>
+        <Texture Name="gTailpasaranBodyElemTex" Format="ia8" Width="64" Height="64" Offset="0xC68"/>
+        <Texture Name="gTailpasaranHeadElectricityTex" Format="rgba16" Width="8" Height="8" Offset="0x1C68"/>
     </File>
 </Root>
