@@ -1,6 +1,9 @@
 #include "ultra64.h"
 #include "memory_utils.h"
 
+/**
+ * Copy `size` bytes from `src` to `dest`.
+ */
 void* MemCopy(void* dest, void* src, s32 size) {
     u8* destu = (u8*)dest;
     u8* srcu = (u8*)src;
@@ -13,6 +16,9 @@ void* MemCopy(void* dest, void* src, s32 size) {
     return dest;
 }
 
+/**
+ * Set `size` bytes starting at `dest` to value `val`.
+ */
 void* MemSet(void* dest, s32 val, s32 size) {
     u8* destu = (u8*)dest;
     s32 s = size;
