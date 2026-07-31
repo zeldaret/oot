@@ -37,7 +37,7 @@
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
 struct_80166500 D_80166500;
-VisMono sMonoColors;
+VisMono sGameStateVisMono;
 ViMode sViMode;
 
 #if DEBUG_FEATURES
@@ -80,16 +80,16 @@ void GameState_SetFBFilter(Gfx** gfx) {
         D_80166500.envColor.a = R_FB_FILTER_A;
         func_800AD958(&D_80166500, &gfxP);
     } else if (R_FB_FILTER_TYPE == 7) {
-        sMonoColors.unk_00 = 0;
-        sMonoColors.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        sMonoColors.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        sMonoColors.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        sMonoColors.primColor.a = R_FB_FILTER_A;
-        sMonoColors.envColor.r = R_FB_FILTER_ENV_COLOR(0);
-        sMonoColors.envColor.g = R_FB_FILTER_ENV_COLOR(1);
-        sMonoColors.envColor.b = R_FB_FILTER_ENV_COLOR(2);
-        sMonoColors.envColor.a = R_FB_FILTER_A;
-        VisMono_Draw(&sMonoColors, &gfxP);
+        sGameStateVisMono.unk_00 = 0;
+        sGameStateVisMono.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sGameStateVisMono.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sGameStateVisMono.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sGameStateVisMono.primColor.a = R_FB_FILTER_A;
+        sGameStateVisMono.envColor.r = R_FB_FILTER_ENV_COLOR(0);
+        sGameStateVisMono.envColor.g = R_FB_FILTER_ENV_COLOR(1);
+        sGameStateVisMono.envColor.b = R_FB_FILTER_ENV_COLOR(2);
+        sGameStateVisMono.envColor.a = R_FB_FILTER_A;
+        VisMono_Draw(&sGameStateVisMono, &gfxP);
     }
     *gfx = gfxP;
 }
@@ -497,7 +497,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1088);
     func_800ACE70(&D_801664F0);
     func_800AD920(&D_80166500);
-    VisMono_Init(&sMonoColors);
+    VisMono_Init(&sGameStateVisMono);
     if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !DEBUG_FEATURES) {
         ViMode_Init(&sViMode);
     }
@@ -528,7 +528,7 @@ void GameState_Destroy(GameState* gameState) {
     SpeedMeter_Destroy(&D_801664D0);
     func_800ACE90(&D_801664F0);
     func_800AD950(&D_80166500);
-    VisMono_Destroy(&sMonoColors);
+    VisMono_Destroy(&sGameStateVisMono);
     if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !DEBUG_FEATURES) {
         ViMode_Destroy(&sViMode);
     }
