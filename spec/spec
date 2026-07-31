@@ -592,7 +592,7 @@ beginseg
     include "$(BUILD_DIR)/data/unk_8012ABC0.data.o"
     include "$(BUILD_DIR)/src/code/z_view.o"
     include "$(BUILD_DIR)/src/code/z_vimode.o"
-    include "$(BUILD_DIR)/src/code/code_800ACE70.o"
+    include "$(BUILD_DIR)/src/code/z_viscvg.o"
     include "$(BUILD_DIR)/src/code/z_vismono.o"
     include "$(BUILD_DIR)/src/code/code_800AD920.o"
     include "$(BUILD_DIR)/src/code/z_vr_box.o"

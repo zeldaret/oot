@@ -35,7 +35,7 @@
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 SpeedMeter D_801664D0;
-struct_801664F0 D_801664F0;
+VisCvg sGameStateVisCvg;
 struct_80166500 D_80166500;
 VisMono sGameStateVisMono;
 ViMode sViMode;
@@ -62,12 +62,12 @@ void GameState_SetFBFilter(Gfx** gfx) {
     Gfx* gfxP = *gfx;
 
     if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
-        D_801664F0.type = R_FB_FILTER_TYPE;
-        D_801664F0.color.r = R_FB_FILTER_PRIM_COLOR(0);
-        D_801664F0.color.g = R_FB_FILTER_PRIM_COLOR(1);
-        D_801664F0.color.b = R_FB_FILTER_PRIM_COLOR(2);
-        D_801664F0.color.a = R_FB_FILTER_A;
-        func_800ACE98(&D_801664F0, &gfxP);
+        sGameStateVisCvg.type = R_FB_FILTER_TYPE;
+        sGameStateVisCvg.color.r = R_FB_FILTER_PRIM_COLOR(0);
+        sGameStateVisCvg.color.g = R_FB_FILTER_PRIM_COLOR(1);
+        sGameStateVisCvg.color.b = R_FB_FILTER_PRIM_COLOR(2);
+        sGameStateVisCvg.color.a = R_FB_FILTER_A;
+        VisCvg_Draw(&sGameStateVisCvg, &gfxP);
     } else if ((R_FB_FILTER_TYPE == 5) || (R_FB_FILTER_TYPE == 6)) {
         D_80166500.useRgba = (R_FB_FILTER_TYPE == 6);
         D_80166500.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
@@ -495,7 +495,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 
     startTime = endTime;
     LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1088);
-    func_800ACE70(&D_801664F0);
+    VisCvg_Init(&sGameStateVisCvg);
     func_800AD920(&D_80166500);
     VisMono_Init(&sGameStateVisMono);
     if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !DEBUG_FEATURES) {
@@ -526,7 +526,7 @@ void GameState_Destroy(GameState* gameState) {
     }
     Rumble_Destroy();
     SpeedMeter_Destroy(&D_801664D0);
-    func_800ACE90(&D_801664F0);
+    VisCvg_Destroy(&sGameStateVisCvg);
     func_800AD950(&D_80166500);
     VisMono_Destroy(&sGameStateVisMono);
     if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !DEBUG_FEATURES) {
