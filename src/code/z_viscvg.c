@@ -75,7 +75,7 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
 
     gDPPipeSync(gfx++);
-    // Primitive depth and G_ZS_PRIM are set but this is useless since neither Z_CMD nor Z_UPD are set.
+    // Set full dz, see comment in PreRender_FetchFbufCoverage for details.
     gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
 
     if (this->params.setScissor == true) {

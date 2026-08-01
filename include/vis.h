@@ -4,6 +4,12 @@
 #include "ultra64.h"
 #include "color.h"
 
+/**
+ * Meaning of color1 and color2:
+ * - VisCvg: see VisCvgType for color1. color2 unused
+ * - VisMono: LERP endpoints. See z_vismono.c file comment
+ * - VisZBuffer: LERP endpoints. See z_viszbuffer.c file comment
+ */
 typedef struct VisParams {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 setScissor;
