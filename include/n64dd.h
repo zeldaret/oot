@@ -81,7 +81,7 @@ s32 func_801C70FC(void);
 void func_801C7268(void);
 s32 func_801C7658(void);
 s32 func_801C7818(void);
-void func_801C7C1C(void* arg0, s32 arg1, s32 arg2);
+void func_801C7C1C(void* dest, s32 offset, s32 size);
 void func_801C7E78(void);
 void n64dd_SetDiskVersion(s32 arg0);
 

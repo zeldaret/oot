@@ -4,9 +4,6 @@
 #include "libc64/sleep.h"
 #include "attributes.h"
 
-// TODO move to a header once we can easily fix bss orderings
-extern struct_801E1590 D_801E1590;
-
 s32 D_801D3720 = 0;
 void* D_801D3724 = NULL;
 s32 D_801D3728 = 0;

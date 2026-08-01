@@ -99,4 +99,6 @@ void func_801C9D68(char*, u16);
 
 extern u8 gN64DDDiskReadTemporaryBuffer[];
 
+extern struct_801E1590 D_801E1590;
+
 #endif

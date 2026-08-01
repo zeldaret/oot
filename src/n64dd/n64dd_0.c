@@ -454,7 +454,7 @@ s32 func_801C84E0(s32 arg0) {
     }
 }
 
-void func_801C7C1C(void* arg0, s32 arg1, s32 arg2) {
+void func_801C7C1C(void* dest, s32 offset, s32 size) {
     s32 sp44;
     s32 sp40;
     s32 sp3C;
@@ -468,16 +468,16 @@ void func_801C7C1C(void* arg0, s32 arg1, s32 arg2) {
     func_801C77F0();
     D_801DA638 = 1;
     D_801DA640 = 0;
-    func_801C843C(arg1, &sp44, &sp3C);
-    func_801C843C(arg1 + arg2, &sp40, &sp38);
+    func_801C843C(offset, &sp44, &sp3C);
+    func_801C843C(offset + size, &sp40, &sp38);
     sp34 = D_801D36D0;
     if (sp44 == sp40) {
         func_801C8214(sp44, sp34, func_801C84E0(sp44));
-        bcopy((u8*)sp34 + sp3C, arg0, arg2);
+        bcopy((u8*)sp34 + sp3C, dest, size);
     } else {
         var_s1 = 0;
         func_801C8214(sp44, sp34, func_801C84E0(sp44));
-        bcopy((u8*)sp34 + sp3C, arg0, func_801C84E0(sp44) - sp3C);
+        bcopy((u8*)sp34 + sp3C, dest, func_801C84E0(sp44) - sp3C);
         temp_v0 = sp44 + 1;
         if (temp_v0 < sp40) {
             var_s0 = temp_v0;
@@ -485,11 +485,11 @@ void func_801C7C1C(void* arg0, s32 arg1, s32 arg2) {
                 var_s1 += func_801C84E0(var_s0);
                 var_s0 += 1;
             }
-            func_801C8214(sp44 + 1, (void*)((func_801C84E0(sp44) + (s32)arg0) - sp3C), var_s1);
+            func_801C8214(sp44 + 1, (void*)((func_801C84E0(sp44) + (s32)dest) - sp3C), var_s1);
         }
         if (sp38 > 0) {
             func_801C8214(sp40, sp34, func_801C84E0(sp40));
-            bcopy(sp34, (void*)(((func_801C84E0(sp44) + (s32)arg0) - sp3C) + var_s1), sp38);
+            bcopy(sp34, (void*)(((func_801C84E0(sp44) + (s32)dest) - sp3C) + var_s1), sp38);
         }
     }
 #if OOT_VERSION == NTSC_1_0
