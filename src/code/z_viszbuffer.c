@@ -1,11 +1,40 @@
 /**
  * This file implements a framebuffer effect relying on the depth buffer (Z buffer).
  * It merely allows LERPing between two colors (from color2 to color1), using the Z buffer bytes (interpreted as either
- * ia16 or rgba16) as the factor.
+ * ia16 or rgba16 depending on the type being 0 or not) as the factor.
  *
  * Z buffer values are two bytes each. They are floating point, which makes the effect not that interesting for an
  * actual application as that doesn't map well to be interpreted as ia16 or rgba16, though some discontinuous gradients
  * can be seen.
+ *
+ * The bit layout of Z buffer values is:
+ * 0bEEEM_MMMM_MMMM_MMDD
+ * Where E is the 3 exponent bits, M is the 11 mantissa bits,
+ * and D is 2 of the 4 dz value bits (the remaining two are stored in the "hidden" 9th bit of each byte).
+ * In 3D space, Z values increase from front (near plane) to back (far plane).
+ *
+ * Interpreted as ia16:
+ * 0bIIII_IIII_AAAA_AAAA
+ * The intensity channel takes its value from the exponent bits and the high mantissa bits, so it continuously increases
+ * from front to back.
+ * The alpha channel mostly takes its value from the lowest mantissa bits, so it increases from front to back but also
+ * rolls over frequently.
+ * This can be observed in-game by setting color1 to white and color2 to black.
+ * From front to back, the intensity gradient is a continuous increase.
+ * The alpha is ignored due to the render mode VisZBuffer uses.
+ *
+ * Interpreted as rgba16:
+ * 0bRRRR_RGGG_GGBB_BBBA
+ * The red channel mostly takes its value from the exponent bits, so it continuously increases from front to back.
+ * The green channel takes its value from the middle mantissa bits, so it increases from front to back but also rolls
+ * over frequently.
+ * The blue channel mostly takes its value from the lowest mantissa bits, so it increases from front to back and also
+ * rolls over even more frequently.
+ * This can be observed in-game by setting color1 to white and color2 to black.
+ * From front to back, the gradients for each color channel are then:
+ * - red: continuous increase
+ * - green: discontinuous succession of continuous increases
+ * - blue: like green but even higher frequency
  */
 
 #include "ultra64.h"
