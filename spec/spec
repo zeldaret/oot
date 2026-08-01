@@ -863,6 +863,7 @@ endseg
 #if PLATFORM_N64
 beginseg
     name "n64dd"
+    compress
     align 0x40
     include "$(BUILD_DIR)/src/n64dd/n64dd_0.o"
     include "$(BUILD_DIR)/src/n64dd/n64dd_1.o"
