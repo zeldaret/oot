@@ -115,7 +115,7 @@ s32 func_801C7958(void) {
     s32 sp1C;
     s32 (*p)(struct_801DA5D0*);
 
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
     if (1) {}
 #endif
 
@@ -174,7 +174,7 @@ void func_801C79DC(void* arg) {
 LEODiskID D_801DC850;
 s32 D_801DC870;
 
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
 void func_801C7B28(void) {
     s32 temp_v1_2;
 
@@ -257,7 +257,7 @@ void func_801C7CEC(s32 arg0, s32 arg1, s32 arg2) {
             if (arg2 != 0) {
                 func_801CAA60(BADCASTP arg2, 0, 0xB0, 0x140, 0x20, 0xB, BADCASTP sp2C, 0x140);
             }
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
             osViBlack(0);
 #endif
         }
@@ -290,7 +290,7 @@ s32 func_801C7658(void) {
     if (D_80121212 != 0) {
         return 0;
     }
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
     StackCheck_Init(&D_801DB808, D_801DA808, STACK_TOP(D_801DA808), 0, 0x100, "ddmsg");
     osCreateThread(&D_801DA658, 9, func_801C79DC, &D_801DA410, STACK_TOP(D_801DA808), 0xD);
     osStartThread(&D_801DA658);
@@ -314,7 +314,7 @@ s32 func_801C7658(void) {
     (&func_801C8860)(&D_801DA5D0);
     D_801DA5D0.unk0 = 0xD;
     (&func_801C8860)(&D_801DA5D0);
-#if OOT_VERSION > NTSC_1_1
+#if OOT_VERSION >= PAL_1_0
     StackCheck_Init(&D_801DB808, D_801DA808, STACK_TOP(D_801DA808), 0, 0x100, "ddmsg");
     osCreateThread(&D_801DA658, 9, func_801C79DC, &D_801DA410, STACK_TOP(D_801DA808), 0xD);
     osStartThread(&D_801DA658);
@@ -325,7 +325,7 @@ s32 func_801C7658(void) {
 s32 func_801C7818(void) {
     s32 (*p)(struct_801DA5D0*) = func_801C8860;
 
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
     D_801DA638 = 1;
     D_801DA640 = 0;
 #endif
@@ -334,7 +334,7 @@ s32 func_801C7818(void) {
     while (func_801C8A24() == 0) {
         Sleep_Usec(1000000 / 60);
     }
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
     if ((D_801D3728 == 1) || (D_801E17E0 == 1) || (D_801E17E4 == 1)) {
         D_801DA640 = osGetTime();
     }
