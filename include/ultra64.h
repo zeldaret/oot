@@ -40,6 +40,8 @@
 #include "ultra64/ucode.h"
 #include "ultra64/version.h"
 
+#include "ultra64/leo.h"
+
 union uObjBg;
 
 void __osPiCreateAccessQueue(void);

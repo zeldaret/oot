@@ -742,7 +742,7 @@ $(BUILD_DIR)/src/libultra/os/exceptasm.o: POSTPROCESS_OBJ := $(PYTHON) tools/set
 endif
 
 $(BUILD_DIR)/src/code/%.o: ASOPTFLAGS := -O2
-$(BUILD_DIR)/src/libleo/%.o: ASOPTFLAGS := -O2
+$(BUILD_DIR)/src/n64dd/libleo/%.o: ASOPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/libc/%.o: ASOPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/mgu/%.o: ASOPTFLAGS := -O2
 
@@ -792,8 +792,8 @@ $(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O1
 endif
 endif
 
-$(BUILD_DIR)/src/libleo/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libleo/%.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/n64dd/libleo/%.o: CC := $(CC_OLD)
+$(BUILD_DIR)/src/n64dd/libleo/%.o: OPTFLAGS := -O2
 
 ifeq ($(PLATFORM),IQUE)
 $(BUILD_DIR)/src/libgcc/%.o: CC := $(EGCS_CC)
