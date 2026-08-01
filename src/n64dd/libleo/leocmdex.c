@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
+#include "ultra64/leodrive.h"
 #include "attributes.h"
 
 extern u16 LEOrw_flags;
@@ -35,7 +36,7 @@ void leomain(void* arg0) {
     LEOPiInfo = osLeoDiskInit();
     LEOPiDmaParam.hdr.pri = 1;
     LEOPiDmaParam.hdr.retQueue = &LEOdma_que;
-    osEPiReadIo(LEOPiInfo, 0x05000508, &cur_status);
+    osEPiReadIo(LEOPiInfo, ASIC_STATUS, &cur_status);
     if (!(cur_status & 0x400000)) {
         if ((cur_status & 0x06800000) != 0) {
             leoDrive_reset();
@@ -56,7 +57,7 @@ void leomain(void* arg0) {
 
         do {
             if (cur_status == 0) {
-                if (sense_code == 0) {
+                if (sense_code == LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                     continue;
                 }
             } else {
@@ -136,7 +137,7 @@ void leomain(void* arg0) {
                     break;
                 default:
                     if (LEO_country_code == 0) {
-                        osEPiReadIo(LEOPiInfo, 0x05000540, &cur_status);
+                        osEPiReadIo(LEOPiInfo, ASIC_ID_REG, &cur_status);
                         if ((cur_status & 0x70000) != 0x40000) {
                             while (true) {}
                         }
@@ -148,7 +149,8 @@ void leomain(void* arg0) {
                     }
 
                     if ((LEOcur_command->header.sense =
-                             leoSend_asic_cmd_w(0xB0001, LEO_sys_data.param.disk_type << 16)) != 0) {
+                             leoSend_asic_cmd_w(0xB0001, LEO_sys_data.param.disk_type << 16)) !=
+                        LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                         LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                         goto post_exe;
                     }
@@ -157,7 +159,7 @@ void leomain(void* arg0) {
                         goto invalid_disktype;
                     }
 
-                    LEOdisk_type = (LEO_sys_data.param.disk_type & 0xF);
+                    LEOdisk_type = LEO_sys_data.param.disk_type & 0xF;
                     if (LEOdisk_type >= 7) {
                     invalid_disktype:
                         LEOcur_command->header.sense = 11;
@@ -173,7 +175,7 @@ void leomain(void* arg0) {
 
     post_exe:
         if (LEOcur_command->header.control & LEO_CONTROL_POST) {
-            osSendMesg(LEOcur_command->header.post, (void*)(s32)LEOcur_command->header.sense, OS_MESG_BLOCK);
+            osSendMesg(LEOcur_command->header.post, (OSMesg)(s32)LEOcur_command->header.sense, OS_MESG_BLOCK);
         }
         if (LEOclr_que_flag != 0) {
             leoClr_queue();

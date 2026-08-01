@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "stack.h"
 
+#define STATIC
+
 extern OSPiHandle* LEOPiInfo;
 void leointerrupt(void*);
 void leomain(void*);
@@ -119,8 +121,8 @@ extern OSMesg LEOdma_que_buf[2];
 extern OSMesg LEOblock_que_buf;
 extern u8* LEOwrite_pointer;
 extern LEOCmd* LEOcur_command;
-extern s32 LEOasic_bm_ctl_shadow;
-extern s32 LEOasic_seq_ctl_shadow;
+extern u32 LEOasic_bm_ctl_shadow;
+extern u32 LEOasic_seq_ctl_shadow;
 extern u8 LEOdrive_flag;
 extern vu8 LEOclr_que_flag;
 // extern u16 LEOrw_flags;

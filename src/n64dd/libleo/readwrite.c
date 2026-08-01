@@ -2,7 +2,7 @@
 #include "ultra64/leo_internal.h"
 
 s32 LeoReadWrite(LEOCmd* cmdBlock, s32 direction, u32 LBA, void* vAddr, u32 nLBAs, OSMesgQueue* mq) {
-    if (__leoActive == 0) {
+    if (!__leoActive) {
         return -1;
     }
     if (direction == 0) {

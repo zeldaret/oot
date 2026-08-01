@@ -44,7 +44,7 @@ void leoTranslate(void) {
             }
             flag = 0;
         }
-        LEOcur_command->data.readwrite.buff_ptr = BADCASTP calc_blks;
+        LEOcur_command->data.readwrite.buff_ptr = (void*)calc_blks;
     } else {
         calc_blks = LEOcur_command->data.readwrite.xfer_blks;
         while (calc_blks != 0) {
@@ -66,7 +66,7 @@ void leoTranslate(void) {
             }
             flag = 0;
         }
-        LEOcur_command->data.readwrite.buff_ptr = BADCASTP calc_bytes;
+        LEOcur_command->data.readwrite.buff_ptr = (void*)calc_bytes;
     }
     LEOcur_command->header.status = LEO_STATUS_GOOD;
 }

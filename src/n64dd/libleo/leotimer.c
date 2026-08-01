@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
+#include "ultra64/leodrive.h"
 #include "attributes.h"
 
 typedef struct {
@@ -144,7 +145,7 @@ STATIC u8 __locReadTimer(__LOCTime* time) {
     if (sense_code != 0) {
         return sense_code;
     }
-    osEPiReadIo(LEOPiInfo, 0x05000500, &data);
+    osEPiReadIo(LEOPiInfo, ASIC_DATA, &data);
     time->minute = (u8)((u32)(data & 0xFF000000) >> 24);
     time->second = (s8)((u32)(data & 0xFF0000) >> 16);
     sense_code = leoSend_asic_cmd_w_nochkDiskChange(0x130000, 0);
@@ -152,7 +153,7 @@ STATIC u8 __locReadTimer(__LOCTime* time) {
         time->minute &= ~0x80;
         return sense_code;
     }
-    osEPiReadIo(LEOPiInfo, 0x05000500, &data);
+    osEPiReadIo(LEOPiInfo, ASIC_DATA, &data);
     time->day = (s8)((u32)(data & 0xFF000000) >> 24);
     time->hour = (s8)((u32)(data & 0xFF0000) >> 16);
     sense_code = leoSend_asic_cmd_w_nochkDiskChange(0x120000, 0);
@@ -160,7 +161,7 @@ STATIC u8 __locReadTimer(__LOCTime* time) {
         time->minute &= ~0x80;
         return sense_code;
     }
-    osEPiReadIo(LEOPiInfo, 0x05000500, &data);
+    osEPiReadIo(LEOPiInfo, ASIC_DATA, &data);
     time->year = (s8)((u32)(data & 0xFF000000) >> 24);
     time->month = (s8)((u32)(data & 0xFF0000) >> 16);
     if (time->minute & 0x80) {

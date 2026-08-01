@@ -3,7 +3,6 @@
 
 #define BADCASTP (void*)
 #define BADCASTI (u32)
-#define STATIC
 
 #include "assert.h"
 #include "math.h"

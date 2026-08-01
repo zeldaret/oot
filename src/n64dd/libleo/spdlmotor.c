@@ -2,7 +2,7 @@
 #include "ultra64/leo_internal.h"
 
 s32 LeoSpdlMotor(LEOCmd* cmdBlock, u8 mode, OSMesgQueue* mq) {
-    if (__leoActive == 0) {
+    if (!__leoActive) {
         return -1;
     }
     cmdBlock->header.command = LEO_COMMAND_START_STOP;

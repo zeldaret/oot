@@ -10,15 +10,15 @@ s32 LeoCJCreateLeoManager(s32 comPri, s32 intPri, void** cmdBuf, s32 cmdMsgCnt) 
     u32 stat;
     u32 data;
 
-    if (__leoActive != 0) {
-        return 0;
+    if (__leoActive) {
+        return LEO_ERROR_GOOD;
     }
     if (LeoDriveExist() == 0) {
-        return 0x29;
+        return LEO_ERROR_DEVICE_COMMUNICATION_FAILURE;
     }
     osLeoDiskInit();
     driveRomHandle = osDriveRomInit();
-    __leoActive = 1;
+    __leoActive = true;
     __osSetHWIntrRoutine(OS_INTR_CART, __osLeoInterrupt, STACK_TOP(leoDiskStack) - 0x10);
     leoInitialize(comPri, intPri, cmdBuf, (u32)cmdMsgCnt);
     if (osResetType == 1) {
@@ -38,7 +38,7 @@ s32 LeoCJCreateLeoManager(s32 comPri, s32 intPri, void** cmdBuf, s32 cmdMsgCnt) 
     }
     while (cmdBlockInq.header.status == LEO_STATUS_BUSY) {}
     if (cmdBlockInq.header.status != 0) {
-        return (s32)cmdBlockInq.header.sense;
+        return cmdBlockInq.header.sense;
     }
     __leoVersion.drive = cmdBlockInq.version;
     __leoVersion.driver = 6;
@@ -61,5 +61,5 @@ s32 LeoCJCreateLeoManager(s32 comPri, s32 intPri, void** cmdBuf, s32 cmdMsgCnt) 
     } else {
         while (true) {}
     }
-    return 0;
+    return LEO_ERROR_GOOD;
 }

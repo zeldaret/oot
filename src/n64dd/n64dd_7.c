@@ -68,7 +68,7 @@ s32 func_801CA920(s32 arg0, u8* arg1, int* arg2, int* arg3, int* arg4) {
     sp24.hdr.retQueue = &sp40; sp24.devAddr = var_s0 + 0xA0000; sp24.dramAddr = (void*)arg1; sp24.hdr.pri = 0; sp24.size = 0x80;
     // clang-format on
     sp58->transferInfo.cmdType = 2;
-    osEPiStartDma(sp58, &sp24, 0);
+    osEPiStartDma(sp58, &sp24, OS_READ);
     osRecvMesg(&sp40, NULL, OS_MESG_BLOCK);
     return 0;
 }

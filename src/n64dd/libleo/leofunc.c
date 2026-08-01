@@ -1,6 +1,8 @@
 #include "ultra64.h"
+#include "ultra64/leo.h"
 #include "ultra64/leo_internal.h"
 #include "array_count.h"
+#include "ultra64/message.h"
 
 s32 __leoResetCalled = 0;
 s32 __leoQueuesCreated = 0;
@@ -8,7 +10,7 @@ s32 __leoQueuesCreated = 0;
 OSMesgQueue LEOpost_que;
 OSMesg LEOpost_que_buf;
 
-void leoInitialize(OSPri compri, OSPri intpri, void** command_que_buf, u32 cmd_buff_size) {
+void leoInitialize(OSPri compri, OSPri intpri, OSMesg* command_que_buf, u32 cmd_buff_size) {
     u32 savedMask;
     OSPri oldPri;
     OSPri myPri;
@@ -27,7 +29,7 @@ void leoInitialize(OSPri compri, OSPri intpri, void** command_que_buf, u32 cmd_b
     }
     savedMask = __osDisableInt();
     __leoQueuesCreated = 1;
-    osCreateMesgQueue(&LEOcommand_que, command_que_buf, (s32)cmd_buff_size);
+    osCreateMesgQueue(&LEOcommand_que, command_que_buf, cmd_buff_size);
     osCreateMesgQueue(&LEOcontrol_que, &LEOcontrol_que_buf, 1);
     osCreateMesgQueue(&LEOevent_que, &LEOevent_que_buf, 1);
     osCreateMesgQueue(&LEOdma_que, LEOdma_que_buf, ARRAY_COUNT(LEOdma_que_buf));
@@ -52,7 +54,7 @@ void leoCommand(void* cmd_blk_addr) {
         header->status = LEO_STATUS_CHECK_CONDITION;
         header->sense = LEO_SENSE_WAITING_NMI;
         if (header->control & LEO_CONTROL_POST) {
-            osSendMesg(header->post, (OSMesg)0x25, OS_MESG_BLOCK);
+            osSendMesg(header->post, (OSMesg)LEO_ERROR_WAITING_NMI, OS_MESG_BLOCK);
         }
     } else {
         osRecvMesg(&LEOblock_que, NULL, OS_MESG_BLOCK);
@@ -65,7 +67,7 @@ void leoCommand(void* cmd_blk_addr) {
                 LEOclr_que_flag = 0;
                 header->status = LEO_STATUS_GOOD;
                 if (header->control & LEO_CONTROL_POST) {
-                    osSendMesg(header->post, NULL, OS_MESG_BLOCK);
+                    osSendMesg(header->post, (OSMesg)LEO_ERROR_GOOD, OS_MESG_BLOCK);
                 }
                 break;
             case LEO_COMMAND_READ:
@@ -120,7 +122,7 @@ s32 LeoResetClear(void) {
     }
     osRecvMesg(&LEOpost_que, NULL, OS_MESG_BLOCK);
     if (resetclear.status == LEO_STATUS_GOOD) {
-        return 0;
+        return LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION;
     } else {
         return resetclear.sense;
     }

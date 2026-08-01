@@ -8,7 +8,7 @@ void leoClr_queue(void) {
         ((LEOCmdHeader*)clr_cmd)->sense = LEO_SENSE_COMMAND_TERMINATED;
         ((LEOCmdHeader*)clr_cmd)->status = LEO_STATUS_CHECK_CONDITION;
         if (((LEOCmdHeader*)clr_cmd)->control & LEO_CONTROL_POST) {
-            osSendMesg(((LEOCmdHeader*)clr_cmd)->post, (OSMesg)0x22, OS_MESG_BLOCK);
+            osSendMesg(((LEOCmdHeader*)clr_cmd)->post, (OSMesg)LEO_ERROR_COMMAND_TERMINATED, OS_MESG_BLOCK);
         }
     }
 }

@@ -4,7 +4,7 @@
 s32 LeoTestUnitReady(LEOStatus* status) {
     volatile LEOCmdTestUnitReady cmdBlock;
 
-    if (__leoActive == 0) {
+    if (!__leoActive) {
         return -1;
     }
     if (IO_READ(PI_STATUS_REG) & PI_STATUS_DMA_BUSY) {
@@ -17,5 +17,5 @@ s32 LeoTestUnitReady(LEOStatus* status) {
     leoCommand((void*)&cmdBlock);
     while (cmdBlock.header.status == LEO_STATUS_BUSY) {}
     *status = cmdBlock.test;
-    return (s32)cmdBlock.header.sense;
+    return cmdBlock.header.sense;
 }

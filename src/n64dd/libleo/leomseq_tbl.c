@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "ultra64/leo_internal.h"
+#include "ultra64/leodrive.h"
 
 extern vu16 LEOrw_flags;
 
@@ -20,8 +21,8 @@ void leoSet_mseq(u16 rwmode) {
     u32 sct_byte_u;
     u8 i;
 
-    LEOasic_seq_ctl_shadow &= 0xBFFFFFFF;
-    osEPiWriteIo(LEOPiInfo, 0x05000518, LEOasic_seq_ctl_shadow);
+    LEOasic_seq_ctl_shadow &= ~0x40000000;
+    osEPiWriteIo(LEOPiInfo, ASIC_SEQ_CTL, LEOasic_seq_ctl_shadow);
     if (rwmode == 1) {
         tbl = wt_mseq_code;
     } else {
@@ -36,16 +37,16 @@ void leoSet_mseq(u16 rwmode) {
     mseq_tbl[4] |= sct_byte_x;
     osWritebackDCache(mseq_tbl, 0x40);
     LEOPiDmaParam.dramAddr = mseq_tbl;
-    LEOPiDmaParam.devAddr = 0x05000580;
+    LEOPiDmaParam.devAddr = MSEQ_RAM_ADDR;
     LEOPiDmaParam.size = 0x40;
     LEOPiInfo->transferInfo.cmdType = 2;
-    osEPiStartDma(LEOPiInfo, &LEOPiDmaParam, 1);
+    osEPiStartDma(LEOPiInfo, &LEOPiDmaParam, OS_WRITE);
     osRecvMesg(&LEOdma_que, NULL, OS_MESG_BLOCK);
-    osEPiWriteIo(LEOPiInfo, 0x05000530, (sct_byte_u | 0x5900) << 16);
+    osEPiWriteIo(LEOPiInfo, ASIC_SEC_BYTE, (sct_byte_u | 0x5900) << 16);
     if (LEOrw_flags & 0x800) {
         sct_byte_x += 0x100;
     }
-    osEPiWriteIo(LEOPiInfo, 0x05000528, sct_byte_x << 8);
+    osEPiWriteIo(LEOPiInfo, ASIC_HOST_SECBYTE, sct_byte_x << 8);
     LEOasic_seq_ctl_shadow |= 0x40000000;
-    osEPiWriteIo(LEOPiInfo, 0x05000518, LEOasic_seq_ctl_shadow);
+    osEPiWriteIo(LEOPiInfo, ASIC_SEQ_CTL, LEOasic_seq_ctl_shadow);
 }
