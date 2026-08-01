@@ -1,231 +1,231 @@
 <Root>
     <File Name="object_wf" Segment="6">
-        <Texture Name="object_wf_Tex_000000" Format="rgba16" Width="8" Height="16" Offset="0x0"/>
-        <Texture Name="object_wf_Tex_000100" Format="rgba16" Width="8" Height="8" Offset="0x100"/>
-        <Texture Name="object_wf_Tex_000180" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
-        <Texture Name="object_wf_Tex_000200" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
-        <Texture Name="object_wf_Tex_000280" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
-        <Texture Name="object_wf_Tex_000300" Format="rgba16" Width="16" Height="16" Offset="0x300"/>
-        <Array Name="object_wf_Vtx_000500" Count="19" Offset="0x500">
+        <Texture Name="gWolfosWhiteFurTex" Format="rgba16" Width="8" Height="16" Offset="0x0"/>
+        <Texture Name="gWolfosWhiteTeethClawsTex" Format="rgba16" Width="8" Height="8" Offset="0x100"/>
+        <Texture Name="gWolfosWhiteMouthTex" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
+        <Texture Name="gWolfosWhiteTongueTex" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
+        <Texture Name="gWolfosWhiteNoseTex" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
+        <Texture Name="gWolfosWhiteEyeOpenTex" Format="rgba16" Width="16" Height="16" Offset="0x300"/>
+        <Array Name="gWolfosWhiteLeftFootVtx" Count="19" Offset="0x500">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_000630" Count="12" Offset="0x630">
+        <Array Name="gWolfosWhiteLeftAnkleVtx" Count="12" Offset="0x630">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_0006F0" Count="21" Offset="0x6F0">
+        <Array Name="gWolfosWhiteLeftShinVtx" Count="21" Offset="0x6F0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_000840" Count="23" Offset="0x840">
+        <Array Name="gWolfosWhiteLeftThighVtx" Count="23" Offset="0x840">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_0009B0" Count="19" Offset="0x9B0">
+        <Array Name="gWolfosWhiteRightFootVtx" Count="19" Offset="0x9B0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_000AE0" Count="12" Offset="0xAE0">
+        <Array Name="gWolfosWhiteRightAnkleVtx" Count="12" Offset="0xAE0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_000BA0" Count="21" Offset="0xBA0">
+        <Array Name="gWolfosWhiteRightShinVtx" Count="21" Offset="0xBA0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_000CF0" Count="23" Offset="0xCF0">
+        <Array Name="gWolfosWhiteRightThighVtx" Count="23" Offset="0xCF0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_000E60" Count="29" Offset="0xE60">
+        <Array Name="gWolfosWhiteRightForearmVtx" Count="29" Offset="0xE60">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_001030" Count="35" Offset="0x1030">
+        <Array Name="gWolfosWhiteRightArmVtx" Count="35" Offset="0x1030">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_001260" Count="29" Offset="0x1260">
+        <Array Name="gWolfosWhiteLeftForearmVtx" Count="29" Offset="0x1260">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_001430" Count="35" Offset="0x1430">
+        <Array Name="gWolfosWhiteLeftArmVtx" Count="35" Offset="0x1430">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_001660" Count="34" Offset="0x1660">
+        <Array Name="gWolfosWhiteTorsoVtx" Count="34" Offset="0x1660">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_001880" Count="26" Offset="0x1880">
+        <Array Name="gWolfosWhiteWaistVtx" Count="26" Offset="0x1880">
             <Vtx/>
         </Array>
-        <DList Name="object_wf_DL_001A20" Offset="0x1A20"/>
-        <DList Name="object_wf_DL_001AE8" Offset="0x1AE8"/>
-        <DList Name="object_wf_DL_001BD8" Offset="0x1BD8"/>
-        <DList Name="object_wf_DL_001CC8" Offset="0x1CC8"/>
-        <DList Name="object_wf_DL_001D98" Offset="0x1D98"/>
-        <DList Name="object_wf_DL_001E98" Offset="0x1E98"/>
-        <DList Name="object_wf_DL_001F88" Offset="0x1F88"/>
-        <DList Name="object_wf_DL_002078" Offset="0x2078"/>
-        <DList Name="object_wf_DL_002148" Offset="0x2148"/>
-        <DList Name="object_wf_DL_002248" Offset="0x2248"/>
-        <DList Name="object_wf_DL_002368" Offset="0x2368"/>
-        <DList Name="object_wf_DL_002490" Offset="0x2490"/>
-        <DList Name="object_wf_DL_0025A0" Offset="0x25A0"/>
-        <DList Name="object_wf_DL_0026C8" Offset="0x26C8"/>
-        <Texture Name="object_wf_Tex_0027D8" Format="rgba16" Width="16" Height="16" Offset="0x27D8"/>
-        <Texture Name="object_wf_Tex_0029D8" Format="rgba16" Width="16" Height="16" Offset="0x29D8"/>
-        <Array Name="object_wf_Vtx_002BD8" Count="5" Offset="0x2BD8">
+        <DList Name="gWolfosWhiteWaistDL" Offset="0x1A20"/>
+        <DList Name="gWolfosWhiteRightThighDL" Offset="0x1AE8"/>
+        <DList Name="gWolfosWhiteRightShinDL" Offset="0x1BD8"/>
+        <DList Name="gWolfosWhiteRightAnkleDL" Offset="0x1CC8"/>
+        <DList Name="gWolfosWhiteRightFootDL" Offset="0x1D98"/>
+        <DList Name="gWolfosWhiteLeftThighDL" Offset="0x1E98"/>
+        <DList Name="gWolfosWhiteLeftShinDL" Offset="0x1F88"/>
+        <DList Name="gWolfosWhiteLeftAnkleDL" Offset="0x2078"/>
+        <DList Name="gWolfosWhiteLeftFootDL" Offset="0x2148"/>
+        <DList Name="gWolfosWhiteTorsoDL" Offset="0x2248"/>
+        <DList Name="gWolfosWhiteLeftArmDL" Offset="0x2368"/>
+        <DList Name="gWolfosWhiteLeftForearmDL" Offset="0x2490"/>
+        <DList Name="gWolfosWhiteRightArmDL" Offset="0x25A0"/>
+        <DList Name="gWolfosWhiteRightForearmDL" Offset="0x26C8"/>
+        <Texture Name="gWolfosWhiteEyeHalfTex" Format="rgba16" Width="16" Height="16" Offset="0x27D8"/>
+        <Texture Name="gWolfosWhiteEyeClosedTex" Format="rgba16" Width="16" Height="16" Offset="0x29D8"/>
+        <Array Name="gWolfosWhiteTailVtx" Count="5" Offset="0x2BD8">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_002C28" Count="18" Offset="0x2C28">
+        <Array Name="gWolfosWhiteLeftClawsVtx" Count="18" Offset="0x2C28">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_002D48" Count="18" Offset="0x2D48">
+        <Array Name="gWolfosWhiteRightClawsVtx" Count="18" Offset="0x2D48">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_002E68" Count="90" Offset="0x2E68">
+        <Array Name="gWolfosWhiteHeadVtx" Count="90" Offset="0x2E68">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_003408" Count="8" Offset="0x3408">
+        <Array Name="gWolfosWhiteEyesVtx" Count="8" Offset="0x3408">
             <Vtx/>
         </Array>
-        <DList Name="object_wf_DL_003488" Offset="0x3488"/>
-        <DList Name="object_wf_DL_003528" Offset="0x3528"/>
-        <DList Name="object_wf_DL_0035F0" Offset="0x35F0"/>
-        <DList Name="object_wf_DL_0036B8" Offset="0x36B8"/>
-        <DList Name="object_wf_DL_0039D8" Offset="0x39D8"/>
-        <Limb Name="object_wf_Limb_003A70" LimbType="Standard" Offset="0x3A70"/>
-        <Limb Name="object_wf_Limb_003A7C" LimbType="Standard" Offset="0x3A7C"/>
-        <Limb Name="object_wf_Limb_003A88" LimbType="Standard" Offset="0x3A88"/>
-        <Limb Name="object_wf_Limb_003A94" LimbType="Standard" Offset="0x3A94"/>
-        <Limb Name="object_wf_Limb_003AA0" LimbType="Standard" Offset="0x3AA0"/>
-        <Limb Name="object_wf_Limb_003AAC" LimbType="Standard" Offset="0x3AAC"/>
-        <Limb Name="object_wf_Limb_003AB8" LimbType="Standard" Offset="0x3AB8"/>
-        <Limb Name="object_wf_Limb_003AC4" LimbType="Standard" Offset="0x3AC4"/>
-        <Limb Name="object_wf_Limb_003AD0" LimbType="Standard" Offset="0x3AD0"/>
-        <Limb Name="object_wf_Limb_003ADC" LimbType="Standard" Offset="0x3ADC"/>
-        <Limb Name="object_wf_Limb_003AE8" LimbType="Standard" Offset="0x3AE8"/>
-        <Limb Name="object_wf_Limb_003AF4" LimbType="Standard" Offset="0x3AF4"/>
-        <Limb Name="object_wf_Limb_003B00" LimbType="Standard" Offset="0x3B00"/>
-        <Limb Name="object_wf_Limb_003B0C" LimbType="Standard" Offset="0x3B0C"/>
-        <Limb Name="object_wf_Limb_003B18" LimbType="Standard" Offset="0x3B18"/>
-        <Limb Name="object_wf_Limb_003B24" LimbType="Standard" Offset="0x3B24"/>
-        <Limb Name="object_wf_Limb_003B30" LimbType="Standard" Offset="0x3B30"/>
-        <Limb Name="object_wf_Limb_003B3C" LimbType="Standard" Offset="0x3B3C"/>
-        <Limb Name="object_wf_Limb_003B48" LimbType="Standard" Offset="0x3B48"/>
-        <Limb Name="object_wf_Limb_003B54" LimbType="Standard" Offset="0x3B54"/>
-        <Limb Name="object_wf_Limb_003B60" LimbType="Standard" Offset="0x3B60"/>
-        <Skeleton Name="object_wf_Skel_003BC0" Type="Flex" LimbType="Standard" Offset="0x3BC0"/>
-        <Animation Name="object_wf_Anim_004638" Offset="0x4638"/>
+        <DList Name="gWolfosWhiteTailDL" Offset="0x3488"/>
+        <DList Name="gWolfosWhiteLeftClawsDL" Offset="0x3528"/>
+        <DList Name="gWolfosWhiteRightClawsDL" Offset="0x35F0"/>
+        <DList Name="gWolfosWhiteHeadDL" Offset="0x36B8"/>
+        <DList Name="gWolfosWhiteEyesDL" Offset="0x39D8"/>
+        <Limb Name="gWolfosWhiteRootLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_ROOT" Offset="0x3A70"/>
+        <Limb Name="gWolfosWhiteLeftThighLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_LEFT_THIGH" Offset="0x3A7C"/>
+        <Limb Name="gWolfosWhiteLeftShinLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_LEFT_SHIN" Offset="0x3A88"/>
+        <Limb Name="gWolfosWhiteLeftAnkleLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_LEFT_ANKLE" Offset="0x3A94"/>
+        <Limb Name="gWolfosWhiteLeftFootLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_LEFT_FOOT" Offset="0x3AA0"/>
+        <Limb Name="gWolfosWhiteTailLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_TAIL" Offset="0x3AAC"/>
+        <Limb Name="gWolfosWhiteWaistLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_WAIST" Offset="0x3AB8"/>
+        <Limb Name="gWolfosWhiteRightThighLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_RIGHT_THIGH" Offset="0x3AC4"/>
+        <Limb Name="gWolfosWhiteRightShinLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_RIGHT_SHIN" Offset="0x3AD0"/>
+        <Limb Name="gWolfosWhiteRightAnkleLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_RIGHT_ANKLE" Offset="0x3ADC"/>
+        <Limb Name="gWolfosWhiteRightFootLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_RIGHT_FOOT" Offset="0x3AE8"/>
+        <Limb Name="gWolfosWhiteTorsoLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_TORSO" Offset="0x3AF4"/>
+        <Limb Name="gWolfosWhiteRightArmLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_RIGHT_ARM" Offset="0x3B00"/>
+        <Limb Name="gWolfosWhiteRightForearmLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_RIGHT_FOREARM" Offset="0x3B0C"/>
+        <Limb Name="gWolfosWhiteRightClawsLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_RIGHT_CLAWS" Offset="0x3B18"/>
+        <Limb Name="gWolfosWhiteHeadRootLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_HEAD_ROOT" Offset="0x3B24"/>
+        <Limb Name="gWolfosWhiteHeadLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_HEAD" Offset="0x3B30"/>
+        <Limb Name="gWolfosWhiteEyesLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_EYES" Offset="0x3B3C"/>
+        <Limb Name="gWolfosWhiteLeftArmLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_LEFT_ARM" Offset="0x3B48"/>
+        <Limb Name="gWolfosWhiteLeftForearmLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_LEFT_FOREARM" Offset="0x3B54"/>
+        <Limb Name="gWolfosWhiteLeftClawsLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_LEFT_CLAWS" Offset="0x3B60"/>
+        <Skeleton Name="gWolfosWhiteSkel" Type="Flex" LimbType="Standard" LimbNone="WOLFOS_LIMB_NONE" LimbMax="WOLFOS_LIMB_MAX" EnumName="WolfosLimb" Offset="0x3BC0"/>
+        <Animation Name="gWolfosAttackAnim" Offset="0x4638"/>
         <Blob Name="object_wf_zeroes_Blob_004648" Size="0x48" Offset="0x4648"/>
-        <Animation Name="object_wf_Anim_004AD0" Offset="0x4AD0"/>
+        <Animation Name="gWolfosBackflipAnim" Offset="0x4AD0"/>
         <Blob Name="object_wf_zeroes_Blob_004AE0" Size="0x20" Offset="0x4AE0"/>
-        <Animation Name="object_wf_Anim_004CA4" Offset="0x4CA4"/>
-        <Animation Name="object_wf_Anim_005430" Offset="0x5430"/>
+        <Animation Name="gWolfosBlockAnim" Offset="0x4CA4"/>
+        <Animation Name="gWolfosHowlAnim" Offset="0x5430"/>
         <Blob Name="object_wf_zeroes_Blob_005440" Size="0x40" Offset="0x5440"/>
-        <Animation Name="object_wf_Anim_0057A0" Offset="0x57A0"/>
+        <Animation Name="gWolfosRunAnim" Offset="0x57A0"/>
         <Blob Name="object_wf_zeroes_Blob_0057B0" Size="0x20" Offset="0x57B0"/>
-        <Array Name="object_wf_Vtx_0057D0" Count="19" Offset="0x57D0">
+        <Array Name="gWolfosGrayLeftFootVtx" Count="19" Offset="0x57D0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_005900" Count="12" Offset="0x5900">
+        <Array Name="gWolfosGrayLeftAnkleVtx" Count="12" Offset="0x5900">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_0059C0" Count="23" Offset="0x59C0">
+        <Array Name="gWolfosGrayLeftShinVtx" Count="23" Offset="0x59C0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_005B30" Count="26" Offset="0x5B30">
+        <Array Name="gWolfosGrayLeftThighVtx" Count="26" Offset="0x5B30">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_005CD0" Count="19" Offset="0x5CD0">
+        <Array Name="gWolfosGrayRightFootVtx" Count="19" Offset="0x5CD0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_005E00" Count="12" Offset="0x5E00">
+        <Array Name="gWolfosGrayRightAnkleVtx" Count="12" Offset="0x5E00">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_005EC0" Count="23" Offset="0x5EC0">
+        <Array Name="gWolfosGrayRightShinVtx" Count="23" Offset="0x5EC0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_006030" Count="26" Offset="0x6030">
+        <Array Name="gWolfosGrayRightThighVtx" Count="26" Offset="0x6030">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_0061D0" Count="40" Offset="0x61D0">
+        <Array Name="gWolfosGrayRightForearmVtx" Count="40" Offset="0x61D0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_006450" Count="26" Offset="0x6450">
+        <Array Name="gWolfosGrayRightArmVtx" Count="26" Offset="0x6450">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_0065F0" Count="40" Offset="0x65F0">
+        <Array Name="gWolfosGrayLeftForearmVtx" Count="40" Offset="0x65F0">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_006870" Count="26" Offset="0x6870">
+        <Array Name="gWolfosGrayLeftArmVtx" Count="26" Offset="0x6870">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_006A10" Count="34" Offset="0x6A10">
+        <Array Name="gWolfosGrayTorsoVtx" Count="34" Offset="0x6A10">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_006C30" Count="26" Offset="0x6C30">
+        <Array Name="gWolfosGrayWaistVtx" Count="26" Offset="0x6C30">
             <Vtx/>
         </Array>
-        <DList Name="object_wf_DL_006DD0" Offset="0x6DD0"/>
-        <DList Name="object_wf_DL_006E98" Offset="0x6E98"/>
-        <DList Name="object_wf_DL_006F88" Offset="0x6F88"/>
-        <DList Name="object_wf_DL_007078" Offset="0x7078"/>
-        <DList Name="object_wf_DL_007148" Offset="0x7148"/>
-        <DList Name="object_wf_DL_007248" Offset="0x7248"/>
-        <DList Name="object_wf_DL_007338" Offset="0x7338"/>
-        <DList Name="object_wf_DL_007428" Offset="0x7428"/>
-        <DList Name="object_wf_DL_0074F8" Offset="0x74F8"/>
-        <DList Name="object_wf_DL_0075F8" Offset="0x75F8"/>
-        <DList Name="object_wf_DL_007718" Offset="0x7718"/>
-        <DList Name="object_wf_DL_007830" Offset="0x7830"/>
-        <DList Name="object_wf_DL_007940" Offset="0x7940"/>
-        <DList Name="object_wf_DL_007A58" Offset="0x7A58"/>
-        <Texture Name="object_wf_Tex_007B68" Format="rgba16" Width="16" Height="16" Offset="0x7B68"/>
-        <Texture Name="object_wf_Tex_007D68" Format="rgba16" Width="16" Height="32" Offset="0x7D68"/>
-        <Texture Name="object_wf_Tex_008168" Format="rgba16" Width="8" Height="8" Offset="0x8168"/>
-        <Texture Name="object_wf_Tex_0081E8" Format="rgba16" Width="8" Height="8" Offset="0x81E8"/>
-        <Texture Name="object_wf_Tex_008268" Format="rgba16" Width="8" Height="8" Offset="0x8268"/>
-        <Texture Name="object_wf_Tex_0082E8" Format="rgba16" Width="8" Height="8" Offset="0x82E8"/>
-        <Texture Name="object_wf_Tex_008368" Format="rgba16" Width="16" Height="16" Offset="0x8368"/>
-        <Texture Name="object_wf_Tex_008568" Format="rgba16" Width="16" Height="16" Offset="0x8568"/>
-        <Array Name="object_wf_Vtx_008768" Count="5" Offset="0x8768">
+        <DList Name="gWolfosGrayWaistDL" Offset="0x6DD0"/>
+        <DList Name="gWolfosGrayRightThighDL" Offset="0x6E98"/>
+        <DList Name="gWolfosGrayRightShinDL" Offset="0x6F88"/>
+        <DList Name="gWolfosGrayRightAnkleDL" Offset="0x7078"/>
+        <DList Name="gWolfosGrayRightFootDL" Offset="0x7148"/>
+        <DList Name="gWolfosGrayLeftThighDL" Offset="0x7248"/>
+        <DList Name="gWolfosGrayLeftShinDL" Offset="0x7338"/>
+        <DList Name="gWolfosGrayLeftAnkleDL" Offset="0x7428"/>
+        <DList Name="gWolfosGrayLeftFootDL" Offset="0x74F8"/>
+        <DList Name="gWolfosGrayTorsoDL" Offset="0x75F8"/>
+        <DList Name="gWolfosGrayLeftArmDL" Offset="0x7718"/>
+        <DList Name="gWolfosGrayLeftForearmDL" Offset="0x7830"/>
+        <DList Name="gWolfosGrayRightArmDL" Offset="0x7940"/>
+        <DList Name="gWolfosGrayRightForearmDL" Offset="0x7A58"/>
+        <Texture Name="gWolfosGrayEyeOpenTex" Format="rgba16" Width="16" Height="16" Offset="0x7B68"/>
+        <Texture Name="gWolfosGrayFurTex" Format="rgba16" Width="16" Height="32" Offset="0x7D68"/>
+        <Texture Name="gWolfosGrayMouthTex" Format="rgba16" Width="8" Height="8" Offset="0x8168"/>
+        <Texture Name="gWolfosGrayTongueTex" Format="rgba16" Width="8" Height="8" Offset="0x81E8"/>
+        <Texture Name="gWolfosGrayTeethClawsTex" Format="rgba16" Width="8" Height="8" Offset="0x8268"/>
+        <Texture Name="gWolfosGrayNoseTex" Format="rgba16" Width="8" Height="8" Offset="0x82E8"/>
+        <Texture Name="gWolfosGrayEyeHalfTex" Format="rgba16" Width="16" Height="16" Offset="0x8368"/>
+        <Texture Name="gWolfosGrayEyeClosedTex" Format="rgba16" Width="16" Height="16" Offset="0x8568"/>
+        <Array Name="gWolfosGrayTailVtx" Count="5" Offset="0x8768">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_0087B8" Count="12" Offset="0x87B8">
+        <Array Name="gWolfosGrayLeftClawsVtx" Count="12" Offset="0x87B8">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_008878" Count="12" Offset="0x8878">
+        <Array Name="gWolfosGrayRightClawsVtx" Count="12" Offset="0x8878">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_008938" Count="90" Offset="0x8938">
+        <Array Name="gWolfosGrayHeadVtx" Count="90" Offset="0x8938">
             <Vtx/>
         </Array>
-        <Array Name="object_wf_Vtx_008ED8" Count="8" Offset="0x8ED8">
+        <Array Name="gWolfosGrayEyesVtx" Count="8" Offset="0x8ED8">
             <Vtx/>
         </Array>
-        <DList Name="object_wf_DL_008F58" Offset="0x8F58"/>
-        <DList Name="object_wf_DL_008FF8" Offset="0x8FF8"/>
-        <DList Name="object_wf_DL_0090C0" Offset="0x90C0"/>
-        <DList Name="object_wf_DL_009188" Offset="0x9188"/>
-        <DList Name="object_wf_DL_0094A8" Offset="0x94A8"/>
-        <Limb Name="object_wf_Limb_009540" LimbType="Standard" Offset="0x9540"/>
-        <Limb Name="object_wf_Limb_00954C" LimbType="Standard" Offset="0x954C"/>
-        <Limb Name="object_wf_Limb_009558" LimbType="Standard" Offset="0x9558"/>
-        <Limb Name="object_wf_Limb_009564" LimbType="Standard" Offset="0x9564"/>
-        <Limb Name="object_wf_Limb_009570" LimbType="Standard" Offset="0x9570"/>
-        <Limb Name="object_wf_Limb_00957C" LimbType="Standard" Offset="0x957C"/>
-        <Limb Name="object_wf_Limb_009588" LimbType="Standard" Offset="0x9588"/>
-        <Limb Name="object_wf_Limb_009594" LimbType="Standard" Offset="0x9594"/>
-        <Limb Name="object_wf_Limb_0095A0" LimbType="Standard" Offset="0x95A0"/>
-        <Limb Name="object_wf_Limb_0095AC" LimbType="Standard" Offset="0x95AC"/>
-        <Limb Name="object_wf_Limb_0095B8" LimbType="Standard" Offset="0x95B8"/>
-        <Limb Name="object_wf_Limb_0095C4" LimbType="Standard" Offset="0x95C4"/>
-        <Limb Name="object_wf_Limb_0095D0" LimbType="Standard" Offset="0x95D0"/>
-        <Limb Name="object_wf_Limb_0095DC" LimbType="Standard" Offset="0x95DC"/>
-        <Limb Name="object_wf_Limb_0095E8" LimbType="Standard" Offset="0x95E8"/>
-        <Limb Name="object_wf_Limb_0095F4" LimbType="Standard" Offset="0x95F4"/>
-        <Limb Name="object_wf_Limb_009600" LimbType="Standard" Offset="0x9600"/>
-        <Limb Name="object_wf_Limb_00960C" LimbType="Standard" Offset="0x960C"/>
-        <Limb Name="object_wf_Limb_009618" LimbType="Standard" Offset="0x9618"/>
-        <Limb Name="object_wf_Limb_009624" LimbType="Standard" Offset="0x9624"/>
-        <Limb Name="object_wf_Limb_009630" LimbType="Standard" Offset="0x9630"/>
-        <Skeleton Name="object_wf_Skel_009690" Type="Flex" LimbType="Standard" Offset="0x9690"/>
-        <Animation Name="object_wf_Anim_0098C8" Offset="0x98C8"/>
+        <DList Name="gWolfosGrayTailDL" Offset="0x8F58"/>
+        <DList Name="gWolfosGrayLeftClawsDL" Offset="0x8FF8"/>
+        <DList Name="gWolfosGrayRightClawsDL" Offset="0x90C0"/>
+        <DList Name="gWolfosGrayHeadDL" Offset="0x9188"/>
+        <DList Name="gWolfosGrayEyesDL" Offset="0x94A8"/>
+        <Limb Name="gWolfosGrayRootLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_ROOT" Offset="0x9540"/>
+        <Limb Name="gWolfosGrayLeftThighLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_LEFT_THIGH" Offset="0x954C"/>
+        <Limb Name="gWolfosGrayLeftShinLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_LEFT_SHIN" Offset="0x9558"/>
+        <Limb Name="gWolfosGrayLeftAnkleLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_LEFT_ANKLE" Offset="0x9564"/>
+        <Limb Name="gWolfosGrayLeftFootLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_LEFT_FOOT" Offset="0x9570"/>
+        <Limb Name="gWolfosGrayTailLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_TAIL" Offset="0x957C"/>
+        <Limb Name="gWolfosGrayWaistLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_WAIST" Offset="0x9588"/>
+        <Limb Name="gWolfosGrayRightThighLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_RIGHT_THIGH" Offset="0x9594"/>
+        <Limb Name="gWolfosGrayRightShinLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_RIGHT_SHIN" Offset="0x95A0"/>
+        <Limb Name="gWolfosGrayRightAnkleLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_RIGHT_ANKLE" Offset="0x95AC"/>
+        <Limb Name="gWolfosGrayRightFootLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_RIGHT_FOOT" Offset="0x95B8"/>
+        <Limb Name="gWolfosGrayTorsoLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_TORSO" Offset="0x95C4"/>
+        <Limb Name="gWolfosGrayRightArmLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_RIGHT_ARM" Offset="0x95D0"/>
+        <Limb Name="gWolfosGrayRightForearmLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_RIGHT_FOREARM" Offset="0x95DC"/>
+        <Limb Name="gWolfosGrayRightClawsLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_RIGHT_CLAWS" Offset="0x95E8"/>
+        <Limb Name="gWolfosGrayHeadRootLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_HEAD_ROOT" Offset="0x95F4"/>
+        <Limb Name="gWolfosGrayHeadLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_HEAD" Offset="0x9600"/>
+        <Limb Name="gWolfosGrayEyesLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_EYES" Offset="0x960C"/>
+        <Limb Name="gWolfosGrayLeftArmLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_LEFT_ARM" Offset="0x9618"/>
+        <Limb Name="gWolfosGrayLeftForearmLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_LEFT_FOREARM" Offset="0x9624"/>
+        <Limb Name="gWolfosGrayLeftClawsLimb" LimbType="Standard" EnumName="WOLFOS_LIMB_GRAY_LEFT_CLAWS" Offset="0x9630"/>
+        <Skeleton Name="gWolfosGraySkel" Type="Flex" LimbType="Standard" LimbNone="WOLFOS_LIMB_GRAY_NONE" LimbMax="WOLFOS_LIMB_GRAY_MAX" EnumName="WolfosLimbGray" Offset="0x9690"/>
+        <Animation Name="gWolfosSideStepAnim" Offset="0x98C8"/>
         <Blob Name="object_wf_zeroes_Blob_0098D8" Size="0x18" Offset="0x98D8"/>
-        <Animation Name="object_wf_Anim_009B20" Offset="0x9B20"/>
+        <Animation Name="gWolfosDamagedAnim" Offset="0x9B20"/>
         <Blob Name="object_wf_zeroes_Blob_009B30" Size="0x10" Offset="0x9B30"/>
-        <Animation Name="object_wf_Anim_00A4AC" Offset="0xA4AC"/>
+        <Animation Name="gWolfosIdleAnim" Offset="0xA4AC"/>
         <Blob Name="object_wf_zeroes_Blob_00A4BC" Size="0x44" Offset="0xA4BC"/>
     </File>
 </Root>
