@@ -9,6 +9,8 @@ jobs:
   build_repo:
     # This is a *private* build container.
     container: ghcr.io/zeldaret/oot-build:main
+    # Prevent running outside zeldaret/oot as fetching the container would fail anyway.
+    if: ${{ github.repository == 'zeldaret/oot' }}
 
     name: Build repo (${{ matrix.version }})
     runs-on: ubuntu-latest
