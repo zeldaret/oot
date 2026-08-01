@@ -545,7 +545,7 @@ void EnTp_Head_SinkIntoGroundAndReappear(EnTp* this, PlayState* play) {
     }
 }
 
-void EnTp_CheckCollide_(EnTp* this, PlayState* play) {
+void EnTp_CheckCollide(EnTp* this, PlayState* play) {
     EnTp* parent;
     EnTp* child;
     s32 isHeadInstance;
@@ -641,7 +641,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
         this->unk_158 = ENTP_DMG_REACT_NO_EFFECT;
     }
     if (this->actor.colChkInfo.health != 0) {
-        EnTp_CheckCollide_(this, play);
+        EnTp_CheckCollide(this, play);
     }
     this->actionFunc(this, play);
     if (this->actor.params < 0) { // ENTP_TYPE_HEAD
