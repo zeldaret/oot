@@ -2,6 +2,7 @@
 #include "n64dd.h"
 #include "n64dd_internal.h"
 #include "region.h"
+#include "tex_len.h"
 #include "z_locale.h"
 
 #pragma increment_block_number ""
@@ -108,20 +109,20 @@ const char* D_801D3760[2][8][4] = {
         },
     },
 };
-u8 D_801D3860[2][0x600] = {
+u64 D_801D3860[2][TEX_LEN(u64, 192, 16, 4)] = {
     {
-#include "assets/misc/n64dd/D_801D3860_0.bin.inc.c"
+#include "assets/misc/n64dd_error_textures/gN64DDError41JPNTex.i4.inc.c"
     },
     {
-#include "assets/misc/n64dd/D_801D3860_1.bin.inc.c"
+#include "assets/misc/n64dd_error_textures/gN64DDError41ENGTex.i4.inc.c"
     },
 };
-u8 D_801D4460[2][0x2800] = {
+u64 D_801D4460[2][TEX_LEN(u64, 320, 64, 4)] = {
     {
-#include "assets/misc/n64dd/D_801D4460_0.bin.inc.c"
+#include "assets/misc/n64dd_error_textures/gN64DDPleaseReadManualJPNTex.i4.inc.c"
     },
     {
-#include "assets/misc/n64dd/D_801D4460_1.bin.inc.c"
+#include "assets/misc/n64dd_error_textures/gN64DDPleaseReadManualENGTex.i4.inc.c"
     },
 };
 
