@@ -15,7 +15,7 @@
     include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
     include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
@@ -24,7 +24,7 @@
 #endif
     include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
 #if DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+    include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
 #endif
@@ -33,8 +33,8 @@
     include "$(BUILD_DIR)/src/libultra/io/contquery.o"
     include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
 #if !DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/string.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
@@ -55,10 +55,10 @@
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
     include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
 #if DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/gu/us2dex.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
     include "$(BUILD_DIR)/src/libultra/io/contsetch.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsfilestate.o"
@@ -67,22 +67,22 @@
 #endif
     include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
+    include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
 #if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+    include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
 #endif
-    include_once "$(BUILD_DIR)/src/libultra/io/contramread.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/crc.o"
+    include "$(BUILD_DIR)/src/libultra/io/contramread.o"
+    include "$(BUILD_DIR)/src/libultra/io/crc.o"
 #if !DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/settimer.o"
 #if !DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/spgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
@@ -92,4 +92,4 @@
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
-    include_once "$(BUILD_DIR)/src/libc/sqrt.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"

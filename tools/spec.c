@@ -138,7 +138,6 @@ static const char *const stmtNames[] =
     [STMT_entry]     = "entry",
     [STMT_flags]     = "flags",
     [STMT_include]   = "include",
-    [STMT_include_once] = "include_once",
     [STMT_name]      = "name",
     [STMT_number]    = "number",
     [STMT_romalign]  = "romalign",
@@ -160,7 +159,7 @@ STMTId get_stmt_id_by_stmt_name(const char *stmtName, int lineNum) {
 
 bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, int lineNum, const struct Segment *segments, int segment_count) {
     // ensure no duplicates (except for 'include' or 'pad_text')
-    if (stmt != STMT_include && stmt != STMT_include_once && stmt != STMT_pad_text &&
+    if (stmt != STMT_include && stmt != STMT_pad_text &&
         (currSeg->fields & (1 << stmt)))
         util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtNames[stmt]);
 
@@ -212,16 +211,7 @@ bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, i
         if (!is_pow_of_2(currSeg->romalign))
             util_fatal_error("line %i: alignment is not a power of two", lineNum);
         break;
-    case STMT_include:
-        currSeg->includesCount++;
-        currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
-
-        if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1].fpath))
-            util_fatal_error("line %i: invalid filename", lineNum);
-
-        currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
-        break;
-    case STMT_include_once: {
+    case STMT_include: {
         char *inc;
 
         if (!parse_quoted_string(args, &inc))

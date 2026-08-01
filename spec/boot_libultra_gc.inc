@@ -30,12 +30,12 @@
     include "$(BUILD_DIR)/src/libultra/os/getmemsize.o"
     include "$(BUILD_DIR)/src/libultra/os/seteventmesg.o"
 #if DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
 #if DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/libc/string.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
     include "$(BUILD_DIR)/src/libultra/os/createmesgqueue.o"
@@ -70,16 +70,16 @@
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
 #if DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
+    include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
     include "$(BUILD_DIR)/src/libultra/os/yieldthread.o"
     include "$(BUILD_DIR)/src/libultra/os/getcause.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawwrite.o"
 #if DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sirawwrite.o"
     include "$(BUILD_DIR)/src/libultra/io/vimgr.o"

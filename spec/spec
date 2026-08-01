@@ -46,7 +46,7 @@ beginseg
     // libu64
     include "$(BUILD_DIR)/src/libu64/stackcheck.o"
 #if !PLATFORM_IQUE
-    include_once "$(BUILD_DIR)/src/libu64/debug.o"
+    include "$(BUILD_DIR)/src/libu64/debug.o"
 #endif
 
     // libc64
@@ -90,14 +90,14 @@ beginseg
 
     // Extra files for non-matching debug builds
 #if DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libu64/debug.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/string.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
-    include_once "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+    include "$(BUILD_DIR)/src/libu64/debug.o"
+    include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
 #endif
 
 #if PLATFORM_IQUE
@@ -106,9 +106,9 @@ beginseg
 
     // Functions that GCC-compiled code may depend on, placed in boot so they will always be loaded
 #ifdef COMPILER_GCC
-    include_once "$(BUILD_DIR)/src/libultra/libc/string.o"
-    include_once "$(BUILD_DIR)/src/libc/memset.o"
-    include_once "$(BUILD_DIR)/src/libc/memmove.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
     include "$(BUILD_DIR)/src/gcc_fix/missing_gcc_functions.o"
 #endif
 
@@ -714,7 +714,7 @@ beginseg
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
 #elif PLATFORM_IQUE
     include "$(BUILD_DIR)/src/libu64/runtime.o"
-    include_once "$(BUILD_DIR)/src/libu64/debug.o"
+    include "$(BUILD_DIR)/src/libu64/debug.o"
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/logseverity_gc.o"
     include "$(BUILD_DIR)/src/libu64/relocation_gc.o"
@@ -775,21 +775,21 @@ beginseg
 
     // libc
 #if PLATFORM_N64
-    include_once "$(BUILD_DIR)/src/libc/sqrt.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
     include "$(BUILD_DIR)/src/libc/fmodf.o"
-    include_once "$(BUILD_DIR)/src/libc/memset.o"
-    include_once "$(BUILD_DIR)/src/libc/memmove.o"
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
 #elif PLATFORM_GC
-    include_once "$(BUILD_DIR)/src/libc/sqrt.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
     include "$(BUILD_DIR)/src/libc/fabsf.o"
     include "$(BUILD_DIR)/src/libc/fmodf.o"
-    include_once "$(BUILD_DIR)/src/libc/memset.o"
-    include_once "$(BUILD_DIR)/src/libc/memmove.o"
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
 #elif PLATFORM_IQUE
     include "$(BUILD_DIR)/src/libc/fmodf.o"
-    include_once "$(BUILD_DIR)/src/libc/memmove.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
     include "$(BUILD_DIR)/src/libc/fabsf.o"
-    include_once "$(BUILD_DIR)/src/libc/sqrt.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
 #endif
 
 #if PLATFORM_IQUE
@@ -821,22 +821,22 @@ beginseg
 
     // Extra files for non-matching debug builds
 #if DEBUG_FEATURES
-    include_once "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/contpfs.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/contramread.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/crc.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsdeletefile.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsfilestate.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsinitpak.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
-    include_once "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
+    include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
+    include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+    include "$(BUILD_DIR)/src/libultra/io/contramread.o"
+    include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
+    include "$(BUILD_DIR)/src/libultra/io/crc.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsdeletefile.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsfilestate.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsinitpak.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
 #if PLATFORM_IQUE
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
 #endif
