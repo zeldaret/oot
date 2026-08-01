@@ -1,0 +1,8 @@
+<Root>
+    <File Name="n64dd">
+        <Blob Name="D_801D3860_0" Size="0x600" Offset="0x0"/>
+        <Blob Name="D_801D3860_1" Size="0x600" Offset="0x600"/>
+        <Blob Name="D_801D4460_0" Size="0x2800" Offset="0xC00"/>
+        <Blob Name="D_801D4460_1" Size="0x2800" Offset="0x3400"/>
+    </File>
+</Root>
