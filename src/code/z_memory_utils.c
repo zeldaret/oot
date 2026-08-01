@@ -3,6 +3,7 @@
 
 /**
  * Copy `size` bytes from `src` to `dest`.
+ * The memory regions must not overlap.
  */
 void* MemCopy(void* dest, void* src, s32 size) {
     u8* destu = (u8*)dest;
