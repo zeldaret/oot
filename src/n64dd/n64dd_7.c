@@ -1,27 +1,24 @@
+/**
+ * Some sort of GfxPrint like utility?
+ */
+
 #include "ultra64.h"
 #include "n64dd.h"
 #include "n64dd_internal.h"
 #include "libc64/aprintf.h"
 #include "attributes.h"
+#include "color.h"
 
 typedef struct struct_801CAF10 {
-    /* 0x00 */ struct struct_801CAF10* (*unk0)(struct struct_801CAF10*, u8*, s32);
+    /* 0x00 */ PrintCallback callback;
     /* 0x04 */ u8* unk4;
     /* 0x08 */ u16 unk8;
-    /* 0x0A */ u16 unkA;
-    /* 0x0C */ u16 unkC;
+    /* 0x0A */ u16 posX;
+    /* 0x0C */ u16 posY;
     /* 0x0E */ char padE[2];
-    /* 0x10 */ union {
-        s32 unk10w;
-        struct {
-            s8 unk10;
-            s8 unk11;
-            s8 unk12;
-            s8 unk13;
-        };
-    };
-    /* 0x14 */ u16 unk14;
-    /* 0x16 */ u16 unk16;
+    /* 0x10 */ Color_RGBA8_u32 color;
+    /* 0x14 */ u16 baseX;
+    /* 0x16 */ u16 baseY;
     /* 0x18 */ u16 unk18;
     /* 0x1A */ u16 unk1A;
     /* 0x1C */ u8 unk1C;
@@ -29,7 +26,7 @@ typedef struct struct_801CAF10 {
     /* 0x20 */ s16* unk20;
     /* 0x24 */ u16 unk24;
     /* 0x26 */ u16 unk26;
-} struct_801CAF10; /* size >= 0x28 */
+} struct_801CAF10; /* size = 0x28 */
 
 u32 D_801D9460[0x5F] = {
     0x9D14,     0x232A14,   0x296314,   0x2F8A14,   0x457E18,   0x63CA14,   0x84AA14,   0xA03314,   0xA45E14,
@@ -104,20 +101,20 @@ void func_801CAA60(u8* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s
 }
 
 void func_801CAB68(struct_801CAF10* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    arg0->unk10 = arg1;
-    arg0->unk11 = arg2;
-    arg0->unk12 = arg3;
-    arg0->unk13 = arg4;
+    arg0->color.r = arg1;
+    arg0->color.g = arg2;
+    arg0->color.b = arg3;
+    arg0->color.a = arg4;
 }
 
 void func_801CAB84(struct_801CAF10* arg0, s32 arg1, s32 arg2) {
-    arg0->unkA = (s16)(arg0->unk14 + arg1);
-    arg0->unkC = (s16)(arg0->unk16 + arg2);
+    arg0->posX = (s16)(arg0->baseX + arg1);
+    arg0->posY = (s16)(arg0->baseY + arg2);
 }
 
 void func_801CABA4(struct_801CAF10* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    arg0->unk14 = (u16)arg1;
-    arg0->unk16 = (u16)arg2;
+    arg0->baseX = (u16)arg1;
+    arg0->baseY = (u16)arg2;
     arg0->unk18 = (u16)arg3;
     arg0->unk1A = (u16)arg4;
 }
@@ -152,21 +149,21 @@ void func_801CAC3C(struct_801CAF10* arg0, u8 arg1) {
     }
     arg0->unk1C = 0;
     if (func_801CA920(var_a0, arg0->unk4, &sp48, &sp44, &sp40) == 0) {
-        if ((s32)arg0->unk18 < (arg0->unkA + sp48)) {
-            arg0->unkA = arg0->unk14;
-            if ((s32)arg0->unk1A < arg0->unkC + 0x10) {
-                arg0->unkC = arg0->unk16;
+        if ((s32)arg0->unk18 < (arg0->posX + sp48)) {
+            arg0->posX = arg0->baseX;
+            if ((s32)arg0->unk1A < arg0->posY + 0x10) {
+                arg0->posY = arg0->baseY;
             } else {
-                arg0->unkC = arg0->unkC + 0x10;
+                arg0->posY = arg0->posY + 0x10;
             }
         }
-        func_801CAA60(arg0->unk4, arg0->unkA, arg0->unkC, sp48, sp44, sp40, arg0->unk20, (s32)arg0->unk24);
+        func_801CAA60(arg0->unk4, arg0->posX, arg0->posY, sp48, sp44, sp40, arg0->unk20, (s32)arg0->unk24);
         if (sp48 == 0x10) {
             var_v0 = sp48;
         } else {
             var_v0 = sp48 + 2;
         }
-        arg0->unkA += var_v0;
+        arg0->posX += var_v0;
     }
 }
 
@@ -178,22 +175,22 @@ void func_801CAD64(struct_801CAF10* arg0, u8 arg1) {
             case 0:
                 break;
             case 0xA:
-                arg0->unkC += 0x20;
+                arg0->posY += 0x20;
                 FALLTHROUGH;
             case 0xD:
-                arg0->unkA = arg0->unk14;
+                arg0->posX = arg0->baseX;
                 break;
             case 9:
                 do {
                     func_801CAC3C(arg0, 0x20);
-                } while ((arg0->unkA - arg0->unk14) % 256);
+                } while ((arg0->posX - arg0->baseX) % 256);
                 break;
         }
     }
 }
 
-void func_801CAE2C(struct_801CAF10* arg0, u8* arg1, s32 arg2, s32 arg3) {
-    u8* var_s0;
+void func_801CAE2C(struct_801CAF10* arg0, const char* arg1, s32 arg2, size_t arg3) {
+    const char* var_s0;
     s32 var_s1;
 
     var_s0 = arg1;
@@ -208,20 +205,20 @@ void func_801CAE88(struct_801CAF10* arg0, u8* arg1) {
     }
 }
 
-struct_801CAF10* func_801CAEE0(struct_801CAF10* arg0, u8* arg1, s32 arg2) {
+void* func_801CAEE0(void* arg0, const char* arg1, size_t arg2) {
     func_801CAE2C(arg0, arg1, 1, arg2);
     return arg0;
 }
 
 void func_801CAF10(struct_801CAF10* arg0) {
-    arg0->unk0 = func_801CAEE0;
-    arg0->unkA = 0;
-    arg0->unkC = 0;
-    arg0->unk14 = 0;
-    arg0->unk16 = 0;
+    arg0->callback = func_801CAEE0;
+    arg0->posX = 0;
+    arg0->posY = 0;
+    arg0->baseX = 0;
+    arg0->baseY = 0;
     arg0->unk18 = 0;
     arg0->unk1A = 0;
-    arg0->unk10w = 0;
+    arg0->color.rgba = 0;
     arg0->unk1C = 0;
     arg0->unk4 = 0;
 }
@@ -229,11 +226,11 @@ void func_801CAF10(struct_801CAF10* arg0) {
 void func_801CAF48(struct_801CAF10* arg0) {
 }
 
-void func_801CAF54(PrintCallback* arg0, const char* arg1, va_list arg2) {
-    PrintUtils_VPrintf(arg0, arg1, arg2);
+void func_801CAF54(struct_801CAF10* arg0, const char* arg1, va_list arg2) {
+    PrintUtils_VPrintf(&arg0->callback, arg1, arg2);
 }
 
-void func_801CAF74(PrintCallback* arg0, const char* arg1, ...) {
+void func_801CAF74(struct_801CAF10* arg0, const char* arg1, ...) {
     va_list varargs;
 
     va_start(varargs, arg1);
