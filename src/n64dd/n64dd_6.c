@@ -1,6 +1,7 @@
 #include "ultra64.h"
 #include "n64dd.h"
 #include "n64dd_internal.h"
+#include "region.h"
 #include "z_locale.h"
 
 #pragma increment_block_number ""
@@ -107,7 +108,7 @@ const char* D_801D3760[2][8][4] = {
         },
     },
 };
-UNK_TYPE1 D_801D3860[2][0x600] = {
+u8 D_801D3860[2][0x600] = {
     {
 #include "assets/misc/n64dd/D_801D3860_0.bin.inc.c"
     },
@@ -115,12 +116,12 @@ UNK_TYPE1 D_801D3860[2][0x600] = {
 #include "assets/misc/n64dd/D_801D3860_1.bin.inc.c"
     },
 };
-s8 D_801D4460[2][0x2800] = {
+u8 D_801D4460[2][0x2800] = {
     {
-#include "assets/misc/n64dd/D_801D3860_2.bin.inc.c"
+#include "assets/misc/n64dd/D_801D4460_0.bin.inc.c"
     },
     {
-#include "assets/misc/n64dd/D_801D3860_3.bin.inc.c"
+#include "assets/misc/n64dd/D_801D4460_1.bin.inc.c"
     },
 };
 
@@ -161,7 +162,7 @@ s32 func_801CA3E0(s32 arg0) {
 }
 
 s32 func_801CA4B8(void) {
-    return gCurrentRegion == 1 ? 0 : 1;
+    return gCurrentRegion == REGION_JP ? 0 : 1;
 }
 
 void func_801CA4E4(u8* arg0, u8 arg1, s32 arg2) {
@@ -206,7 +207,7 @@ void func_801CA628(void* arg0, s32 arg1) {
     const char* temp_v0;
 
     temp_v0 = func_801CA514();
-    if (gCurrentRegion == 1) {
+    if (gCurrentRegion == REGION_JP) {
         func_801CA544((char*)(temp_v0 + 0xC), arg1);
     } else {
         func_801CA5C4((char*)(temp_v0 + 0xD), arg1);
@@ -216,10 +217,11 @@ void func_801CA628(void* arg0, s32 arg1) {
 
 void* func_801CA698(s32 arg0) {
     func_801CA730();
-    if (arg0 == 0x29) {
+    if (arg0 == LEO_ERROR_DEVICE_COMMUNICATION_FAILURE) {
         return D_801D3860[func_801CA4B8()];
     }
-    if (((arg0 >= 0x25) && (arg0 < 0x29)) || (arg0 == 0x1F) || (arg0 == 0x20)) {
+    if (((arg0 >= LEO_ERROR_WAITING_NMI) && (arg0 < LEO_ERROR_DEVICE_COMMUNICATION_FAILURE)) ||
+        (arg0 == LEO_ERROR_INVALID_COMMAND_OPERATION_CODE) || (arg0 == LEO_ERROR_LBA_OUT_OF_RANGE)) {
         return D_801E1800;
     } else {
         func_801CA628(D_801E1800, arg0);

@@ -310,7 +310,7 @@ s32 func_801C7658(void) {
     D_801DA5D0.unk0 = 2;
     D_801DA5D0.unk10 = 6;
     D_801DA5D0.unk14 = DmaMgr_DmaFromDriveRom;
-    D_801DA5D0.unkC = &func_801C7E34;
+    D_801DA5D0.unkC = func_801C7E34;
     (&func_801C8860)(&D_801DA5D0);
     D_801DA5D0.unk0 = 0xD;
     (&func_801C8860)(&D_801DA5D0);
@@ -427,7 +427,7 @@ s32 func_801C843C(s32 arg0, s32* arg1, s32* arg2) {
     s32 v;
 
     v = LeoByteToLBA(1, arg0 + 1, &sp2C);
-    if (v != 0) {
+    if (v != LEO_ERROR_GOOD) {
         return v;
     }
     sp24 = sp2C - 1;
@@ -435,22 +435,23 @@ s32 func_801C843C(s32 arg0, s32* arg1, s32* arg2) {
         sp20 = 0;
     } else {
         v = LeoLBAToByte(1, sp24, &sp20);
-        if (v != 0) {
+        if (v != LEO_ERROR_GOOD) {
             return v;
         }
     }
     *arg1 = sp24 + 1;
     *arg2 = arg0 - sp20;
-    return 0;
+    return LEO_ERROR_GOOD;
 }
 
 s32 func_801C84E0(s32 arg0) {
     s32 sp1C;
 
-    if (LeoLBAToByte(arg0, 1, &sp1C) == 0) {
+    if (LeoLBAToByte(arg0, 1, &sp1C) == LEO_ERROR_GOOD) {
         return sp1C;
+    } else {
+        return 0;
     }
-    return 0;
 }
 
 void func_801C7C1C(void* arg0, s32 arg1, s32 arg2) {
@@ -472,19 +473,17 @@ void func_801C7C1C(void* arg0, s32 arg1, s32 arg2) {
     sp34 = D_801D36D0;
     if (sp44 == sp40) {
         func_801C8214(sp44, sp34, func_801C84E0(sp44));
-        bcopy((char*)sp34 + sp3C, arg0, arg2);
+        bcopy((u8*)sp34 + sp3C, arg0, arg2);
     } else {
         var_s1 = 0;
         func_801C8214(sp44, sp34, func_801C84E0(sp44));
-        bcopy((char*)sp34 + sp3C, arg0, func_801C84E0(sp44) - sp3C);
+        bcopy((u8*)sp34 + sp3C, arg0, func_801C84E0(sp44) - sp3C);
         temp_v0 = sp44 + 1;
         if (temp_v0 < sp40) {
             var_s0 = temp_v0;
-            if (temp_v0 < sp40) {
-                do {
-                    var_s1 += func_801C84E0(var_s0);
-                    var_s0 += 1;
-                } while (var_s0 < sp40);
+            while (var_s0 < sp40) {
+                var_s1 += func_801C84E0(var_s0);
+                var_s0 += 1;
             }
             func_801C8214(sp44 + 1, (void*)((func_801C84E0(sp44) + (s32)arg0) - sp3C), var_s1);
         }

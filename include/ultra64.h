@@ -1,9 +1,6 @@
 #ifndef ULTRA64_H
 #define ULTRA64_H
 
-#define BADCASTP (void*)
-#define BADCASTI (u32)
-
 #include "assert.h"
 #include "math.h"
 #include "stdarg.h"

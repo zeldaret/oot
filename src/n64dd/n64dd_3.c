@@ -86,11 +86,9 @@ void func_801C9400(void) {
 }
 
 s32 func_801C9430(struct_801E1598* arg0) {
-    s32 temp_a1;
-
-    temp_a1 = arg0->unk68;
-    if (((temp_a1 < 0x25) || (temp_a1 >= 0x29)) && (temp_a1 != 0x1F) && (temp_a1 != 0x20)) {
-        func_801C91B0(temp_a1);
+    if (((arg0->unk68 <= LEO_ERROR_ILLEGAL_TIMER_VALUE) || (arg0->unk68 >= LEO_ERROR_DEVICE_COMMUNICATION_FAILURE)) &&
+        (arg0->unk68 != LEO_ERROR_INVALID_COMMAND_OPERATION_CODE) && (arg0->unk68 != LEO_ERROR_LBA_OUT_OF_RANGE)) {
+        func_801C91B0(arg0->unk68);
         func_801C9228(3);
     }
     LeoClearQueue();
@@ -105,17 +103,17 @@ s32 func_801C948C(struct_801E1598* arg0) {
         Sleep_Msec(60);
         func_801C8B40(arg0);
         switch (arg0->unk68) {
-            case 0x2A:
+            case LEO_ERROR_MEDIUM_NOT_PRESENT:
                 func_801C92D4();
                 return 0;
-            case 0x22:
+            case LEO_ERROR_COMMAND_TERMINATED:
                 func_801C92D4();
                 LeoClearQueue();
                 return 3;
-            case 0:
+            case LEO_ERROR_GOOD:
                 func_801C92A0(6);
                 FALLTHROUGH;
-            case 0x23:
+            case LEO_ERROR_QUEUE_FULL:
                 var_s0 = 1;
                 FALLTHROUGH;
             default:
@@ -131,18 +129,18 @@ s32 func_801C948C(struct_801E1598* arg0) {
 
 s32 func_801C955C(struct_801E1598* arg0) {
     switch (arg0->unk68) {
-        case 34:
+        case LEO_ERROR_COMMAND_TERMINATED:
             func_801C9400();
             LeoClearQueue();
             return 3;
-        case 2:
+        case LEO_ERROR_DIAGNOSTIC_FAILURE:
             func_801C91B0(arg0->unk68);
             func_801C92A0(5);
             return 9;
-        case 0:
+        case LEO_ERROR_GOOD:
             func_801C9400();
             return 0;
-        case 43:
+        case LEO_ERROR_POWERONRESET_DEVICERESET_OCCURED:
             if ((u8)arg0->unk65 == 0) {
                 func_801C9400();
                 arg0->unk65 = 2;
@@ -152,7 +150,7 @@ s32 func_801C955C(struct_801E1598* arg0) {
         default:
             func_801C9400();
             return func_801C9430(arg0);
-        case 35:
+        case LEO_ERROR_QUEUE_FULL:
             return 9;
     }
 }
@@ -163,11 +161,11 @@ s32 func_801C9630(struct_801E1598* arg0) {
     while (true) {
         func_801C8AF8(arg0);
         switch (arg0->unk68) {
-            case 0x31:
+            case LEO_ERROR_EJECTED_ILLEGALLY_RESUME:
                 func_801C91B0(arg0->unk68);
                 func_801C9228(2);
                 return 5;
-            case 0x2A:
+            case LEO_ERROR_MEDIUM_NOT_PRESENT:
                 func_801C9400();
                 return 5;
             default:
@@ -188,13 +186,13 @@ s32 func_801C96E0(struct_801E1598* arg0) {
         Sleep_Msec(60);
         func_801C8AF8(arg0);
         switch (arg0->unk68) {
-            case 0x23:
+            case LEO_ERROR_QUEUE_FULL:
                 continue;
-            case 0x31:
+            case LEO_ERROR_EJECTED_ILLEGALLY_RESUME:
                 func_801C91B0(arg0->unk68);
                 func_801C9228(2);
                 FALLTHROUGH;
-            case 0x2A:
+            case LEO_ERROR_MEDIUM_NOT_PRESENT:
                 func_801C92A0(4);
                 continue;
         }
@@ -306,7 +304,7 @@ s32 func_801C999C(struct_801E1598* arg0) {
 }
 
 s32 func_801C9A50(struct_801E1598* arg0) {
-    if (arg0->unk68 == 0x29) {
+    if (arg0->unk68 == LEO_ERROR_DEVICE_COMMUNICATION_FAILURE) {
         return func_801C9430(arg0);
     }
     if (osMemSize < 0x800000) {
@@ -323,7 +321,7 @@ s32 func_801C9AD0(struct_801E1598* arg0) {
     s32 temp_v0;
 
     switch (arg0->unk68) {
-        case 23:
+        case LEO_ERROR_UNRECOVERED_READ_ERROR:
             func_801C8F9C(arg0);
             temp_v0 = func_801C948C(arg0);
             if (temp_v0 != 0) {
@@ -331,20 +329,20 @@ s32 func_801C9AD0(struct_801E1598* arg0) {
             }
             func_801C9400();
             return 2;
-        case 2:
+        case LEO_ERROR_DIAGNOSTIC_FAILURE:
             return func_801C97C8(arg0);
-        case 34:
+        case LEO_ERROR_COMMAND_TERMINATED:
             LeoClearQueue();
             return 3;
-        case 49:
+        case LEO_ERROR_EJECTED_ILLEGALLY_RESUME:
             return func_801C9934(arg0);
-        case 47:
+        case LEO_ERROR_MEDIUM_MAY_HAVE_CHANGED:
             return func_801C9870(arg0);
-        case 42:
+        case LEO_ERROR_MEDIUM_NOT_PRESENT:
             return func_801C996C(arg0);
-        case 0:
+        case LEO_ERROR_GOOD:
             return 0;
-        case 35:
+        case LEO_ERROR_QUEUE_FULL:
             return 2;
         default:
             return func_801C9430(arg0);

@@ -1,6 +1,9 @@
 #ifndef N64DD_INTERNAL_H
 #define N64DD_INTERNAL_H
 
+#define BADCASTP (void*)
+#define BADCASTI (u32)
+
 #include "ultra64.h"
 #include "n64dd.h"
 #include "stack.h"

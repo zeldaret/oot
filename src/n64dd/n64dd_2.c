@@ -1,6 +1,8 @@
 #include "ultra64.h"
 #include "n64dd.h"
 #include "n64dd_internal.h"
+#include "array_count.h"
+#include "region.h"
 #include "z_locale.h"
 
 #pragma increment_block_number ""
@@ -116,16 +118,13 @@ s32 func_801C8A34(void) {
 }
 
 void func_801C8A4C(struct_801E1598* arg0) {
-    s32 temp_v0;
-
     osCreateMesgQueue(&arg0->unk1C, &D_801E1608, 1);
-    if (gCurrentRegion == 1) {
-        arg0->unk68 = LeoCJCreateLeoManager(0x95, 0x96, D_801E1610, 8);
+    if (gCurrentRegion == REGION_JP) {
+        arg0->unk68 = LeoCJCreateLeoManager(149, 150, D_801E1610, ARRAY_COUNT(D_801E1610));
     } else {
-        arg0->unk68 = LeoCACreateLeoManager(0x95, 0x96, D_801E1610, 8);
+        arg0->unk68 = LeoCACreateLeoManager(149, 150, D_801E1610, ARRAY_COUNT(D_801E1610));
     }
-    temp_v0 = arg0->unk68;
-    if ((temp_v0 == 0x29) || (temp_v0 == 0)) {
+    if ((arg0->unk68 == LEO_ERROR_DEVICE_COMMUNICATION_FAILURE) || (arg0->unk68 == LEO_ERROR_GOOD)) {
         D_801D36E4 = 1;
     }
 }
@@ -152,8 +151,8 @@ void func_801C8B8C(struct_801E1598* arg0) {
     sp30 = arg0->unk5C;
     if (LeoByteToLBA(sp30, (u32)arg0->unk60, &sp34) == 0) {
         sp28 = &arg0->unk1C;
-        LeoReadWrite(&arg0->unk0, 0, (u32)sp30, arg0->unk58, (u32)sp34, sp28);
-        osRecvMesg(sp28, BADCASTP & arg0->unk68, OS_MESG_BLOCK);
+        LeoReadWrite(&arg0->unk0, OS_READ, (u32)sp30, arg0->unk58, (u32)sp34, sp28);
+        osRecvMesg(sp28, (OSMesg*)&arg0->unk68, OS_MESG_BLOCK);
     }
 }
 
@@ -163,10 +162,10 @@ void func_801C8C00(struct_801E1598* arg0) {
     OSMesgQueue* sp28;
 
     sp30 = arg0->unk58;
-    if (LeoByteToLBA((s32)sp30, (u32)arg0->unk60, &sp34) == 0) {
+    if (LeoByteToLBA((s32)sp30, (u32)arg0->unk60, &sp34) == LEO_ERROR_GOOD) {
         sp28 = &arg0->unk1C;
-        LeoReadWrite(&arg0->unk0, 1, (u32)sp30, (void*)arg0->unk5C, (u32)sp34, sp28);
-        osRecvMesg(sp28, (void**)&arg0->unk68, OS_MESG_BLOCK);
+        LeoReadWrite(&arg0->unk0, OS_WRITE, (u32)sp30, (void*)arg0->unk5C, (u32)sp34, sp28);
+        osRecvMesg(sp28, (OSMesg*)&arg0->unk68, OS_MESG_BLOCK);
     }
 }
 
@@ -264,7 +263,7 @@ s8 func_801C8FD0(void) {
     s32 temp_v0;
 
     temp_v0 = func_801C8F9C(&D_801E1598);
-    if (D_801E1598.unk68 == 8) {
+    if (D_801E1598.unk68 == LEO_ERROR_BUSY) {
         return 0;
     }
     if (temp_v0 == 0) {
@@ -274,7 +273,7 @@ s8 func_801C8FD0(void) {
 }
 
 s32 func_801C9020(void) {
-    if ((func_801C90A4() == 0) && (D_801E1598.unk68 != 0)) {
+    if ((func_801C90A4() == 0) && (D_801E1598.unk68 != LEO_ERROR_GOOD)) {
         return D_801E1598.unk68;
     }
     return -1;
