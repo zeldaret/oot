@@ -1,306 +1,306 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_zf" Segment="6">
-        <Texture Name="object_zf_TLUT_000000" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
-        <Texture Name="object_zf_Tex_000200" Format="ci8" Width="8" Height="8" Offset="0x200" TlutOffset="0x0"/>
-        <Texture Name="object_zf_Tex_000240" Format="ci8" Width="16" Height="16" Offset="0x240" TlutOffset="0x0"/>
-        <Texture Name="object_zf_Tex_000340" Format="rgba16" Width="8" Height="8" Offset="0x340"/>
-        <Texture Name="object_zf_Tex_0003C0" Format="rgba16" Width="8" Height="8" Offset="0x3C0"/>
-        <Texture Name="object_zf_Tex_000440" Format="ci8" Width="16" Height="16" Offset="0x440" TlutOffset="0x0"/>
-        <Texture Name="object_zf_Tex_000540" Format="i8" Width="8" Height="8" Offset="0x540"/>
-        <Texture Name="object_zf_Tex_000580" Format="i8" Width="8" Height="16" Offset="0x580"/>
-        <Texture Name="object_zf_Tex_000600" Format="ci8" Width="16" Height="16" Offset="0x600" TlutOffset="0x0"/>
-        <Texture Name="object_zf_Tex_000700" Format="rgba16" Width="16" Height="16" Offset="0x700"/>
-        <Array Name="object_zf_Vtx_000900" Count="34" Offset="0x900">
+        <Texture Name="gDinolfosTLUT" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="gDinolfosNostrilsAndEyeSocketsTex" Format="ci8" Width="8" Height="8" Offset="0x200" TlutOffset="0x0"/>
+        <Texture Name="gDinolfosScalesTex" Format="ci8" Width="16" Height="16" Offset="0x240" TlutOffset="0x0"/>
+        <Texture Name="gDinolfosSpikeTex" Format="rgba16" Width="8" Height="8" Offset="0x340"/>
+        <Texture Name="gDinolfosRightEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x3C0"/>
+        <Texture Name="gDinolfosSkinTex" Format="ci8" Width="16" Height="16" Offset="0x440" TlutOffset="0x0"/>
+        <Texture Name="gDinolfosAccessoriesTex" Format="i8" Width="8" Height="8" Offset="0x540"/> <!-- Used for the sword, claws, teeth, sheath and armor jewel -->
+        <Texture Name="gDinolfosArmorTex" Format="i8" Width="8" Height="16" Offset="0x580"/>
+        <Texture Name="gDinolfosMouthTex" Format="ci8" Width="16" Height="16" Offset="0x600" TlutOffset="0x0"/>
+        <Texture Name="gDinolfosLeftEyeTex" Format="rgba16" Width="16" Height="16" Offset="0x700"/>
+        <Array Name="gDinolfosRightThighVtx" Count="34" Offset="0x900">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_000B20" Count="22" Offset="0xB20">
+        <Array Name="gDinolfosRightShinVtx" Count="22" Offset="0xB20">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_000C80" Count="30" Offset="0xC80">
+        <Array Name="gDinolfosRightFootClawsVtx" Count="30" Offset="0xC80">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_000E60" Count="34" Offset="0xE60">
+        <Array Name="gDinolfosLeftThighVtx" Count="34" Offset="0xE60">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_001080" Count="22" Offset="0x1080">
+        <Array Name="gDinolfosLeftShinVtx" Count="22" Offset="0x1080">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_0011E0" Count="30" Offset="0x11E0">
+        <Array Name="gDinolfosLeftFootClawsVtx" Count="30" Offset="0x11E0">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_0013C0" Count="21" Offset="0x13C0">
+        <Array Name="gDinolfosArmVtx" Count="21" Offset="0x13C0">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_001510" Count="14" Offset="0x1510">
+        <Array Name="gDinolfosForearmVtx" Count="14" Offset="0x1510">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_0015F0" Count="25" Offset="0x15F0">
+        <Array Name="gDinolfosRightHandAndSwordVtx" Count="25" Offset="0x15F0">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_001780" Count="21" Offset="0x1780">
+        <Array Name="gDinolfosLeftArmVtx" Count="21" Offset="0x1780">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_0018D0" Count="14" Offset="0x18D0">
+        <Array Name="gDinolfosLeftForearmVtx" Count="14" Offset="0x18D0">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_0019B0" Count="35" Offset="0x19B0">
+        <Array Name="gDinolfosLeftHandVtx" Count="35" Offset="0x19B0">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_001BE0" Count="27" Offset="0x1BE0">
+        <Array Name="gDinolfosTailVtx" Count="27" Offset="0x1BE0">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_001D90" Count="14" Offset="0x1D90">
+        <Array Name="gDinolfosTailSpikeVtx" Count="14" Offset="0x1D90">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_001E70" Count="16" Offset="0x1E70">
+        <Array Name="gDinolfosSheathVtx" Count="16" Offset="0x1E70">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_001F70" Count="50" Offset="0x1F70">
+        <Array Name="gDinolfosBodyVtx" Count="50" Offset="0x1F70">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_002290" Count="72" Offset="0x2290">
+        <Array Name="gDinolfosArmorVtx" Count="72" Offset="0x2290">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_002710" Count="29" Offset="0x2710">
+        <Array Name="gDinolfosNeckVtx" Count="29" Offset="0x2710">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_0028E0" Count="59" Offset="0x28E0">
+        <Array Name="gDinolfosJawVtx" Count="59" Offset="0x28E0">
             <Vtx/>
         </Array>
-        <Array Name="object_zf_Vtx_002C90" Count="136" Offset="0x2C90">
+        <Array Name="gDinolfosHeadVtx" Count="136" Offset="0x2C90">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_003510" Offset="0x3510"/>
-        <DList Name="object_zf_DL_003778" Offset="0x3778"/>
-        <DList Name="object_zf_DL_003908" Offset="0x3908"/>
-        <DList Name="object_zf_DL_003A60" Offset="0x3A60"/>
-        <DList Name="object_zf_DL_003CC8" Offset="0x3CC8"/>
-        <DList Name="object_zf_DL_003E58" Offset="0x3E58"/>
-        <DList Name="object_zf_DL_003FB0" Offset="0x3FB0"/>
-        <DList Name="object_zf_DL_0041A8" Offset="0x41A8"/>
-        <DList Name="object_zf_DL_004330" Offset="0x4330"/>
-        <DList Name="object_zf_DL_0044F0" Offset="0x44F0"/>
-        <DList Name="object_zf_DL_0046E8" Offset="0x46E8"/>
-        <DList Name="object_zf_DL_004870" Offset="0x4870"/>
-        <DList Name="object_zf_DL_004A00" Offset="0x4A00"/>
-        <DList Name="object_zf_DL_004D50" Offset="0x4D50"/>
-        <DList Name="object_zf_DL_004DF8" Offset="0x4DF8"/>
-        <DList Name="object_zf_DL_004EA0" Offset="0x4EA0"/>
-        <DList Name="object_zf_DL_005180" Offset="0x5180"/>
-        <DList Name="object_zf_DL_005300" Offset="0x5300"/>
-        <DList Name="object_zf_DL_005598" Offset="0x5598"/>
-        <DList Name="object_zf_DL_0059C8" Offset="0x59C8"/>
-        <Limb Name="object_zf_Limb_006390" LimbType="Standard" Offset="0x6390"/>
-        <Limb Name="object_zf_Limb_00639C" LimbType="Standard" Offset="0x639C"/>
-        <Limb Name="object_zf_Limb_0063A8" LimbType="Standard" Offset="0x63A8"/>
-        <Limb Name="object_zf_Limb_0063B4" LimbType="Standard" Offset="0x63B4"/>
-        <Limb Name="object_zf_Limb_0063C0" LimbType="Standard" Offset="0x63C0"/>
-        <Limb Name="object_zf_Limb_0063CC" LimbType="Standard" Offset="0x63CC"/>
-        <Limb Name="object_zf_Limb_0063D8" LimbType="Standard" Offset="0x63D8"/>
-        <Limb Name="object_zf_Limb_0063E4" LimbType="Standard" Offset="0x63E4"/>
-        <Limb Name="object_zf_Limb_0063F0" LimbType="Standard" Offset="0x63F0"/>
-        <Limb Name="object_zf_Limb_0063FC" LimbType="Standard" Offset="0x63FC"/>
-        <Limb Name="object_zf_Limb_006408" LimbType="Standard" Offset="0x6408"/>
-        <Limb Name="object_zf_Limb_006414" LimbType="Standard" Offset="0x6414"/>
-        <Limb Name="object_zf_Limb_006420" LimbType="Standard" Offset="0x6420"/>
-        <Limb Name="object_zf_Limb_00642C" LimbType="Standard" Offset="0x642C"/>
-        <Limb Name="object_zf_Limb_006438" LimbType="Standard" Offset="0x6438"/>
-        <Limb Name="object_zf_Limb_006444" LimbType="Standard" Offset="0x6444"/>
-        <Limb Name="object_zf_Limb_006450" LimbType="Standard" Offset="0x6450"/>
-        <Limb Name="object_zf_Limb_00645C" LimbType="Standard" Offset="0x645C"/>
-        <Limb Name="object_zf_Limb_006468" LimbType="Standard" Offset="0x6468"/>
-        <Limb Name="object_zf_Limb_006474" LimbType="Standard" Offset="0x6474"/>
-        <Limb Name="object_zf_Limb_006480" LimbType="Standard" Offset="0x6480"/>
-        <Limb Name="object_zf_Limb_00648C" LimbType="Standard" Offset="0x648C"/>
-        <Limb Name="object_zf_Limb_006498" LimbType="Standard" Offset="0x6498"/>
-        <Limb Name="object_zf_Limb_0064A4" LimbType="Standard" Offset="0x64A4"/>
-        <Limb Name="object_zf_Limb_0064B0" LimbType="Standard" Offset="0x64B0"/>
-        <Limb Name="object_zf_Limb_0064BC" LimbType="Standard" Offset="0x64BC"/>
-        <Limb Name="object_zf_Limb_0064C8" LimbType="Standard" Offset="0x64C8"/>
-        <Limb Name="object_zf_Limb_0064D4" LimbType="Standard" Offset="0x64D4"/>
-        <Limb Name="object_zf_Limb_0064E0" LimbType="Standard" Offset="0x64E0"/>
-        <Limb Name="object_zf_Limb_0064EC" LimbType="Standard" Offset="0x64EC"/>
-        <Limb Name="object_zf_Limb_0064F8" LimbType="Standard" Offset="0x64F8"/>
-        <Limb Name="object_zf_Limb_006504" LimbType="Standard" Offset="0x6504"/>
-        <Limb Name="object_zf_Limb_006510" LimbType="Standard" Offset="0x6510"/>
-        <Limb Name="object_zf_Limb_00651C" LimbType="Standard" Offset="0x651C"/>
-        <Limb Name="object_zf_Limb_006528" LimbType="Standard" Offset="0x6528"/>
-        <Limb Name="object_zf_Limb_006534" LimbType="Standard" Offset="0x6534"/>
-        <Limb Name="object_zf_Limb_006540" LimbType="Standard" Offset="0x6540"/>
-        <Limb Name="object_zf_Limb_00654C" LimbType="Standard" Offset="0x654C"/>
-        <Limb Name="object_zf_Limb_006558" LimbType="Standard" Offset="0x6558"/>
-        <Limb Name="object_zf_Limb_006564" LimbType="Standard" Offset="0x6564"/>
-        <Limb Name="object_zf_Limb_006570" LimbType="Standard" Offset="0x6570"/>
-        <Limb Name="object_zf_Limb_00657C" LimbType="Standard" Offset="0x657C"/>
-        <Limb Name="object_zf_Limb_006588" LimbType="Standard" Offset="0x6588"/>
-        <Limb Name="object_zf_Limb_006594" LimbType="Standard" Offset="0x6594"/>
-        <Limb Name="object_zf_Limb_0065A0" LimbType="Standard" Offset="0x65A0"/>
-        <Limb Name="object_zf_Limb_0065AC" LimbType="Standard" Offset="0x65AC"/>
-        <Limb Name="object_zf_Limb_0065B8" LimbType="Standard" Offset="0x65B8"/>
-        <Limb Name="object_zf_Limb_0065C4" LimbType="Standard" Offset="0x65C4"/>
-        <Skeleton Name="object_zf_Skel_006690" Type="Normal" LimbType="Standard" Offset="0x6690"/>
-        <Animation Name="object_zf_Anim_008138" Offset="0x8138"/>
-        <Animation Name="object_zf_Anim_008C6C" Offset="0x8C6C"/>
-        <Animation Name="object_zf_Anim_009530" Offset="0x9530"/>
-        <Animation Name="object_zf_Anim_00A3D4" Offset="0xA3D4"/>
-        <Animation Name="object_zf_Anim_00B10C" Offset="0xB10C"/>
-        <Texture Name="object_zf_Tex_00B120" Format="rgba16" Width="32" Height="32" Offset="0xB120"/>
-        <Texture Name="object_zf_Tex_00B920" Format="rgba16" Width="8" Height="8" Offset="0xB920"/>
-        <Texture Name="object_zf_Tex_00B9A0" Format="rgba16" Width="8" Height="8" Offset="0xB9A0"/>
-        <Texture Name="object_zf_Tex_00BA20" Format="rgba16" Width="8" Height="8" Offset="0xBA20"/>
-        <Texture Name="object_zf_Tex_00BAA0" Format="rgba16" Width="8" Height="8" Offset="0xBAA0"/>
-        <Texture Name="object_zf_Tex_00BB20" Format="rgba16" Width="8" Height="8" Offset="0xBB20"/>
-        <Texture Name="object_zf_Tex_00BBA0" Format="rgba16" Width="16" Height="16" Offset="0xBBA0"/>
-        <Texture Name="object_zf_Tex_00BDA0" Format="rgba16" Width="8" Height="8" Offset="0xBDA0"/>
-        <Texture Name="object_zf_Tex_00BE20" Format="rgba16" Width="16" Height="16" Offset="0xBE20"/>
-        <Texture Name="object_zf_Tex_00C020" Format="rgba16" Width="16" Height="16" Offset="0xC020"/>
-        <Texture Name="object_zf_Tex_00C220" Format="rgba16" Width="8" Height="8" Offset="0xC220"/>
+        <DList Name="gDinolfosRightThighDL" Offset="0x3510"/>
+        <DList Name="gDinolfosRightShinDL" Offset="0x3778"/>
+        <DList Name="gDinolfosRightFootClawsDL" Offset="0x3908"/>
+        <DList Name="gDinolfosLeftThighDL" Offset="0x3A60"/>
+        <DList Name="gDinolfosLeftShinDL" Offset="0x3CC8"/>
+        <DList Name="gDinolfosLeftFootClawsDL" Offset="0x3E58"/>
+        <DList Name="gDinolfosArmDL" Offset="0x3FB0"/>
+        <DList Name="gDinolfosForearmDL" Offset="0x41A8"/>
+        <DList Name="gDinolfosRightHandAndSwordDL" Offset="0x4330"/>
+        <DList Name="gDinolfosLeftArmDL" Offset="0x44F0"/>
+        <DList Name="gDinolfosLeftForearmDL" Offset="0x46E8"/>
+        <DList Name="gDinolfosLeftHandDL" Offset="0x4870"/>
+        <DList Name="gDinolfosTailDL" Offset="0x4A00"/>
+        <DList Name="gDinolfosTailSpikeDL" Offset="0x4D50"/>
+        <DList Name="gDinolfosSheathDL" Offset="0x4DF8"/>
+        <DList Name="gDinolfosBodyDL" Offset="0x4EA0"/>
+        <DList Name="gDinolfosArmorDL" Offset="0x5180"/>
+        <DList Name="gDinolfosNeckDL" Offset="0x5300"/>
+        <DList Name="gDinolfosJawDL" Offset="0x5598"/>
+        <DList Name="gDinolfosHeadDL" Offset="0x59C8"/>
+        <Limb Name="gDinolfosRootRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_ROOT_ROOT" Offset="0x6390"/>
+        <Limb Name="gDinolfosRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_ROOT" Offset="0x639C"/>
+        <Limb Name="gDinolfosUpperBodyLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_UPPER_BODY" Offset="0x63A8"/>
+        <Limb Name="gDinolfosNeckRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_NECK_ROOT" Offset="0x63B4"/>
+        <Limb Name="gDinolfosHeadRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_HEAD_ROOT" Offset="0x63C0"/>
+        <Limb Name="gDinolfosJawRootRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_JAW_ROOT_ROOT" Offset="0x63CC"/>
+        <Limb Name="gDinolfosJawRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_JAW_ROOT" Offset="0x63D8"/>
+        <Limb Name="gDinolfosJawLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_JAW" Offset="0x63E4"/>
+        <Limb Name="gDinolfosHeadLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_HEAD" Offset="0x63F0"/>
+        <Limb Name="gDinolfosNeckLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_NECK" Offset="0x63FC"/>
+        <Limb Name="gDinolfosArmRootRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_ARM_ROOT_ROOT" Offset="0x6408"/>
+        <Limb Name="gDinolfosArmRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_ARM_ROOT" Offset="0x6414"/>
+        <Limb Name="gDinolfosForearmRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_FOREARM_ROOT" Offset="0x6420"/>
+        <Limb Name="gDinolfosRightHandAndSwordRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_HAND_AND_SWORD_ROOT" Offset="0x642C"/>
+        <Limb Name="gDinolfosRightHandAndSwordLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_HAND_AND_SWORD" Offset="0x6438"/>
+        <Limb Name="gDinolfosForearmLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_FOREARM" Offset="0x6444"/>
+        <Limb Name="gDinolfosArmLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_ARM" Offset="0x6450"/>
+        <Limb Name="gDinolfosLeftArmRootRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_ARM_ROOT_ROOT" Offset="0x645C"/>
+        <Limb Name="gDinolfosLeftArmRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_ARM_ROOT" Offset="0x6468"/>
+        <Limb Name="gDinolfosLeftForearmRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_FOREARM_ROOT" Offset="0x6474"/>
+        <Limb Name="gDinolfosLeftHandRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_HAND_ROOT" Offset="0x6480"/>
+        <Limb Name="gDinolfosLeftHandLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_HAND" Offset="0x648C"/>
+        <Limb Name="gDinolfosLeftForearmLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_FOREARM" Offset="0x6498"/>
+        <Limb Name="gDinolfosLeftArmLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_ARM" Offset="0x64A4"/>
+        <Limb Name="gDinolfosArmorLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_ARMOR" Offset="0x64B0"/>
+        <Limb Name="gDinolfosTailRootRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_TAIL_ROOT_ROOT" Offset="0x64BC"/>
+        <Limb Name="gDinolfosTailRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_TAIL_ROOT" Offset="0x64C8"/>
+        <Limb Name="gDinolfosTailEndRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_TAIL_END_ROOT" Offset="0x64D4"/>
+        <Limb Name="gDinolfosTailEndLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_TAIL_END" Offset="0x64E0"/>
+        <Limb Name="gDinolfosTailLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_TAIL" Offset="0x64EC"/>
+        <Limb Name="gDinolfosSheathRootRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_SHEATH_ROOT_ROOT" Offset="0x64F8"/>
+        <Limb Name="gDinolfosSheathRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_SHEATH_ROOT" Offset="0x6504"/>
+        <Limb Name="gDinolfosSheathLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_SHEATH" Offset="0x6510"/>
+        <Limb Name="gDinolfosRightThighRootRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_THIGH_ROOT_ROOT" Offset="0x651C"/>
+        <Limb Name="gDinolfosRightThighRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_THIGH_ROOT" Offset="0x6528"/>
+        <Limb Name="gDinolfosRightShinRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_SHIN_ROOT" Offset="0x6534"/>
+        <Limb Name="gDinolfosRightFootClawsRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_FOOT_CLAWS_ROOT" Offset="0x6540"/>
+        <Limb Name="gDinolfosRightFootClawsLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_FOOT_CLAWS" Offset="0x654C"/>
+        <Limb Name="gDinolfosRightShinLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_SHIN" Offset="0x6558"/>
+        <Limb Name="gDinolfosRightThighLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_RIGHT_THIGH" Offset="0x6564"/>
+        <Limb Name="gDinolfosLeftThighRootRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_THIGH_ROOT_ROOT" Offset="0x6570"/>
+        <Limb Name="gDinolfosLeftThighRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_THIGH_ROOT" Offset="0x657C"/>
+        <Limb Name="gDinolfosLeftShinRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_SHIN_ROOT" Offset="0x6588"/>
+        <Limb Name="gDinolfosLeftFootClawsRootLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_FOOT_CLAWS_ROOT" Offset="0x6594"/>
+        <Limb Name="gDinolfosLeftFootClawsLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_FOOT_CLAWS" Offset="0x65A0"/>
+        <Limb Name="gDinolfosLeftShinLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_SHIN" Offset="0x65AC"/>
+        <Limb Name="gDinolfosLeftThighLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_THIGH" Offset="0x65B8"/>
+        <Limb Name="gDinolfosBodyLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_BODY" Offset="0x65C4"/>
+        <Skeleton Name="gDinolfosSkel" Type="Normal" LimbType="Standard" LimbNone="DINOLFOS_LIMB_NONE" LimbMax="DINOLFOS_LIMB_MAX" EnumName="DinolfosLimb" Offset="0x6690"/>
+        <Animation Name="gZfWalkAnim_" Offset="0x8138"/>
+        <Animation Name="gZfLandFromAppearingAnim__" Offset="0x8C6C"/>
+        <Animation Name="gZfTauntAnim_____" Offset="0x9530"/>
+        <Animation Name="gZfSlashAnim" Offset="0xA3D4"/>
+        <Animation Name="gZfTaunt2Anim_____" Offset="0xB10C"/>
+        <Texture Name="gLizalfosSkinTex" Format="rgba16" Width="32" Height="32" Offset="0xB120"/>
+        <Texture Name="gLizalfosSpikeTex" Format="rgba16" Width="8" Height="8" Offset="0xB920"/>
+        <Texture Name="gLizalfosMouthAndArmorSpikesTex" Format="rgba16" Width="8" Height="8" Offset="0xB9A0"/>
+        <Texture Name="gLizalfosShoulderArmorTex" Format="rgba16" Width="8" Height="8" Offset="0xBA20"/>
+        <Texture Name="gLizalfosArmor1Tex" Format="rgba16" Width="8" Height="8" Offset="0xBAA0"/>
+        <Texture Name="gLizalfosArmor2Tex" Format="rgba16" Width="8" Height="8" Offset="0xBB20"/>
+        <Texture Name="gLizalfosEyeTex" Format="rgba16" Width="16" Height="16" Offset="0xBBA0"/>
+        <Texture Name="gLizalfosClawTex" Format="rgba16" Width="8" Height="8" Offset="0xBDA0"/> <!-- Also used for a tiny part of the sheath -->
+        <Texture Name="gLizalfosSwordTex" Format="rgba16" Width="16" Height="16" Offset="0xBE20"/>
+        <Texture Name="gLizalfosRightHandPalmTex" Format="rgba16" Width="16" Height="16" Offset="0xC020"/>
+        <Texture Name="gLizalfosSheathTex" Format="rgba16" Width="8" Height="8" Offset="0xC220"/>
         <Texture Name="object_zf_Tex_00C2A0" Format="rgba16" Width="8" Height="8" Offset="0xC2A0"/>
-        <Array Name="object_zf_Vtx_00C320" Count="15" Offset="0xC320">
+        <Array Name="gLizalfosLeftThighVtx" Count="15" Offset="0xC320">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00C410" Offset="0xC410"/>
-        <Array Name="object_zf_Vtx_00C4D0" Count="23" Offset="0xC4D0">
+        <DList Name="gLizalfosLeftThighDL" Offset="0xC410"/>
+        <Array Name="gLizalfosLeftShinVtx" Count="23" Offset="0xC4D0">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00C640" Offset="0xC640"/>
-        <Array Name="object_zf_Vtx_00C798" Count="30" Offset="0xC798">
+        <DList Name="gLizalfosLeftShinDL" Offset="0xC640"/>
+        <Array Name="gLizalfosLeftFootClawsVtx" Count="30" Offset="0xC798">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00C978" Offset="0xC978"/>
-        <Array Name="object_zf_Vtx_00CA98" Count="11" Offset="0xCA98">
+        <DList Name="gLizalfosLeftFootClawsDL" Offset="0xC978"/>
+        <Array Name="gLizalfosLeftArmVtx" Count="11" Offset="0xCA98">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00CB48" Offset="0xCB48"/>
-        <Array Name="object_zf_Vtx_00CC00" Count="8" Offset="0xCC00">
+        <DList Name="gLizalfosLeftArmDL" Offset="0xCB48"/>
+        <Array Name="gLizalfosLeftForearmVtx" Count="8" Offset="0xCC00">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00CC80" Offset="0xCC80"/>
-        <Array Name="object_zf_Vtx_00CD80" Count="39" Offset="0xCD80">
+        <DList Name="gLizalfosLeftForearmDL" Offset="0xCC80"/>
+        <Array Name="gLizalfosLeftHandVtx" Count="39" Offset="0xCD80">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00CFF0" Offset="0xCFF0"/>
-        <Array Name="object_zf_Vtx_00D140" Count="15" Offset="0xD140">
+        <DList Name="gLizalfosLeftHandDL" Offset="0xCFF0"/>
+        <Array Name="gLizalfosRightThighVtx" Count="15" Offset="0xD140">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00D230" Offset="0xD230"/>
-        <Array Name="object_zf_Vtx_00D2F0" Count="23" Offset="0xD2F0">
+        <DList Name="gLizalfosRightThighDL" Offset="0xD230"/>
+        <Array Name="gLizalfosRightShinVtx" Count="23" Offset="0xD2F0">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00D460" Offset="0xD460"/>
-        <Array Name="object_zf_Vtx_00D5B8" Count="30" Offset="0xD5B8">
+        <DList Name="gLizalfosRightShinDL" Offset="0xD460"/>
+        <Array Name="gLizalfosRightFootClawsVtx" Count="30" Offset="0xD5B8">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00D798" Offset="0xD798"/>
-        <Array Name="object_zf_Vtx_00D8B8" Count="11" Offset="0xD8B8">
+        <DList Name="gLizalfosRightFootClawsDL" Offset="0xD798"/>
+        <Array Name="gLizalfosArmVtx" Count="11" Offset="0xD8B8">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00D968" Offset="0xD968"/>
-        <Array Name="object_zf_Vtx_00DA20" Count="8" Offset="0xDA20">
+        <DList Name="gLizalfosArmDL" Offset="0xD968"/>
+        <Array Name="gLizalfosForearmVtx" Count="8" Offset="0xDA20">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00DAA0" Offset="0xDAA0"/>
-        <Array Name="object_zf_Vtx_00DBA0" Count="24" Offset="0xDBA0">
+        <DList Name="gLizalfosForearmDL" Offset="0xDAA0"/>
+        <Array Name="gLizalfosRightHandAndSwordVtx" Count="24" Offset="0xDBA0">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00DD20" Offset="0xDD20" RawPointers="0x07000000"/>
-        <Array Name="object_zf_Vtx_00DF28" Count="39" Offset="0xDF28">
+        <DList Name="gLizalfosRightHandAndSwordDL" Offset="0xDD20" RawPointers="0x07000000"/>
+        <Array Name="gLizalfosRightHandVtx" Count="39" Offset="0xDF28">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00E198" Offset="0xE198"/>
-        <Array Name="object_zf_Vtx_00E2E8" Count="16" Offset="0xE2E8">
+        <DList Name="gLizalfosRightHandDL" Offset="0xE198"/>
+        <Array Name="gLizalfosJawVtx" Count="16" Offset="0xE2E8">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00E3E8" Offset="0xE3E8"/>
-        <Array Name="object_zf_Vtx_00E4E0" Count="48" Offset="0xE4E0">
+        <DList Name="gLizalfosJawDL" Offset="0xE3E8"/>
+        <Array Name="gLizalfosHeadVtx" Count="48" Offset="0xE4E0">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00E7E0" Offset="0xE7E0"/>
-        <Array Name="object_zf_Vtx_00E9A8" Count="32" Offset="0xE9A8">
+        <DList Name="gLizalfosHeadDL" Offset="0xE7E0"/>
+        <Array Name="gLizalfosBodyVtx" Count="32" Offset="0xE9A8">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00EBA8" Offset="0xEBA8"/>
-        <Array Name="object_zf_Vtx_00ED50" Count="17" Offset="0xED50">
+        <DList Name="gLizalfosBodyDL" Offset="0xEBA8"/>
+        <Array Name="gLizalfosNeckVtx" Count="17" Offset="0xED50">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00EE60" Offset="0xEE60"/>
-        <Array Name="object_zf_Vtx_00EFA0" Count="104" Offset="0xEFA0">
+        <DList Name="gLizalfosNeckDL" Offset="0xEE60"/>
+        <Array Name="gLizalfosArmorVtx" Count="104" Offset="0xEFA0">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00F620" Offset="0xF620"/>
-        <Array Name="object_zf_Vtx_00F840" Count="19" Offset="0xF840">
+        <DList Name="gLizalfosArmorDL" Offset="0xF620"/>
+        <Array Name="gLizalfosTailVtx" Count="19" Offset="0xF840">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00F970" Offset="0xF970"/>
-        <Array Name="object_zf_Vtx_00FA98" Count="15" Offset="0xFA98">
+        <DList Name="gLizalfosTailDL" Offset="0xF970"/>
+        <Array Name="gLizalfosTailEndVtx" Count="15" Offset="0xFA98">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00FB88" Offset="0xFB88"/>
-        <Array Name="object_zf_Vtx_00FCA0" Count="16" Offset="0xFCA0">
+        <DList Name="gLizalfosTailEndDL" Offset="0xFB88"/>
+        <Array Name="gLizalfosSheathVtx" Count="16" Offset="0xFCA0">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_00FDA0" Offset="0xFDA0"/>
-        <Array Name="object_zf_Vtx_00FE90" Count="29" Offset="0xFE90">
+        <DList Name="gLizalfosSheathDL" Offset="0xFDA0"/>
+        <Array Name="gLizalfosSheathedSwordVtx" Count="29" Offset="0xFE90">
             <Vtx/>
         </Array>
-        <DList Name="object_zf_DL_010060" Offset="0x10060"/>
-        <Limb Name="object_zf_Limb_0101B8" LimbType="Standard" Offset="0x101B8"/>
-        <Limb Name="object_zf_Limb_0101C4" LimbType="Standard" Offset="0x101C4"/>
-        <Limb Name="object_zf_Limb_0101D0" LimbType="Standard" Offset="0x101D0"/>
-        <Limb Name="object_zf_Limb_0101DC" LimbType="Standard" Offset="0x101DC"/>
-        <Limb Name="object_zf_Limb_0101E8" LimbType="Standard" Offset="0x101E8"/>
-        <Limb Name="object_zf_Limb_0101F4" LimbType="Standard" Offset="0x101F4"/>
-        <Limb Name="object_zf_Limb_010200" LimbType="Standard" Offset="0x10200"/>
-        <Limb Name="object_zf_Limb_01020C" LimbType="Standard" Offset="0x1020C"/>
-        <Limb Name="object_zf_Limb_010218" LimbType="Standard" Offset="0x10218"/>
-        <Limb Name="object_zf_Limb_010224" LimbType="Standard" Offset="0x10224"/>
-        <Limb Name="object_zf_Limb_010230" LimbType="Standard" Offset="0x10230"/>
-        <Limb Name="object_zf_Limb_01023C" LimbType="Standard" Offset="0x1023C"/>
-        <Limb Name="object_zf_Limb_010248" LimbType="Standard" Offset="0x10248"/>
-        <Limb Name="object_zf_Limb_010254" LimbType="Standard" Offset="0x10254"/>
-        <Limb Name="object_zf_Limb_010260" LimbType="Standard" Offset="0x10260"/>
-        <Limb Name="object_zf_Limb_01026C" LimbType="Standard" Offset="0x1026C"/>
-        <Limb Name="object_zf_Limb_010278" LimbType="Standard" Offset="0x10278"/>
-        <Limb Name="object_zf_Limb_010284" LimbType="Standard" Offset="0x10284"/>
-        <Limb Name="object_zf_Limb_010290" LimbType="Standard" Offset="0x10290"/>
-        <Limb Name="object_zf_Limb_01029C" LimbType="Standard" Offset="0x1029C"/>
-        <Limb Name="object_zf_Limb_0102A8" LimbType="Standard" Offset="0x102A8"/>
-        <Limb Name="object_zf_Limb_0102B4" LimbType="Standard" Offset="0x102B4"/>
-        <Limb Name="object_zf_Limb_0102C0" LimbType="Standard" Offset="0x102C0"/>
-        <Limb Name="object_zf_Limb_0102CC" LimbType="Standard" Offset="0x102CC"/>
-        <Limb Name="object_zf_Limb_0102D8" LimbType="Standard" Offset="0x102D8"/>
-        <Limb Name="object_zf_Limb_0102E4" LimbType="Standard" Offset="0x102E4"/>
-        <Limb Name="object_zf_Limb_0102F0" LimbType="Standard" Offset="0x102F0"/>
-        <Limb Name="object_zf_Limb_0102FC" LimbType="Standard" Offset="0x102FC"/>
-        <Limb Name="object_zf_Limb_010308" LimbType="Standard" Offset="0x10308"/>
-        <Limb Name="object_zf_Limb_010314" LimbType="Standard" Offset="0x10314"/>
-        <Limb Name="object_zf_Limb_010320" LimbType="Standard" Offset="0x10320"/>
-        <Limb Name="object_zf_Limb_01032C" LimbType="Standard" Offset="0x1032C"/>
-        <Limb Name="object_zf_Limb_010338" LimbType="Standard" Offset="0x10338"/>
-        <Limb Name="object_zf_Limb_010344" LimbType="Standard" Offset="0x10344"/>
-        <Limb Name="object_zf_Limb_010350" LimbType="Standard" Offset="0x10350"/>
-        <Limb Name="object_zf_Limb_01035C" LimbType="Standard" Offset="0x1035C"/>
-        <Limb Name="object_zf_Limb_010368" LimbType="Standard" Offset="0x10368"/>
-        <Limb Name="object_zf_Limb_010374" LimbType="Standard" Offset="0x10374"/>
-        <Limb Name="object_zf_Limb_010380" LimbType="Standard" Offset="0x10380"/>
-        <Limb Name="object_zf_Limb_01038C" LimbType="Standard" Offset="0x1038C"/>
-        <Limb Name="object_zf_Limb_010398" LimbType="Standard" Offset="0x10398"/>
-        <Limb Name="object_zf_Limb_0103A4" LimbType="Standard" Offset="0x103A4"/>
-        <Limb Name="object_zf_Limb_0103B0" LimbType="Standard" Offset="0x103B0"/>
-        <Limb Name="object_zf_Limb_0103BC" LimbType="Standard" Offset="0x103BC"/>
-        <Limb Name="object_zf_Limb_0103C8" LimbType="Standard" Offset="0x103C8"/>
-        <Limb Name="object_zf_Limb_0103D4" LimbType="Standard" Offset="0x103D4"/>
-        <Limb Name="object_zf_Limb_0103E0" LimbType="Standard" Offset="0x103E0"/>
-        <Limb Name="object_zf_Limb_0103EC" LimbType="Standard" Offset="0x103EC"/>
-        <Skeleton Name="object_zf_Skel_0104B8" Type="Normal" LimbType="Standard" Offset="0x104B8"/>
-        <Animation Name="object_zf_Anim_01081C" Offset="0x1081C"/>
-        <Animation Name="object_zf_Anim_010CAC" Offset="0x10CAC"/>
-        <Animation Name="object_zf_Anim_011070" Offset="0x11070"/>
-        <Animation Name="object_zf_Anim_0119F4" Offset="0x119F4"/>
-        <Animation Name="object_zf_Anim_01366C" Offset="0x1366C"/>
-        <Animation Name="object_zf_Anim_014E60" Offset="0x14E60"/>
-        <Animation Name="object_zf_Anim_0157F8" Offset="0x157F8"/>
-        <Animation Name="object_zf_Anim_016388" Offset="0x16388"/>
+        <DList Name="gLizalfosSheathedSwordDL" Offset="0x10060"/>
+        <Limb Name="gLizalfosRootRootLimb" LimbType="Standard" EnumName="ZF_LIMB_ROOT_ROOT" Offset="0x101B8"/>
+        <Limb Name="gLizalfosRootLimb" LimbType="Standard" EnumName="ZF_LIMB_ROOT" Offset="0x101C4"/>
+        <Limb Name="gLizalfosUpperBodyLimb" LimbType="Standard" EnumName="ZF_LIMB_UPPER_BODY" Offset="0x101D0"/>
+        <Limb Name="gLizalfosNeckRootLimb" LimbType="Standard" EnumName="ZF_LIMB_NECK_ROOT" Offset="0x101DC"/>
+        <Limb Name="gLizalfosHeadRootLimb" LimbType="Standard" EnumName="ZF_LIMB_HEAD_ROOT" Offset="0x101E8"/>
+        <Limb Name="gLizalfosJawRootRootLimb" LimbType="Standard" EnumName="ZF_LIMB_JAW_ROOT_ROOT" Offset="0x101F4"/>
+        <Limb Name="gLizalfosJawRootLimb" LimbType="Standard" EnumName="ZF_LIMB_JAW_ROOT" Offset="0x10200"/>
+        <Limb Name="gLizalfosJawLimb" LimbType="Standard" EnumName="ZF_LIMB_JAW" Offset="0x1020C"/>
+        <Limb Name="gLizalfosHeadLimb" LimbType="Standard" EnumName="ZF_LIMB_HEAD" Offset="0x10218"/>
+        <Limb Name="gLizalfosNeckLimb" LimbType="Standard" EnumName="ZF_LIMB_NECK" Offset="0x10224"/>
+        <Limb Name="gLizalfosArmRootRootLimb" LimbType="Standard" EnumName="ZF_LIMB_ARM_ROOT_ROOT" Offset="0x10230"/>
+        <Limb Name="gLizalfosArmRootLimb" LimbType="Standard" EnumName="ZF_LIMB_ARM_ROOT" Offset="0x1023C"/>
+        <Limb Name="gLizalfosForearmRootLimb" LimbType="Standard" EnumName="ZF_LIMB_FOREARM_ROOT" Offset="0x10248"/>
+        <Limb Name="gLizalfosRightHandAndSwordRootLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_HAND_AND_SWORD_ROOT" Offset="0x10254"/>
+        <Limb Name="gLizalfosRightHandAndSwordLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_HAND_AND_SWORD" Offset="0x10260"/>
+        <Limb Name="gLizalfosForearmLimb" LimbType="Standard" EnumName="ZF_LIMB_FOREARM" Offset="0x1026C"/>
+        <Limb Name="gLizalfosArmLimb" LimbType="Standard" EnumName="ZF_LIMB_ARM" Offset="0x10278"/>
+        <Limb Name="gLizalfosLeftArmRootRootLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_ARM_ROOT_ROOT" Offset="0x10284"/>
+        <Limb Name="gLizalfosLeftArmRootLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_ARM_ROOT" Offset="0x10290"/>
+        <Limb Name="gLizalfosLeftForearmRootLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_FOREARM_ROOT" Offset="0x1029C"/>
+        <Limb Name="gLizalfosLeftHandRootLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_HAND_ROOT" Offset="0x102A8"/>
+        <Limb Name="gLizalfosLeftHandLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_HAND" Offset="0x102B4"/>
+        <Limb Name="gLizalfosLeftForearmLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_FOREARM" Offset="0x102C0"/>
+        <Limb Name="gLizalfosLeftArmLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_ARM" Offset="0x102CC"/>
+        <Limb Name="gLizalfosArmorLimb" LimbType="Standard" EnumName="ZF_LIMB_ARMOR" Offset="0x102D8"/>
+        <Limb Name="gLizalfosTailRootRootLimb" LimbType="Standard" EnumName="ZF_LIMB_TAIL_ROOT_ROOT" Offset="0x102E4"/>
+        <Limb Name="gLizalfosTailRootLimb" LimbType="Standard" EnumName="ZF_LIMB_TAIL_ROOT" Offset="0x102F0"/>
+        <Limb Name="gLizalfosTailEndRootLimb" LimbType="Standard" EnumName="ZF_LIMB_TAIL_END_ROOT" Offset="0x102FC"/>
+        <Limb Name="gLizalfosTailEndLimb" LimbType="Standard" EnumName="ZF_LIMB_TAIL_END" Offset="0x10308"/>
+        <Limb Name="gLizalfosTailLimb" LimbType="Standard" EnumName="ZF_LIMB_TAIL" Offset="0x10314"/>
+        <Limb Name="gLizalfosSheathRootRootLimb" LimbType="Standard" EnumName="ZF_LIMB_SHEATH_ROOT_ROOT" Offset="0x10320"/>
+        <Limb Name="gLizalfosSheathRootLimb" LimbType="Standard" EnumName="ZF_LIMB_SHEATH_ROOT" Offset="0x1032C"/>
+        <Limb Name="gLizalfosSheathLimb" LimbType="Standard" EnumName="ZF_LIMB_SHEATH" Offset="0x10338"/>
+        <Limb Name="gLizalfosRightThighRootRootLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_THIGH_ROOT_ROOT" Offset="0x10344"/>
+        <Limb Name="gLizalfosRightThighRootLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_THIGH_ROOT" Offset="0x10350"/>
+        <Limb Name="gLizalfosRightShinRootLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_SHIN_ROOT" Offset="0x1035C"/>
+        <Limb Name="gLizalfosRightFootClawsRootLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_FOOT_CLAWS_ROOT" Offset="0x10368"/>
+        <Limb Name="gLizalfosRightFootClawsLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_FOOT_CLAWS" Offset="0x10374"/>
+        <Limb Name="gLizalfosRightShinLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_SHIN" Offset="0x10380"/>
+        <Limb Name="gLizalfosRightThighLimb" LimbType="Standard" EnumName="ZF_LIMB_RIGHT_THIGH" Offset="0x1038C"/>
+        <Limb Name="gLizalfosLeftThighRootRootLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_THIGH_ROOT_ROOT" Offset="0x10398"/>
+        <Limb Name="gLizalfosLeftThighRootLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_THIGH_ROOT" Offset="0x103A4"/>
+        <Limb Name="gLizalfosLeftShinRootLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_SHIN_ROOT" Offset="0x103B0"/>
+        <Limb Name="gLizalfosLeftFootClawsRootLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_FOOT_CLAWS_ROOT" Offset="0x103BC"/>
+        <Limb Name="gLizalfosLeftFootClawsLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_FOOT_CLAWS" Offset="0x103C8"/>
+        <Limb Name="gLizalfosLeftShinLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_SHIN" Offset="0x103D4"/>
+        <Limb Name="gLizalfosLeftThighLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_THIGH" Offset="0x103E0"/>
+        <Limb Name="gLizalfosBodyLimb" LimbType="Standard" EnumName="ZF_LIMB_BODY" Offset="0x103EC"/>
+        <Skeleton Name="gLizalfosSkel" Type="Normal" LimbType="Standard" LimbNone="ZF_LIMB_NONE" LimbMax="ZF_LIMB_MAX" EnumName="ZfLimb" Offset="0x104B8"/>
+        <Animation Name="gZfJumpAnim___" Offset="0x1081C"/>
+        <Animation Name="gZfAirborneAnim___" Offset="0x10CAC"/>
+        <Animation Name="gZfLandFromJumpAnim__" Offset="0x11070"/>
+        <Animation Name="gZfTurnAroundAnim__" Offset="0x119F4"/>
+        <Animation Name="gZfGetBackUpAndTurnAroundAnim_____" Offset="0x1366C"/>
+        <Animation Name="gZfDieAnim" Offset="0x14E60"/>
+        <Animation Name="gZfDamagedAnim___" Offset="0x157F8"/>
+        <Animation Name="gZfCautiousWalkAnim___" Offset="0x16388"/>
     </File>
 </Root>
