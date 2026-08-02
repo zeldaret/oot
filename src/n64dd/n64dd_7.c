@@ -70,7 +70,11 @@ s32 func_801CA920(s32 arg0, u8* arg1, int* arg2, int* arg3, int* arg4) {
     return 0;
 }
 
-extern const u16 D_801D9C10[];
+const u16 D_801D9C10[0x10] = {
+    0x0001, 0x1085, 0x2109, 0x318D, 0x4211, 0x5295, 0x6319, 0x739D,
+    0x8C63, 0x9CE7, 0xAD6B, 0xBDEF, 0xCE73, 0xDEF7, 0xEF7B, 0xFFFF,
+};
+
 u16 func_801CAA44(s32 arg0) {
     return D_801D9C10[arg0 & 0xF];
 }
@@ -237,8 +241,3 @@ void func_801CAF74(struct_801CAF10* arg0, const char* arg1, ...) {
     func_801CAF54(arg0, arg1, varargs);
     va_end(varargs);
 }
-
-const u16 D_801D9C10[0x10] = {
-    1,      0x1085, 0x2109, 0x318D, 0x4211, 0x5295, 0x6319, 0x739D,
-    0x8C63, 0x9CE7, 0xAD6B, 0xBDEF, 0xCE73, 0xDEF7, 0xEF7B, 0xFFFF,
-};
