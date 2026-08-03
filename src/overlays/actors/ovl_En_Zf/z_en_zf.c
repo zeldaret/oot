@@ -32,7 +32,7 @@ void EnZf_Destroy(Actor* thisx, PlayState* play);
 void EnZf_Update(Actor* thisx, PlayState* play);
 void EnZf_Draw(Actor* thisx, PlayState* play);
 
-s16 EnZf_FindPlatform1__(Vec3f* arg0, s16 arg1);
+s16 EnZf_FindPlatform1__(Vec3f* pos, s16 preferred);
 void EnZf_SetupWaitAppear_(EnZf* this);
 void EnZf_WaitAppear_(EnZf* this, PlayState* play);
 void EnZf_SetupIdle_(EnZf* this);
@@ -64,7 +64,7 @@ void EnZf_Setup12or5___(EnZf* this, PlayState* play);
 void EnZf_CirclePlayer___(EnZf* this, PlayState* play);
 void EnZf_SetupDie_(EnZf* this);
 void EnZf_Die_(EnZf* this, PlayState* play);
-void EnZf_SetupCirclePlayer___(EnZf* this, f32 arg1);
+void EnZf_SetupCirclePlayer___(EnZf* this, f32 speed);
 s32 EnZf_ReactToProjectile_(PlayState* play, EnZf* this);
 s32 EnZf_ReactToProjectile2_____(PlayState* play, EnZf* this);
 
