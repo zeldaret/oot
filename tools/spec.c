@@ -230,15 +230,28 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
                     if (!is_pow_of_2(currSeg->romalign))
                         util_fatal_error("line %i: alignment is not a power of two", lineNum);
                     break;
-                case STMT_include:
-                    currSeg->includesCount++;
-                    currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
+                case STMT_include: {
+                    char *inc;
 
-                    if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1].fpath))
+                    if (!parse_quoted_string(args, &inc))
                         util_fatal_error("line %i: invalid filename", lineNum);
 
-                    currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
-                    break;
+                    bool inc_is_dup = false;
+                    for (int i = 0; i < *segment_count; i++) {
+                        for (int j = 0; j < (*segments)[i].includesCount; j++) {
+                            if (strcmp((*segments)[i].includes[j].fpath, inc) == 0) {
+                                inc_is_dup = true;
+                            }
+                        }
+                    }
+
+                    if (!inc_is_dup) {
+                        currSeg->includesCount++;
+                        currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
+                        currSeg->includes[currSeg->includesCount - 1].fpath = inc;
+                        currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
+                    }
+                }   break;
                  case STMT_increment:
                     if (!parse_number(args, &currSeg->increment))
                         util_fatal_error("line %i: expected number after 'increment'", lineNum);
