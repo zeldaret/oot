@@ -37,30 +37,30 @@ void EnZf_SetupWaitAppear_(EnZf* this);
 void EnZf_WaitAppear_(EnZf* this, PlayState* play);
 void EnZf_SetupIdle_(EnZf* this);
 void EnZf_Idle_(EnZf* this, PlayState* play);
-void EnZf_Setup5_(EnZf* this, PlayState* play);
-void EnZf_5_(EnZf* this, PlayState* play);
-void EnZf_Setup13_(EnZf* this);
-void EnZf_13_(EnZf* this, PlayState* play);
-void EnZf_Setup6_(EnZf* this);
-void EnZf_6_(EnZf* this, PlayState* play);
-void EnZf_Setup7or5___(EnZf* this, PlayState* play);
-void EnZf_7_(EnZf* this, PlayState* play);
+void EnZf_SetupMainWalk_(EnZf* this, PlayState* play);
+void EnZf_MainWalk_(EnZf* this, PlayState* play);
+void EnZf_SetupJump13___(EnZf* this);
+void EnZf_Jump13___(EnZf* this, PlayState* play);
+void EnZf_SetupTurnTowardsPlayer_(EnZf* this);
+void EnZf_TurnTowardsPlayer_(EnZf* this, PlayState* play);
+void EnZf_SetupSidestepOrMainWalk___(EnZf* this, PlayState* play);
+void EnZf_Sidestep__(EnZf* this, PlayState* play);
 void EnZf_SetupAttack(EnZf* this);
 void EnZf_Attack(EnZf* this, PlayState* play);
 void EnZf_AttackBounced(EnZf* this, PlayState* play);
-void EnZf_Setup11_(EnZf* this);
-void EnZf_11_(EnZf* this, PlayState* play);
+void EnZf_SetupJumpBackwards_(EnZf* this);
+void EnZf_JumpBackwards_(EnZf* this, PlayState* play);
 void EnZf_Stunned_(EnZf* this, PlayState* play);
-void EnZf_Setup18_(EnZf* this, PlayState* play);
-void EnZf_18_(EnZf* this, PlayState* play);
-void EnZf_Jump20__(EnZf* this, PlayState* play);
-void EnZf_SetupJump19__(EnZf* this, PlayState* play);
-void EnZf_Jump19__(EnZf* this, PlayState* play);
-void EnZf_21_(EnZf* this, PlayState* play);
+void EnZf_SetupJumpSeqStartTurnAround_(EnZf* this, PlayState* play);
+void EnZf_JumpSeqStartTurnAround_(EnZf* this, PlayState* play);
+void EnZf_JumpSeqJump20__(EnZf* this, PlayState* play);
+void EnZf_SetupJumpSeqJump19__(EnZf* this, PlayState* play);
+void EnZf_JumpSeqJump19__(EnZf* this, PlayState* play);
+void EnZf_JumpSeqFinalLanding_____(EnZf* this, PlayState* play);
 void EnZf_Damaged_(EnZf* this, PlayState* play);
 void EnZf_SetupJumpAttack__(EnZf* this);
 void EnZf_JumpAttack__(EnZf* this, PlayState* play);
-void EnZf_Setup12or5___(EnZf* this, PlayState* play);
+void EnZf_SetupCirclePlayerOrMainWalk___(EnZf* this, PlayState* play);
 void EnZf_CirclePlayer___(EnZf* this, PlayState* play);
 void EnZf_SetupDie_(EnZf* this);
 void EnZf_Die_(EnZf* this, PlayState* play);
@@ -71,21 +71,21 @@ s32 EnZf_ReactToProjectile2_____(PlayState* play, EnZf* this);
 typedef enum EnZfAction {
     ENZF_ACTION_WAIT_APPEAR_,
     ENZF_ACTION_IDLE_ = 3,
-    ENZF_ACTION_5 = 5,
-    ENZF_ACTION_6,
-    ENZF_ACTION_7,
+    ENZF_ACTION_MAIN_WALK_ = 5,
+    ENZF_ACTION_TURN_TOWARDS_PLAYER_,
+    ENZF_ACTION_SIDESTEP__,
     ENZF_ACTION_ATTACK_BOUNCED,
     ENZF_ACTION_ATTACK,
-    ENZF_ACTION_11 = 11,
+    ENZF_ACTION_JUMP_BACKWARDS_ = 11,
     ENZF_ACTION_CIRCLE_PLAYER___,
-    ENZF_ACTION_13,
+    ENZF_ACTION_13_JUMP___,
     ENZF_ACTION_STUNNED_,
     ENZF_ACTION_DIE_,
     ENZF_ACTION_DAMAGED_,
-    ENZF_ACTION_18 = 18,
-    ENZF_ACTION_JUMP_19__,
-    ENZF_ACTION_JUMP_20__,
-    ENZF_ACTION_21,
+    ENZF_ACTION_JUMP_SEQ_START_TURN_AROUND_ = 18,
+    ENZF_ACTION_JUMP_SEQ_JUMP_19__,
+    ENZF_ACTION_JUMP_SEQ_JUMP_20__,
+    ENZF_ACTION_JUMP_SEQ_FINAL_LANDING_____,
     ENZF_ACTION_JUMP_ATTACK__
 } EnZfAction;
 
@@ -392,7 +392,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
                        ZF_LIMB_MAX);
     }
     if (!ENZF_IS_TYPE_PAIRED_(this->actor.params)) {
-        this->unkPlatform400 = this->unkPlatform3FE = -1;
+        this->unkPlatform400_home___ = this->unkPlatform3FE_cur = -1;
         sPairedInactiveType__ = ENZF_TYPE_LIZALFOS_SINGLE_;
         this->actionState_ = 1;
         if (this->actor.params == ENZF_TYPE_LIZALFOS_SINGLE_) {
@@ -403,7 +403,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     } else {
         yDiff = player->actor.world.pos.y - this->actor.world.pos.y;
         if ((ABS(yDiff) <= 100.0f) && !Flags_GetSwitch(play, this->switchFlag)) {
-            this->unkPlatform400 = this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, 0);
+            this->unkPlatform400_home___ = this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, 0);
             EnZf_SetupWaitAppear_(this);
             sPairedInactiveType__ = ENZF_TYPE_LIZALFOS_PAIRED_B_;
         } else {
@@ -452,38 +452,38 @@ s16 EnZf_FindPlatform1__(Vec3f* pos, s16 preferred) {
     return i;
 }
 
-s16 EnZf_FindPlatform2__(Vec3f* thisPos, s16 platform_arg1, s16 platform_arg2, PlayState* play) {
-    Vec3f* temp_s0;
-    f32 temp_fv0;
-    f32 var_fs0;
-    f32 var_fs1;
-    f32 var_fs2;
-    f32 var_fs3;
-    s16 temp_s0_2;
-    s16 temp_s3;
-    s16 temp_v1;
+s16 EnZf_FindPlatformWithoutPlayer__(Vec3f* thisPos, s16 curPlatform, s16 fallbackPlatform, PlayState* play) {
+    Vec3f* closestPlatformPos;
+    f32 platformDist;
+    f32 closestPlatformDist;
+    f32 secondClosestPlatformDist;
+    f32 maxPlatformDist_;
+    f32 minPlatformDistFromPlayer;
+    s16 yawTowardsClosestPlatform;
+    s16 playerPlatform;
+    s16 yawDiff;
     s16 i;
-    s16 var_s4;
-    s16 var_s5;
+    s16 secondClosestPlatform;
+    s16 closestPlatform;
     s32 iMin;
     Player* player = GET_PLAYER(play);
 
-    var_fs2 = 585.0f;
-    var_fs3 = 400.0f;
-    var_fs0 = 99998.0f;
+    maxPlatformDist_ = 585.0f;
+    minPlatformDistFromPlayer = 400.0f;
+    closestPlatformDist = 99998.0f;
     i = 5;
     iMin = 0;
-    var_fs1 = 99999.0f;
-    var_s4 = var_s5 = -1;
-    temp_s3 = EnZf_FindPlatform1__(&player->actor.world.pos, platform_arg1);
+    secondClosestPlatformDist = 99999.0f;
+    secondClosestPlatform = closestPlatform = -1;
+    playerPlatform = EnZf_FindPlatform1__(&player->actor.world.pos, curPlatform);
     if (thisPos->y > 420.0f) {
-        var_fs3 = 50.0f;
+        minPlatformDistFromPlayer = 50.0f;
         iMin = 8;
-        if (platform_arg1 >= 15) {
-            var_fs2 = 400.0f;
+        if (curPlatform >= 15) {
+            maxPlatformDist_ = 400.0f;
             i = 23;
         } else {
-            var_fs2 = 380.0f;
+            maxPlatformDist_ = 380.0f;
             i = 14;
         }
     }
@@ -491,56 +491,57 @@ s16 EnZf_FindPlatform2__(Vec3f* thisPos, s16 platform_arg1, s16 platform_arg2, P
 #if !DEBUG_FEATURES
         if (0) {}
 #endif
-        if (i == platform_arg1) {
+        if (i == curPlatform) {
             continue;
         }
-        if (i == temp_s3) {
+        if (i == playerPlatform) {
             continue;
         }
-        if (((temp_s3 == -1) &&
-             ((Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions_[i]) < var_fs3)))) {
+        if ((playerPlatform == -1) &&
+            (Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions_[i]) < minPlatformDistFromPlayer)) {
             continue;
         }
-        temp_fv0 = Math_Vec3f_DistXYZ(thisPos, &sDCPlatformPositions_[i]);
-        if ((var_fs2 < temp_fv0)) {
+        platformDist = Math_Vec3f_DistXYZ(thisPos, &sDCPlatformPositions_[i]);
+        if (platformDist > maxPlatformDist_) {
             continue;
         }
-        if (temp_fv0 < var_fs0) {
-            var_fs1 = var_fs0;
-            var_s4 = var_s5;
-            var_fs0 = temp_fv0;
-            var_s5 = i;
-        } else if (temp_fv0 < var_fs1) {
-            var_fs1 = temp_fv0;
-            var_s4 = i;
+        if (platformDist < closestPlatformDist) {
+            secondClosestPlatformDist = closestPlatformDist;
+            secondClosestPlatform = closestPlatform;
+            closestPlatformDist = platformDist;
+            closestPlatform = i;
+        } else if (platformDist < secondClosestPlatformDist) {
+            secondClosestPlatformDist = platformDist;
+            secondClosestPlatform = i;
         }
     }
 
-    temp_s0 = &sDCPlatformPositions_[var_s5];
+    closestPlatformPos = &sDCPlatformPositions_[closestPlatform];
 
-    //! @bug `var_s4` can be -1 in certain conditions and cause an out of bounds access.
+    //! @bug `secondClosestPlatform` can be -1 in certain conditions and cause an out of bounds access.
     //! Under normal conditions, this doesn't cause problems because the data before `D_80B4A090`
     //! is section padding between .text and .data, so 0 gets read as a float.
     // These two function calls do nothing. Their return values aren't used and they have no side effects.
 #ifndef AVOID_UB
-    Math_Vec3f_DistXYZ(&player->actor.world.pos, temp_s0);
-    Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions_[var_s4]);
+    Math_Vec3f_DistXYZ(&player->actor.world.pos, closestPlatformPos);
+    Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions_[secondClosestPlatform]);
 #endif
 
-    if (var_s4 > 0) {
-        temp_s0_2 = Math_Vec3f_Yaw(thisPos, temp_s0);
-        temp_v1 = temp_s0_2 - Math_Vec3f_Yaw(thisPos, &player->actor.world.pos);
-        if (ABS(temp_v1) < 0x36B0) {
-            var_s5 = var_s4;
+    //! @bug The check should be >= 0
+    if (secondClosestPlatform > 0) {
+        yawTowardsClosestPlatform = Math_Vec3f_Yaw(thisPos, closestPlatformPos);
+        yawDiff = yawTowardsClosestPlatform - Math_Vec3f_Yaw(thisPos, &player->actor.world.pos);
+        if (ABS(yawDiff) < 0x36B0) {
+            closestPlatform = secondClosestPlatform;
         }
     }
-    if (var_s5 < 0) {
-        var_s5 = platform_arg2;
+    if (closestPlatform < 0) {
+        closestPlatform = fallbackPlatform;
     }
-    return var_s5;
+    return closestPlatform;
 }
 
-s32 EnZf_FindPlatform3__(Vec3f* thisPos_, s16 platform_arg1, s16 platform_arg2, PlayState* play) {
+s32 EnZf_FindPlatformCloseToPlayer__(Vec3f* thisPos_, s16 curPlatform, s16 platform_arg2, PlayState* play) {
     Vec3f* temp_s0;
     f32 platformDistToPlayer;
     f32 closestPlatformToPlayerDist_;
@@ -560,7 +561,7 @@ s32 EnZf_FindPlatform3__(Vec3f* thisPos_, s16 platform_arg1, s16 platform_arg2, 
     maxPlatformDist_ = 500.0f;
     closestPlatformToPlayerDist_ = 99998.0f;
     secondClosestPlatformToPlayerDist_ = 99999.0f;
-    closestPlatformToPlayer_ = platform_arg1;
+    closestPlatformToPlayer_ = curPlatform;
     secondClosestPlatformToPlayer_ = platform_arg2;
     if (thisPos_->y > 200.0f) {
         maxPlatformDist_ = 290.0f;
@@ -598,7 +599,7 @@ s32 EnZf_FindPlatform3__(Vec3f* thisPos_, s16 platform_arg1, s16 platform_arg2, 
     return playerPlatform_;
 }
 
-s32 EnZf_ShouldAttack_(PlayState* play, EnZf* this) {
+s32 EnZf_CanAttack_(PlayState* play, EnZf* this) {
     s32 pad;
     Player* player;
     Actor* playerFocusActor;
@@ -638,9 +639,9 @@ void EnZf_PickAction_(EnZf* this, PlayState* play) {
     relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     relYawTowardsPlayer = ABS(relYawTowardsPlayer);
     if (relYawTowardsPlayer >= 0x1B58) {
-        EnZf_Setup12or5___(this, play);
+        EnZf_SetupCirclePlayerOrMainWalk___(this, play);
     } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((play->gameplayFrames % 8) != 0) &&
-               EnZf_ShouldAttack_(play, this)) {
+               EnZf_CanAttack_(play, this)) {
         EnZf_SetupAttack(this);
     } else {
         EnZf_SetupIdle_(this);
@@ -664,7 +665,7 @@ s32 EnZf_DinolfosPickAction_(PlayState* play, EnZf* this) {
         } else if ((this->actor.xzDistToPlayer < 90.0f) && ((play->gameplayFrames % 2) != 0)) {
             EnZf_SetupJumpAttack__(this);
         } else {
-            EnZf_Setup11_(this);
+            EnZf_SetupJumpBackwards_(this);
         }
         return true;
     }
@@ -680,7 +681,7 @@ s32 EnZf_DinolfosPickAction_(PlayState* play, EnZf* this) {
                 EnZf_SetupCirclePlayer___(this, 4.0f);
             }
         } else {
-            EnZf_Setup11_(this);
+            EnZf_SetupJumpBackwards_(this);
         }
         return true;
     }
@@ -730,13 +731,13 @@ void EnZf_WaitAppear_(EnZf* this, PlayState* play) {
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         this->actor.world.pos.y = this->actor.floorHeight;
         this->actor.velocity.y = 0.0f;
-        Actor_SpawnFloorDustRing(play, &this->actor, &this->unk4F0, 3.0f, 2, 2.0f, 0, 0, false);
-        Actor_SpawnFloorDustRing(play, &this->actor, &this->unk4E4, 3.0f, 2, 2.0f, 0, 0, false);
+        Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+        Actor_SpawnFloorDustRing(play, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         this->alpha_ = 255;
         if (this->actor.params >= ENZF_TYPE_LIZALFOS_PAIRED_B_) {
-            EnZf_Setup18_(this, play);
+            EnZf_SetupJumpSeqStartTurnAround_(this, play);
         } else {
             EnZf_SetupIdle_(this);
         }
@@ -783,7 +784,7 @@ void EnZf_Idle_(EnZf* this, PlayState* play) {
             (absYawDiffWithPlayer >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             if (absYawDiffWithPlayer) {}
-            EnZf_Setup12or5___(this, play);
+            EnZf_SetupCirclePlayerOrMainWalk___(this, play);
         } else if (this->timer_ != 0) {
             this->timer_--;
         } else {
@@ -792,17 +793,17 @@ void EnZf_Idle_(EnZf* this, PlayState* play) {
                     (Rand_ZeroOne() < 0.3f)) {
                     if (this->actor.params == ENZF_TYPE_DINOLFOS) {
                         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-                        EnZf_Setup13_(this);
+                        EnZf_SetupJump13___(this);
                     } else {
-                        EnZf_Setup12or5___(this, play);
+                        EnZf_SetupCirclePlayerOrMainWalk___(this, play);
                     }
                 } else if (Rand_ZeroOne() > 0.3f) {
-                    EnZf_Setup5_(this, play);
+                    EnZf_SetupMainWalk_(this, play);
                 } else {
-                    EnZf_Setup12or5___(this, play);
+                    EnZf_SetupCirclePlayerOrMainWalk___(this, play);
                 }
             } else {
-                EnZf_Setup6_(this);
+                EnZf_SetupTurnTowardsPlayer_(this);
             }
             if ((play->gameplayFrames & 0x5F) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
@@ -811,67 +812,68 @@ void EnZf_Idle_(EnZf* this, PlayState* play) {
     }
 }
 
-void EnZf_Setup5_(EnZf* this, PlayState* play) {
+void EnZf_SetupMainWalk_(EnZf* this, PlayState* play) {
     Animation_MorphToLoop(&this->skelAnime, &gZfWalkAnim_, -4.0f);
-    this->action = ENZF_ACTION_5;
+    this->action = ENZF_ACTION_MAIN_WALK_;
     if (ENZF_IS_TYPE_PAIRED_(this->actor.params)) {
-        this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE);
-        this->unkPlatform402 =
-            EnZf_FindPlatform3__(&this->actor.world.pos, this->unkPlatform3FE, this->unkPlatform400, play);
+        this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE_cur);
+        this->unkPlatform402_target_ = EnZf_FindPlatformCloseToPlayer__(
+            &this->actor.world.pos, this->unkPlatform3FE_cur, this->unkPlatform400_home___, play);
         this->actionState_ = 0;
     }
     this->actor.speed = 0.0f;
-    EnZf_SetupAction(this, EnZf_5_);
+    EnZf_SetupAction(this, EnZf_MainWalk_);
 }
 
-void EnZf_5_(EnZf* this, PlayState* play) {
+void EnZf_MainWalk_(EnZf* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
     s32 pad1;
     s16 absYawDiff;
-    s16 sp48;
-    f32 sp44;
-    f32 sp40;
+    s16 playerPlatform;
+    f32 maxTargetPlatformDistForJump_;
+    f32 extraDistFromPlayer;
     Player* player;
     f32 absPlaySpeed;
 
-    sp48 = -1;
-    sp44 = 350.0f;
-    sp40 = 0.0f;
+    playerPlatform = -1;
+    maxTargetPlatformDistForJump_ = 350.0f;
+    extraDistFromPlayer = 0.0f;
     player = GET_PLAYER(play);
     if (ENZF_IS_TYPE_PAIRED_(this->actor.params)) {
-        sp48 = EnZf_FindPlatform1__(&player->actor.world.pos, -1);
-        this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, sp48);
+        playerPlatform = EnZf_FindPlatform1__(&player->actor.world.pos, -1);
+        this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, playerPlatform);
         if (this->actor.world.pos.y >= 420.0f) {
-            sp44 = 270.0f;
+            maxTargetPlatformDistForJump_ = 270.0f;
         }
     }
     if (!EnZf_ReactToProjectile_(play, this)) {
-        if (sp48 != this->unkPlatform3FE) { // May only pass if type is paired
-            this->unkPlatform402 =
-                EnZf_FindPlatform3__(&this->actor.world.pos, this->unkPlatform3FE, this->unkPlatform400, play);
-            if ((sp48 < 0) && (this->unkPlatform402 == this->unkPlatform3FE)) {
-                sp48 = this->unkPlatform3FE;
+        if (playerPlatform != this->unkPlatform3FE_cur) { // May only pass if type is paired
+            this->unkPlatform402_target_ = EnZf_FindPlatformCloseToPlayer__(
+                &this->actor.world.pos, this->unkPlatform3FE_cur, this->unkPlatform400_home___, play);
+            if ((playerPlatform < 0) && (this->unkPlatform402_target_ == this->unkPlatform3FE_cur)) {
+                playerPlatform = this->unkPlatform3FE_cur;
                 this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             } else {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer = this->actor.shape.rot.y =
-                    Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402]);
+                    Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402_target_]);
                 absYawDiff = this->actor.wallYaw - this->actor.shape.rot.y;
                 if (absYawDiff < 0) {
                     absYawDiff *= -1;
                 }
-                if ((this->unk3F8 && (this->actor.speed > 0.0f)) ||
+                if ((this->noFloorAhead_ && (this->actor.speed > 0.0f)) ||
                     ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (absYawDiff >= 0x5C19))) {
-                    if ((Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402]) < sp44) &&
+                    if ((Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402_target_]) <
+                         maxTargetPlatformDistForJump_) &&
                         !EnZf_TestNoFloorAhead_(this, play, 191.9956f)) {
-                        EnZf_Setup13_(this);
+                        EnZf_SetupJump13___(this);
                         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                             this->actor.velocity.y = 20.0f;
                         }
                         return;
                     } else {
                         this->actor.world.rot.y =
-                            Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform3FE]);
+                            Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform3FE_cur]);
                     }
                 } else {
                     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -880,9 +882,9 @@ void EnZf_5_(EnZf* this, PlayState* play) {
             }
         }
         if (Actor_OtherIsLockedOn(play, &this->actor)) {
-            sp40 = 100.0f;
+            extraDistFromPlayer = 100.0f;
         }
-        if (this->actor.xzDistToPlayer <= (70.0f + sp40)) {
+        if (this->actor.xzDistToPlayer <= (70.0f + extraDistFromPlayer)) {
             Math_SmoothStepToF(&this->actor.speed, -8.0f, 1.0f, 0.5f, 0.0f);
         } else {
             Math_SmoothStepToF(&this->actor.speed, 8.0f, 1.0f, 0.5f, 0.0f);
@@ -892,11 +894,11 @@ void EnZf_5_(EnZf* this, PlayState* play) {
         if (absYawDiff < 0) {
             absYawDiff *= -1;
         }
-        if ((sp48 == this->unkPlatform3FE) && (this->actor.xzDistToPlayer < 150.0f) &&
+        if ((playerPlatform == this->unkPlatform3FE_cur) && (this->actor.xzDistToPlayer < 150.0f) &&
             (player->meleeWeaponState != 0) && (absYawDiff >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             if (Rand_ZeroOne() > 0.7f) {
-                EnZf_Setup12or5___(this, play);
+                EnZf_SetupCirclePlayerOrMainWalk___(this, play);
                 return;
             }
         }
@@ -904,23 +906,23 @@ void EnZf_5_(EnZf* this, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
         absPlaySpeed = ((void)0, ABS(this->skelAnime.playSpeed)); //! FAKE
-        if (sp48 == this->unkPlatform3FE) {
-            if (Actor_IsFacingPlayer(&this->actor, 0x11C7) == 0) {
+        if (playerPlatform == this->unkPlatform3FE_cur) {
+            if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
                 if (Rand_ZeroOne() > 0.5f) {
-                    EnZf_Setup7or5___(this, play);
+                    EnZf_SetupSidestepOrMainWalk___(this, play);
                 } else {
                     EnZf_SetupIdle_(this);
                 }
             } else if (this->actor.xzDistToPlayer < 100.0f) {
-                if ((Rand_ZeroOne() > 0.05f) && EnZf_ShouldAttack_(play, this)) {
+                if ((Rand_ZeroOne() > 0.05f) && EnZf_CanAttack_(play, this)) {
                     EnZf_SetupAttack(this);
                 } else if (Rand_ZeroOne() > 0.5f) {
-                    EnZf_Setup12or5___(this, play);
+                    EnZf_SetupCirclePlayerOrMainWalk___(this, play);
                 } else {
                     EnZf_SetupIdle_(this);
                 }
-            } else if (this->unk3F8) {
-                EnZf_Setup7or5___(this, play);
+            } else if (this->noFloorAhead_) {
+                EnZf_SetupSidestepOrMainWalk___(this, play);
             } else if (Rand_ZeroOne() < 0.1f) {
                 EnZf_SetupIdle_(this);
             }
@@ -932,11 +934,11 @@ void EnZf_5_(EnZf* this, PlayState* play) {
                     if (Actor_IsLockedOn(play, &this->actor)) {
                         if (Rand_ZeroOne() < 0.1f) {
                             this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-                            EnZf_Setup13_(this);
+                            EnZf_SetupJump13___(this);
                             return;
                         }
                     } else {
-                        EnZf_Setup12or5___(this, play);
+                        EnZf_SetupCirclePlayerOrMainWalk___(this, play);
                         return;
                     }
                 }
@@ -955,7 +957,7 @@ void EnZf_5_(EnZf* this, PlayState* play) {
     }
 }
 
-void EnZf_Setup13_(EnZf* this) {
+void EnZf_SetupJump13___(EnZf* this) {
     Animation_Change(&this->skelAnime, &gZfTauntAnim_____, 1.0f, 0.0f, 3.0f, ANIMMODE_ONCE, -3.0f);
     this->timer_ = 0;
     this->actionState_ = 1;
@@ -965,12 +967,12 @@ void EnZf_Setup13_(EnZf* this) {
     } else {
         this->actor.speed = 10.0f;
     }
-    this->action = ENZF_ACTION_13;
+    this->action = ENZF_ACTION_13_JUMP___;
     Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_JUMP);
-    EnZf_SetupAction(this, EnZf_13_);
+    EnZf_SetupAction(this, EnZf_Jump13___);
 }
 
-void EnZf_13_(EnZf* this, PlayState* play) {
+void EnZf_Jump13___(EnZf* this, PlayState* play) {
     if (this->timer_ != 0) {
         if (this->actor.world.pos.y <= this->actor.floorHeight) {
             this->actor.world.pos.y = this->actor.floorHeight;
@@ -987,7 +989,7 @@ void EnZf_13_(EnZf* this, PlayState* play) {
         } else {
             this->actor.speed = 0.0f;
             this->actionState_ = 0;
-            EnZf_Setup5_(this, play);
+            EnZf_SetupMainWalk_(this, play);
         }
     }
     if ((play->gameplayFrames & 0x5F) == 0) {
@@ -995,63 +997,67 @@ void EnZf_13_(EnZf* this, PlayState* play) {
     }
     if ((this->actor.params == ENZF_TYPE_DINOLFOS) &&
         ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) != 0)) {
-        if (EnZf_ShouldAttack_(play, this)) {
+        if (EnZf_CanAttack_(play, this)) {
             EnZf_SetupAttack(this);
         } else {
-            EnZf_Setup12or5___(this, play);
+            EnZf_SetupCirclePlayerOrMainWalk___(this, play);
         }
     }
 }
 
-void EnZf_Setup6_(EnZf* this) {
+/**
+ * Note: this action does not set the actor's speed. It is always 0 because EnZf_Idle is its only user and
+ * EnZf_SetupIdle sets the speed to 0.
+ */
+void EnZf_SetupTurnTowardsPlayer_(EnZf* this) {
     Animation_MorphToLoop(&this->skelAnime, &gZfWalkAnim_, -4.0f);
-    this->action = ENZF_ACTION_6;
-    EnZf_SetupAction(this, EnZf_6_);
+    this->action = ENZF_ACTION_TURN_TOWARDS_PLAYER_;
+    EnZf_SetupAction(this, EnZf_TurnTowardsPlayer_);
 }
 
-void EnZf_6_(EnZf* this, PlayState* play) {
+void EnZf_TurnTowardsPlayer_(EnZf* this, PlayState* play) {
     s32 pad;
-    s16 temp_v0;
-    s16 var_v1;
+    s16 relYawTowardsPlayer;
+    s16 yawSpeed;
     Player* player;
-    f32 var_fv1;
+    f32 animPlaySpeed;
 
     player = GET_PLAYER(play);
     if (!EnZf_ReactToProjectile_(play, this) &&
         !((this->actor.params == ENZF_TYPE_DINOLFOS) && EnZf_DinolfosPickAction_(play, this))) {
-        temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-        if (temp_v0 > 0) {
-            var_v1 = (temp_v0 * 0.25f) + 2000.0f;
+        relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+        if (relYawTowardsPlayer > 0) {
+            yawSpeed = (relYawTowardsPlayer * 0.25f) + 2000.0f;
         } else {
-            var_v1 = (temp_v0 * 0.25f) - 2000.0f;
+            yawSpeed = (relYawTowardsPlayer * 0.25f) - 2000.0f;
         }
-        this->actor.shape.rot.y += var_v1;
+        this->actor.shape.rot.y += yawSpeed;
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        if (temp_v0 > 0) {
-            var_fv1 = var_v1 * 1.5f;
-            if (var_fv1 > 2.0f) {
-                var_fv1 = 2.0f;
+        if (relYawTowardsPlayer > 0) {
+            animPlaySpeed = yawSpeed * 1.5f;
+            if (animPlaySpeed > 2.0f) {
+                animPlaySpeed = 2.0f;
             }
         } else {
-            var_fv1 = var_v1 * 1.5f;
-            if (var_fv1 < -2.0f) {
-                var_fv1 = -2.0f;
+            animPlaySpeed = yawSpeed * 1.5f;
+            if (animPlaySpeed < -2.0f) {
+                animPlaySpeed = -2.0f;
             }
         }
-        this->skelAnime.playSpeed = -var_fv1;
+        this->skelAnime.playSpeed = -animPlaySpeed;
         SkelAnime_Update(&this->skelAnime);
         if (ENZF_IS_TYPE_PAIRED_(this->actor.params)) {
-            this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE);
-            if (EnZf_FindPlatform1__(&player->actor.world.pos, -1) != this->unkPlatform3FE) {
-                EnZf_Setup5_(this, play);
+            this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE_cur);
+            if (EnZf_FindPlatform1__(&player->actor.world.pos, -1) != this->unkPlatform3FE_cur) {
+                EnZf_SetupMainWalk_(this, play);
                 return;
             }
         }
         if (Actor_IsFacingPlayer(&this->actor, 0x1555)) {
             if (Rand_ZeroOne() > 0.8f) {
-                EnZf_Setup7or5___(this, play);
+                EnZf_SetupSidestepOrMainWalk___(this, play);
             } else {
-                EnZf_Setup5_(this, play);
+                EnZf_SetupMainWalk_(this, play);
             }
         }
         if ((play->gameplayFrames & 0x5F) == 0) {
@@ -1060,7 +1066,7 @@ void EnZf_6_(EnZf* this, PlayState* play) {
     }
 }
 
-void EnZf_Setup7or5___(EnZf* this, PlayState* play) {
+void EnZf_SetupSidestepOrMainWalk___(EnZf* this, PlayState* play) {
     if (!ENZF_IS_TYPE_PAIRED_(this->actor.params) ||
         Actor_TestFloorInDirection(&this->actor, play, 40.0f, this->actor.shape.rot.y + 0x3FFF) ||
         Actor_TestFloorInDirection(&this->actor, play, -40.0f, this->actor.shape.rot.y + 0x3FFF)) {
@@ -1069,16 +1075,16 @@ void EnZf_Setup7or5___(EnZf* this, PlayState* play) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         this->timer_ = (Rand_ZeroOne() * 10.0f) + 20.0f;
         this->actionState_ = 0;
-        this->action = ENZF_ACTION_7;
+        this->action = ENZF_ACTION_SIDESTEP__;
         this->dodgeSpeed___ = 0.0f;
-        EnZf_SetupAction(this, EnZf_7_);
+        EnZf_SetupAction(this, EnZf_Sidestep__);
     } else {
-        EnZf_Setup5_(this, play);
+        EnZf_SetupMainWalk_(this, play);
     }
 }
 
-void EnZf_7_(EnZf* this, PlayState* play) {
-    s16 sp56;
+void EnZf_Sidestep__(EnZf* this, PlayState* play) {
+    s16 playerYawOpposite;
     s32 beforeCurFrame;
     s32 prevFrame;
     s32 pad;
@@ -1093,20 +1099,20 @@ void EnZf_7_(EnZf* this, PlayState* play) {
     if (!EnZf_ReactToProjectile_(play, this) &&
         !((this->actor.params == ENZF_TYPE_DINOLFOS) && EnZf_DinolfosPickAction_(play, this))) {
         this->actor.world.rot.y = this->actor.shape.rot.y + 0x3A98;
-        sp56 = player->actor.shape.rot.y + 0x8000;
-        if (Math_SinS(sp56 - this->actor.shape.rot.y) >= 0.0f) {
+        playerYawOpposite = player->actor.shape.rot.y + 0x8000;
+        if (Math_SinS(playerYawOpposite - this->actor.shape.rot.y) >= 0.0f) {
             this->actor.speed -= 0.25f;
             if (this->actor.speed < -8.0f) {
                 this->actor.speed = -8.0f;
             }
-        } else if (Math_SinS(sp56 - this->actor.shape.rot.y) < 0.0f) {
+        } else if (Math_SinS(playerYawOpposite - this->actor.shape.rot.y) < 0.0f) {
             this->actor.speed += 0.25f;
             if (this->actor.speed > 8.0f) {
                 this->actor.speed = 8.0f;
             }
         }
         if (ENZF_IS_TYPE_PAIRED_(this->actor.params)) {
-            if (this->unk3F8) {
+            if (this->noFloorAhead_) {
                 this->actor.speed = -this->actor.speed;
             }
         } else {
@@ -1166,10 +1172,10 @@ void EnZf_7_(EnZf* this, PlayState* play) {
         if ((play->gameplayFrames & 0x5F) == 0) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
         }
-        if ((Math_CosS(sp56 - this->actor.shape.rot.y) < -0.85f) || (this->timer_ == 0)) {
+        if ((Math_CosS(playerYawOpposite - this->actor.shape.rot.y) < -0.85f) || (this->timer_ == 0)) {
             this->actor.world.rot.y = this->actor.shape.rot.y;
             if ((this->actor.xzDistToPlayer <= 100.0f) && ((play->gameplayFrames % 4) == 0) &&
-                EnZf_ShouldAttack_(play, this)) {
+                EnZf_CanAttack_(play, this)) {
                 EnZf_SetupAttack(this);
             } else {
                 EnZf_SetupIdle_(this);
@@ -1215,7 +1221,7 @@ void EnZf_Attack(EnZf* this, PlayState* play) {
         } else {
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             if (Rand_ZeroOne() > 0.7f) {
-                EnZf_Setup12or5___(this, play);
+                EnZf_SetupCirclePlayerOrMainWalk___(this, play);
             } else {
                 absYawDiffWithPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
                 absYawDiffWithPlayer = ABS(absYawDiffWithPlayer);
@@ -1224,19 +1230,19 @@ void EnZf_Attack(EnZf* this, PlayState* play) {
                     absRelYawTowardsPlayer = ABS(absRelYawTowardsPlayer);
                     if (absRelYawTowardsPlayer > 0x3E80) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-                        EnZf_Setup12or5___(this, play);
+                        EnZf_SetupCirclePlayerOrMainWalk___(this, play);
                     } else if (player->stateFlags1 &
                                (PLAYER_STATE1_HOSTILE_LOCK_ON | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                         if (this->actor.isLockedOn) {
                             EnZf_SetupAttack(this);
                         } else {
-                            EnZf_Setup12or5___(this, play);
+                            EnZf_SetupCirclePlayerOrMainWalk___(this, play);
                         }
                     } else {
                         EnZf_SetupAttack(this);
                     }
                 } else {
-                    EnZf_Setup12or5___(this, play);
+                    EnZf_SetupCirclePlayerOrMainWalk___(this, play);
                 }
             }
         }
@@ -1255,26 +1261,26 @@ void EnZf_AttackBounced(EnZf* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (Rand_ZeroOne() > 0.7f) {
             EnZf_SetupIdle_(this);
-        } else if ((Rand_ZeroOne() > 0.2f) && EnZf_ShouldAttack_(play, this)) {
+        } else if ((Rand_ZeroOne() > 0.2f) && EnZf_CanAttack_(play, this)) {
             EnZf_SetupAttack(this);
         } else {
-            EnZf_Setup12or5___(this, play);
+            EnZf_SetupCirclePlayerOrMainWalk___(this, play);
         }
     }
 }
 
-void EnZf_Setup11_(EnZf* this) {
+void EnZf_SetupJumpBackwards_(EnZf* this) {
     Animation_Change(&this->skelAnime, &gZfTauntAnim_____, -1.0f, 3.0f, 0.0f, ANIMMODE_ONCE, -3.0f);
     this->timer_ = 0;
     this->actionState_ = 1;
-    this->action = ENZF_ACTION_11;
+    this->action = ENZF_ACTION_JUMP_BACKWARDS_;
     this->actor.velocity.y = 15.0f;
     this->actor.speed = -15.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_JUMP);
-    EnZf_SetupAction(this, EnZf_11_);
+    EnZf_SetupAction(this, EnZf_JumpBackwards_);
 }
 
-void EnZf_11_(EnZf* this, PlayState* play) {
+void EnZf_JumpBackwards_(EnZf* this, PlayState* play) {
     if (this->timer_ != 0) {
         if (this->actor.world.pos.y <= this->actor.floorHeight) {
             this->actor.world.pos.y = this->actor.floorHeight;
@@ -1289,7 +1295,7 @@ void EnZf_11_(EnZf* this, PlayState* play) {
             this->timer_ = 10;
             Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_JUMP);
         } else if ((play->gameplayFrames % 2) != 0) {
-            EnZf_Setup12or5___(this, play);
+            EnZf_SetupCirclePlayerOrMainWalk___(this, play);
         } else {
             EnZf_SetupIdle_(this);
         }
@@ -1346,7 +1352,7 @@ void EnZf_Stunned_(EnZf* this, PlayState* play) {
                     if (this->actor.params != ENZF_TYPE_DINOLFOS) {
                         EnZf_PickAction_(this, play);
                     } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((play->gameplayFrames % 4) != 0) &&
-                               EnZf_ShouldAttack_(play, this)) {
+                               EnZf_CanAttack_(play, this)) {
                         EnZf_SetupAttack(this);
                     } else {
                         EnZf_PickAction_(this, play);
@@ -1357,50 +1363,50 @@ void EnZf_Stunned_(EnZf* this, PlayState* play) {
     }
 }
 
-void EnZf_Setup18_(EnZf* this, PlayState* play) {
-    f32 var_fv0;
-    f32 temp_fv1;
+void EnZf_SetupJumpSeqStartTurnAround_(EnZf* this, PlayState* play) {
+    f32 animMorphFrames;
+    f32 animEndFrame;
 
-    var_fv0 = 0.0f;
-    temp_fv1 = Animation_GetLastFrame(&gZfTurnAroundAnim__);
+    animMorphFrames = 0.0f;
+    animEndFrame = Animation_GetLastFrame(&gZfTurnAroundAnim__);
     if (this->action <= ENZF_ACTION_DAMAGED_) {
-        var_fv0 = -4.0f;
+        animMorphFrames = -4.0f;
     }
-    Animation_Change(&this->skelAnime, &gZfTurnAroundAnim__, 2.0f, 0.0f, temp_fv1, ANIMMODE_ONCE, var_fv0);
-    this->action = ENZF_ACTION_18;
+    Animation_Change(&this->skelAnime, &gZfTurnAroundAnim__, 2.0f, 0.0f, animEndFrame, ANIMMODE_ONCE, animMorphFrames);
+    this->action = ENZF_ACTION_JUMP_SEQ_START_TURN_AROUND_;
     this->actor.speed = 0.0f;
-    this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE);
-    this->unkPlatform402 =
-        EnZf_FindPlatform2__(&this->actor.world.pos, this->unkPlatform3FE, this->unkPlatform400, play);
+    this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE_cur);
+    this->unkPlatform402_target_ = EnZf_FindPlatformWithoutPlayer__(&this->actor.world.pos, this->unkPlatform3FE_cur,
+                                                                    this->unkPlatform400_home___, play);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    EnZf_SetupAction(this, EnZf_18_);
+    EnZf_SetupAction(this, EnZf_JumpSeqStartTurnAround_);
 }
 
-void EnZf_18_(EnZf* this, PlayState* play) {
-    s16 temp_v1;
+void EnZf_JumpSeqStartTurnAround_(EnZf* this, PlayState* play) {
+    s16 yaw;
 
-    temp_v1 = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402]) + 0x8000;
-    Math_SmoothStepToS(&this->actor.world.rot.y, temp_v1, 1, 0x3E8, 0);
+    yaw = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402_target_]) + 0x8000;
+    Math_SmoothStepToS(&this->actor.world.rot.y, yaw, 1, 0x3E8, 0);
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->actor.world.rot.y = temp_v1 - 0x8000;
-        EnZf_SetupJump19__(this, play);
-        this->unk3FA = 1;
+        this->actor.world.rot.y = yaw - 0x8000;
+        EnZf_SetupJumpSeqJump19__(this, play);
+        this->isSwordSheathed = true;
     }
 }
 
-void EnZf_SetupJump20__(EnZf* this) {
+void EnZf_SetupJumpSeqJump20__(EnZf* this) {
     this->actionState_ = 0;
     Animation_MorphToPlayOnce(&this->skelAnime, D_80B4A280[0], -4.0f);
-    this->action = ENZF_ACTION_JUMP_20__;
+    this->action = ENZF_ACTION_JUMP_SEQ_JUMP_20__;
     this->actor.speed = 0.0f;
-    this->unk40C = 0.0f;
+    this->dodgeVelocityY___ = 0.0f;
     this->dodgeSpeed___ = 0.0f;
-    EnZf_SetupAction(this, EnZf_Jump20__);
+    EnZf_SetupAction(this, EnZf_JumpSeqJump20__);
 }
 
-void EnZf_Jump20__(EnZf* this, PlayState* play) {
-    f32 var_fv0;
+void EnZf_JumpSeqJump20__(EnZf* this, PlayState* play) {
+    f32 animEndFrame;
     f32 sp40;
 
     sp40 = 400.0f;
@@ -1411,7 +1417,7 @@ void EnZf_Jump20__(EnZf* this, PlayState* play) {
     }
     if ((this->actor.xzDistToPlayer < sp40) && (this->actionState_ != 1)) {
         this->actor.shape.rot.y = this->actor.world.rot.y;
-        EnZf_Setup18_(this, play);
+        EnZf_SetupJumpSeqStartTurnAround_(this, play);
     } else {
         if (this->actionState_ != 1) {
             EnZf_ReactToProjectile2_____(play, this);
@@ -1421,10 +1427,10 @@ void EnZf_Jump20__(EnZf* this, PlayState* play) {
             if (this->actionState_ >= 3) {
                 this->actionState_ = 0;
             }
-            if ((this->dodgeSpeed___ != 0.0f) || (this->unk40C != 0.0f)) {
+            if ((this->dodgeSpeed___ != 0.0f) || (this->dodgeVelocityY___ != 0.0f)) {
                 this->actionState_ = 1;
             }
-            var_fv0 = Animation_GetLastFrame(D_80B4A280[this->actionState_]);
+            animEndFrame = Animation_GetLastFrame(D_80B4A280[this->actionState_]);
             switch (this->actionState_) {
                 case 0:
                     this->actor.velocity.y = 0.0f;
@@ -1432,18 +1438,18 @@ void EnZf_Jump20__(EnZf* this, PlayState* play) {
                     break;
 
                 case 1:
-                    this->actor.velocity.y = this->unk40C + 10.0f;
+                    this->actor.velocity.y = this->dodgeVelocityY___ + 10.0f;
                     this->actor.speed = this->dodgeSpeed___;
                     this->dodgeSpeed___ = 0.0f;
-                    this->unk40C = 0.0f;
+                    this->dodgeVelocityY___ = 0.0f;
                     break;
 
                 case 2:
-                    var_fv0 = 3.0f;
+                    animEndFrame = 3.0f;
                     this->actor.world.pos.y = this->actor.floorHeight;
                     break;
             }
-            Animation_Change(&this->skelAnime, D_80B4A280[this->actionState_], 1.5f, 0.0f, var_fv0, ANIMMODE_ONCE,
+            Animation_Change(&this->skelAnime, D_80B4A280[this->actionState_], 1.5f, 0.0f, animEndFrame, ANIMMODE_ONCE,
                              0.0f);
         }
         if ((play->gameplayFrames & 0x5F) == 0) {
@@ -1452,32 +1458,33 @@ void EnZf_Jump20__(EnZf* this, PlayState* play) {
     }
 }
 
-void EnZf_SetupJump19__(EnZf* this, PlayState* play) {
+void EnZf_SetupJumpSeqJump19__(EnZf* this, PlayState* play) {
     this->actionState_ = 0;
     Animation_PlayOnce(&this->skelAnime, D_80B4A280[0]);
-    this->action = ENZF_ACTION_JUMP_19__;
-    this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE);
-    this->unkPlatform402 =
-        EnZf_FindPlatform2__(&this->actor.world.pos, this->unkPlatform3FE, this->unkPlatform400, play);
-    EnZf_SetupAction(this, EnZf_Jump19__);
+    this->action = ENZF_ACTION_JUMP_SEQ_JUMP_19__;
+    this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE_cur);
+    this->unkPlatform402_target_ = EnZf_FindPlatformWithoutPlayer__(&this->actor.world.pos, this->unkPlatform3FE_cur,
+                                                                    this->unkPlatform400_home___, play);
+    EnZf_SetupAction(this, EnZf_JumpSeqJump19__);
 }
 
-void EnZf_Jump19__(EnZf* this, PlayState* play) {
-    f32 sp74;
-    f32 sp70;
+void EnZf_JumpSeqJump19__(EnZf* this, PlayState* play) {
+    f32 distToTargetPlatform_;
+    f32 animPlaySpeed;
     f32 var_fs0;
-    f32 var_fs0_2;
+    f32 candidateDistance;
     s32 pad;
-    f32 var_fv0_sp60;
+    f32 candidateSpeed;
     s32 pad2;
-    s16 sp5A;
+    s16 yawTowardsTargetPlatform;
     s32 prevActionState_;
     s32 floorAheadFlags;
-    s32 var_v1_real_sp4C;
+    s32 i;
 
-    sp70 = 1.0f;
+    animPlaySpeed = 1.0f;
     var_fs0 = 550.0f;
-    sp74 = Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402]);
+    distToTargetPlatform_ =
+        Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402_target_]);
     prevActionState_ = this->actionState_;
     if ((play->gameplayFrames & 0x5F) == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
@@ -1485,13 +1492,14 @@ void EnZf_Jump19__(EnZf* this, PlayState* play) {
     if (this->actor.world.pos.y >= 420.0f) {
         var_fs0 = 280.0f;
     }
-    sp5A = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402]);
+    yawTowardsTargetPlatform =
+        Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->unkPlatform402_target_]);
     switch (this->actionState_) {
         case 0:
-            this->actor.world.rot.y = sp5A;
-            this->actor.shape.rot.y = sp5A + 0x8000;
+            this->actor.world.rot.y = yawTowardsTargetPlatform;
+            this->actor.shape.rot.y = yawTowardsTargetPlatform + 0x8000;
             D_80B4AB30 = 0;
-            this->unkPlatform400 = this->unkPlatform3FE;
+            this->unkPlatform400_home___ = this->unkPlatform3FE_cur;
             floorAheadFlags = 0;
             floorAheadFlags |= !EnZf_TestNoFloorAhead_(this, play, 107.0f) << 0;
             floorAheadFlags |= !EnZf_TestNoFloorAhead_(this, play, 220.0f) << 1;
@@ -1513,20 +1521,19 @@ void EnZf_Jump19__(EnZf* this, PlayState* play) {
 
                 default:
                     if (play) {}
-                    var_fs0_2 = 107.0f;
-                    var_fs0_2 += 10.0f;
-                    var_fv0_sp60 = 8.0f;
-                    var_fv0_sp60 += 1.2f;
-                    for (var_v1_real_sp4C = 0x14; var_v1_real_sp4C >= 0;
-                         var_v1_real_sp4C -= 1, var_fs0_2 += 10.0f, var_fv0_sp60 += 1.2f) {
-                        if (!EnZf_TestNoFloorAhead_(this, play, var_fs0_2)) {
-                            this->actor.speed = var_fv0_sp60;
+                    candidateDistance = 107.0f;
+                    candidateDistance += 10.0f;
+                    candidateSpeed = 8.0f;
+                    candidateSpeed += 1.2f;
+                    for (i = 20; i >= 0; i--, candidateDistance += 10.0f, candidateSpeed += 1.2f) {
+                        if (!EnZf_TestNoFloorAhead_(this, play, candidateDistance)) {
+                            this->actor.speed = candidateSpeed;
                             this->actor.velocity.y = 12.0f;
                             break;
                         }
                     }
                     if (this->actor.speed == 0.0f) {
-                        EnZf_SetupJump20__(this);
+                        EnZf_SetupJumpSeqJump20__(this);
                     }
                     break;
             }
@@ -1539,21 +1546,19 @@ void EnZf_Jump19__(EnZf* this, PlayState* play) {
                 this->actor.velocity.y = 0.0f;
                 this->actor.world.pos.y = this->actor.floorHeight;
                 this->actor.speed = 0.0f;
-                Actor_SpawnFloorDustRing(play, &this->actor, &this->unk4F0, 3.0f, 2, 2.0f, 0, 0, false);
-                Actor_SpawnFloorDustRing(play, &this->actor, &this->unk4E4, 3.0f, 2, 2.0f, 0, 0, false);
-                if (var_fs0 <= this->actor.xzDistToPlayer) {
-                    EnZf_SetupJump20__(this);
-                } else {
-                    if (sp74 < 80.0f) {
-                        this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE);
-                        this->unkPlatform402 = EnZf_FindPlatform2__(&this->actor.world.pos, this->unkPlatform3FE,
-                                                                    this->unkPlatform400, play);
-                    }
+                Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+                Actor_SpawnFloorDustRing(play, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+                if (this->actor.xzDistToPlayer >= var_fs0) {
+                    EnZf_SetupJumpSeqJump20__(this);
+                } else if (distToTargetPlatform_ < 80.0f) {
+                    this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE_cur);
+                    this->unkPlatform402_target_ = EnZf_FindPlatformWithoutPlayer__(
+                        &this->actor.world.pos, this->unkPlatform3FE_cur, this->unkPlatform400_home___, play);
                 }
                 this->actionState_ = 0;
-                sp70 = 2.0f;
+                animPlaySpeed = 2.0f;
             } else {
-                Math_SmoothStepToS(&this->actor.world.rot.y, sp5A, 1, 0xFA0, 0);
+                Math_SmoothStepToS(&this->actor.world.rot.y, yawTowardsTargetPlatform, 1, 0xFA0, 0);
                 this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
                 D_80B4AB30 += 1;
             }
@@ -1566,37 +1571,37 @@ void EnZf_Jump19__(EnZf* this, PlayState* play) {
             break;
     }
     if (prevActionState_ != this->actionState_) {
-        Animation_PlayOnceSetSpeed(&this->skelAnime, D_80B4A280[this->actionState_], sp70);
+        Animation_PlayOnceSetSpeed(&this->skelAnime, D_80B4A280[this->actionState_], animPlaySpeed);
     }
     SkelAnime_Update(&this->skelAnime);
 }
 
-void EnZf_Setup21_(EnZf* this, PlayState* play) {
+void EnZf_SetupJumpSeqFinalLanding_____(EnZf* this, PlayState* play) {
     Animation_PlayOnce(&this->skelAnime, &gZfGetBackUpAndTurnAroundAnim_____);
     this->actor.world.rot.y += 0x8000;
-    this->action = ENZF_ACTION_21;
+    this->action = ENZF_ACTION_JUMP_SEQ_FINAL_LANDING_____;
     this->actor.speed = 0.0f;
-    this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE);
-    this->unkPlatform402 =
-        EnZf_FindPlatform2__(&this->actor.world.pos, this->unkPlatform3FE, this->unkPlatform400, play);
-    EnZf_SetupAction(this, EnZf_21_);
+    this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE_cur);
+    this->unkPlatform402_target_ = EnZf_FindPlatformWithoutPlayer__(&this->actor.world.pos, this->unkPlatform3FE_cur,
+                                                                    this->unkPlatform400_home___, play);
+    EnZf_SetupAction(this, EnZf_JumpSeqFinalLanding_____);
 }
 
-void EnZf_21_(EnZf* this, PlayState* play) {
-    s16 sp2E;
+void EnZf_JumpSeqFinalLanding_____(EnZf* this, PlayState* play) {
+    s16 yawTowardsPlayer;
 
-    sp2E = this->actor.yawTowardsPlayer;
+    yawTowardsPlayer = this->actor.yawTowardsPlayer;
     if (this->skelAnime.curFrame >= 26.0f) {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, sp2E, 1, 0x1770, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, yawTowardsPlayer, 1, 0x1770, 0);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
-        this->actor.world.rot.y = sp2E;
+        this->actor.world.rot.y = yawTowardsPlayer;
         this->actionState_ = -1;
         EnZf_SetupIdle_(this);
     }
     if (this->skelAnime.curFrame == 22.0f) {
-        this->unk3FA = 0;
+        this->isSwordSheathed = false;
     }
 }
 
@@ -1666,7 +1671,7 @@ void EnZf_Damaged_(EnZf* this, PlayState* play) {
                         EnZf_PickAction_(this, play);
                     }
                 } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((play->gameplayFrames % 4) == 0) &&
-                           EnZf_ShouldAttack_(play, this)) {
+                           EnZf_CanAttack_(play, this)) {
                     EnZf_SetupAttack(this);
                 } else {
                     EnZf_PickAction_(this, play);
@@ -1691,8 +1696,8 @@ void EnZf_SetupJumpAttack__(EnZf* this) {
 void EnZf_JumpAttack__(EnZf* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     if (this->actor.velocity.y >= 5.0f) {
-        func_800355B8(play, &this->unk4F0);
-        func_800355B8(play, &this->unk4E4);
+        func_800355B8(play, &this->leftFootPos);
+        func_800355B8(play, &this->rightFootPos);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer_ == 0) {
@@ -1710,10 +1715,9 @@ void EnZf_JumpAttack__(EnZf* this, PlayState* play) {
     }
 }
 
-void EnZf_Setup12or5___(EnZf* this, PlayState* play) {
-    s16 temp_v1_sp2E;
+void EnZf_SetupCirclePlayerOrMainWalk___(EnZf* this, PlayState* play) {
+    s16 playerYaw;
     Player* player;
-    f32 temp_ft3;
 
     if (!ENZF_IS_TYPE_PAIRED_(this->actor.params) ||
         Actor_TestFloorInDirection(&this->actor, play, 40.0f, this->actor.shape.rot.y + 0x3FFF) ||
@@ -1721,10 +1725,10 @@ void EnZf_Setup12or5___(EnZf* this, PlayState* play) {
         Animation_PlayLoop(&this->skelAnime, &gZfCautiousWalkAnim___);
         player = GET_PLAYER(play);
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
-        temp_v1_sp2E = player->actor.shape.rot.y;
-        if (Math_SinS(temp_v1_sp2E - this->actor.shape.rot.y) >= 0.0f) {
+        playerYaw = player->actor.shape.rot.y;
+        if (Math_SinS(playerYaw - this->actor.shape.rot.y) >= 0.0f) {
             this->actor.speed = -6.0f;
-        } else if (Math_SinS(temp_v1_sp2E - this->actor.shape.rot.y) < 0.0f) {
+        } else if (Math_SinS(playerYaw - this->actor.shape.rot.y) < 0.0f) {
             this->actor.speed = 6.0f;
         }
         this->dodgeSpeed___ = 0.0f;
@@ -1734,13 +1738,13 @@ void EnZf_Setup12or5___(EnZf* this, PlayState* play) {
         this->action = ENZF_ACTION_CIRCLE_PLAYER___;
         EnZf_SetupAction(this, EnZf_CirclePlayer___);
     } else {
-        EnZf_Setup5_(this, play);
+        EnZf_SetupMainWalk_(this, play);
     }
 }
 
 void EnZf_CirclePlayer___(EnZf* this, PlayState* play) {
-    s16 temp_t0_sp56;
-    s16 var_v0;
+    s16 playerYaw;
+    s16 yaw;
     Player* player;
     s32 prevFrame;
     s32 beforeCurFrame;
@@ -1751,9 +1755,9 @@ void EnZf_CirclePlayer___(EnZf* this, PlayState* play) {
     player = GET_PLAYER(play);
     extraRadius = 0.0f;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 1);
-    temp_t0_sp56 = player->actor.shape.rot.y;
+    playerYaw = player->actor.shape.rot.y;
     if (ENZF_IS_TYPE_PAIRED_(this->actor.params)) {
-        if (this->unk3F8) {
+        if (this->noFloorAhead_) {
             this->actor.speed = -this->actor.speed;
         }
     } else {
@@ -1761,16 +1765,16 @@ void EnZf_CirclePlayer___(EnZf* this, PlayState* play) {
             !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF)) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 if (this->actor.speed >= 0.0f) {
-                    var_v0 = this->actor.shape.rot.y + 0x3FFF;
+                    yaw = this->actor.shape.rot.y + 0x3FFF;
                 } else {
-                    var_v0 = this->actor.shape.rot.y - 0x3FFF;
+                    yaw = this->actor.shape.rot.y - 0x3FFF;
                 }
-                var_v0 = this->actor.wallYaw - var_v0;
+                yaw = this->actor.wallYaw - yaw;
             } else {
-                var_v0 = 0;
+                yaw = 0;
                 this->actor.speed *= -0.8f;
             }
-            if (ABS(var_v0) > 0x4000) {
+            if (ABS(yaw) > 0x4000) {
                 this->actor.speed *= -0.8f;
                 if (this->actor.speed < 0.0f) {
                     this->actor.speed -= 0.5f;
@@ -1783,7 +1787,7 @@ void EnZf_CirclePlayer___(EnZf* this, PlayState* play) {
         if (1) {} //! FAKE
 #endif
     }
-    if (Math_SinS(temp_t0_sp56 - this->actor.shape.rot.y) >= 0.0f) {
+    if (Math_SinS(playerYaw - this->actor.shape.rot.y) >= 0.0f) {
         this->actor.speed += 0.125f;
     } else {
         this->actor.speed -= 0.125f;
@@ -1816,41 +1820,41 @@ void EnZf_CirclePlayer___(EnZf* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
     absPlaySpeed = ((void)0, ABS(this->skelAnime.playSpeed)); //! FAKE
-    this->unkPlatform3FE = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE);
-    if (EnZf_FindPlatform1__(&player->actor.world.pos, -1) != this->unkPlatform3FE) {
+    this->unkPlatform3FE_cur = EnZf_FindPlatform1__(&this->actor.world.pos, this->unkPlatform3FE_cur);
+    if (EnZf_FindPlatform1__(&player->actor.world.pos, -1) != this->unkPlatform3FE_cur) {
         this->actor.speed = 0.0f;
         if (ENZF_IS_TYPE_PAIRED_(this->actor.params) && (sPairedInactiveType__ == this->actor.params)) {
-            EnZf_SetupJump20__(this);
+            EnZf_SetupJumpSeqJump20__(this);
         } else {
-            EnZf_Setup5_(this, play);
+            EnZf_SetupMainWalk_(this, play);
         }
     } else if (!((this->actor.params == ENZF_TYPE_DINOLFOS) && EnZf_DinolfosPickAction_(play, this))) {
         if (this->timer_ == 0) {
-            var_v0 = player->actor.shape.rot.y - this->actor.shape.rot.y;
-            if (var_v0 < 0) {
-                var_v0 *= -1;
+            yaw = player->actor.shape.rot.y - this->actor.shape.rot.y;
+            if (yaw < 0) {
+                yaw *= -1;
             }
-            if (var_v0 >= 0x3A98) {
+            if (yaw >= 0x3A98) {
                 if (ENZF_IS_TYPE_PAIRED_(this->actor.params) && (sPairedInactiveType__ == this->actor.params)) {
-                    EnZf_SetupJump20__(this);
+                    EnZf_SetupJumpSeqJump20__(this);
                 } else {
                     EnZf_SetupIdle_(this);
                     this->timer_ = (Rand_ZeroOne() * 5.0f) + 1.0f;
                 }
             } else {
                 if (ENZF_IS_TYPE_PAIRED_(this->actor.params) && (sPairedInactiveType__ == this->actor.params)) {
-                    EnZf_SetupJump20__(this);
+                    EnZf_SetupJumpSeqJump20__(this);
                 } else {
                     this->actor.world.rot.y = this->actor.shape.rot.y;
                     if ((this->actor.xzDistToPlayer <= 100.0f) && ((play->gameplayFrames % 4) == 0) &&
-                        EnZf_ShouldAttack_(play, this)) {
+                        EnZf_CanAttack_(play, this)) {
                         EnZf_SetupAttack(this);
                     } else {
                         if ((this->actor.xzDistToPlayer < 280.0f) && (this->actor.xzDistToPlayer > 240.0f) &&
                             !EnZf_TestNoFloorAhead_(this, play, 191.9956f) && ((play->gameplayFrames % 2) == 0)) {
-                            EnZf_Setup13_(this);
+                            EnZf_SetupJump13___(this);
                         } else {
-                            EnZf_Setup5_(this, play);
+                            EnZf_SetupMainWalk_(this, play);
                         }
                     }
                 }
@@ -1860,8 +1864,8 @@ void EnZf_CirclePlayer___(EnZf* this, PlayState* play) {
             this->timer_--;
         }
         if ((prevFrame != (s32)this->skelAnime.curFrame) &&
-            (((beforeCurFrame < 0xE) && (((s32)absPlaySpeed + prevFrame) >= 0x10)) ||
-             ((beforeCurFrame < 0x1B) && (((s32)absPlaySpeed + prevFrame) >= 0x1D)))) {
+            (((beforeCurFrame < 14) && (((s32)absPlaySpeed + prevFrame) >= 16)) ||
+             ((beforeCurFrame < 27) && (((s32)absPlaySpeed + prevFrame) >= 29)))) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_WALK);
         }
         if ((play->gameplayFrames & 0x5F) == 0) {
@@ -2001,16 +2005,16 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
 
     EnZf_CheckCollide(this, play);
     if (this->actor.colChkInfo.damageReaction != ENZF_DMG_REACT_6) {
-        this->unk3F8 = false;
-        if ((this->actionState_ != 1) && (this->action != ENZF_ACTION_JUMP_19__)) {
+        this->noFloorAhead_ = false;
+        if ((this->actionState_ != 1) && (this->action != ENZF_ACTION_JUMP_SEQ_JUMP_19__)) {
             if (this->actor.speed != 0.0f) {
-                this->unk3F8 = EnZf_TestNoFloorAhead_(this, play, this->actor.speed * 1.5f);
+                this->noFloorAhead_ = EnZf_TestNoFloorAhead_(this, play, this->actor.speed * 1.5f);
             }
-            if (!this->unk3F8) {
-                this->unk3F8 = EnZf_TestNoFloorAhead_(this, play, 0.0f);
+            if (!this->noFloorAhead_) {
+                this->noFloorAhead_ = EnZf_TestNoFloorAhead_(this, play, 0.0f);
             }
         }
-        if (!this->unk3F8) {
+        if (!this->noFloorAhead_) {
             Actor_MoveXZGravity(&this->actor);
         }
         Actor_UpdateBgCheckInfo(play, &this->actor, 25.0f, 30.0f, 60.0f,
@@ -2026,7 +2030,7 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
             EnZf_UpdateHeadRot(this, play);
         }
         if ((sPairedActiveFleeFlag_ != 0) && (sPairedInactiveType__ != this->actor.params)) {
-            EnZf_Setup18_(this, play);
+            EnZf_SetupJumpSeqStartTurnAround_(this, play);
             sPairedInactiveType__ = this->actor.params;
             sPairedActiveFleeFlag_ = 0;
             if (this->actor.prev != NULL) {
@@ -2038,10 +2042,10 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
     }
     if (this->action >= ENZF_ACTION_DIE_) {
         Math_SmoothStepToS(&this->headRot, 0, 1, 0x7D0, 0);
-        if ((this->action <= ENZF_ACTION_JUMP_20__) && (this->timer2_ == 1) &&
+        if ((this->action <= ENZF_ACTION_JUMP_SEQ_JUMP_20__) && (this->timer2_ == 1) &&
             (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             if (this->actor.colChkInfo.health > 0) {
-                EnZf_Setup21_(this, play);
+                EnZf_SetupJumpSeqFinalLanding_____(this, play);
             }
             this->timer2_--;
         }
@@ -2085,13 +2089,13 @@ s32 EnZf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             break;
 
         case ZF_LIMB_RIGHT_HAND_AND_SWORD:
-            if (this->unk3FA != 0) {
+            if (this->isSwordSheathed) {
                 *dList = gLizalfosRightHandDL;
             }
             break;
 
         case ZF_LIMB_SHEATH:
-            if (this->unk3FA != 0) {
+            if (this->isSwordSheathed) {
                 *dList = gLizalfosSheathedSwordDL;
             }
             break;
@@ -2129,10 +2133,10 @@ void EnZf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     }
     switch (limbIndex) {
         case ZF_LIMB_LEFT_FOOT_CLAWS:
-            Matrix_MultVec3f(&D_80B4A298, &this->unk4F0);
+            Matrix_MultVec3f(&D_80B4A298, &this->leftFootPos);
             break;
         case ZF_LIMB_RIGHT_FOOT_CLAWS:
-            Matrix_MultVec3f(&D_80B4A298, &this->unk4E4);
+            Matrix_MultVec3f(&D_80B4A298, &this->rightFootPos);
             break;
     }
     if (this->frozenTimer != 0) {
@@ -2275,10 +2279,10 @@ s32 EnZf_ReactToProjectile2_____(PlayState* play, EnZf* this) {
     Actor* projectile;
     s16 relYawTowardsProjectile;
     s16 noFloorAheadFlags_;
-    s16 sp1E;
-    s16 sp1C;
+    s16 dodgeSpeed_;
+    s16 dodgeVelocityY_;
 
-    sp1C = 0;
+    dodgeVelocityY_ = 0;
     projectile = Actor_GetProjectileActor(play, &this->actor, 600.0f);
     if (projectile != NULL) {
         relYawTowardsProjectile =
@@ -2295,54 +2299,54 @@ s32 EnZf_ReactToProjectile2_____(PlayState* play, EnZf* this) {
         if ((ABS(relYawTowardsProjectile) < 0x2000 || ABS(relYawTowardsProjectile) > 0x5FFF)) {
             if (noFloorAheadFlags_ == 0) {
                 if ((play->gameplayFrames % 2) != 0) {
-                    sp1E = 6;
+                    dodgeSpeed_ = 6;
                 } else {
-                    sp1E = -6;
+                    dodgeSpeed_ = -6;
                 }
             } else {
                 switch (noFloorAheadFlags_) {
                     case 1:
-                        sp1E = 6;
+                        dodgeSpeed_ = 6;
                         break;
 
                     case 2:
-                        sp1E = -6;
+                        dodgeSpeed_ = -6;
                         break;
 
                     case 3:
-                        sp1C = 5;
-                        sp1E = 0;
+                        dodgeVelocityY_ = 5;
+                        dodgeSpeed_ = 0;
                         break;
                 }
             }
         } else if (ABS(relYawTowardsProjectile) < 0x5FFF) {
             if (noFloorAheadFlags_ == 0) {
                 if ((play->gameplayFrames % 2) != 0) {
-                    sp1E = 6;
+                    dodgeSpeed_ = 6;
                 } else {
-                    sp1E = -6;
+                    dodgeSpeed_ = -6;
                 }
             } else {
                 switch (noFloorAheadFlags_) {
                     case 1:
-                        sp1E = 6;
+                        dodgeSpeed_ = 6;
                         break;
 
                     case 2:
-                        sp1E = -6;
+                        dodgeSpeed_ = -6;
                         break;
 
                     case 3:
-                        sp1C = 0xA;
-                        sp1E = 0;
+                        dodgeVelocityY_ = 10;
+                        dodgeSpeed_ = 0;
                         break;
                 }
             }
         }
         //! @bug if sp22 is exactly 0x5FFF, sp1E is used uninitialized
-        this->dodgeSpeed___ = sp1E;
-        this->unk40C = sp1C;
-        return 1;
+        this->dodgeSpeed___ = dodgeSpeed_;
+        this->dodgeVelocityY___ = dodgeVelocityY_;
+        return true;
     }
-    return 0;
+    return false;
 }
