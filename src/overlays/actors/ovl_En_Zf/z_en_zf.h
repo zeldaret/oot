@@ -7,11 +7,13 @@
 #include "assets/objects/object_zf/object_zf.h"
 
 typedef enum EnZfType {
-    ENZF_TYPE_DINOLFOS = -2,
-    ENZF_TYPE_NEG1, // Lizalfos
-    ENZF_TYPE_0,    // Lizalfos
-    ENZF_TYPE_1     // Lizalfos
+    /* -2 */ ENZF_TYPE_DINOLFOS = -2,// Ganon's Tower room 0 x2, GTG room 7 x2
+    /* -1 */ ENZF_TYPE_LIZALFOS_SINGLE_, // Spirit room 4 x2, Spirit room 26 x2
+    /*  0 */ ENZF_TYPE_LIZALFOS_PAIRED_A_, // DC room 3 x2
+    /*  1 */ ENZF_TYPE_LIZALFOS_PAIRED_B_  // DC room 3 x2
 } EnZfType;
+
+#define ENZF_IS_TYPE_PAIRED_(type) ((type) >= ENZF_TYPE_LIZALFOS_PAIRED_A_)
 
 struct EnZf;
 
@@ -28,13 +30,13 @@ typedef struct EnZf {
     /* 0x3EE */ s16 headRotStep;
     /* 0x3F0 */ s32 timer_;
     /* 0x3F4 */ s16 timer2_;
-    /* 0x3F6 */ s16 unk3F6;
+    /* 0x3F6 */ s16 frozenTimer;
     /* 0x3F8 */ s16 unk3F8;
     /* 0x3FA */ s16 unk3FA;
     /* 0x3FC */ s16 switchFlag;
-    /* 0x3FE */ s16 unk3FE;
-    /* 0x400 */ s16 unk400;
-    /* 0x402 */ s16 unk402;
+    /* 0x3FE */ s16 unkPlatform3FE;
+    /* 0x400 */ s16 unkPlatform400;
+    /* 0x402 */ s16 unkPlatform402;
     /* 0x404 */ u8 alpha_;
     /* 0x405 */ char pad405[3];
     /* 0x408 */ f32 dodgeSpeed___;
