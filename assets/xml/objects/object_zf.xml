@@ -140,11 +140,11 @@
         <Limb Name="gDinolfosLeftThighLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_LEFT_THIGH" Offset="0x65B8"/>
         <Limb Name="gDinolfosBodyLimb" LimbType="Standard" EnumName="DINOLFOS_LIMB_BODY" Offset="0x65C4"/>
         <Skeleton Name="gDinolfosSkel" Type="Normal" LimbType="Standard" LimbNone="DINOLFOS_LIMB_NONE" LimbMax="DINOLFOS_LIMB_MAX" EnumName="DinolfosLimb" Offset="0x6690"/>
-        <Animation Name="gZfWalkAnim_" Offset="0x8138"/>
-        <Animation Name="gZfLandFromAppearingAnim__" Offset="0x8C6C"/>
-        <Animation Name="gZfTauntAnim_____" Offset="0x9530"/>
+        <Animation Name="gZfWalkAnim" Offset="0x8138"/>
+        <Animation Name="gZfLandOnFeetAnim" Offset="0x8C6C"/>
+        <Animation Name="gZfJumpAnim" Offset="0x9530"/>
         <Animation Name="gZfSlashAnim" Offset="0xA3D4"/>
-        <Animation Name="gZfTaunt2Anim_____" Offset="0xB10C"/>
+        <Animation Name="gZfIdleAnim" Offset="0xB10C"/>
         <Texture Name="gLizalfosSkinTex" Format="rgba16" Width="32" Height="32" Offset="0xB120"/>
         <Texture Name="gLizalfosSpikeTex" Format="rgba16" Width="8" Height="8" Offset="0xB920"/>
         <Texture Name="gLizalfosMouthAndArmorSpikesTex" Format="rgba16" Width="8" Height="8" Offset="0xB9A0"/>
@@ -294,13 +294,13 @@
         <Limb Name="gLizalfosLeftThighLimb" LimbType="Standard" EnumName="ZF_LIMB_LEFT_THIGH" Offset="0x103E0"/>
         <Limb Name="gLizalfosBodyLimb" LimbType="Standard" EnumName="ZF_LIMB_BODY" Offset="0x103EC"/>
         <Skeleton Name="gLizalfosSkel" Type="Normal" LimbType="Standard" LimbNone="ZF_LIMB_NONE" LimbMax="ZF_LIMB_MAX" EnumName="ZfLimb" Offset="0x104B8"/>
-        <Animation Name="gZfJumpAnim___" Offset="0x1081C"/>
-        <Animation Name="gZfAirborneAnim___" Offset="0x10CAC"/>
-        <Animation Name="gZfLandFromJumpAnim__" Offset="0x11070"/>
-        <Animation Name="gZfTurnAroundAnim__" Offset="0x119F4"/>
-        <Animation Name="gZfGetBackUpAndTurnAroundAnim_____" Offset="0x1366C"/>
+        <Animation Name="gZfRunAwayJumpAnim" Offset="0x1081C"/>
+        <Animation Name="gZfRunAwayAirborneAnim" Offset="0x10CAC"/>
+        <Animation Name="gZfRunAwayLandAnim" Offset="0x11070"/>
+        <Animation Name="gZfRunAwayTurnAroundAnim" Offset="0x119F4"/>
+        <Animation Name="gZfTurnAroundUnsheathSword" Offset="0x1366C"/>
         <Animation Name="gZfDieAnim" Offset="0x14E60"/>
-        <Animation Name="gZfDamagedAnim___" Offset="0x157F8"/>
-        <Animation Name="gZfCautiousWalkAnim___" Offset="0x16388"/>
+        <Animation Name="gZfDamagedAnim" Offset="0x157F8"/>
+        <Animation Name="gZfWalkSidewaysAnim" Offset="0x16388"/>
     </File>
 </Root>
