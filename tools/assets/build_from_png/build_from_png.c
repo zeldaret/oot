@@ -16,23 +16,28 @@
 #include "../n64texconv/src/libn64texconv/bin2c.h"
 #include "../n64texconv/src/libn64texconv/n64texconv.h"
 
-#define NUM_FORMATS 9
+#define NUM_FORMATS 13
 #define MAX_N_SUFFIXES 5
 static const struct fmt_info {
     const char* name;
     int fmt;
     int siz;
+    int tlut_fmt; // for CI formats, the format of the tlut (RGBA or IA)
 } fmt_map[NUM_FORMATS] = {
     // clang-format off
-    { "i4",     G_IM_FMT_I,    G_IM_SIZ_4b,  },
-    { "i8",     G_IM_FMT_I,    G_IM_SIZ_8b,  },
-    { "ci4",    G_IM_FMT_CI,   G_IM_SIZ_4b,  },
-    { "ci8",    G_IM_FMT_CI,   G_IM_SIZ_8b,  },
-    { "ia4",    G_IM_FMT_IA,   G_IM_SIZ_4b,  },
-    { "ia8",    G_IM_FMT_IA,   G_IM_SIZ_8b,  },
-    { "ia16",   G_IM_FMT_IA,   G_IM_SIZ_16b, },
-    { "rgba16", G_IM_FMT_RGBA, G_IM_SIZ_16b, },
-    { "rgba32", G_IM_FMT_RGBA, G_IM_SIZ_32b, },
+    { "i4",         G_IM_FMT_I,    G_IM_SIZ_4b,  0,             },
+    { "i8",         G_IM_FMT_I,    G_IM_SIZ_8b,  0,             },
+    { "ci4",        G_IM_FMT_CI,   G_IM_SIZ_4b,  G_IM_FMT_RGBA, },
+    { "ci4_rgba16", G_IM_FMT_CI,   G_IM_SIZ_4b,  G_IM_FMT_RGBA, },
+    { "ci4_ia16",   G_IM_FMT_CI,   G_IM_SIZ_4b,  G_IM_FMT_IA,   },
+    { "ci8",        G_IM_FMT_CI,   G_IM_SIZ_8b,  G_IM_FMT_RGBA, },
+    { "ci8_rgba16", G_IM_FMT_CI,   G_IM_SIZ_8b,  G_IM_FMT_RGBA, },
+    { "ci8_ia16",   G_IM_FMT_CI,   G_IM_SIZ_8b,  G_IM_FMT_IA,   },
+    { "ia4",        G_IM_FMT_IA,   G_IM_SIZ_4b,  0,             },
+    { "ia8",        G_IM_FMT_IA,   G_IM_SIZ_8b,  0,             },
+    { "ia16",       G_IM_FMT_IA,   G_IM_SIZ_16b, 0,             },
+    { "rgba16",     G_IM_FMT_RGBA, G_IM_SIZ_16b, 0,             },
+    { "rgba32",     G_IM_FMT_RGBA, G_IM_SIZ_32b, 0,             },
     // clang-format on
 };
 
@@ -255,7 +260,7 @@ static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, int ele
     bool success = true;
 
     // read png
-    struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
+    struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, 0);
     if (img == NULL) {
         fprintf(stderr, "Could not read png %s\n", png_p);
         success = false;
@@ -292,7 +297,7 @@ static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, enum
     }
 
     // read png
-    struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
+    struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, fmt->tlut_fmt);
     if (img == NULL) {
         fprintf(stderr, "Could not read png %s\n", png_p);
         success = false;
@@ -314,8 +319,9 @@ static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, enum
         png_p_buf[len_png_p_prefix] = '\0'; // cut off the suffixes
         char* png_stem = basename(png_p_buf);
         char* pal_inc_c_p =
-            malloc(strlen(out_dir_p) + strlen("/") + strlen(png_stem) + strlen(".tlut.rgba16.inc.c") + 1);
-        sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.inc.c", out_dir_p, png_stem);
+            malloc(strlen(out_dir_p) + strlen("/") + strlen(png_stem) + strlen(".tlut.xxxx16.inc.c") + 1);
+        sprintf(pal_inc_c_p, "%s/%s.tlut.%s16.inc.c", out_dir_p, png_stem,
+                fmt->tlut_fmt == G_IM_FMT_RGBA ? "rgba" : "ia");
         free(png_p_buf);
 
         success = n64texconv_palette_to_c_file(pal_inc_c_p, img->pal, true, tlut_elem_size) == 0;
@@ -369,8 +375,8 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                 if (direntry_fmt->fmt == G_IM_FMT_CI && direntry_tlut_name != NULL) {
                     if (strequ(tlut_name, direntry_tlut_name)) {
                         // TODO mismatching sub-format could be supported
-                        if (direntry_fmt != fmt || direntry_subfmt != subfmt ||
-                            direntry_tlut_elem_size != tlut_elem_size) {
+                        if (direntry_fmt->siz != fmt->siz || direntry_fmt->tlut_fmt != fmt->tlut_fmt ||
+                            direntry_subfmt != subfmt || direntry_tlut_elem_size != tlut_elem_size) {
                             fprintf(
                                 stderr,
                                 "Images sharing TLUT \"%s\" have mismatching format, sub-format or tlut elem size:\n"
@@ -419,7 +425,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
     bool success = true;
 
     // read "reference" png
-    struct n64_image* ref_img = n64texconv_image_from_png(png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
+    struct n64_image* ref_img = n64texconv_image_from_png(png_p, G_IM_FMT_CI, fmt->siz, fmt->tlut_fmt);
     if (ref_img == NULL) {
         fprintf(stderr, "Could not read png %s\n", png_p);
         success = false;
@@ -429,7 +435,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
     if (success) {
         for (size_t i = 0; i < len_pngs_with_tlut; i++) {
             struct n64_image* other_img =
-                n64texconv_image_from_png(pngs_with_tlut[i].png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
+                n64texconv_image_from_png(pngs_with_tlut[i].png_p, G_IM_FMT_CI, fmt->siz, fmt->tlut_fmt);
             pngs_with_tlut[i].img = other_img;
             if (other_img == NULL) {
                 fprintf(stderr, "Could not read other png %s\n", pngs_with_tlut[i].png_p);
@@ -459,9 +465,10 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         }
 
         char* pal_inc_c_p =
-            malloc(len_out_dir_p + strlen("/") + strlen(tlut_name) + strlen(".tlut.rgba16.uXX.inc.c") + 1);
+            malloc(len_out_dir_p + strlen("/") + strlen(tlut_name) + strlen(".tlut.xxxx16.uXX.inc.c") + 1);
         assert(tlut_elem_size == 8 || tlut_elem_size == 4);
-        sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16%s.inc.c", out_dir_p, tlut_name, tlut_elem_size == 8 ? "" : ".u32");
+        sprintf(pal_inc_c_p, "%s/%s.tlut.%s16%s.inc.c", out_dir_p, tlut_name,
+                fmt->tlut_fmt == G_IM_FMT_RGBA ? "rgba" : "ia", tlut_elem_size == 8 ? "" : ".u32");
 
         const bool is_split_palette = subfmt == SUBFMT_SPLIT_LO || subfmt == SUBFMT_SPLIT_HI;
         const unsigned int max_colors = fmt->siz == G_IM_SIZ_4b ? 16 : is_split_palette ? 128 : 256;
@@ -539,7 +546,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             const float dither_level = 0.5f;
 
             success = n64texconv_quantize_shared(out_indices, out_pal, &out_pal_count, texels, widths, heights,
-                                                 num_images, max_colors, dither_level, G_IM_FMT_RGBA) == 0;
+                                                 num_images, max_colors, dither_level, fmt->tlut_fmt) == 0;
             if (!success) {
                 fprintf(stderr, "Could not co-palettize images\n");
             }
@@ -552,7 +559,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             }
 
             // write palette to .inc.c
-            struct n64_palette pal = { out_pal, G_IM_FMT_RGBA, out_pal_count };
+            struct n64_palette pal = { out_pal, fmt->tlut_fmt, out_pal_count };
             if (success) {
                 int ret = n64texconv_palette_to_c_file(pal_inc_c_p, &pal, true, tlut_elem_size);
                 success = ret == 0;
