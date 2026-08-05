@@ -14147,7 +14147,7 @@ void Player_Action_8084EED8(Player* this, PlayState* play) {
 }
 
 static BottleDropInfo D_80854A28[] = {
-    { ACTOR_EN_FISH, FISH_DROPPED },
+    { ACTOR_EN_FISH, EN_FISH_TYPE_DROPPED },
     { ACTOR_EN_ICE_HONO, 0 },
     { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
 };
