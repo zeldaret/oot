@@ -92,7 +92,7 @@ typedef enum EnZfAction {
 /**
  * Positions of the platforms in Dodongo's Cavern in the lizalfos fights room (room 3).
  */
-static Vec3f sDCPlatformPositions_[] = {
+static Vec3f sDCPlatformPositions[] = {
     // Lower floor
     { 3560.0f, 100.0f, -1517.0f },
     { 3170.0f, 100.0f, -1767.0f },
@@ -441,15 +441,15 @@ s16 EnZf_FindPlatform(Vec3f* pos, s16 preferred) {
         range = 110.0f;
     }
     if (preferred != -1) {
-        platformPos = &sDCPlatformPositions_[preferred];
+        platformPos = &sDCPlatformPositions[preferred];
         if (((platformPos->y - 150.0f) <= pos->y) && (pos->y <= (platformPos->y + 150.0f)) &&
             ((platformPos->x - range) <= pos->x) && (pos->x <= (platformPos->x + range)) &&
             ((platformPos->z - range) <= pos->z) && (pos->z <= (platformPos->z + range))) {
             return preferred;
         }
     }
-    for (i = ARRAY_COUNT(sDCPlatformPositions_) - 1; i >= 0; i--) {
-        platformPos = &sDCPlatformPositions_[i];
+    for (i = ARRAY_COUNT(sDCPlatformPositions) - 1; i >= 0; i--) {
+        platformPos = &sDCPlatformPositions[i];
         if (((platformPos->y - 150.0f) <= pos->y) && (pos->y <= (platformPos->y + 150.0f)) &&
             ((platformPos->x - range) <= pos->x) && (pos->x <= (platformPos->x + range)) &&
             ((platformPos->z - range) <= pos->z) && (pos->z <= (platformPos->z + range))) {
@@ -505,10 +505,10 @@ s16 EnZf_FindPlatformWithoutPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallback
             continue;
         }
         if ((playerPlatform == -1) &&
-            (Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions_[i]) < minPlatformDistFromPlayer)) {
+            (Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions[i]) < minPlatformDistFromPlayer)) {
             continue;
         }
-        platformDist = Math_Vec3f_DistXYZ(thisPos, &sDCPlatformPositions_[i]);
+        platformDist = Math_Vec3f_DistXYZ(thisPos, &sDCPlatformPositions[i]);
         if (platformDist > maxPlatformDist) {
             continue;
         }
@@ -523,7 +523,7 @@ s16 EnZf_FindPlatformWithoutPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallback
         }
     }
 
-    closestPlatformPos = &sDCPlatformPositions_[closestPlatform];
+    closestPlatformPos = &sDCPlatformPositions[closestPlatform];
 
     //! @bug `secondClosestPlatform` can be -1 in certain conditions and cause an out of bounds access.
     //! Under normal conditions, this doesn't cause problems because the data before `D_80B4A090`
@@ -531,7 +531,7 @@ s16 EnZf_FindPlatformWithoutPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallback
     // These two function calls do nothing. Their return values aren't used and they have no side effects.
 #ifndef AVOID_UB
     Math_Vec3f_DistXYZ(&player->actor.world.pos, closestPlatformPos);
-    Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions_[secondClosestPlatform]);
+    Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions[secondClosestPlatform]);
 #endif
 
     //! @bug The check should be >= 0
@@ -548,7 +548,7 @@ s16 EnZf_FindPlatformWithoutPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallback
     return closestPlatform;
 }
 
-s32 EnZf_FindPlatformCloseToPlayer(Vec3f* thisPos_, s16 curPlatform, s16 platform_arg2, PlayState* play) {
+s32 EnZf_FindPlatformCloseToPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallbackPlatform, PlayState* play) {
     Vec3f* temp_s0;
     f32 platformDistToPlayer;
     f32 closestPlatformToPlayerDist;
@@ -569,18 +569,18 @@ s32 EnZf_FindPlatformCloseToPlayer(Vec3f* thisPos_, s16 curPlatform, s16 platfor
     closestPlatformToPlayerDist = 99998.0f;
     secondClosestPlatformToPlayerDist = 99999.0f;
     closestPlatformToPlayer = curPlatform;
-    secondClosestPlatformToPlayer = platform_arg2;
-    if (thisPos_->y > 200.0f) {
+    secondClosestPlatformToPlayer = fallbackPlatform;
+    if (thisPos->y > 200.0f) {
         maxPlatformDist = 290.0f;
         i = 23;
         iMin = 8;
     }
     for (; i >= iMin; i--) {
-        if (Math_Vec3f_DistXYZ(thisPos_, &sDCPlatformPositions_[i]) > maxPlatformDist) {
+        if (Math_Vec3f_DistXYZ(thisPos, &sDCPlatformPositions[i]) > maxPlatformDist) {
             continue;
         }
         if (i != playerPlatform) {
-            platformDistToPlayer = Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions_[i]);
+            platformDistToPlayer = Math_Vec3f_DistXYZ(&player->actor.world.pos, &sDCPlatformPositions[i]);
             if (platformDistToPlayer < closestPlatformToPlayerDist) {
                 secondClosestPlatformToPlayerDist = closestPlatformToPlayerDist;
                 secondClosestPlatformToPlayer = closestPlatformToPlayer;
@@ -866,14 +866,14 @@ void EnZf_MainWalk(EnZf* this, PlayState* play) {
                 this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             } else {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer = this->actor.shape.rot.y =
-                    Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->targetPlatform]);
+                    Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions[this->targetPlatform]);
                 absYawDiff = this->actor.wallYaw - this->actor.shape.rot.y;
                 if (absYawDiff < 0) {
                     absYawDiff *= -1;
                 }
                 if ((this->noFloorAhead && (this->actor.speed > 0.0f)) ||
                     ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (absYawDiff >= 0x5C19))) {
-                    if ((Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions_[this->targetPlatform]) <
+                    if ((Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions[this->targetPlatform]) <
                          maxTargetPlatformDistForJump) &&
                         !EnZf_TestNoFloorAhead(this, play, 191.9956f)) {
                         EnZf_SetupJumpForwards(this);
@@ -883,7 +883,7 @@ void EnZf_MainWalk(EnZf* this, PlayState* play) {
                         return;
                     } else {
                         this->actor.world.rot.y =
-                            Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->curPlatform]);
+                            Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions[this->curPlatform]);
                     }
                 } else {
                     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -1400,7 +1400,7 @@ void EnZf_Paired_SetupJumpAwayStartTurnAround(EnZf* this, PlayState* play) {
 void EnZf_Paired_JumpAwayStartTurnAround(EnZf* this, PlayState* play) {
     s16 yaw;
 
-    yaw = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->targetPlatform]) + 0x8000;
+    yaw = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions[this->targetPlatform]) + 0x8000;
     Math_SmoothStepToS(&this->actor.world.rot.y, yaw, 1, 0x3E8, 0);
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1505,7 +1505,7 @@ void EnZf_Paired_JumpAway(EnZf* this, PlayState* play) {
 
     animPlaySpeed = 1.0f;
     var_fs0 = 550.0f;
-    distToTargetPlatform = Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions_[this->targetPlatform]);
+    distToTargetPlatform = Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions[this->targetPlatform]);
     prevActionState = this->actionState;
     if ((play->gameplayFrames & 0x5F) == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
@@ -1513,7 +1513,7 @@ void EnZf_Paired_JumpAway(EnZf* this, PlayState* play) {
     if (this->actor.world.pos.y >= 420.0f) {
         var_fs0 = 280.0f;
     }
-    yawTowardsTargetPlatform = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions_[this->targetPlatform]);
+    yawTowardsTargetPlatform = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions[this->targetPlatform]);
     switch (this->actionState) {
         case 0:
             this->actor.world.rot.y = yawTowardsTargetPlatform;
