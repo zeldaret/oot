@@ -21,7 +21,7 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play);
 void BgBomGuard_Destroy(Actor* thisx, PlayState* play);
 void BgBomGuard_Update(Actor* thisx, PlayState* play);
 
-void func_8086E638(BgBomGuard* this, PlayState* play);
+void BgBomGuard_UpdateImpl(BgBomGuard* this, PlayState* play);
 
 ActorProfile Bg_Bom_Guard_Profile = {
     /**/ ACTOR_BG_BOM_GUARD,
@@ -45,8 +45,8 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
-    CollisionHeader_GetVirtual(&gBowlingDefaultCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    CollisionHeader_GetVirtual(&gBowlingBgBomGuardCol, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     PRINTF("\n\n");
     PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n", " ☆☆☆☆☆ Transparent guard appears ☆☆☆☆☆ \n") VT_RST);
@@ -54,8 +54,8 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;
     thisx->scale.z = 1.0f;
-    this->unk_16C = thisx->world.pos;
-    BgBomGuard_SetupAction(this, func_8086E638);
+    this->homePos = this->dyna.actor.world.pos;
+    BgBomGuard_SetupAction(this, BgBomGuard_UpdateImpl);
 }
 
 void BgBomGuard_Destroy(Actor* thisx, PlayState* play) {
@@ -64,24 +64,25 @@ void BgBomGuard_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_8086E638(BgBomGuard* this, PlayState* play) {
+void BgBomGuard_UpdateImpl(BgBomGuard* this, PlayState* play) {
     Actor* it = play->actorCtx.actorLists[ACTORCAT_NPC].head;
     Actor* thisx = &this->dyna.actor;
 
-    this->unk_168 = 0;
+    this->isActive = false;
 
     while (it != NULL) {
         if (it->id == ACTOR_EN_BOM_BOWL_MAN) {
             if ((((EnBomBowlMan*)it)->unk_258 != 0) && (fabsf(play->view.eye.x) > -20.0f) &&
                 (fabsf(play->view.eye.y) > 110.0f)) {
-                this->unk_168 = 1;
+                this->isActive = true;
             }
             break;
         }
         it = it->next;
     }
 
-    if (this->unk_168 == 0) {
+    if (!this->isActive) {
+        // Move under ground
         thisx->world.pos.y = sREG(64) + -200.0f;
     } else {
         thisx->world.pos.y = 0.0f;

@@ -27,8 +27,8 @@ void BgBowlWall_Destroy(Actor* thisx, PlayState* play);
 void BgBowlWall_Update(Actor* thisx, PlayState* play);
 void BgBowlWall_Draw(Actor* thisx, PlayState* play);
 
-void func_8086F260(BgBowlWall* this, PlayState* play);
-void func_8086F440(BgBowlWall* this, PlayState* play);
+void BgBowlWall_InitImpl(BgBowlWall* this, PlayState* play);
+void BgBowlWall_WaitUnk180_(BgBowlWall* this, PlayState* play);
 void func_8086F464(BgBowlWall* this, PlayState* play);
 void func_8086F718(BgBowlWall* this, PlayState* play);
 void func_8086F7F8(BgBowlWall* this, PlayState* play);
@@ -57,24 +57,21 @@ Vec3f D_8086FA84 = { 0.0f, 0.0f, 0.0f };
 void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     BgBowlWall* this = (BgBowlWall*)thisx;
     s32 pad1[2];
-    CollisionHeader* sp28;
-    s32 pad2[2];
+    CollisionHeader* colHeader;
 
-    sp28 = NULL;
+    colHeader = NULL;
     DynaPolyActor_Init(&this->dyna, 0);
     if (this->dyna.actor.params == 0) {
-        CollisionHeader_GetVirtual(&gBowlingFirstAndFinalRoundCol, &sp28);
+        CollisionHeader_GetVirtual(&gBowlingFirstWallCol, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gBowlingSecondRoundCol, &sp28);
+        CollisionHeader_GetVirtual(&gBowlingSecondWallCol, &colHeader);
     }
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp28);
-    this->unk168 = this->dyna.actor.world.pos;
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->homePos = this->dyna.actor.world.pos;
     PRINTF("\n\n");
-    PRINTF("\x1b[32m ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n\x1b[m", this->dyna.actor.params);
-    this->actionFunc = func_8086F260;
-    this->dyna.actor.scale.z = 1.0f;
-    this->dyna.actor.scale.y = 1.0f;
-    this->dyna.actor.scale.x = 1.0f;
+    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n" VT_RST, this->dyna.actor.params);
+    this->actionFunc = BgBowlWall_InitImpl;
+    this->dyna.actor.scale.x = this->dyna.actor.scale.y = this->dyna.actor.scale.z = 1.0f;
 }
 
 void BgBowlWall_Destroy(Actor* thisx, PlayState* play) {
@@ -83,8 +80,8 @@ void BgBowlWall_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, (s32)this->dyna.bgId);
 }
 
-void func_8086F260(BgBowlWall* this, PlayState* play) {
-    Actor* var_v0_2;
+void BgBowlWall_InitImpl(BgBowlWall* this, PlayState* play) {
+    Actor* actor;
     EnWallTubo* temp_v0_2;
     s32 pad;
     s16 params = this->dyna.actor.params;
@@ -94,35 +91,35 @@ void func_8086F260(BgBowlWall* this, PlayState* play) {
         this->dyna.actor.shape.rot.z = this->dyna.actor.world.rot.z = D_8086FA70[params];
         PRINTF("\n\n");
     }
-    this->unk174.x = D_8086FA40[params].x + this->dyna.actor.world.pos.x;
-    this->unk174.y = D_8086FA40[params].y + this->dyna.actor.world.pos.y;
-    this->unk174.z = D_8086FA40[params].z + this->dyna.actor.world.pos.z;
+    this->wallTargetPos_.x = D_8086FA40[params].x + this->dyna.actor.world.pos.x;
+    this->wallTargetPos_.y = D_8086FA40[params].y + this->dyna.actor.world.pos.y;
+    this->wallTargetPos_.z = D_8086FA40[params].z + this->dyna.actor.world.pos.z;
     if (0) {}
-    temp_v0_2 =
-        (EnWallTubo*)Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_WALL_TUBO, this->unk174.x,
-                                        this->unk174.y, this->unk174.z, 0, 0, 0, this->dyna.actor.params);
+    temp_v0_2 = (EnWallTubo*)Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_WALL_TUBO,
+                                                this->wallTargetPos_.x, this->wallTargetPos_.y, this->wallTargetPos_.z,
+                                                0, 0, 0, this->dyna.actor.params);
     if (temp_v0_2 != NULL) {
-        temp_v0_2->unk154 = this->unk174;
+        temp_v0_2->unk154 = this->wallTargetPos_;
         if (params != 0) {
-            temp_v0_2->unk154 = this->unk174 = this->dyna.actor.world.pos;
+            temp_v0_2->unk154 = this->wallTargetPos_ = this->dyna.actor.world.pos;
         }
         if (this->unk184 == NULL) {
-            var_v0_2 = play->actorCtx.actorLists[4].head;
-            while (var_v0_2 != NULL) {
-                if (var_v0_2->id != ACTOR_EN_BOM_BOWL_MAN) {
-                    var_v0_2 = var_v0_2->next;
+            actor = play->actorCtx.actorLists[ACTORCAT_NPC].head;
+            while (actor != NULL) {
+                if (actor->id != ACTOR_EN_BOM_BOWL_MAN) {
+                    actor = actor->next;
                     continue;
                 }
-                this->unk184 = (EnBomBowlMan*)var_v0_2;
+                this->unk184 = (EnBomBowlMan*)actor;
                 break;
             }
         }
-        this->actionFunc = func_8086F440;
+        this->actionFunc = BgBowlWall_WaitUnk180_;
     }
 }
 
-void func_8086F440(BgBowlWall* this, PlayState* play) {
-    if (this->unk180 != 0) {
+void BgBowlWall_WaitUnk180_(BgBowlWall* this, PlayState* play) {
+    if (this->unk180) {
         this->actionFunc = func_8086F464;
     }
 }
@@ -143,16 +140,16 @@ void func_8086F464(BgBowlWall* this, PlayState* play) {
             var_s0 = true;
         }
     } else {
-        Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
-        if (this->dyna.actor.world.pos.y < (this->unk168.y - 400.0f)) {
+        Math_ApproachF(&this->dyna.actor.world.pos.y, this->homePos.y - 450.0f, 0.3f, 10.0f);
+        if (this->dyna.actor.world.pos.y < (this->homePos.y - 400.0f)) {
             var_s0 = true;
         }
     }
     if (var_s0) {
         for (var_s0_2 = 0; var_s0_2 < 15; var_s0_2++) {
-            sp88.x = Rand_CenteredFloat(300.0f) + this->unk174.x;
+            sp88.x = Rand_CenteredFloat(300.0f) + this->wallTargetPos_.x;
             sp88.y = -100.0f;
-            sp88.z = Rand_CenteredFloat(400.0f) + this->unk174.z;
+            sp88.z = Rand_CenteredFloat(400.0f) + this->wallTargetPos_.z;
             EffectSsBomb2_SpawnLayered(play, &sp88, &sp94, &spA0, 100, 30);
             sp88.y = -50.0f;
             EffectSsHahen_SpawnBurst(play, &sp88, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
@@ -162,20 +159,20 @@ void func_8086F464(BgBowlWall* this, PlayState* play) {
         Quake_SetSpeed(quakeIndex, 0x7FFF);
         Quake_SetPerturbations(quakeIndex, 300, 0, 0, 0);
         Quake_SetDuration(quakeIndex, 30);
-        this->unk182 = 0x14;
+        this->timer = 20;
         this->actionFunc = func_8086F718;
     }
 }
 
 void func_8086F718(BgBowlWall* this, PlayState* play) {
-    if (this->unk182 >= 2) {
+    if (this->timer >= 2) {
         if (this->dyna.actor.params == 0) {
             Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 0xC8, 0);
         } else {
-            Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk168.y - 450.0f, 0.3f, 10.0f);
+            Math_ApproachF(&this->dyna.actor.world.pos.y, this->homePos.y - 450.0f, 0.3f, 10.0f);
         }
-    } else if (this->unk182 == 1) {
-        this->dyna.actor.world.pos.y = this->unk168.y - 450.0f;
+    } else if (this->timer == 1) {
+        this->dyna.actor.world.pos.y = this->homePos.y - 450.0f;
         this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;
         this->unk184->unk23E_arr[this->dyna.actor.params] = 2;
         this->actionFunc = func_8086F7F8;
@@ -184,11 +181,11 @@ void func_8086F718(BgBowlWall* this, PlayState* play) {
 
 void func_8086F7F8(BgBowlWall* this, PlayState* play) {
     if (this->unk184->unk23E_arr[this->dyna.actor.params] != 2) {
-        Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk168.y, 0.3f, 50.0f);
-        if (fabsf(this->dyna.actor.world.pos.y - this->unk168.y) <= 10.0f) {
-            this->dyna.actor.world.pos.y = this->unk168.y;
-            this->unk180 = 0;
-            this->actionFunc = func_8086F260;
+        Math_ApproachF(&this->dyna.actor.world.pos.y, this->homePos.y, 0.3f, 50.0f);
+        if (fabsf(this->dyna.actor.world.pos.y - this->homePos.y) <= 10.0f) {
+            this->dyna.actor.world.pos.y = this->homePos.y;
+            this->unk180 = false;
+            this->actionFunc = BgBowlWall_InitImpl;
         }
     }
 }
@@ -196,8 +193,8 @@ void func_8086F7F8(BgBowlWall* this, PlayState* play) {
 void BgBowlWall_Update(Actor* thisx, PlayState* play) {
     BgBowlWall* this = (BgBowlWall*)thisx;
 
-    if (this->unk182 != 0) {
-        this->unk182--;
+    if (this->timer != 0) {
+        this->timer--;
     }
     this->actionFunc(this, play);
 }
@@ -214,9 +211,9 @@ void BgBowlWall_Draw(Actor* thisx, PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_bowl_wall.c", 453);
     if (this->dyna.actor.params == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, gBowlingRound1WallDL);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlingFirstWallDL);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, gBowlingRound2WallDL);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlingSecondWallDL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_bowl_wall.c", 464);
 }

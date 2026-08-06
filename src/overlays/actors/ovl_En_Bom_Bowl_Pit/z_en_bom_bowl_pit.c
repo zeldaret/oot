@@ -26,7 +26,11 @@ void func_809C55B0(EnBomBowlPit* this, PlayState* play);
 void func_809C5608(EnBomBowlPit* this, PlayState* play);
 
 static s32 D_809C56E0[5] = {
-    GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_BOMBS_1, GI_RUPEE_PURPLE,
+    GI_BOMB_BAG_30,  // EXITEM_BOMB_BAG_BOWLING
+    GI_HEART_PIECE,  // EXITEM_HEART_PIECE_BOWLING
+    GI_BOMBCHUS_10,  // EXITEM_BOMBCHUS_BOWLING
+    GI_BOMBS_1,      // EXITEM_BOMBS_BOWLING
+    GI_RUPEE_PURPLE, // EXITEM_PURPLE_RUPEE_BOWLING
 };
 
 ActorProfile En_Bom_Bowl_Pit_Profile = {
@@ -44,16 +48,16 @@ ActorProfile En_Bom_Bowl_Pit_Profile = {
 void EnBomBowlPit_Init(Actor* thisx, PlayState* play) {
     EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
-    this->unk14C = func_809C4E60;
+    this->actionFunc = func_809C4E60;
 }
 
 void EnBomBowlPit_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_809C4E60(EnBomBowlPit* this, PlayState* play) {
-    if (this->unk15C != 0) {
+    if (this->unk15C) {
         this->unk15C = this->unk164 = 0;
-        this->unk14C = func_809C4E8C;
+        this->actionFunc = func_809C4E8C;
     }
 }
 
@@ -109,7 +113,7 @@ void func_809C4E8C(EnBomBowlPit* this, PlayState* play) {
                 Sfx_PlaySfxCentered(0x28D3U);
                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
                 this->unk164 = 1;
-                this->unk14C = func_809C5184;
+                this->actionFunc = func_809C5184;
                 return;
             }
             var_v1 = var_v1->next;
@@ -138,7 +142,7 @@ void func_809C5184(EnBomBowlPit* this, PlayState* play) {
         (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 5.0f)) {
         Message_CloseTextbox(play);
         this->unk158 = 0x1E;
-        this->unk14C = func_809C5360;
+        this->actionFunc = func_809C5360;
     }
 }
 
@@ -146,17 +150,17 @@ void func_809C5360(EnBomBowlPit* this, PlayState* play) {
     if (this->unk158 == 0) {
         this->unk1E0 =
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, this->actor.world.pos.x,
-                               this->actor.world.pos.y, this->actor.world.pos.z - 70.0f, 0, 0, 0, this->unk15A);
+                               this->actor.world.pos.y, this->actor.world.pos.z - 70.0f, 0, 0, 0, this->reward);
         if (this->unk1E0 != NULL) {
-            this->unk14C = func_809C53F0;
+            this->actionFunc = func_809C53F0;
         }
     }
 }
 
 void func_809C53F0(EnBomBowlPit* this, PlayState* play) {
     if (this->unk156 != 0) {
-        switch (this->unk15A) {
-            case 0:
+        switch (this->reward) {
+            case EXITEM_BOMB_BAG_BOWLING:
                 SET_ITEMGETINF(ITEMGETINF_11);
                 break;
             case EXITEM_HEART_PIECE_BOWLING:
@@ -166,7 +170,7 @@ void func_809C53F0(EnBomBowlPit* this, PlayState* play) {
         Play_ClearCamera(play, this->subCamId);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-        this->unk14C = func_809C54A8;
+        this->actionFunc = func_809C54A8;
     }
 }
 
@@ -174,7 +178,7 @@ void func_809C54A8(EnBomBowlPit* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
-    this->unk160 = D_809C56E0[this->unk15A];
+    this->unk160 = D_809C56E0[this->reward];
     if ((this->unk160 == GI_BOMB_BAG_30) && (CUR_CAPACITY(1) == 30)) {
         this->unk160 = GI_BOMB_BAG_40;
     }
@@ -182,12 +186,12 @@ void func_809C54A8(EnBomBowlPit* this, PlayState* play) {
     this->actor.parent = NULL;
     Actor_OfferGetItem(&this->actor, play, this->unk160, 2000.0f, 1000.0f);
     player->stateFlags1 |= PLAYER_STATE1_29;
-    this->unk14C = func_809C55B0;
+    this->actionFunc = func_809C55B0;
 }
 
 void func_809C55B0(EnBomBowlPit* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
-        this->unk14C = func_809C5608;
+        this->actionFunc = func_809C5608;
         return;
     }
     Actor_OfferGetItem(&this->actor, play, this->unk160, 2000.0f, 1000.0f);
@@ -202,14 +206,14 @@ void func_809C5608(EnBomBowlPit* this, PlayState* play) {
         }
         this->unk156 = 0;
         this->unk164 = 2;
-        this->unk14C = func_809C4E60;
+        this->actionFunc = func_809C4E60;
     }
 }
 
 void EnBomBowlPit_Update(Actor* thisx, PlayState* play) {
     EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
-    this->unk14C(this, play);
+    this->actionFunc(this, play);
     if (this->unk158 != 0) {
         this->unk158--;
     }

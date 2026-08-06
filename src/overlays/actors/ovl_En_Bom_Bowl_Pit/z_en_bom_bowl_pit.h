@@ -10,13 +10,13 @@ typedef void (*EnBomBowlPitActionFunc)(struct EnBomBowlPit*, struct PlayState*);
 
 typedef struct EnBomBowlPit {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnBomBowlPitActionFunc unk14C;
+    /* 0x014C */ EnBomBowlPitActionFunc actionFunc;
     /* 0x0150 */ char pad150[2];
     /* 0x0152 */ s16 subCamId;
     /* 0x0154 */ s16 unk154;
     /* 0x0156 */ s16 unk156;
     /* 0x0158 */ s16 unk158;
-    /* 0x015A */ s16 unk15A;
+    /* 0x015A */ s16 reward;
     /* 0x015C */ s16 unk15C;
     /* 0x0160 */ s32 unk160;
     /* 0x0164 */ u8 unk164;

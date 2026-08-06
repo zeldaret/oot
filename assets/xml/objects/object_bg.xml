@@ -1,63 +1,66 @@
 <Root>
     <File Name="object_bg" Segment="6">
-        <Animation Name="object_bg_000080_Anim" Offset="0x80"/>
-        <Animation Name="object_bg_000710_Anim" Offset="0x710"/>
-        <Array Name="object_bg_000720_Vtx" Count="221" Offset="0x720">
+        <Animation Name="gBowlingGirlNonchalantAnim_" Offset="0x80"/>
+        <Animation Name="gBowlingGirlSleepingAnim" Offset="0x710"/>
+        <Array Name="gBowlingGirlHeadVtx" Count="221" Offset="0x720">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_0014F0_Vtx" Count="31" Offset="0x14F0">
+        <Array Name="gBowlingGirlNeckVtx" Count="31" Offset="0x14F0">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_0016E0_Vtx" Count="38" Offset="0x16E0">
+        <Array Name="gBowlingGirlLeftHandVtx" Count="38" Offset="0x16E0">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_001940_Vtx" Count="29" Offset="0x1940">
+        <Array Name="gBowlingGirlLeftArmVtx" Count="29" Offset="0x1940">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_001B10_Vtx" Count="53" Offset="0x1B10">
+        <Array Name="gBowlingGirlLeftShoulderVtx" Count="53" Offset="0x1B10">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_001E60_Vtx" Count="36" Offset="0x1E60">
+        <Array Name="gBowlingGirlRightHandVtx" Count="36" Offset="0x1E60">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_0020A0_Vtx" Count="29" Offset="0x20A0">
+        <Array Name="gBowlingGirlRightArmVtx" Count="29" Offset="0x20A0">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_002270_Vtx" Count="49" Offset="0x2270">
+        <Array Name="gBowlingGirlRightShoulderVtx" Count="49" Offset="0x2270">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_002580_Vtx" Count="137" Offset="0x2580">
+        <Array Name="gBowlingGirlTorsoVtx" Count="137" Offset="0x2580">
             <Vtx/>
         </Array>
-        <Array Name="object_bg_002E10_Vtx" Count="13" Offset="0x2E10">
+        <Array Name="gBowlingGirlLowerBodyVtx" Count="13" Offset="0x2E10">
             <Vtx/>
         </Array>
-        <DList Name="object_bg_002EE0_DL" Offset="0x2EE0"/>
-        <DList Name="object_bg_0033C8_DL" Offset="0x33C8"/>
-        <DList Name="object_bg_003520_DL" Offset="0x3520"/>
-        <DList Name="object_bg_003670_DL" Offset="0x3670"/>
-        <DList Name="object_bg_003780_DL" Offset="0x3780"/>
-        <DList Name="object_bg_003968_DL" Offset="0x3968"/>
-        <DList Name="object_bg_003AB8_DL" Offset="0x3AB8"/>
-        <DList Name="object_bg_003BC8_DL" Offset="0x3BC8"/>
-        <DList Name="object_bg_003DB0_DL" Offset="0x3DB0"/>
-        <DList Name="object_bg_004038_DL" Offset="0x4038"/>
-        <Texture Name="object_bg_005910_Tex" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="object_bg_006110_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="object_bg_006310_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="object_bg_006510_Tex" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="object_bg_006D10_Tex" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
-        <Limb Name="object_bg_006E10_Limb" LimbType="Standard" Offset="0x6E10"/>
-        <Limb Name="object_bg_006E1C_Limb" LimbType="Standard" Offset="0x6E1C"/>
-        <Limb Name="object_bg_006E28_Limb" LimbType="Standard" Offset="0x6E28"/>
-        <Limb Name="object_bg_006E34_Limb" LimbType="Standard" Offset="0x6E34"/>
-        <Limb Name="object_bg_006E40_Limb" LimbType="Standard" Offset="0x6E40"/>
-        <Limb Name="object_bg_006E4C_Limb" LimbType="Standard" Offset="0x6E4C"/>
-        <Limb Name="object_bg_006E58_Limb" LimbType="Standard" Offset="0x6E58"/>
-        <Limb Name="object_bg_006E64_Limb" LimbType="Standard" Offset="0x6E64"/>
-        <Limb Name="object_bg_006E70_Limb" LimbType="Standard" Offset="0x6E70"/>
-        <Limb Name="object_bg_006E7C_Limb" LimbType="Standard" Offset="0x6E7C"/>
-        <Skeleton Name="object_bg_006EB0_Skel" Type="Flex" LimbType="Standard" Offset="0x6EB0"/>
-        <Animation Name="object_bg_0072AC_Anim" Offset="0x72AC"/>
+        <DList Name="gBowlingGirlHeadDL" Offset="0x2EE0"/>
+        <DList Name="gBowlingGirlNeckDL" Offset="0x33C8"/>
+        <DList Name="gBowlingGirlLeftHandDL" Offset="0x3520"/>
+        <DList Name="gBowlingGirlLeftArmDL" Offset="0x3670"/>
+        <DList Name="gBowlingGirlLeftShoulderDL" Offset="0x3780"/>
+        <DList Name="gBowlingGirlRightHandDL" Offset="0x3968"/>
+        <DList Name="gBowlingGirlRightArmDL" Offset="0x3AB8"/>
+        <DList Name="gBowlingGirlRightShoulderDL" Offset="0x3BC8"/>
+        <DList Name="gBowlingGirlTorsoDL" Offset="0x3DB0"/>
+        <DList Name="gBowlingGirlLowerBodyDL" Offset="0x4038"/>
+        <Texture Name="gBowlingGirlEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gBowlingGirlEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gBowlingGirlEyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x5110"/>
+        <Texture Name="gBowlingGirlMouthTex" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="gBowlingGirlSkinTex" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="gBowlingGirlEarAndBellyButtonTex" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="gBowlingGirlClothTex" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="gBowlingGirlHairTex" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
+        <Limb Name="gBowlingGirlLowerBodyLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_LOWER_BODY" Offset="0x6E10"/>
+        <Limb Name="gBowlingGirlTorsoLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_TORSO" Offset="0x6E1C"/>
+        <Limb Name="gBowlingGirlNeckLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_NECK" Offset="0x6E28"/>
+        <Limb Name="gBowlingGirlHeadLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_HEAD" Offset="0x6E34"/>
+        <Limb Name="gBowlingGirlLeftShoulderLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_LEFT_SHOULDER" Offset="0x6E40"/>
+        <Limb Name="gBowlingGirlLeftArmLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_LEFT_ARM" Offset="0x6E4C"/>
+        <Limb Name="gBowlingGirlLeftHandLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_LEFT_HAND" Offset="0x6E58"/>
+        <Limb Name="gBowlingGirlRightShoulderLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_RIGHT_SHOULDER" Offset="0x6E64"/>
+        <Limb Name="gBowlingGirlRightArmLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_RIGHT_ARM" Offset="0x6E70"/>
+        <Limb Name="gBowlingGirlRightHandLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_RIGHT_HAND" Offset="0x6E7C"/>
+        <Skeleton Name="gBowlingGirlSkel" Type="Flex" LimbType="Standard" LimbNone="BOWLING_GIRL_LIMB_NONE" LimbMax="BOWLING_GIRL_LIMB_MAX" EnumName="BowlingGirlLimb" Offset="0x6EB0"/>
+        <Animation Name="gBowlingGirlHandsOnBarAnim" Offset="0x72AC"/>
     </File>
 </Root>

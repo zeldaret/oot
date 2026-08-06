@@ -14,6 +14,7 @@
 #include "sfx.h"
 #include "printf.h"
 #include "quake.h"
+#include "terminal.h"
 #include "z_lib.h"
 #include "debug_display.h"
 #include "effect.h"
@@ -133,12 +134,12 @@ void func_80B2F0B8(EnWallTubo* this, PlayState* play) {
     if (this->unk150 == 0) {
         temp_v0 = this->actor.parent;
         if ((temp_v0 != NULL) && (temp_v0->update != NULL)) {
-            ((BgBowlWall*)temp_v0)->unk180 = 1;
-            PRINTF("\x1b[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
-            PRINTF("\x1b[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
-            PRINTF("\x1b[34m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
-            PRINTF("\x1b[35m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
-            PRINTF("\x1b[36m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m");
+            ((BgBowlWall*)temp_v0)->unk180 = true;
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
         }
         Actor_Kill(&this->actor);
     }
