@@ -1,3 +1,9 @@
+/*
+ * File: z_en_bom_bowl_man.c
+ * Overlay: ovl_En_Bom_Bowl_Man
+ * Description: Bombchu Bowling Alley girl
+ */
+
 #include "z_en_bom_bowl_man.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
@@ -35,12 +41,12 @@ void EnBomBowlMan_WakingUpTalking(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_FinishWakingUpTalking(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_NotOpenWaitTalk(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_NotOpenTalking(EnBomBowlMan* this, PlayState* play);
-void func_809C3DC4(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_WaitGameEndOrTalk(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_WaitPlayAnswer(EnBomBowlMan* this, PlayState* play);
-void func_809C41FC(EnBomBowlMan* this, PlayState* play);
-void func_809C4318(EnBomBowlMan* this, PlayState* play);
-void func_809C441C(EnBomBowlMan* this, PlayState* play);
-void func_809C4664(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_Talking(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_WaitToShowReward(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_ShowReward(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_WaitGameStart(EnBomBowlMan* this, PlayState* play);
 
 typedef enum EnBomBowlManGameEndStatus {
     EN_BOM_BOWL_MAN_GAME_END_STATUS_ONGOING,
@@ -68,13 +74,6 @@ typedef struct CuccoColliderDim {
 CuccoColliderDim sCuccoColliderDims[2] = { { 16.0f, 46.0f, 0 }, { 36.0f, 56.0f, 0 } };
 Vec3f sCuccoPositions[2] = { { 60.0f, -60.0f, -430.0f }, { 0.0f, -120.0f, -620.0f } };
 f32 sCuccoScales[2] = { 0.01f, 0.03f };
-Vec3f D_809C4A48 = { 0.0f, 0.1f, 0.0f };
-Vec3f D_809C4A54 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_809C4A60[5] = {
-    { 0.0f, 22.0f, 0.0f }, { 0.0f, 22.0f, 0.0f }, { 0.0f, 8.0f, 0.0f }, { 0.0f, 9.0f, 0.0f }, { 0.0f, -2.0f, 0.0f },
-};
-static s16 D_809C4A9C[6] = { 0x4268, 0x4268, -0x3E8, 0, 0x4268, 0 };
-static void* sEyeTextures[] = { gBowlingGirlEyeOpenTex, gBowlingGirlEyeHalfTex, gBowlingGirlEyeClosedTex };
 
 void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
@@ -87,7 +86,7 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
                        this->morphTable, BOWLING_GIRL_LIMB_MAX);
     PRINTF(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
     PRINTF(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST, play->bombchuBowlingStatus);
-    this->unk248 = this->actor.world.pos;
+    this->homePos = this->actor.world.pos;
     this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
     for (i = 0; i < 2; i++) {
@@ -164,8 +163,8 @@ void EnBomBowlMan_WakingUpTalking(EnBomBowlMan* this, PlayState* play) {
     Message_ContinueTextbox(play, this->actor.textId);
     if ((this->eyeTexIndex == 0) && (this->eyesState == 2) && (this->eyesTimer == 0)) {
         this->eyeTexIndex = 2;
-        this->unk23A += 1;
-        if (this->unk23A >= 3) {
+        this->wakingUpTimer++;
+        if (this->wakingUpTimer >= 3) {
             this->actionFunc = EnBomBowlMan_FinishWakingUpTalking;
         }
     }
@@ -208,9 +207,9 @@ void EnBomBowlMan_NotOpenTalking(EnBomBowlMan* this, PlayState* play) {
     }
 }
 
-void func_809C3D40(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_SetupWaitGameEndOrTalk(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_258 == 0) {
+    if (this->gameStartStatus == EN_BOM_BOWL_MAN_GAME_START_STATUS_INACTIVE) {
         if (!this->hasPlayedBefore) {
             this->actor.textId = 0x18;
         } else {
@@ -221,10 +220,10 @@ void func_809C3D40(EnBomBowlMan* this, PlayState* play) {
         this->actor.textId = 0x19;
         this->waitMessageState = TEXT_STATE_EVENT;
     }
-    this->actionFunc = func_809C3DC4;
+    this->actionFunc = EnBomBowlMan_WaitGameEndOrTalk;
 }
 
-void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_WaitGameEndOrTalk(EnBomBowlMan* this, PlayState* play) {
     s16 relYawTowardsPlayer;
     s16 absRelYawTowardsPlayer;
 
@@ -256,7 +255,7 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
     if (this->gameEndStatus != EN_BOM_BOWL_MAN_GAME_END_STATUS_ONGOING) {
         this->actor.textId = 0x1A;
         this->waitMessageState = TEXT_STATE_CHOICE;
-        this->unk_258 = 0;
+        this->gameStartStatus = EN_BOM_BOWL_MAN_GAME_START_STATUS_INACTIVE;
         if ((this->rewardItemOnCounter != NULL) && (this->rewardItemOnCounter->actor.update != NULL)) {
             this->rewardItemOnCounter->killItem = true;
             this->rewardItemOnCounter = NULL;
@@ -269,10 +268,10 @@ void func_809C3DC4(EnBomBowlMan* this, PlayState* play) {
         }
         this->actionFunc = EnBomBowlMan_WaitPlayAnswer;
     } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        if (this->unk_258 == 0) {
+        if (this->gameStartStatus == EN_BOM_BOWL_MAN_GAME_START_STATUS_INACTIVE) {
             this->actionFunc = EnBomBowlMan_WaitPlayAnswer;
         } else {
-            this->actionFunc = func_809C41FC;
+            this->actionFunc = EnBomBowlMan_Talking;
         }
     } else {
         relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -291,7 +290,7 @@ void EnBomBowlMan_WaitPlayAnswer(EnBomBowlMan* this, PlayState* play) {
             case 0: // yes
                 if (gSaveContext.save.info.playerData.rupees >= 30) {
                     Rupees_ChangeBy(-30);
-                    this->unk_258 = 1;
+                    this->gameStartStatus = EN_BOM_BOWL_MAN_GAME_START_STATUS_PAID;
                     this->wallsState[0] = this->wallsState[1] = EN_BOM_BOWL_MAN_WALL_STATE_STANDING;
                     play->bombchuBowlingStatus = 10;
                     Flags_SetSwitch(play, 0x38);
@@ -299,21 +298,21 @@ void EnBomBowlMan_WaitPlayAnswer(EnBomBowlMan* this, PlayState* play) {
                         this->actor.textId = 0x19;
                         Message_ContinueTextbox(play, this->actor.textId);
                         this->waitMessageState = TEXT_STATE_EVENT;
-                        this->actionFunc = func_809C41FC;
+                        this->actionFunc = EnBomBowlMan_Talking;
                     } else {
                         this->actor.textId = 0x1B;
                         Message_ContinueTextbox(play, this->actor.textId);
                         this->waitMessageState = TEXT_STATE_EVENT;
                         OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
                         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-                        this->actionFunc = func_809C4318;
+                        this->actionFunc = EnBomBowlMan_WaitToShowReward;
                     }
                 } else {
                     this->isAskingToPlayAgain = false;
                     this->actor.textId = 0x85;
                     Message_ContinueTextbox(play, this->actor.textId);
                     this->waitMessageState = TEXT_STATE_EVENT;
-                    this->actionFunc = func_809C41FC;
+                    this->actionFunc = EnBomBowlMan_Talking;
                 }
                 break;
             case 1: // no
@@ -321,38 +320,38 @@ void EnBomBowlMan_WaitPlayAnswer(EnBomBowlMan* this, PlayState* play) {
                 this->actor.textId = 0x2D;
                 Message_ContinueTextbox(play, this->actor.textId);
                 this->waitMessageState = TEXT_STATE_EVENT;
-                this->actionFunc = func_809C41FC;
+                this->actionFunc = EnBomBowlMan_Talking;
                 break;
         }
     }
 }
 
-void func_809C41FC(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_Talking(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->waitMessageState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (((this->actor.textId == 0x2D) || (this->actor.textId == 0x85)) && Flags_GetSwitch(play, 0x38)) {
             Flags_UnsetSwitch(play, 0x38);
         }
-        if (this->unk_258 == 1) {
+        if (this->gameStartStatus == EN_BOM_BOWL_MAN_GAME_START_STATUS_PAID) {
             this->actor.textId = 0x1B;
             Message_ContinueTextbox(play, this->actor.textId);
             this->waitMessageState = TEXT_STATE_EVENT;
             OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-            this->actionFunc = func_809C4318;
+            this->actionFunc = EnBomBowlMan_WaitToShowReward;
         } else {
             if (this->gameEndStatus == EN_BOM_BOWL_MAN_GAME_END_STATUS_ENDED_LOST) {
                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
             }
-            this->actionFunc = func_809C3D40;
+            this->actionFunc = EnBomBowlMan_SetupWaitGameEndOrTalk;
         }
     }
 }
 
-void func_809C4318(EnBomBowlMan* this, PlayState* play) {
-    Vec3f effAccel = D_809C4A48;
-    Vec3f effVel = D_809C4A54;
+void EnBomBowlMan_WaitToShowReward(EnBomBowlMan* this, PlayState* play) {
+    Vec3f effAccel = { 0.0f, 0.1f, 0.0f };
+    Vec3f effVel = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
 
     SkelAnime_Update(&this->skelAnime);
@@ -363,11 +362,15 @@ void func_809C4318(EnBomBowlMan* this, PlayState* play) {
         EffectSsBomb2_SpawnLayered(play, &effPos, &effVel, &effAccel, 50, 15);
         Actor_PlaySfx(&this->actor, NA_SE_IT_GOODS_APPEAR);
         this->rewardAppearTimer = 10;
-        this->actionFunc = func_809C441C;
+        this->actionFunc = EnBomBowlMan_ShowReward;
     }
 }
 
-void func_809C441C(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_ShowReward(EnBomBowlMan* this, PlayState* play) {
+    static Vec3f sCounterRewardPosOffset[5] = {
+        { 0.0f, 22.0f, 0.0f }, { 0.0f, 22.0f, 0.0f }, { 0.0f, 8.0f, 0.0f }, { 0.0f, 9.0f, 0.0f }, { 0.0f, -2.0f, 0.0f },
+    };
+    static s16 sCounterRewardSpawnYaw[5] = { 0x4268, 0x4268, -0x3E8, 0, 0x4268 };
     s16 reward;
     s32 pad;
 
@@ -401,9 +404,9 @@ void func_809C441C(EnBomBowlMan* this, PlayState* play) {
             this->reward = BREG(7) - 1;
         }
         this->rewardItemOnCounter = (EnExItem*)Actor_SpawnAsChild(
-            &play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, D_809C4A60[this->reward].x + 148.0f,
-            D_809C4A60[this->reward].y + 40.0f, D_809C4A60[this->reward].z + 300.0f, 0, D_809C4A9C[this->reward], 0,
-            this->reward + EXITEM_BOMB_BAG_COUNTER);
+            &play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, sCounterRewardPosOffset[this->reward].x + 148.0f,
+            sCounterRewardPosOffset[this->reward].y + 40.0f, sCounterRewardPosOffset[this->reward].z + 300.0f, 0,
+            sCounterRewardSpawnYaw[this->reward], 0, this->reward + EXITEM_BOMB_BAG_COUNTER);
         if (!this->hasPlayedBefore) {
             // Spawn in the center of the final wall target
             this->finalTargetManager = (EnBomBowlPit*)Actor_SpawnAsChild(
@@ -415,7 +418,7 @@ void func_809C441C(EnBomBowlMan* this, PlayState* play) {
             this->finalTargetManager->reward = this->reward;
         }
         this->finalTargetManager->gameStarted = true;
-        this->unk_258 = 2;
+        this->gameStartStatus = EN_BOM_BOWL_MAN_GAME_START_STATUS_STARTED;
         this->actor.textId = 0x405A;
         Message_ContinueTextbox(play, this->actor.textId);
         this->waitMessageState = TEXT_STATE_EVENT;
@@ -423,11 +426,11 @@ void func_809C441C(EnBomBowlMan* this, PlayState* play) {
         if (this->rewardState >= 5) {
             this->rewardState = 0;
         }
-        this->actionFunc = func_809C4664;
+        this->actionFunc = EnBomBowlMan_WaitGameStart;
     }
 }
 
-void func_809C4664(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_WaitGameStart(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->waitMessageState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
@@ -438,7 +441,7 @@ void func_809C4664(EnBomBowlMan* this, PlayState* play) {
         }
         PRINTF(VT_FGCOL(YELLOW) "☆ わー ☆ %d\n" VT_RST, play->bombchuBowlingStatus);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
-        this->actionFunc = func_809C3D40;
+        this->actionFunc = EnBomBowlMan_SetupWaitGameEndOrTalk;
     }
 }
 
@@ -500,6 +503,7 @@ s32 EnBomBowlMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
 }
 
 void EnBomBowlMan_Draw(Actor* thisx, PlayState* play) {
+    static void* sEyeTextures[] = { gBowlingGirlEyeOpenTex, gBowlingGirlEyeHalfTex, gBowlingGirlEyeClosedTex };
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);

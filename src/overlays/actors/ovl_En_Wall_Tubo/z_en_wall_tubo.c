@@ -77,7 +77,8 @@ void EnWallTubo_WaitTargetHit(EnWallTubo* this, PlayState* play) {
     Vec3f diff;
     s16 quakeIndex;
 
-    if ((this->bowlingGirl->unk_258 != 0) && (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_CHU_BOWLING)) {
+    if ((this->bowlingGirl->gameStartStatus != EN_BOM_BOWL_MAN_GAME_START_STATUS_INACTIVE) &&
+        (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_CHU_BOWLING)) {
         explosive = play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
         while (explosive != NULL) {
             if ((explosive == thisx) || (explosive->id != ACTOR_EN_BOM_CHU)) {
