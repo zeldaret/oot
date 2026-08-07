@@ -86,7 +86,7 @@ void BgBowlWall_Destroy(Actor* thisx, PlayState* play) {
 
 void BgBowlWall_InitImpl(BgBowlWall* this, PlayState* play) {
     Actor* actor;
-    EnWallTubo* temp_v0_2;
+    EnWallTubo* target;
     s32 pad;
     s16 type = this->dyna.actor.params;
 
@@ -95,17 +95,17 @@ void BgBowlWall_InitImpl(BgBowlWall* this, PlayState* play) {
         this->dyna.actor.shape.rot.z = this->dyna.actor.world.rot.z = sWallRots[type];
         PRINTF("\n\n");
     }
-    this->wallTargetPos_.x = sWallTargetPositions[type].x + this->dyna.actor.world.pos.x;
-    this->wallTargetPos_.y = sWallTargetPositions[type].y + this->dyna.actor.world.pos.y;
-    this->wallTargetPos_.z = sWallTargetPositions[type].z + this->dyna.actor.world.pos.z;
+    this->effCenterPos.x = sWallTargetPositions[type].x + this->dyna.actor.world.pos.x;
+    this->effCenterPos.y = sWallTargetPositions[type].y + this->dyna.actor.world.pos.y;
+    this->effCenterPos.z = sWallTargetPositions[type].z + this->dyna.actor.world.pos.z;
     if (0) {}
-    temp_v0_2 = (EnWallTubo*)Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_WALL_TUBO,
-                                                this->wallTargetPos_.x, this->wallTargetPos_.y, this->wallTargetPos_.z,
-                                                0, 0, 0, this->dyna.actor.params);
-    if (temp_v0_2 != NULL) {
-        temp_v0_2->effCenterPos = this->wallTargetPos_;
+    target = (EnWallTubo*)Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_WALL_TUBO,
+                                             this->effCenterPos.x, this->effCenterPos.y, this->effCenterPos.z, 0, 0, 0,
+                                             this->dyna.actor.params);
+    if (target != NULL) {
+        target->effCenterPos = this->effCenterPos;
         if (type != BG_BOWL_WALL_TYPE_FIRST_WALL) {
-            temp_v0_2->effCenterPos = this->wallTargetPos_ = this->dyna.actor.world.pos;
+            target->effCenterPos = this->effCenterPos = this->dyna.actor.world.pos;
         }
         if (this->bowlingGirl == NULL) {
             actor = play->actorCtx.actorLists[ACTORCAT_NPC].head;
@@ -151,9 +151,9 @@ void BgBowlWall_Explode(BgBowlWall* this, PlayState* play) {
     }
     if (explode) {
         for (i = 0; i < 15; i++) {
-            effPos.x = Rand_CenteredFloat(300.0f) + this->wallTargetPos_.x;
+            effPos.x = Rand_CenteredFloat(300.0f) + this->effCenterPos.x;
             effPos.y = -100.0f;
-            effPos.z = Rand_CenteredFloat(400.0f) + this->wallTargetPos_.z;
+            effPos.z = Rand_CenteredFloat(400.0f) + this->effCenterPos.z;
             EffectSsBomb2_SpawnLayered(play, &effPos, &effVel, &effAccel, 100, 30);
             effPos.y = -50.0f;
             EffectSsHahen_SpawnBurst(play, &effPos, 10.0f, 0, 50, 15, 3, -1, 10, NULL);
