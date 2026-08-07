@@ -3,20 +3,24 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
+
+typedef enum BgBowlWallType {
+    BG_BOWL_WALL_TYPE_FIRST_WALL,
+    BG_BOWL_WALL_TYPE_SECOND_WALL
+} BgBowlWallType;
 
 struct BgBowlWall;
 
 typedef void (*BgBowlWallActionFunc)(struct BgBowlWall*, struct PlayState*);
 
 typedef struct BgBowlWall {
-    /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ BgBowlWallActionFunc actionFunc;
-    /* 0x0168 */ Vec3f initPos;
-    /* 0x0174 */ Vec3f bullseyeCenter;
-    /* 0x0180 */ s16 isHit;
-    /* 0x0182 */ s16 timer;
-    /* 0x0184 */ EnBomBowlMan* chuGirl;
-} BgBowlWall; // size = 0x0188
+    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x164 */ BgBowlWallActionFunc actionFunc;
+    /* 0x168 */ Vec3f homePos;
+    /* 0x174 */ Vec3f wallTargetPos_;
+    /* 0x180 */ s16 targetHit;
+    /* 0x182 */ s16 timer;
+    /* 0x184 */ struct EnBomBowlMan* bowlingGirl;
+} BgBowlWall; // size = 0x188
 
 #endif

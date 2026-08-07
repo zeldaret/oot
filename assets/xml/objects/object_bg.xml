@@ -1,80 +1,66 @@
 <Root>
     <File Name="object_bg" Segment="6">
-
-        <!-- Bombchu Bowling Girl skeleton -->
-        <Skeleton Name="gChuGirlSkel" Type="Flex" LimbType="Standard" Offset="0x6EB0"/>
-
-        <!-- Bombchu Bowling Girl animations -->
-        <Animation Name="gChuGirlWakeUpAnim" Offset="0x80"/>
-        <Animation Name="gChuGirlNoddingOffAnim" Offset="0x710"/>
-        <Animation Name="gChuGirlLeanOverCounterAnim" Offset="0x72AC"/>
-
-        <!-- Bombchu Bowling Girl limb displaylists -->
-        <DList Name="gChuGirlWaistDL" Offset="0x4038"/>
-        <DList Name="gChuGirlTorsoDL" Offset="0x3DB0"/>
-        <DList Name="gChuGirlNeckDL" Offset="0x33C8"/>
-        <DList Name="gChuGirlHeadDL" Offset="0x2EE0"/>
-        <DList Name="gChuGirlLeftUpperArmDL" Offset="0x3780"/>
-        <DList Name="gChuGirlLeftForearmDL" Offset="0x3670"/>
-        <DList Name="gChuGirlLeftHandDL" Offset="0x3520"/>
-        <DList Name="gChuGirlRightUpperArmDL" Offset="0x3BC8"/>
-        <DList Name="gChuGirlRightForearmDL" Offset="0x3AB8"/>
-        <DList Name="gChuGirlRightHandDL" Offset="0x3968"/>
-
-        <!-- Bombchu Bowling Girl limbs -->
-        <Limb Name="gChuGirlWaistLimb" LimbType="Standard" Offset="0x6E10"/>
-        <Limb Name="gChuGirlTorsoLimb" LimbType="Standard" Offset="0x6E1C"/>
-        <Limb Name="gChuGirlNeckLimb" LimbType="Standard" Offset="0x6E28"/>
-        <Limb Name="gChuGirlHeadLimb" LimbType="Standard" Offset="0x6E34"/>
-        <Limb Name="gChuGirlLeftUpperArmLimb" LimbType="Standard" Offset="0x6E40"/>
-        <Limb Name="gChuGirlLeftForearmLimb" LimbType="Standard" Offset="0x6E4C"/>
-        <Limb Name="gChuGirlLeftHandLimb" LimbType="Standard" Offset="0x6E58"/>
-        <Limb Name="gChuGirlRightUpperArmLimb" LimbType="Standard" Offset="0x6E64"/>
-        <Limb Name="gChuGirlRightForearmLimb" LimbType="Standard" Offset="0x6E70"/>
-        <Limb Name="gChuGirlRightHandLimb" LimbType="Standard" Offset="0x6E7C"/>
-
-        <!-- Bombchu Bowling Girl limb textures -->
-        <Texture Name="gChuGirlMouthTex" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="gChuGirlSkinGradientTex" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="gChuGirlSweaterTex" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="gChuGirlUmbEarLicusTex" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="gChuGirlHairTex" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
-
-        <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
-
-        <!-- Vertices -->
-        <Array Name="gChuGirlHeadVtx" Count="221" Offset="0x720">
+        <Animation Name="gBowlingGirlNonchalantAnim_" Offset="0x80"/>
+        <Animation Name="gBowlingGirlSleepingAnim" Offset="0x710"/>
+        <Array Name="gBowlingGirlHeadVtx" Count="221" Offset="0x720">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlNeckVtx" Count="31" Offset="0x14F0">
+        <Array Name="gBowlingGirlNeckVtx" Count="31" Offset="0x14F0">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlLeftHandVtx" Count="38" Offset="0x16E0">
+        <Array Name="gBowlingGirlLeftHandVtx" Count="38" Offset="0x16E0">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlLeftForearmVtx" Count="29" Offset="0x1940">
+        <Array Name="gBowlingGirlLeftArmVtx" Count="29" Offset="0x1940">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlLeftUpperArmVtx" Count="53" Offset="0x1B10">
+        <Array Name="gBowlingGirlLeftShoulderVtx" Count="53" Offset="0x1B10">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlRightHandVtx" Count="36" Offset="0x1E60">
+        <Array Name="gBowlingGirlRightHandVtx" Count="36" Offset="0x1E60">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlRightForearmVtx" Count="29" Offset="0x20A0">
+        <Array Name="gBowlingGirlRightArmVtx" Count="29" Offset="0x20A0">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlRightUpperArmVtx" Count="49" Offset="0x2270">
+        <Array Name="gBowlingGirlRightShoulderVtx" Count="49" Offset="0x2270">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlTorsoVtx" Count="137" Offset="0x2580">
+        <Array Name="gBowlingGirlTorsoVtx" Count="137" Offset="0x2580">
             <Vtx/>
         </Array>
-        <Array Name="gChuGirlWaistVtx" Count="13" Offset="0x2E10">
+        <Array Name="gBowlingGirlLowerBodyVtx" Count="13" Offset="0x2E10">
             <Vtx/>
         </Array>
+        <DList Name="gBowlingGirlHeadDL" Offset="0x2EE0"/>
+        <DList Name="gBowlingGirlNeckDL" Offset="0x33C8"/>
+        <DList Name="gBowlingGirlLeftHandDL" Offset="0x3520"/>
+        <DList Name="gBowlingGirlLeftArmDL" Offset="0x3670"/>
+        <DList Name="gBowlingGirlLeftShoulderDL" Offset="0x3780"/>
+        <DList Name="gBowlingGirlRightHandDL" Offset="0x3968"/>
+        <DList Name="gBowlingGirlRightArmDL" Offset="0x3AB8"/>
+        <DList Name="gBowlingGirlRightShoulderDL" Offset="0x3BC8"/>
+        <DList Name="gBowlingGirlTorsoDL" Offset="0x3DB0"/>
+        <DList Name="gBowlingGirlLowerBodyDL" Offset="0x4038"/>
+        <Texture Name="gBowlingGirlEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gBowlingGirlEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gBowlingGirlEyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x5110"/>
+        <Texture Name="gBowlingGirlMouthTex" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="gBowlingGirlSkinTex" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="gBowlingGirlEarAndBellyButtonTex" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="gBowlingGirlClothTex" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="gBowlingGirlHairTex" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
+        <Limb Name="gBowlingGirlLowerBodyLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_LOWER_BODY" Offset="0x6E10"/>
+        <Limb Name="gBowlingGirlTorsoLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_TORSO" Offset="0x6E1C"/>
+        <Limb Name="gBowlingGirlNeckLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_NECK" Offset="0x6E28"/>
+        <Limb Name="gBowlingGirlHeadLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_HEAD" Offset="0x6E34"/>
+        <Limb Name="gBowlingGirlLeftShoulderLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_LEFT_SHOULDER" Offset="0x6E40"/>
+        <Limb Name="gBowlingGirlLeftArmLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_LEFT_ARM" Offset="0x6E4C"/>
+        <Limb Name="gBowlingGirlLeftHandLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_LEFT_HAND" Offset="0x6E58"/>
+        <Limb Name="gBowlingGirlRightShoulderLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_RIGHT_SHOULDER" Offset="0x6E64"/>
+        <Limb Name="gBowlingGirlRightArmLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_RIGHT_ARM" Offset="0x6E70"/>
+        <Limb Name="gBowlingGirlRightHandLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_RIGHT_HAND" Offset="0x6E7C"/>
+        <Skeleton Name="gBowlingGirlSkel" Type="Flex" LimbType="Standard" LimbNone="BOWLING_GIRL_LIMB_NONE" LimbMax="BOWLING_GIRL_LIMB_MAX" EnumName="BowlingGirlLimb" Offset="0x6EB0"/>
+        <Animation Name="gBowlingGirlHandsOnCounterAnim" Offset="0x72AC"/>
     </File>
 </Root>
