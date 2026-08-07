@@ -6,6 +6,12 @@
 
 #include "assets/objects/object_bg/object_bg.h"
 
+typedef enum EnBomBowlManWallState {
+    EN_BOM_BOWL_MAN_WALL_STATE_STANDING,
+    EN_BOM_BOWL_MAN_WALL_STATE_HIT,
+    EN_BOM_BOWL_MAN_WALL_STATE_DISAPPEARED
+} EnBomBowlManWallState;
+
 struct EnBomBowlMan;
 
 typedef void (*EnBomBowlManActionFunc)(struct EnBomBowlMan*, struct PlayState*);
@@ -19,26 +25,26 @@ typedef struct EnBomBowlMan {
     /* 0x218 */ Vec3s headRot;
     /* 0x21E */ char pad21E[6];
     /* 0x224 */ Vec3s torsoRot;
-    /* 0x22A */ s16 unk22A;
+    /* 0x22A */ s16 rewardAppearTimer;
     /* 0x22C */ s16 unk_22C; // unused
     /* 0x22E */ s16 waitMessageState;
     /* 0x230 */ s16 reward;
-    /* 0x232 */ s16 unk232;
+    /* 0x232 */ s16 hasPlayedBefore;
     /* 0x234 */ s16 eyeTexIndex;
     /* 0x236 */ s16 eyesTimer;
     /* 0x238 */ s16 eyesState;
     /* 0x23A */ s16 unk23A;
-    /* 0x23C */ s16 unk23C;
-    /* 0x23E */ s16 unk23E_arr[2];
-    /* 0x242 */ s16 unk242;
-    /* 0x244 */ s16 unk244;
+    /* 0x23C */ s16 isAskingToPlayAgain;
+    /* 0x23E */ s16 wallsState[2]; // State of the first two walls
+    /* 0x242 */ s16 rewardState;
+    /* 0x244 */ s16 gameEndStatus;
     /* 0x246 */ char pad_246[2];
     /* 0x248 */ Vec3f unk248;
     /* 0x254 */ f32 curAnimFrameCount;
     /* 0x258 */ u8 unk_258;
     /* 0x259 */ char pad_259[3];
-    /* 0x25C */ struct EnBomBowlPit* unk25C;
-    /* 0x260 */ struct EnExItem* unk260;
+    /* 0x25C */ struct EnBomBowlPit* finalTargetManager;
+    /* 0x260 */ struct EnExItem* rewardItemOnCounter;
 } EnBomBowlMan; // size = 0x0264
 
 #endif

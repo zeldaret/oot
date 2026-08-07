@@ -61,6 +61,6 @@
         <Limb Name="gBowlingGirlRightArmLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_RIGHT_ARM" Offset="0x6E70"/>
         <Limb Name="gBowlingGirlRightHandLimb" LimbType="Standard" EnumName="BOWLING_GIRL_LIMB_RIGHT_HAND" Offset="0x6E7C"/>
         <Skeleton Name="gBowlingGirlSkel" Type="Flex" LimbType="Standard" LimbNone="BOWLING_GIRL_LIMB_NONE" LimbMax="BOWLING_GIRL_LIMB_MAX" EnumName="BowlingGirlLimb" Offset="0x6EB0"/>
-        <Animation Name="gBowlingGirlHandsOnBarAnim" Offset="0x72AC"/>
+        <Animation Name="gBowlingGirlHandsOnCounterAnim" Offset="0x72AC"/>
     </File>
 </Root>

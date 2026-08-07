@@ -161,7 +161,7 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
-                if (onCounter == 0) {
+                if (!onCounter) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
@@ -325,7 +325,7 @@ void EnExItem_BowlPrize(EnExItem* this, PlayState* play) {
         PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n", " ☆☆☆☆☆ Is it moving? ☆☆☆☆☆ %x\n") VT_RST,
                this->actor.parent->update);
         if ((this->actor.parent != NULL) && (this->actor.parent->update != NULL)) {
-            ((EnBomBowlPit*)this->actor.parent)->unk156 = 1;
+            ((EnBomBowlPit*)this->actor.parent)->hasRewardFinishedAppearing = true;
             PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Now it's gone! ☆☆☆☆☆ \n") VT_RST);
         }
         Actor_Kill(&this->actor);

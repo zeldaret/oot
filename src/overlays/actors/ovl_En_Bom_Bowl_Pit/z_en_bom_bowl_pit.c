@@ -1,3 +1,9 @@
+/*
+ * File: z_en_bom_bowl_pit.c
+ * Overlay: ovl_En_Bom_Bowl_Pit
+ * Description: Bowling Alley bombchu detector for the final wall
+ */
+
 #include "z_en_bom_bowl_pit.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
@@ -8,6 +14,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "sfx.h"
 #include "z_lib.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -16,16 +23,16 @@ void EnBomBowlPit_Init(Actor* thisx, PlayState* play);
 void EnBomBowlPit_Destroy(Actor* thisx, PlayState* play);
 void EnBomBowlPit_Update(Actor* thisx, PlayState* play);
 
-void func_809C4E60(EnBomBowlPit* this, PlayState* play);
-void func_809C4E8C(EnBomBowlPit* this, PlayState* play);
-void func_809C5184(EnBomBowlPit* this, PlayState* play);
-void func_809C5360(EnBomBowlPit* this, PlayState* play);
-void func_809C53F0(EnBomBowlPit* this, PlayState* play);
-void func_809C54A8(EnBomBowlPit* this, PlayState* play);
-void func_809C55B0(EnBomBowlPit* this, PlayState* play);
-void func_809C5608(EnBomBowlPit* this, PlayState* play);
+void EnBomBowlPit_WaitGameStarted(EnBomBowlPit* this, PlayState* play);
+void EnBomBowlPit_WaitHit(EnBomBowlPit* this, PlayState* play);
+void EnBomBowlPit_WaitCutscene(EnBomBowlPit* this, PlayState* play);
+void EnBomBowlPit_SpawnReward(EnBomBowlPit* this, PlayState* play);
+void EnBomBowlPit_WaitRewardFinishedAppearing(EnBomBowlPit* this, PlayState* play);
+void EnBomBowlPit_GiveReward(EnBomBowlPit* this, PlayState* play);
+void EnBomBowlPit_WaitRewardGiven(EnBomBowlPit* this, PlayState* play);
+void EnBomBowlPit_WaitRewardText(EnBomBowlPit* this, PlayState* play);
 
-static s32 D_809C56E0[5] = {
+static s32 sGetItemIdRewards[5] = {
     GI_BOMB_BAG_30,  // EXITEM_BOMB_BAG_BOWLING
     GI_HEART_PIECE,  // EXITEM_HEART_PIECE_BOWLING
     GI_BOMBCHUS_10,  // EXITEM_BOMBCHUS_BOWLING
@@ -48,41 +55,40 @@ ActorProfile En_Bom_Bowl_Pit_Profile = {
 void EnBomBowlPit_Init(Actor* thisx, PlayState* play) {
     EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
-    this->actionFunc = func_809C4E60;
+    this->actionFunc = EnBomBowlPit_WaitGameStarted;
 }
 
 void EnBomBowlPit_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_809C4E60(EnBomBowlPit* this, PlayState* play) {
-    if (this->unk15C) {
-        this->unk15C = this->unk164 = 0;
-        this->actionFunc = func_809C4E8C;
+void EnBomBowlPit_WaitGameStarted(EnBomBowlPit* this, PlayState* play) {
+    if (this->gameStarted) {
+        this->gameStarted = this->rewardState = 0; // false, EN_BOM_BOWL_PIT_REWARD_STATE_WAIT_HIT
+        this->actionFunc = EnBomBowlPit_WaitHit;
     }
 }
 
-void func_809C4E8C(EnBomBowlPit* this, PlayState* play) {
-    Actor* var_v1;
-    EnBomChu* sp24;
+void EnBomBowlPit_WaitHit(EnBomBowlPit* this, PlayState* play) {
+    Actor* explosive;
+    EnBomChu* bombchu;
     Vec3f diff;
     Actor* thisx = &this->actor;
 
     if (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_CHU_BOWLING) {
-        var_v1 = play->actorCtx.actorLists[3].head;
-        while (var_v1 != NULL) {
-            if ((var_v1 == thisx) || (var_v1->id != ACTOR_EN_BOM_CHU)) {
-                var_v1 = var_v1->next;
+        explosive = play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
+        while (explosive != NULL) {
+            if ((explosive == thisx) || (explosive->id != ACTOR_EN_BOM_CHU)) {
+                explosive = explosive->next;
                 continue;
             }
-            diff.x = var_v1->world.pos.x - this->actor.world.pos.x;
-            diff.y = var_v1->world.pos.y - this->actor.world.pos.y;
-            diff.z = var_v1->world.pos.z - this->actor.world.pos.z;
-            if (((fabsf(diff.x) < 40.0f) || (gRegEditor->data[0x962] != 0)) &&
-                ((fabsf(diff.y) < 40.0f) || (gRegEditor->data[0x962] != 0)) &&
-                ((fabsf(diff.z) < 40.0f) || (gRegEditor->data[0x962] != 0))) {
-                sp24 = (EnBomChu*)var_v1;
+            diff.x = explosive->world.pos.x - this->actor.world.pos.x;
+            diff.y = explosive->world.pos.y - this->actor.world.pos.y;
+            diff.z = explosive->world.pos.z - this->actor.world.pos.z;
+            if (((fabsf(diff.x) < 40.0f) || (BREG(2) != 0)) && ((fabsf(diff.y) < 40.0f) || (BREG(2) != 0)) &&
+                ((fabsf(diff.z) < 40.0f) || (BREG(2) != 0))) {
+                bombchu = (EnBomChu*)explosive;
                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-                sp24->timer = 1;
+                bombchu->timer = 1;
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -100,28 +106,28 @@ void func_809C4E8C(EnBomBowlPit* this, PlayState* play) {
                 this->subCamEyeNext.x = 20.0f;
                 this->subCamEyeNext.y = 50.0f;
                 this->subCamEyeNext.z = -485.0f;
-                this->subCamEyeVel.x = fabsf(this->subCamEye.x - 20.0f) * 0.02f;
-                this->subCamEyeVel.y = fabsf(this->subCamEye.y - 50.0f) * 0.02f;
-                this->subCamEyeVel.z = fabsf(this->subCamEye.z - -485.0f) * 0.02f;
+                this->subCamEyeVel.x = fabsf(this->subCamEye.x - this->subCamEyeNext.x) * 0.02f;
+                this->subCamEyeVel.y = fabsf(this->subCamEye.y - this->subCamEyeNext.y) * 0.02f;
+                this->subCamEyeVel.z = fabsf(this->subCamEye.z - this->subCamEyeNext.z) * 0.02f;
                 this->subCamAtVel.x = fabsf(this->subCamAt.x - this->subCamAtNext.x) * 0.02f;
                 this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * 0.02f;
                 this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * 0.02f;
                 Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
                 this->actor.textId = 0xF;
                 Message_StartTextbox(play, this->actor.textId, NULL);
-                this->unk154 = 5;
-                Sfx_PlaySfxCentered(0x28D3U);
+                this->waitMessageState = TEXT_STATE_EVENT;
+                Sfx_PlaySfxCentered(NA_SE_EV_HIT_SOUND);
                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-                this->unk164 = 1;
-                this->actionFunc = func_809C5184;
+                this->rewardState = EN_BOM_BOWL_PIT_REWARD_STATE_GIVING_REWARD;
+                this->actionFunc = EnBomBowlPit_WaitCutscene;
                 return;
             }
-            var_v1 = var_v1->next;
+            explosive = explosive->next;
         }
     }
 }
 
-void func_809C5184(EnBomBowlPit* this, PlayState* play) {
+void EnBomBowlPit_WaitCutscene(EnBomBowlPit* this, PlayState* play) {
     if (this->subCamId != SUB_CAM_ID_DONE) {
         Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamAtMaxVelFrac.x, this->subCamAtVel.x);
         Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamAtMaxVelFrac.y, this->subCamAtVel.y);
@@ -131,7 +137,7 @@ void func_809C5184(EnBomBowlPit* this, PlayState* play) {
         Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z, this->subCamEyeVel.z);
     }
     Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
-    if ((this->unk154 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+    if ((this->waitMessageState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
     }
     if ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 5.0f) &&
@@ -141,72 +147,72 @@ void func_809C5184(EnBomBowlPit* this, PlayState* play) {
         (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 5.0f) &&
         (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 5.0f)) {
         Message_CloseTextbox(play);
-        this->unk158 = 0x1E;
-        this->actionFunc = func_809C5360;
+        this->timer = 30;
+        this->actionFunc = EnBomBowlPit_SpawnReward;
     }
 }
 
-void func_809C5360(EnBomBowlPit* this, PlayState* play) {
-    if (this->unk158 == 0) {
-        this->unk1E0 =
+void EnBomBowlPit_SpawnReward(EnBomBowlPit* this, PlayState* play) {
+    if (this->timer == 0) {
+        this->rewardItem =
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, this->actor.world.pos.x,
                                this->actor.world.pos.y, this->actor.world.pos.z - 70.0f, 0, 0, 0, this->reward);
-        if (this->unk1E0 != NULL) {
-            this->actionFunc = func_809C53F0;
+        if (this->rewardItem != NULL) {
+            this->actionFunc = EnBomBowlPit_WaitRewardFinishedAppearing;
         }
     }
 }
 
-void func_809C53F0(EnBomBowlPit* this, PlayState* play) {
-    if (this->unk156 != 0) {
+void EnBomBowlPit_WaitRewardFinishedAppearing(EnBomBowlPit* this, PlayState* play) {
+    if (this->hasRewardFinishedAppearing) {
         switch (this->reward) {
             case EXITEM_BOMB_BAG_BOWLING:
-                SET_ITEMGETINF(ITEMGETINF_11);
+                SET_ITEMGETINF(ITEMGETINF_BOWLING_BOMB_BAG);
                 break;
             case EXITEM_HEART_PIECE_BOWLING:
-                SET_ITEMGETINF(ITEMGETINF_12);
+                SET_ITEMGETINF(ITEMGETINF_BOWLING_HEART_PIECE);
                 break;
         }
         Play_ClearCamera(play, this->subCamId);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-        this->actionFunc = func_809C54A8;
+        this->actionFunc = EnBomBowlPit_GiveReward;
     }
 }
 
-void func_809C54A8(EnBomBowlPit* this, PlayState* play) {
+void EnBomBowlPit_GiveReward(EnBomBowlPit* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
-    this->unk160 = D_809C56E0[this->reward];
-    if ((this->unk160 == GI_BOMB_BAG_30) && (CUR_CAPACITY(1) == 30)) {
-        this->unk160 = GI_BOMB_BAG_40;
+    this->rewardGetItemId = sGetItemIdRewards[this->reward];
+    if ((this->rewardGetItemId == GI_BOMB_BAG_30) && (CUR_CAPACITY(UPG_BOMB_BAG) == 30)) {
+        this->rewardGetItemId = GI_BOMB_BAG_40;
     }
     player->stateFlags1 &= ~PLAYER_STATE1_29;
     this->actor.parent = NULL;
-    Actor_OfferGetItem(&this->actor, play, this->unk160, 2000.0f, 1000.0f);
+    Actor_OfferGetItem(&this->actor, play, this->rewardGetItemId, 2000.0f, 1000.0f);
     player->stateFlags1 |= PLAYER_STATE1_29;
-    this->actionFunc = func_809C55B0;
+    this->actionFunc = EnBomBowlPit_WaitRewardGiven;
 }
 
-void func_809C55B0(EnBomBowlPit* this, PlayState* play) {
+void EnBomBowlPit_WaitRewardGiven(EnBomBowlPit* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
-        this->actionFunc = func_809C5608;
+        this->actionFunc = EnBomBowlPit_WaitRewardText;
         return;
     }
-    Actor_OfferGetItem(&this->actor, play, this->unk160, 2000.0f, 1000.0f);
+    Actor_OfferGetItem(&this->actor, play, this->rewardGetItemId, 2000.0f, 1000.0f);
 }
 
-void func_809C5608(EnBomBowlPit* this, PlayState* play) {
+void EnBomBowlPit_WaitRewardText(EnBomBowlPit* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        PRINTF("\x1b[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n\x1b[m");
-        if (this->unk160 == GI_HEART_PIECE) {
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        if (this->rewardGetItemId == GI_HEART_PIECE) {
             gSaveContext.healthAccumulator = 0x140;
-            PRINTF("\x1b[32m☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n\x1b[m");
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n" VT_RST);
         }
-        this->unk156 = 0;
-        this->unk164 = 2;
-        this->actionFunc = func_809C4E60;
+        this->hasRewardFinishedAppearing = false;
+        this->rewardState = EN_BOM_BOWL_PIT_REWARD_STATE_REWARD_GIVEN;
+        this->actionFunc = EnBomBowlPit_WaitGameStarted;
     }
 }
 
@@ -214,7 +220,7 @@ void EnBomBowlPit_Update(Actor* thisx, PlayState* play) {
     EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
     this->actionFunc(this, play);
-    if (this->unk158 != 0) {
-        this->unk158--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 }
