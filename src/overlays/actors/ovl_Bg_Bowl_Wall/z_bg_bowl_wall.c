@@ -45,13 +45,13 @@ ActorProfile Bg_Bowl_Wall_Profile = {
     /**/ BgBowlWall_Draw,
 };
 
-Vec3f sWallTargetPositions[4] = {
+static Vec3f sWallTargetPositions[4] = {
     { 0.0f, 210.0f, -20.0f },  // First wall, top
     { 0.0f, 170.0f, -20.0f },  // Second wall, top
     { -170.0f, 0.0f, -20.0f }, // Second wall, left
     { 170.0f, 0.0f, -20.0f },  // Second wall, right
 };
-s16 sWallRots[4] = {
+static s16 sWallRots[4] = {
     0,
     0,       // Second wall, upright
     0x3FFF,  // Second wall, target on the left

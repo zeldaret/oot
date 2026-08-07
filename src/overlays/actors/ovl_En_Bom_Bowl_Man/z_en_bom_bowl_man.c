@@ -71,9 +71,9 @@ typedef struct CuccoColliderDim {
     f32 height;
     s32 unk_8; // unused
 } CuccoColliderDim;
-CuccoColliderDim sCuccoColliderDims[2] = { { 16.0f, 46.0f, 0 }, { 36.0f, 56.0f, 0 } };
-Vec3f sCuccoPositions[2] = { { 60.0f, -60.0f, -430.0f }, { 0.0f, -120.0f, -620.0f } };
-f32 sCuccoScales[2] = { 0.01f, 0.03f };
+static CuccoColliderDim sCuccoColliderDims[2] = { { 16.0f, 46.0f, 0 }, { 36.0f, 56.0f, 0 } };
+static Vec3f sCuccoPositions[2] = { { 60.0f, -60.0f, -430.0f }, { 0.0f, -120.0f, -620.0f } };
+static f32 sCuccoScales[2] = { 0.01f, 0.03f };
 
 void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     EnBomBowlMan* this = (EnBomBowlMan*)thisx;
