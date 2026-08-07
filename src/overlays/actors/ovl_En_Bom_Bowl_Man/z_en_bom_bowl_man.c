@@ -140,8 +140,8 @@ void EnBomBowlMan_AsleepTalking(EnBomBowlMan* this, PlayState* play) {
 }
 
 void EnBomBowlMan_SetupWakingUpTalking(EnBomBowlMan* this, PlayState* play) {
-    this->curAnimFrameCount = Animation_GetLastFrame(&gBowlingGirlNonchalantAnim_);
-    Animation_Change(&this->skelAnime, &gBowlingGirlNonchalantAnim_, 1.0f, 0.0f, this->curAnimFrameCount, ANIMMODE_ONCE,
+    this->curAnimFrameCount = Animation_GetLastFrame(&gBowlingGirlWakingUpAnim);
+    Animation_Change(&this->skelAnime, &gBowlingGirlWakingUpAnim, 1.0f, 0.0f, this->curAnimFrameCount, ANIMMODE_ONCE,
                      -10.0f);
     this->eyesState = 1;
     this->actionFunc = EnBomBowlMan_WakingUpTalking;
