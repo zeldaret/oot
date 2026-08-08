@@ -700,9 +700,9 @@ void EnBili_Draw(Actor* thisx, PlayState* play) {
     this->tentaclesTexIndex = CLAMP_MAX(this->tentaclesTexIndex, ARRAY_COUNT(sTentaclesTextures) - 1);
     gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(sTentaclesTextures[this->tentaclesTexIndex]));
     if ((this->actionFunc == EnBili_Electrify) && (this->timer & 1)) {
-        gSPSegment(POLY_XLU_DISP++, 9, sBariCoreInvertTexCombinerDL);
+        gSPSegment(POLY_XLU_DISP++, 9, sBiriCoreInvertTexCombinerDL);
     } else {
-        gSPSegment(POLY_XLU_DISP++, 9, sBariCoreNormalCombinerDL);
+        gSPSegment(POLY_XLU_DISP++, 9, sBiriCoreNormalCombinerDL);
     }
     POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnBili_OverrideLimbDraw,
                                    NULL, this, POLY_XLU_DISP);
