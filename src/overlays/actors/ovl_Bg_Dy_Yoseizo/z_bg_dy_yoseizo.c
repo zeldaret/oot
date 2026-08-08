@@ -103,7 +103,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
                            this->jointTable, this->morphTable, 28);
 #if OOT_VERSION < NTSC_1_1
-        if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->reward_ != BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC)) {
+        if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->reward != BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC)) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -120,7 +120,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
 #endif
     }
 #if OOT_VERSION < NTSC_1_1
-    this->actionFunc = BgDyYoseizo_SetupCutscene_;
+    this->actionFunc = BgDyYoseizo_SetupCutscene;
 #else
     this->actionFunc = BgDyYoseizo_WaitSong;
 #endif
