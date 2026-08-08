@@ -5,6 +5,8 @@
  */
 
 #include "z_bg_dy_yoseizo.h"
+#include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
@@ -38,28 +40,41 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play);
 void BgDyYoseizo_Update(Actor* thisx, PlayState* play2);
 
-void func_80872D20(BgDyYoseizo* this, PlayState* play);
-void func_80872DE4(BgDyYoseizo* this, PlayState* play);
-void func_8087328C(BgDyYoseizo* this, PlayState* play);
-void func_80873380(BgDyYoseizo* this, PlayState* play);
-void func_808734DC(BgDyYoseizo* this, PlayState* play);
-void func_8087358C(BgDyYoseizo* this, PlayState* play);
-void func_808736A4(BgDyYoseizo* this, PlayState* play);
-void func_80873780(BgDyYoseizo* this, PlayState* play);
-void func_80873868(BgDyYoseizo* this, PlayState* play);
-void func_80873B3C(BgDyYoseizo* this, PlayState* play);
-void func_80873C14(BgDyYoseizo* this, PlayState* play);
-void func_80873D14(BgDyYoseizo* this, PlayState* play);
-void func_80873E04(BgDyYoseizo* this, PlayState* play);
-void func_80873EA4(BgDyYoseizo* this, PlayState* play);
-void func_80873FD8(BgDyYoseizo* this, PlayState* play);
-void func_80874304(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_WaitSong(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_SetupCutscene(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Revisit_SetupAppear(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Revisit_Appear(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Revisit_FinishAppear(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Revisit_SetupTalk(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Revisit_Talk(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Revisit_SetupRefillPlayerEnergy(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Revisit_RefillPlayerEnergy(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Revisit_WaitTalkEnd(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_SetupDisappear(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Disappear(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Kill(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Reward_WaitCutscene(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Reward_Appear(BgDyYoseizo* this, PlayState* play);
+void BgDyYoseizo_Reward_GiveReward(BgDyYoseizo* this, PlayState* play);
 void BgDyYoseizo_Draw(Actor* thisx, PlayState* play);
 void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f*, Vec3f*, Vec3f*, Color_RGB8*, Color_RGB8*, f32, s16, s16);
 void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, PlayState* play);
 void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play);
 
+typedef enum BgDyYoseizoRewardSpell {
+    BG_DY_YOSEIZO_REWARD_SPELL_FARORES_WIND,
+    BG_DY_YOSEIZO_REWARD_SPELL_DINS_FIRE,
+    BG_DY_YOSEIZO_REWARD_SPELL_NAYRUS_LOVE
+} BgDyYoseizoRewardSpell;
+
+typedef enum BgDyYoseizoRewardMagic {
+    BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC,
+    BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_MAGIC,
+    BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_DEFENSE
+} BgDyYoseizoRewardMagic;
+
 static s32 D_80875440[3] = { 0x5D, 0x5E, 0x5C };
+
 ActorProfile Bg_Dy_Yoseizo_Profile = {
     /**/ ACTOR_BG_DY_YOSEIZO,
     /**/ ACTORCAT_PROP,
@@ -71,57 +86,32 @@ ActorProfile Bg_Dy_Yoseizo_Profile = {
     /**/ BgDyYoseizo_Update,
     /**/ NULL,
 };
-static Color_RGB8 D_8087546C[9] = {
-    { 0xFF, 0xFF, 0xFF }, { 0xFF, 0xFF, 0x64 }, { 0x64, 0xFF, 0x64 }, { 0xFF, 0x64, 0x64 }, { 0xFF, 0xFF, 0xAA },
-    { 0xFF, 0xFF, 0x64 }, { 0x64, 0xFF, 0x64 }, { 0xFF, 0x64, 0x64 }, { 0xFF, 0xFF, 0xAA },
-};
-static Color_RGB8 D_80875488[9] = {
-    { 0x9B, 0xFF, 0xFF }, { 0xFF, 0xFF, 0x64 }, { 0x64, 0xFF, 0x64 }, { 0xFF, 0x64, 0x64 }, { 0xFF, 0x64, 0xFF },
-    { 0xFF, 0xFF, 0x64 }, { 0x64, 0xFF, 0x64 }, { 0xFF, 0x64, 0x64 }, { 0x64, 0xFF, 0xFF },
-};
-static Vec3f D_808754A4 = { 0.0f, 0.0f, 0.0f };
-static s16 D_808754B0[4] = { 2, 0, 1, 0 };
-static s16 D_808754B8[4] = { 0x11, 0x10, 0x12, 0 };
-static s16 D_808754C0[] = { ITEMGETINF_MASK(ITEMGETINF_18), ITEMGETINF_MASK(ITEMGETINF_19),
-                            ITEMGETINF_MASK(ITEMGETINF_1A) };
-static u8 D_808754C8[4] = { 0xD, 5, 0x13, 0 };
-
-static void* D_808754CC[] = {
-    gGreatFairyEyeOpenTex,
-    gGreatFairyEyeHalfTex,
-    gGreatFairyEyeClosedTex,
-};
-
-static void* D_808754D8[] = {
-    gGreatFairyMouthClosedTex,
-    gGreatFairyMouthOpenTex,
-};
 
 void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
     PlayState* play = play2;
 
-    this->unk2EC = (s16)play->spawn;
-    if (this->unk2EC < 0) {
-        this->unk2EC = 0;
+    this->reward = play->spawn;
+    if (this->reward < 0) {
+        this->reward = 0;
     }
-    this->unk310 = this->actor.world.pos.y;
-    this->unk30C = this->actor.world.pos.y + 40.0f;
+    this->homePosY = this->actor.world.pos.y;
+    this->aboveFountainY = this->actor.world.pos.y + 40.0f;
     this->actor.focus.pos = this->actor.world.pos;
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        PRINTF("\x1b[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
-        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim, this->unk194,
-                           this->unk23C, 28);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
+                           this->jointTable, this->morphTable, 28);
 #if OOT_VERSION < NTSC_1_1
-        if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->unk2EC != 0)) {
+        if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->reward_ != BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC)) {
             Actor_Kill(&this->actor);
             return;
         }
 #endif
     } else {
-        PRINTF("\x1b[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n\x1b[m", play->spawn);
-        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim, this->unk194,
-                           this->unk23C, 28);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
+                           this->jointTable, this->morphTable, 28);
 #if OOT_VERSION < NTSC_1_1
         if (!gSaveContext.save.info.playerData.isMagicAcquired) {
             Actor_Kill(&this->actor);
@@ -130,85 +120,126 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
 #endif
     }
 #if OOT_VERSION < NTSC_1_1
-    this->actionFunc = func_80872DE4;
+    this->actionFunc = BgDyYoseizo_SetupCutscene_;
 #else
-    this->actionFunc = func_80872D20;
+    this->actionFunc = BgDyYoseizo_WaitSong;
 #endif
 }
 
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_80872960(BgDyYoseizo* this, PlayState* play, s16 arg2) {
-    Vec3f spC4;
-    Vec3f spB8;
-    Vec3f spAC;
-    Color_RGB8 spA8;
-    Color_RGB8 spA4;
-    f32 temp_fs0;
-    f32 var_fs2;
-    s32 var_s1;
-    s32 var_s2;
-    s32 var_s3;
+static Color_RGB8 sInnerColors[9] = {
+    { 255, 255, 255 }, { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 255, 170 },
+    { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 255, 170 },
+};
+static Color_RGB8 sOuterColors[9] = {
+    { 155, 255, 255 }, { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 100, 255 },
+    { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 100, 255, 255 },
+};
 
-    spC4 = D_808754A4;
-    if (!(this->unk308 < 0.01f)) {
-        temp_fs0 = this->unk308 * 3500.0f;
-        spB8.x = Rand_ZeroOne() - 0.5f;
-        spB8.y = Rand_ZeroOne() - 0.5f;
-        spB8.z = Rand_ZeroOne() - 0.5f;
-        for (var_s3 = 0; var_s3 < 2; var_s3++) {
-            if (arg2 == 0) {
-                var_s1 = 0;
-                var_fs2 = 0.4f;
-                var_s2 = 0x5A;
-                spAC.x = this->actor.world.pos.x;
-                spAC.y = this->actor.world.pos.y + temp_fs0 + (temp_fs0 * 0.5f * (Rand_ZeroOne() - 0.5f));
-                spAC.z = this->actor.world.pos.z + 30.0f;
+void BgDyYoseizo_SpawnEffectsType(BgDyYoseizo* this, PlayState* play, s16 effType) {
+    Vec3f vel = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel;
+    Vec3f pos;
+    Color_RGB8 innerColor;
+    Color_RGB8 outerColor;
+    f32 yOffset;
+    f32 scale;
+    s32 type;
+    s32 life;
+    s32 i;
+
+    if (!(this->scale < 0.01f)) {
+        yOffset = this->scale * 3500.0f;
+        accel.x = Rand_ZeroOne() - 0.5f;
+        accel.y = Rand_ZeroOne() - 0.5f;
+        accel.z = Rand_ZeroOne() - 0.5f;
+        for (i = 0; i < 2; i++) {
+            if (effType == 0) {
+                type = 0;
+                scale = 0.4f;
+                life = 90;
+                pos.x = this->actor.world.pos.x;
+                pos.y = this->actor.world.pos.y + yOffset + (yOffset * 0.5f * (Rand_ZeroOne() - 0.5f));
+                pos.z = this->actor.world.pos.z + 30.0f;
             } else {
-                var_fs2 = 0.2f;
-                var_s2 = 0x32;
-                var_s1 = arg2;
-                spAC.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
+                scale = 0.2f;
+                life = 50;
+                type = effType;
+                pos.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
                 if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-                    spAC.y = this->actor.world.pos.y + temp_fs0 + 50.0f + (temp_fs0 * 0.1f * (Rand_ZeroOne() - 0.5f));
-                    spAC.z = this->actor.world.pos.z + 30.0f;
+                    pos.y = this->actor.world.pos.y + yOffset + 50.0f + (yOffset * 0.1f * (Rand_ZeroOne() - 0.5f));
+                    pos.z = this->actor.world.pos.z + 30.0f;
                 } else {
-                    spAC.y = this->actor.world.pos.y + temp_fs0 - 30.0f + (temp_fs0 * 0.1f * (Rand_ZeroOne() - 0.5f));
-                    spAC.z = this->actor.world.pos.z + 60.0f;
+                    pos.y = this->actor.world.pos.y + yOffset - 30.0f + (yOffset * 0.1f * (Rand_ZeroOne() - 0.5f));
+                    pos.z = this->actor.world.pos.z + 60.0f;
                 }
                 if (LINK_IS_ADULT) {
-                    spAC.y += 20.0f;
+                    pos.y += 20.0f;
                 }
             }
-            spA8.r = D_8087546C[var_s1].r;
-            spA8.g = D_8087546C[var_s1].g;
-            spA8.b = D_8087546C[var_s1].b;
-            spA4.r = D_80875488[var_s1].r;
-            spA4.g = D_80875488[var_s1].g;
-            spA4.b = D_80875488[var_s1].b;
-            BgDyYoseizo_SpawnEffect(this, &spAC, &spC4, &spB8, &spA8, &spA4, var_fs2, var_s2, var_s1);
+            innerColor.r = sInnerColors[type].r;
+            innerColor.g = sInnerColors[type].g;
+            innerColor.b = sInnerColors[type].b;
+            outerColor.r = sOuterColors[type].r;
+            outerColor.g = sOuterColors[type].g;
+            outerColor.b = sOuterColors[type].b;
+            BgDyYoseizo_SpawnEffect(this, &pos, &vel, &accel, &innerColor, &outerColor, scale, life, type);
         }
     }
 }
 
-void func_80872C58(BgDyYoseizo* this, PlayState* play) {
-    this->unk31C = this->unk30C + this->unk320;
-    Math_ApproachF(&this->actor.world.pos.y, this->unk31C, 0.1f, 10.0f);
-    Math_ApproachF(&this->unk320, 10.0f, 0.1f, 0.5f);
+static s16 sSpellRewardsDemoEffectLightColor[3] = {
+    DEMO_EFFECT_LIGHT_GREEN, // BG_DY_YOSEIZO_REWARD_SPELL_FARORES_WIND
+    DEMO_EFFECT_LIGHT_RED,   // BG_DY_YOSEIZO_REWARD_SPELL_DINS_FIRE
+    DEMO_EFFECT_LIGHT_BLUE,  // BG_DY_YOSEIZO_REWARD_SPELL_NAYRUS_LOVE
+};
+static s16 sSpellRewardsEnExItemParams[3] = {
+    EXITEM_MAGIC_WIND, // BG_DY_YOSEIZO_REWARD_SPELL_FARORES_WIND
+    EXITEM_MAGIC_FIRE, // BG_DY_YOSEIZO_REWARD_SPELL_DINS_FIRE
+    EXITEM_MAGIC_DARK, // BG_DY_YOSEIZO_REWARD_SPELL_NAYRUS_LOVE
+};
+static s16 sSpellRewardsItemGetInfMask[3] = {
+    ITEMGETINF_MASK(ITEMGETINF_FARORES_WIND), // BG_DY_YOSEIZO_REWARD_SPELL_FARORES_WIND
+    ITEMGETINF_MASK(ITEMGETINF_DINS_FIRE),    // BG_DY_YOSEIZO_REWARD_SPELL_DINS_FIRE
+    ITEMGETINF_MASK(ITEMGETINF_NAYRUS_LOVE),  // BG_DY_YOSEIZO_REWARD_SPELL_NAYRUS_LOVE
+};
+static u8 sSpellRewardsItem[3] = {
+    ITEM_FARORES_WIND, // BG_DY_YOSEIZO_REWARD_SPELL_FARORES_WIND
+    ITEM_DINS_FIRE,    // BG_DY_YOSEIZO_REWARD_SPELL_DINS_FIRE
+    ITEM_NAYRUS_LOVE,  // BG_DY_YOSEIZO_REWARD_SPELL_NAYRUS_LOVE
+};
+
+static void* sEyeTextures[] = {
+    gGreatFairyEyeOpenTex,
+    gGreatFairyEyeHalfTex,
+    gGreatFairyEyeClosedTex,
+};
+
+static void* sMouthTextures[] = {
+    gGreatFairyMouthClosedTex,
+    gGreatFairyMouthOpenTex,
+};
+
+void BgDyYoseizo_UpdatePosY(BgDyYoseizo* this, PlayState* play) {
+    this->targetPosY = this->aboveFountainY + this->offsetY;
+    Math_ApproachF(&this->actor.world.pos.y, this->targetPosY, 0.1f, 10.0f);
+    Math_ApproachF(&this->offsetY, 10.0f, 0.1f, 0.5f);
     if (play->csCtx.state == CS_STATE_IDLE) {
-        this->actor.velocity.y = Math_SinS((s16)(s32)this->unk324);
+        this->actor.velocity.y = Math_SinS(TRUNCF_BINANG(this->yVelocityPhase));
     } else {
-        this->actor.velocity.y = Math_SinS((s16)(s32)this->unk324) * 0.4f;
+        this->actor.velocity.y = Math_SinS(TRUNCF_BINANG(this->yVelocityPhase)) * 0.4f;
     }
 }
 
 #if OOT_VERSION >= NTSC_1_1
-void func_80872D20(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_WaitSong(BgDyYoseizo* this, PlayState* play) {
     if (Flags_GetSwitch(play, 0x38)) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->unk2EC != 0)) {
+            if (!gSaveContext.save.info.playerData.isMagicAcquired &&
+                (this->reward != BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -219,13 +250,13 @@ void func_80872D20(BgDyYoseizo* this, PlayState* play) {
             }
         }
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
-        this->actionFunc = func_80872DE4;
+        this->actionFunc = BgDyYoseizo_SetupCutscene;
     }
 }
 #endif
 
-void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
-    s32 var_v1;
+void BgDyYoseizo_SetupCutscene(BgDyYoseizo* this, PlayState* play) {
+    s32 isNewAcquire;
 
 #if OOT_VERSION < NTSC_1_1
     if (!Flags_GetSwitch(play, 0x38)) {
@@ -239,94 +270,94 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
 #endif
 
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
-    PRINTF("\x1b[33m☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n\x1b[m", play->msgCtx.ocarinaMode);
-    var_v1 = 0;
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+    isNewAcquire = false;
     if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        switch (this->unk2EC) {
-            case 0:
-                if (!GET_ITEMGETINF(ITEMGETINF_18)) {
-                    var_v1 = 1;
+        switch (this->reward) {
+            case BG_DY_YOSEIZO_REWARD_SPELL_FARORES_WIND:
+                if (!GET_ITEMGETINF(ITEMGETINF_FARORES_WIND)) {
+                    isNewAcquire = true;
                 }
                 break;
 
-            case 1:
-                if (!GET_ITEMGETINF(ITEMGETINF_19)) {
-                    var_v1 = 1;
+            case BG_DY_YOSEIZO_REWARD_SPELL_DINS_FIRE:
+                if (!GET_ITEMGETINF(ITEMGETINF_DINS_FIRE)) {
+                    isNewAcquire = true;
                 }
                 break;
 
-            case 2:
-                if (!GET_ITEMGETINF(ITEMGETINF_1A)) {
-                    var_v1 = 1;
+            case BG_DY_YOSEIZO_REWARD_SPELL_NAYRUS_LOVE:
+                if (!GET_ITEMGETINF(ITEMGETINF_NAYRUS_LOVE)) {
+                    isNewAcquire = true;
                 }
                 break;
         }
     } else {
-        switch (this->unk2EC) {
-            case 0:
-                if (!gSaveContext.save.info.playerData.isMagicAcquired || (gRegEditor->data[0x962] != 0)) {
-                    PRINTF("\x1b[32m ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n\x1b[m");
-                    var_v1 = 1;
-                    this->unk2EA = 1;
+        switch (this->reward) {
+            case BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC:
+                if (!gSaveContext.save.info.playerData.isMagicAcquired || (BREG(2) != 0)) {
+                    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST);
+                    isNewAcquire = true;
+                    this->isNewAcquireMagic = true;
                 }
                 break;
 
-            case 1:
+            case BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_MAGIC:
                 if (!gSaveContext.save.info.playerData.isDoubleMagicAcquired) {
-                    PRINTF("\x1b[33m ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n\x1b[m");
-                    this->unk2EA = 1;
-                    var_v1 = 1;
+                    PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST);
+                    this->isNewAcquireMagic = true;
+                    isNewAcquire = true;
                 }
                 break;
 
-            case 2:
+            case BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_DEFENSE:
                 if (!gSaveContext.save.info.playerData.isDoubleDefenseAcquired) {
-                    PRINTF("\x1b[35m ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n\x1b[m");
-                    this->unk2EA = 1;
-                    var_v1 = 1;
+                    PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST);
+                    this->isNewAcquireMagic = true;
+                    isNewAcquire = true;
                 }
                 break;
         }
     }
-    if (var_v1 != 0) {
+    if (isNewAcquire) {
         if (!IS_CUTSCENE_LAYER || !DEBUG_FEATURES) {
             if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-                switch (this->unk2EC) {
-                    case 0:
+                switch (this->reward) {
+                    case BG_DY_YOSEIZO_REWARD_SPELL_FARORES_WIND:
                         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
-                    case 1:
+                    case BG_DY_YOSEIZO_REWARD_SPELL_DINS_FIRE:
                         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
-                    case 2:
+                    case BG_DY_YOSEIZO_REWARD_SPELL_NAYRUS_LOVE:
                         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
             } else {
-                switch (this->unk2EC) {
-                    case 0:
+                switch (this->reward) {
+                    case BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC:
                         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
-                    case 1:
+                    case BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_MAGIC:
                         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
 
-                    case 2:
+                    case BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_DEFENSE:
                         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenseCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
             }
         }
-        this->actionFunc = func_80873EA4;
+        this->actionFunc = BgDyYoseizo_Reward_WaitCutscene;
     } else {
         play->envCtx.lightSettingOverride = 2;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
@@ -336,41 +367,41 @@ void func_80872DE4(BgDyYoseizo* this, PlayState* play) {
         }
         Actor_PlaySfx(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
         this->actor.draw = BgDyYoseizo_Draw;
-        this->actionFunc = func_8087328C;
+        this->actionFunc = BgDyYoseizo_Revisit_SetupAppear;
     }
 }
 
-void func_8087328C(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_Revisit_SetupAppear(BgDyYoseizo* this, PlayState* play) {
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
-                         -10.0f);
+        this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                         ANIMMODE_ONCE, -10.0f);
     } else {
-        this->unk32C = Animation_GetLastFrame(&gGreatFairyLayingDownTransitionAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->unk32C,
+        this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyLayingDownTransitionAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->curAnimLastFrame,
                          ANIMMODE_ONCE, -10.0f);
     }
     Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
 #if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 #endif
-    this->actionFunc = func_80873380;
+    this->actionFunc = BgDyYoseizo_Revisit_Appear;
 }
 
-void func_80873380(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_Revisit_Appear(BgDyYoseizo* this, PlayState* play) {
 #if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 #endif
-    Math_ApproachF(&this->actor.world.pos.y, this->unk30C, this->unk314, 100.0f);
-    Math_ApproachF(&this->unk308, 0.035f, this->unk318, 0.005f);
-    Math_ApproachF(&this->unk314, 0.8f, 0.1f, 0.02f);
-    Math_ApproachF(&this->unk318, 0.2f, 0.03f, 0.05f);
-    if (this->unk308 >= 0.034f) {
-        if ((this->actor.shape.rot.y >= -0x1F3F) && (this->actor.shape.rot.y < 0x3E8)) {
+    Math_ApproachF(&this->actor.world.pos.y, this->aboveFountainY, this->yApproachFraction, 100.0f);
+    Math_ApproachF(&this->scale, 0.035f, this->scaleApproachFraction, 0.005f);
+    Math_ApproachF(&this->yApproachFraction, 0.8f, 0.1f, 0.02f);
+    Math_ApproachF(&this->scaleApproachFraction, 0.2f, 0.03f, 0.05f);
+    if (this->scale >= 0.034f) {
+        if ((this->actor.shape.rot.y > -0x1F40) && (this->actor.shape.rot.y < 0x3E8)) {
             SkelAnime_Update(&this->skelAnime);
             Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 5, 0x3E8, 0);
             if (fabsf(this->actor.shape.rot.y) < 50.0f) {
-                this->actionFunc = func_808734DC;
+                this->actionFunc = BgDyYoseizo_Revisit_FinishAppear;
             }
         } else {
             this->actor.shape.rot.y += 0xBB8;
@@ -378,211 +409,213 @@ void func_80873380(BgDyYoseizo* this, PlayState* play) {
     } else {
         this->actor.shape.rot.y += 0xBB8;
     }
-    func_80872960(this, play, 0);
+    BgDyYoseizo_SpawnEffectsType(this, play, 0);
 }
 
-void func_808734DC(BgDyYoseizo* this, PlayState* play) {
-    f32 sp1C;
+void BgDyYoseizo_Revisit_FinishAppear(BgDyYoseizo* this, PlayState* play) {
+    f32 animPrevFrame;
 
-    sp1C = this->skelAnime.curFrame;
+    animPrevFrame = this->skelAnime.curFrame;
 #if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 #endif
-    if ((this->unk32C * 1273.0f) <= this->unk324) {
-        this->unk324 = 0.0f;
+    if ((this->curAnimLastFrame * 1273.0f) <= this->yVelocityPhase) {
+        this->yVelocityPhase = 0.0f;
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk32C <= sp1C) && (this->unk2FC == 0)) {
-        this->actionFunc = func_8087358C;
+    if ((this->curAnimLastFrame <= animPrevFrame) && !this->hasSwitchedAnim) {
+        this->actionFunc = BgDyYoseizo_Revisit_SetupTalk;
     }
 }
 
-void func_8087358C(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_Revisit_SetupTalk(BgDyYoseizo* this, PlayState* play) {
 #if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 #endif
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP, -10.0f);
-    } else {
-        this->unk32C = Animation_GetLastFrame(&gGreatFairyLayingSidewaysAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairyLayingSidewaysAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
+        this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairySittingAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->curAnimLastFrame, ANIMMODE_LOOP,
                          -10.0f);
+    } else {
+        this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyLayingSidewaysAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyLayingSidewaysAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                         ANIMMODE_LOOP, -10.0f);
     }
     this->actor.textId = 0xDB;
-    this->unk2EE = TEXT_STATE_EVENT;
+    this->waitMessageState = TEXT_STATE_EVENT;
     Message_StartTextbox(play, this->actor.textId, NULL);
-    func_80872960(this, play, 0);
-    this->actionFunc = func_808736A4;
+    BgDyYoseizo_SpawnEffectsType(this, play, 0);
+    this->actionFunc = BgDyYoseizo_Revisit_Talk;
 }
 
-void func_808736A4(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_Revisit_Talk(BgDyYoseizo* this, PlayState* play) {
 #if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 #endif
-    this->unk324 = this->skelAnime.curFrame * 1273.0f;
-    if (this->unk324 >= (this->unk32C * 1273.0f)) {
-        this->unk324 = 0.0f;
+    this->yVelocityPhase = this->skelAnime.curFrame * 1273.0f;
+    if (this->yVelocityPhase >= (this->curAnimLastFrame * 1273.0f)) {
+        this->yVelocityPhase = 0.0f;
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk2EE == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+    if ((this->waitMessageState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE);
-        this->actionFunc = func_80873780;
+        this->actionFunc = BgDyYoseizo_Revisit_SetupRefillPlayerEnergy;
     }
-    func_80872C58(this, play);
-    func_80872960(this, play, 0);
+    BgDyYoseizo_UpdatePosY(this, play);
+    BgDyYoseizo_SpawnEffectsType(this, play, 0);
 }
 
-void func_80873780(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_Revisit_SetupRefillPlayerEnergy(BgDyYoseizo* this, PlayState* play) {
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
-                         -10.0f);
+        this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                         ANIMMODE_ONCE, -10.0f);
     } else {
-        this->unk32C = Animation_GetLastFrame(&gGreatFairyAnim_005810);
-        Animation_Change(&this->skelAnime, &gGreatFairyAnim_005810, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE, -10.0f);
+        this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyGivingSpellAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyGivingSpellAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                         ANIMMODE_ONCE, -10.0f);
     }
     Actor_PlaySfx(&this->actor, NA_SE_VO_FR_SMILE_0);
-    this->unk2F6 = 1;
-    this->actionFunc = func_80873868;
+    this->mouthTexIndex = 1;
+    this->actionFunc = BgDyYoseizo_Revisit_RefillPlayerEnergy;
 }
 
-void func_80873868(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_Revisit_RefillPlayerEnergy(BgDyYoseizo* this, PlayState* play) {
     Player* player;
-    f32 temp_fv1;
-    s16 var_v0;
-    Vec3f vec;
+    f32 animPrevFrame;
+    s16 beamType;
+    Vec3f beamPos;
 
     player = GET_PLAYER(play);
-    temp_fv1 = this->skelAnime.curFrame;
-    if (this->unk2FC != 0) {
-        this->unk324 = this->skelAnime.curFrame * 1300.0f;
-        if ((this->unk32C * 1300.0f) <= this->unk324) {
-            this->unk324 = 0.0f;
+    animPrevFrame = this->skelAnime.curFrame;
+    if (this->hasSwitchedAnim) {
+        this->yVelocityPhase = this->skelAnime.curFrame * 1300.0f;
+        if ((this->curAnimLastFrame * 1300.0f) <= this->yVelocityPhase) {
+            this->yVelocityPhase = 0.0f;
         }
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk32C <= temp_fv1) && (this->unk2FC == 0)) {
+    if ((this->curAnimLastFrame <= animPrevFrame) && !this->hasSwitchedAnim) {
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
-            Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
-                             -10.0f);
+            this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                             ANIMMODE_LOOP, -10.0f);
         } else {
-            this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterSpellAnim);
-            Animation_Change(&this->skelAnime, &gGreatFairyAfterSpellAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
-                             -10.0f);
+            this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyAfterSpellAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyAfterSpellAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                             ANIMMODE_LOOP, -10.0f);
         }
-        this->unk302 = 0x96;
-        this->unk2FC = 1;
-        if (this->unk2EA == 0) {
-            vec.x = player->actor.world.pos.x;
-            vec.y = player->actor.world.pos.y + 200.0f;
-            vec.z = player->actor.world.pos.z;
+        this->refillTimer = 150;
+        this->hasSwitchedAnim = true;
+        if (!this->isNewAcquireMagic) {
+            beamPos.x = player->actor.world.pos.x;
+            beamPos.y = player->actor.world.pos.y + 200.0f;
+            beamPos.z = player->actor.world.pos.z;
             if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-                var_v0 = 0;
+                beamType = 0;
             } else {
-                var_v0 = 1;
+                beamType = 1;
             }
-            this->unk340 = (EnDyExtra*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DY_EXTRA, vec.x,
-                                                          vec.y, vec.z, 0, 0, 0, var_v0);
+            this->refillBeam = (EnDyExtra*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DY_EXTRA,
+                                                              beamPos.x, beamPos.y, beamPos.z, 0, 0, 0, beamType);
         }
     }
-    if (this->unk306 >= 2) {
-        this->unk306--;
+    if (this->refillTimeoutTimer > 1) {
+        this->refillTimeoutTimer--;
     }
-    if (this->unk302 >= 0x6E) {
-        this->unk302--;
+    if (this->refillTimer >= 110) {
+        this->refillTimer--;
     }
-    if (this->unk302 == 0x6E) {
+    if (this->refillTimer == 110) {
         gSaveContext.healthAccumulator = 0x140;
         Magic_Fill(play);
-        this->unk306 = 0xC8;
+        this->refillTimeoutTimer = 200;
     }
     if (((gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health) &&
          (gSaveContext.save.info.playerData.magic == gSaveContext.magicCapacity)) ||
-        (this->unk306 == 1)) {
-        this->unk302--;
-        if (this->unk302 == 0x5A) {
-            if (this->unk2EA == 0) {
-                this->unk340->unk_152 = 1;
+        (this->refillTimeoutTimer == 1)) {
+        this->refillTimer--;
+        if (this->refillTimer == 90) {
+            if (!this->isNewAcquireMagic) {
+                this->refillBeam->startDisappearing = true;
             }
-            this->unk2EA = 0;
+            this->isNewAcquireMagic = false;
         }
     }
-    if (this->unk302 == 1) {
+    if (this->refillTimer == 1) {
         this->actor.textId = 0xDA;
-        this->unk2EE = TEXT_STATE_EVENT;
+        this->waitMessageState = TEXT_STATE_EVENT;
         Message_ContinueTextbox(play, this->actor.textId);
-        this->actionFunc = func_80873B3C;
+        this->actionFunc = BgDyYoseizo_Revisit_WaitTalkEnd;
     } else {
-        func_80872C58(this, play);
+        BgDyYoseizo_UpdatePosY(this, play);
     }
 }
 
-void func_80873B3C(BgDyYoseizo* this, PlayState* play) {
-    this->unk324 = this->skelAnime.curFrame * 1400.0f;
-    if (this->unk324 >= (this->unk32C * 1400.0f)) {
-        this->unk324 = 0.0f;
+void BgDyYoseizo_Revisit_WaitTalkEnd(BgDyYoseizo* this, PlayState* play) {
+    this->yVelocityPhase = this->skelAnime.curFrame * 1400.0f;
+    if (this->yVelocityPhase >= (this->curAnimLastFrame * 1400.0f)) {
+        this->yVelocityPhase = 0.0f;
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk2EE == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
+    if ((this->waitMessageState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        this->unk2F6 = 0;
-        this->actionFunc = func_80873C14;
+        this->mouthTexIndex = 0;
+        this->actionFunc = BgDyYoseizo_SetupDisappear;
         Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
     }
-    func_80872C58(this, play);
-    func_80872960(this, play, 0);
+    BgDyYoseizo_UpdatePosY(this, play);
+    BgDyYoseizo_SpawnEffectsType(this, play, 0);
 }
 
-void func_80873C14(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_SetupDisappear(BgDyYoseizo* this, PlayState* play) {
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        this->unk32C = Animation_GetLastFrame(&gGreatFairyJewelFountainSpinShrinkAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairyJewelFountainSpinShrinkAnim, 1.0f, 0.0f, this->unk32C,
+        this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyJewelFountainSpinShrinkAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairyJewelFountainSpinShrinkAnim, 1.0f, 0.0f, this->curAnimLastFrame,
                          ANIMMODE_ONCE, -10.0f);
     } else {
-        this->unk32C = Animation_GetLastFrame(&gGreatFairySpellFountainSpinShrinkAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairySpellFountainSpinShrinkAnim, 1.0f, 0.0f, this->unk32C,
+        this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairySpellFountainSpinShrinkAnim);
+        Animation_Change(&this->skelAnime, &gGreatFairySpellFountainSpinShrinkAnim, 1.0f, 0.0f, this->curAnimLastFrame,
                          ANIMMODE_ONCE, -10.0f);
     }
-    this->unk2E8 = 5;
-    this->unk318 = 0.0f;
-    this->unk314 = 0.0f;
+    this->disappearTimer = 5;
+    this->scaleApproachFraction = 0.0f;
+    this->yApproachFraction = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
     Actor_PlaySfx(&this->actor, NA_SE_EV_GREAT_FAIRY_VANISH);
-    this->actionFunc = func_80873D14;
+    this->actionFunc = BgDyYoseizo_Disappear;
 }
 
-void func_80873D14(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_Disappear(BgDyYoseizo* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk2E8 == 0) {
-        if (this->unk308 < 0.003f) {
-            this->unk2E8 = 0x1E;
-            this->actionFunc = func_80873E04;
+    if (this->disappearTimer == 0) {
+        if (this->scale < 0.003f) {
+            this->disappearTimer = 30;
+            this->actionFunc = BgDyYoseizo_Kill;
         } else {
-            Math_ApproachF(&this->actor.world.pos.y, this->unk310, this->unk314, 100.0f);
-            Math_ApproachZeroF(&this->unk308, this->unk318, 0.005f);
-            Math_ApproachF(&this->unk314, 0.8f, 0.1f, 0.02f);
-            Math_ApproachF(&this->unk318, 0.2f, 0.03f, 0.05f);
+            Math_ApproachF(&this->actor.world.pos.y, this->homePosY, this->yApproachFraction, 100.0f);
+            Math_ApproachZeroF(&this->scale, this->scaleApproachFraction, 0.005f);
+            Math_ApproachF(&this->yApproachFraction, 0.8f, 0.1f, 0.02f);
+            Math_ApproachF(&this->scaleApproachFraction, 0.2f, 0.03f, 0.05f);
             this->actor.shape.rot.y += 0xBB8;
-            func_80872960(this, play, 0);
+            BgDyYoseizo_SpawnEffectsType(this, play, 0);
         }
     }
 }
 
-void func_80873E04(BgDyYoseizo* this, PlayState* play) {
-    Actor* var_a0;
+void BgDyYoseizo_Kill(BgDyYoseizo* this, PlayState* play) {
+    Actor* actor;
 
-    if (this->unk2E8 == 0) {
+    if (this->disappearTimer == 0) {
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
         play->envCtx.lightSettingOverride = 0;
-        var_a0 = play->actorCtx.actorLists[ACTORCAT_PROP].head;
-        while (var_a0 != NULL) {
-            if (var_a0->id != ACTOR_EN_OKARINA_TAG) {
-                var_a0 = var_a0->next;
+        actor = play->actorCtx.actorLists[ACTORCAT_PROP].head;
+        while (actor != NULL) {
+            if (actor->id != ACTOR_EN_OKARINA_TAG) {
+                actor = actor->next;
             } else {
-                Actor_Kill(var_a0);
+                Actor_Kill(actor);
                 break;
             }
         }
@@ -591,41 +624,41 @@ void func_80873E04(BgDyYoseizo* this, PlayState* play) {
     }
 }
 
-void func_80873EA4(BgDyYoseizo* this, PlayState* play) {
+void BgDyYoseizo_Reward_WaitCutscene(BgDyYoseizo* this, PlayState* play) {
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL) &&
         (play->csCtx.actorCues[0]->id == 2)) {
         this->actor.draw = BgDyYoseizo_Draw;
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
-        this->unk2FE = 0;
+        this->isDoneAppearing = false;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            this->unk32C = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
-            Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->unk32C,
+            this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->curAnimLastFrame,
                              ANIMMODE_ONCE, -10.0f);
         } else {
-            this->unk32C = Animation_GetLastFrame(&gGreatFairyLayingDownTransitionAnim);
-            Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->unk32C,
+            this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyLayingDownTransitionAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->curAnimLastFrame,
                              ANIMMODE_ONCE, -10.0f);
         }
         Actor_PlaySfx(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
-        this->actionFunc = func_80873FD8;
+        this->actionFunc = BgDyYoseizo_Reward_Appear;
     }
 }
 
-void func_80873FD8(BgDyYoseizo* this, PlayState* play) {
-    f32 temp_fv0;
+void BgDyYoseizo_Reward_Appear(BgDyYoseizo* this, PlayState* play) {
+    f32 animPrevFrame;
 
-    temp_fv0 = this->skelAnime.curFrame;
-    if (this->unk2FE == 0) {
-        Math_ApproachF(&this->actor.world.pos.y, this->unk30C, this->unk314, 100.0f);
-        Math_ApproachF(&this->unk308, 0.035f, this->unk318, 0.005f);
-        Math_ApproachF(&this->unk314, 0.8f, 0.1f, 0.02f);
-        Math_ApproachF(&this->unk318, 0.2f, 0.03f, 0.05f);
-        if (this->unk308 >= 0.034f) {
+    animPrevFrame = this->skelAnime.curFrame;
+    if (!this->isDoneAppearing) {
+        Math_ApproachF(&this->actor.world.pos.y, this->aboveFountainY, this->yApproachFraction, 100.0f);
+        Math_ApproachF(&this->scale, 0.035f, this->scaleApproachFraction, 0.005f);
+        Math_ApproachF(&this->yApproachFraction, 0.8f, 0.1f, 0.02f);
+        Math_ApproachF(&this->scaleApproachFraction, 0.2f, 0.03f, 0.05f);
+        if (this->scale >= 0.034f) {
             if ((this->actor.shape.rot.y >= -0x1F3F) && (this->actor.shape.rot.y < 0x3E8)) {
                 SkelAnime_Update(&this->skelAnime);
                 Math_ApproachS(&this->actor.shape.rot.y, 0, 5, 0x3E8);
                 if (fabsf(this->actor.shape.rot.y) < 50.0f) {
-                    this->unk2FE = 1;
+                    this->isDoneAppearing = true;
                 }
             } else {
                 this->actor.shape.rot.y += 0xBB8;
@@ -635,348 +668,345 @@ void func_80873FD8(BgDyYoseizo* this, PlayState* play) {
         }
     } else {
         SkelAnime_Update(&this->skelAnime);
-        if ((this->unk32C <= temp_fv0) && (this->unk2FC == 0)) {
+        if ((this->curAnimLastFrame <= animPrevFrame) && !this->hasSwitchedAnim) {
             if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-                this->unk32C = Animation_GetLastFrame(&gGreatFairySittingAnim);
-                Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
-                                 -10.0f);
+                this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairySittingAnim);
+                Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                                 ANIMMODE_LOOP, -10.0f);
             } else {
-                this->unk32C = Animation_GetLastFrame(&gGreatFairyLayingSidewaysAnim);
-                Animation_Change(&this->skelAnime, &gGreatFairyLayingSidewaysAnim, 1.0f, 0.0f, this->unk32C,
+                this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyLayingSidewaysAnim);
+                Animation_Change(&this->skelAnime, &gGreatFairyLayingSidewaysAnim, 1.0f, 0.0f, this->curAnimLastFrame,
                                  ANIMMODE_LOOP, -10.0f);
             }
-            this->unk2FC = 1;
+            this->hasSwitchedAnim = true;
         }
         if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL) &&
             (play->csCtx.actorCues[0]->id == 3)) {
-            this->unk2FE = this->unk2FC = 0;
+            this->isDoneAppearing = this->hasSwitchedAnim = false;
             if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-                this->unk32C = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
-                Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->unk32C,
+                this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
+                Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->curAnimLastFrame,
                                  ANIMMODE_ONCE, -10.0f);
             } else {
-                this->unk32C = Animation_GetLastFrame(&gGreatFairyAnim_005810);
-                Animation_Change(&this->skelAnime, &gGreatFairyAnim_005810, 1.0f, 0.0f, this->unk32C, ANIMMODE_ONCE,
-                                 -10.0f);
+                this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyGivingSpellAnim);
+                Animation_Change(&this->skelAnime, &gGreatFairyGivingSpellAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                                 ANIMMODE_ONCE, -10.0f);
             }
-            this->unk2F6 = 1;
-            this->actionFunc = func_80874304;
+            this->mouthTexIndex = 1;
+            this->actionFunc = BgDyYoseizo_Reward_GiveReward;
         }
     }
-    func_80872960(this, play, 0);
+    BgDyYoseizo_SpawnEffectsType(this, play, 0);
 }
 
-void func_80874304(BgDyYoseizo* this, PlayState* play) {
-    f32 temp_fv1_sp5C;
+void BgDyYoseizo_Reward_GiveReward(BgDyYoseizo* this, PlayState* play) {
+    f32 animPrevFrame;
     Player* player;
-    s16 var_v1;
-    s16 sp56;
-    Vec3f var_fv1;
+    s16 n;
+    s16 demoEffectParams;
+    Vec3f itemPos;
 
-    temp_fv1_sp5C = this->skelAnime.curFrame;
+    animPrevFrame = this->skelAnime.curFrame;
     player = GET_PLAYER(play);
-    if (this->unk2FC != 0) {
-        this->unk324 = this->skelAnime.curFrame * 1400.0f;
-        if (this->unk324 >= (this->unk32C * 1400.0f)) {
-            this->unk324 = 0.0f;
+    if (this->hasSwitchedAnim) {
+        this->yVelocityPhase = this->skelAnime.curFrame * 1400.0f;
+        if (this->yVelocityPhase >= (this->curAnimLastFrame * 1400.0f)) {
+            this->yVelocityPhase = 0.0f;
         }
     }
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk32C <= temp_fv1_sp5C) && (this->unk2FC == 0)) {
+    if ((this->curAnimLastFrame <= animPrevFrame) && !this->hasSwitchedAnim) {
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
-            Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
-                             -10.0f);
+            this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyAfterUpgradeAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyAfterUpgradeAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                             ANIMMODE_LOOP, -10.0f);
         } else {
-            this->unk32C = Animation_GetLastFrame(&gGreatFairyAfterSpellAnim);
-            Animation_Change(&this->skelAnime, &gGreatFairyAfterSpellAnim, 1.0f, 0.0f, this->unk32C, ANIMMODE_LOOP,
-                             -10.0f);
+            this->curAnimLastFrame = Animation_GetLastFrame(&gGreatFairyAfterSpellAnim);
+            Animation_Change(&this->skelAnime, &gGreatFairyAfterSpellAnim, 1.0f, 0.0f, this->curAnimLastFrame,
+                             ANIMMODE_LOOP, -10.0f);
         }
-        this->unk2FC = 1;
+        this->hasSwitchedAnim = true;
     }
-    if (play->csCtx.actorCues[0]->id == 0xD) {
-        this->actionFunc = func_80873C14;
+    if (play->csCtx.actorCues[0]->id == 13) {
+        this->actionFunc = BgDyYoseizo_SetupDisappear;
         return;
     }
-    if ((play->csCtx.actorCues[0]->id >= 4) && (play->csCtx.actorCues[0]->id < 7)) {
-        var_v1 = play->csCtx.actorCues[0]->id - 4;
+    if ((play->csCtx.actorCues[0]->id >= 4) && (play->csCtx.actorCues[0]->id <= 6)) {
+        n = play->csCtx.actorCues[0]->id - 4;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            var_v1 += 1;
-            func_80872960(this, play, var_v1);
-        } else if (this->unk2E4 == 0) {
-            sp56 = D_808754B0[var_v1] << 0xC;
-            sp56 |= 0x12;
+            n += 1;
+            BgDyYoseizo_SpawnEffectsType(this, play, n);
+        } else if (!this->hasSpawnedDemoEffect) {
+            demoEffectParams = sSpellRewardsDemoEffectLightColor[n] << 12;
+            demoEffectParams |= DEMO_EFFECT_LIGHT;
             Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, 0, 0, 0, sp56);
-            this->unk2E4 = 1;
+                        this->actor.world.pos.z, 0, 0, 0, demoEffectParams);
+            this->hasSpawnedDemoEffect = true;
         }
     } else {
-        func_80872960(this, play, 0);
+        BgDyYoseizo_SpawnEffectsType(this, play, 0);
     }
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        if ((play->csCtx.actorCues[0]->id >= 0xA) && (play->csCtx.actorCues[0]->id < 0xD)) {
-            var_v1 = play->csCtx.actorCues[0]->id - 0xA;
-            switch (var_v1) {
-                case 0:
-                    gSaveContext.save.info.playerData.isMagicAcquired = 1;
+        if ((play->csCtx.actorCues[0]->id >= 10) && (play->csCtx.actorCues[0]->id <= 12)) {
+            n = play->csCtx.actorCues[0]->id - 10;
+            switch (n) {
+                case BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC:
+                    gSaveContext.save.info.playerData.isMagicAcquired = true;
                     gSaveContext.magicFillTarget = 0x30;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
 
-                case 1:
-                    if (gSaveContext.save.info.playerData.isMagicAcquired == 0) {
-                        gSaveContext.save.info.playerData.isMagicAcquired = 1;
+                case BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_MAGIC:
+                    if (!gSaveContext.save.info.playerData.isMagicAcquired) {
+                        gSaveContext.save.info.playerData.isMagicAcquired = true;
                     }
-                    gSaveContext.save.info.playerData.isDoubleMagicAcquired = 1;
+                    gSaveContext.save.info.playerData.isDoubleMagicAcquired = true;
                     gSaveContext.magicFillTarget = 0x60;
                     gSaveContext.save.info.playerData.magicLevel = 0;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
 
-                case 2:
-                    gSaveContext.save.info.playerData.isDoubleDefenseAcquired = 1;
+                case BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_DEFENSE:
+                    gSaveContext.save.info.playerData.isDoubleDefenseAcquired = true;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
             }
-            if (this->unk2E6 == 0) {
+            if (this->energyRefilled) {
                 gSaveContext.healthAccumulator = 0x140;
-                this->unk2E6 = 1;
-                if (var_v1 == 2) {
+                this->energyRefilled = true;
+                if (n == 2) {
                     Magic_Fill(play);
                 }
             }
         }
     }
     if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        if ((play->csCtx.actorCues[0]->id >= 0xE) && (play->csCtx.actorCues[0]->id < 0x11)) {
-            var_v1 = play->csCtx.actorCues[0]->id - 0xE;
-            if (this->unk300 == 0) {
-                var_fv1.x = player->actor.world.pos.x;
+        if ((play->csCtx.actorCues[0]->id >= 14) && (play->csCtx.actorCues[0]->id <= 16)) {
+            n = play->csCtx.actorCues[0]->id - 14;
+            if (!this->hasSpawnedItem) {
+                itemPos.x = player->actor.world.pos.x;
                 if (LINK_IS_ADULT) {
-                    var_fv1.y = player->actor.world.pos.y + 73.0f;
+                    itemPos.y = player->actor.world.pos.y + 73.0f;
                 } else {
-                    var_fv1.y = player->actor.world.pos.y + 53.0f;
+                    itemPos.y = player->actor.world.pos.y + 53.0f;
                 }
-                var_fv1.z = player->actor.world.pos.z;
-                this->unk344 =
-                    (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, var_fv1.x,
-                                                  var_fv1.y, var_fv1.z, 0, 0, 0, D_808754B8[var_v1]);
-                if (this->unk344 != NULL) {
+                itemPos.z = player->actor.world.pos.z;
+                this->item =
+                    (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, itemPos.x,
+                                                  itemPos.y, itemPos.z, 0, 0, 0, sSpellRewardsEnExItemParams[n]);
+                if (this->item != NULL) {
                     if (!gSaveContext.save.info.playerData.isMagicAcquired) {
                         gSaveContext.save.info.playerData.isMagicAcquired = true;
                     } else {
                         Magic_Fill(play);
                     }
-                    this->unk300 = 1;
+                    this->hasSpawnedItem = true;
                     gSaveContext.healthAccumulator = 0x140;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
-                    gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX_18_19_1A] |= D_808754C0[var_v1];
-                    Item_Give(play, D_808754C8[var_v1]);
+                    gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX_SPELLS] |= sSpellRewardsItemGetInfMask[n];
+                    Item_Give(play, sSpellRewardsItem[n]);
                 }
             } else {
-                this->unk344->actor.world.pos.x = player->actor.world.pos.x;
+                this->item->actor.world.pos.x = player->actor.world.pos.x;
                 if (LINK_IS_ADULT) {
-                    this->unk344->actor.world.pos.y = player->actor.world.pos.y + 73.0f;
+                    this->item->actor.world.pos.y = player->actor.world.pos.y + 73.0f;
                 } else {
-                    this->unk344->actor.world.pos.y = player->actor.world.pos.y + 53.0f;
+                    this->item->actor.world.pos.y = player->actor.world.pos.y + 53.0f;
                 }
-                this->unk344->actor.world.pos.z = player->actor.world.pos.z;
-                this->unk344->scale = 0.3f;
+                this->item->actor.world.pos.z = player->actor.world.pos.z;
+                this->item->scale = 0.3f;
             }
         }
     }
-    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id == 0x11)) {
-        if (this->unk344 != NULL) {
-            Actor_Kill(&this->unk344->actor);
-            this->unk344 = NULL;
+    if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id == 17)) {
+        if (this->item != NULL) {
+            Actor_Kill(&this->item->actor);
+            this->item = NULL;
         }
     }
-    if ((play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id == 0x12)) {
-        this->unk2E5 = 1;
+    if ((play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id == 18)) {
+        this->giveDoubleDefense = true;
     }
-    if (this->unk2E5 != 0) {
+    if (this->giveDoubleDefense) {
         if (gSaveContext.save.info.inventory.defenseHearts < 20) {
             gSaveContext.save.info.inventory.defenseHearts += 1;
         }
     }
-    if ((play->csCtx.actorCues[0]->id >= 0x13) && (play->csCtx.actorCues[0]->id < 0x16) && (this->unk304 == 0)) {
-        var_v1 = play->csCtx.actorCues[0]->id - 0xB;
+    if ((play->csCtx.actorCues[0]->id >= 19) && (play->csCtx.actorCues[0]->id <= 21) && (this->unk304 == 0)) {
+        n = play->csCtx.actorCues[0]->id - (19 - WARP_ORANGE);
         Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x, player->actor.world.pos.y,
-                    player->actor.world.pos.z, 0, 0, 0, var_v1);
+                    player->actor.world.pos.z, 0, 0, 0, n);
         this->unk304 = 1;
     }
-    func_80872C58(this, play);
+    BgDyYoseizo_UpdatePosY(this, play);
 }
 
 void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
     PlayState* play = play2;
-    s32 var_v1;
+    s32 sfx;
 
-    this->unk2F0 += 1;
-    if (this->unk2E8 != 0) {
-        this->unk2E8--;
+    this->unk_2F0++;
+    if (this->disappearTimer != 0) {
+        this->disappearTimer--;
     }
-    if (this->unk2F8 != 0) {
-        this->unk2F8--;
+    if (this->eyeTimer != 0) {
+        this->eyeTimer--;
     }
-    if (this->unk2FA != 0) {
-        this->unk2FA--;
+    if (this->unk_2FA != 0) {
+        this->unk_2FA--;
     }
     this->actionFunc(this, play);
     if (play->csCtx.state != CS_STATE_IDLE) {
-        var_v1 = 0;
+        sfx = 0;
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
             if ((play->csCtx.curFrame == 32) || (play->csCtx.curFrame == 291) || (play->csCtx.curFrame == 426) ||
                 (play->csCtx.curFrame == 851)) {
-                var_v1 = 1;
+                sfx = 1;
             }
             if (play->csCtx.curFrame == 101) {
-                var_v1 = 2;
+                sfx = 2;
             }
         } else {
             if ((play->csCtx.curFrame == 35) || (play->csCtx.curFrame == 181) || (play->csCtx.curFrame == 462) ||
                 (play->csCtx.curFrame == 795)) {
-                var_v1 = 1;
+                sfx = 1;
             }
             if (play->csCtx.curFrame == 90) {
-                var_v1 = 2;
+                sfx = 2;
             }
         }
-        if (var_v1 == 1) {
+        if (sfx == 1) {
             Actor_PlaySfx(&this->actor, NA_SE_VO_FR_SMILE_0);
         }
-        if (var_v1 == 2) {
+        if (sfx == 2) {
             Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
         }
     }
-    if ((this->unk2F8 == 0) && (this->actionFunc != func_80873868)) {
-        this->unk2F2 += 1;
-        this->unk2F4 += 1;
-        if (this->unk2F2 >= 3) {
-            this->unk2F4 = 0;
-            this->unk2F2 = this->unk2F4;
-            this->unk2F8 = (s16)Rand_ZeroFloat(60.0f) + 0x14;
+    if ((this->eyeTimer == 0) && (this->actionFunc != BgDyYoseizo_Revisit_RefillPlayerEnergy)) {
+        this->eyeTexIndex += 1;
+        this->unusedEyeTexIndex += 1;
+        if (this->eyeTexIndex >= 3) {
+            this->eyeTexIndex = this->unusedEyeTexIndex = 0;
+            this->eyeTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     Actor_MoveXZGravity(&this->actor);
-    this->unk328 = this->unk308 * 7500.0f;
-    Actor_SetFocus(&this->actor, this->unk328);
-    this->actor.focus.pos.y = this->unk328;
-    Actor_TrackPlayer(play, &this->actor, &this->unk334, &this->unk33A, this->actor.focus.pos);
+    this->focusY = this->scale * 7500.0f;
+    Actor_SetFocus(&this->actor, this->focusY);
+    this->actor.focus.pos.y = this->focusY;
+    Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
     BgDyYoseizo_UpdateEffects(this, play);
-    Actor_SetScale(&this->actor, this->unk308);
+    Actor_SetScale(&this->actor, this->scale);
 }
 
-s32 func_80874B7C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 BgDyYoseizo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BgDyYoseizo* this = thisx;
 
     if (limbIndex == 8) {
-        rot->x += this->unk33A.y;
+        rot->x += this->torsoRot.y;
     }
     if (limbIndex == 15) {
-        rot->x += this->unk334.y;
-        rot->z += this->unk334.z;
+        rot->x += this->headRot.y;
+        rot->z += this->headRot.z;
     }
-    return 0;
+    return false;
 }
 
 void BgDyYoseizo_Draw(Actor* thisx, PlayState* play) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1609);
-    if (this->actionFunc != func_80873E04) {
+    if (this->actionFunc != BgDyYoseizo_Kill) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_808754CC[this->unk2F2]));
-        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(D_808754CC[this->unk2F4]));
-        gSPSegment(POLY_OPA_DISP++, 10, SEGMENTED_TO_VIRTUAL(D_808754D8[this->unk2F6]));
+        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
+        // The model doesn't access segment 9
+        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unusedEyeTexIndex]));
+        gSPSegment(POLY_OPA_DISP++, 10, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthTexIndex]));
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                              func_80874B7C, NULL, this);
+                              BgDyYoseizo_OverrideLimbDraw, NULL, this);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1629);
     BgDyYoseizo_DrawEffects(this, play);
 }
 
-void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, Color_RGB8* arg4,
-                             Color_RGB8* arg5, f32 arg6, s16 arg7, s16 arg8) {
+void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, Color_RGB8* innerColor,
+                             Color_RGB8* outerColor, f32 scale, s16 life, s16 type) {
     BgDyYoseizoEffect* effect;
-    s16 var_v1;
+    s16 i;
 
     effect = this->effects;
-    for (var_v1 = 0; var_v1 < BG_DY_YOSEIZO_EFFECT_COUNT; var_v1++, effect++) {
-        if (effect->unk0 == 0) {
-            effect->unk0 = 1;
-            effect->unk4 = *arg1;
-            effect->unk10 = *arg2;
-            effect->unk1C = *arg3;
-            effect->unk28 = *arg4;
-            effect->unk2E = 0;
-            effect->unk2B = *arg5;
-            effect->unk30 = arg6;
-            effect->unk34 = arg7;
-            effect->unk36 = arg8;
-            effect->unk38 = 0.0f;
-            effect->unk3C = Rand_CenteredFloat(30000.0f);
-            effect->unk40 = 0.0f;
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->active == 0) {
+            effect->active = 1;
+            effect->pos = *pos;
+            effect->vel = *vel;
+            effect->accel = *accel;
+            effect->innerColor = *innerColor;
+            effect->alpha = 0;
+            effect->outerColor = *outerColor;
+            effect->scale = scale;
+            effect->life = life;
+            effect->type = type;
+            effect->pitch = 0.0f;
+            effect->yaw = Rand_CenteredFloat(30000.0f);
+            effect->rot = 0.0f;
             break;
         }
     }
 }
 
 void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, PlayState* play) {
-    s16 var_s5;
+    s16 i;
     Player* player;
-    Vec3f sp94;
-    Vec3f sp88;
+    Vec3f offset;
+    Vec3f vel;
     BgDyYoseizoEffect* effect;
-    f32 temp_fs0;
-    f32 temp_fs1;
+    f32 targetPitch;
+    f32 targetYaw;
 
     effect = this->effects;
     player = GET_PLAYER(play);
-    for (var_s5 = 0; var_s5 < BG_DY_YOSEIZO_EFFECT_COUNT; var_s5++, effect++) {
-        if (effect->unk0 != 0) {
-            effect->unk40 += 3000.0f;
-            if (effect->unk36 == 0) {
-                effect->unk4.x += effect->unk10.x;
-                effect->unk4.y += effect->unk10.y;
-                effect->unk4.z += effect->unk10.z;
-                effect->unk10.x += effect->unk1C.x;
-                effect->unk10.y += effect->unk1C.y;
-                effect->unk10.z += effect->unk1C.z;
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->active != 0) {
+            effect->rot += 3000.0f;
+            if (effect->type == 0) {
+                effect->pos.x += effect->vel.x;
+                effect->pos.y += effect->vel.y;
+                effect->pos.z += effect->vel.z;
+                effect->vel.x += effect->accel.x;
+                effect->vel.y += effect->accel.y;
+                effect->vel.z += effect->accel.z;
             } else {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_HEALING - SFX_FLAG);
-                sp94 = player->actor.world.pos;
-                sp94.y = player->actor.world.pos.y - 150.0f;
-                sp94.z = player->actor.world.pos.z - 50.0f;
-                temp_fs0 = Math_Vec3f_Pitch(&effect->unk4, &sp94);
-                temp_fs1 = Math_Vec3f_Yaw(&effect->unk4, &sp94);
-                Math_ApproachF(&effect->unk38, temp_fs0, 0.9f, 5000.0f);
-                Math_ApproachF(&effect->unk3C, temp_fs1, 0.9f, 5000.0f);
+                offset = player->actor.world.pos;
+                offset.y = player->actor.world.pos.y - 150.0f;
+                offset.z = player->actor.world.pos.z - 50.0f;
+                targetPitch = Math_Vec3f_Pitch(&effect->pos, &offset);
+                targetYaw = Math_Vec3f_Yaw(&effect->pos, &offset);
+                Math_ApproachF(&effect->pitch, targetPitch, 0.9f, 5000.0f);
+                Math_ApproachF(&effect->yaw, targetYaw, 0.9f, 5000.0f);
                 Matrix_Push();
-                Matrix_RotateY(BINANG_TO_RAD_ALT(effect->unk3C), MTXMODE_NEW);
-                Matrix_RotateX(BINANG_TO_RAD_ALT(effect->unk38), MTXMODE_APPLY);
-                sp94.z = 3.0f;
-                sp94.y = 3.0f;
-                sp94.x = 3.0f;
-                Matrix_MultVec3f(&sp94, &sp88);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(effect->yaw), MTXMODE_NEW);
+                Matrix_RotateX(BINANG_TO_RAD_ALT(effect->pitch), MTXMODE_APPLY);
+                offset.x = offset.y = offset.z = 3.0f;
+                Matrix_MultVec3f(&offset, &vel);
                 Matrix_Pop();
-                effect->unk4.x += sp88.x;
-                effect->unk4.y += sp88.y;
-                effect->unk4.z += sp88.z;
+                effect->pos.x += vel.x;
+                effect->pos.y += vel.y;
+                effect->pos.z += vel.z;
             }
         }
-        if (effect->unk34 != 0) {
-            effect->unk34 -= 1;
-            effect->unk2E += 0x1E;
-            if (effect->unk2E >= 0x100) {
-                effect->unk2E = 0xFF;
+        if (effect->life != 0) {
+            effect->life--;
+            effect->alpha += 30;
+            if (effect->alpha > 255) {
+                effect->alpha = 255;
             }
         } else {
-            effect->unk2E -= 0x1E;
-            if (effect->unk2E <= 0) {
-                effect->unk0 = 0;
-                effect->unk2E = effect->unk0;
+            effect->alpha -= 30;
+            if (effect->alpha <= 0) {
+                effect->alpha = effect->active = 0;
             }
         }
     }
@@ -984,7 +1014,7 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, PlayState* play) {
 
 void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
     GraphicsContext* gfxCtx;
-    s16 var_s4;
+    s16 i;
     BgDyYoseizoEffect* effect;
     u8 materialFlag;
 
@@ -993,20 +1023,20 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
     effect = this->effects;
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    for (var_s4 = 0; var_s4 < BG_DY_YOSEIZO_EFFECT_COUNT; var_s4++, effect++) {
-        if (effect->unk0 == 1) {
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->active == 1) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
                 gDPPipeSync(POLY_XLU_DISP++);
                 materialFlag++;
             }
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, effect->unk28.r, effect->unk28.g, effect->unk28.b,
-                            effect->unk2E);
-            gDPSetEnvColor(POLY_XLU_DISP++, effect->unk2B.r, effect->unk2B.g, effect->unk2B.b, 0);
-            Matrix_Translate(effect->unk4.x, effect->unk4.y, effect->unk4.z, MTXMODE_NEW);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, effect->innerColor.r, effect->innerColor.g,
+                            effect->innerColor.b, effect->alpha);
+            gDPSetEnvColor(POLY_XLU_DISP++, effect->outerColor.r, effect->outerColor.g, effect->outerColor.b, 0);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(effect->unk30, effect->unk30, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(effect->unk40, MTXMODE_APPLY);
+            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->rot, MTXMODE_APPLY);
             MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_bg_dy_yoseizo.c", 1810);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleModelDL));
         }
