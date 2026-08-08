@@ -771,7 +771,7 @@ void BgDyYoseizo_Reward_GiveReward(BgDyYoseizo* this, PlayState* play) {
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
                     break;
             }
-            if (this->energyRefilled) {
+            if (!this->energyRefilled) {
                 gSaveContext.healthAccumulator = 0x140;
                 this->energyRefilled = true;
                 if (n == 2) {
