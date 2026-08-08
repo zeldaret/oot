@@ -1,6 +1,7 @@
 #include "z_en_bili.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -24,35 +25,19 @@ void EnBili_Destroy(Actor* thisx, PlayState* play);
 void EnBili_Update(Actor* thisx, PlayState* play2);
 void EnBili_Draw(Actor* thisx, PlayState* play);
 
-void func_809BF9BC(EnBili* this);
-void func_809BFA14(EnBili* this);
-void func_809BFA8C(EnBili* this);
-void func_809BFAE8(EnBili* this);
-void func_809BFB40(EnBili* this);
-void func_809BFB5C(EnBili* this);
-void func_809BFBC4(EnBili* this);
-void func_809BFC48(EnBili* this);
-void func_809BFCE8(EnBili* this);
-void func_809BFD18(EnBili* this);
-void func_809BFD94(EnBili* this, PlayState* play);
-void func_809BFF6C(EnBili* this);
-void func_809C008C(EnBili* this);
-void func_809C0174(EnBili* this, PlayState* play);
-void func_809C0260(EnBili* this, PlayState* play);
-void func_809C02B8(EnBili* this, PlayState* play);
-void func_809C04B4(EnBili* this, PlayState* play);
-void func_809C0570(EnBili* this, PlayState* play);
-void func_809C0600(EnBili* this, PlayState* play);
-void func_809C067C(EnBili* this, PlayState* play);
-void func_809C06E0(EnBili* this, PlayState* play);
-void func_809C0754(EnBili* this, PlayState* play);
-void func_809C0980(EnBili* this, PlayState* play);
-void func_809C09E0(EnBili* this, PlayState* play);
-void func_809C0A70(EnBili* this, PlayState* play);
-void func_809C0E08(EnBili* this, f32 arg1, Vec3f* arg2);
-void func_809C1020(EnBili* this, f32 arg1, Vec3f* arg2);
-void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2);
-s32 EnBili_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx, Gfx** gfx);
+void EnBili_SetupIdle(EnBili* this);
+void EnBili_SetupSpawnedByBari(EnBili* this);
+void EnBili_Idle(EnBili* this, PlayState* play);
+void EnBili_SpawnedByBari(EnBili* this, PlayState* play);
+void EnBili_Electrify(EnBili* this, PlayState* play);
+void EnBili_AscendAway(EnBili* this, PlayState* play);
+void EnBili_ApproachPlayer(EnBili* this, PlayState* play);
+void EnBili_FleePlayer(EnBili* this, PlayState* play);
+void EnBili_SlingshotKnockback(EnBili* this, PlayState* play);
+void EnBili_Damaged(EnBili* this, PlayState* play);
+void EnBili_Die(EnBili* this, PlayState* play);
+void EnBili_Stunned(EnBili* this, PlayState* play);
+void EnBili_Frozen(EnBili* this, PlayState* play);
 
 ActorProfile En_Bili_Profile = {
     /**/ ACTOR_EN_BILI,
@@ -87,46 +72,54 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 9, 28, -20, 30 };
+
+typedef enum EnBiliDamageReaction {
+    EN_BILI_DMG_REACT_NONE,
+    EN_BILI_DMG_REACT_STUN,
+    EN_BILI_DMG_REACT_FIRE,
+    EN_BILI_DMG_REACT_ICE,
+    EN_BILI_DMG_REACT_SLINGSHOT = 0xE,
+    EN_BILI_DMG_REACT_SWORD_SLASH
+} EnBiliDamageReaction;
+
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(0, 0xE),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(1, 0x0),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(2, 0x0),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
-    /* Master sword  */ DMG_ENTRY(2, 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
-    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
-    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
-    /* Light arrow   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(4, 0x2),
-    /* Ice magic     */ DMG_ENTRY(4, 0x3),
-    /* Light magic   */ DMG_ENTRY(0, 0x0),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
-    /* Giant spin    */ DMG_ENTRY(4, 0x0),
-    /* Master spin   */ DMG_ENTRY(2, 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
-    /* Giant jump    */ DMG_ENTRY(8, 0x0),
-    /* Master jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, EN_BILI_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(0, EN_BILI_DMG_REACT_SLINGSHOT),
+    /* Explosive     */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(1, EN_BILI_DMG_REACT_NONE),
+    /* Normal arrow  */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_BILI_DMG_REACT_SWORD_SLASH),
+    /* Master sword  */ DMG_ENTRY(2, EN_BILI_DMG_REACT_SWORD_SLASH),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_BILI_DMG_REACT_SWORD_SLASH),
+    /* Fire arrow    */ DMG_ENTRY(4, EN_BILI_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, EN_BILI_DMG_REACT_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, EN_BILI_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(4, EN_BILI_DMG_REACT_ICE),
+    /* Light magic   */ DMG_ENTRY(0, EN_BILI_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, EN_BILI_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_BILI_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_BILI_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, EN_BILI_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_BILI_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, EN_BILI_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, EN_BILI_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, EN_BILI_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, EN_BILI_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_BILI_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_BILI_DMG_REACT_NONE),
 };
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BIRI, ICHAIN_CONTINUE),
     ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_STOP),
 };
-static Color_RGBA8 D_809C16A0 = { 0xFF, 0xFF, 0xFF, 0xFF };
-static Color_RGBA8 D_809C16A4 = { 0xC8, 0xFF, 0xFF, 0xFF };
 
 void EnBili_Init(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
@@ -134,16 +127,16 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(play, &this->skelAnime, &object_bl_005848_Skel, &object_bl_Anim_0000A4, this->jointTable,
-                   this->morphTable, 5);
+    SkelAnime_Init(play, &this->skelAnime, &gBiriSkel, &object_bl_Anim_0000A4, this->jointTable, this->morphTable,
+                   BIRI_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->unk195 = 0;
-    if (this->actor.params == -1) {
-        func_809BF9BC(this);
+    this->playFlySfx = false;
+    if (this->actor.params == EN_BILI_TYPE_NORMAL) {
+        EnBili_SetupIdle(this);
     } else {
-        func_809BFA14(this);
+        EnBili_SetupSpawnedByBari(this);
     }
 }
 
@@ -153,308 +146,304 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_809BF9BC(EnBili* this) {
+void EnBili_SetupIdle(EnBili* this) {
     this->actor.speed = 0.7f;
     this->collider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_ELECTRIC;
-    this->unk196 = 0x20;
+    this->timer = 32;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->collider.base.atFlags |= AT_ON;
     this->collider.base.acFlags |= AC_ON;
-    this->unk190 = func_809C0174;
+    this->actionFunc = EnBili_Idle;
 }
 
-void func_809BFA14(EnBili* this) {
+void EnBili_SetupSpawnedByBari(EnBili* this) {
     Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
-    this->unk196 = 0x19;
+    this->timer = 25;
     this->actor.velocity.y = 6.0f;
     this->actor.gravity = -0.3f;
     this->actor.speed = 3.0f;
     this->collider.base.atFlags &= ~AT_ON;
-    this->unk190 = func_809C0260;
+    this->actionFunc = EnBili_SpawnedByBari;
 }
 
-void func_809BFA8C(EnBili* this) {
+void EnBili_SetupElectrify(EnBili* this) {
     Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_000024);
-    this->unk196 = 0xA;
-    this->unk190 = func_809C02B8;
+    this->timer = 10;
+    this->actionFunc = EnBili_Electrify;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = -1.0f;
 }
 
-void func_809BFAE8(EnBili* this) {
+void EnBili_SetupAscendAway(EnBili* this) {
     Animation_PlayOnce(&this->skelAnime, &object_bl_Anim_000064);
     this->collider.base.atFlags &= ~AT_ON;
-    this->unk190 = func_809C04B4;
+    this->actionFunc = EnBili_AscendAway;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
 }
 
-void func_809BFB40(EnBili* this) {
+void EnBili_SetupApproachPlayer(EnBili* this) {
     this->actor.speed = 1.2f;
-    this->unk190 = func_809C0570;
+    this->actionFunc = EnBili_ApproachPlayer;
 }
 
-void func_809BFB5C(EnBili* this) {
+void EnBili_SetupFleePlayer(EnBili* this) {
     Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
-    this->unk196 = 0x60;
+    this->timer = 96;
     this->actor.speed = 0.9f;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->collider.base.atFlags |= AT_ON;
-    this->unk190 = func_809C0600;
+    this->actionFunc = EnBili_FleePlayer;
 }
 
-void func_809BFBC4(EnBili* this) {
+void EnBili_SetupSlingshotKnockback(EnBili* this) {
     if (this->skelAnime.animation != &object_bl_Anim_0000A4) {
         Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
     }
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.ac->prevPos) + 0x8000;
     this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->collider.base.ac->prevPos);
-    this->unk190 = func_809C067C;
+    this->actionFunc = EnBili_SlingshotKnockback;
     this->actor.speed = 5.0f;
 }
 
-void func_809BFC48(EnBili* this) {
-    if (this->unk190 == func_809C04B4) {
+void EnBili_SetupDamaged(EnBili* this) {
+    if (this->actionFunc == EnBili_AscendAway) {
         Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
     }
-    this->unk196 = 0x14;
+    this->timer = 20;
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 20);
-    this->unk190 = func_809C06E0;
+    this->actionFunc = EnBili_Damaged;
 }
 
-void func_809BFCE8(EnBili* this) {
-    this->unk196 = 0x12;
+void EnBili_SetupDie(EnBili* this) {
+    this->timer = 18;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->unk190 = func_809C0754;
+    this->actionFunc = EnBili_Die;
     this->actor.speed = 0.0f;
 }
 
-void func_809BFD18(EnBili* this) {
-    this->unk196 = 0x50;
+void EnBili_SetupStunned(EnBili* this) {
+    this->timer = 80;
     this->collider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_NONE;
     this->actor.gravity = -1.0f;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->collider.base.atFlags &= ~AT_ON;
-    this->unk190 = func_809C0980;
+    this->actionFunc = EnBili_Stunned;
 }
 
-void func_809BFD94(EnBili* this, PlayState* play) {
-    s32 var_s0;
-    Vec3f sp80;
+void EnBili_SetupFrozen(EnBili* this, PlayState* play) {
+    s32 i;
+    Vec3f effPos;
 
     if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         this->actor.gravity = -1.0f;
     }
     this->actor.velocity.y = 0.0f;
-    sp80.y = this->actor.world.pos.y - 15.0f;
-    for (var_s0 = 0; var_s0 < 8; var_s0++) {
-        sp80.x = ((var_s0 & 1) ? 7.0f : -7.0f) + this->actor.world.pos.x;
-        sp80.y += 2.5f;
-        sp80.z = ((var_s0 & 4) ? 7.0f : -7.0f) + this->actor.world.pos.z;
-        EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &sp80, 150, 150, 150, 250, 235, 245, 255,
+    effPos.y = this->actor.world.pos.y - 15.0f;
+    for (i = 0; i < 8; i++) {
+        effPos.x = ((i & 1) ? 7.0f : -7.0f) + this->actor.world.pos.x;
+        effPos.y += 2.5f;
+        effPos.z = ((i & 4) ? 7.0f : -7.0f) + this->actor.world.pos.z;
+        EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effPos, 150, 150, 150, 250, 235, 245, 255,
                                        (Rand_ZeroOne() * 0.2f) + 0.7f);
     }
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 10);
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->unk196 = 0x12C;
-    this->unk190 = func_809C09E0;
+    this->timer = 300;
+    this->actionFunc = EnBili_Frozen;
 }
 
-void func_809BFF6C(EnBili* this) {
-    s16 temp_v1_2;
-    s16 temp_v1_4;
-    s16 temp_ft1;
-    s16 temp_v1_3;
+void EnBili_UpdateTentaclesTexIndex(EnBili* this) {
+    s16 n;
+    s16 animCurFrame;
 
-    temp_ft1 = this->skelAnime.curFrame;
-    if (this->unk190 == func_809C02B8) {
-        temp_v1_2 = 3 - temp_ft1;
-        this->unk194 = (ABS(temp_v1_2) + 5) % 8;
-    } else if (this->unk190 == func_809C04B4) {
-        temp_v1_3 = temp_ft1 >> 1;
-        if (temp_ft1 < 0xA) {
-            if (temp_v1_3 >= 4) {
-                this->unk194 = 3;
+    animCurFrame = this->skelAnime.curFrame;
+    if (this->actionFunc == EnBili_Electrify) {
+        n = 3 - animCurFrame;
+        this->tentaclesTexIndex = (ABS(n) + 5) % 8;
+    } else if (this->actionFunc == EnBili_AscendAway) {
+        n = animCurFrame >> 1;
+        if (animCurFrame < 10) {
+            if (n >= 4) {
+                this->tentaclesTexIndex = 3;
             } else {
-                this->unk194 = temp_v1_3;
+                this->tentaclesTexIndex = n;
             }
-        } else if (temp_ft1 < 0x13) {
-            temp_v1_4 = 0x11 - temp_ft1;
-            this->unk194 = CLAMP_MIN(temp_v1_4, 0) >> 1;
-        } else if (temp_ft1 < 0x25) {
-            this->unk194 = ((0x24 - temp_ft1) / 3) + 2;
+        } else if (animCurFrame < 19) {
+            n = 17 - animCurFrame;
+            this->tentaclesTexIndex = CLAMP_MIN(n, 0) >> 1;
+        } else if (animCurFrame < 37) {
+            this->tentaclesTexIndex = ((36 - animCurFrame) / 3) + 2;
         } else {
-            this->unk194 = (0x28 - temp_ft1) >> 1;
+            this->tentaclesTexIndex = (40 - animCurFrame) >> 1;
         }
     } else {
-        this->unk194 = temp_ft1 >> 1;
+        this->tentaclesTexIndex = animCurFrame >> 1;
     }
 }
 
-void func_809C008C(EnBili* this) {
-    f32 temp_fv0;
-    f32 temp_fv1;
-    f32 var_fa0;
-    f32 var_fa1;
+void EnBili_UpdateMovement(EnBili* this) {
+    f32 playerY;
+    f32 floorY;
+    f32 targetY;
+    f32 targetYOffset;
 
-    temp_fv0 = this->actor.world.pos.y + this->actor.yDistToPlayer;
-    if (this->unk190 == func_809C0600) {
-        var_fa1 = 100.0f;
+    playerY = this->actor.world.pos.y + this->actor.yDistToPlayer;
+    if (this->actionFunc == EnBili_FleePlayer) {
+        targetYOffset = 100.0f;
     } else {
-        var_fa1 = 40.0f;
+        targetYOffset = 40.0f;
     }
-    temp_fv1 = this->actor.floorHeight;
-    if (temp_fv1 < temp_fv0) {
-        var_fa0 = temp_fv0;
-    } else {
-        var_fa0 = temp_fv1;
-    }
-    Math_StepToF(&this->actor.home.pos.y, var_fa0 + var_fa1, 1.0f);
-    this->actor.world.pos.y = (sinf(this->unk196 * 0.19634955f) * 3.0f) + this->actor.home.pos.y;
+    floorY = this->actor.floorHeight;
+    targetY = MAX(playerY, floorY);
+    Math_StepToF(&this->actor.home.pos.y, targetY + targetYOffset, 1.0f);
+    this->actor.world.pos.y = (sinf(this->timer * 0.19634955f) * 3.0f) + this->actor.home.pos.y;
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actor.world.rot.y = this->actor.wallYaw;
     }
 }
 
-void func_809C0174(EnBili* this, PlayState* play) {
+void EnBili_Idle(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk196 != 0) {
-        this->unk196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (!(this->unk196 % 4)) {
+    if (!(this->timer % 4)) {
         this->actor.world.rot.y += Rand_CenteredFloat(1820.0f);
     }
-    func_809C008C(this);
-    if (this->unk196 == 0) {
-        this->unk196 = 0x20;
+    EnBili_UpdateMovement(this);
+    if (this->timer == 0) {
+        this->timer = 32;
     }
     if ((this->actor.xzDistToPlayer < 160.0f) && (fabsf(this->actor.yDistToPlayer) < 45.0f)) {
-        func_809BFB40(this);
+        EnBili_SetupApproachPlayer(this);
     }
 }
 
-void func_809C0260(EnBili* this, PlayState* play) {
+void EnBili_SpawnedByBari(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk196 != 0) {
-        this->unk196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (this->unk196 == 0) {
-        func_809BF9BC(this);
+    if (this->timer == 0) {
+        EnBili_SetupIdle(this);
     }
 }
 
-void func_809C02B8(EnBili* this, PlayState* play) {
-    s16 temp_s1;
-    Vec3f sp78;
-    s32 var_s0;
+void EnBili_Electrify(EnBili* this, PlayState* play) {
+    static Color_RGBA8 sEffEnvColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 sEffPrimColor = { 200, 255, 255, 255 };
+    s16 effYaw;
+    Vec3f effPos;
+    s32 i;
 
-    for (var_s0 = 0; var_s0 < 4; var_s0++) {
-        if (!((s32)(this->unk196 + (var_s0 << 1)) % 4)) {
-            temp_s1 = (s16)Rand_CenteredFloat(12288.0f) + (var_s0 * 0x4000) + 0x2000;
-            sp78.x = Rand_CenteredFloat(5.0f) + this->actor.world.pos.x;
-            sp78.y = (Rand_ZeroOne() * 5.0f) + this->actor.world.pos.y + 2.5f;
-            sp78.z = Rand_CenteredFloat(5.0f) + this->actor.world.pos.z;
-            EffectSsLightning_Spawn(play, (Vec3f*)&sp78, &D_809C16A0, &D_809C16A4, 0xF, (s16)(s32)temp_s1, 6, 2);
+    for (i = 0; i < 4; i++) {
+        if (!((s32)(this->timer + (i << 1)) % 4)) {
+            effYaw = (s16)Rand_CenteredFloat(12288.0f) + (i * 0x4000) + 0x2000;
+            effPos.x = Rand_CenteredFloat(5.0f) + this->actor.world.pos.x;
+            effPos.y = (Rand_ZeroOne() * 5.0f) + this->actor.world.pos.y + 2.5f;
+            effPos.z = Rand_CenteredFloat(5.0f) + this->actor.world.pos.z;
+            EffectSsLightning_Spawn(play, &effPos, &sEffEnvColor, &sEffPrimColor, 15, effYaw, 6, 2);
         }
     }
     SkelAnime_Update(&this->skelAnime);
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
-    if (this->unk196 != 0) {
-        this->unk196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
     this->actor.velocity.y *= -1.0f;
-    if ((this->unk196 == 0) && Animation_OnFrame(&this->skelAnime, 0.0f)) {
-        if (this->actor.params == 1) {
-            func_809BFCE8(this);
+    if ((this->timer == 0) && Animation_OnFrame(&this->skelAnime, 0.0f)) {
+        if (this->actor.params == EN_BILI_TYPE_DIE_AFTER_ELECTRIFY) {
+            EnBili_SetupDie(this);
         } else {
-            func_809BFAE8(this);
+            EnBili_SetupAscendAway(this);
         }
     }
 }
 
-void func_809C04B4(EnBili* this, PlayState* play) {
+void EnBili_AscendAway(EnBili* this, PlayState* play) {
     s32 animFinished;
-    f32 sp28;
+    f32 animCurFrame;
 
     animFinished = SkelAnime_Update(&this->skelAnime);
-    sp28 = this->skelAnime.curFrame;
+    animCurFrame = this->skelAnime.curFrame;
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
-        Actor_PlaySfx(&this->actor, 0x3899U);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_JUMP);
     }
-    if (sp28 > 9.0f) {
+    if (animCurFrame > 9.0f) {
         Math_ApproachF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToPlayer + 100.0f, 0.5f,
                        5.0f);
     }
     if (animFinished) {
-        func_809BFB5C(this);
+        EnBili_SetupFleePlayer(this);
     }
 }
 
-void func_809C0570(EnBili* this, PlayState* play) {
+void EnBili_ApproachPlayer(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x71C);
-    if (this->unk196 != 0) {
-        this->unk196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    func_809C008C(this);
-    if (this->unk196 == 0) {
-        this->unk196 = 0x20;
+    EnBili_UpdateMovement(this);
+    if (this->timer == 0) {
+        this->timer = 32;
     }
     if (this->actor.xzDistToPlayer > 200.0f) {
-        func_809BF9BC(this);
+        EnBili_SetupIdle(this);
     }
 }
 
-void func_809C0600(EnBili* this, PlayState* play) {
+void EnBili_FleePlayer(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk196 != 0) {
-        this->unk196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
     Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0x38E);
-    func_809C008C(this);
-    if (this->unk196 == 0) {
-        func_809BF9BC(this);
+    EnBili_UpdateMovement(this);
+    if (this->timer == 0) {
+        EnBili_SetupIdle(this);
     }
 }
 
-void func_809C067C(EnBili* this, PlayState* play) {
+void EnBili_SlingshotKnockback(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (Math_StepToF(&this->actor.speed, 0.0f, 0.3f) != 0) {
+    if (Math_StepToF(&this->actor.speed, 0.0f, 0.3f)) {
         this->actor.world.rot.y += 0x8000;
-        func_809BF9BC(this);
+        EnBili_SetupIdle(this);
     }
 }
 
-void func_809C06E0(EnBili* this, PlayState* play) {
+void EnBili_Damaged(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
-        this->actor.colorFilterTimer = 0x14;
+        this->actor.colorFilterTimer = 20;
     } else {
-        if (this->unk196 != 0) {
-            this->unk196--;
+        if (this->timer != 0) {
+            this->timer--;
         }
-        if (this->unk196 == 0) {
-            func_809BFCE8(this);
+        if (this->timer == 0) {
+            EnBili_SetupDie(this);
         }
     }
 }
 
-void func_809C0754(EnBili* this, PlayState* play) {
-    static Vec3f D_809C16A8 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_809C16B4 = { 0.0f, 0.0f, 0.0f };
-    s16 temp_s0;
-    Vec3f sp78;
-    s32 var_s1;
+void EnBili_Die(EnBili* this, PlayState* play) {
+    static Vec3f sEffVel = { 0.0f, 0.0f, 0.0f };
+    static Vec3f sEffAccel = { 0.0f, 0.0f, 0.0f };
+    s16 effScale;
+    Vec3f effPos;
+    s32 i;
 
     if (this->actor.draw != NULL) {
         if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
@@ -465,51 +454,45 @@ void func_809C0754(EnBili* this, PlayState* play) {
             return;
         }
     }
-    if (this->unk196 != 0) {
-        this->unk196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (this->unk196 != 0) {
-        for (var_s1 = 0; var_s1 < 2; var_s1++) {
-            sp78.x = (Rand_ZeroOne() * 10.0f) + this->actor.world.pos.x - 5.0f;
-            sp78.y = (Rand_ZeroOne() * 5.0f) + this->actor.world.pos.y - 2.5f;
-            sp78.z = (Rand_ZeroOne() * 10.0f) + this->actor.world.pos.z - 5.0f;
-            D_809C16A8.y = Rand_ZeroOne() + 1.0f;
-            temp_s0 = Rand_S16Offset(0x28, 0x28);
+    if (this->timer != 0) {
+        for (i = 0; i < 2; i++) {
+            effPos.x = (Rand_ZeroOne() * 10.0f) + this->actor.world.pos.x - 5.0f;
+            effPos.y = (Rand_ZeroOne() * 5.0f) + this->actor.world.pos.y - 2.5f;
+            effPos.z = (Rand_ZeroOne() * 10.0f) + this->actor.world.pos.z - 5.0f;
+            sEffVel.y = Rand_ZeroOne() + 1.0f;
+            effScale = Rand_S16Offset(40, 40);
             if (Rand_ZeroOne() < 0.7f) {
-                EffectSsDtBubble_SpawnColorProfile(play, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 2, 1);
+                EffectSsDtBubble_SpawnColorProfile(play, &effPos, &sEffVel, &sEffAccel, effScale, 25, 2, 1);
             } else {
-                EffectSsDtBubble_SpawnColorProfile(play, (Vec3f*)&sp78, &D_809C16A8, &D_809C16B4, temp_s0, 0x19, 0, 1);
+                EffectSsDtBubble_SpawnColorProfile(play, &effPos, &sEffVel, &sEffAccel, effScale, 25, 0, 1);
             }
         }
     } else {
         Actor_Kill(&this->actor);
     }
-    if (this->unk196 == 0xE) {
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 0x28, NA_SE_EN_BIRI_BUBLE);
+    if (this->timer == 14) {
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_BIRI_BUBLE);
     }
 }
 
-static Vec3f D_809C16C0 = { 1.0f, 1.0f, 1.0f };
-static s32 D_809C16CC[9] = {
-    0x06000E08, 0x06001708, 0x06002008, 0x06002908, 0x06003208, 0x06003B08, 0x06004408, 0x06004D08, 0,
-};
-#include "assets/overlays/ovl_En_Bili/ovl_En_Bili.c"
-
-void func_809C0980(EnBili* this, PlayState* play) {
-    if (this->unk196 != 0) {
-        this->unk196--;
+void EnBili_Stunned(EnBili* this, PlayState* play) {
+    if (this->timer != 0) {
+        this->timer--;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
     }
-    if (this->unk196 == 0) {
-        func_809BF9BC(this);
+    if (this->timer == 0) {
+        EnBili_SetupIdle(this);
     }
 }
 
-void func_809C09E0(EnBili* this, PlayState* play) {
-    if (this->unk196 != 0) {
-        this->unk196--;
+void EnBili_Frozen(EnBili* this, PlayState* play) {
+    if (this->timer != 0) {
+        this->timer--;
     }
     if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         this->actor.gravity = -1.0f;
@@ -520,45 +503,45 @@ void func_809C09E0(EnBili* this, PlayState* play) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
 #endif
         this->actor.colorFilterTimer = 0;
-        func_809BFCE8(this);
+        EnBili_SetupDie(this);
     } else {
-        this->actor.colorFilterTimer = 0xA;
+        this->actor.colorFilterTimer = 10;
     }
 }
 
-void func_809C0A70(EnBili* this, PlayState* play) {
+void EnBili_CheckCollide(EnBili* this, PlayState* play) {
     if ((this->actor.colChkInfo.health != 0) && (this->collider.base.acFlags & AC_HIT)) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-        if ((((this->actor.colChkInfo.damageReaction != 0)) || (this->actor.colChkInfo.damage != 0))) {
+        if ((this->actor.colChkInfo.damageReaction != EN_BILI_DMG_REACT_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
-            if (this->actor.colChkInfo.damageReaction == 1) {
-                if (this->unk190 != func_809C0980) {
-                    func_809BFD18(this);
+            if (this->actor.colChkInfo.damageReaction == EN_BILI_DMG_REACT_STUN) {
+                if (this->actionFunc != EnBili_Stunned) {
+                    EnBili_SetupStunned(this);
                 }
-            } else if (this->actor.colChkInfo.damageReaction == 0xF) {
-                if (this->unk190 != func_809C0980) {
+            } else if (this->actor.colChkInfo.damageReaction == EN_BILI_DMG_REACT_SWORD_SLASH) {
+                if (this->actionFunc != EnBili_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 10);
                     if (this->actor.colChkInfo.health == 0) {
-                        this->actor.params = 1;
+                        this->actor.params = EN_BILI_TYPE_DIE_AFTER_ELECTRIFY;
                     }
-                    func_809BFA8C(this);
+                    EnBili_SetupElectrify(this);
                 } else {
-                    func_809BFC48(this);
+                    EnBili_SetupDamaged(this);
                 }
-            } else if (this->actor.colChkInfo.damageReaction == 2) {
-                func_809BFC48(this);
-                this->unk196 = 2;
-            } else if (this->actor.colChkInfo.damageReaction == 3) {
-                func_809BFD94(this, play);
-            } else if (this->actor.colChkInfo.damageReaction == 0xE) {
-                func_809BFBC4(this);
+            } else if (this->actor.colChkInfo.damageReaction == EN_BILI_DMG_REACT_FIRE) {
+                EnBili_SetupDamaged(this);
+                this->timer = 2;
+            } else if (this->actor.colChkInfo.damageReaction == EN_BILI_DMG_REACT_ICE) {
+                EnBili_SetupFrozen(this, play);
+            } else if (this->actor.colChkInfo.damageReaction == EN_BILI_DMG_REACT_SLINGSHOT) {
+                EnBili_SetupSlingshotKnockback(this);
             } else {
-                func_809BFC48(this);
+                EnBili_SetupDamaged(this);
             }
             if (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
@@ -573,23 +556,23 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        func_809BFA8C(this);
+        EnBili_SetupElectrify(this);
     }
-    func_809C0A70(this, play);
-    this->unk190(this, play);
-    if (this->unk190 != func_809C0754) {
-        func_809BFF6C(this);
+    EnBili_CheckCollide(this, play);
+    this->actionFunc(this, play);
+    if (this->actionFunc != EnBili_Die) {
+        EnBili_UpdateTentaclesTexIndex(this);
         if (Animation_OnFrame(&this->skelAnime, 9.0f) &&
-            (((this->unk190 == func_809C0174)) || (this->unk190 == func_809C0600) || (this->unk190 == func_809C0570) ||
-             (this->unk190 == func_809C067C))) {
-            if (this->unk195 != 0) {
-                Actor_PlaySfx(&this->actor, 0x3898U);
-                this->unk195 = 0;
+            ((this->actionFunc == EnBili_Idle) || (this->actionFunc == EnBili_FleePlayer) ||
+             (this->actionFunc == EnBili_ApproachPlayer) || (this->actionFunc == EnBili_SlingshotKnockback))) {
+            if (this->playFlySfx) {
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_FLY);
+                this->playFlySfx = false;
             } else {
-                this->unk195 = 1;
+                this->playFlySfx = true;
             }
         }
-        if (this->unk190 == func_809C067C) {
+        if (this->actionFunc == EnBili_SlingshotKnockback) {
             Actor_MoveXYZ(&this->actor);
         } else {
             Actor_MoveXZGravity(&this->actor);
@@ -608,117 +591,118 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
     }
 }
 
-void func_809C0E08(EnBili* this, f32 arg1, Vec3f* arg2) {
-    f32 temp_fv0;
-    f32 temp_fv0_2;
-    f32 temp_fv1;
+void EnBili_GetHoodLimbScale(EnBili* this, f32 frame, Vec3f* scale) {
+    f32 f;
 
-    if (this->unk190 == func_809C02B8) {
-        arg2->y = 1.0f - (sinf(0.5236092f * arg1) * 0.26f);
-    } else if (this->unk190 == func_809C04B4) {
-        if (arg1 <= 8.0f) {
-            arg2->y = (cosf(0.3926991f * arg1) * 0.15f) + 0.85f;
-        } else if (arg1 <= 18.0f) {
-            temp_fv0 = cosf((arg1 - 8.0f) * 0.31415927f);
-            arg2->y = 1.0f - (0.3f * temp_fv0);
-            arg2->x = (0.2f * temp_fv0) + 0.8f;
+    if (this->actionFunc == EnBili_Electrify) {
+        scale->y = 1.0f - (sinf(0.5236092f * frame) * 0.26f);
+    } else if (this->actionFunc == EnBili_AscendAway) {
+        if (frame <= 8.0f) {
+            scale->y = (cosf(0.3926991f * frame) * 0.15f) + 0.85f;
+        } else if (frame <= 18.0f) {
+            f = cosf((frame - 8.0f) * 0.31415927f);
+            scale->y = 1.0f - (0.3f * f);
+            scale->x = (0.2f * f) + 0.8f;
         } else {
-            temp_fv0_2 = cosf((arg1 - 18.0f) * 0.071314156f);
-            arg2->y = (0.31f * temp_fv0_2) + 1.0f;
-            arg2->x = 1.0f - (0.4f * temp_fv0_2);
+            f = cosf((frame - 18.0f) * 0.071314156f);
+            scale->y = (0.31f * f) + 1.0f;
+            scale->x = 1.0f - (0.4f * f);
         }
-        arg2->z = arg2->x;
-    } else if (this->unk190 == func_809C0980) {
-        temp_fv1 = sinf(this->unk196 * 0.31415927f) * 0.08f;
-        arg2->x -= temp_fv1;
-        arg2->y += temp_fv1;
-        arg2->z -= temp_fv1;
+        scale->z = scale->x;
+    } else if (this->actionFunc == EnBili_Stunned) {
+        f = sinf(this->timer * 0.31415927f) * 0.08f;
+        scale->x -= f;
+        scale->y += f;
+        scale->z -= f;
     } else {
-        arg2->y = (cosf(0.3926991f * arg1) * 0.13f) + 0.87f;
+        scale->y = (cosf(0.3926991f * frame) * 0.13f) + 0.87f;
     }
 }
 
-void func_809C1020(EnBili* this, f32 arg1, Vec3f* arg2) {
-    f32 temp_fv0;
-    f32 temp_fv0_2;
-    f32 temp_fv1;
+void EnBili_GetCoreLimbScale(EnBili* this, f32 frame, Vec3f* scale) {
+    f32 f;
 
-    if (this->unk190 == func_809C02B8) {
-        arg2->y = (sinf(0.5236092f * arg1) * 0.2f) + 1.0f;
-    } else if (this->unk190 == func_809C04B4) {
-        if (arg1 <= 8.0f) {
-            arg2->x = 1.125f - (cosf(0.3926991f * arg1) * 0.125f);
-        } else if (arg1 <= 18.0f) {
-            temp_fv0 = cosf((arg1 - 8.0f) * 0.31415927f);
-            arg2->x = (0.275f * temp_fv0) + 0.975f;
-            arg2->y = 1.25f - (0.25f * temp_fv0);
+    if (this->actionFunc == EnBili_Electrify) {
+        scale->y = (sinf(0.5236092f * frame) * 0.2f) + 1.0f;
+    } else if (this->actionFunc == EnBili_AscendAway) {
+        if (frame <= 8.0f) {
+            scale->x = 1.125f - (cosf(0.3926991f * frame) * 0.125f);
+        } else if (frame <= 18.0f) {
+            f = cosf((frame - 8.0f) * 0.31415927f);
+            scale->x = (0.275f * f) + 0.975f;
+            scale->y = 1.25f - (0.25f * f);
         } else {
-            temp_fv0_2 = cosf((arg1 - 18.0f) * 0.071314156f);
-            arg2->x = 1.0f - (0.3f * temp_fv0_2);
-            arg2->y = (0.48f * temp_fv0_2) + 1.0f;
+            f = cosf((frame - 18.0f) * 0.071314156f);
+            scale->x = 1.0f - (0.3f * f);
+            scale->y = (0.48f * f) + 1.0f;
         }
-        arg2->z = arg2->x;
-    } else if (this->unk190 == func_809C0980) {
-        temp_fv1 = sinf(this->unk196 * 0.31415927f) * 0.08f;
-        arg2->x += temp_fv1;
-        arg2->y -= temp_fv1;
-        arg2->z += temp_fv1;
+        scale->z = scale->x;
+    } else if (this->actionFunc == EnBili_Stunned) {
+        f = sinf(this->timer * 0.31415927f) * 0.08f;
+        scale->x += f;
+        scale->y -= f;
+        scale->z += f;
     } else {
-        arg2->y = 1.1f - (cosf(0.3926991f * arg1) * 0.1f);
+        scale->y = 1.1f - (cosf(0.3926991f * frame) * 0.1f);
     }
 }
 
-void func_809C1240(EnBili* this, f32 arg1, Vec3f* arg2) {
-    f32 temp_fv0;
+void EnBili_GetTentaclesLimbScale(EnBili* this, f32 frame, Vec3f* scale) {
+    f32 f;
 
-    if (this->unk190 == func_809C04B4) {
-        if (arg1 <= 8.0f) {
-            temp_fv0 = cosf(0.3926991f * arg1);
-            arg2->x = 1.125f - (0.125f * temp_fv0);
-            arg2->y = (0.3f * temp_fv0) + 0.7f;
-        } else if (arg1 <= 18.0f) {
-            temp_fv0 = cosf((arg1 - 8.0f) * 0.31415927f);
-            arg2->x = (0.325f * temp_fv0) + 0.925f;
-            arg2->y = 0.95f - (0.55f * temp_fv0);
+    if (this->actionFunc == EnBili_AscendAway) {
+        if (frame <= 8.0f) {
+            f = cosf(0.3926991f * frame);
+            scale->x = 1.125f - (0.125f * f);
+            scale->y = (0.3f * f) + 0.7f;
+        } else if (frame <= 18.0f) {
+            f = cosf((frame - 8.0f) * 0.31415927f);
+            scale->x = (0.325f * f) + 0.925f;
+            scale->y = 0.95f - (0.55f * f);
         } else {
-            temp_fv0 = cosf((arg1 - 18.0f) * 0.071314156f);
-            arg2->x = 1.0f - (0.4f * temp_fv0);
-            arg2->y = (0.52f * temp_fv0) + 1.0f;
+            f = cosf((frame - 18.0f) * 0.071314156f);
+            scale->x = 1.0f - (0.4f * f);
+            scale->y = (0.52f * f) + 1.0f;
         }
-        arg2->z = arg2->x;
+        scale->z = scale->x;
     }
 }
 
-s32 EnBili_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx, Gfx** gfx) {
+s32 EnBili_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                            Gfx** gfx) {
     EnBili* this = thisx;
-    Vec3f sp20;
-    f32 temp_fv0;
+    Vec3f scale = { 1.0f, 1.0f, 1.0f };
+    f32 animCurFrame = this->skelAnime.curFrame;
 
-    sp20 = D_809C16C0;
-    temp_fv0 = this->skelAnime.curFrame;
-    if (arg1 == 3) {
-        func_809C0E08(this, temp_fv0, &sp20);
-    } else if (arg1 == 2) {
-        func_809C1020(this, temp_fv0, &sp20);
-    } else if (arg1 == 4) {
-        func_809C1240(this, temp_fv0, &sp20);
-        arg4->y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000;
+    if (limbIndex == BIRI_LIMB_HOOD) {
+        EnBili_GetHoodLimbScale(this, animCurFrame, &scale);
+    } else if (limbIndex == BIRI_LIMB_CORE) {
+        EnBili_GetCoreLimbScale(this, animCurFrame, &scale);
+    } else if (limbIndex == BIRI_LIMB_TENTACLES) {
+        EnBili_GetTentaclesLimbScale(this, animCurFrame, &scale);
+        rot->y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000;
     }
-    Matrix_Scale(sp20.x, sp20.y, sp20.z, MTXMODE_APPLY);
-    return 0;
+    Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
+    return false;
 }
+
+static void* sTentaclesTextures[8] = {
+    gBiriTentacle0Tex, gBiriTentacle1Tex, gBiriTentacle2Tex, gBiriTentacle3Tex,
+    gBiriTentacle4Tex, gBiriTentacle5Tex, gBiriTentacle6Tex, gBiriTentacle7Tex,
+};
+#include "assets/overlays/ovl_En_Bili/ovl_En_Bili.c"
 
 void EnBili_Draw(Actor* thisx, PlayState* play) {
     EnBili* this = (EnBili*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bili.c", 1521);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    this->unk194 = CLAMP_MAX(this->unk194, 7);
-    gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_809C16CC[this->unk194]));
-    if ((this->unk190 == func_809C02B8) && (this->unk196 & 1)) {
-        gSPSegment(POLY_XLU_DISP++, 9, D_809C16F0);
+    this->tentaclesTexIndex = CLAMP_MAX(this->tentaclesTexIndex, ARRAY_COUNT(sTentaclesTextures) - 1);
+    gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(sTentaclesTextures[this->tentaclesTexIndex]));
+    if ((this->actionFunc == EnBili_Electrify) && (this->timer & 1)) {
+        gSPSegment(POLY_XLU_DISP++, 9, sBariCoreInvertTexCombinerDL);
     } else {
-        gSPSegment(POLY_XLU_DISP++, 9, D_809C1700);
+        gSPSegment(POLY_XLU_DISP++, 9, sBariCoreNormalCombinerDL);
     }
     POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnBili_OverrideLimbDraw,
                                    NULL, this, POLY_XLU_DISP);
