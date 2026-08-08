@@ -107,8 +107,8 @@ void EnBomBowlMan_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnBomBowlMan_SetupAsleepWaitTalk(EnBomBowlMan* this, PlayState* play) {
-    this->curAnimFrameCount = Animation_GetLastFrame(&gBowlingGirlSleepingAnim);
-    Animation_Change(&this->skelAnime, &gBowlingGirlSleepingAnim, 1.0f, 0.0f, this->curAnimFrameCount, ANIMMODE_LOOP,
+    this->curAnimLastFrame = Animation_GetLastFrame(&gBowlingGirlSleepingAnim);
+    Animation_Change(&this->skelAnime, &gBowlingGirlSleepingAnim, 1.0f, 0.0f, this->curAnimLastFrame, ANIMMODE_LOOP,
                      -10.0f);
     this->actor.textId = 0xC0;
     this->waitMessageState = TEXT_STATE_EVENT;
@@ -140,8 +140,8 @@ void EnBomBowlMan_AsleepTalking(EnBomBowlMan* this, PlayState* play) {
 }
 
 void EnBomBowlMan_SetupWakingUpTalking(EnBomBowlMan* this, PlayState* play) {
-    this->curAnimFrameCount = Animation_GetLastFrame(&gBowlingGirlWakingUpAnim);
-    Animation_Change(&this->skelAnime, &gBowlingGirlWakingUpAnim, 1.0f, 0.0f, this->curAnimFrameCount, ANIMMODE_ONCE,
+    this->curAnimLastFrame = Animation_GetLastFrame(&gBowlingGirlWakingUpAnim);
+    Animation_Change(&this->skelAnime, &gBowlingGirlWakingUpAnim, 1.0f, 0.0f, this->curAnimLastFrame, ANIMMODE_ONCE,
                      -10.0f);
     this->eyesState = 1;
     this->actionFunc = EnBomBowlMan_WakingUpTalking;
@@ -174,8 +174,8 @@ void EnBomBowlMan_FinishWakingUpTalking(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->waitMessageState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        this->curAnimFrameCount = Animation_GetLastFrame(&gBowlingGirlHandsOnCounterAnim);
-        Animation_Change(&this->skelAnime, &gBowlingGirlHandsOnCounterAnim, 1.0f, 0.0f, this->curAnimFrameCount,
+        this->curAnimLastFrame = Animation_GetLastFrame(&gBowlingGirlHandsOnCounterAnim);
+        Animation_Change(&this->skelAnime, &gBowlingGirlHandsOnCounterAnim, 1.0f, 0.0f, this->curAnimLastFrame,
                          ANIMMODE_LOOP, -10.0f);
         this->eyesState = 3;
         this->eyesTimer = (s16)Rand_ZeroFloat(60.0f) + 20;

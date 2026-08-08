@@ -338,7 +338,7 @@ const char* DmaMgr_FindFileName(uintptr_t vrom) {
         name++;
     }
     //! @bug Since there is no return, in case the file isn't found, the return value will be a pointer to the end
-    // of gDmaDataTable
+    //! of gDmaDataTable
 #ifdef AVOID_UB
     return "";
 #endif
