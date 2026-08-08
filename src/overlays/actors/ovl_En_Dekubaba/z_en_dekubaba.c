@@ -23,23 +23,23 @@ void EnDekubaba_Destroy(Actor* thisx, PlayState* play);
 void EnDekubaba_Update(Actor* thisx, PlayState* play);
 void EnDekubaba_Draw(Actor* thisx, PlayState* play);
 
-void func_809E5ABC(EnDekubaba* this);
-void func_809E64F4(EnDekubaba* this, PlayState* play);
-void func_809E65A0(EnDekubaba* this, PlayState* play);
-void func_809E6A04(EnDekubaba* this, PlayState* play);
-void func_809E6ED4(EnDekubaba* this, PlayState* play);
-void func_809E7104(EnDekubaba* this, PlayState* play);
-void func_809E738C(EnDekubaba* this, PlayState* play);
-void func_809E7458(EnDekubaba* this, PlayState* play);
-void func_809E77E4(EnDekubaba* this, PlayState* play);
-void func_809E78DC(EnDekubaba* this, PlayState* play);
-void func_809E79EC(EnDekubaba* this, PlayState* play);
-void func_809E7A88(EnDekubaba* this, PlayState* play);
-void func_809E7BB0(EnDekubaba* this, PlayState* play);
-void func_809E7F14(EnDekubaba* this, PlayState* play);
-void func_809E80D8(EnDekubaba* this, PlayState* play);
+void EnDekubaba_SetupWaitPlayerNear(EnDekubaba* this);
+void EnDekubaba_WaitPlayerNear(EnDekubaba* this, PlayState* play);
+void EnDekubaba_ExitGround(EnDekubaba* this, PlayState* play);
+void EnDekubaba_EnterGround(EnDekubaba* this, PlayState* play);
+void EnDekubaba_ChompAir(EnDekubaba* this, PlayState* play);
+void EnDekubaba_Attack(EnDekubaba* this, PlayState* play);
+void EnDekubaba_PrepareAttack(EnDekubaba* this, PlayState* play);
+void EnDekubaba_RecoverFromAttackMiss(EnDekubaba* this, PlayState* play);
+void EnDekubaba_Soothe(EnDekubaba* this, PlayState* play);
+void EnDekubaba_Attacked(EnDekubaba* this, PlayState* play);
+void EnDekubaba_Vulnerable(EnDekubaba* this, PlayState* play);
+void EnDekubaba_Wobble(EnDekubaba* this, PlayState* play);
+void EnDekubaba_DieDropStick(EnDekubaba* this, PlayState* play);
+void EnDekubaba_Die(EnDekubaba* this, PlayState* play);
+void EnDekubaba_DekuStick(EnDekubaba* this, PlayState* play);
 
-static Vec3f D_809E8EA0 = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 ActorProfile En_Dekubaba_Profile = {
     /**/ ACTOR_EN_DEKUBABA,
@@ -63,7 +63,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ACELEM_ON,
             OCELEM_ON,
         },
-        { 1, { { 0, 100, 1000 }, 15 }, 100 },
+        { DEKUBABA_HEAD_LIMB_ROOT, { { 0, 100, 1000 }, 15 }, 100 },
     },
     {
         {
@@ -147,126 +147,128 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 25, 25, MASS_IMMOVABLE };
+
+typedef enum EnDekubabaDamageReaction {
+    EN_DEKUBABA_DMG_REACT_NONE,
+    EN_DEKUBABA_DMG_REACT_STUN,
+    EN_DEKUBABA_DMG_REACT_FIRE,
+    EN_DEKUBABA_DMG_REACT_BOOMERANG = 0xE,
+    EN_DEKUBABA_DMG_REACT_SWORD
+} EnDekubabaDamageReaction;
+
 static DamageTable D_809E8FE0 = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0x0),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(2, 0xE),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(2, 0x0),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
-    /* Master sword  */ DMG_ENTRY(2, 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
-    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
-    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
-    /* Light arrow   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(4, 0x2),
-    /* Ice magic     */ DMG_ENTRY(0, 0x0),
-    /* Light magic   */ DMG_ENTRY(0, 0x0),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0xF),
-    /* Giant spin    */ DMG_ENTRY(4, 0xF),
-    /* Master spin   */ DMG_ENTRY(2, 0xF),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
-    /* Giant jump    */ DMG_ENTRY(8, 0xF),
-    /* Master jump   */ DMG_ENTRY(4, 0xF),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_BOOMERANG),
+    /* Normal arrow  */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Light magic   */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Giant spin    */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Master spin   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Giant jump    */ DMG_ENTRY(8, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Master jump   */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Unknown 1     */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
 };
+
 static DamageTable D_809E9000 = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0x0),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(2, 0xE),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(0, 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
-    /* Master sword  */ DMG_ENTRY(2, 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
-    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
-    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
-    /* Light arrow   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(4, 0x2),
-    /* Ice magic     */ DMG_ENTRY(0, 0x0),
-    /* Light magic   */ DMG_ENTRY(0, 0x0),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0xF),
-    /* Giant spin    */ DMG_ENTRY(4, 0xF),
-    /* Master spin   */ DMG_ENTRY(2, 0xF),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
-    /* Giant jump    */ DMG_ENTRY(8, 0xF),
-    /* Master jump   */ DMG_ENTRY(4, 0xF),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_BOOMERANG),
+    /* Normal arrow  */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Light magic   */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Giant spin    */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Master spin   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Giant jump    */ DMG_ENTRY(8, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Master jump   */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_SWORD),
+    /* Unknown 1     */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
 };
+
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(lockOnArrowOffset, 1500, ICHAIN_STOP),
 };
-static Color_RGBA8 D_809E9024 = { 0x69, 0xFF, 0x69, 0xFF };
-static Color_RGBA8 D_809E9028 = { 0x96, 0xFA, 0x96, 0 };
-static Gfx* D_809E902C[] = {
-    object_dekubaba_DL_001330,
-    object_dekubaba_DL_001628,
-    object_dekubaba_DL_001828,
-};
 
 void EnDekubaba_Init(Actor* thisx, PlayState* play) {
-    s32 var_a0;
+    s32 i;
     EnDekubaba* this = (EnDekubaba*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
-    SkelAnime_Init(play, &this->skelAnime, &object_dekubaba_Skel_002A40, &object_dekubaba_Anim_0002B8, this->jointTable,
-                   this->morphTable, 8);
+    SkelAnime_Init(play, &this->skelAnime, &gDekubabaHeadSkel, &gDekubabaChompAnim, this->jointTable, this->morphTable,
+                   DEKUBABA_HEAD_LIMB_MAX);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
-    if (this->actor.params == 1) {
-        this->unk230 = 2.50f;
-        for (var_a0 = 0; var_a0 < sJntSphInit.count; var_a0++) {
-            this->collider.elements[var_a0].dim.worldSphere.radius =
-                this->collider.elements[var_a0].dim.modelSphere.radius =
-                    sJntSphElementsInit[var_a0].dim.modelSphere.radius * 2.5f;
+    if (this->actor.params == EN_DEKUBABA_TYPE_1) {
+        this->scaleFac = 2.50f;
+        for (i = 0; i < sJntSphInit.count; i++) {
+            this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius =
+                sJntSphElementsInit[i].dim.modelSphere.radius * 2.5f;
         }
         if (!LINK_IS_ADULT) {
-            D_809E9000.table[0x1B] = 4;
+            D_809E9000.table[27] = 4;
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E9000, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
         this->actor.attentionRangeType = ATTENTION_RANGE_2;
     } else {
-        this->unk230 = 1.0f;
-        for (var_a0 = 0; var_a0 < sJntSphInit.count; var_a0++) {
-            this->collider.elements[var_a0].dim.worldSphere.radius =
-                this->collider.elements[var_a0].dim.modelSphere.radius;
+        this->scaleFac = 1.0f;
+        for (i = 0; i < sJntSphInit.count; i++) {
+            this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
         }
         if (!LINK_IS_ADULT) {
-            D_809E8FE0.table[0x1B] = 4;
+            D_809E8FE0.table[27] = 4;
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E8FE0, &sColChkInfoInit);
         this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
         this->actor.attentionRangeType = ATTENTION_RANGE_1;
     }
-    func_809E5ABC(this);
-    this->unk1C6 = 0;
-    this->unk170 = this->actor.home.pos;
-    this->unk234 = NULL;
+    EnDekubaba_SetupWaitPlayerNear(this);
+    this->actionState = 0;
+    this->homePos = this->actor.home.pos;
+    this->floorPoly = NULL;
 }
 
 void EnDekubaba_Destroy(Actor* thisx, PlayState* play) {
@@ -275,7 +277,7 @@ void EnDekubaba_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-void func_809E5A38(EnDekubaba* this) {
+void EnDekubaba_DisableStemColliderAC(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
@@ -283,626 +285,627 @@ void func_809E5A38(EnDekubaba* this) {
     }
 }
 
-void func_809E5ABC(EnDekubaba* this) {
-    ColliderJntSphElement* temp_v0_2;
-    s16 temp_v0;
+void EnDekubaba_SetupWaitPlayerNear(EnDekubaba* this) {
+    ColliderJntSphElement* elem;
     s32 i;
 
-    this->unk1CA_arr[0] = this->unk1CA_arr[1] = this->unk1CA_arr[2] = this->actor.shape.rot.x = -0x4000;
+    this->stemPartsRot[0] = this->stemPartsRot[1] = this->stemPartsRot[2] = this->actor.shape.rot.x = -0x4000;
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.z = this->actor.home.pos.z;
-    this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->unk230);
-    Actor_SetScale(&this->actor, this->unk230 * 0.01f * 0.5f);
+    this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->scaleFac);
+    Actor_SetScale(&this->actor, this->scaleFac * 0.01f * 0.5f);
     this->collider.base.colMaterial = COL_MATERIAL_HARD;
     this->collider.base.acFlags |= AC_HARD;
-    this->unk1C6 = 0x2D;
+    this->actionState = 45;
     for (i = 1; i < 7; i++) {
-        temp_v0_2 = &this->collider.elements[i];
-        temp_v0_2->dim.worldSphere.center.x = this->actor.world.pos.x;
-        temp_v0_2->dim.worldSphere.center.y = (s16)this->actor.world.pos.y - 7;
-        temp_v0_2->dim.worldSphere.center.z = this->actor.world.pos.z;
+        elem = &this->collider.elements[i];
+        elem->dim.worldSphere.center.x = this->actor.world.pos.x;
+        elem->dim.worldSphere.center.y = (s16)this->actor.world.pos.y - 7;
+        elem->dim.worldSphere.center.z = this->actor.world.pos.z;
     }
-    this->unk1C0 = func_809E64F4;
+    this->actionFunc = EnDekubaba_WaitPlayerNear;
 }
 
-void func_809E5D28(EnDekubaba* this) {
+void EnDekubaba_SetupExitGround(EnDekubaba* this) {
     s32 i;
 
-    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8,
-                     Animation_GetLastFrame(&object_dekubaba_Anim_0002B8) * 0.06666667f, 0.0f,
-                     Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_ONCE, 0.0f);
-    this->unk1C6 = 0xF;
+    Animation_Change(&this->skelAnime, &gDekubabaChompAnim, Animation_GetLastFrame(&gDekubabaChompAnim) * 0.06666667f,
+                     0.0f, Animation_GetLastFrame(&gDekubabaChompAnim), ANIMMODE_ONCE, 0.0f);
+    this->actionState = 15;
     for (i = 2; i < 7; i++) {
-        this->collider.elements[i].base.ocElemFlags |= 1;
+        this->collider.elements[i].base.ocElemFlags |= OCELEM_ON;
     }
     this->collider.base.colMaterial = COL_MATERIAL_HIT6;
     this->collider.base.acFlags &= ~AC_HARD;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DUMMY482);
-    this->unk1C0 = func_809E65A0;
+    this->actionFunc = EnDekubaba_ExitGround;
 }
 
-void func_809E5E58(EnDekubaba* this) {
+void EnDekubaba_SetupEnterGround(EnDekubaba* this) {
     s32 i;
 
-    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, -1.5f,
-                     Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), 0.0f, ANIMMODE_ONCE, -3.0f);
-    this->unk1C6 = 0xF;
+    Animation_Change(&this->skelAnime, &gDekubabaChompAnim, -1.5f, Animation_GetLastFrame(&gDekubabaChompAnim), 0.0f,
+                     ANIMMODE_ONCE, -3.0f);
+    this->actionState = 15;
     for (i = 2; i < 7; i++) {
-        this->collider.elements[i].base.ocElemFlags &= ~1;
+        this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }
-    this->unk1C0 = func_809E6A04;
+    this->actionFunc = EnDekubaba_EnterGround;
 }
 
-void func_809E5F44(EnDekubaba* this) {
-    this->unk1C6 = Animation_GetLastFrame(&object_dekubaba_Anim_0002B8) * 2;
-    Animation_MorphToLoop(&this->skelAnime, &object_dekubaba_Anim_0002B8, -3.0f);
-    this->unk1C0 = func_809E6ED4;
+void EnDekubaba_SetupChompAir(EnDekubaba* this) {
+    this->actionState = Animation_GetLastFrame(&gDekubabaChompAnim) * 2;
+    Animation_MorphToLoop(&this->skelAnime, &gDekubabaChompAnim, -3.0f);
+    this->actionFunc = EnDekubaba_ChompAir;
 }
 
-void func_809E5F9C(EnDekubaba* this) {
-    this->unk1C6 = 8;
-    this->unk1C0 = func_809E738C;
+void EnDekubaba_SetupPrepareAttack(EnDekubaba* this) {
+    this->actionState = 8;
+    this->actionFunc = EnDekubaba_PrepareAttack;
     this->skelAnime.playSpeed = 0.0f;
 }
 
-void func_809E5FBC(EnDekubaba* this) {
-    Animation_PlayOnce(&this->skelAnime, &object_dekubaba_Anim_000208);
-    this->unk1C6 = 0;
-    this->unk1C0 = func_809E7104;
+void EnDekubaba_SetupAttack(EnDekubaba* this) {
+    Animation_PlayOnce(&this->skelAnime, &gDekubabaIdleAnim);
+    this->actionState = 0;
+    this->actionFunc = EnDekubaba_Attack;
 }
 
-void func_809E6000(EnDekubaba* this) {
-    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_000208, 1.0f, 15.0f,
-                     Animation_GetLastFrame(&object_dekubaba_Anim_000208), ANIMMODE_ONCE, -3.0f);
-    this->unk1C6 = 0;
-    this->unk1C0 = func_809E7458;
+void EnDekubaba_SetupRecoverFromAttackMiss(EnDekubaba* this) {
+    Animation_Change(&this->skelAnime, &gDekubabaIdleAnim, 1.0f, 15.0f, Animation_GetLastFrame(&gDekubabaIdleAnim),
+                     ANIMMODE_ONCE, -3.0f);
+    this->actionState = 0;
+    this->actionFunc = EnDekubaba_RecoverFromAttackMiss;
 }
 
-void func_809E6078(EnDekubaba* this) {
-    this->unk1C6 = 9;
+void EnDekubaba_SetupSoothe(EnDekubaba* this) {
+    this->actionState = 9;
     this->collider.base.acFlags |= AC_ON;
-    this->unk1C0 = func_809E77E4;
+    this->actionFunc = EnDekubaba_Soothe;
     this->skelAnime.playSpeed = -1.0f;
 }
 
-void func_809E60A8(EnDekubaba* this, s32 arg1) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &object_dekubaba_Anim_000208, -5.0f);
-    this->unk1C6 = arg1;
+typedef enum EnDekubabaAttackedType {
+    EN_DEKUBABA_ATTACKED_TYPE_STRENGTHENED,
+    EN_DEKUBABA_ATTACKED_TYPE_WEAKENED,
+    EN_DEKUBABA_ATTACKED_TYPE_STUNNED
+} EnDekubabaAttackedType;
+
+void EnDekubaba_SetupAttacked(EnDekubaba* this, s32 type) {
+    Animation_MorphToPlayOnce(&this->skelAnime, &gDekubabaIdleAnim, -5.0f);
+    this->actionState = type;
     this->collider.base.acFlags &= ~AC_ON;
-    Actor_SetScale(&this->actor, this->unk230 * 0.01f);
-    if (arg1 == 2) {
+    Actor_SetScale(&this->actor, this->scaleFac * 0.01f);
+    if (type == EN_DEKUBABA_ATTACKED_TYPE_STUNNED) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 155, COLORFILTER_BUFFLAG_OPA, 62);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 42);
     }
-    this->unk1C0 = func_809E78DC;
+    this->actionFunc = EnDekubaba_Attacked;
 }
 
-void func_809E6170(EnDekubaba* this) {
-    this->unk1C6 = 0;
+void EnDekubaba_SetupDieDropStick(EnDekubaba* this) {
+    this->actionState = 0;
     this->skelAnime.playSpeed = 0.0f;
     this->actor.gravity = -0.8f;
     this->actor.velocity.y = 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
-    this->actor.speed = this->unk230 * 3.0f;
+    this->actor.speed = this->scaleFac * 3.0f;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
-    this->unk1C0 = func_809E7BB0;
+    this->actionFunc = EnDekubaba_DieDropStick;
 }
 
-void func_809E61E0(EnDekubaba* this) {
-    Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, -1.5f,
-                     Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), 0.0f, ANIMMODE_ONCE, -3.0f);
+void EnDekubaba_SetupDie(EnDekubaba* this) {
+    Animation_Change(&this->skelAnime, &gDekubabaChompAnim, -1.5f, Animation_GetLastFrame(&gDekubabaChompAnim), 0.0f,
+                     ANIMMODE_ONCE, -3.0f);
     this->collider.base.acFlags &= ~AC_ON;
-    this->unk1C0 = func_809E7F14;
+    this->actionFunc = EnDekubaba_Die;
 }
 
-void func_809E6264(EnDekubaba* this) {
+void EnDekubaba_SetupVulnerable(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
         this->collider.elements[i].base.acElemFlags |= ACELEM_ON;
     }
-    if (this->unk1C6 == 1) {
-        Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, 4.0f, 0.0f,
-                         Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_LOOP, -3.0f);
-        this->unk1C6 = 0x28;
-    } else {
-        Animation_Change(&this->skelAnime, &object_dekubaba_Anim_0002B8, 0.0f, 0.0f,
-                         Animation_GetLastFrame(&object_dekubaba_Anim_0002B8), ANIMMODE_LOOP, -3.0f);
-        this->unk1C6 = 0x3C;
+    if (this->actionState == EN_DEKUBABA_ATTACKED_TYPE_WEAKENED) {
+        Animation_Change(&this->skelAnime, &gDekubabaChompAnim, 4.0f, 0.0f, Animation_GetLastFrame(&gDekubabaChompAnim),
+                         ANIMMODE_LOOP, -3.0f);
+        this->actionState = 40;
+    } else { // EN_DEKUBABA_ATTACKED_TYPE_STUNNED
+        Animation_Change(&this->skelAnime, &gDekubabaChompAnim, 0.0f, 0.0f, Animation_GetLastFrame(&gDekubabaChompAnim),
+                         ANIMMODE_LOOP, -3.0f);
+        this->actionState = 60;
     }
     this->actor.world.pos.x = this->actor.home.pos.x;
-    this->actor.world.pos.y = this->actor.home.pos.y + (60.0f * this->unk230);
+    this->actor.world.pos.y = this->actor.home.pos.y + (60.0f * this->scaleFac);
     this->actor.world.pos.z = this->actor.home.pos.z;
-    this->unk1C0 = func_809E79EC;
+    this->actionFunc = EnDekubaba_Vulnerable;
 }
 
-void func_809E63EC(EnDekubaba* this) {
-    this->unk1C8 = -0x6000;
-    this->unk1CA_arr[2] = -0x5000;
-    this->unk1CA_arr[1] = -0x4800;
-    func_809E5A38(this);
+void EnDekubaba_SetupWobble(EnDekubaba* this) {
+    this->wobbleTarget = -0x6000;
+    this->stemPartsRot[2] = -0x5000;
+    this->stemPartsRot[1] = -0x4800;
+    EnDekubaba_DisableStemColliderAC(this);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 35);
     this->collider.base.acFlags &= ~AC_ON;
-    this->unk1C0 = func_809E7A88;
+    this->actionFunc = EnDekubaba_Wobble;
 }
 
-void func_809E645C(EnDekubaba* this, PlayState* arg1) {
+void EnDekubaba_SetupDekuStick(EnDekubaba* this, PlayState* play) {
     Actor_SetScale(&this->actor, 0.03f);
     this->actor.shape.rot.x -= 0x4000;
     this->actor.shape.yOffset = 1000.0f;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.shape.shadowScale = 3.0f;
-    Actor_ChangeCategory(arg1, &arg1->actorCtx, &this->actor, ACTORCAT_MISC);
+    Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_MISC);
     this->actor.flags &= ~ACTOR_FLAG_DRAW_CULLING_DISABLED;
-    this->unk1C6 = 0xC8;
-    this->unk1C0 = func_809E80D8;
+    this->actionState = 200;
+    this->actionFunc = EnDekubaba_DekuStick;
 }
 
-void func_809E64F4(EnDekubaba* this, PlayState* arg1) {
-    if (this->unk1C6 != 0) {
-        this->unk1C6 -= 1;
+void EnDekubaba_WaitPlayerNear(EnDekubaba* this, PlayState* play) {
+    if (this->actionState != 0) {
+        this->actionState--;
     }
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.z = this->actor.home.pos.z;
-    this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->unk230);
-    if ((this->unk1C6 == 0) && (this->actor.xzDistToPlayer < (200.0f * this->unk230)) &&
-        (fabsf(this->actor.yDistToPlayer) < (30.0f * this->unk230))) {
-        func_809E5D28(this);
+    this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->scaleFac);
+    if ((this->actionState == 0) && (this->actor.xzDistToPlayer < (200.0f * this->scaleFac)) &&
+        (fabsf(this->actor.yDistToPlayer) < (30.0f * this->scaleFac))) {
+        EnDekubaba_SetupExitGround(this);
     }
 }
 
-void func_809E65A0(EnDekubaba* this, PlayState* play) {
-    Actor* sp64;
-    f32 var_fa0;
-    f32 sp5C;
-    f32 sp58;
-    f32 temp_ft5;
+void EnDekubaba_ExitGround(EnDekubaba* this, PlayState* play) {
+    Player* player;
+    f32 dxz;
+    f32 dy;
+    f32 dx;
+    f32 dz;
 
-    sp64 = play->actorCtx.actorLists[2].head;
+    player = GET_PLAYER(play);
 
-    if (this->unk1C6 != 0) {
-        this->unk1C6--;
+    if (this->actionState != 0) {
+        this->actionState--;
     }
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->unk230 * 0.01f * (0.5f + (((0xF - this->unk1C6) * 0.5f) / 15.0f));
+        this->scaleFac * 0.01f * (0.5f + (((15 - this->actionState) * 0.5f) / 15.0f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
-    sp5C = (sinf(CLAMP_MAX(((0xF - this->unk1C6)) * 0.06666667014f, 0.7f) * 3.1415927f) * 32.0f) + 14.0f;
+    dy = (sinf(CLAMP_MAX(((15 - this->actionState)) * 0.06666667014f, 0.7f) * 3.1415927f) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
-        var_fa0 = 0.0f;
+        dxz = 0.0f;
     } else if (this->actor.shape.rot.x < -0x238E) {
-        Math_ScaledStepToS(&this->unk1CA_arr[0], -0x5555, 0x38E);
-        var_fa0 = 20.0f * Math_CosS(this->unk1CA_arr[0]);
+        Math_ScaledStepToS(&this->stemPartsRot[0], -0x5555, 0x38E);
+        dxz = 20.0f * Math_CosS(this->stemPartsRot[0]);
     } else if (this->actor.shape.rot.x < -0xE38) {
-        Math_ScaledStepToS(&this->unk1CA_arr[0], -0xAAA, 0x38E);
-        Math_ScaledStepToS(&this->unk1CA_arr[1], -0x5555, 0x38E);
-        Math_ScaledStepToS(&this->unk1CA_arr[2], -0x5555, 0x222);
-        var_fa0 = (20.0f * (Math_CosS(this->unk1CA_arr[0]) + Math_CosS(this->unk1CA_arr[1]))) +
-                  (((sp5C - (20.0f * (-Math_SinS(this->unk1CA_arr[0]) - Math_SinS(this->unk1CA_arr[1])))) *
-                    Math_CosS(this->unk1CA_arr[2])) /
-                   -Math_SinS(this->unk1CA_arr[2]));
+        Math_ScaledStepToS(&this->stemPartsRot[0], -0xAAA, 0x38E);
+        Math_ScaledStepToS(&this->stemPartsRot[1], -0x5555, 0x38E);
+        Math_ScaledStepToS(&this->stemPartsRot[2], -0x5555, 0x222);
+        dxz = (20.0f * (Math_CosS(this->stemPartsRot[0]) + Math_CosS(this->stemPartsRot[1]))) +
+              (((dy - (20.0f * (-Math_SinS(this->stemPartsRot[0]) - Math_SinS(this->stemPartsRot[1])))) *
+                Math_CosS(this->stemPartsRot[2])) /
+               -Math_SinS(this->stemPartsRot[2]));
     } else {
-        Math_ScaledStepToS(&this->unk1CA_arr[0], -0xAAA, 0x38E);
-        Math_ScaledStepToS(&this->unk1CA_arr[1], -0x31C7, 0x222);
-        Math_ScaledStepToS(&this->unk1CA_arr[2], -0x5555, 0x222);
-        var_fa0 = (20.0f * (Math_CosS(this->unk1CA_arr[0]) + Math_CosS(this->unk1CA_arr[1]))) +
-                  (((sp5C - (20.0f * (-Math_SinS(this->unk1CA_arr[0]) - Math_SinS(this->unk1CA_arr[1])))) *
-                    Math_CosS(this->unk1CA_arr[2])) /
-                   -Math_SinS(this->unk1CA_arr[2]));
+        Math_ScaledStepToS(&this->stemPartsRot[0], -0xAAA, 0x38E);
+        Math_ScaledStepToS(&this->stemPartsRot[1], -0x31C7, 0x222);
+        Math_ScaledStepToS(&this->stemPartsRot[2], -0x5555, 0x222);
+        dxz = (20.0f * (Math_CosS(this->stemPartsRot[0]) + Math_CosS(this->stemPartsRot[1]))) +
+              (((dy - (20.0f * (-Math_SinS(this->stemPartsRot[0]) - Math_SinS(this->stemPartsRot[1])))) *
+                Math_CosS(this->stemPartsRot[2])) /
+               -Math_SinS(this->stemPartsRot[2]));
     }
 
-    if (this->unk1C6 < 0xA) {
-        Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &sp64->world.pos), 2, 0xE38);
+    if (this->actionState < 10) {
+        Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2,
+                       0xE38);
     }
 
-    this->actor.world.pos.y = this->actor.home.pos.y + (sp5C * this->unk230);
-    sp58 = Math_SinS(this->actor.shape.rot.y) * (var_fa0 * this->unk230);
-    temp_ft5 = var_fa0;
-    temp_ft5 = Math_CosS(this->actor.shape.rot.y) * (temp_ft5 * this->unk230);
-    this->actor.world.pos.x = this->actor.home.pos.x + sp58;
-    this->actor.world.pos.z = this->actor.home.pos.z + temp_ft5;
-    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
-                             this->unk230 * 5.0f, 1, -1, 10, NULL);
-    if (this->unk1C6 == 0) {
-        if (Math_Vec3f_DistXZ(&this->actor.home.pos, &sp64->world.pos) < (240.0f * this->unk230)) {
-            func_809E5F9C(this);
+    this->actor.world.pos.y = this->actor.home.pos.y + (dy * this->scaleFac);
+    dx = dxz * this->scaleFac * Math_SinS(this->actor.shape.rot.y);
+    dz = dxz;
+    dz = dz * this->scaleFac * Math_CosS(this->actor.shape.rot.y);
+    this->actor.world.pos.x = this->actor.home.pos.x + dx;
+    this->actor.world.pos.z = this->actor.home.pos.z + dz;
+    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->scaleFac * 3.0f, 0, this->scaleFac * 12.0f,
+                             this->scaleFac * 5.0f, 1, -1, 10, NULL);
+    if (this->actionState == 0) {
+        if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < (240.0f * this->scaleFac)) {
+            EnDekubaba_SetupPrepareAttack(this);
         } else {
-            func_809E5E58(this);
+            EnDekubaba_SetupEnterGround(this);
         }
     }
 }
 
-void func_809E6A04(EnDekubaba* this, PlayState* play) {
-    f32 var_fa0;
-    f32 sp58;
-    f32 sp54;
-    f32 temp_ft5;
+void EnDekubaba_EnterGround(EnDekubaba* this, PlayState* play) {
+    f32 dxz;
+    f32 dy;
+    f32 dx;
+    f32 dz;
 
-    if (this->unk1C6 != 0) {
-        this->unk1C6 -= 1;
+    if (this->actionState != 0) {
+        this->actionState--;
     }
     SkelAnime_Update(&this->skelAnime);
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->unk230 * 0.01f * (0.5f + (this->unk1C6 * 0.033333335f));
+        this->scaleFac * 0.01f * (0.5f + (this->actionState * 0.033333335f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
-    sp58 = (sinf(CLAMP_MAX(this->unk1C6 * 0.033f, 0.7f) * 3.1415927f) * 32.0f) + 14.0f;
+    dy = (sinf(CLAMP_MAX(this->actionState * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
     if (this->actor.shape.rot.x < -0x38E3) {
-        var_fa0 = 0.0f;
+        dxz = 0.0f;
     } else if (this->actor.shape.rot.x < -0x238E) {
-        Math_ScaledStepToS(&this->unk1CA_arr[0], -0x4000, 0x555);
-        var_fa0 = Math_CosS(this->unk1CA_arr[0]) * 20.0f;
+        Math_ScaledStepToS(&this->stemPartsRot[0], -0x4000, 0x555);
+        dxz = Math_CosS(this->stemPartsRot[0]) * 20.0f;
     } else if (this->actor.shape.rot.x < -0xE38) {
-        Math_ScaledStepToS(&this->unk1CA_arr[0], -0x5555, 0x555);
-        Math_ScaledStepToS(&this->unk1CA_arr[1], -0x4000, 0x555);
-        Math_ScaledStepToS(&this->unk1CA_arr[2], -0x4000, 0x333);
-        var_fa0 = (20.0f * (Math_CosS(this->unk1CA_arr[0]) + Math_CosS(this->unk1CA_arr[1]))) +
-                  (((sp58 - (20.0f * (-Math_SinS(this->unk1CA_arr[0]) - Math_SinS(this->unk1CA_arr[1])))) *
-                    Math_CosS(this->unk1CA_arr[2])) /
-                   -Math_SinS(this->unk1CA_arr[2]));
+        Math_ScaledStepToS(&this->stemPartsRot[0], -0x5555, 0x555);
+        Math_ScaledStepToS(&this->stemPartsRot[1], -0x4000, 0x555);
+        Math_ScaledStepToS(&this->stemPartsRot[2], -0x4000, 0x333);
+        dxz = (20.0f * (Math_CosS(this->stemPartsRot[0]) + Math_CosS(this->stemPartsRot[1]))) +
+              (((dy - (20.0f * (-Math_SinS(this->stemPartsRot[0]) - Math_SinS(this->stemPartsRot[1])))) *
+                Math_CosS(this->stemPartsRot[2])) /
+               -Math_SinS(this->stemPartsRot[2]));
     } else {
-        Math_ScaledStepToS(&this->unk1CA_arr[0], -0x5555, 0x555);
-        Math_ScaledStepToS(&this->unk1CA_arr[1], -0x5555, 0x333);
-        Math_ScaledStepToS(&this->unk1CA_arr[2], -0x4000, 0x333);
-        var_fa0 = (20.0f * (Math_CosS(this->unk1CA_arr[0]) + Math_CosS(this->unk1CA_arr[1]))) +
-                  (((sp58 - (20.0f * (-Math_SinS(this->unk1CA_arr[0]) - Math_SinS(this->unk1CA_arr[1])))) *
-                    Math_CosS(this->unk1CA_arr[2])) /
-                   -Math_SinS(this->unk1CA_arr[2]));
+        Math_ScaledStepToS(&this->stemPartsRot[0], -0x5555, 0x555);
+        Math_ScaledStepToS(&this->stemPartsRot[1], -0x5555, 0x333);
+        Math_ScaledStepToS(&this->stemPartsRot[2], -0x4000, 0x333);
+        dxz = (20.0f * (Math_CosS(this->stemPartsRot[0]) + Math_CosS(this->stemPartsRot[1]))) +
+              (((dy - (20.0f * (-Math_SinS(this->stemPartsRot[0]) - Math_SinS(this->stemPartsRot[1])))) *
+                Math_CosS(this->stemPartsRot[2])) /
+               -Math_SinS(this->stemPartsRot[2]));
     }
-    this->actor.world.pos.y = this->actor.home.pos.y + (sp58 * this->unk230);
-    sp54 = Math_SinS(this->actor.shape.rot.y) * (var_fa0 * this->unk230);
-    temp_ft5 = Math_CosS(this->actor.shape.rot.y) * (var_fa0 * this->unk230);
-    this->actor.world.pos.x = this->actor.home.pos.x + sp54;
-    this->actor.world.pos.z = this->actor.home.pos.z + temp_ft5;
-    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
-                             this->unk230 * 5.0f, 1, -1, 10, NULL);
-    if (this->unk1C6 == 0) {
-        func_809E5ABC(this);
+    this->actor.world.pos.y = this->actor.home.pos.y + (dy * this->scaleFac);
+    dx = dxz * this->scaleFac * Math_SinS(this->actor.shape.rot.y);
+    dz = dxz * this->scaleFac * Math_CosS(this->actor.shape.rot.y);
+    this->actor.world.pos.x = this->actor.home.pos.x + dx;
+    this->actor.world.pos.z = this->actor.home.pos.z + dz;
+    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->scaleFac * 3.0f, 0, this->scaleFac * 12.0f,
+                             this->scaleFac * 5.0f, 1, -1, 10, NULL);
+    if (this->actionState == 0) {
+        EnDekubaba_SetupWaitPlayerNear(this);
     }
 }
 
-void func_809E6DCC(EnDekubaba* this) {
-    f32 sp2C;
-    f32 sp28;
-    f32 sp24;
+void EnDekubaba_ComputeHeadPos(EnDekubaba* this) {
+    f32 dxz;
 
-    sp24 = Math_CosS(this->unk1CA_arr[1]);
-    sp28 = Math_CosS(this->unk1CA_arr[0]);
-    sp2C = (Math_CosS(this->unk1CA_arr[2]) + (sp28 + sp24)) * 20.0f;
-    this->actor.world.pos.x = (Math_SinS(this->actor.shape.rot.y) * (sp2C * this->unk230)) + this->actor.home.pos.x;
-    sp24 = Math_SinS(this->unk1CA_arr[1]);
-    sp28 = Math_SinS(this->unk1CA_arr[0]);
+    dxz = (Math_CosS(this->stemPartsRot[0]) + Math_CosS(this->stemPartsRot[1]) + Math_CosS(this->stemPartsRot[2])) *
+          20.0f;
+    this->actor.world.pos.x = this->actor.home.pos.x + (dxz * this->scaleFac * Math_SinS(this->actor.shape.rot.y));
     this->actor.world.pos.y =
-        this->actor.home.pos.y - ((Math_SinS(this->unk1CA_arr[2]) + (sp28 + sp24)) * 20.0f * this->unk230);
-    this->actor.world.pos.z = (Math_CosS(this->actor.shape.rot.y) * (sp2C * this->unk230)) + this->actor.home.pos.z;
+        this->actor.home.pos.y -
+        ((Math_SinS(this->stemPartsRot[0]) + Math_SinS(this->stemPartsRot[1]) + Math_SinS(this->stemPartsRot[2])) *
+         20.0f * this->scaleFac);
+    this->actor.world.pos.z = this->actor.home.pos.z + (dxz * this->scaleFac * Math_CosS(this->actor.shape.rot.y));
 }
 
-void func_809E6ED4(EnDekubaba* this, PlayState* play) {
-    Actor* sp34;
+void EnDekubaba_ChompAir(EnDekubaba* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
-    sp34 = play->actorCtx.actorLists[2].head;
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
-        if (this->actor.params == 1) {
+        if (this->actor.params == EN_DEKUBABA_TYPE_1) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_MOUTH);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
         }
     }
-    if (this->unk1C6 != 0) {
-        this->unk1C6 -= 1;
+    if (this->actionState != 0) {
+        this->actionState--;
     }
-    Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &sp34->world.pos), 2,
-                   (this->unk1C6 % 5) * 0x222);
-    if (this->unk1C6 < 0xA) {
-        this->unk1CA_arr[0] += 0x16C;
-        this->unk1CA_arr[1] += 0x16C;
-        this->unk1CA_arr[2] += 0xB6;
+    Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2,
+                   (this->actionState % 5) * 0x222);
+    if (this->actionState < 10) {
+        this->stemPartsRot[0] += 0x16C;
+        this->stemPartsRot[1] += 0x16C;
+        this->stemPartsRot[2] += 0xB6;
         this->actor.shape.rot.x += 0x222;
+    } else if (this->actionState < 20) {
+        this->stemPartsRot[0] -= 0x16C;
+        this->stemPartsRot[1] += 0x111;
+        this->actor.shape.rot.x += 0x16C;
+    } else if (this->actionState < 30) {
+        this->stemPartsRot[1] -= 0x111;
+        this->actor.shape.rot.x -= 0xB6;
     } else {
-        if (this->unk1C6 < 0x14) {
-            this->unk1CA_arr[0] -= 0x16C;
-            this->unk1CA_arr[1] += 0x111;
-            this->actor.shape.rot.x += 0x16C;
-        } else if (this->unk1C6 < 0x1E) {
-            this->unk1CA_arr[1] -= 0x111;
-            this->actor.shape.rot.x -= 0xB6;
-        } else {
-            this->unk1CA_arr[1] -= 0xB6;
-            this->unk1CA_arr[2] += 0xB6;
-            this->actor.shape.rot.x -= 0x16C;
-        }
+        this->stemPartsRot[1] -= 0xB6;
+        this->stemPartsRot[2] += 0xB6;
+        this->actor.shape.rot.x -= 0x16C;
     }
-    func_809E6DCC(this);
-    if ((240.0f * this->unk230) < Math_Vec3f_DistXZ(&this->actor.home.pos, &sp34->world.pos)) {
-        func_809E5E58(this);
-    } else if ((this->unk1C6 == 0) || (this->actor.xzDistToPlayer < (80.0f * this->unk230))) {
-        func_809E5F9C(this);
+    EnDekubaba_ComputeHeadPos(this);
+    if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > (240.0f * this->scaleFac)) {
+        EnDekubaba_SetupEnterGround(this);
+    } else if ((this->actionState == 0) || (this->actor.xzDistToPlayer < (80.0f * this->scaleFac))) {
+        EnDekubaba_SetupPrepareAttack(this);
     }
 }
 
-void func_809E7104(EnDekubaba* this, PlayState* play) {
-    s32 sp4C;
-    s16 sp4A;
-    Vec3f sp3C;
+void EnDekubaba_Attack(EnDekubaba* this, PlayState* play) {
+    static Color_RGBA8 sEffPrimColor = { 105, 255, 105, 255 };
+    static Color_RGBA8 sEffEnvColor = { 150, 250, 150, 0 };
+    s32 lyingDown;
+    s16 stepBase;
+    Vec3f effVel;
 
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk1C6 == 0) {
+    if (this->actionState == 0) {
         if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
-            if (this->actor.params == 1) {
+            if (this->actor.params == EN_DEKUBABA_TYPE_1) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_ATTACK);
             } else {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_ATTACK);
             }
         }
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x222);
-        sp4A = this->skelAnime.curFrame * 10.0f;
-        sp4C = true;
-        sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[0], -0xE38, sp4A + 0x38E);
-        sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[1], -0xE38, sp4A + 0x71C);
-        sp4C &= Math_ScaledStepToS(&this->unk1CA_arr[2], -0xE38, sp4A + 0xE38);
-        if (sp4C) {
-            Animation_PlayLoopSetSpeed(&this->skelAnime, &object_dekubaba_Anim_0002B8, 4.0f);
-            sp3C.x = Math_SinS(this->actor.shape.rot.y) * 5.0f;
-            sp3C.y = 0.0f;
-            sp3C.z = Math_CosS(this->actor.shape.rot.y) * 5.0f;
-            func_8002829C(play, &this->actor.world.pos, &sp3C, &D_809E8EA0, &D_809E9024, &D_809E9028, 1,
-                          this->unk230 * 100.0f);
-            this->unk1C6 = 1;
+        stepBase = this->skelAnime.curFrame * 10.0f;
+        lyingDown = true;
+        lyingDown &= Math_ScaledStepToS(&this->stemPartsRot[0], -0xE38, stepBase + 0x38E);
+        lyingDown &= Math_ScaledStepToS(&this->stemPartsRot[1], -0xE38, stepBase + 0x71C);
+        lyingDown &= Math_ScaledStepToS(&this->stemPartsRot[2], -0xE38, stepBase + 0xE38);
+        if (lyingDown) {
+            Animation_PlayLoopSetSpeed(&this->skelAnime, &gDekubabaChompAnim, 4.0f);
+            effVel.x = Math_SinS(this->actor.shape.rot.y) * 5.0f;
+            effVel.y = 0.0f;
+            effVel.z = Math_CosS(this->actor.shape.rot.y) * 5.0f;
+            func_8002829C(play, &this->actor.world.pos, &effVel, &sZeroVec, &sEffPrimColor, &sEffEnvColor, 1,
+                          this->scaleFac * 100.0f);
+            this->actionState = 1;
             this->collider.base.acFlags |= AC_ON;
         }
-    } else if (this->unk1C6 >= 0xB) {
-        func_809E6000(this);
+    } else if (this->actionState > 10) {
+        EnDekubaba_SetupRecoverFromAttackMiss(this);
     } else {
-        this->unk1C6 += 1;
-        if ((this->unk1C6 >= 4) && !Actor_IsFacingPlayer(&this->actor, 0x16C)) {
+        this->actionState++;
+        if ((this->actionState >= 4) && !Actor_IsFacingPlayer(&this->actor, 0x16C)) {
             Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 15, 0x71C);
         }
         if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
-            if (this->actor.params == 1) {
+            if (this->actor.params == EN_DEKUBABA_TYPE_1) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_MOUTH);
             } else {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
             }
         }
     }
-    func_809E6DCC(this);
+    EnDekubaba_ComputeHeadPos(this);
 }
 
-void func_809E738C(EnDekubaba* this, PlayState* play) {
+void EnDekubaba_PrepareAttack(EnDekubaba* this, PlayState* play) {
     Player* player;
 
     player = GET_PLAYER(play);
-    if (this->unk1C6 != 0) {
-        this->unk1C6 -= 1;
+    if (this->actionState != 0) {
+        this->actionState--;
     }
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 2, 0xE38, 0x71C);
     Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2, 0xE38);
-    Math_ScaledStepToS(&this->unk1CA_arr[0], 0xAAA, 0x444);
-    Math_ScaledStepToS(&this->unk1CA_arr[1], -0x4718, 0x888);
-    Math_ScaledStepToS(&this->unk1CA_arr[2], -0x6AA4, 0x888);
-    if (this->unk1C6 == 0) {
-        func_809E5FBC(this);
+    Math_ScaledStepToS(&this->stemPartsRot[0], 0xAAA, 0x444);
+    Math_ScaledStepToS(&this->stemPartsRot[1], -0x4718, 0x888);
+    Math_ScaledStepToS(&this->stemPartsRot[2], -0x6AA4, 0x888);
+    if (this->actionState == 0) {
+        EnDekubaba_SetupAttack(this);
     }
-    func_809E6DCC(this);
+    EnDekubaba_ComputeHeadPos(this);
 }
 
-void func_809E7458(EnDekubaba* this, PlayState* play) {
-    Vec3f sp3C;
-    f32 sp38;
-    f32 var_fv1;
-    s32 var_v0;
+void EnDekubaba_RecoverFromAttackMiss(EnDekubaba* this, PlayState* play) {
+    Vec3f effPos;
+    f32 dx;
+    f32 dz;
+    s32 i;
 
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk1C6 == 0) {
+    if (this->actionState == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x38E);
-        Math_ScaledStepToS(&this->unk1CA_arr[0], -0x888, 0x16C);
-        Math_ScaledStepToS(&this->unk1CA_arr[1], -0x888, 0x16C);
-        if (Math_ScaledStepToS(&this->unk1CA_arr[2], -0x888, 0x16C) != 0) {
-            sp38 = Math_SinS(this->actor.shape.rot.y) * 30.0f * this->unk230;
-            var_fv1 = Math_CosS(this->actor.shape.rot.y) * 30.0f * this->unk230;
-            sp3C = this->actor.home.pos;
-            for (var_v0 = 0; var_v0 < 3; var_v0++) {
-                func_800286CC(play, &sp3C, &D_809E8EA0, &D_809E8EA0, this->unk230 * 500.0f, this->unk230 * 50.0f);
-                sp3C.x += sp38;
-                sp3C.z += var_fv1;
+        Math_ScaledStepToS(&this->stemPartsRot[0], -0x888, 0x16C);
+        Math_ScaledStepToS(&this->stemPartsRot[1], -0x888, 0x16C);
+        if (Math_ScaledStepToS(&this->stemPartsRot[2], -0x888, 0x16C) != 0) {
+            dx = Math_SinS(this->actor.shape.rot.y) * 30.0f * this->scaleFac;
+            dz = Math_CosS(this->actor.shape.rot.y) * 30.0f * this->scaleFac;
+            effPos = this->actor.home.pos;
+            for (i = 0; i < 3; i++) {
+                func_800286CC(play, &effPos, &sZeroVec, &sZeroVec, this->scaleFac * 500.0f, this->scaleFac * 50.0f);
+                effPos.x += dx;
+                effPos.z += dz;
             }
-            this->unk1C6 = 1;
+            this->actionState = 1;
         }
-    } else if (this->unk1C6 == 0xB) {
+    } else if (this->actionState == 11) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x200);
-        Math_ScaledStepToS(&this->unk1CA_arr[0], -0xAAA, 0x200);
-        Math_ScaledStepToS(&this->unk1CA_arr[2], -0x5C71, 0x200);
-        if (Math_ScaledStepToS(&this->unk1CA_arr[1], 0x238C, 0x200)) {
-            this->unk1C6 = 0xC;
+        Math_ScaledStepToS(&this->stemPartsRot[0], -0xAAA, 0x200);
+        Math_ScaledStepToS(&this->stemPartsRot[2], -0x5C71, 0x200);
+        if (Math_ScaledStepToS(&this->stemPartsRot[1], 0x238C, 0x200)) {
+            this->actionState = 12;
         }
-    } else if (this->unk1C6 == 0x12) {
+    } else if (this->actionState == 18) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x2AA8, 0xAAA);
-        if (Math_ScaledStepToS(&this->unk1CA_arr[0], 0x1554, 0x5B0)) {
-            this->unk1C6 = 0x19;
+        if (Math_ScaledStepToS(&this->stemPartsRot[0], 0x1554, 0x5B0)) {
+            this->actionState = 25;
         }
-        Math_ScaledStepToS(&this->unk1CA_arr[1], -0x38E3, 0xAAA);
-        Math_ScaledStepToS(&this->unk1CA_arr[2], -0x5C71, 0x2D8);
-    } else if (this->unk1C6 == 0x19) {
+        Math_ScaledStepToS(&this->stemPartsRot[1], -0x38E3, 0xAAA);
+        Math_ScaledStepToS(&this->stemPartsRot[2], -0x5C71, 0x2D8);
+    } else if (this->actionState == 25) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x5550, 0xAAA);
-        if (Math_ScaledStepToS(&this->unk1CA_arr[0], -0x6388, 0x93E)) {
-            this->unk1C6 = 0x1A;
+        if (Math_ScaledStepToS(&this->stemPartsRot[0], -0x6388, 0x93E)) {
+            this->actionState = 26;
         }
-        Math_ScaledStepToS(&this->unk1CA_arr[1], -0x3FFC, 0x4FA);
-        Math_ScaledStepToS(&this->unk1CA_arr[2], -0x238C, 0x444);
-    } else if (this->unk1C6 == 0x1A) {
+        Math_ScaledStepToS(&this->stemPartsRot[1], -0x3FFC, 0x4FA);
+        Math_ScaledStepToS(&this->stemPartsRot[2], -0x238C, 0x444);
+    } else if (this->actionState == 26) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x93E);
-        if (Math_ScaledStepToS(&this->unk1CA_arr[0], -0x1555, 0x71C)) {
-            this->unk1C6 = 0x1B;
+        if (Math_ScaledStepToS(&this->stemPartsRot[0], -0x1555, 0x71C)) {
+            this->actionState = 27;
         }
-        Math_ScaledStepToS(&this->unk1CA_arr[1], -0x38E3, 0x2D8);
-        Math_ScaledStepToS(&this->unk1CA_arr[2], -0x5C71, 0x5B0);
-    } else if (this->unk1C6 >= 0x1B) {
-        this->unk1C6 += 1;
-        if (this->unk1C6 >= 0x1F) {
-            if (this->actor.xzDistToPlayer < (80.0f * this->unk230)) {
-                func_809E5F9C(this);
+        Math_ScaledStepToS(&this->stemPartsRot[1], -0x38E3, 0x2D8);
+        Math_ScaledStepToS(&this->stemPartsRot[2], -0x5C71, 0x5B0);
+    } else if (this->actionState >= 27) {
+        this->actionState++;
+        if (this->actionState > 30) {
+            if (this->actor.xzDistToPlayer < (80.0f * this->scaleFac)) {
+                EnDekubaba_SetupPrepareAttack(this);
             } else {
-                func_809E5F44(this);
+                EnDekubaba_SetupChompAir(this);
             }
         }
     } else {
-        this->unk1C6 += 1;
-        if (this->unk1C6 == 0xA) {
+        this->actionState++;
+        if (this->actionState == 10) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_SCRAPE);
         }
-        if (this->unk1C6 >= 0xC) {
-            Math_ScaledStepToS(&this->unk1CA_arr[2], -0x5C71, 0x88);
+        if (this->actionState >= 12) {
+            Math_ScaledStepToS(&this->stemPartsRot[2], -0x5C71, 0x88);
         }
     }
-    func_809E6DCC(this);
+    EnDekubaba_ComputeHeadPos(this);
 }
 
-void func_809E77E4(EnDekubaba* this, PlayState* play) {
-    s32 temp_s0;
+void EnDekubaba_Soothe(EnDekubaba* this, PlayState* play) {
+    s32 remains;
 
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk1C6 >= 9) {
-        temp_s0 = 0;
-        temp_s0 |= Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 1, 0x11C6, 0x71C);
-        temp_s0 |= Math_SmoothStepToS(&this->unk1CA_arr[0], -0x1555, 1, 0xAAA, 0x71C);
-        temp_s0 |= Math_SmoothStepToS(&this->unk1CA_arr[1], -0x38E3, 1, 0xE38, 0x71C);
-        temp_s0 |= Math_SmoothStepToS(&this->unk1CA_arr[2], -0x5C71, 1, 0x11C6, 0x71C);
-        if (temp_s0 == 0) {
-            this->unk1C6 = 8;
+    if (this->actionState >= 9) {
+        remains = 0;
+        remains |= Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 1, 0x11C6, 0x71C);
+        remains |= Math_SmoothStepToS(&this->stemPartsRot[0], -0x1555, 1, 0xAAA, 0x71C);
+        remains |= Math_SmoothStepToS(&this->stemPartsRot[1], -0x38E3, 1, 0xE38, 0x71C);
+        remains |= Math_SmoothStepToS(&this->stemPartsRot[2], -0x5C71, 1, 0x11C6, 0x71C);
+        if (remains == 0) {
+            this->actionState = 8;
         }
     } else {
-        if (this->unk1C6 != 0) {
-            this->unk1C6 -= 1;
+        if (this->actionState != 0) {
+            this->actionState--;
         }
-        if (this->unk1C6 == 0) {
-            func_809E5F44(this);
+        if (this->actionState == 0) {
+            EnDekubaba_SetupChompAir(this);
         }
     }
-    func_809E6DCC(this);
+    EnDekubaba_ComputeHeadPos(this);
 }
 
-void func_809E78DC(EnDekubaba* this, PlayState* play) {
-    s32 temp_s0;
+void EnDekubaba_Attacked(EnDekubaba* this, PlayState* play) {
+    s32 isUpright;
 
     SkelAnime_Update(&this->skelAnime);
-    temp_s0 = true;
-    temp_s0 &= Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38);
-    temp_s0 &= Math_ScaledStepToS(&this->unk1CA_arr[0], -0x4000, 0xE38);
-    temp_s0 &= Math_ScaledStepToS(&this->unk1CA_arr[1], -0x4000, 0xE38);
-    temp_s0 &= Math_ScaledStepToS(&this->unk1CA_arr[2], -0x4000, 0xE38);
-    if (temp_s0) {
+    isUpright = true;
+    isUpright &= Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38);
+    isUpright &= Math_ScaledStepToS(&this->stemPartsRot[0], -0x4000, 0xE38);
+    isUpright &= Math_ScaledStepToS(&this->stemPartsRot[1], -0x4000, 0xE38);
+    isUpright &= Math_ScaledStepToS(&this->stemPartsRot[2], -0x4000, 0xE38);
+    if (isUpright) {
         if (this->actor.colChkInfo.health == 0) {
-            func_809E61E0(this);
+            EnDekubaba_SetupDie(this);
         } else {
             this->collider.base.acFlags |= AC_ON;
-            if (this->unk1C6 == 0) {
-                if (this->actor.xzDistToPlayer < (80.0f * this->unk230)) {
-                    func_809E5F9C(this);
+            if (this->actionState == EN_DEKUBABA_ATTACKED_TYPE_STRENGTHENED) {
+                if (this->actor.xzDistToPlayer < (80.0f * this->scaleFac)) {
+                    EnDekubaba_SetupPrepareAttack(this);
                 } else {
-                    func_809E6078(this);
+                    EnDekubaba_SetupSoothe(this);
                 }
             } else {
-                func_809E6264(this);
+                EnDekubaba_SetupVulnerable(this);
             }
         }
     }
-    func_809E6DCC(this);
+    EnDekubaba_ComputeHeadPos(this);
 }
 
-void func_809E79EC(EnDekubaba* this, PlayState* play) {
+void EnDekubaba_Vulnerable(EnDekubaba* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk1C6 != 0) {
-        this->unk1C6 -= 1;
+    if (this->actionState != 0) {
+        this->actionState--;
     }
-    if (this->unk1C6 == 0) {
-        func_809E5A38(this);
-        if (this->actor.xzDistToPlayer < (80.0f * this->unk230)) {
-            func_809E5F9C(this);
+    if (this->actionState == 0) {
+        EnDekubaba_DisableStemColliderAC(this);
+        if (this->actor.xzDistToPlayer < (80.0f * this->scaleFac)) {
+            EnDekubaba_SetupPrepareAttack(this);
         } else {
-            func_809E6078(this);
+            EnDekubaba_SetupSoothe(this);
         }
     }
 }
 
-void func_809E7A88(EnDekubaba* this, PlayState* play) {
+void EnDekubaba_Wobble(EnDekubaba* this, PlayState* play) {
     s16 temp_v0;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1CA_arr[0], 0x71C);
-    Math_ScaledStepToS(&this->unk1CA_arr[0], this->unk1CA_arr[1], 0x71C);
-    Math_ScaledStepToS(&this->unk1CA_arr[1], this->unk1CA_arr[2], 0x71C);
-    if (Math_ScaledStepToS(&this->unk1CA_arr[2], this->unk1C8, 0x71C)) {
-        this->unk1C8 = (s16)(s32)(-16384.0f - ((this->unk1C8 + 0x4000) * 0.8f));
+    Math_ScaledStepToS(&this->actor.shape.rot.x, this->stemPartsRot[0], 0x71C);
+    Math_ScaledStepToS(&this->stemPartsRot[0], this->stemPartsRot[1], 0x71C);
+    Math_ScaledStepToS(&this->stemPartsRot[1], this->stemPartsRot[2], 0x71C);
+    if (Math_ScaledStepToS(&this->stemPartsRot[2], this->wobbleTarget, 0x71C)) {
+        this->wobbleTarget = (s16)(s32)(-16384.0f - ((this->wobbleTarget + 0x4000) * 0.8f));
     }
-    temp_v0 = this->unk1C8 + 0x4000;
+    temp_v0 = this->wobbleTarget + 0x4000;
     if (ABS(temp_v0) < 0x100) {
         this->collider.base.acFlags |= AC_ON;
-        if (this->actor.xzDistToPlayer < (80.0f * this->unk230)) {
-            func_809E5F9C(this);
+        if (this->actor.xzDistToPlayer < (80.0f * this->scaleFac)) {
+            EnDekubaba_SetupPrepareAttack(this);
         } else {
-            func_809E6078(this);
+            EnDekubaba_SetupSoothe(this);
         }
     }
-    func_809E6DCC(this);
+    EnDekubaba_ComputeHeadPos(this);
 }
 
-void func_809E7BB0(EnDekubaba* this, PlayState* play) {
-    s32 var_s0;
-    Vec3f sp78;
-    f32 temp_fs0;
-    f32 temp_fs1;
-    f32 temp_fs2;
+void EnDekubaba_DieDropStick(EnDekubaba* this, PlayState* play) {
+    s32 i;
+    Vec3f effPos;
+    f32 dx;
+    f32 dz;
+    f32 dy;
 
-    Math_StepToF(&this->actor.speed, 0.0f, this->unk230 * 0.1f);
-    if (this->unk1C6 == 0) {
+    Math_StepToF(&this->actor.speed, 0.0f, this->scaleFac * 0.1f);
+    if (this->actionState == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
-        Math_ScaledStepToS(&this->unk1CA_arr[0], 0x4800, 0x71C);
-        Math_ScaledStepToS(&this->unk1CA_arr[1], 0x4800, 0x71C);
-        EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
-                                 this->unk230 * 5.0f, 1, -1, 10, NULL);
-        if ((this->actor.scale.x > 0.005f) && ((((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) != 0)) ||
-                                               (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
+        Math_ScaledStepToS(&this->stemPartsRot[0], 0x4800, 0x71C);
+        Math_ScaledStepToS(&this->stemPartsRot[1], 0x4800, 0x71C);
+        EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, this->scaleFac * 3.0f, 0, this->scaleFac * 12.0f,
+                                 this->scaleFac * 5.0f, 1, -1, 10, NULL);
+        if ((this->actor.scale.x > 0.005f) &&
+            ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speed = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
-            EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
-                                     this->unk230 * 5.0f, 15, -1, 10, NULL);
+            EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, this->scaleFac * 3.0f, 0, this->scaleFac * 12.0f,
+                                     this->scaleFac * 5.0f, 15, -1, 10, NULL);
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
-            this->unk1C6 = 1;
+            this->actionState = 1;
         }
-    } else if (this->unk1C6 == 1) {
-        sp78 = this->actor.world.pos;
-        temp_fs2 = Math_SinS(this->actor.shape.rot.x) * 20.0f;
-        temp_fs0 = (-20.0f * Math_CosS(this->actor.shape.rot.x)) * Math_SinS(this->actor.shape.rot.y);
-        temp_fs1 = (-20.0f * Math_CosS(this->actor.shape.rot.x)) * Math_CosS(this->actor.shape.rot.y);
-        for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            func_800286CC(play, &sp78, &D_809E8EA0, &D_809E8EA0, 500, 50);
-            sp78.x += temp_fs0;
-            sp78.y += temp_fs2;
-            sp78.z += temp_fs1;
+    } else if (this->actionState == 1) {
+        effPos = this->actor.world.pos;
+        dy = Math_SinS(this->actor.shape.rot.x) * 20.0f;
+        dx = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_SinS(this->actor.shape.rot.y);
+        dz = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y);
+        for (i = 0; i < 4; i++) {
+            func_800286CC(play, &effPos, &sZeroVec, &sZeroVec, 500, 50);
+            effPos.x += dx;
+            effPos.y += dy;
+            effPos.z += dz;
         }
-        func_800286CC(play, &this->actor.home.pos, &D_809E8EA0, &D_809E8EA0, this->unk230 * 500.0f,
-                      this->unk230 * 100.0f);
-        func_809E645C(this, play);
+        func_800286CC(play, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->scaleFac * 500.0f,
+                      this->scaleFac * 100.0f);
+        EnDekubaba_SetupDekuStick(this, play);
     }
 }
 
-void func_809E7F14(EnDekubaba* this, PlayState* play) {
-    Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, this->unk230 * 5.0f);
-    if (Math_StepToF(&this->actor.scale.x, this->unk230 * 0.1f * 0.01f, this->unk230 * 0.1f * 0.01f) != 0) {
-        func_800286CC(play, &this->actor.home.pos, &D_809E8EA0, &D_809E8EA0, this->unk230 * 500.0f,
-                      this->unk230 * 100.0f);
+void EnDekubaba_Die(EnDekubaba* this, PlayState* play) {
+    Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, this->scaleFac * 5.0f);
+    if (Math_StepToF(&this->actor.scale.x, this->scaleFac * 0.1f * 0.01f, this->scaleFac * 0.1f * 0.01f)) {
+        func_800286CC(play, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->scaleFac * 500.0f,
+                      this->scaleFac * 100.0f);
         if (this->actor.dropFlag == 0) {
             Item_DropCollectible(play, &this->actor.world.pos, 0xC);
-            if (this->actor.params == 1) {
+            if (this->actor.params == EN_DEKUBABA_TYPE_1) {
                 Item_DropCollectible(play, &this->actor.world.pos, 0xC);
                 Item_DropCollectible(play, &this->actor.world.pos, 0xC);
             }
@@ -914,65 +917,67 @@ void func_809E7F14(EnDekubaba* this, PlayState* play) {
     }
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
     this->actor.shape.rot.z += 0x1C70;
-    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->unk230 * 3.0f, 0, this->unk230 * 12.0f,
-                             this->unk230 * 5.0f, 1, -1, 10, NULL);
+    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->scaleFac * 3.0f, 0, this->scaleFac * 12.0f,
+                             this->scaleFac * 5.0f, 1, -1, 10, NULL);
 }
 
-void func_809E80D8(EnDekubaba* this, PlayState* play) {
-    if (this->unk1C6 != 0) {
-        this->unk1C6 -= 1;
+void EnDekubaba_DekuStick(EnDekubaba* this, PlayState* play) {
+    if (this->actionState != 0) {
+        this->actionState--;
     }
-    if (Actor_HasParent(&this->actor, play) || (this->unk1C6 == 0)) {
+    if (Actor_HasParent(&this->actor, play) || (this->actionState == 0)) {
         Actor_Kill(&this->actor);
     } else {
         Actor_OfferGetItemNearby(&this->actor, play, GI_DEKU_STICKS_1);
     }
 }
 
-void func_809E8140(EnDekubaba* this, PlayState* play) {
-    float new_var2;
-    s32 var_s0;
+void EnDekubaba_CheckCollide(EnDekubaba* this, PlayState* play) {
+    f32 new_var2;
+    s32 newHealth;
     s32 i;
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
         if ((this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
-            (((this->actor.colChkInfo.damageReaction != 0)) || (this->actor.colChkInfo.damage != 0))) {
-            var_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
-            if (this->unk1C0 != func_809E79EC) {
-                if ((this->actor.colChkInfo.damageReaction == 0xE) || (this->actor.colChkInfo.damageReaction == 1)) {
-                    if (this->actor.colChkInfo.damageReaction == 0xE) {
-                        var_s0 = this->actor.colChkInfo.health;
+            (((this->actor.colChkInfo.damageReaction != EN_DEKUBABA_DMG_REACT_NONE)) ||
+             (this->actor.colChkInfo.damage != 0))) {
+            newHealth = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
+            if (this->actionFunc != EnDekubaba_Vulnerable) {
+                if ((this->actor.colChkInfo.damageReaction == EN_DEKUBABA_DMG_REACT_BOOMERANG) ||
+                    (this->actor.colChkInfo.damageReaction == EN_DEKUBABA_DMG_REACT_STUN)) {
+                    if (this->actor.colChkInfo.damageReaction == EN_DEKUBABA_DMG_REACT_BOOMERANG) {
+                        newHealth = this->actor.colChkInfo.health;
                     }
-                    func_809E60A8(this, 2);
-                } else if (this->unk1C0 == func_809E7458) {
-                    if (var_s0 <= 0) {
-                        var_s0 = 1;
+                    EnDekubaba_SetupAttacked(this, EN_DEKUBABA_ATTACKED_TYPE_STUNNED);
+                } else if (this->actionFunc == EnDekubaba_RecoverFromAttackMiss) {
+                    if (newHealth <= 0) {
+                        newHealth = 1;
                     }
-                    func_809E60A8(this, 1);
+                    EnDekubaba_SetupAttacked(this, EN_DEKUBABA_ATTACKED_TYPE_WEAKENED);
                 } else {
-                    func_809E60A8(this, 0);
+                    EnDekubaba_SetupAttacked(this, EN_DEKUBABA_ATTACKED_TYPE_STRENGTHENED);
                 }
-            } else if ((this->actor.colChkInfo.damageReaction == 0xE) ||
-                       (this->actor.colChkInfo.damageReaction == 0xF)) {
-                if (var_s0 > 0) {
-                    func_809E63EC(this);
+            } else if ((this->actor.colChkInfo.damageReaction == EN_DEKUBABA_DMG_REACT_BOOMERANG) ||
+                       (this->actor.colChkInfo.damageReaction == EN_DEKUBABA_DMG_REACT_SWORD)) {
+                if (newHealth > 0) {
+                    EnDekubaba_SetupWobble(this);
                 } else {
-                    func_809E6170(this);
+                    EnDekubaba_SetupDieDropStick(this);
                 }
-            } else if (this->actor.colChkInfo.damageReaction != 1) {
-                func_809E60A8(this, 0);
+            } else if (this->actor.colChkInfo.damageReaction != EN_DEKUBABA_DMG_REACT_STUN) {
+                EnDekubaba_SetupAttacked(this, EN_DEKUBABA_ATTACKED_TYPE_STRENGTHENED);
             } else {
                 return;
             }
-            if (var_s0 < 0) {
+            if (newHealth < 0) {
                 this->actor.colChkInfo.health = 0;
             } else {
-                this->actor.colChkInfo.health = var_s0;
+                this->actor.colChkInfo.health = newHealth;
             }
-            if (this->actor.colChkInfo.damageReaction == 2) {
-                new_var2 = this->unk230 * 70.0f;
+            if (this->actor.colChkInfo.damageReaction == EN_DEKUBABA_DMG_REACT_FIRE) {
+                new_var2 = this->scaleFac * 70.0f;
                 for (i = 0; i < 4; i++) {
                     EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, new_var2, 0, 0, i);
                 }
@@ -981,23 +986,23 @@ void func_809E8140(EnDekubaba* this, PlayState* play) {
             return;
         }
     } else if ((play->actorCtx.unk_02 != 0) && (this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
-               (this->unk1C0 != func_809E79EC) && (this->unk1C0 != func_809E78DC) &&
+               (this->actionFunc != EnDekubaba_Vulnerable) && (this->actionFunc != EnDekubaba_Attacked) &&
                (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;
         this->actor.dropFlag = 0;
-        func_809E60A8(this, 1);
+        EnDekubaba_SetupAttacked(this, EN_DEKUBABA_ATTACKED_TYPE_WEAKENED);
     } else {
         return;
     }
     if (this->actor.colChkInfo.health != 0) {
-        if (this->unk1C6 == 2) {
+        if (this->actionState == 2) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_DAMAGE);
         }
     } else {
         Enemy_StartFinishingBlow(play, &this->actor);
-        if (this->actor.params == 1) {
+        if (this->actor.params == EN_DEKUBABA_TYPE_1) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_DEAD);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
@@ -1011,168 +1016,174 @@ void EnDekubaba_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        func_809E6078(this);
+        EnDekubaba_SetupSoothe(this);
     }
-    func_809E8140(this, play);
-    this->unk1C0(this, play);
-    if (this->unk1C0 == func_809E7BB0) {
+    EnDekubaba_CheckCollide(this, play);
+    this->actionFunc(this, play);
+    if (this->actionFunc == EnDekubaba_DieDropStick) {
         Actor_MoveXZGravity(&this->actor);
-        Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->unk230 * 15.0f, 10.0f,
+        Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->scaleFac * 15.0f, 10.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    } else {
-        if (this->unk1C0 != func_809E80D8) {
-            Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-            if (this->unk234 == NULL) {
-                this->unk234 = this->actor.floorPoly;
-            }
+    } else if (this->actionFunc != EnDekubaba_DekuStick) {
+        Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+        if (this->floorPoly == NULL) {
+            this->floorPoly = this->actor.floorPoly;
         }
     }
-    if (this->unk1C0 == func_809E7104) {
+    if (this->actionFunc == EnDekubaba_Attack) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     }
     if (this->collider.base.acFlags & AC_ON) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
-    if (this->unk1C0 != func_809E80D8) {
+    if (this->actionFunc != EnDekubaba_DekuStick) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
-void func_809E858C(EnDekubaba* this, PlayState* play) {
-    f32 sp44;
+void EnDekubaba_DrawStem0(EnDekubaba* this, PlayState* play) {
+    f32 scale;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2445);
-    sp44 = this->unk230 * 0.01f;
-    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->unk230), this->actor.home.pos.z,
+    scale = this->scaleFac * 0.01f;
+    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->scaleFac), this->actor.home.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateZYX(this->unk1CA_arr[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
-    Matrix_Scale(sp44, sp44, sp44, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->stemPartsRot[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dekubaba.c", 2461);
-    gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_001330);
+    gSPDisplayList(POLY_OPA_DISP++, gDekubabaStem0DL);
     Actor_SetFocus(&this->actor, 0.0f);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2468);
 }
 
-void func_809E86B8(EnDekubaba* this, PlayState* play) {
-    MtxF spB0;
-    f32 temp_fs0;
-    f32 temp_fs0_2;
+void EnDekubaba_DrawStem(EnDekubaba* this, PlayState* play) {
+    static Gfx* sStemDLists[] = {
+        gDekubabaStem0DL,
+        gDekubabaStem1DL,
+        gDekubabaStem2DL,
+    };
+    MtxF mf;
+    f32 scale;
+    f32 dxz;
     f32 spA4;
-    s32 i__var_s2;
-    s32 sp9C;
+    s32 i;
+    s32 nStemParts;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2487);
-    if (this->unk1C0 == func_809E7BB0) {
-        sp9C = 2;
+    if (this->actionFunc == EnDekubaba_DieDropStick) {
+        nStemParts = 2;
     } else {
-        sp9C = 3;
+        nStemParts = 3;
     }
-    temp_fs0 = this->unk230 * 0.01f;
+    scale = this->scaleFac * 0.01f;
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_Scale(temp_fs0, temp_fs0, temp_fs0, MTXMODE_APPLY);
-    Matrix_Get(&spB0);
+    Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+    Matrix_Get(&mf);
     if (this->actor.colorFilterTimer != 0) {
-        spA4 = this->unk230 * 20.0f;
-        this->unk164.x = this->actor.world.pos.x;
-        this->unk164.y = this->actor.world.pos.y - spA4;
-        this->unk164.z = this->actor.world.pos.z;
+        spA4 = this->scaleFac * 20.0f;
+        this->unk_164.x = this->actor.world.pos.x;
+        this->unk_164.y = this->actor.world.pos.y - spA4;
+        this->unk_164.z = this->actor.world.pos.z;
     }
-    for (i__var_s2 = 0; i__var_s2 < sp9C; i__var_s2++) {
-        spB0.mf[3][1] += 20.0f * Math_SinS(this->unk1CA_arr[i__var_s2]) * this->unk230;
-        temp_fs0_2 = Math_CosS(this->unk1CA_arr[i__var_s2]) * 20.0f * this->unk230;
-        spB0.mf[3][0] -= temp_fs0_2 * Math_SinS(this->actor.shape.rot.y);
-        spB0.mf[3][2] -= temp_fs0_2 * Math_CosS(this->actor.shape.rot.y);
-        Matrix_Put(&spB0);
-        Matrix_RotateZYX(this->unk1CA_arr[i__var_s2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    for (i = 0; i < nStemParts; i++) {
+        mf.yw += 20.0f * Math_SinS(this->stemPartsRot[i]) * this->scaleFac;
+        dxz = Math_CosS(this->stemPartsRot[i]) * 20.0f * this->scaleFac;
+        mf.xw -= dxz * Math_SinS(this->actor.shape.rot.y);
+        mf.zw -= dxz * Math_CosS(this->actor.shape.rot.y);
+        Matrix_Put(&mf);
+        Matrix_RotateZYX(this->stemPartsRot[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dekubaba.c", 2533);
-        gSPDisplayList(POLY_OPA_DISP++, D_809E902C[i__var_s2]);
-        Collider_UpdateSpheres(0x33 + (i__var_s2 * 2), &this->collider);
-        Collider_UpdateSpheres(0x34 + (i__var_s2 * 2), &this->collider);
-        if (i__var_s2 == 0) {
-            if (this->unk1C0 != func_809E7A88) {
-                this->actor.focus.pos.x = spB0.mf[3][0];
-                this->actor.focus.pos.y = spB0.mf[3][1];
-                this->actor.focus.pos.z = spB0.mf[3][2];
+        gSPDisplayList(POLY_OPA_DISP++, sStemDLists[i]);
+        Collider_UpdateSpheres(51 + (i * 2), &this->collider);
+        Collider_UpdateSpheres(52 + (i * 2), &this->collider);
+        if (i == 0) {
+            if (this->actionFunc != EnDekubaba_Wobble) {
+                this->actor.focus.pos.x = mf.xw;
+                this->actor.focus.pos.y = mf.yw;
+                this->actor.focus.pos.z = mf.zw;
             } else {
                 this->actor.focus.pos.x = this->actor.home.pos.x;
-                this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->unk230);
+                this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->scaleFac);
                 this->actor.focus.pos.z = this->actor.home.pos.z;
             }
         }
-        if ((i__var_s2 < 2) && (this->actor.colorFilterTimer != 0)) {
-            this->unk14C[i__var_s2].x = spB0.mf[3][0];
-            this->unk14C[i__var_s2].y = spB0.mf[3][1] - spA4;
-            this->unk14C[i__var_s2].z = spB0.mf[3][2];
+        if ((i < 2) && (this->actor.colorFilterTimer != 0)) {
+            this->unk_14C[i].x = mf.xw;
+            this->unk_14C[i].y = mf.yw - spA4;
+            this->unk_14C[i].z = mf.zw;
         }
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2569);
 }
 
-void func_809E89E4(EnDekubaba* this, PlayState* play) {
+void EnDekubaba_DrawStem2(EnDekubaba* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2579);
-    Matrix_RotateZYX(this->unk1CA_arr[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->stemPartsRot[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dekubaba.c", 2586);
-    gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_001828);
-    Collider_UpdateSpheres(0x37, &this->collider);
-    Collider_UpdateSpheres(0x38, &this->collider);
+    gSPDisplayList(POLY_OPA_DISP++, gDekubabaStem2DL);
+    Collider_UpdateSpheres(55, &this->collider);
+    Collider_UpdateSpheres(56, &this->collider);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2596);
 }
 
-void func_809E8AD8(EnDekubaba* this, PlayState* play) {
-    MtxF sp50;
-    f32 temp_fa0;
+void EnDekubaba_DrawShadow(EnDekubaba* this, PlayState* play) {
+    MtxF mf;
+    f32 scale;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2692);
     Gfx_SetupDL_44Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, 255);
-    func_80038A28(this->unk234, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &sp50);
-    Matrix_Mult(&sp50, MTXMODE_NEW);
-    temp_fa0 = this->unk230 * 0.15f;
-    Matrix_Scale(temp_fa0, 1.0f, temp_fa0, MTXMODE_APPLY);
+    func_80038A28(this->floorPoly, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mf);
+    Matrix_Mult(&mf, MTXMODE_NEW);
+    scale = this->scaleFac * 0.15f;
+    Matrix_Scale(scale, 1.0f, scale, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_dekubaba.c", 2710);
     gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2715);
 }
 
-void func_809E8C0C(PlayState* play, s32 arg1, Gfx** arg2, Vec3s* arg3, void* thisx) {
+void EnDekubaba_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnDekubaba* this = thisx;
 
-    if (arg1 == 1) {
-        Collider_UpdateSpheres(arg1, &this->collider);
+    if (limbIndex == DEKUBABA_HEAD_LIMB_ROOT) {
+        Collider_UpdateSpheres(limbIndex, &this->collider);
     }
 }
 
 void EnDekubaba_Draw(Actor* thisx, PlayState* play) {
     EnDekubaba* this = (EnDekubaba*)thisx;
-    f32 sp50;
+    f32 scale;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2752);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (this->unk1C0 != func_809E80D8) {
-        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, func_809E8C0C, this);
-        if (this->unk1C0 == func_809E64F4) {
-            func_809E858C(this, play);
+    if (this->actionFunc != EnDekubaba_DekuStick) {
+        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnDekubaba_PostLimbDraw,
+                          this);
+        if (this->actionFunc == EnDekubaba_WaitPlayerNear) {
+            EnDekubaba_DrawStem0(this, play);
         } else {
-            func_809E86B8(this, play);
+            EnDekubaba_DrawStem(this, play);
         }
-        sp50 = this->unk230 * 0.01f;
+
+        scale = this->scaleFac * 0.01f;
         Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
         Matrix_RotateY(BINANG_TO_RAD(this->actor.home.rot.y), MTXMODE_APPLY);
-        Matrix_Scale(sp50, sp50, sp50, MTXMODE_APPLY);
+        Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dekubaba.c", 2780);
-        gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_0010F0);
-        if (this->unk1C0 == func_809E7BB0) {
-            func_809E89E4(this, play);
+        gSPDisplayList(POLY_OPA_DISP++, gDekubabaBaseLeavesDL);
+
+        if (this->actionFunc == EnDekubaba_DieDropStick) {
+            EnDekubaba_DrawStem2(this, play);
         }
-        if (this->unk234 != NULL) {
-            func_809E8AD8(this, play);
+        if (this->floorPoly != NULL) {
+            EnDekubaba_DrawShadow(this, play);
         }
     } else {
-        if ((this->unk1C6 >= 0x29) || (this->unk1C6 & 1)) {
+        if ((this->actionState > 40) || (this->actionState & 1)) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
             MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dekubaba.c", 2797);
-            gSPDisplayList(POLY_OPA_DISP++, object_dekubaba_DL_003070);
+            gSPDisplayList(POLY_OPA_DISP++, gDekubabaDekuStickDL);
         }
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2804);

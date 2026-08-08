@@ -1,48 +1,48 @@
 <Root>
     <File Name="object_dekubaba" Segment="6">
-        <Animation Name="object_dekubaba_Anim_000208" Offset="0x208"/>
-        <Animation Name="object_dekubaba_Anim_0002B8" Offset="0x2B8"/>
-        <Array Name="object_dekubaba_Vtx_0002D0" Count="43" Offset="0x2D0">
+        <Animation Name="gDekubabaIdleAnim" Offset="0x208"/>
+        <Animation Name="gDekubabaChompAnim" Offset="0x2B8"/>
+        <Array Name="gDekubabaHeadLowerJawVtx" Count="43" Offset="0x2D0">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_000580" Offset="0x580"/>
-        <Array Name="object_dekubaba_Vtx_0006A8" Count="76" Offset="0x6A8">
+        <DList Name="gDekubabaHeadLowerJawDL" Offset="0x580"/>
+        <Array Name="gDekubabaHeadUpperJawVtx" Count="76" Offset="0x6A8">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_000B68" Offset="0xB68"/>
-        <Array Name="object_dekubaba_Vtx_000D00" Count="63" Offset="0xD00">
+        <DList Name="gDekubabaHeadUpperJawDL" Offset="0xB68"/>
+        <Array Name="gDekubabaBaseLeavesVtx" Count="63" Offset="0xD00">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_0010F0" Offset="0x10F0"/> <!-- leaf base -->
-        <Array Name="object_dekubaba_Vtx_001230" Count="16" Offset="0x1230">
+        <DList Name="gDekubabaBaseLeavesDL" Offset="0x10F0"/>
+        <Array Name="gDekubabaStem0Vtx" Count="16" Offset="0x1230">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_001330" Offset="0x1330"/> <!-- mid third of stem -->
-        <Array Name="object_dekubaba_Vtx_0013E8" Count="36" Offset="0x13E8">
+        <DList Name="gDekubabaStem0DL" Offset="0x1330"/>
+        <Array Name="gDekubabaStem1Vtx" Count="36" Offset="0x13E8">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_001628" Offset="0x1628"/> <!-- lower third of stem -->
-        <Array Name="object_dekubaba_Vtx_001728" Count="16" Offset="0x1728">
+        <DList Name="gDekubabaStem1DL" Offset="0x1628"/>
+        <Array Name="gDekubabaStem2Vtx" Count="16" Offset="0x1728">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_001828" Offset="0x1828"/> <!-- upper third of stem -->
-        <Texture Name="object_dekubaba_Tex_0018D0" Format="rgba16" Width="16" Height="32" Offset="0x18D0"/>
-        <Texture Name="object_dekubaba_Tex_001CD0" Format="rgba16" Width="32" Height="32" Offset="0x1CD0"/>
-        <Texture Name="object_dekubaba_Tex_0024D0" Format="rgba16" Width="16" Height="32" Offset="0x24D0"/>
-        <Texture Name="object_dekubaba_Tex_0028D0" Format="rgba16" Width="8" Height="8" Offset="0x28D0"/>
-        <Texture Name="object_dekubaba_Tex_002950" Format="rgba16" Width="8" Height="8" Offset="0x2950"/>
-        <Limb Name="object_dekubaba_Limb_0029D0" LimbType="Standard" Offset="0x29D0"/>
-        <Limb Name="object_dekubaba_Limb_0029DC" LimbType="Standard" Offset="0x29DC"/>
-        <Limb Name="object_dekubaba_Limb_0029E8" LimbType="Standard" Offset="0x29E8"/>
-        <Limb Name="object_dekubaba_Limb_0029F4" LimbType="Standard" Offset="0x29F4"/>
-        <Limb Name="object_dekubaba_Limb_002A00" LimbType="Standard" Offset="0x2A00"/>
-        <Limb Name="object_dekubaba_Limb_002A0C" LimbType="Standard" Offset="0x2A0C"/>
-        <Limb Name="object_dekubaba_Limb_002A18" LimbType="Standard" Offset="0x2A18"/>
-        <Skeleton Name="object_dekubaba_Skel_002A40" Type="Normal" LimbType="Standard" Offset="0x2A40"/>
-        <Array Name="object_dekubaba_Vtx_002A50" Count="98" Offset="0x2A50">
+        <DList Name="gDekubabaStem2DL" Offset="0x1828"/>
+        <Texture Name="gDekubabaJawsOuterTex" Format="rgba16" Width="16" Height="32" Offset="0x18D0"/>
+        <Texture Name="gDekubabaJawsInnerTex" Format="rgba16" Width="32" Height="32" Offset="0x1CD0"/>
+        <Texture Name="gDekubabaLeavesTex" Format="rgba16" Width="16" Height="32" Offset="0x24D0"/>
+        <Texture Name="gDekubabaRootsTex" Format="rgba16" Width="8" Height="8" Offset="0x28D0"/>
+        <Texture Name="gDekubabaStemTex" Format="rgba16" Width="8" Height="8" Offset="0x2950"/>
+        <Limb Name="gDekubabaHeadRootLimb" LimbType="Standard" EnumName="DEKUBABA_HEAD_LIMB_ROOT" Offset="0x29D0"/>
+        <Limb Name="gDekubabaHeadUpperJawRootRootLimb" LimbType="Standard" EnumName="DEKUBABA_HEAD_LIMB_UPPER_JAW_ROOT_ROOT" Offset="0x29DC"/>
+        <Limb Name="gDekubabaHeadUpperJawRootLimb" LimbType="Standard" EnumName="DEKUBABA_HEAD_LIMB_UPPER_JAW_ROOT" Offset="0x29E8"/>
+        <Limb Name="gDekubabaHeadUpperJawLimb" LimbType="Standard" EnumName="DEKUBABA_HEAD_LIMB_UPPER_JAW" Offset="0x29F4"/>
+        <Limb Name="gDekubabaHeadLowerJawRootRootLimb" LimbType="Standard" EnumName="DEKUBABA_HEAD_LIMB_LOWER_JAW_ROOT_ROOT" Offset="0x2A00"/>
+        <Limb Name="gDekubabaHeadLowerJawRootLimb" LimbType="Standard" EnumName="DEKUBABA_HEAD_LIMB_LOWER_JAW_ROOT" Offset="0x2A0C"/>
+        <Limb Name="gDekubabaHeadLowerJawLimb" LimbType="Standard" EnumName="DEKUBABA_HEAD_LIMB_LOWER_JAW" Offset="0x2A18"/>
+        <Skeleton Name="gDekubabaHeadSkel" Type="Normal" LimbType="Standard" LimbNone="DEKUBABA_HEAD_LIMB_NONE" LimbMax="DEKUBABA_HEAD_LIMB_MAX" EnumName="DekubabaHeadLimb" Offset="0x2A40"/>
+        <Array Name="gDekubabaDekuStickVtx" Count="98" Offset="0x2A50">
             <Vtx/>
         </Array>
-        <DList Name="object_dekubaba_DL_003070" Offset="0x3070"/> <!-- deku stick drop -->
-        <Texture Name="object_dekubaba_Tex_0031C0" Format="rgba16" Width="32" Height="32" Offset="0x31C0"/>
+        <DList Name="gDekubabaDekuStickDL" Offset="0x3070"/>
+        <Texture Name="gDekubabaDekuStickTex" Format="rgba16" Width="32" Height="32" Offset="0x31C0"/>
     </File>
 </Root>
