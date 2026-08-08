@@ -1,8 +1,8 @@
 <Root>
     <File Name="object_bl" Segment="6">
-        <Animation Name="object_bl_Anim_000024" Offset="0x24"/>
-        <Animation Name="object_bl_Anim_000064" Offset="0x64"/>
-        <Animation Name="object_bl_Anim_0000A4" Offset="0xA4"/>
+        <Animation Name="gBiriElectrifyAnim" Offset="0x24"/>
+        <Animation Name="gBiriAscendAwayAnim" Offset="0x64"/>
+        <Animation Name="gBiriMainAnim" Offset="0xA4"/>
         <Array Name="gBiriTentaclesVtx" Count="4" Offset="0xC0">
             <Vtx/>
         </Array>

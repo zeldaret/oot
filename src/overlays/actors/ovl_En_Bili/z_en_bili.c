@@ -127,7 +127,7 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(play, &this->skelAnime, &gBiriSkel, &object_bl_Anim_0000A4, this->jointTable, this->morphTable,
+    SkelAnime_Init(play, &this->skelAnime, &gBiriSkel, &gBiriMainAnim, this->jointTable, this->morphTable,
                    BIRI_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -159,7 +159,7 @@ void EnBili_SetupIdle(EnBili* this) {
 }
 
 void EnBili_SetupSpawnedByBari(EnBili* this) {
-    Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
+    Animation_PlayLoop(&this->skelAnime, &gBiriMainAnim);
     this->timer = 25;
     this->actor.velocity.y = 6.0f;
     this->actor.gravity = -0.3f;
@@ -169,7 +169,7 @@ void EnBili_SetupSpawnedByBari(EnBili* this) {
 }
 
 void EnBili_SetupElectrify(EnBili* this) {
-    Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_000024);
+    Animation_PlayLoop(&this->skelAnime, &gBiriElectrifyAnim);
     this->timer = 10;
     this->actionFunc = EnBili_Electrify;
     this->actor.speed = 0.0f;
@@ -177,7 +177,7 @@ void EnBili_SetupElectrify(EnBili* this) {
 }
 
 void EnBili_SetupAscendAway(EnBili* this) {
-    Animation_PlayOnce(&this->skelAnime, &object_bl_Anim_000064);
+    Animation_PlayOnce(&this->skelAnime, &gBiriAscendAwayAnim);
     this->collider.base.atFlags &= ~AT_ON;
     this->actionFunc = EnBili_AscendAway;
     this->actor.speed = 0.0f;
@@ -190,7 +190,7 @@ void EnBili_SetupApproachPlayer(EnBili* this) {
 }
 
 void EnBili_SetupFleePlayer(EnBili* this) {
-    Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
+    Animation_PlayLoop(&this->skelAnime, &gBiriMainAnim);
     this->timer = 96;
     this->actor.speed = 0.9f;
     this->actor.home.pos.y = this->actor.world.pos.y;
@@ -199,8 +199,8 @@ void EnBili_SetupFleePlayer(EnBili* this) {
 }
 
 void EnBili_SetupSlingshotKnockback(EnBili* this) {
-    if (this->skelAnime.animation != &object_bl_Anim_0000A4) {
-        Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
+    if (this->skelAnime.animation != &gBiriMainAnim) {
+        Animation_PlayLoop(&this->skelAnime, &gBiriMainAnim);
     }
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.ac->prevPos) + 0x8000;
     this->actor.world.rot.x = Actor_WorldPitchTowardPoint(&this->actor, &this->collider.base.ac->prevPos);
@@ -210,7 +210,7 @@ void EnBili_SetupSlingshotKnockback(EnBili* this) {
 
 void EnBili_SetupDamaged(EnBili* this) {
     if (this->actionFunc == EnBili_AscendAway) {
-        Animation_PlayLoop(&this->skelAnime, &object_bl_Anim_0000A4);
+        Animation_PlayLoop(&this->skelAnime, &gBiriMainAnim);
     }
     this->timer = 20;
     this->collider.base.atFlags &= ~AT_ON;
