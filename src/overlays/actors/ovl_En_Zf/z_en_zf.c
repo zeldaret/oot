@@ -131,10 +131,10 @@ static Vec3f sDCPlatformPositions[] = {
 static s16 sPairedActiveFleeFlag = 0;
 /**
  * When a pair is spawned, this tracks the type of the inactive / background / not fighting one
- * (ENZF_TYPE_LIZALFOS_PAIRED_A or ENZF_TYPE_LIZALFOS_PAIRED_B).
+ * (ENZF_TYPE_LIZALFOS_PAIRED_MINIBOSS_A or ENZF_TYPE_LIZALFOS_PAIRED_MINIBOSS_B).
  * When no pair, or once one of the pair is defeated, this is ENZF_TYPE_LIZALFOS_SINGLE.
  */
-static s16 sPairedInactiveType = ENZF_TYPE_LIZALFOS_PAIRED_B;
+static s16 sPairedInactiveType = ENZF_TYPE_LIZALFOS_PAIRED_MINIBOSS_B;
 
 ActorProfile En_Zf_Profile = {
     /**/ ACTOR_EN_ZF,
@@ -412,7 +412,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
         if ((ABS(yDiff) <= 100.0f) && !Flags_GetSwitch(play, this->switchFlag)) {
             this->homePlatform = this->curPlatform = EnZf_FindPlatform(&this->actor.world.pos, 0);
             EnZf_SetupWaitAppear(this);
-            sPairedInactiveType = ENZF_TYPE_LIZALFOS_PAIRED_B;
+            sPairedInactiveType = ENZF_TYPE_LIZALFOS_PAIRED_MINIBOSS_B;
         } else {
             Actor_Kill(&this->actor);
         }
@@ -713,7 +713,7 @@ void EnZf_WaitAppear(EnZf* this, PlayState* play) {
     if (this->timer == 1) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
-        if (this->actor.params == ENZF_TYPE_LIZALFOS_PAIRED_A) {
+        if (this->actor.params == ENZF_TYPE_LIZALFOS_PAIRED_MINIBOSS_A) {
             func_800F5ACC(NA_BGM_MINI_BOSS);
         }
     }
@@ -743,7 +743,7 @@ void EnZf_WaitAppear(EnZf* this, PlayState* play) {
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         this->alpha = 255;
-        if (this->actor.params >= ENZF_TYPE_LIZALFOS_PAIRED_B) {
+        if (this->actor.params >= ENZF_TYPE_LIZALFOS_PAIRED_MINIBOSS_B) {
             EnZf_Paired_SetupJumpAwayStartTurnAround(this, play);
         } else {
             EnZf_SetupIdle(this);
