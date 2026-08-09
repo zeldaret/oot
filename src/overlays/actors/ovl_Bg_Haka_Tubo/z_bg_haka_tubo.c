@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_haka_tubo.h"
+#include "src/overlays/actors/ovl_En_Firefly/z_en_firefly.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"
@@ -189,7 +190,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
                 collectibleParams = -1;
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY, this->dyna.actor.world.pos.x,
                             this->dyna.actor.world.pos.y + 80.0f, this->dyna.actor.world.pos.z, 0,
-                            this->dyna.actor.shape.rot.y, 0, 2);
+                            this->dyna.actor.shape.rot.y, 0, EN_FIREFLY_TYPE_NORMAL);
                 Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
             } else {
                 // Random rewards

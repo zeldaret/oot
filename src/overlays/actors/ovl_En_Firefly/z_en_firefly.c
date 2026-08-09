@@ -26,17 +26,28 @@ void EnFirefly_Destroy(Actor* thisx, PlayState* play);
 void EnFirefly_Update(Actor* thisx, PlayState* play2);
 void EnFirefly_DrawOpa(Actor* thisx, PlayState* play);
 
-void func_80A13A08_Action(EnFirefly*, PlayState*);
-void func_80A13C98_Action(EnFirefly*, PlayState*);
-void func_80A13D68_Action(EnFirefly*, PlayState*);
-void func_80A13DE4_Action(EnFirefly*, PlayState*);
-void func_80A13FF4_Action(EnFirefly*, PlayState*);
-void func_80A14088_Action(EnFirefly*, PlayState*);
-void func_80A141F0_Action(EnFirefly*, PlayState*);
-void func_80A14294_Action(EnFirefly*, PlayState*);
-void func_80A142F4_Action_Perched_(EnFirefly*, PlayState*);
-void func_80A143B4_Action_SwoopOnPlayer(EnFirefly*, PlayState*);
+void EnFirefly_Idle(EnFirefly*, PlayState*);
+void EnFirefly_Die(EnFirefly*, PlayState*);
+void EnFirefly_Disappear(EnFirefly*, PlayState*);
+void EnFirefly_Attack(EnFirefly*, PlayState*);
+void EnFirefly_Stay(EnFirefly*, PlayState*);
+void EnFirefly_FlyTowardsHome(EnFirefly*, PlayState*);
+void EnFirefly_Stunned(EnFirefly*, PlayState*);
+void EnFirefly_DieFrozen(EnFirefly*, PlayState*);
+void EnFirefly_Perched(EnFirefly*, PlayState*);
+void EnFirefly_AttackFromPerched(EnFirefly*, PlayState*);
 void EnFirefly_DrawXlu(Actor*, PlayState*);
+
+typedef enum EnFireflyEffectsElementalType {
+    EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_NONE,
+    EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE,
+    EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_ICE
+} EnFireflyEffectsElementalType;
+
+typedef enum EnFireflyBodyElementalType {
+    EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL,
+    EN_FIREFLY_BODY_ELEMENTAL_TYPE_FIRE
+} EnFireflyBodyElementalType;
 
 ActorProfile En_Firefly_Profile = {
     /**/ ACTOR_EN_FIREFLY,
@@ -49,78 +60,102 @@ ActorProfile En_Firefly_Profile = {
     /**/ EnFirefly_Update,
     /**/ EnFirefly_DrawOpa,
 };
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0, { 0xFFCFFFFF, 1, 8 }, { 0xFFCFFFFF, 0, 0 }, 9, 1, 1 },
-        { 1, { { 0, 0x3E8, 0 }, 0xF }, 0x64 },
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, 0x08 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+            ATELEM_ON | ATELEM_SFX_HARD,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { KEESE_LIMB_ROOT_ROOT, { { 0, 1000, 0 }, 15 }, 100 },
     },
 };
-static ColliderJntSphInit sJntSphInit = { { 3, 0x11, 9, 0x39, 0x10, 0 }, 1, sJntSphElementsInit };
-static CollisionCheckInfoInit sColChkInfoInit = { 1, 10, 10, 30 };
-static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0x0),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(1, 0x0),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(2, 0x0),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
-    /* Master sword  */ DMG_ENTRY(2, 0x0),
-    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
-    /* Fire arrow    */ DMG_ENTRY(2, 0xF),
-    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
-    /* Light arrow   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(0, 0x2),
-    /* Ice magic     */ DMG_ENTRY(4, 0x3),
-    /* Light magic   */ DMG_ENTRY(0, 0x0),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
-    /* Giant spin    */ DMG_ENTRY(4, 0x0),
-    /* Master spin   */ DMG_ENTRY(2, 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
-    /* Giant jump    */ DMG_ENTRY(8, 0x0),
-    /* Master jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+
+static ColliderJntSphInit sJntSphInit = {
+    {
+        COL_MATERIAL_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
-static InitChainEntry sInitChain[5] = {
+
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 10, 10, 30 };
+
+typedef enum EnFireflyDamageReaction {
+    EN_FIREFLY_DMG_REACT_NONE,
+    EN_FIREFLY_DMG_REACT_STUN,
+    EN_FIREFLY_DMG_REACT_DINS_FIRE,
+    EN_FIREFLY_DMG_REACT_ICE,
+    EN_FIREFLY_DMG_REACT_FIRE_ARROW = 0xF
+} EnFireflyDamageReaction;
+
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, EN_FIREFLY_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, EN_FIREFLY_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(1, EN_FIREFLY_DMG_REACT_NONE),
+    /* Normal arrow  */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_FIREFLY_DMG_REACT_NONE),
+    /* Master sword  */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_FIREFLY_DMG_REACT_NONE),
+    /* Fire arrow    */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_FIRE_ARROW),
+    /* Ice arrow     */ DMG_ENTRY(4, EN_FIREFLY_DMG_REACT_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(0, EN_FIREFLY_DMG_REACT_DINS_FIRE),
+    /* Ice magic     */ DMG_ENTRY(4, EN_FIREFLY_DMG_REACT_ICE),
+    /* Light magic   */ DMG_ENTRY(0, EN_FIREFLY_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, EN_FIREFLY_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_FIREFLY_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_FIREFLY_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, EN_FIREFLY_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_FIREFLY_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, EN_FIREFLY_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, EN_FIREFLY_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, EN_FIREFLY_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, EN_FIREFLY_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_FIREFLY_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_FIREFLY_DMG_REACT_NONE),
+};
+
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -4, ICHAIN_CONTINUE),    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(lockOnArrowOffset, 4000, ICHAIN_STOP),
 };
-static Color_RGBA8 D_80A14FA0 = { 0xFF, 0xFF, 0x64, 0xFF };
-static Color_RGBA8 D_80A14FA4 = { 0xFF, 0x32, 0, 0 };
-static Color_RGBA8 D_80A14FA8 = { 0x64, 0xC8, 0xFF, 0xFF };
-static Color_RGBA8 D_80A14FAC = { 0, 0, 0xFF, 0 };
-static Vec3f D_80A14FB0 = { 0.0f, 0.5f, 0.0f };
-static Vec3f D_80A14FBC = { 0.0f, 0.5f, 0.0f };
-static Vec3f D_80A14FC8 = { 0.0f, 0.0f, 0.0f };
 
-void func_80A13070_Unignite_(EnFirefly* this) {
-    this->actor.params += 2;
-    this->collider.elements->base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
-    this->unk1B8 = 0;
-    this->unk1B9 = 0;
+void EnFirefly_SetElementNormal(EnFirefly* this) {
+    this->actor.params += 2; // EN_FIREFLY_TYPE_NORMAL, EN_FIREFLY_TYPE_NORMAL_PERCHED
+    this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
+    this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_NONE;
+    this->bodyType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL;
     this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
 }
 
-void func_80A13098_Ignite_(EnFirefly* this) {
-    if (this->actor.params == 4) {
-        this->actor.params = 0;
+void EnFirefly_SetElementFire(EnFirefly* this) {
+    if (this->actor.params == EN_FIREFLY_TYPE_ICE) {
+        this->actor.params = EN_FIREFLY_TYPE_FIRE;
     } else {
-        this->actor.params -= 2;
+        this->actor.params -= 2; // EN_FIREFLY_TYPE_FIRE, EN_FIREFLY_TYPE_FIRE_CAN_PERCH
     }
-    this->collider.elements->base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
-    this->unk1B8 = 1;
-    this->unk1B9 = 1;
+    this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
+    this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE;
+    this->bodyType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_FIRE;
     this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
 }
 
@@ -129,7 +164,8 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
-    SkelAnime_Init(play, &this->skelAnime, &gKeeseSkeleton, &gKeeseFlyAnim, this->jointTable, this->morphTable, 0x1C);
+    SkelAnime_Init(play, &this->skelAnime, &gKeeseSkel, &gKeeseFlyAnim, this->jointTable, this->morphTable,
+                   KEESE_LIMB_MAX);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -138,39 +174,39 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         thisx->draw = EnFirefly_DrawXlu;
         this->actor.params &= 0x7FFF;
     }
-    if (this->actor.params < 2) {
-        this->unk1B9 = 1;
+    if (this->actor.params <= EN_FIREFLY_TYPE_FIRE_CAN_PERCH) { // EN_FIREFLY_TYPE_FIRE0, EN_FIREFLY_TYPE_FIRE1
+        this->bodyType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_FIRE;
     } else {
-        this->unk1B9 = 0;
+        this->bodyType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL;
     }
-    if (this->unk1B9 != 0) {
-        this->actionFunc = func_80A13A08_Action;
-        this->unk1BA_timer = Rand_S16Offset(20, 60);
+    if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+        this->actionFunc = EnFirefly_Idle;
+        this->timer = Rand_S16Offset(20, 60);
         this->actor.shape.rot.x = 0x1554;
-        this->unk1B8 = 1;
+        this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE;
         this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
-        this->unk310_homeY = this->actor.home.pos.y;
+        this->homeY = this->actor.home.pos.y;
     } else {
-        if (this->actor.params == 3) {
-            this->actionFunc = func_80A142F4_Action_Perched_;
+        if (this->actor.params == EN_FIREFLY_TYPE_NORMAL_PERCHED) {
+            this->actionFunc = EnFirefly_Perched;
         } else {
-            this->actionFunc = func_80A13A08_Action;
+            this->actionFunc = EnFirefly_Idle;
         }
-        if (this->actor.params == 4) {
-            this->collider.elements->base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_ICE;
+        if (this->actor.params == EN_FIREFLY_TYPE_ICE) {
+            this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_ICE;
             this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
-            this->collider.elements->base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
+            this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
             this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
-        this->unk310_homeY = this->actor.home.pos.y + 100.0f;
-        if (this->actor.params == 4) {
-            this->unk1B8 = 2;
+        this->homeY = this->actor.home.pos.y + 100.0f;
+        if (this->actor.params == EN_FIREFLY_TYPE_ICE) {
+            this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_ICE;
         } else {
-            this->unk1B8 = 0;
+            this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_NONE;
         }
     }
-    this->collider.elements->dim.worldSphere.radius = sJntSphInit.elements->dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
 }
 
 void EnFirefly_Destroy(Actor* thisx, PlayState* play) {
@@ -179,127 +215,127 @@ void EnFirefly_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-void func_80A132F4_Setup(EnFirefly* this) {
-    s32 var_v0;
+void EnFirefly_SetupIdle(EnFirefly* this) {
+    s32 targetPitch;
 
-    this->unk1BA_timer = Rand_S16Offset(0x46, 0x64);
+    this->timer = Rand_S16Offset(70, 100);
     this->actor.speed = (Rand_ZeroOne() * 1.5f) + 1.5f;
     Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
-    if (this->unk310_homeY < this->actor.world.pos.y) {
-        var_v0 = 0xC00;
+    if (this->homeY < this->actor.world.pos.y) {
+        targetPitch = 0xC00;
     } else {
-        var_v0 = -0xC00;
+        targetPitch = -0xC00;
     }
-    this->unk1BC_targetRotX = var_v0 + 0x1554;
+    this->targetPitch = targetPitch + 0x1554;
     this->skelAnime.playSpeed = 1.0f;
-    this->actionFunc = func_80A13A08_Action;
+    this->actionFunc = EnFirefly_Idle;
 }
 
-void func_80A133A0_Setup(EnFirefly* this) {
-    this->unk1BA_timer = 0x28;
+void EnFirefly_SetupDie(EnFirefly* this) {
+    this->timer = 40;
     this->actor.velocity.y = 0.0f;
     Animation_Change(&this->skelAnime, &gKeeseFlyAnim, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
-    this->actionFunc = func_80A13C98_Action;
+    this->actionFunc = EnFirefly_Die;
 }
 
-void func_80A13444_Setup(EnFirefly* this) {
-    this->unk1BA_timer = 0xF;
-    this->actionFunc = func_80A13D68_Action;
+void EnFirefly_SetupDisappear(EnFirefly* this) {
+    this->timer = 15;
+    this->actionFunc = EnFirefly_Disappear;
     this->actor.speed = 0.0f;
 }
 
-void func_80A13464_Setup(EnFirefly* this) {
+void EnFirefly_SetupStay(EnFirefly* this) {
     this->actor.world.rot.x = 0x7000;
-    this->unk1BA_timer = 18;
-    this->actionFunc = func_80A13FF4_Action;
+    this->timer = 18;
+    this->actionFunc = EnFirefly_Stay;
     this->skelAnime.playSpeed = 1.0f;
     this->actor.speed = 2.5f;
 }
 
-void func_80A1349C_Setup(EnFirefly* this) {
-    s32 var_v0;
+void EnFirefly_SetupAttack(EnFirefly* this) {
+    s32 targetPitch;
 
-    this->unk1BA_timer = Rand_S16Offset(70, 100);
+    this->timer = Rand_S16Offset(70, 100);
     this->skelAnime.playSpeed = 1.0f;
     if (this->actor.yDistToPlayer > 0.0f) {
-        var_v0 = -0xC00;
+        targetPitch = -0xC00;
     } else {
-        var_v0 = 0xC00;
+        targetPitch = 0xC00;
     }
-    this->unk1BC_targetRotX = var_v0 + 0x1554;
-    this->actionFunc = func_80A13DE4_Action;
+    this->targetPitch = targetPitch + 0x1554;
+    this->actionFunc = EnFirefly_Attack;
 }
 
-void func_80A1350C_Setup(EnFirefly* this) {
-    this->unk1BA_timer = 150;
-    this->unk1BC_targetRotX = 0x954;
-    this->actionFunc = func_80A14088_Action;
+void EnFirefly_SetupFlyTowardsHome(EnFirefly* this) {
+    this->timer = 150;
+    this->targetPitch = 0x954;
+    this->actionFunc = EnFirefly_FlyTowardsHome;
     this->skelAnime.playSpeed = 1.0f;
 }
 
-void func_80A13538_Setup(EnFirefly* this) {
-    this->unk1BA_timer = 80;
+void EnFirefly_SetupStunned(EnFirefly* this) {
+    this->timer = 80;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
-    this->unk1B8 = 0;
+    this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_NONE;
     this->actor.velocity.y = 0.0f;
     this->skelAnime.playSpeed = 3.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    this->actionFunc = func_80A141F0_Action;
+    this->actionFunc = EnFirefly_Stunned;
 }
 
-void func_80A135A8_Setup(EnFirefly* this, PlayState* play) {
-    s32 var_s0;
-    Vec3f sp78;
+void EnFirefly_SetupDieFrozen(EnFirefly* this, PlayState* play) {
+    s32 i;
+    Vec3f effPos;
 
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
-    this->unk1B8 = 0;
+    this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_NONE;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 255);
     Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_DEAD);
-    for (var_s0 = 0; var_s0 < 8; var_s0++) {
-        sp78.x = this->actor.world.pos.x + ((var_s0 & 1) ? 7.0f : -7.0f);
-        sp78.y = this->actor.world.pos.y + ((var_s0 & 2) ? 7.0f : -7.0f);
-        sp78.z = this->actor.world.pos.z + ((var_s0 & 4) ? 7.0f : -7.0f);
-        EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &sp78, 150, 150, 150, 250, 235, 245, 255,
+    for (i = 0; i < 8; i++) {
+        effPos.x = this->actor.world.pos.x + ((i & 1) ? 7.0f : -7.0f);
+        effPos.y = this->actor.world.pos.y + ((i & 2) ? 7.0f : -7.0f);
+        effPos.z = this->actor.world.pos.z + ((i & 4) ? 7.0f : -7.0f);
+        EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effPos, 150, 150, 150, 250, 235, 245, 255,
                                        (Rand_ZeroOne() * 0.15f) + 0.85f);
     }
-    this->actionFunc = func_80A14294_Action;
+    this->actionFunc = EnFirefly_DieFrozen;
 }
 
-void func_80A13744_Setup_Perched_(EnFirefly* this) {
-    this->unk1BA_timer = 1;
-    this->actionFunc = func_80A142F4_Action_Perched_;
+void EnFirefly_SetupPerched(EnFirefly* this) {
+    this->timer = 1;
+    this->actionFunc = EnFirefly_Perched;
     this->actor.speed = 0.0f;
 }
 
-void func_80A13764_Setup_SwoopOnPlayer(EnFirefly* this) {
+void EnFirefly_SetupAttackFromPerched(EnFirefly* this) {
     this->skelAnime.playSpeed = 3.0f;
     this->actor.shape.rot.x = 0x1554;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-    this->unk1BA_timer = 50;
+    this->timer = 50;
     this->actor.speed = 3.0f;
-    this->actionFunc = func_80A143B4_Action_SwoopOnPlayer;
+    this->actionFunc = EnFirefly_AttackFromPerched;
 }
 
-s32 func_80A1379C_HoneInOnHomeIfPlayerFar_(EnFirefly* this, PlayState* play) {
+s32 EnFirefly_ApproachPerchSpot(EnFirefly* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    f32 temp_fv0;
-    f32 temp_fv1;
+    f32 homeDist;
+    f32 speedFac;
 
-    if (this->actor.params != 3) {
+    if (this->actor.params != EN_FIREFLY_TYPE_NORMAL_PERCHED) {
         return false;
     }
     if (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) > 300.0f) {
-        temp_fv0 = Actor_WorldDistXYZToPoint(&this->actor, &this->actor.home.pos);
-        if (temp_fv0 < 5.0f) {
-            func_80A13744_Setup_Perched_(this);
+        homeDist = Actor_WorldDistXYZToPoint(&this->actor, &this->actor.home.pos);
+        if (homeDist < 5.0f) {
+            EnFirefly_SetupPerched(this);
         } else {
-            temp_fv1 = temp_fv0 * 0.05f;
-            if (temp_fv1 < 1.0f) {
-                this->actor.speed *= temp_fv1;
+            speedFac = homeDist * 0.05f;
+            if (speedFac < 1.0f) {
+                this->actor.speed *= speedFac;
             }
             Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                                0x300);
@@ -312,7 +348,7 @@ s32 func_80A1379C_HoneInOnHomeIfPlayerFar_(EnFirefly* this, PlayState* play) {
     }
 }
 
-s32 func_80A138B8_HoneInOnLitTorch(EnFirefly* this, PlayState* play) {
+s32 EnFirefly_ApproachLitTorch(EnFirefly* this, PlayState* play) {
     Actor* iter;
     f32 closestLitTorchDist;
     f32 dist;
@@ -337,7 +373,7 @@ s32 func_80A138B8_HoneInOnLitTorch(EnFirefly* this, PlayState* play) {
         torchFlamePos.y = closestLitTorch->world.pos.y + 52.0f + 15.0f;
         torchFlamePos.z = closestLitTorch->world.pos.z;
         if (Actor_WorldDistXYZToPoint(&this->actor, &torchFlamePos) < 15.0f) {
-            func_80A13098_Ignite_(this);
+            EnFirefly_SetElementFire(this);
             return true;
         } else {
             Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, closestLitTorch),
@@ -351,57 +387,56 @@ s32 func_80A138B8_HoneInOnLitTorch(EnFirefly* this, PlayState* play) {
     }
 }
 
-void func_80A13A08_Action(EnFirefly* this, PlayState* play) {
-    s32 sp3C;
-    f32 temp_fv0;
+void EnFirefly_Idle(EnFirefly* this, PlayState* play) {
+    s32 animLooped;
+    f32 f;
 
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk1BA_timer != 0) {
-        this->unk1BA_timer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    sp3C = Animation_OnFrame(&this->skelAnime, 0.0f);
+    animLooped = Animation_OnFrame(&this->skelAnime, 0.0f);
     this->actor.speed = (Rand_ZeroOne() * 1.5f) + 1.5f;
-    if ((this->unk1B9 != 0) || (this->actor.params == 4) ||
-        (!func_80A1379C_HoneInOnHomeIfPlayerFar_(this, play) && !func_80A138B8_HoneInOnLitTorch(this, play))) {
-        if (sp3C != 0) {
-            temp_fv0 = Rand_ZeroOne();
-            if (temp_fv0 < 0.5f) {
+    if ((this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) || (this->actor.params == EN_FIREFLY_TYPE_ICE) ||
+        (!EnFirefly_ApproachPerchSpot(this, play) && !EnFirefly_ApproachLitTorch(this, play))) {
+        if (animLooped) {
+            f = Rand_ZeroOne();
+            if (f < 0.5f) {
                 Math_ScaledStepToS(&this->actor.shape.rot.y,
                                    Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
-            } else if (temp_fv0 < 0.8f) {
-                f32 new_var = Rand_CenteredFloat(1536.0f);
+            } else if (f < 0.8f) {
+                f32 yawSpeed = Rand_CenteredFloat(1536.0f);
 
-                this->actor.shape.rot.y = (s16)(s32)(this->actor.shape.rot.y + new_var);
+                this->actor.shape.rot.y = TRUNCF_BINANG(this->actor.shape.rot.y + yawSpeed);
             }
             if (this->actor.world.pos.y < (this->actor.floorHeight + 20.0f)) {
-                this->unk1BC_targetRotX = 0x954;
-            } else if (this->unk310_homeY < this->actor.world.pos.y) {
-                this->unk1BC_targetRotX = 0x2154;
+                this->targetPitch = 0x954;
+            } else if (this->homeY < this->actor.world.pos.y) {
+                this->targetPitch = 0x2154;
             } else if (Rand_ZeroOne() > 0.35f) {
-                this->unk1BC_targetRotX = 0x954;
+                this->targetPitch = 0x954;
             } else {
-                this->unk1BC_targetRotX = 0x2154;
+                this->targetPitch = 0x2154;
             }
         } else {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-                this->unk1BC_targetRotX = 0x954;
-            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) ||
-                       (this->unk310_homeY < this->actor.world.pos.y)) {
-                this->unk1BC_targetRotX = 0x2154;
+                this->targetPitch = 0x954;
+            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->homeY < this->actor.world.pos.y)) {
+                this->targetPitch = 0x2154;
             }
         }
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
     }
-    if ((this->unk1BA_timer == 0) && (this->actor.xzDistToPlayer < 200.0f) && (Player_GetMask(play) != 2)) {
-        func_80A1349C_Setup(this);
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
+        EnFirefly_SetupAttack(this);
     }
 }
 
-void func_80A13C98_Action(EnFirefly* this, PlayState* play) {
-    if (Animation_OnFrame(&this->skelAnime, 6.0f) != 0) {
+void EnFirefly_Die(EnFirefly* this, PlayState* play) {
+    if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
         this->skelAnime.playSpeed = 0.0f;
     }
     this->actor.colorFilterTimer = 40;
@@ -412,103 +447,102 @@ void func_80A13C98_Action(EnFirefly* this, PlayState* play) {
     } else {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x6800, 0x200);
         this->actor.shape.rot.y -= 0x300;
-        if (this->unk1BA_timer != 0) {
-            this->unk1BA_timer--;
+        if (this->timer != 0) {
+            this->timer--;
         }
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->unk1BA_timer == 0)) {
-            func_80A13444_Setup(this);
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->timer == 0)) {
+            EnFirefly_SetupDisappear(this);
         }
     }
 }
 
-void func_80A13D68_Action(EnFirefly* this, PlayState* play) {
-    if (this->unk1BA_timer != 0) {
-        this->unk1BA_timer--;
+void EnFirefly_Disappear(EnFirefly* this, PlayState* play) {
+    if (this->timer != 0) {
+        this->timer--;
     }
     Math_StepToF(&this->actor.scale.x, 0.0f, 0.00034f);
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
-    if (this->unk1BA_timer == 0) {
+    if (this->timer == 0) {
         Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
                                    COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_14, false));
         Actor_Kill(&this->actor);
     }
 }
 
-void func_80A13DE4_Action(EnFirefly* this, PlayState* play) {
-    Actor* sp44;
-    Vec3f sp38;
+void EnFirefly_Attack(EnFirefly* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
+    Vec3f playerPos;
 
-    sp44 = play->actorCtx.actorLists[2].head;
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk1BA_timer != 0) {
-        this->unk1BA_timer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
     Math_StepToF(&this->actor.speed, 4.0f, 0.5f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
-    } else if (Actor_IsFacingPlayer(&this->actor, 0x2800) != 0) {
-        if (Animation_OnFrame(&this->skelAnime, 4.0f) != 0) {
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
+    } else if (Actor_IsFacingPlayer(&this->actor, 0x2800)) {
+        if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
             this->skelAnime.playSpeed = 0.0f;
             this->skelAnime.curFrame = 4.0f;
         }
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0xC00, 0x300);
-        sp38.x = sp44->world.pos.x;
-        sp38.y = sp44->world.pos.y + 20.0f;
-        sp38.z = sp44->world.pos.z;
+        playerPos.x = player->actor.world.pos.x;
+        playerPos.y = player->actor.world.pos.y + 20.0f;
+        playerPos.z = player->actor.world.pos.z;
         Math_SmoothStepToS(&this->actor.shape.rot.x,
-                           (s16)(Actor_WorldPitchTowardPoint(&this->actor, (Vec3f*)&sp38) + 0x1554), 2, 0x400, 0x100);
+                           (s16)(Actor_WorldPitchTowardPoint(&this->actor, &playerPos) + 0x1554), 2, 0x400, 0x100);
     } else {
         this->skelAnime.playSpeed = 1.5f;
         if (this->actor.xzDistToPlayer > 80.0f) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0xC00, 0x300);
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-            this->unk1BC_targetRotX = 0x954;
+            this->targetPitch = 0x954;
         }
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->unk310_homeY < this->actor.world.pos.y)) {
-            this->unk1BC_targetRotX = 0x2154;
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->homeY < this->actor.world.pos.y)) {
+            this->targetPitch = 0x2154;
         } else {
-            this->unk1BC_targetRotX = 0x954;
+            this->targetPitch = 0x954;
         }
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     }
-    if ((this->unk1BA_timer == 0) || (Player_GetMask(play) == 2)) {
-        func_80A1350C_Setup(this);
+    if ((this->timer == 0) || (Player_GetMask(play) == PLAYER_MASK_SKULL)) {
+        EnFirefly_SetupFlyTowardsHome(this);
     }
 }
 
-void func_80A13FF4_Action(EnFirefly* this, PlayState* play) {
+void EnFirefly_Stay(EnFirefly* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x100);
     Math_StepToF(&this->actor.velocity.y, 0.0f, 0.4f);
-    if (Math_StepToF(&this->actor.speed, 0.0f, 0.15f) != 0) {
-        if (this->unk1BA_timer != 0) {
-            this->unk1BA_timer--;
+    if (Math_StepToF(&this->actor.speed, 0.0f, 0.15f)) {
+        if (this->timer != 0) {
+            this->timer--;
         }
-        if (this->unk1BA_timer == 0) {
-            func_80A1350C_Setup(this);
+        if (this->timer == 0) {
+            EnFirefly_SetupFlyTowardsHome(this);
         }
     }
 }
 
-void func_80A14088_Action(EnFirefly* this, PlayState* play) {
+void EnFirefly_FlyTowardsHome(EnFirefly* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk1BA_timer != 0) {
-        this->unk1BA_timer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (((fabsf(this->actor.world.pos.y - this->unk310_homeY) < 10.0f) &&
+    if (((fabsf(this->actor.world.pos.y - this->homeY) < 10.0f) &&
          (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) < 20.0f)) ||
-        (this->unk1BA_timer == 0)) {
-        func_80A132F4_Setup(this);
+        (this->timer == 0)) {
+        EnFirefly_SetupIdle(this);
     } else {
         Math_StepToF(&this->actor.speed, 3.0f, 0.3f);
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-            this->unk1BC_targetRotX = 0x954;
-        } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->unk310_homeY < this->actor.world.pos.y)) {
-            this->unk1BC_targetRotX = 0x2154;
+            this->targetPitch = 0x954;
+        } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->homeY < this->actor.world.pos.y)) {
+            this->targetPitch = 0x2154;
         } else {
-            this->unk1BC_targetRotX = 0x954;
+            this->targetPitch = 0x954;
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
@@ -516,122 +550,125 @@ void func_80A14088_Action(EnFirefly* this, PlayState* play) {
             Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                                0x300);
         }
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk1BC_targetRotX, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     }
 }
 
-void func_80A141F0_Action(EnFirefly* this, PlayState* play) {
+void EnFirefly_Stunned(EnFirefly* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1554, 0x100);
-    if (this->unk1BA_timer != 0) {
-        this->unk1BA_timer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (this->unk1BA_timer == 0) {
-        if (this->unk1B9 != 0) {
-            this->unk1B8 = 1;
-        } else if (this->actor.params == 4) {
-            this->unk1B8 = 2;
+    if (this->timer == 0) {
+        if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+            this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE;
+        } else if (this->actor.params == EN_FIREFLY_TYPE_ICE) {
+            this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_ICE;
         }
-        func_80A132F4_Setup(this);
+        EnFirefly_SetupIdle(this);
     }
 }
 
-void func_80A14294_Action(EnFirefly* this, PlayState* play) {
+void EnFirefly_DieFrozen(EnFirefly* this, PlayState* play) {
 #if OOT_VERSION < NTSC_1_1
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
 #else
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
 #endif
         this->actor.colorFilterTimer = 0;
-        func_80A13444_Setup(this);
+        EnFirefly_SetupDisappear(this);
     } else {
-        this->actor.colorFilterTimer = 0xFF;
+        this->actor.colorFilterTimer = 255;
     }
 }
 
-void func_80A142F4_Action_Perched_(EnFirefly* this, PlayState* play) {
+void EnFirefly_Perched(EnFirefly* this, PlayState* play) {
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x100);
-    if (this->unk1BA_timer != 0) {
+    if (this->timer != 0) {
         SkelAnime_Update(&this->skelAnime);
-        if (Animation_OnFrame(&this->skelAnime, 6.0f) != 0) {
-            this->unk1BA_timer--;
+        if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
+            this->timer--;
         }
     } else if (Rand_ZeroOne() < 0.02f) {
-        this->unk1BA_timer = 1;
+        this->timer = 1;
     }
     if (this->actor.xzDistToPlayer < 120.0f) {
-        func_80A13764_Setup_SwoopOnPlayer(this);
+        EnFirefly_SetupAttackFromPerched(this);
     }
 }
 
-void func_80A143B4_Action_SwoopOnPlayer(EnFirefly* this, PlayState* play) {
-    Player* temp_a2 = GET_PLAYER(play);
-    Vec3f sp28;
+void EnFirefly_AttackFromPerched(EnFirefly* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
+    Vec3f playerPos;
 
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk1BA_timer != 0) {
-        this->unk1BA_timer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (this->unk1BA_timer < 40) {
+    if (this->timer < 40) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0xAAC, 0x100);
     } else {
-        sp28.x = temp_a2->actor.world.pos.x;
-        sp28.y = temp_a2->actor.world.pos.y + 20.0f;
-        sp28.z = temp_a2->actor.world.pos.z;
-        Math_ScaledStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &sp28) + 0x1554, 0x100);
+        playerPos.x = player->actor.world.pos.x;
+        playerPos.y = player->actor.world.pos.y + 20.0f;
+        playerPos.z = player->actor.world.pos.z;
+        Math_ScaledStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &playerPos) + 0x1554,
+                           0x100);
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x300);
     }
-    if (this->unk1BA_timer == 0) {
-        func_80A132F4_Setup(this);
+    if (this->timer == 0) {
+        EnFirefly_SetupIdle(this);
     }
 }
 
-void func_80A1448C_SpawnFireEffects(EnFirefly* this, PlayState* play) {
+void EnFirefly_IceMelt(EnFirefly* this, PlayState* play) {
     s32 bodyPart;
 
     for (bodyPart = 0; bodyPart < EN_FIREFLY_BODY_PART_MAX; bodyPart++) {
         EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, 40, 0, 0, bodyPart);
     }
-    this->unk1B8 = 0;
+    this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_NONE;
 }
 
-void func_80A1450C_ReactToAC(EnFirefly* this, PlayState* play) {
+void EnFirefly_CheckCollide(EnFirefly* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements->base, true);
-        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
+        if ((this->actor.colChkInfo.damageReaction != EN_FIREFLY_DMG_REACT_NONE) ||
+            (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
-            if (this->actor.colChkInfo.damageReaction == 2) {
-                if (this->actor.params == 4) {
+            if (this->actor.colChkInfo.damageReaction == EN_FIREFLY_DMG_REACT_DINS_FIRE) {
+                if (this->actor.params == EN_FIREFLY_TYPE_ICE) {
                     this->actor.colChkInfo.health = 0;
                     Enemy_StartFinishingBlow(play, &this->actor);
-                    func_80A1448C_SpawnFireEffects(this, play);
-                    func_80A133A0_Setup(this);
-                } else if (this->unk1B9 == 0) {
-                    func_80A13098_Ignite_(this);
-                    if (this->actionFunc == func_80A142F4_Action_Perched_) {
-                        func_80A132F4_Setup(this);
+                    EnFirefly_IceMelt(this, play);
+                    EnFirefly_SetupDie(this);
+                } else if (this->bodyType == EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+                    EnFirefly_SetElementFire(this);
+                    if (this->actionFunc == EnFirefly_Perched) {
+                        EnFirefly_SetupIdle(this);
                     }
                 }
-            } else if (this->actor.colChkInfo.damageReaction == 3) {
-                if (this->actor.params == 4) {
-                    func_80A133A0_Setup(this);
+            } else if (this->actor.colChkInfo.damageReaction == EN_FIREFLY_DMG_REACT_ICE) {
+                if (this->actor.params == EN_FIREFLY_TYPE_ICE) {
+                    EnFirefly_SetupDie(this);
                 } else {
-                    func_80A135A8_Setup(this, play);
+                    EnFirefly_SetupDieFrozen(this, play);
                 }
-            } else if (this->actor.colChkInfo.damageReaction == 1) {
-                if (this->actionFunc != func_80A141F0_Action) {
-                    func_80A13538_Setup(this);
+            } else if (this->actor.colChkInfo.damageReaction == EN_FIREFLY_DMG_REACT_STUN) {
+                if (this->actionFunc != EnFirefly_Stunned) {
+                    EnFirefly_SetupStunned(this);
                 }
             } else {
-                if ((this->actor.colChkInfo.damageReaction == 0xF) && (this->actor.params == 4)) {
-                    func_80A1448C_SpawnFireEffects(this, play);
+                if ((this->actor.colChkInfo.damageReaction == EN_FIREFLY_DMG_REACT_FIRE_ARROW) &&
+                    (this->actor.params == EN_FIREFLY_TYPE_ICE)) {
+                    EnFirefly_IceMelt(this, play);
                 }
-                func_80A133A0_Setup(this);
+                EnFirefly_SetupDie(this);
             }
         }
     }
@@ -640,25 +677,24 @@ void func_80A1450C_ReactToAC(EnFirefly* this, PlayState* play) {
 void EnFirefly_Update(Actor* thisx, PlayState* play2) {
     EnFirefly* this = (EnFirefly*)thisx;
     PlayState* play = play2;
-    f32 sp34;
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_ATTACK);
-        if (this->unk1B9 != 0) {
-            func_80A13070_Unignite_(this);
+        if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+            EnFirefly_SetElementNormal(this);
         }
-        if (this->actionFunc != func_80A143B4_Action_SwoopOnPlayer) {
-            func_80A13464_Setup(this);
+        if (this->actionFunc != EnFirefly_AttackFromPerched) {
+            EnFirefly_SetupStay(this);
         }
     }
-    func_80A1450C_ReactToAC(this, play);
+    EnFirefly_CheckCollide(this, play);
     this->actionFunc(this, play);
     if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
-        if ((this->actor.colChkInfo.health == 0) || ((this->actionFunc == func_80A141F0_Action))) {
+        if ((this->actor.colChkInfo.health == 0) || ((this->actionFunc == EnFirefly_Stunned))) {
             Actor_MoveXZGravity(&this->actor);
         } else {
-            if (this->actionFunc != func_80A13FF4_Action) {
+            if (this->actionFunc != EnFirefly_Stay) {
                 this->actor.world.rot.x = 0x1554 - this->actor.shape.rot.x;
             }
             Actor_MoveXYZ(&this->actor);
@@ -666,91 +702,102 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
     }
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 15.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
-    this->collider.elements->dim.worldSphere.center.x = this->actor.world.pos.x;
-    this->collider.elements->dim.worldSphere.center.y = this->actor.world.pos.y + 10.0f;
-    this->collider.elements->dim.worldSphere.center.z = this->actor.world.pos.z;
-    if ((this->actionFunc == func_80A13DE4_Action) || (this->actionFunc == func_80A143B4_Action_SwoopOnPlayer)) {
+    this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
+    this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y + 10.0f;
+    this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
+    if ((this->actionFunc == EnFirefly_Attack) || (this->actionFunc == EnFirefly_AttackFromPerched)) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
     if (this->actor.colChkInfo.health != 0) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        if (Animation_OnFrame(&this->skelAnime, 5.0f) != 0) {
+        if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_FLY);
         }
     }
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    sp34 = Math_SinS(this->actor.shape.rot.x);
-    this->actor.focus.pos.x = (Math_SinS(this->actor.shape.rot.y) * (10.0f * sp34)) + this->actor.world.pos.x;
-    this->actor.focus.pos.y = (Math_CosS(this->actor.shape.rot.x) * 10.0f) + this->actor.world.pos.y;
-    sp34 = Math_SinS(this->actor.shape.rot.x);
-    this->actor.focus.pos.z = (Math_CosS(this->actor.shape.rot.y) * (10.0f * sp34)) + this->actor.world.pos.z;
+    this->actor.focus.pos.x =
+        this->actor.world.pos.x + (10.0f * Math_SinS(this->actor.shape.rot.x) * Math_SinS(this->actor.shape.rot.y));
+    this->actor.focus.pos.y = this->actor.world.pos.y + (10.0f * Math_CosS(this->actor.shape.rot.x));
+    this->actor.focus.pos.z =
+        this->actor.world.pos.z + (10.0f * Math_SinS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y));
 }
 
 s32 EnFirefly_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                                Gfx** gfx) {
     EnFirefly* this = thisx;
-    if ((this->actor.draw == EnFirefly_DrawXlu) && (play->actorCtx.lensActive == 0)) {
+
+    if ((this->actor.draw == EnFirefly_DrawXlu) && !play->actorCtx.lensActive) {
         *dList = NULL;
-    } else if (limbIndex == 1) {
+    } else if (limbIndex == KEESE_LIMB_ROOT_ROOT) {
         pos->y += 2300.0f;
     }
     return false;
 }
 
 void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    Vec3f sp94;
-    Vec3f* var_a1;
-    Color_RGBA8* var_v1;
-    Color_RGBA8* var_v0;
-    MtxF sp48;
+    static Color_RGBA8 sFireEffPrimColor = { 255, 255, 100, 255 };
+    static Color_RGBA8 sFireEffEnvColor = { 255, 50, 0, 0 };
+    static Color_RGBA8 sIceEffPrimColor = { 100, 200, 255, 255 };
+    static Color_RGBA8 sIceEffEnvColor = { 0, 0, 255, 0 };
+    static Vec3f sEffVel = { 0.0f, 0.5f, 0.0f };
+    static Vec3f sEffAccel = { 0.0f, 0.5f, 0.0f };
+    static Vec3f D_80A14FC8 = { 0.0f, 0.0f, 0.0f };
+    Vec3f effPos;
+    Vec3f* bodyPartPos;
+    Color_RGBA8* effEnvColor;
+    Color_RGBA8* effPrimColor;
+    MtxF mf;
     EnFirefly* this = thisx;
-    s16 var_t0;
-    s16 var_t1;
+    s16 effScaleStep;
+    s16 effLife;
 
-    if ((this->unk1B9 == 0) && (limbIndex == 0x1B)) {
+    if ((this->bodyType == EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) && (limbIndex == KEESE_LIMB_HEAD)) {
         gSPDisplayList((*gfx)++, gKeeseEyesDL);
     } else {
-        if (((this->unk1B8 == 1) || (this->unk1B8 == 2)) && ((limbIndex == 0xF) || (limbIndex == 0x15))) {
-            if (this->actionFunc != func_80A13D68_Action) {
-                Matrix_Get(&sp48);
-                sp94.x = (Rand_ZeroOne() * 5.0f) + sp48.xw;
-                sp94.y = (Rand_ZeroOne() * 5.0f) + sp48.yw;
-                sp94.z = (Rand_ZeroOne() * 5.0f) + sp48.zw;
-                var_t0 = -0x28;
-                var_t1 = 3;
+        if (((this->effectsElementalType == EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE) ||
+             (this->effectsElementalType == EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_ICE)) &&
+            ((limbIndex == KEESE_LIMB_LEFT_WING_END) || (limbIndex == KEESE_LIMB_RIGHT_WING_END_ROOT))) {
+            if (this->actionFunc != EnFirefly_Disappear) {
+                Matrix_Get(&mf);
+                effPos.x = (Rand_ZeroOne() * 5.0f) + mf.xw;
+                effPos.y = (Rand_ZeroOne() * 5.0f) + mf.yw;
+                effPos.z = (Rand_ZeroOne() * 5.0f) + mf.zw;
+                effScaleStep = -40;
+                effLife = 3;
             } else {
-                if (limbIndex == 0xF) {
-                    sp94.x = (Math_SinS(this->unk1BA_timer * 0x238C) * this->unk1BA_timer) + this->actor.world.pos.x;
-                    sp94.z = (Math_CosS(this->unk1BA_timer * 0x238C) * this->unk1BA_timer) + this->actor.world.pos.z;
+                if (limbIndex == 15) {
+                    effPos.x = this->actor.world.pos.x + (Math_SinS(this->timer * 0x238C) * this->timer);
+                    effPos.z = this->actor.world.pos.z + (Math_CosS(this->timer * 0x238C) * this->timer);
                 } else {
-                    sp94.x = this->actor.world.pos.x - (Math_SinS(this->unk1BA_timer * 0x238C) * this->unk1BA_timer);
-                    sp94.z = this->actor.world.pos.z - (Math_CosS(this->unk1BA_timer * 0x238C) * this->unk1BA_timer);
+                    effPos.x = this->actor.world.pos.x - (Math_SinS(this->timer * 0x238C) * this->timer);
+                    effPos.z = this->actor.world.pos.z - (Math_CosS(this->timer * 0x238C) * this->timer);
                 }
-                var_t0 = -5;
-                var_t1 = 0xA;
-                sp94.y = this->actor.world.pos.y + ((0xF - this->unk1BA_timer) * 1.5f);
+                effScaleStep = -5;
+                effLife = 10;
+                effPos.y = this->actor.world.pos.y + ((15 - this->timer) * 1.5f);
             }
-            if (this->unk1B8 == 1) {
-                var_v0 = &D_80A14FA0;
-                var_v1 = &D_80A14FA4;
+            if (this->effectsElementalType == EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE) {
+                effPrimColor = &sFireEffPrimColor;
+                effEnvColor = &sFireEffEnvColor;
             } else {
-                var_v0 = &D_80A14FA8;
-                var_v1 = &D_80A14FAC;
+                effPrimColor = &sIceEffPrimColor;
+                effEnvColor = &sIceEffEnvColor;
             }
-            func_8002843C(play, &sp94, &D_80A14FB0, &D_80A14FBC, var_v0, var_v1, 250, var_t0, var_t1);
+            func_8002843C(play, &effPos, &sEffVel, &sEffAccel, effPrimColor, effEnvColor, 250, effScaleStep, effLife);
         }
     }
-    if ((limbIndex == 0xF) || (limbIndex == 0x15) || (limbIndex == 0xA)) {
-        if (limbIndex == 0xF) {
-            var_a1 = &this->bodyPartsPos[EN_FIREFLY_BODY_PART_LIMB_15];
-        } else if (limbIndex == 0x15) {
-            var_a1 = &this->bodyPartsPos[EN_FIREFLY_BODY_PART_LIMB_21];
+    if ((limbIndex == KEESE_LIMB_LEFT_WING_END) || (limbIndex == KEESE_LIMB_RIGHT_WING_END_ROOT) ||
+        (limbIndex == KEESE_LIMB_BODY)) {
+        if (limbIndex == KEESE_LIMB_LEFT_WING_END) {
+            bodyPartPos = &this->bodyPartsPos[EN_FIREFLY_BODY_PART_LEFT_WING];
+        } else if (limbIndex == KEESE_LIMB_RIGHT_WING_END_ROOT) {
+            bodyPartPos = &this->bodyPartsPos[EN_FIREFLY_BODY_PART_RIGHT_WING];
         } else {
-            var_a1 = &this->bodyPartsPos[EN_FIREFLY_BODY_PART_LIMB_10];
+            bodyPartPos = &this->bodyPartsPos[EN_FIREFLY_BODY_PART_BODY];
         }
-        Matrix_MultVec3f(&D_80A14FC8, var_a1);
-        var_a1->y -= 5.0f;
+        Matrix_MultVec3f(&D_80A14FC8, bodyPartPos);
+        bodyPartPos->y -= 5.0f;
     }
 }
 
@@ -759,7 +806,7 @@ void EnFirefly_DrawOpa(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_firefly.c", 0x6C5);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (this->unk1B9 != 0) {
+    if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     } else {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
@@ -774,7 +821,7 @@ void EnFirefly_DrawXlu(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_firefly.c", 1775);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (this->unk1B9 != 0) {
+    if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 255);

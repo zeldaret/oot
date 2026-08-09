@@ -1,5 +1,6 @@
 #include "z_bg_haka_huta.h"
-#include "overlays/actors/ovl_En_Rd/z_en_rd.h"
+#include "src/overlays/actors/ovl_En_Firefly/z_en_firefly.h"
+#include "src/overlays/actors/ovl_En_Rd/z_en_rd.h"
 
 #include "libc64/qrand.h"
 #include "ichain.h"
@@ -124,17 +125,16 @@ void func_8087D2F0(BgHakaHuta* this, PlayState* play) {
                         this->dyna.actor.world.pos.x + (-25.0f * Math_CosS(this->dyna.actor.shape.rot.y)) +
                             (40.0f * Math_SinS(this->dyna.actor.shape.rot.y)),
                         this->dyna.actor.world.pos.y - 10.0f,
-
                         this->dyna.actor.world.pos.z - (-25.0f * Math_SinS(this->dyna.actor.shape.rot.y)) +
                             (40.0f * Math_CosS(this->dyna.actor.shape.rot.y)),
-                        0, this->dyna.actor.shape.rot.y + 0x8000, 0, 2);
+                        0, this->dyna.actor.shape.rot.y + 0x8000, 0, EN_FIREFLY_TYPE_NORMAL);
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_FIREFLY,
                         this->dyna.actor.world.pos.x + (-25.0f * Math_CosS(this->dyna.actor.shape.rot.y)) +
                             (80.0f * Math_SinS(this->dyna.actor.shape.rot.y)),
                         this->dyna.actor.world.pos.y - 10.0f,
                         this->dyna.actor.world.pos.z - (-25.0f * Math_SinS(this->dyna.actor.shape.rot.y)) +
                             (80.0f * Math_CosS(this->dyna.actor.shape.rot.y)),
-                        0, this->dyna.actor.shape.rot.y, 0, 2);
+                        0, this->dyna.actor.shape.rot.y, 0, EN_FIREFLY_TYPE_NORMAL);
         } else if (this->unk16A == 1) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_RD,
                         this->dyna.actor.home.pos.x + (-25.0f * Math_CosS(this->dyna.actor.shape.rot.y)) +
