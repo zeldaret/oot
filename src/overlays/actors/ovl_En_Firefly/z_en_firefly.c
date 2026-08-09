@@ -143,7 +143,7 @@ void EnFirefly_SetElementNormal(EnFirefly* this) {
     this->actor.params += 2; // EN_FIREFLY_TYPE_NORMAL, EN_FIREFLY_TYPE_NORMAL_PERCHED
     this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
     this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_NONE;
-    this->bodyType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL;
+    this->bodyElementalType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL;
     this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
 }
 
@@ -155,7 +155,7 @@ void EnFirefly_SetElementFire(EnFirefly* this) {
     }
     this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
     this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE;
-    this->bodyType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_FIRE;
+    this->bodyElementalType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_FIRE;
     this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
 }
 
@@ -175,11 +175,11 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         this->actor.params &= 0x7FFF;
     }
     if (this->actor.params <= EN_FIREFLY_TYPE_FIRE_CAN_PERCH) { // EN_FIREFLY_TYPE_FIRE0, EN_FIREFLY_TYPE_FIRE1
-        this->bodyType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_FIRE;
+        this->bodyElementalType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_FIRE;
     } else {
-        this->bodyType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL;
+        this->bodyElementalType = EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL;
     }
-    if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+    if (this->bodyElementalType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
         this->actionFunc = EnFirefly_Idle;
         this->timer = Rand_S16Offset(20, 60);
         this->actor.shape.rot.x = 0x1554;
@@ -397,7 +397,8 @@ void EnFirefly_Idle(EnFirefly* this, PlayState* play) {
     }
     animLooped = Animation_OnFrame(&this->skelAnime, 0.0f);
     this->actor.speed = (Rand_ZeroOne() * 1.5f) + 1.5f;
-    if ((this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) || (this->actor.params == EN_FIREFLY_TYPE_ICE) ||
+    if ((this->bodyElementalType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) ||
+        (this->actor.params == EN_FIREFLY_TYPE_ICE) ||
         (!EnFirefly_ApproachPerchSpot(this, play) && !EnFirefly_ApproachLitTorch(this, play))) {
         if (animLooped) {
             f = Rand_ZeroOne();
@@ -562,7 +563,7 @@ void EnFirefly_Stunned(EnFirefly* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+        if (this->bodyElementalType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
             this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE;
         } else if (this->actor.params == EN_FIREFLY_TYPE_ICE) {
             this->effectsElementalType = EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_ICE;
@@ -647,7 +648,7 @@ void EnFirefly_CheckCollide(EnFirefly* this, PlayState* play) {
                     Enemy_StartFinishingBlow(play, &this->actor);
                     EnFirefly_IceMelt(this, play);
                     EnFirefly_SetupDie(this);
-                } else if (this->bodyType == EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+                } else if (this->bodyElementalType == EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
                     EnFirefly_SetElementFire(this);
                     if (this->actionFunc == EnFirefly_Perched) {
                         EnFirefly_SetupIdle(this);
@@ -681,7 +682,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_ATTACK);
-        if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+        if (this->bodyElementalType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
             EnFirefly_SetElementNormal(this);
         }
         if (this->actionFunc != EnFirefly_AttackFromPerched) {
@@ -752,7 +753,7 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
     s16 effScaleStep;
     s16 effLife;
 
-    if ((this->bodyType == EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) && (limbIndex == KEESE_LIMB_HEAD)) {
+    if ((this->bodyElementalType == EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) && (limbIndex == KEESE_LIMB_HEAD)) {
         gSPDisplayList((*gfx)++, gKeeseEyesDL);
     } else {
         if (((this->effectsElementalType == EN_FIREFLY_EFFECTS_ELEMENTAL_TYPE_FIRE) ||
@@ -806,7 +807,7 @@ void EnFirefly_DrawOpa(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_firefly.c", 0x6C5);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+    if (this->bodyElementalType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     } else {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
@@ -821,7 +822,7 @@ void EnFirefly_DrawXlu(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_firefly.c", 1775);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (this->bodyType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
+    if (this->bodyElementalType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 255);

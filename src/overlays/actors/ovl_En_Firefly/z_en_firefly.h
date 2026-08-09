@@ -31,7 +31,7 @@ typedef struct EnFirefly {
     /* 0x170 */ SkelAnime skelAnime;
     /* 0x1B4 */ EnFireflyActionFunc actionFunc;
     /* 0x1B8 */ u8 effectsElementalType;
-    /* 0x1B9 */ u8 bodyType;
+    /* 0x1B9 */ u8 bodyElementalType;
     /* 0x1BA */ s16 timer;
     /* 0x1BC */ s16 targetPitch;
     /* 0x1BE */ Vec3s jointTable[KEESE_LIMB_MAX];
