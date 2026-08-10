@@ -54,6 +54,9 @@
         <Texture Name="object_gla_004EB8_Tex" Format="ci8" Width="8" Height="8" Offset="0x4EB8" TlutOffset="0x4D08"/>
         <Texture Name="object_gla_004EF8_Tex" Format="ci8" Width="8" Height="16" Offset="0x4EF8" TlutOffset="0x4D08"/>
         <Texture Name="object_gla_004D08_Tex" Format="rgba16" Width="18" Height="12" Offset="0x4D08"/>
+        <Texture Name="object_gla_004F78_Tex" Format="ci8" Width="32" Height="32" Offset="0x4F78" TlutOffset="0x4D08"/>
+        <Texture Name="object_gla_005578_Tex" Format="ci8" Width="32" Height="32" Offset="0x5578" TlutOffset="0x4D08"/>
+        <Texture Name="object_gla_005BF8_Tex" Format="ci8" Width="32" Height="32" Offset="0x5BF8" TlutOffset="0x4D08"/>
         <Texture Name="object_gla_005378_Tex" Format="ci8" Width="8" Height="8" Offset="0x5378" TlutOffset="0x4D08"/>
         <Texture Name="object_gla_0053B8_Tex" Format="i8" Width="16" Height="16" Offset="0x53B8"/>
         <Texture Name="object_gla_0054B8_Tex" Format="ci8" Width="8" Height="16" Offset="0x54B8" TlutOffset="0x4D08"/>

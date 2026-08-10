@@ -70,7 +70,11 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Gfx* D_80A3279C[3] = { object_ge1_009198_DL, object_ge1_009430_DL, object_ge1_009690_DL };
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
-static s32 D_80A327B4[3] = { 0x06000708, 0x06000F08, 0x06001708 };
+static void* D_80A327B4[3] = {
+    object_ge1_000708_Tex,
+    object_ge1_000F08_Tex,
+    object_ge1_001708_Tex,
+};
 
 void EnGe1_Init(Actor* thisx, PlayState* play) {
     EnGe1* this = (EnGe1*)thisx;
@@ -357,7 +361,7 @@ void func_80A314D0(EnGe1* this, PlayState* play) {
 }
 
 void func_80A31514(EnGe1* this, PlayState* play) {
-    if (gBitFlags[0x16] & gSaveContext.save.info.inventory.questItems) {
+    if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
         func_80A30C70(this, play, 0x6014U, 100.0f, func_80A313E0);
     } else {
         func_80A30C70(this, play, 0x6013U, 100.0f, func_80A314D0);
@@ -446,7 +450,7 @@ void func_80A31934(EnGe1* this, PlayState* play) {
 void func_80A3196C(EnGe1* this, PlayState* play) {
     s32 var_a2;
 
-    if (Actor_HasParent(&this->actor, play) != 0) {
+    if (Actor_HasParent(&this->actor, play)) {
         this->unk2B4 = func_80A31934;
         if (this->unk2AC & 2) {
             SET_ITEMGETINF(ITEMGETINF_0F);
@@ -695,14 +699,14 @@ void EnGe1_Update(Actor* thisx, PlayState* play) {
 }
 
 void func_80A323B0(EnGe1* this) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayOnce(&this->skelAnime, this->unk2B0);
     }
 }
 
 void func_80A323EC(EnGe1* this) {
     if (!(this->unk2AC & 4)) {
-        if (SkelAnime_Update(&this->skelAnime) != 0) {
+        if (SkelAnime_Update(&this->skelAnime)) {
             this->unk2AC |= 4;
         }
         this->unk2AC |= 8;

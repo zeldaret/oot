@@ -766,9 +766,9 @@ void DemoEc_GerudoPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 
 void DemoEc_DrawGerudo(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        (UNK_PTR)0x06000708,
-        (UNK_PTR)0x06000F08,
-        (UNK_PTR)0x06001708,
+        object_ge1_000708_Tex,
+        object_ge1_000F08_Tex,
+        object_ge1_001708_Tex,
     };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];

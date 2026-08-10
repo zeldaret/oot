@@ -87,10 +87,10 @@ static Vec3f D_80A3439C = { 0.0f, -0.025f, 0.0f };
 static Color_RGBA8 D_80A343A8 = { 0xFF, 0xFF, 0xFF, 0 };
 static Color_RGBA8 D_80A343AC = { 0xFF, 0x96, 0, 0 };
 static Vec3f D_80A343B0 = { 600.0f, 700.0f, 0.0f };
-static s32 D_80A343BC[3] = {
-    0x06004F78,
-    0x06005578,
-    0x06005BF8,
+static void* D_80A343BC[3] = {
+    object_gla_004F78_Tex,
+    object_gla_005578_Tex,
+    object_gla_005BF8_Tex,
 };
 
 void func_80A32BD0(EnGe2* this, s32 arg1) {

@@ -22,6 +22,9 @@
         <Texture Name="object_ge1_000548_Tex" Format="ci8" Width="8" Height="8" Offset="0x548" TlutOffset="0x0348"/>
         <Texture Name="object_ge1_000588_Tex" Format="ci8" Width="16" Height="16" Offset="0x588" TlutOffset="0x0348"/>
         <Texture Name="object_ge1_000688_Tex" Format="ci8" Width="8" Height="16" Offset="0x688" TlutOffset="0x0348"/>
+        <Texture Name="object_ge1_000708_Tex" Format="rgba16" Width="32" Height="32" Offset="0x708"/>
+        <Texture Name="object_ge1_000F08_Tex" Format="rgba16" Width="32" Height="32" Offset="0xF08"/>
+        <Texture Name="object_ge1_001708_Tex" Format="rgba16" Width="32" Height="32" Offset="0x1708"/>
         <Texture Name="object_ge1_001F08_Tex" Format="ci8" Width="32" Height="32" Offset="0x1F08" TlutOffset="0x0348"/>
         <Texture Name="object_ge1_002308_Tex" Format="ci8" Width="8" Height="16" Offset="0x2308" TlutOffset="0x0348"/>
         <Texture Name="object_ge1_002388_Tex" Format="ci8" Width="16" Height="16" Offset="0x2388" TlutOffset="0x0348"/>

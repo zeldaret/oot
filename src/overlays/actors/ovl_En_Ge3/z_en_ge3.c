@@ -66,7 +66,11 @@ static void (*D_80A351BC[1])(EnGe3*, PlayState*) = { func_80A34A80 };
 static AnimationHeader* D_80A351C0[1] = { &gGerudoRedStandAnim };
 static u8 D_80A351C4[1] = { ANIMMODE_LOOP };
 static Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
-static s32 D_80A351D4[3] = { 0x06005FE8, 0x060065A8, 0x06006D28 };
+static void* D_80A351D4[3] = {
+    gGerudoRedEyeOpenTex,
+    gGerudoRedEyeHalfTex,
+    gGerudoRedEyeShutTex,
+};
 
 void func_80A34620(EnGe3* this, s32 arg1) {
     this->unk310 = D_80A351BC[arg1];

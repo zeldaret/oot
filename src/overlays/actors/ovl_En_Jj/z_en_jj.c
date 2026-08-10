@@ -197,7 +197,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeDownward, 1100, ICHAIN_STOP),
 };
 static Vec3f D_80A88CF0 = { -1589.0f, 53.0f, -43.0f };
-static s32 D_80A88CFC[5] = { 0x06007698, 0x06007A98, 0x06007E98, 0, 0 };
+static void* D_80A88CFC[5] = {
+    object_jj_007698_Tex,
+    object_jj_007A98_Tex,
+    object_jj_007E98_Tex,
+};
 
 void func_80A87800(EnJj* this, void (*arg1)(EnJj*, PlayState*)) {
     this->unk2FC = arg1;
