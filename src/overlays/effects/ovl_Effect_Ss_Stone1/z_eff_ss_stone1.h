@@ -16,13 +16,7 @@ typedef struct EffectSsStone1InitParams {
      * until R_TRANS_FADE_FLASH_ALPHA_STEP is set again or the play state is reentered
      * (e.g. on entrance transitions).
      *
-     * All current users of EffectSsStone1InitParams set this to 0.
-     *
-     * Given that:
-     * - the only use of R_TRANS_FADE_FLASH_ALPHA_STEP (outside of the transition system itself) is made by deku nuts
-     * - deku nuts and seeds are the only thing that spawn this effect
-     *
-     * It could be that this parameter was used at some point in development in relation to deku nuts.
+     * All current users of EffectSsStone1InitParams set this to false.
      */
     /* 0x0C */ s32 freezeFadeFlash;
 } EffectSsStone1InitParams; // size = 0x10

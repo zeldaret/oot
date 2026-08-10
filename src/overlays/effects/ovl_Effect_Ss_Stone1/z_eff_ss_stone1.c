@@ -70,13 +70,14 @@ void EffectSsStone1_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_stone1.c", 154);
 
+    // Grow the effect with distance (when above 1500) so as to keep a roughly constant on-screen size when far
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->pos, &unusedProjectedPos, &viewDepth);
-    scale = (viewDepth < 1500.0f)
-                ? 3.0f
-                : (viewDepth / 1500.0f) * 3.0f; // roughly cancel perspective shrink beyond a depth of 1500
+    scale = (viewDepth < 1500.0f) ? 3.0f : (viewDepth / 1500.0f) * 3.0f;
+
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_stone1.c", 168);
+
     Gfx_SetupDL_61Xlu(gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(drawParams->texture));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, drawParams->primColor.r, drawParams->primColor.g, drawParams->primColor.b,
