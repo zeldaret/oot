@@ -39,9 +39,9 @@ void EnIn_GuardingGate(EnIn* this, PlayState* play);
 void EnIn_LinkEscapesRanch(EnIn* this, PlayState* play);
 void EnIn_EndRentalPeriod(EnIn* this, PlayState* play);
 void EnIn_FinishClosingGate(EnIn* this, PlayState* play);
-void EnIn_LostRace(EnIn* this, PlayState* play);
-void EnIn_WonFirstRace(EnIn* this, PlayState* play);
-void EnIn_WonSecondRace(EnIn* this, PlayState* play);
+void EnIn_PlayerLostRace(EnIn* this, PlayState* play);
+void EnIn_PlayerWonFirstRace(EnIn* this, PlayState* play);
+void EnIn_PlayerWonSecondRace(EnIn* this, PlayState* play);
 void EnIn_Idle(EnIn* this, PlayState* play);
 
 ActorProfile En_In_Profile = {
@@ -616,19 +616,19 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                         break;
                     case INGO_RACE_STATE_PLAYER_LOSE:
                         EnIn_ChangeAnim(this, ENIN_ANIM_GLOATING);
-                        this->actionFunc = EnIn_LostRace;
+                        this->actionFunc = EnIn_PlayerLostRace;
                         break;
                     case INGO_RACE_STATE_FIRST_WIN:
                         EnIn_ChangeAnim(this, ENIN_ANIM_LOSING);
                         this->losingScreamTimer = 8;
-                        this->actionFunc = EnIn_WonFirstRace;
+                        this->actionFunc = EnIn_PlayerWonFirstRace;
                         break;
                     case INGO_RACE_STATE_TRAPPED_WIN_UNUSED:
                     case INGO_RACE_STATE_TRAPPED_WIN_EPONA:
                         this->actor.attentionRangeType = ATTENTION_RANGE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_LOSING);
                         this->losingScreamTimer = 8;
-                        this->actionFunc = EnIn_WonSecondRace;
+                        this->actionFunc = EnIn_PlayerWonSecondRace;
                         break;
                     case INGO_RACE_STATE_REMATCH:
                         EnIn_ChangeAnim(this, ENIN_ANIM_STANDING2);
@@ -727,7 +727,7 @@ void EnIn_RentalPeriod(EnIn* this, PlayState* play) {
     }
 }
 
-void EnIn_LostRace(EnIn* this, PlayState* play) {
+void EnIn_PlayerLostRace(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
@@ -764,7 +764,7 @@ void EnIn_OfferingRematch(EnIn* this, PlayState* play) {
     }
 }
 
-void EnIn_WonFirstRace(EnIn* this, PlayState* play) {
+void EnIn_PlayerWonFirstRace(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         return;
@@ -787,7 +787,7 @@ void EnIn_WonFirstRace(EnIn* this, PlayState* play) {
     }
 }
 
-void EnIn_WonSecondRace(EnIn* this, PlayState* play) {
+void EnIn_PlayerWonSecondRace(EnIn* this, PlayState* play) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f subCamAt;
     Vec3f subCamEye;
