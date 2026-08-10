@@ -70,7 +70,7 @@ void EffectSsStone1_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_stone1.c", 154);
 
-    // Grow the effect with distance (when above 1500) so as to keep a roughly constant on-screen size when far
+    // Grow the effect with distance (when above 1500 units) so as to keep a roughly constant on-screen size when far
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->pos, &unusedProjectedPos, &viewDepth);
     scale = (viewDepth < 1500.0f) ? 3.0f : (viewDepth / 1500.0f) * 3.0f;
 
