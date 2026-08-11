@@ -182,8 +182,8 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(play, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlAnim, this->jointTable,
-                   this->morphTable, 20);
+    SkelAnime_Init(play, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlAnim, this->jointTable, this->morphTable,
+                   20);
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
@@ -315,8 +315,8 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupAttack(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildAttackAnim, 0.6f, 0.0f,
-                     Animation_GetLastFrame(&gStalchildAttackAnim), ANIMMODE_ONCE_INTERP, 4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildAttackAnim, 0.6f, 0.0f, Animation_GetLastFrame(&gStalchildAttackAnim),
+                     ANIMMODE_ONCE_INTERP, 4.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
     this->actionState = SKB_BEHAVIOR_ATTACKING;
     this->actor.speed = 0.0f;
