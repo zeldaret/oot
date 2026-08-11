@@ -1,111 +1,111 @@
 <Root>
     <File Name="object_skb" Segment="6">
-        <Animation Name="object_skb_000460_Anim" Offset="0x460"/>
+        <Animation Name="gStalchildAttackAnim" Offset="0x460"/>
         <Blob Name="object_skb_zeroes_Blob_470" Size="0x20" Offset="0x470"/>
-        <Animation Name="object_skb_0009DC_Anim" Offset="0x9DC"/>
+        <Animation Name="gStalchildDieAnim" Offset="0x9DC"/>
         <Blob Name="object_skb_zeroes_Blob_9EC" Size="0x24" Offset="0x9EC"/>
-        <Animation Name="object_skb_000D98_Anim" Offset="0xD98"/>
+        <Animation Name="gStalchildDamagedAnim" Offset="0xD98"/>
         <Blob Name="object_skb_zeroes_Blob_DA8" Size="0x18" Offset="0xDA8"/>
-        <Animation Name="object_skb_001854_Anim" Offset="0x1854"/>
+        <Animation Name="gStalchildUncurlAnim" Offset="0x1854"/>
         <Blob Name="object_skb_zeroes_Blob_1864" Size="0x3C" Offset="0x1864"/>
-        <Texture Name="object_skb_0018A0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x18A0"/>
-        <Texture Name="object_skb_001AA0_Tex" Format="rgba16" Width="8" Height="16" Offset="0x1AA0"/>
-        <Texture Name="object_skb_001BA0_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1BA0"/>
-        <Texture Name="object_skb_001C20_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1C20"/>
-        <Texture Name="object_skb_001CA0_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1CA0"/>
-        <Texture Name="object_skb_001D20_Tex" Format="rgba16" Width="8" Height="16" Offset="0x1D20"/>
-        <Texture Name="object_skb_001E20_Tex" Format="rgba16" Width="16" Height="8" Offset="0x1E20"/>
-        <Texture Name="object_skb_001F20_Tex" Format="rgba16" Width="16" Height="16" Offset="0x1F20"/>
-        <Texture Name="object_skb_002120_Tex" Format="rgba16" Width="8" Height="8" Offset="0x2120"/>
-        <Array Name="object_skb_0021A0_Vtx" Count="81" Offset="0x21A0">
+        <Texture Name="gStalchildSkirtTex" Format="rgba16" Width="16" Height="16" Offset="0x18A0"/>
+        <Texture Name="gStalchildRibCageTex" Format="rgba16" Width="8" Height="16" Offset="0x1AA0"/>
+        <Texture Name="gStalchildHeadBoneTex" Format="rgba16" Width="8" Height="8" Offset="0x1BA0"/>
+        <Texture Name="gStalchildNoseTex" Format="rgba16" Width="8" Height="8" Offset="0x1C20"/>
+        <Texture Name="gStalchildLimbsBoneTex" Format="rgba16" Width="8" Height="8" Offset="0x1CA0"/>
+        <Texture Name="gStalchildHandAndFootTex" Format="rgba16" Width="8" Height="16" Offset="0x1D20"/>
+        <Texture Name="gStalchildTeethTex" Format="rgba16" Width="16" Height="8" Offset="0x1E20"/>
+        <Texture Name="gStalchildEyeSocketTex" Format="rgba16" Width="16" Height="16" Offset="0x1F20"/>
+        <Texture Name="gStalchildEyePupilTex" Format="rgba16" Width="8" Height="8" Offset="0x2120"/>
+        <Array Name="gStalchildHeadVtx" Count="81" Offset="0x21A0">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_0026B0_Vtx" Count="16" Offset="0x26B0">
+        <Array Name="gStalchildJawVtx" Count="16" Offset="0x26B0">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_0027B0_Vtx" Count="18" Offset="0x27B0">
+        <Array Name="gStalchildTorsoVtx" Count="18" Offset="0x27B0">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_0028D0_Vtx" Count="4" Offset="0x28D0">
+        <Array Name="gStalchildSpineVtx" Count="4" Offset="0x28D0">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_002910_Vtx" Count="22" Offset="0x2910">
+        <Array Name="gStalchildPelvisVtx" Count="22" Offset="0x2910">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_002A70_Vtx" Count="15" Offset="0x2A70">
+        <Array Name="gStalchildLeftArmVtx" Count="15" Offset="0x2A70">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_002B60_Vtx" Count="9" Offset="0x2B60">
+        <Array Name="gStalchildLeftForearmVtx" Count="9" Offset="0x2B60">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_002BF0_Vtx" Count="20" Offset="0x2BF0">
+        <Array Name="gStalchildLeftHandVtx" Count="20" Offset="0x2BF0">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_002D30_Vtx" Count="15" Offset="0x2D30">
+        <Array Name="gStalchildRightArmVtx" Count="15" Offset="0x2D30">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_002E20_Vtx" Count="9" Offset="0x2E20">
+        <Array Name="gStalchildRightForearmVtx" Count="9" Offset="0x2E20">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_002EB0_Vtx" Count="20" Offset="0x2EB0">
+        <Array Name="gStalchildRightHandVtx" Count="20" Offset="0x2EB0">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_002FF0_Vtx" Count="4" Offset="0x2FF0">
+        <Array Name="gStalchildLeftThighVtx" Count="4" Offset="0x2FF0">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_003030_Vtx" Count="9" Offset="0x3030">
+        <Array Name="gStalchildLeftShinVtx" Count="9" Offset="0x3030">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_0030C0_Vtx" Count="5" Offset="0x30C0">
+        <Array Name="gStalchildLeftFootVtx" Count="5" Offset="0x30C0">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_003110_Vtx" Count="4" Offset="0x3110">
+        <Array Name="gStalchildRightThighVtx" Count="4" Offset="0x3110">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_003150_Vtx" Count="9" Offset="0x3150">
+        <Array Name="gStalchildRightShinVtx" Count="9" Offset="0x3150">
             <Vtx/>
         </Array>
-        <Array Name="object_skb_0031E0_Vtx" Count="5" Offset="0x31E0">
+        <Array Name="gStalchildRightFootVtx" Count="5" Offset="0x31E0">
             <Vtx/>
         </Array>
-        <DList Name="object_skb_003230_DL" Offset="0x3230"/>
-        <DList Name="object_skb_003598_DL" Offset="0x3598"/>
-        <DList Name="object_skb_003640_DL" Offset="0x3640"/>
-        <DList Name="object_skb_003708_DL" Offset="0x3708"/>
-        <DList Name="object_skb_0037A0_DL" Offset="0x37A0"/>
-        <DList Name="object_skb_0038A8_DL" Offset="0x38A8"/>
-        <DList Name="object_skb_003968_DL" Offset="0x3968"/>
-        <DList Name="object_skb_003A10_DL" Offset="0x3A10"/>
-        <DList Name="object_skb_003AD8_DL" Offset="0x3AD8"/>
-        <DList Name="object_skb_003B98_DL" Offset="0x3B98"/>
-        <DList Name="object_skb_003C40_DL" Offset="0x3C40"/>
-        <DList Name="object_skb_003D08_DL" Offset="0x3D08"/>
-        <DList Name="object_skb_003DA0_DL" Offset="0x3DA0"/>
-        <DList Name="object_skb_003E48_DL" Offset="0x3E48"/>
-        <DList Name="object_skb_003EE8_DL" Offset="0x3EE8"/>
-        <DList Name="object_skb_003F80_DL" Offset="0x3F80"/>
-        <DList Name="object_skb_004028_DL" Offset="0x4028"/>
-        <Limb Name="object_skb_0040C8_Limb" LimbType="Standard" Offset="0x40C8"/>
-        <Limb Name="object_skb_0040D4_Limb" LimbType="Standard" Offset="0x40D4"/>
-        <Limb Name="object_skb_0040E0_Limb" LimbType="Standard" Offset="0x40E0"/>
-        <Limb Name="object_skb_0040EC_Limb" LimbType="Standard" Offset="0x40EC"/>
-        <Limb Name="object_skb_0040F8_Limb" LimbType="Standard" Offset="0x40F8"/>
-        <Limb Name="object_skb_004104_Limb" LimbType="Standard" Offset="0x4104"/>
-        <Limb Name="object_skb_004110_Limb" LimbType="Standard" Offset="0x4110"/>
-        <Limb Name="object_skb_00411C_Limb" LimbType="Standard" Offset="0x411C"/>
-        <Limb Name="object_skb_004128_Limb" LimbType="Standard" Offset="0x4128"/>
-        <Limb Name="object_skb_004134_Limb" LimbType="Standard" Offset="0x4134"/>
-        <Limb Name="object_skb_004140_Limb" LimbType="Standard" Offset="0x4140"/>
-        <Limb Name="object_skb_00414C_Limb" LimbType="Standard" Offset="0x414C"/>
-        <Limb Name="object_skb_004158_Limb" LimbType="Standard" Offset="0x4158"/>
-        <Limb Name="object_skb_004164_Limb" LimbType="Standard" Offset="0x4164"/>
-        <Limb Name="object_skb_004170_Limb" LimbType="Standard" Offset="0x4170"/>
-        <Limb Name="object_skb_00417C_Limb" LimbType="Standard" Offset="0x417C"/>
-        <Limb Name="object_skb_004188_Limb" LimbType="Standard" Offset="0x4188"/>
-        <Limb Name="object_skb_004194_Limb" LimbType="Standard" Offset="0x4194"/>
-        <Limb Name="object_skb_0041A0_Limb" LimbType="Standard" Offset="0x41A0"/>
-        <Skeleton Name="object_skb_0041F8_Skel" Type="Normal" LimbType="Standard" Offset="0x41F8"/>
-        <Animation Name="object_skb_0047E0_Anim" Offset="0x47E0"/>
+        <DList Name="gStalchildHeadDL" Offset="0x3230"/>
+        <DList Name="gStalchildJawDL" Offset="0x3598"/>
+        <DList Name="gStalchildTorsoDL" Offset="0x3640"/>
+        <DList Name="gStalchildSpineDL" Offset="0x3708"/>
+        <DList Name="gStalchildPelvisDL" Offset="0x37A0"/>
+        <DList Name="gStalchildLeftArmDL" Offset="0x38A8"/>
+        <DList Name="gStalchildLeftForearmDL" Offset="0x3968"/>
+        <DList Name="gStalchildLeftHandDL" Offset="0x3A10"/>
+        <DList Name="gStalchildRightArmDL" Offset="0x3AD8"/>
+        <DList Name="gStalchildRightForearmDL" Offset="0x3B98"/>
+        <DList Name="gStalchildRightHandDL" Offset="0x3C40"/>
+        <DList Name="gStalchildLeftThighDL" Offset="0x3D08"/>
+        <DList Name="gStalchildLeftShinDL" Offset="0x3DA0"/>
+        <DList Name="gStalchildLeftFootDL" Offset="0x3E48"/>
+        <DList Name="gStalchildRightThighDL" Offset="0x3EE8"/>
+        <DList Name="gStalchildRightShinDL" Offset="0x3F80"/>
+        <DList Name="gStalchildRightFootDL" Offset="0x4028"/>
+        <Limb Name="gStalchildRootLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_ROOT" Offset="0x40C8"/>
+        <Limb Name="gStalchildPelvisLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_PELVIS" Offset="0x40D4"/>
+        <Limb Name="gStalchildLegsRootLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_LEGS_ROOT" Offset="0x40E0"/>
+        <Limb Name="gStalchildRightThighLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_RIGHT_THIGH" Offset="0x40EC"/>
+        <Limb Name="gStalchildRightShinLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_RIGHT_SHIN" Offset="0x40F8"/>
+        <Limb Name="gStalchildRightFootLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_RIGHT_FOOT" Offset="0x4104"/>
+        <Limb Name="gStalchildLeftThighLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_LEFT_THIGH" Offset="0x4110"/>
+        <Limb Name="gStalchildLeftShinLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_LEFT_SHIN" Offset="0x411C"/>
+        <Limb Name="gStalchildLeftFootLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_LEFT_FOOT" Offset="0x4128"/>
+        <Limb Name="gStalchildTorsoLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_TORSO" Offset="0x4134"/>
+        <Limb Name="gStalchildHeadLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_HEAD" Offset="0x4140"/>
+        <Limb Name="gStalchildJawLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_JAW" Offset="0x414C"/>
+        <Limb Name="gStalchildRightArmLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_RIGHT_ARM" Offset="0x4158"/>
+        <Limb Name="gStalchildRightForearmLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_RIGHT_FOREARM" Offset="0x4164"/>
+        <Limb Name="gStalchildRightHandLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_RIGHT_HAND" Offset="0x4170"/>
+        <Limb Name="gStalchildLeftArmLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_LEFT_ARM" Offset="0x417C"/>
+        <Limb Name="gStalchildLeftForearmLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_LEFT_FOREARM" Offset="0x4188"/>
+        <Limb Name="gStalchildLeftHandLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_LEFT_HAND" Offset="0x4194"/>
+        <Limb Name="gStalchildSpineLimb" LimbType="Standard" EnumName="STALCHILD_LIMB_SPINE" Offset="0x41A0"/>
+        <Skeleton Name="gStalchildSkel" Type="Normal" LimbType="Standard" LimbNone="STALCHILD_LIMB_NONE" LimbMax="STALCHILD_LIMB_MAX" EnumName="StalchildLimb" Offset="0x41F8"/>
+        <Animation Name="gStalchildWalkAnim" Offset="0x47E0"/>
         <Blob Name="object_skb_zeroes_Blob_47F0" Size="0x20" Offset="0x47F0"/>
     </File>
 </Root>

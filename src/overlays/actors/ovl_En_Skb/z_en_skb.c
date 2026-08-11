@@ -182,7 +182,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(play, &this->skelAnime, &object_skb_0041F8_Skel, &object_skb_001854_Anim, this->jointTable,
+    SkelAnime_Init(play, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlAnim, this->jointTable,
                    this->morphTable, 20);
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
     Collider_InitJntSph(play, &this->collider);
@@ -230,7 +230,7 @@ void EnSkb_DecideNextAction(EnSkb* this) {
 }
 
 void EnSkb_SetupRiseFromGround(EnSkb* this) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &object_skb_001854_Anim, 1.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlAnim, 1.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_APPEAR);
@@ -254,7 +254,7 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupDespawn(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &object_skb_001854_Anim, -1.0f, Animation_GetLastFrame(&object_skb_001854_Anim),
+    Animation_Change(&this->skelAnime, &gStalchildUncurlAnim, -1.0f, Animation_GetLastFrame(&gStalchildUncurlAnim),
                      0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->setColliderAT = false;
@@ -276,8 +276,8 @@ void EnSkb_Despawn(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupWalkForward(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &object_skb_0047E0_Anim, 0.96000004f, 0.0f,
-                     Animation_GetLastFrame(&object_skb_0047E0_Anim), ANIMMODE_LOOP, -4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildWalkAnim, 0.96000004f, 0.0f,
+                     Animation_GetLastFrame(&gStalchildWalkAnim), ANIMMODE_LOOP, -4.0f);
     this->actionState = SKB_BEHAVIOR_WALKING;
     this->headlessYawOffset = 0;
     this->actor.speed = this->actor.scale.y * 160.0f;
@@ -315,8 +315,8 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupAttack(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &object_skb_000460_Anim, 0.6f, 0.0f,
-                     Animation_GetLastFrame(&object_skb_000460_Anim), ANIMMODE_ONCE_INTERP, 4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildAttackAnim, 0.6f, 0.0f,
+                     Animation_GetLastFrame(&gStalchildAttackAnim), ANIMMODE_ONCE_INTERP, 4.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
     this->actionState = SKB_BEHAVIOR_ATTACKING;
     this->actor.speed = 0.0f;
@@ -343,7 +343,7 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupRecoil(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &object_skb_000460_Anim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f,
+    Animation_Change(&this->skelAnime, &gStalchildAttackAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f,
                      ANIMMODE_ONCE_INTERP, 0.0f);
     this->collider.base.atFlags &= ~AT_BOUNCED;
     this->actionState = SKB_BEHAVIOR_RECOILING;
@@ -388,7 +388,7 @@ void EnSkb_Stunned(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupTakeDamage(EnSkb* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &object_skb_000D98_Anim, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDamagedAnim, -4.0f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speed = -4.0f;
     }
@@ -422,7 +422,7 @@ void EnSkb_TakeDamage(EnSkb* this, PlayState* play) {
 }
 
 void EnSkb_SetupDeath(EnSkb* this, PlayState* play) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &object_skb_0009DC_Anim, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDieAnim, -4.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speed = -6.0f;
