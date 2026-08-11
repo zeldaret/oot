@@ -198,9 +198,9 @@ static InitChainEntry sInitChain[] = {
 };
 static Vec3f D_80A88CF0 = { -1589.0f, 53.0f, -43.0f };
 static void* D_80A88CFC[5] = {
-    object_jj_007698_Tex,
-    object_jj_007A98_Tex,
-    object_jj_007E98_Tex,
+    gObjectJjEyeOpenTex,
+    gObjectJjEyeHalfTex,
+    gObjectJjEyeClosedTex,
 };
 
 void func_80A87800(EnJj* this, void (*arg1)(EnJj*, PlayState*)) {
@@ -217,9 +217,8 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
     switch (this->dyna.actor.params) {
         case -1:
-            SkelAnime_InitFlex(play, &this->skelAnime, &object_jj_00B9A8_Skel, &object_jj_001F4C_Anim, this->unk1A8,
-                               this->unk22C, 22);
-            Animation_PlayLoop(&this->skelAnime, &object_jj_001F4C_Anim);
+            SkelAnime_InitFlex(play, &this->skelAnime, &gObjectJjSkel, &gObjectJjAnim, this->unk1A8, this->unk22C, 22);
+            Animation_PlayLoop(&this->skelAnime, &gObjectJjAnim);
             this->unk30A = 0;
             this->unk30E = 0;
             this->unk30F = 0;
@@ -234,7 +233,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
                 &play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
                 this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
             DynaPolyActor_Init(&this->dyna, 0);
-            CollisionHeader_GetVirtual(&object_jj_000A1C_Col, &sp4C);
+            CollisionHeader_GetVirtual(&gObjectJjBodyCol, &sp4C);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -243,7 +242,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
 
         case 0:
             DynaPolyActor_Init(&this->dyna, 0);
-            CollisionHeader_GetVirtual(&object_jj_001830_Col, &sp4C);
+            CollisionHeader_GetVirtual(&gObjectJjHeadCol, &sp4C);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
             DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->dyna.actor.update = func_80A87F44;

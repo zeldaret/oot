@@ -1,66 +1,66 @@
 <Root>
     <File Name="object_hata" Segment="6">
-        <Collision Name="object_hata_0000C0_Col" Offset="0xC0"/>
-        <Animation Name="object_hata_000444_Anim" Offset="0x444"/>
-        <Texture Name="object_hata_000460_Tex" Format="rgba16" Width="32" Height="32" Offset="0x460"/>
-        <Texture Name="object_hata_000C60_Tex" Format="rgba16" Width="32" Height="32" Offset="0xC60"/>
-        <Texture Name="object_hata_001460_Tex" Format="ia8" Width="128" Height="32" Offset="0x1460"/>
-        <Array Name="object_hata_002460_Vtx" Count="39" Offset="0x2460">
+        <Collision Name="gObjectHataCol" Offset="0xC0"/>
+        <Animation Name="gObjectHataAnim" Offset="0x444"/>
+        <Texture Name="gObjectHataPoleTex" Format="rgba16" Width="32" Height="32" Offset="0x460"/>
+        <Texture Name="gObjectHataPoleWithClothTex" Format="rgba16" Width="32" Height="32" Offset="0xC60"/>
+        <Texture Name="gObjectHataClothTex" Format="ia8" Width="128" Height="32" Offset="0x1460"/>
+        <Array Name="gObjectHataPoleVtx" Count="39" Offset="0x2460">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_0026D0_DL" Offset="0x26D0"/>
-        <Array Name="object_hata_002810_Vtx" Count="4" Offset="0x2810">
+        <DList Name="gObjectHataPoleDL" Offset="0x26D0"/>
+        <Array Name="gObjectHataPieceASegment1Vtx" Count="4" Offset="0x2810">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_002850_DL" Offset="0x2850"/>
-        <Array Name="object_hata_0028E0_Vtx" Count="4" Offset="0x28E0">
+        <DList Name="gObjectHataPieceASegment1DL" Offset="0x2850"/>
+        <Array Name="gObjectHataPieceASegment2Vtx" Count="4" Offset="0x28E0">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_002920_DL" Offset="0x2920"/>
-        <Array Name="object_hata_0029B0_Vtx" Count="4" Offset="0x29B0">
+        <DList Name="gObjectHataPieceASegment2DL" Offset="0x2920"/>
+        <Array Name="gObjectHataPieceASegment3Vtx" Count="4" Offset="0x29B0">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_0029F0_DL" Offset="0x29F0"/>
-        <Array Name="object_hata_002A80_Vtx" Count="4" Offset="0x2A80">
+        <DList Name="gObjectHataPieceASegment3DL" Offset="0x29F0"/>
+        <Array Name="gObjectHataPieceASegment4Vtx" Count="4" Offset="0x2A80">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_002AC0_DL" Offset="0x2AC0"/>
-        <Array Name="object_hata_002B50_Vtx" Count="4" Offset="0x2B50">
+        <DList Name="gObjectHataPieceASegment4DL" Offset="0x2AC0"/>
+        <Array Name="gObjectHataPieceBSegment1Vtx" Count="4" Offset="0x2B50">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_002B90_DL" Offset="0x2B90"/>
-        <Array Name="object_hata_002C20_Vtx" Count="4" Offset="0x2C20">
+        <DList Name="gObjectHataPieceBSegment1DL" Offset="0x2B90"/>
+        <Array Name="gObjectHataPieceBSegment2Vtx" Count="4" Offset="0x2C20">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_002C60_DL" Offset="0x2C60"/>
-        <Array Name="object_hata_002CF0_Vtx" Count="4" Offset="0x2CF0">
+        <DList Name="gObjectHataPieceBSegment2DL" Offset="0x2C60"/>
+        <Array Name="gObjectHataPieceBSegment3Vtx" Count="4" Offset="0x2CF0">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_002D30_DL" Offset="0x2D30"/>
-        <Array Name="object_hata_002DC0_Vtx" Count="4" Offset="0x2DC0">
+        <DList Name="gObjectHataPieceBSegment3DL" Offset="0x2D30"/>
+        <Array Name="gObjectHataPieceBSegment4Vtx" Count="4" Offset="0x2DC0">
             <Vtx/>
         </Array>
-        <DList Name="object_hata_002E00_DL" Offset="0x2E00"/>
-        <Limb Name="object_hata_002E90_Limb" LimbType="Standard" Offset="0x2E90"/>
-        <Limb Name="object_hata_002E9C_Limb" LimbType="Standard" Offset="0x2E9C"/>
-        <Limb Name="object_hata_002EA8_Limb" LimbType="Standard" Offset="0x2EA8"/>
-        <Limb Name="object_hata_002EB4_Limb" LimbType="Standard" Offset="0x2EB4"/>
-        <Limb Name="object_hata_002EC0_Limb" LimbType="Standard" Offset="0x2EC0"/>
-        <Limb Name="object_hata_002ECC_Limb" LimbType="Standard" Offset="0x2ECC"/>
-        <Limb Name="object_hata_002ED8_Limb" LimbType="Standard" Offset="0x2ED8"/>
-        <Limb Name="object_hata_002EE4_Limb" LimbType="Standard" Offset="0x2EE4"/>
-        <Limb Name="object_hata_002EF0_Limb" LimbType="Standard" Offset="0x2EF0"/>
-        <Limb Name="object_hata_002EFC_Limb" LimbType="Standard" Offset="0x2EFC"/>
-        <Limb Name="object_hata_002F08_Limb" LimbType="Standard" Offset="0x2F08"/>
-        <Limb Name="object_hata_002F14_Limb" LimbType="Standard" Offset="0x2F14"/>
-        <Limb Name="object_hata_002F20_Limb" LimbType="Standard" Offset="0x2F20"/>
-        <Limb Name="object_hata_002F2C_Limb" LimbType="Standard" Offset="0x2F2C"/>
-        <Limb Name="object_hata_002F38_Limb" LimbType="Standard" Offset="0x2F38"/>
-        <Limb Name="object_hata_002F44_Limb" LimbType="Standard" Offset="0x2F44"/>
-        <Limb Name="object_hata_002F50_Limb" LimbType="Standard" Offset="0x2F50"/>
-        <Limb Name="object_hata_002F5C_Limb" LimbType="Standard" Offset="0x2F5C"/>
-        <Limb Name="object_hata_002F68_Limb" LimbType="Standard" Offset="0x2F68"/>
-        <Limb Name="object_hata_002F74_Limb" LimbType="Standard" Offset="0x2F74"/>
-        <Skeleton Name="object_hata_002FD0_Skel" Type="Normal" LimbType="Standard" Offset="0x2FD0"/>
+        <DList Name="gObjectHataPieceBSegment4DL" Offset="0x2E00"/>
+        <Limb Name="gObjectHataRootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_ROOT" Offset="0x2E90"/>
+        <Limb Name="gObjectHataPoleLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_POLE" Offset="0x2E9C"/>
+        <Limb Name="gObjectHataPieceARootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_ROOT" Offset="0x2EA8"/>
+        <Limb Name="gObjectHataPieceASegment1RootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_SEGMENT1_ROOT" Offset="0x2EB4"/>
+        <Limb Name="gObjectHataPieceASegment2RootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_SEGMENT2_ROOT" Offset="0x2EC0"/>
+        <Limb Name="gObjectHataPieceASegment3RootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_SEGMENT3_ROOT" Offset="0x2ECC"/>
+        <Limb Name="gObjectHataPieceASegment4RootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_SEGMENT4_ROOT" Offset="0x2ED8"/>
+        <Limb Name="gObjectHataPieceASegment4Limb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_SEGMENT4" Offset="0x2EE4"/>
+        <Limb Name="gObjectHataPieceASegment3Limb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_SEGMENT3" Offset="0x2EF0"/>
+        <Limb Name="gObjectHataPieceASegment2Limb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_SEGMENT2" Offset="0x2EFC"/>
+        <Limb Name="gObjectHataPieceASegment1Limb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_A_SEGMENT1" Offset="0x2F08"/>
+        <Limb Name="gObjectHataPieceBRootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_ROOT" Offset="0x2F14"/>
+        <Limb Name="gObjectHataPieceBSegment1RootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_SEGMENT1_ROOT" Offset="0x2F20"/>
+        <Limb Name="gObjectHataPieceBSegment2RootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_SEGMENT2_ROOT" Offset="0x2F2C"/>
+        <Limb Name="gObjectHataPieceBSegment3RootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_SEGMENT3_ROOT" Offset="0x2F38"/>
+        <Limb Name="gObjectHataPieceBSegment4RootLimb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_SEGMENT4_ROOT" Offset="0x2F44"/>
+        <Limb Name="gObjectHataPieceBSegment4Limb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_SEGMENT4" Offset="0x2F50"/>
+        <Limb Name="gObjectHataPieceBSegment3Limb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_SEGMENT3" Offset="0x2F5C"/>
+        <Limb Name="gObjectHataPieceBSegment2Limb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_SEGMENT2" Offset="0x2F68"/>
+        <Limb Name="gObjectHataPieceBSegment1Limb" LimbType="Standard" EnumName="OBJECT_HATA_LIMB_PIECE_B_SEGMENT1" Offset="0x2F74"/>
+        <Skeleton Name="gObjectHataSkel" Type="Normal" LimbType="Standard" LimbNone="OBJECT_HATA_LIMB_NONE" LimbMax="OBJECT_HATA_LIMB_MAX" EnumName="ObjectHataLimb" Offset="0x2FD0"/>
     </File>
 </Root>

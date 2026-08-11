@@ -74,9 +74,8 @@ static void (*D_80A3433C[9])(EnGe2*, PlayState*) = {
     func_80A331A0, func_80A330CC, func_80A336C4, func_80A339EC,
 };
 static AnimationHeader* D_80A34360[9] = {
-    &object_gla_009ED4_Anim, &object_gla_0098AC_Anim, &object_gla_0098AC_Anim,
-    &object_gla_0011F4_Anim, &object_gla_0098AC_Anim, &object_gla_008D60_Anim,
-    &object_gla_0098AC_Anim, &object_gla_0098AC_Anim, &object_gla_0098AC_Anim,
+    &gObjectGlaWalkAnim, &gObjectGlaIdleAnim, &gObjectGlaIdleAnim, &gObjectGlaFaintAnim, &gObjectGlaIdleAnim,
+    &gObjectGlaRunAnim,  &gObjectGlaIdleAnim, &gObjectGlaIdleAnim, &gObjectGlaIdleAnim,
 };
 static u8 D_80A34384[9] = {
     ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP,
@@ -105,8 +104,8 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_gla_008968_Skel, NULL, this->unk1DC, this->unk260, 22);
-    Animation_PlayLoop(&this->skelAnime, &object_gla_009ED4_Anim);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gObjectGlaSkel, NULL, this->unk1DC, this->unk260, 22);
+    Animation_PlayLoop(&this->skelAnime, &gObjectGlaWalkAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;

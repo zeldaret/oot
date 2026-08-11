@@ -1,150 +1,150 @@
 <Root>
     <File Name="object_nb" Segment="6">
-        <Animation Name="object_nb_000410_Anim" Offset="0x410"/>
-        <Animation Name="object_nb_000BC0_Anim" Offset="0xBC0"/>
-        <Animation Name="object_nb_001104_Anim" Offset="0x1104"/>
-        <Animation Name="object_nb_001350_Anim" Offset="0x1350"/>
-        <Animation Name="object_nb_001E7C_Anim" Offset="0x1E7C"/>
-        <Animation Name="object_nb_00274C_Anim" Offset="0x274C"/>
-        <Animation Name="object_nb_002B4C_Anim" Offset="0x2B4C"/>
-        <Animation Name="object_nb_002DBC_Anim" Offset="0x2DBC"/>
-        <Animation Name="object_nb_0035A8_Anim" Offset="0x35A8"/>
-        <Animation Name="object_nb_003954_Anim" Offset="0x3954"/>
-        <Animation Name="object_nb_004030_Anim" Offset="0x4030"/>
-        <Animation Name="object_nb_0046A8_Anim" Offset="0x46A8"/>
-        <Animation Name="object_nb_004BB4_Anim" Offset="0x4BB4"/>
-        <Animation Name="object_nb_004E60_Anim" Offset="0x4E60"/>
-        <Animation Name="object_nb_005614_Anim" Offset="0x5614"/>
-        <Animation Name="object_nb_005CA4_Anim" Offset="0x5CA4"/>
-        <Animation Name="object_nb_006320_Anim" Offset="0x6320"/>
-        <Animation Name="object_nb_00676C_Anim" Offset="0x676C"/>
-        <Animation Name="object_nb_006E78_Anim" Offset="0x6E78"/>
-        <Animation Name="object_nb_008BD0_Anim" Offset="0x8BD0"/>
-        <Animation Name="object_nb_009238_Anim" Offset="0x9238"/>
-        <Animation Name="object_nb_009694_Anim" Offset="0x9694"/>
-        <Texture Name="object_nb_0096B0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x96B0"/>
-        <Texture Name="object_nb_0098B0_Tex" Format="ci8" Width="16" Height="16" Offset="0x98B0" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_0099B0_Tex" Format="ci8" Width="8" Height="8" Offset="0x99B0" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_0099F0_Tex" Format="ci8" Width="16" Height="16" Offset="0x99F0" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_009AF0_Tex" Format="ci8" Width="32" Height="32" Offset="0x9AF0" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_009EF0_Tex" Format="ci8" Width="8" Height="8" Offset="0x9EF0" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_009F30_Tex" Format="rgba16" Width="16" Height="16" Offset="0x9F30"/>
-        <Texture Name="object_nb_00A130_Tex" Format="ci8" Width="16" Height="16" Offset="0xA130" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_00A230_Tex" Format="ci8" Width="8" Height="8" Offset="0xA230" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_00A270_Tex" Format="ci8" Width="16" Height="16" Offset="0xA270" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_00A370_Tex" Format="rgba16" Width="16" Height="16" Offset="0xA370"/>
-        <Texture Name="object_nb_00A570_Tex" Format="ci8" Width="16" Height="16" Offset="0xA570" TlutOffset="0x096B0"/>
-        <Texture Name="object_nb_00A670_Tex" Format="rgba16" Width="32" Height="32" Offset="0xA670"/>
-        <Texture Name="object_nb_00AE70_TLUT" Format="rgba16" Width="4" Height="59" Offset="0xAE70"/>
-        <Texture Name="object_nb_00B048_TLUT" Format="rgba16" Width="16" Height="16" Offset="0xB048"/>
-        <Texture Name="object_nb_00B248_Tex" Format="ci8" Width="8" Height="8" Offset="0xB248" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00B288_Tex" Format="ci8" Width="8" Height="4" Offset="0xB288" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00B2A8_Tex" Format="ci8" Width="8" Height="16" Offset="0xB2A8" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00B328_Tex" Format="ci8" Width="16" Height="16" Offset="0xB328" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00B428_Tex" Format="ci8" Width="32" Height="32" Offset="0xB428" TlutOffset="0x0B048"/>
-        <Texture Name="object_nb_00B828_Tex" Format="ci8" Width="16" Height="16" Offset="0xB828" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00B928_Tex" Format="ci8" Width="16" Height="16" Offset="0xB928" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00BA28_Tex" Format="ci8" Width="8" Height="16" Offset="0xBA28" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00BAA8_Tex" Format="ci8" Width="32" Height="32" Offset="0xBAA8" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00BEA8_Tex" Format="rgba16" Width="32" Height="32" Offset="0xBEA8"/>
-        <Texture Name="object_nb_00C6A8_Tex" Format="ci8" Width="32" Height="32" Offset="0xC6A8" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00CAA8_Tex" Format="ci8" Width="16" Height="16" Offset="0xCAA8" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00CBA8_Tex" Format="ci8" Width="8" Height="8" Offset="0xCBA8" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00CBE8_Tex" Format="ci8" Width="8" Height="8" Offset="0xCBE8" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00CC28_Tex" Format="ci8" Width="8" Height="8" Offset="0xCC28" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00CC68_Tex" Format="ci8" Width="8" Height="16" Offset="0xCC68" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00CCE8_Tex" Format="ci8" Width="32" Height="32" Offset="0xCCE8" TlutOffset="0x0AE70"/>
-        <Texture Name="object_nb_00D0E8_Tex" Format="ci8" Width="32" Height="32" Offset="0xD0E8" TlutOffset="0x0B048"/>
-        <Texture Name="object_nb_00D4E8_Tex" Format="ci8" Width="32" Height="32" Offset="0xD4E8" TlutOffset="0x0B048"/>
-        <Texture Name="object_nb_00D8E8_Tex" Format="ci8" Width="32" Height="32" Offset="0xD8E8" TlutOffset="0x0B048"/>
-        <Texture Name="object_nb_00DCE8_Tex" Format="rgba16" Width="8" Height="8" Offset="0xDCE8"/>
-        <Array Name="object_nb_00DD68_Vtx" Count="297" Offset="0xDD68">
+        <Animation Name="gNabooruJoinHandsAnim" Offset="0x410"/>
+        <Animation Name="gNabooruSittingAnim" Offset="0xBC0"/>
+        <Animation Name="gNabooruPortalRaiseArmAnim" Offset="0x1104"/>
+        <Animation Name="gNabooruPortalArmRaisedAnim" Offset="0x1350"/>
+        <Animation Name="gNabooruPortalHandsOnGroundAnim" Offset="0x1E7C"/>
+        <Animation Name="gNabooruRaiseArmsAnim" Offset="0x274C"/>
+        <Animation Name="gNabooruArmsRaisedAnim" Offset="0x2B4C"/>
+        <Animation Name="gNabooruKneelingLookRightToLeftAnim" Offset="0x2DBC"/>
+        <Animation Name="gNabooruKneelingLookLeftAnim" Offset="0x35A8"/>
+        <Animation Name="gNabooruOnAllFoursToKneelingAnim" Offset="0x3954"/>
+        <Animation Name="gNabooruKneelingLookRightAnim" Offset="0x4030"/>
+        <Animation Name="gNabooruOnAllFoursAnim" Offset="0x46A8"/>
+        <Animation Name="gNabooruHandsOnHipsAnim" Offset="0x4BB4"/>
+        <Animation Name="gNabooruHandsOnHipsToWalkAnim" Offset="0x4E60"/>
+        <Animation Name="gNabooruSittingLookRightAnim" Offset="0x5614"/>
+        <Animation Name="gNabooruSittingToSittingLookRightAnim" Offset="0x5CA4"/>
+        <Animation Name="gNabooruRunAndGetHitAnim" Offset="0x6320"/>
+        <Animation Name="gNabooruKneelingBackwardsToHandsOnHipsAnim" Offset="0x676C"/>
+        <Animation Name="gNabooruKneelingBackwardsAnim" Offset="0x6E78"/>
+        <Animation Name="gNabooruFallOnAllFoursAnim" Offset="0x8BD0"/>
+        <Animation Name="gNabooruWalkAnim" Offset="0x9238"/>
+        <Animation Name="gNabooruHandsOnHipsLookDownAnim" Offset="0x9694"/>
+        <Texture Name="gNabooru1TLUT" Format="rgba16" Width="16" Height="16" Offset="0x96B0"/>
+        <Texture Name="gNabooruGloveForearmTex" Format="ci8" Width="16" Height="16" Offset="0x98B0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruSkinTex" Format="ci8" Width="8" Height="8" Offset="0x99B0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruBellyTex" Format="ci8" Width="16" Height="16" Offset="0x99F0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruJewelryTex" Format="ci8" Width="32" Height="32" Offset="0x9AF0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruCleavageTex" Format="ci8" Width="8" Height="8" Offset="0x9EF0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruTopClothTex" Format="rgba16" Width="16" Height="16" Offset="0x9F30"/>
+        <Texture Name="gNabooruAnkleJewelryTex" Format="ci8" Width="16" Height="16" Offset="0xA130" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruPantsShadedTex" Format="ci8" Width="8" Height="8" Offset="0xA230" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruPantsUpperTex" Format="ci8" Width="16" Height="16" Offset="0xA270" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruPantsLowerTex" Format="rgba16" Width="16" Height="16" Offset="0xA370"/>
+        <Texture Name="gNabooruBeltJewelTex" Format="ci8" Width="16" Height="16" Offset="0xA570" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruBeltTex" Format="rgba16" Width="32" Height="32" Offset="0xA670"/>
+        <Texture Name="gNabooru2TLUT" Format="rgba16" Width="4" Height="59" Offset="0xAE70"/>
+        <Texture Name="gNabooruEyeTLUT" Format="rgba16" Width="16" Height="16" Offset="0xB048"/>
+        <Texture Name="gNabooruFaceSkinTex" Format="ci8" Width="8" Height="8" Offset="0xB248" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruNoseBridgeJewelryTex" Format="ci8" Width="8" Height="4" Offset="0xB288" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruNoseTopJewelryTex" Format="ci8" Width="8" Height="16" Offset="0xB2A8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruNoseSideJewelryTex" Format="ci8" Width="16" Height="16" Offset="0xB328" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0xB428" TlutOffset="0x0B048"/>
+        <Texture Name="gNabooruHairTex" Format="ci8" Width="16" Height="16" Offset="0xB828" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruForeheadJewelryTex" Format="ci8" Width="16" Height="16" Offset="0xB928" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruEarTex" Format="ci8" Width="8" Height="16" Offset="0xBA28" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruFingersTopTex" Format="ci8" Width="32" Height="32" Offset="0xBAA8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruGoldJewelryTex" Format="rgba16" Width="32" Height="32" Offset="0xBEA8"/>
+        <Texture Name="gNabooruHairJewelryTex" Format="ci8" Width="32" Height="32" Offset="0xC6A8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruGloveHandTopTex" Format="ci8" Width="16" Height="16" Offset="0xCAA8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruGloveHandPalmTex" Format="ci8" Width="8" Height="8" Offset="0xCBA8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruShoeSideTex" Format="ci8" Width="8" Height="8" Offset="0xCBE8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruShoeSoleTex" Format="ci8" Width="8" Height="8" Offset="0xCC28" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruShoeTopTex" Format="ci8" Width="8" Height="16" Offset="0xCC68" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruFingersPalmTex" Format="ci8" Width="32" Height="32" Offset="0xCCE8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0xD0E8" TlutOffset="0x0B048"/>
+        <Texture Name="gNabooruEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0xD4E8" TlutOffset="0x0B048"/>
+        <Texture Name="gNabooruEyeWideOpenTex" Format="ci8" Width="32" Height="32" Offset="0xD8E8" TlutOffset="0x0B048"/>
+        <Texture Name="gNabooruLipsTex" Format="rgba16" Width="8" Height="8" Offset="0xDCE8"/>
+        <Array Name="gNabooruHeadVtx" Count="297" Offset="0xDD68">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_00F1E8_Vtx" Count="49" Offset="0xF1E8">
+        <Array Name="gNabooruPonytailVtx" Count="49" Offset="0xF1E8">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_00F4F8_Vtx" Count="64" Offset="0xF4F8">
+        <Array Name="gNabooruLeftHandVtx" Count="64" Offset="0xF4F8">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_00F8F8_Vtx" Count="64" Offset="0xF8F8">
+        <Array Name="gNabooruRightHandVtx" Count="64" Offset="0xF8F8">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_00FCF8_Vtx" Count="32" Offset="0xFCF8">
+        <Array Name="gNabooruRightFootVtx" Count="32" Offset="0xFCF8">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_00FEF8_Vtx" Count="32" Offset="0xFEF8">
+        <Array Name="gNabooruLeftFootVtx" Count="32" Offset="0xFEF8">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_0100F8_Vtx" Count="315" Offset="0x100F8">
+        <Array Name="gNabooruHeadMouthOpenVtx" Count="315" Offset="0x100F8">
             <Vtx/>
         </Array>
-        <DList Name="object_nb_0114A8_DL" Offset="0x114A8"/>
-        <DList Name="object_nb_0125A0_DL" Offset="0x125A0"/>
-        <DList Name="object_nb_0125A8_DL" Offset="0x125A8"/>
-        <DList Name="object_nb_0126B8_DL" Offset="0x126B8"/>
-        <DList Name="object_nb_012A00_DL" Offset="0x12A00"/>
-        <DList Name="object_nb_012D48_DL" Offset="0x12D48"/>
-        <DList Name="object_nb_012F50_DL" Offset="0x12F50"/>
-        <DList Name="object_nb_013158_DL" Offset="0x13158"/>
-        <Array Name="object_nb_0142F0_Vtx" Count="32" Offset="0x142F0">
+        <DList Name="gNabooruHeadDL" Offset="0x114A8"/>
+        <DList Name="gNabooruEmptyDL" Offset="0x125A0"/>
+        <DList Name="gNabooruPonytailDL" Offset="0x125A8"/>
+        <DList Name="gNabooruLeftHandDL" Offset="0x126B8"/>
+        <DList Name="gNabooruRightHandDL" Offset="0x12A00"/>
+        <DList Name="gNabooruRightFootDL" Offset="0x12D48"/>
+        <DList Name="gNabooruLeftFootDL" Offset="0x12F50"/>
+        <DList Name="gNabooruHeadMouthOpenDL" Offset="0x13158"/>
+        <Array Name="gNabooruRightForearmVtx" Count="32" Offset="0x142F0">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_0144F0_Vtx" Count="28" Offset="0x144F0">
+        <Array Name="gNabooruRightArmVtx" Count="28" Offset="0x144F0">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_0146B0_Vtx" Count="32" Offset="0x146B0">
+        <Array Name="gNabooruLeftForearmVtx" Count="32" Offset="0x146B0">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_0148B0_Vtx" Count="44" Offset="0x148B0">
+        <Array Name="gNabooruLeftArmVtx" Count="44" Offset="0x148B0">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_014B70_Vtx" Count="129" Offset="0x14B70">
+        <Array Name="gNabooruTorsoVtx" Count="129" Offset="0x14B70">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_015380_Vtx" Count="74" Offset="0x15380">
+        <Array Name="gNabooruRightShinVtx" Count="74" Offset="0x15380">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_015820_Vtx" Count="34" Offset="0x15820">
+        <Array Name="gNabooruRightThighVtx" Count="34" Offset="0x15820">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_015A40_Vtx" Count="74" Offset="0x15A40">
+        <Array Name="gNabooruLeftShinVtx" Count="74" Offset="0x15A40">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_015EE0_Vtx" Count="33" Offset="0x15EE0">
+        <Array Name="gNabooruLeftThighVtx" Count="33" Offset="0x15EE0">
             <Vtx/>
         </Array>
-        <Array Name="object_nb_0160F0_Vtx" Count="58" Offset="0x160F0">
+        <Array Name="gNabooruPelvisVtx" Count="58" Offset="0x160F0">
             <Vtx/>
         </Array>
-        <DList Name="object_nb_016490_DL" Offset="0x16490"/>
-        <DList Name="object_nb_016848_DL" Offset="0x16848"/>
-        <DList Name="object_nb_016FE0_DL" Offset="0x16FE0"/>
-        <DList Name="object_nb_017120_DL" Offset="0x17120"/>
-        <DList Name="object_nb_0172D8_DL" Offset="0x172D8"/>
-        <DList Name="object_nb_0174A0_DL" Offset="0x174A0"/>
-        <DList Name="object_nb_017658_DL" Offset="0x17658"/>
-        <DList Name="object_nb_017818_DL" Offset="0x17818"/>
-        <DList Name="object_nb_017B40_DL" Offset="0x17B40"/>
-        <DList Name="object_nb_017D80_DL" Offset="0x17D80"/>
-        <Limb Name="object_nb_0180A8_Limb" LimbType="Standard" Offset="0x180A8"/>
-        <Limb Name="object_nb_0180B4_Limb" LimbType="Standard" Offset="0x180B4"/>
-        <Limb Name="object_nb_0180C0_Limb" LimbType="Standard" Offset="0x180C0"/>
-        <Limb Name="object_nb_0180CC_Limb" LimbType="Standard" Offset="0x180CC"/>
-        <Limb Name="object_nb_0180D8_Limb" LimbType="Standard" Offset="0x180D8"/>
-        <Limb Name="object_nb_0180E4_Limb" LimbType="Standard" Offset="0x180E4"/>
-        <Limb Name="object_nb_0180F0_Limb" LimbType="Standard" Offset="0x180F0"/>
-        <Limb Name="object_nb_0180FC_Limb" LimbType="Standard" Offset="0x180FC"/>
-        <Limb Name="object_nb_018108_Limb" LimbType="Standard" Offset="0x18108"/>
-        <Limb Name="object_nb_018114_Limb" LimbType="Standard" Offset="0x18114"/>
-        <Limb Name="object_nb_018120_Limb" LimbType="Standard" Offset="0x18120"/>
-        <Limb Name="object_nb_01812C_Limb" LimbType="Standard" Offset="0x1812C"/>
-        <Limb Name="object_nb_018138_Limb" LimbType="Standard" Offset="0x18138"/>
-        <Limb Name="object_nb_018144_Limb" LimbType="Standard" Offset="0x18144"/>
-        <Limb Name="object_nb_018150_Limb" LimbType="Standard" Offset="0x18150"/>
-        <Limb Name="object_nb_01815C_Limb" LimbType="Standard" Offset="0x1815C"/>
-        <Limb Name="object_nb_018168_Limb" LimbType="Standard" Offset="0x18168"/>
-        <Limb Name="object_nb_018174_Limb" LimbType="Standard" Offset="0x18174"/>
-        <Skeleton Name="object_nb_0181C8_Skel" Type="Flex" LimbType="Standard" Offset="0x181C8"/>
+        <DList Name="gNabooruPelvisDL" Offset="0x16490"/>
+        <DList Name="gNabooruTorsoDL" Offset="0x16848"/>
+        <DList Name="gNabooruRightArmDL" Offset="0x16FE0"/>
+        <DList Name="gNabooruRightForearmDL" Offset="0x17120"/>
+        <DList Name="gNabooruLeftArmDL" Offset="0x172D8"/>
+        <DList Name="gNabooruLeftForearmDL" Offset="0x174A0"/>
+        <DList Name="gNabooruRightThighDL" Offset="0x17658"/>
+        <DList Name="gNabooruRightShinDL" Offset="0x17818"/>
+        <DList Name="gNabooruLeftThighDL" Offset="0x17B40"/>
+        <DList Name="gNabooruLeftShinDL" Offset="0x17D80"/>
+        <Limb Name="gNabooruRootLimb" LimbType="Standard" Offset="0x180A8"/>
+        <Limb Name="gNabooruLeftThighLimb" LimbType="Standard" Offset="0x180B4"/>
+        <Limb Name="gNabooruLeftShinLimb" LimbType="Standard" Offset="0x180C0"/>
+        <Limb Name="gNabooruLeftFootLimb" LimbType="Standard" Offset="0x180CC"/>
+        <Limb Name="gNabooruRightThighLimb" LimbType="Standard" Offset="0x180D8"/>
+        <Limb Name="gNabooruRightShinLimb" LimbType="Standard" Offset="0x180E4"/>
+        <Limb Name="gNabooruRightFootLimb" LimbType="Standard" Offset="0x180F0"/>
+        <Limb Name="gNabooruTorsoLimb" LimbType="Standard" Offset="0x180FC"/>
+        <Limb Name="gNabooruLeftArmLimb" LimbType="Standard" Offset="0x18108"/>
+        <Limb Name="gNabooruLeftForearmLimb" LimbType="Standard" Offset="0x18114"/>
+        <Limb Name="gNabooruLeftHandLimb" LimbType="Standard" Offset="0x18120"/>
+        <Limb Name="gNabooruRightArmLimb" LimbType="Standard" Offset="0x1812C"/>
+        <Limb Name="gNabooruRightForearmLimb" LimbType="Standard" Offset="0x18138"/>
+        <Limb Name="gNabooruRightHandLimb" LimbType="Standard" Offset="0x18144"/>
+        <Limb Name="gNabooruHeadLimb" LimbType="Standard" Offset="0x18150"/>
+        <Limb Name="gNabooruEmptyLimb" LimbType="Standard" Offset="0x1815C"/>
+        <Limb Name="gNabooruPonytailLimb" LimbType="Standard" Offset="0x18168"/>
+        <Limb Name="gNabooruPelvisLimb" LimbType="Standard" Offset="0x18174"/>
+        <Skeleton Name="gNabooruSkel" Type="Flex" LimbType="Standard" Offset="0x181C8"/>
     </File>
 </Root>

@@ -68,12 +68,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
-static Gfx* D_80A3279C[3] = { object_ge1_009198_DL, object_ge1_009430_DL, object_ge1_009690_DL };
+static Gfx* D_80A3279C[3] = { gObjectGe1HairStrandsDL, gObjectGe1HairFringeDL, gObjectGe1HairSpikyDL };
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
 static void* D_80A327B4[3] = {
-    object_ge1_000708_Tex,
-    object_ge1_000F08_Tex,
-    object_ge1_001708_Tex,
+    gObjectGe1EyeOpenTex,
+    gObjectGe1EyeHalfTex,
+    gObjectGe1EyeClosedTex,
 };
 
 void EnGe1_Init(Actor* thisx, PlayState* play) {
@@ -81,13 +81,13 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_ge1_000330_Skel, &object_ge1_000228_Anim, this->unk1DC,
-                       this->unk23C, 16);
-    Animation_PlayOnce(&this->skelAnime, &object_ge1_000228_Anim);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gObjectGe1Skel, &gObjectGe1ArmsCrossedAnim, this->unk1DC, this->unk23C,
+                       16);
+    Animation_PlayOnce(&this->skelAnime, &gObjectGe1ArmsCrossedAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->unk2B0 = &object_ge1_000228_Anim;
+    this->unk2B0 = &gObjectGe1ArmsCrossedAnim;
     this->unk2B8 = func_80A323B0;
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
@@ -170,9 +170,9 @@ s32 func_80A30C70(EnGe1* this, PlayState* play, u16 arg2, f32 arg3, EnGe1ActionF
         this->unk2B4 = arg4;
         this->unk2B8 = func_80A323EC;
         this->unk2AC &= ~4;
-        this->unk2B0 = &object_ge1_000228_Anim;
-        Animation_Change(&this->skelAnime, &object_ge1_000228_Anim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&object_ge1_000228_Anim), ANIMMODE_ONCE, -8.0f);
+        this->unk2B0 = &gObjectGe1ArmsCrossedAnim;
+        Animation_Change(&this->skelAnime, &gObjectGe1ArmsCrossedAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gObjectGe1ArmsCrossedAnim), ANIMMODE_ONCE, -8.0f);
         return 1;
     } else {
         this->actor.textId = arg2;
@@ -184,9 +184,9 @@ s32 func_80A30C70(EnGe1* this, PlayState* play, u16 arg2, f32 arg3, EnGe1ActionF
 }
 
 void func_80A30D48(EnGe1* this) {
-    Animation_Change(&this->skelAnime, &object_ge1_000228_Anim, -1.0f, Animation_GetLastFrame(&object_ge1_000228_Anim),
-                     0.0f, ANIMMODE_ONCE, 8.0f);
-    this->unk2B0 = &object_ge1_000228_Anim;
+    Animation_Change(&this->skelAnime, &gObjectGe1ArmsCrossedAnim, -1.0f,
+                     Animation_GetLastFrame(&gObjectGe1ArmsCrossedAnim), 0.0f, ANIMMODE_ONCE, 8.0f);
+    this->unk2B0 = &gObjectGe1ArmsCrossedAnim;
     this->unk2B8 = func_80A323B0;
 }
 
@@ -313,9 +313,9 @@ void func_80A31234(EnGe1* this, PlayState* play) {
 void func_80A312E4(EnGe1* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         this->unk2B4 = func_80A31234;
-        Animation_Change(&this->skelAnime, &object_ge1_00A048_Anim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&object_ge1_00A048_Anim), ANIMMODE_ONCE, -3.0f);
-        this->unk2B0 = &object_ge1_00A048_Anim;
+        Animation_Change(&this->skelAnime, &gObjectGe1ClapHandsAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gObjectGe1ClapHandsAnim), ANIMMODE_ONCE, -3.0f);
+        this->unk2B0 = &gObjectGe1ClapHandsAnim;
         this->unk2B8 = func_80A323EC;
         this->unk2AC &= 0xFFFB;
     }
@@ -402,9 +402,9 @@ void func_80A316F4(EnGe1* this, PlayState* play) {
     this->unk2AC |= 1;
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         this->unk2B4 = func_80A31644;
-        Animation_Change(&this->skelAnime, &object_ge1_00A048_Anim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&object_ge1_00A048_Anim), ANIMMODE_ONCE, -3.0f);
-        this->unk2B0 = &object_ge1_00A048_Anim;
+        Animation_Change(&this->skelAnime, &gObjectGe1ClapHandsAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gObjectGe1ClapHandsAnim), ANIMMODE_ONCE, -3.0f);
+        this->unk2B0 = &gObjectGe1ClapHandsAnim;
         this->unk2B8 = func_80A323EC;
         this->unk2AC &= ~4;
     }
@@ -434,9 +434,9 @@ void func_80A31880(EnGe1* this, PlayState* play) {
     }
     if (func_80A30C70(this, play, textId, 100.0f, func_80A3183C) != 0) {
         this->unk2B8 = func_80A323B0;
-        this->unk2B0 = &object_ge1_00A498_Anim;
-        Animation_Change(&this->skelAnime, &object_ge1_00A498_Anim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&object_ge1_00A498_Anim), ANIMMODE_ONCE, -8.0f);
+        this->unk2B0 = &gObjectGe1ShooAwayAnim;
+        Animation_Change(&this->skelAnime, &gObjectGe1ShooAwayAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gObjectGe1ShooAwayAnim), ANIMMODE_ONCE, -8.0f);
     }
 }
 

@@ -1,114 +1,114 @@
 <Root>
     <File Name="object_ge1" Segment="6">
-        <Animation Name="object_ge1_000168_Anim" Offset="0x168"/>
-        <Animation Name="object_ge1_000228_Anim" Offset="0x228"/>
-        <Limb Name="object_ge1_000240_Limb" LimbType="Standard" Offset="0x240"/>
-        <Limb Name="object_ge1_00024C_Limb" LimbType="Standard" Offset="0x24C"/>
-        <Limb Name="object_ge1_000258_Limb" LimbType="Standard" Offset="0x258"/>
-        <Limb Name="object_ge1_000264_Limb" LimbType="Standard" Offset="0x264"/>
-        <Limb Name="object_ge1_000270_Limb" LimbType="Standard" Offset="0x270"/>
-        <Limb Name="object_ge1_00027C_Limb" LimbType="Standard" Offset="0x27C"/>
-        <Limb Name="object_ge1_000288_Limb" LimbType="Standard" Offset="0x288"/>
-        <Limb Name="object_ge1_000294_Limb" LimbType="Standard" Offset="0x294"/>
-        <Limb Name="object_ge1_0002A0_Limb" LimbType="Standard" Offset="0x2A0"/>
-        <Limb Name="object_ge1_0002AC_Limb" LimbType="Standard" Offset="0x2AC"/>
-        <Limb Name="object_ge1_0002B8_Limb" LimbType="Standard" Offset="0x2B8"/>
-        <Limb Name="object_ge1_0002C4_Limb" LimbType="Standard" Offset="0x2C4"/>
-        <Limb Name="object_ge1_0002D0_Limb" LimbType="Standard" Offset="0x2D0"/>
-        <Limb Name="object_ge1_0002DC_Limb" LimbType="Standard" Offset="0x2DC"/>
-        <Limb Name="object_ge1_0002E8_Limb" LimbType="Standard" Offset="0x2E8"/>
-        <Skeleton Name="object_ge1_000330_Skel" Type="Flex" LimbType="Standard" Offset="0x330"/>
-        <Texture Name="object_ge1_000348_Tex" Format="rgba16" Width="16" Height="16" Offset="0x348"/>
-        <Texture Name="object_ge1_000548_Tex" Format="ci8" Width="8" Height="8" Offset="0x548" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_000588_Tex" Format="ci8" Width="16" Height="16" Offset="0x588" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_000688_Tex" Format="ci8" Width="8" Height="16" Offset="0x688" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_000708_Tex" Format="rgba16" Width="32" Height="32" Offset="0x708"/>
-        <Texture Name="object_ge1_000F08_Tex" Format="rgba16" Width="32" Height="32" Offset="0xF08"/>
-        <Texture Name="object_ge1_001708_Tex" Format="rgba16" Width="32" Height="32" Offset="0x1708"/>
-        <Texture Name="object_ge1_001F08_Tex" Format="ci8" Width="32" Height="32" Offset="0x1F08" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_002308_Tex" Format="ci8" Width="8" Height="16" Offset="0x2308" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_002388_Tex" Format="ci8" Width="16" Height="16" Offset="0x2388" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_002488_Tex" Format="ci8" Width="16" Height="16" Offset="0x2488" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_002588_Tex" Format="ci8" Width="16" Height="16" Offset="0x2588" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_002688_Tex" Format="ci8" Width="8" Height="8" Offset="0x2688" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_0026C8_Tex" Format="ci8" Width="8" Height="16" Offset="0x26C8" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_002748_Tex" Format="ci8" Width="8" Height="8" Offset="0x2748" TlutOffset="0x0348"/>
-        <Texture Name="object_ge1_002788_Tex" Format="rgba16" Width="8" Height="8" Offset="0x2788"/>
-        <Texture Name="object_ge1_002808_Tex" Format="rgba16" Width="16" Height="16" Offset="0x2808"/>
-        <Texture Name="object_ge1_002A08_Tex" Format="ci8" Width="16" Height="16" Offset="0x2A08" TlutOffset="0x2808"/>
-        <Array Name="object_ge1_002B08_Vtx" Count="123" Offset="0x2B08">
+        <Animation Name="gObjectGe1UncrossArmsAnim" Offset="0x168"/>
+        <Animation Name="gObjectGe1ArmsCrossedAnim" Offset="0x228"/>
+        <Limb Name="gObjectGe1PelvisLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_PELVIS" Offset="0x240"/>
+        <Limb Name="gObjectGe1LeftThighLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_LEFT_THIGH" Offset="0x24C"/>
+        <Limb Name="gObjectGe1LeftShinLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_LEFT_SHIN" Offset="0x258"/>
+        <Limb Name="gObjectGe1LeftFootLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_LEFT_FOOT" Offset="0x264"/>
+        <Limb Name="gObjectGe1RightThighLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_RIGHT_THIGH" Offset="0x270"/>
+        <Limb Name="gObjectGe1RightShinLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_RIGHT_SHIN" Offset="0x27C"/>
+        <Limb Name="gObjectGe1RightFootLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_RIGHT_FOOT" Offset="0x288"/>
+        <Limb Name="gObjectGe1TorsoLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_TORSO" Offset="0x294"/>
+        <Limb Name="gObjectGe1LeftArmLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_LEFT_ARM" Offset="0x2A0"/>
+        <Limb Name="gObjectGe1LeftForearmLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_LEFT_FOREARM" Offset="0x2AC"/>
+        <Limb Name="gObjectGe1LeftHandLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_LEFT_HAND" Offset="0x2B8"/>
+        <Limb Name="gObjectGe1RightArmLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_RIGHT_ARM" Offset="0x2C4"/>
+        <Limb Name="gObjectGe1RightForearmLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_RIGHT_FOREARM" Offset="0x2D0"/>
+        <Limb Name="gObjectGe1RightHandLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_RIGHT_HAND" Offset="0x2DC"/>
+        <Limb Name="gObjectGe1HeadLimb" LimbType="Standard" EnumName="OBJECT_GE1_LIMB_HEAD" Offset="0x2E8"/>
+        <Skeleton Name="gObjectGe1Skel" Type="Flex" LimbType="Standard" LimbNone="OBJECT_GE1_LIMB_NONE" LimbMax="OBJECT_GE1_LIMB_MAX" EnumName="ObjectGe1Limb" Offset="0x330"/>
+        <Texture Name="gObjectGe1TLUT" Format="rgba16" Width="16" Height="16" Offset="0x348"/>
+        <Texture Name="gObjectGe1SkinTex" Format="ci8" Width="8" Height="8" Offset="0x548" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1ClothLipsTex" Format="ci8" Width="16" Height="16" Offset="0x588" TlutOffset="0x0348"/> <!-- white cloth (pants and shoulders), lips -->
+        <Texture Name="gObjectGe1EarTex" Format="ci8" Width="8" Height="16" Offset="0x688" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1EyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x708"/>
+        <Texture Name="gObjectGe1EyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0xF08"/>
+        <Texture Name="gObjectGe1EyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x1708"/>
+        <Texture Name="gObjectGe1HandTex" Format="ci8" Width="32" Height="32" Offset="0x1F08" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1ArmbandTex" Format="ci8" Width="8" Height="16" Offset="0x2308" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1JacketTex" Format="ci8" Width="16" Height="16" Offset="0x2388" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1TopClothTex" Format="ci8" Width="16" Height="16" Offset="0x2488" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1BellyTex" Format="ci8" Width="16" Height="16" Offset="0x2588" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1CleavageTex" Format="ci8" Width="8" Height="8" Offset="0x2688" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1FootTex" Format="ci8" Width="8" Height="16" Offset="0x26C8" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1ShoeSoleTex" Format="ci8" Width="8" Height="8" Offset="0x2748" TlutOffset="0x0348"/>
+        <Texture Name="gObjectGe1PantsBaseTex" Format="rgba16" Width="8" Height="8" Offset="0x2788"/>
+        <Texture Name="gObjectGe1HairTLUT" Format="rgba16" Width="16" Height="16" Offset="0x2808"/>
+        <Texture Name="gObjectGe1HairTex" Format="ci8" Width="16" Height="16" Offset="0x2A08" TlutOffset="0x2808"/>
+        <Array Name="gObjectGe1HeadVtx" Count="123" Offset="0x2B08">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_0032B8_Vtx" Count="55" Offset="0x32B8">
+        <Array Name="gObjectGe1LeftHandVtx" Count="55" Offset="0x32B8">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_003628_Vtx" Count="24" Offset="0x3628">
+        <Array Name="gObjectGe1LeftForearmVtx" Count="24" Offset="0x3628">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_0037A8_Vtx" Count="24" Offset="0x37A8">
+        <Array Name="gObjectGe1LeftArmVtx" Count="24" Offset="0x37A8">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_003928_Vtx" Count="55" Offset="0x3928">
+        <Array Name="gObjectGe1RightHandVtx" Count="55" Offset="0x3928">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_003C98_Vtx" Count="24" Offset="0x3C98">
+        <Array Name="gObjectGe1RightForearmVtx" Count="24" Offset="0x3C98">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_003E18_Vtx" Count="24" Offset="0x3E18">
+        <Array Name="gObjectGe1RightArmVtx" Count="24" Offset="0x3E18">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_003F98_Vtx" Count="118" Offset="0x3F98">
+        <Array Name="gObjectGe1TorsoVtx" Count="118" Offset="0x3F98">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_0046F8_Vtx" Count="49" Offset="0x46F8">
+        <Array Name="gObjectGe1LeftFootVtx" Count="49" Offset="0x46F8">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_004A08_Vtx" Count="32" Offset="0x4A08">
+        <Array Name="gObjectGe1LeftShinVtx" Count="32" Offset="0x4A08">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_004C08_Vtx" Count="28" Offset="0x4C08">
+        <Array Name="gObjectGe1LeftThighVtx" Count="28" Offset="0x4C08">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_004DC8_Vtx" Count="49" Offset="0x4DC8">
+        <Array Name="gObjectGe1RightFootVtx" Count="49" Offset="0x4DC8">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_0050D8_Vtx" Count="32" Offset="0x50D8">
+        <Array Name="gObjectGe1RightShinVtx" Count="32" Offset="0x50D8">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_0052D8_Vtx" Count="28" Offset="0x52D8">
+        <Array Name="gObjectGe1RightThighVtx" Count="28" Offset="0x52D8">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_005498_Vtx" Count="23" Offset="0x5498">
+        <Array Name="gObjectGe1PelvisVtx" Count="23" Offset="0x5498">
             <Vtx/>
         </Array>
-        <DList Name="object_ge1_005608_DL" Offset="0x5608"/>
-        <DList Name="object_ge1_005C38_DL" Offset="0x5C38"/>
-        <DList Name="object_ge1_006040_DL" Offset="0x6040"/>
-        <DList Name="object_ge1_0061E8_DL" Offset="0x61E8"/>
-        <DList Name="object_ge1_006318_DL" Offset="0x6318"/>
-        <DList Name="object_ge1_006510_DL" Offset="0x6510"/>
-        <DList Name="object_ge1_0066B8_DL" Offset="0x66B8"/>
-        <DList Name="object_ge1_0067E8_DL" Offset="0x67E8"/>
-        <DList Name="object_ge1_0069E0_DL" Offset="0x69E0"/>
-        <DList Name="object_ge1_006AD0_DL" Offset="0x6AD0"/>
-        <DList Name="object_ge1_006C00_DL" Offset="0x6C00"/>
-        <DList Name="object_ge1_006E50_DL" Offset="0x6E50"/>
-        <DList Name="object_ge1_0070B0_DL" Offset="0x70B0"/>
-        <DList Name="object_ge1_0071E0_DL" Offset="0x71E0"/>
-        <DList Name="object_ge1_0073A8_DL" Offset="0x73A8"/>
-        <Array Name="object_ge1_007588_Vtx" Count="161" Offset="0x7588">
+        <DList Name="gObjectGe1TorsoDL" Offset="0x5608"/>
+        <DList Name="gObjectGe1HeadDL" Offset="0x5C38"/>
+        <DList Name="gObjectGe1RightArmDL" Offset="0x6040"/>
+        <DList Name="gObjectGe1RightForearmDL" Offset="0x61E8"/>
+        <DList Name="gObjectGe1RightHandDL" Offset="0x6318"/>
+        <DList Name="gObjectGe1LeftArmDL" Offset="0x6510"/>
+        <DList Name="gObjectGe1LeftForearmDL" Offset="0x66B8"/>
+        <DList Name="gObjectGe1LeftHandDL" Offset="0x67E8"/>
+        <DList Name="gObjectGe1PelvisDL" Offset="0x69E0"/>
+        <DList Name="gObjectGe1RightThighDL" Offset="0x6AD0"/>
+        <DList Name="gObjectGe1RightShinDL" Offset="0x6C00"/>
+        <DList Name="gObjectGe1RightFootDL" Offset="0x6E50"/>
+        <DList Name="gObjectGe1LeftThighDL" Offset="0x70B0"/>
+        <DList Name="gObjectGe1LeftShinDL" Offset="0x71E0"/>
+        <DList Name="gObjectGe1LeftFootDL" Offset="0x73A8"/>
+        <Array Name="gObjectGe1HairStrandsVtx" Count="161" Offset="0x7588">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_007F98_Vtx" Count="125" Offset="0x7F98">
+        <Array Name="gObjectGe1HairFringeVtx" Count="125" Offset="0x7F98">
             <Vtx/>
         </Array>
-        <Array Name="object_ge1_008768_Vtx" Count="163" Offset="0x8768">
+        <Array Name="gObjectGe1HairSpikyVtx" Count="163" Offset="0x8768">
             <Vtx/>
         </Array>
-        <DList Name="object_ge1_009198_DL" Offset="0x9198"/>
-        <DList Name="object_ge1_009430_DL" Offset="0x9430"/>
-        <DList Name="object_ge1_009690_DL" Offset="0x9690"/>
-        <Animation Name="object_ge1_00A048_Anim" Offset="0xA048"/>
-        <Animation Name="object_ge1_00A498_Anim" Offset="0xA498"/>
+        <DList Name="gObjectGe1HairStrandsDL" Offset="0x9198"/>
+        <DList Name="gObjectGe1HairFringeDL" Offset="0x9430"/>
+        <DList Name="gObjectGe1HairSpikyDL" Offset="0x9690"/>
+        <Animation Name="gObjectGe1ClapHandsAnim" Offset="0xA048"/>
+        <Animation Name="gObjectGe1ShooAwayAnim" Offset="0xA498"/>
     </File>
 </Root>
