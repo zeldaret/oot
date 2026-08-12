@@ -27,7 +27,7 @@ class KnotCountsArrayResource(CDataResource, can_size_be_unknown=True):
 
     def __init__(self, file: File, range_start: int, name: str):
         super().__init__(file, range_start, name)
-        self.length = None
+        self.length: int | None = None
 
     def try_parse_data(self, memory_context: "MemoryContext"):
         if self.length is not None:
@@ -63,7 +63,7 @@ class CurveInterpKnotArrayResource(CDataResource, can_size_be_unknown=True):
 
     def __init__(self, file: File, range_start: int, name: str):
         super().__init__(file, range_start, name)
-        self.length = None
+        self.length: int | None = None
 
     def try_parse_data(self, memory_context: "MemoryContext"):
         if self.length is not None:
@@ -91,7 +91,7 @@ class ConstantDataArrayResource(CDataResource, can_size_be_unknown=True):
 
     def __init__(self, file: File, range_start: int, name: str):
         super().__init__(file, range_start, name)
-        self.length = None
+        self.length: int | None = None
 
     def try_parse_data(self, memory_context: "MemoryContext"):
         if self.length is not None:

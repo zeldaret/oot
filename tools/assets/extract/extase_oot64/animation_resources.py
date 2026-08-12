@@ -30,7 +30,7 @@ class AnimationFrameDataResource(CDataResource, can_size_be_unknown=True):
 
     def __init__(self, file: File, range_start: int, name: str):
         super().__init__(file, range_start, name)
-        self.length = None
+        self.length: int | None = None
 
     def try_parse_data(self, memory_context):
         if self.length is not None:
@@ -64,7 +64,7 @@ class AnimationJointIndicesResource(CDataResource, can_size_be_unknown=True):
 
     def __init__(self, file: File, range_start: int, name: str):
         super().__init__(file, range_start, name)
-        self.length = None
+        self.length: int | None = None
 
     def try_parse_data(self, memory_context):
         if self.length is not None:

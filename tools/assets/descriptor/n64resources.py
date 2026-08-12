@@ -3,6 +3,7 @@
 
 import dataclasses
 import enum
+from typing import Optional
 from xml.etree.ElementTree import Element
 
 from ..n64 import G_IM_FMT, G_IM_SIZ
@@ -13,11 +14,9 @@ from .base import (
     ResourcesDescCollectionsPool,
     ResourceHandlerNeedsPass2Exception,
     BaseromFileBackingMemory,
+    ResourceHasNoSizeError,
 )
 from . import xml_errors
-
-# TODO remove
-STATIC_ATTRIB = {"Static"}
 
 
 class GfxMicroCode(enum.Enum):
@@ -27,20 +26,29 @@ class GfxMicroCode(enum.Enum):
 
 @dataclasses.dataclass(eq=False)
 class DListResourceDesc(ResourceDesc):
+    length: Optional[int]
     ucode: GfxMicroCode
     raw_pointers: set[int] = dataclasses.field(default_factory=set)
     """Pointers in the dlist that are fine to keep raw ("in hex") instead of using symbols"""
 
+    def get_size(self):
+        if self.length is None:
+            raise ResourceHasNoSizeError()
+        return self.length * 8
+
 
 def handler_DList(symbol_name, offset, collection, reselem: Element):
     xml_errors.check_attrib(
-        reselem, {"Name", "Offset"}, {"Ucode", "RawPointers"} | STATIC_ATTRIB
+        reselem, {"Name"}, {"Offset", "Length", "Ucode", "RawPointers"}
     )
+    length = None
+    if "Length" in reselem.attrib:
+        length = int(reselem.attrib["Length"])
     if "Ucode" in reselem.attrib:
         ucode = GfxMicroCode[reselem.attrib["Ucode"].upper()]
     else:
         ucode = GfxMicroCode.F3DEX2
-    res = DListResourceDesc(symbol_name, offset, collection, reselem, ucode)
+    res = DListResourceDesc(symbol_name, offset, collection, reselem, length, ucode)
     raw_pointers_str = reselem.attrib.get("RawPointers")
     if raw_pointers_str:
         for rp_str in raw_pointers_str.split(","):
@@ -52,9 +60,12 @@ def handler_DList(symbol_name, offset, collection, reselem: Element):
 class BlobResourceDesc(ResourceDesc):
     size: int
 
+    def get_size(self) -> int:
+        return self.size
+
 
 def handler_Blob(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset", "Size"}, STATIC_ATTRIB)
+    xml_errors.check_attrib(reselem, {"Name", "Size"}, {"Offset"})
     size = int(reselem.attrib["Size"], 16)
     return BlobResourceDesc(symbol_name, offset, collection, reselem, size)
 
@@ -65,7 +76,7 @@ class MtxResourceDesc(ResourceDesc):
 
 
 def handler_Mtx(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset"}, STATIC_ATTRIB)
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"})
     return MtxResourceDesc(symbol_name, offset, collection, reselem)
 
 
@@ -83,9 +94,12 @@ class Vec3sArrayResourceDesc(ResourceDesc):
 class VtxArrayResourceDesc(ResourceDesc):
     count: int
 
+    def get_size(self):
+        return self.count * 0x10
+
 
 def handler_Array(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset", "Count"}, STATIC_ATTRIB)
+    xml_errors.check_attrib(reselem, {"Name", "Count"}, {"Offset"})
     count = int(reselem.attrib["Count"])
     assert len(reselem) == 1, "Expected exactly one child of Array node"
     array_elem = reselem[0]
@@ -126,6 +140,9 @@ class TextureResourceDesc(ResourceDesc):
     width: int
     height: int
 
+    def get_size(self):
+        return self.width * self.height * self.format.siz.bpp // 8
+
 
 @dataclasses.dataclass(eq=False)
 class CITextureResourceDesc(TextureResourceDesc):
@@ -137,17 +154,17 @@ def handler_Texture(
 ):
     xml_errors.check_attrib(
         reselem,
-        {"Name", "Offset", "Format", "Width", "Height"},
-        # TODO remove OutName, SplitTlut
+        {"Name", "Format", "Width", "Height"},
+        # TODO remove SplitTlut
         {
-            "OutName",
+            "Offset",
             "SplitTlut",
+            "Tlut",
             "TlutOffset",
             "ExternalTlut",
             "ExternalTlutOffset",
             "HackMode",
-        }
-        | STATIC_ATTRIB,
+        },
     )
     format = TextureFormat[reselem.attrib["Format"].upper()]
     width = int(reselem.attrib["Width"])
@@ -163,15 +180,39 @@ def handler_Texture(
             res.hack_modes.add("hackmode_split_tlut_false")
 
         assert (
-            "TlutOffset" in reselem.attrib or "ExternalTlutOffset" in reselem.attrib
-        ), f"CI texture {symbol_name} is missing a tlut offset"
+            "Tlut" in reselem.attrib
+            or "TlutOffset" in reselem.attrib
+            or "ExternalTlutOffset" in reselem.attrib
+        ), f"CI texture {symbol_name} is missing tlut information"
 
-        if "TlutOffset" in reselem.attrib:
+        if "Tlut" in reselem.attrib:
             xml_errors.check_attrib(
                 reselem,
-                {"Name", "Offset", "Format", "Width", "Height", "TlutOffset"},
-                # TODO remove OutName, SplitTlut
-                {"OutName", "SplitTlut", "HackMode"} | STATIC_ATTRIB,
+                {"Name", "Format", "Width", "Height", "Tlut"},
+                # TODO remove SplitTlut
+                {"Offset", "SplitTlut", "HackMode"},
+            )
+            tlut_name = reselem.attrib["Tlut"]
+
+            def pass2_callback(pool: ResourcesDescCollectionsPool):
+                matching_tlut_resources = [
+                    res for res in collection.resources if res.symbol_name == tlut_name
+                ]
+                assert len(matching_tlut_resources) == 1, (
+                    f"Found {len(matching_tlut_resources)} resources named "
+                    f"{tlut_name} instead of exactly one"
+                )
+                assert isinstance(
+                    matching_tlut_resources[0], TextureResourceDesc
+                ), matching_tlut_resources[0]
+                res.tlut = matching_tlut_resources[0]
+
+        elif "TlutOffset" in reselem.attrib:
+            xml_errors.check_attrib(
+                reselem,
+                {"Name", "Format", "Width", "Height", "TlutOffset"},
+                # TODO remove SplitTlut
+                {"Offset", "SplitTlut", "HackMode"},
             )
             tlut_offset = int(reselem.attrib["TlutOffset"], 16)
 
@@ -193,15 +234,14 @@ def handler_Texture(
                 reselem,
                 {
                     "Name",
-                    "Offset",
                     "Format",
                     "Width",
                     "Height",
                     "ExternalTlut",
                     "ExternalTlutOffset",
                 },
-                # TODO remove OutName, SplitTlut
-                {"OutName", "SplitTlut", "HackMode"} | STATIC_ATTRIB,
+                # TODO remove SplitTlut
+                {"Offset", "SplitTlut", "HackMode"},
             )
             external_tlut_file = reselem.attrib["ExternalTlut"]
             external_tlut_offset = int(reselem.attrib["ExternalTlutOffset"], 16)
@@ -229,9 +269,8 @@ def handler_Texture(
     else:
         xml_errors.check_attrib(
             reselem,
-            {"Name", "Offset", "Format", "Width", "Height"},
-            # TODO remove OutName
-            {"OutName", "HackMode"} | STATIC_ATTRIB,
+            {"Name", "Format", "Width", "Height"},
+            {"Offset", "HackMode"},
         )
         res = TextureResourceDesc(
             symbol_name, offset, collection, reselem, format, width, height

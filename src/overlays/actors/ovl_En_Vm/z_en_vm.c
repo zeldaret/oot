@@ -22,7 +22,7 @@
 #include "player.h"
 
 #include "assets/objects/object_vm/object_vm.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_enemy_death_flame.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -395,7 +395,8 @@ void EnVm_Die(EnVm* this, PlayState* play) {
             bomb->timer = 0;
         }
 
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xA0);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_10, false));
         Actor_Kill(&this->actor);
     }
 }

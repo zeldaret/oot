@@ -235,6 +235,20 @@ err:
     error("Invalid note %s", value);
 }
 
+/**
+ * Parse fine tuning in the range [-100, 100]
+ */
+void
+xml_parse_fine_tune(const char *value, void *out)
+{
+    int v = xml_str_to_int(value);
+    if (v < -100 || v > 100)
+        error("Value %d out of range for fine tuning", v);
+    int8_t vs8 = v;
+
+    copy_out(out, vs8);
+}
+
 void
 xml_parse_string(const char *value, void *out)
 {

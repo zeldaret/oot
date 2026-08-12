@@ -129,9 +129,9 @@ class DrumGroup:
 
             notes.append(note)
 
-        # Note values should increase monotonically in a drum group
-        note_indices = [pitch_names.index(note) + 21 for note in notes]
-        assert all(v == note_indices[0] + i for i,v in enumerate(note_indices))
+        # Drum frequencies should increase monotonically in a drum group
+        # Increasing frequencies correspond to decreasing note values
+        assert all(v == (notes[0] - i) % 128 for i,v in enumerate(notes))
 
         # Assign final rate and note.
         # Use first note in the group as the basenote for the whole group, the rest will be filled in during build.
@@ -167,7 +167,7 @@ class DrumGroup:
         if self.needs_rate_override:
             attributes["SampleRate"] = self.sample_rate
         if self.needs_note_override:
-            attributes["BaseNote"] = self.base_note
+            attributes["BaseNote"] = pitch_names[self.base_note]
 
         xml.write_element("Drum", attributes)
 
