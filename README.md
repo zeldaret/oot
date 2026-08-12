@@ -63,7 +63,7 @@ For Windows 10 or 11, install WSL and a distribution by following this
 [WSL Installation Guide](https://learn.microsoft.com/en-us/windows/wsl/install).
 We recommend using Debian or Ubuntu Linux distributions.
 
-For older versions of Windows, install a Linux VM or refer to [Docker](#Docker) instructions.
+For older versions of Windows, install a Linux VM or refer to [Docker](docs/building/docker.md) instructions.
 
 ### macOS
 
@@ -184,36 +184,6 @@ md5sum: WARNING: 1 computed checksum did NOT match
 ```
 
 This means that the built ROM isn't the same as the base one, so something went wrong or some part of the code doesn't match.
-
-### Docker
-
-#### 1. Setup requirements
-
-To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
-
-On Ubuntu, Docker and required tools can be installed with: `sudo apt install docker.io docker-compose docker-buildx`
-
-You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [3](#3-prepare-a-base-rom) of the Linux instructions).
-
-#### 2. Create the Docker image
-
-From inside your local project, run the following command:
-
-```bash
-docker build . -t oot
-```
-
-#### 3. Start the container
-
-To start the container, you can mount your local filesystem into the Docker container and run an interactive bash session.
-
-```bash
-docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/bash
-```
-
-#### 4. Setup and Build the ROM
-
-Once inside the container, you can follow steps [4](#4-setup-the-rom-and-build-process) and [5](#5-build-the-rom) of the Linux instructions to setup and build the ROM, or run any other command you need.
 
 ## Changing build options
 
