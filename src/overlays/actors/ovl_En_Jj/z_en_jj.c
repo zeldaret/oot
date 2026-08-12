@@ -5,7 +5,9 @@
  */
 
 #include "z_en_jj.h"
+#include "src/overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -26,11 +28,16 @@ void EnJj_Destroy(Actor* thisx, PlayState* play);
 void EnJj_Update(Actor* thisx, PlayState* play);
 void EnJj_Draw(Actor* thisx, PlayState* play);
 
-void func_80A87BEC(EnJj* this, PlayState* play);
-void func_80A87C30(EnJj* this, PlayState* play);
-void func_80A87CEC(EnJj* this, PlayState* play);
-void func_80A87EF0(EnJj* this, PlayState* play);
-void func_80A87F44(Actor* thisx, PlayState* play);
+void EnJj_WaitPlayerNear(EnJj* this, PlayState* play);
+void EnJj_WaitFishDrop(EnJj* this, PlayState* play);
+void EnJj_TriggerInhalingCutscene(EnJj* this, PlayState* play);
+void EnJj_InInhalingCutscene(EnJj* this, PlayState* play);
+void EnJj_DoNothing(Actor* thisx, PlayState* play);
+
+#define EN_JJ_CS_STATE_FLAG_OPEN_MOUTH (1 << 0)
+#define EN_JJ_CS_STATE_FLAG_BLINK_FLAG (1 << 1)
+#define EN_JJ_CS_STATE_FLAG_KEEP_EFF_DUST (1 << 2)
+#define EN_JJ_CS_STATE_FLAG_EFF_DUST_SPAWNED (1 << 3)
 
 ActorProfile En_Jj_Profile = {
     /**/ ACTOR_EN_JJ,
@@ -76,65 +83,68 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeScale, 3300, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 1100, ICHAIN_STOP),
 };
-static Vec3f D_80A88CF0 = { -1589.0f, 53.0f, -43.0f };
-static void* D_80A88CFC[5] = {
+
+static Vec3f sJabuInhalingCsTriggerCenterPos = { -1589.0f, 53.0f, -43.0f };
+
+static void* sEyeTextures[] = {
     gObjectJjEyeOpenTex,
     gObjectJjEyeHalfTex,
     gObjectJjEyeClosedTex,
 };
 
-void func_80A87800(EnJj* this, void (*arg1)(EnJj*, PlayState*)) {
-    this->unk2FC = arg1;
+void EnJj_SetupAction(EnJj* this, void (*arg1)(EnJj*, PlayState*)) {
+    this->actionFunc = arg1;
 }
 
 void EnJj_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnJj* this = (EnJj*)thisx;
-    CollisionHeader* sp4C;
+    CollisionHeader* colHeader = NULL;
 
-    sp4C = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
     switch (this->dyna.actor.params) {
-        case -1:
-            SkelAnime_InitFlex(play, &this->skelAnime, &gObjectJjSkel, &gObjectJjAnim, this->unk1A8, this->unk22C, 22);
+        case EN_JJ_TYPE_MAIN:
+            SkelAnime_InitFlex(play, &this->skelAnime, &gObjectJjSkel, &gObjectJjAnim, this->jointTable,
+                               this->morphTable, OBJECT_JJ_LIMB_MAX);
             Animation_PlayLoop(&this->skelAnime, &gObjectJjAnim);
-            this->unk30A = 0;
-            this->unk30E = 0;
-            this->unk30F = 0;
-            this->unk310 = 0;
-            this->unk311 = 0;
+            this->csStateFlags = 0;
+            this->eyeTexIndex = 0;
+            this->eyeTimer = 0;
+            this->eyeExtraBlinkAmount = 0;
+            this->nextEyeExtraBlinkAmount = 0;
             if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU)) {
-                func_80A87800(this, func_80A87BEC);
+                EnJj_SetupAction(this, EnJj_WaitPlayerNear);
             } else {
-                func_80A87800(this, func_80A87C30);
+                EnJj_SetupAction(this, EnJj_WaitFishDrop);
             }
-            this->unk300 = (EnJj*)Actor_SpawnAsChild(
-                &play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
+            this->headCol = (EnJj*)Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_JJ,
+                                                      this->dyna.actor.world.pos.x - 10.0f,
+                                                      this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0,
+                                                      this->dyna.actor.world.rot.y, 0, EN_JJ_TYPE_HEAD_COL);
             DynaPolyActor_Init(&this->dyna, 0);
-            CollisionHeader_GetVirtual(&gObjectJjBodyCol, &sp4C);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+            CollisionHeader_GetVirtual(&gObjectJjBodyCol, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
             this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
             return;
 
-        case 0:
+        case EN_JJ_TYPE_HEAD_COL:
             DynaPolyActor_Init(&this->dyna, 0);
-            CollisionHeader_GetVirtual(&gObjectJjHeadCol, &sp4C);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
+            CollisionHeader_GetVirtual(&gObjectJjHeadCol, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
             DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
-            this->dyna.actor.update = func_80A87F44;
+            this->dyna.actor.update = EnJj_DoNothing;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
             return;
 
-        case 1:
+        case EN_JJ_TYPE_1:
             DynaPolyActor_Init(&this->dyna, 0);
-            CollisionHeader_GetVirtual(&object_jj_00BA8C_Col, &sp4C);
-            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, sp4C);
-            this->dyna.actor.update = func_80A87F44;
+            CollisionHeader_GetVirtual(&object_jj_00BA8C_Col, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+            this->dyna.actor.update = EnJj_DoNothing;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
             return;
@@ -145,151 +155,149 @@ void EnJj_Destroy(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
     switch (this->dyna.actor.params) {
-        case -1:
+        case EN_JJ_TYPE_MAIN:
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
             Collider_DestroyCylinder(play, &this->collider);
-            return;
+            break;
 
-        case 0:
-        case 1:
+        case EN_JJ_TYPE_HEAD_COL:
+        case EN_JJ_TYPE_1:
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-            return;
+            break;
     }
 }
 
-void func_80A87B1C(EnJj* this) {
-    if (this->unk30F > 0) {
-        this->unk30F--;
+void EnJj_UpdateEye(EnJj* this) {
+    if (this->eyeTimer > 0) {
+        this->eyeTimer--;
     } else {
-        this->unk30E++;
-        if (this->unk30E >= 3) {
-            this->unk30E = 0;
-            if (this->unk310 > 0) {
-                this->unk310--;
+        this->eyeTexIndex++;
+        if (this->eyeTexIndex >= ARRAY_COUNT(sEyeTextures)) {
+            this->eyeTexIndex = 0;
+            if (this->eyeExtraBlinkAmount > 0) {
+                this->eyeExtraBlinkAmount--;
             } else {
-                this->unk30F = Rand_S16Offset(0x14, 0x14);
-                this->unk310 = this->unk311;
+                this->eyeTimer = Rand_S16Offset(20, 20);
+                this->eyeExtraBlinkAmount = this->nextEyeExtraBlinkAmount;
             }
         }
     }
 }
 
-void func_80A87B9C(EnJj* this, PlayState* play) {
-    EnJj* unk300;
+void EnJj_OpenMouth(EnJj* this, PlayState* play) {
+    EnJj* headCol = this->headCol;
 
-    unk300 = this->unk300;
-    if (this->unk308 >= -0x1450) {
-        this->unk308 -= 0x66;
-        if (this->unk308 < -0xA28) {
-            DynaPoly_DisableCollision(play, &play->colCtx.dyna, unk300->dyna.bgId);
+    if (this->headRot >= -0x1450) {
+        this->headRot -= 0x66;
+        if (this->headRot < -0xA28) {
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, headCol->dyna.bgId);
         }
     }
 }
 
-void func_80A87BEC(EnJj* this, PlayState* play) {
+void EnJj_WaitPlayerNear(EnJj* this, PlayState* play) {
     if (this->dyna.actor.xzDistToPlayer < 300.0f) {
-        func_80A87800(this, func_80A87B9C);
+        EnJj_SetupAction(this, EnJj_OpenMouth);
     }
 }
 
-void func_80A87C30(EnJj* this, PlayState* play) {
+void EnJj_WaitFishDrop(EnJj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) && play->isPlayerDroppingFish(play)) {
-        this->unk30C = 0x64;
-        func_80A87800(this, func_80A87CEC);
+    if ((Math_Vec3f_DistXZ(&sJabuInhalingCsTriggerCenterPos, &player->actor.world.pos) < 300.0f) &&
+        play->isPlayerDroppingFish(play)) {
+        this->timer = 100;
+        EnJj_SetupAction(this, EnJj_TriggerInhalingCutscene);
     }
-    this->collider.dim.pos.x = -0x4DD;
-    this->collider.dim.pos.y = 0x14;
-    this->collider.dim.pos.z = -0x30;
+    this->collider.dim.pos.x = -1245;
+    this->collider.dim.pos.y = 20;
+    this->collider.dim.pos.z = -48;
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 
-void func_80A87CEC(EnJj* this, PlayState* play) {
-    EnJj* temp_v1;
-    Actor* sp1C;
+void EnJj_TriggerInhalingCutscene(EnJj* this, PlayState* play) {
+    EnJj* headCol = this->headCol;
 
-    temp_v1 = this->unk300;
-    if (this->unk30C > 0) {
-        this->unk30C--;
-        return;
+    if (this->timer > 0) {
+        this->timer--;
+    } else {
+        EnJj_SetupAction(this, EnJj_InInhalingCutscene);
+        play->csCtx.script = gJabuInhalingCs;
+        gSaveContext.cutsceneTrigger = 1;
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, headCol->dyna.bgId);
+        Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
+        SET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
-    func_80A87800(this, func_80A87EF0);
-    play->csCtx.script = gJabuInhalingCs;
-    gSaveContext.cutsceneTrigger = 1;
-    DynaPoly_DisableCollision(play, &play->colCtx.dyna, temp_v1->dyna.bgId);
-    Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
-    SET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU);
-    Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 }
 
-void func_80A87D94(EnJj* this, PlayState* play) {
+void EnJj_UpdateCutscene(EnJj* this, PlayState* play) {
     switch (play->csCtx.actorCues[2]->id) {
         case 1:
-            if (this->unk30A & 2) {
-                this->unk30E = 0;
-                this->unk30F = Rand_S16Offset(0x14, 0x14);
-                this->unk310 = 0;
-                this->unk311 = 0;
-                this->unk30A ^= 2;
+            if (this->csStateFlags & EN_JJ_CS_STATE_FLAG_BLINK_FLAG) {
+                this->eyeTexIndex = 0;
+                this->eyeTimer = Rand_S16Offset(20, 20);
+                this->eyeExtraBlinkAmount = 0;
+                this->nextEyeExtraBlinkAmount = 0;
+                this->csStateFlags ^= EN_JJ_CS_STATE_FLAG_BLINK_FLAG;
             }
             break;
 
         case 2:
-            this->unk30A |= 1;
-            if (!(this->unk30A & 8)) {
-                this->unk304 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EFF_DUST, -1100.0f,
-                                                  105.0f, -27.0f, 0, 0, 0, 0);
-                this->unk30A |= 8;
+            this->csStateFlags |= EN_JJ_CS_STATE_FLAG_OPEN_MOUTH;
+            if (!(this->csStateFlags & EN_JJ_CS_STATE_FLAG_EFF_DUST_SPAWNED)) {
+                this->effDust = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EFF_DUST, -1100.0f,
+                                                   105.0f, -27.0f, 0, 0, 0, EFF_DUST_TYPE_0);
+                this->csStateFlags |= EN_JJ_CS_STATE_FLAG_EFF_DUST_SPAWNED;
             }
             break;
 
         case 3:
-            if (!(this->unk30A & 2)) {
-                this->unk30E = 0;
-                this->unk30F = 0;
-                this->unk310 = 1;
-                this->unk311 = 0;
-                this->unk30A |= 2;
+            if (!(this->csStateFlags & EN_JJ_CS_STATE_FLAG_BLINK_FLAG)) {
+                this->eyeTexIndex = 0;
+                this->eyeTimer = 0;
+                this->eyeExtraBlinkAmount = 1;
+                this->nextEyeExtraBlinkAmount = 0;
+                this->csStateFlags |= EN_JJ_CS_STATE_FLAG_BLINK_FLAG;
             }
             break;
     }
-    if (this->unk30A & 1) {
+    if (this->csStateFlags & EN_JJ_CS_STATE_FLAG_OPEN_MOUTH) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
-        if (this->unk308 >= -0x1450) {
-            this->unk308 -= 0x66;
+        if (this->headRot >= -0x1450) {
+            this->headRot -= 0x66;
         }
     }
 }
 
-void func_80A87EF0(EnJj* this, PlayState* play) {
-    if (!(this->unk30A & 4)) {
-        this->unk30A |= 4;
-        if (this->unk304 != NULL) {
-            Actor_Kill(this->unk304);
+void EnJj_InInhalingCutscene(EnJj* this, PlayState* play) {
+    if (!(this->csStateFlags & EN_JJ_CS_STATE_FLAG_KEEP_EFF_DUST)) {
+        this->csStateFlags |= EN_JJ_CS_STATE_FLAG_KEEP_EFF_DUST;
+        if (this->effDust != NULL) {
+            Actor_Kill(this->effDust);
             this->dyna.actor.child = NULL;
         }
     }
 }
 
-void func_80A87F44(Actor* thisx, PlayState* play) {
+void EnJj_DoNothing(Actor* thisx, PlayState* play) {
 }
 
 void EnJj_Update(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL)) {
-        func_80A87D94(this, play);
+        EnJj_UpdateCutscene(this, play);
     } else {
-        this->unk2FC(this, play);
+        this->actionFunc(this, play);
         if (this->skelAnime.curFrame == 41.0f) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
-    func_80A87B1C(this);
+    EnJj_UpdateEye(this);
     SkelAnime_Update(&this->skelAnime);
     Actor_SetScale(&this->dyna.actor, 0.087f);
-    this->skelAnime.jointTable[10].z = (s16)this->unk308;
+    this->skelAnime.jointTable[OBJECT_JJ_LIMB_HEAD].z = this->headRot;
 }
 
 void EnJj_Draw(Actor* thisx, PlayState* play) {
@@ -300,8 +308,8 @@ void EnJj_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * 0.076624215f) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
-    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A88CFC[this->unk30E]));
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, (s32)this->skelAnime.dListCount,
-                          NULL, NULL, this);
+    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          NULL, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_jj.c", 898);
 }
