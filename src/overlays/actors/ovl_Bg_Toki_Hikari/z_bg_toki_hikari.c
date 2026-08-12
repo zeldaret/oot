@@ -16,12 +16,12 @@ void BgTokiHikari_Destroy(Actor* thisx, PlayState* play);
 void BgTokiHikari_Update(Actor* thisx, PlayState* play);
 void BgTokiHikari_Draw(Actor* thisx, PlayState* play);
 
-void func_808B9F98(BgTokiHikari* this, PlayState* play);
-void func_808BA018(Actor* thisx, PlayState* play);
-void func_808BA204(BgTokiHikari* this, PlayState* play);
-void func_808BA22C(BgTokiHikari* this, PlayState* play);
-void func_808BA274(BgTokiHikari* this, PlayState* play);
-void func_808BA2CC(Actor* thisx, PlayState* play);
+void BgTokiHikari_WindowsAndLight_DoNothing(BgTokiHikari* this, PlayState* play);
+void BgTokiHikari_WindowsAndLight_Draw(Actor* thisx, PlayState* play);
+void BgTokiHikari_TriforceFlash_Wait(BgTokiHikari* this, PlayState* play);
+void BgTokiHikari_TriforceFlash_Brighten(BgTokiHikari* this, PlayState* play);
+void BgTokiHikari_TriforceFlash_FadeAway(BgTokiHikari* this, PlayState* play);
+void BgTokiHikari_TriforceFlash_Draw(Actor* thisx, PlayState* play);
 
 ActorProfile Bg_Toki_Hikari_Profile = {
     /**/ ACTOR_BG_TOKI_HIKARI,
@@ -40,23 +40,22 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgTokiHikari_Init(Actor* thisx, PlayState* play) {
-    s16 temp_v0;
     BgTokiHikari* this = (BgTokiHikari*)thisx;
 
-    temp_v0 = this->actor.params;
-    switch (temp_v0) { /* irregular */
-        case 0:
+    switch (this->actor.params) {
+        case BG_TOKI_HIKARI_TYPE_WINDOWS_AND_LIGHT:
             Actor_ProcessInitChain(&this->actor, sInitChain);
-            this->unk150 = func_808B9F98;
-            return;
-        case 1:
+            this->actionFunc = BgTokiHikari_WindowsAndLight_DoNothing;
+            break;
+
+        case BG_TOKI_HIKARI_TYPE_TRIFORCE_FLASH:
             if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
-                this->unk150 = func_808BA204;
-                this->unk14C = 0.0f;
-                return;
+                this->actionFunc = BgTokiHikari_TriforceFlash_Wait;
+                this->triforceFlashIntensity = 0.0f;
+            } else {
+                Actor_Kill(&this->actor);
             }
-            Actor_Kill(&this->actor);
-            return;
+            break;
     }
 }
 
@@ -64,107 +63,119 @@ void BgTokiHikari_Destroy(Actor* thisx, PlayState* play) {
     BgTokiHikari* this = (BgTokiHikari*)thisx;
 }
 
-void func_808B9F98(BgTokiHikari* this, PlayState* play) {
+void BgTokiHikari_WindowsAndLight_DoNothing(BgTokiHikari* this, PlayState* play) {
 }
 
 void BgTokiHikari_Update(Actor* thisx, PlayState* play) {
     BgTokiHikari* this = (BgTokiHikari*)thisx;
 
-    this->unk150(this, play);
+    this->actionFunc(this, play);
 }
 
 void BgTokiHikari_Draw(Actor* thisx, PlayState* play) {
     switch (thisx->params) {
-        case 0:
-            func_808BA018(thisx, play);
+        case BG_TOKI_HIKARI_TYPE_WINDOWS_AND_LIGHT:
+            BgTokiHikari_WindowsAndLight_Draw(thisx, play);
             return;
-        case 1:
-            func_808BA2CC(thisx, play);
+
+        case BG_TOKI_HIKARI_TYPE_TRIFORCE_FLASH:
+            BgTokiHikari_TriforceFlash_Draw(thisx, play);
             return;
     }
 }
 
-void func_808BA018(Actor* thisx, PlayState* play) {
-    PlayState* play2 = (PlayState*)play;
+void BgTokiHikari_WindowsAndLight_Draw(Actor* thisx, PlayState* play) {
+    PlayState* play2 = play;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0xF6);
+
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_toki_hikari.c", 252);
-    if (gSaveContext.save.linkAge == 0) {
+
+    if (LINK_IS_ADULT) {
         gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_008190);
     } else {
         gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007E20);
+
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPSegment(POLY_XLU_DISP++, 8, Gfx_TexScroll(play->state.gfxCtx, 0U, play2->gameplayFrames & 0x7F, 0x40, 0x20));
-        gSPSegment(POLY_XLU_DISP++, 9, Gfx_TexScroll(play->state.gfxCtx, 0U, play2->gameplayFrames & 0x7F, 0x40, 0x20));
+        gSPSegment(POLY_XLU_DISP++, 8, Gfx_TexScroll(play->state.gfxCtx, 0, play2->gameplayFrames & 0x7F, 64, 32));
+        gSPSegment(POLY_XLU_DISP++, 9, Gfx_TexScroll(play->state.gfxCtx, 0, play2->gameplayFrames & 0x7F, 64, 32));
         MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_toki_hikari.c", 278);
         gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_007EE0);
     }
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0x11C);
 }
 
-void func_808BA204(BgTokiHikari* this, PlayState* play) {
+void BgTokiHikari_TriforceFlash_Wait(BgTokiHikari* this, PlayState* play) {
     if (play->roomCtx.drawParams[1] != 0) {
-        this->unk150 = func_808BA22C;
+        this->actionFunc = BgTokiHikari_TriforceFlash_Brighten;
     }
 }
 
-void func_808BA22C(BgTokiHikari* this, PlayState* play) {
-    f32 temp_fv0;
-
-    temp_fv0 = this->unk14C;
-    if (temp_fv0 < 1.0f) {
-        this->unk14C = temp_fv0 + 0.05f;
-        return;
+void BgTokiHikari_TriforceFlash_Brighten(BgTokiHikari* this, PlayState* play) {
+    if (this->triforceFlashIntensity < 1.0f) {
+        this->triforceFlashIntensity += 0.05f;
+    } else {
+        this->triforceFlashIntensity = 1.0f;
+        this->actionFunc = BgTokiHikari_TriforceFlash_FadeAway;
     }
-    this->unk14C = 1.0f;
-    this->unk150 = func_808BA274;
 }
 
-void func_808BA274(BgTokiHikari* this, PlayState* play) {
-    if (this->unk14C > 0.2f) {
-        this->unk14C -= 0.025f;
-        return;
+void BgTokiHikari_TriforceFlash_FadeAway(BgTokiHikari* this, PlayState* play) {
+    if (this->triforceFlashIntensity > 0.2f) {
+        this->triforceFlashIntensity -= 0.025f;
+    } else {
+        this->triforceFlashIntensity = 0.0f;
+        Actor_Kill(&this->actor);
     }
-    this->unk14C = 0.0f;
-    Actor_Kill(&this->actor);
 }
 
-void func_808BA2CC(Actor* thisx, PlayState* play) {
+void BgTokiHikari_TriforceFlash_Draw(Actor* thisx, PlayState* play) {
     BgTokiHikari* this = (BgTokiHikari*)thisx;
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0x15E);
-    Matrix_Translate(0.0f, 276.0f, 1122.0f, 0U);
-    Matrix_Scale(0.32f, 0.32f, this->unk14C * 7.0f, 1U);
-    Matrix_RotateZ(3.1415927f, 1U);
+
+    Matrix_Translate(0.0f, 276.0f, 1122.0f, MTXMODE_NEW);
+    Matrix_Scale(0.32f, 0.32f, this->triforceFlashIntensity * 7.0f, MTXMODE_APPLY);
+    Matrix_RotateZ(M_PI, MTXMODE_APPLY);
+
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
+
     Matrix_Push();
     gDPPipeSync(POLY_XLU_DISP++);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, (u8)(this->unk14C * 255.0f), (u8)(155.0f * this->unk14C) + 100,
-                    (u8)(this->unk14C * 255.0f), (u8)(this->unk14C * 255.0f));
-    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->unk14C * 155.0f) + 100, (u8)(255.0f * this->unk14C), 0, 128);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, (u8)(this->triforceFlashIntensity * 255.0f),
+                    (u8)(155.0f * this->triforceFlashIntensity) + 100, (u8)(this->triforceFlashIntensity * 255.0f),
+                    (u8)(this->triforceFlashIntensity * 255.0f));
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->triforceFlashIntensity * 155.0f) + 100,
+                   (u8)(255.0f * this->triforceFlashIntensity), 0, 128);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_toki_hikari.c", 382);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->gameplayFrames & 0x7F) * -2, 0U, 0x20, 0x40,
-                                1, (play->gameplayFrames & 0x7F) * 4, 0U, 0x20, 0x40));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->gameplayFrames & 0x7F) * -2, 0, 32, 64, 1,
+                                (play->gameplayFrames & 0x7F) * 4, 0, 32, 64));
     gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_000880);
     Matrix_Pop();
+
     Matrix_Push();
     gDPPipeSync(POLY_XLU_DISP++);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 255, (u8)(this->unk14C * 200.0f));
-    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->unk14C * 255.0f), (u8)(this->unk14C * 255.0f),
-                   (u8)(this->unk14C * 255.0f), (u8)(200.0f * this->unk14C));
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 255, (u8)(this->triforceFlashIntensity * 200.0f));
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->triforceFlashIntensity * 255.0f),
+                   (u8)(this->triforceFlashIntensity * 255.0f), (u8)(this->triforceFlashIntensity * 255.0f),
+                   (u8)(200.0f * this->triforceFlashIntensity));
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_toki_hikari.c", 415);
     gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_0009C0);
     Matrix_Pop();
+
     Matrix_Push();
     gDPPipeSync(POLY_XLU_DISP++);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 255, (u8)(this->unk14C * 200.0f));
-    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->unk14C * 255.0f), (u8)(this->unk14C * 255.0f),
-                   (u8)(this->unk14C * 255.0f), (u8)(200.0f * this->unk14C));
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 255, (u8)(this->triforceFlashIntensity * 200.0f));
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->triforceFlashIntensity * 255.0f),
+                   (u8)(this->triforceFlashIntensity * 255.0f), (u8)(this->triforceFlashIntensity * 255.0f),
+                   (u8)(200.0f * this->triforceFlashIntensity));
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_toki_hikari.c", 437);
     gSPDisplayList(POLY_XLU_DISP++, &object_toki_objects_DL_0009C0[10]);
     Matrix_Pop();
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 0x1BB);
 }
