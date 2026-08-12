@@ -22,20 +22,25 @@ void EnGe2_Destroy(Actor* thisx, PlayState* play);
 void EnGe2_Update(Actor* thisx, PlayState* play);
 void EnGe2_Draw(Actor* thisx, PlayState* play);
 
-s32 func_80A330A0(void);
-void func_80A330CC(EnGe2* this, PlayState* play);
-void func_80A331A0(EnGe2* this, PlayState* play);
-void func_80A332D4(EnGe2* this, PlayState* play);
-void func_80A3334C(EnGe2* this, PlayState* play);
-void func_80A33444(EnGe2* this, PlayState* play);
-void func_80A3354C(EnGe2* this, PlayState* play);
-void func_80A33600(EnGe2* this, PlayState* play);
-void func_80A336C4(EnGe2* this, PlayState* play);
-void func_80A339EC(EnGe2* this, PlayState* play);
-void func_80A33AFC(EnGe2* this, PlayState* play);
-void func_80A33D10(Actor* thisx, PlayState* play);
-void func_80A33DE0(Actor* thisx, PlayState* play);
-void func_80A3402C(Actor* thisx, PlayState* play2);
+s32 EnGe2_AreAllCarpentersRescued(void);
+void EnGe2_PlayerCaught(EnGe2* this, PlayState* play);
+void EnGe2_PlayerCaughtRun(EnGe2* this, PlayState* play);
+void EnGe2_PlayerCaughtTurn(EnGe2* this, PlayState* play);
+void EnGe2_Faint(EnGe2* this, PlayState* play);
+void EnGe2_PatrolAlerted(EnGe2* this, PlayState* play);
+void EnGe2_PatrolTurnAround(EnGe2* this, PlayState* play);
+void EnGe2_PatrolWalk(EnGe2* this, PlayState* play);
+void EnGe2_Static(EnGe2* this, PlayState* play);
+void EnGe2_LookAtPlayer(EnGe2* this, PlayState* play);
+void EnGe2_WaitTalk(EnGe2* this, PlayState* play);
+void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play);
+void EnGe2_UpdateTalking(Actor* thisx, PlayState* play);
+void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
+
+#define EN_GE2_STATE_FLAG_NO_SKELANIME_UPDATE (1 << 1)
+#define EN_GE2_STATE_FLAG_2 (1 << 2)
+#define EN_GE2_STATE_FLAG_PLAYER_CAUGHT (1 << 3)
+#define EN_GE2_STATE_FLAG_4 (1 << 4)
 
 ActorProfile En_Ge2_Profile = {
     /**/ ACTOR_EN_GE2,
@@ -69,34 +74,58 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 60, 0, { 0, 0, 0 } },
 };
 
-static void (*D_80A3433C[9])(EnGe2*, PlayState*) = {
-    func_80A33600, func_80A3354C, func_80A33444, func_80A3334C, func_80A332D4,
-    func_80A331A0, func_80A330CC, func_80A336C4, func_80A339EC,
+typedef enum EnGe2Action {
+    /* 0 */ EN_GE2_ACTION_PATROL_WALK,
+    /* 1 */ EN_GE2_ACTION_PATROL_TURN_AROUND,
+    /* 2 */ EN_GE2_ACTION_PATROL_ALERTED,
+    /* 3 */ EN_GE2_ACTION_FAINT,
+    /* 4 */ EN_GE2_ACTION_PLAYER_CAUGHT_TURN,
+    /* 5 */ EN_GE2_ACTION_PLAYER_CAUGHT_RUN,
+    /* 6 */ EN_GE2_ACTION_PLAYER_CAUGHT,
+    /* 7 */ EN_GE2_ACTION_STATIC,
+    /* 8 */ EN_GE2_ACTION_LOOK_AT_PLAYER,
+    /* 9 */ EN_GE2_ACTION_MAX
+} EnGe2Action;
+
+static void (*sActionFuncs[EN_GE2_ACTION_MAX])(EnGe2*, PlayState*) = {
+    EnGe2_PatrolWalk,       // EN_GE2_ACTION_PATROL_WALK
+    EnGe2_PatrolTurnAround, // EN_GE2_ACTION_PATROL_TURN_AROUND
+    EnGe2_PatrolAlerted,    // EN_GE2_ACTION_PATROL_ALERTED
+    EnGe2_Faint,            // EN_GE2_ACTION_FAINT
+    EnGe2_PlayerCaughtTurn, // EN_GE2_ACTION_PLAYER_CAUGHT_TURN
+    EnGe2_PlayerCaughtRun,  // EN_GE2_ACTION_PLAYER_CAUGHT_RUN
+    EnGe2_PlayerCaught,     // EN_GE2_ACTION_PLAYER_CAUGHT
+    EnGe2_Static,           // EN_GE2_ACTION_STATIC
+    EnGe2_LookAtPlayer,     // EN_GE2_ACTION_LOOK_AT_PLAYER
 };
-static AnimationHeader* D_80A34360[9] = {
-    &gObjectGlaWalkAnim, &gObjectGlaIdleAnim, &gObjectGlaIdleAnim, &gObjectGlaFaintAnim, &gObjectGlaIdleAnim,
-    &gObjectGlaRunAnim,  &gObjectGlaIdleAnim, &gObjectGlaIdleAnim, &gObjectGlaIdleAnim,
+static AnimationHeader* sAnims[EN_GE2_ACTION_MAX] = {
+    &gObjectGlaWalkAnim,  // EN_GE2_ACTION_PATROL_WALK
+    &gObjectGlaIdleAnim,  // EN_GE2_ACTION_PATROL_TURN_AROUND
+    &gObjectGlaIdleAnim,  // EN_GE2_ACTION_PATROL_ALERTED
+    &gObjectGlaFaintAnim, // EN_GE2_ACTION_FAINT
+    &gObjectGlaIdleAnim,  // EN_GE2_ACTION_PLAYER_CAUGHT_TURN
+    &gObjectGlaRunAnim,   // EN_GE2_ACTION_PLAYER_CAUGHT_RUN
+    &gObjectGlaIdleAnim,  // EN_GE2_ACTION_PLAYER_CAUGHT
+    &gObjectGlaIdleAnim,  // EN_GE2_ACTION_STATIC
+    &gObjectGlaIdleAnim,  // EN_GE2_ACTION_LOOK_AT_PLAYER
 };
-static u8 D_80A34384[9] = {
-    ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP,
-    ANIMMODE_LOOP, ANIMMODE_LOOP, ANIMMODE_LOOP, ANIMMODE_ONCE,
-};
-static Vec3f D_80A34390 = { 0.0f, -0.05f, 0.0f };
-static Vec3f D_80A3439C = { 0.0f, -0.025f, 0.0f };
-static Color_RGBA8 D_80A343A8 = { 0xFF, 0xFF, 0xFF, 0 };
-static Color_RGBA8 D_80A343AC = { 0xFF, 0x96, 0, 0 };
-static Vec3f D_80A343B0 = { 600.0f, 700.0f, 0.0f };
-static void* D_80A343BC[3] = {
-    object_gla_004F78_Tex,
-    object_gla_005578_Tex,
-    object_gla_005BF8_Tex,
+static u8 sAnimModes[EN_GE2_ACTION_MAX] = {
+    ANIMMODE_LOOP, // EN_GE2_ACTION_PATROL_WALK
+    ANIMMODE_ONCE, // EN_GE2_ACTION_PATROL_TURN_AROUND
+    ANIMMODE_LOOP, // EN_GE2_ACTION_PATROL_ALERTED
+    ANIMMODE_ONCE, // EN_GE2_ACTION_FAINT
+    ANIMMODE_LOOP, // EN_GE2_ACTION_PLAYER_CAUGHT_TURN
+    ANIMMODE_LOOP, // EN_GE2_ACTION_PLAYER_CAUGHT_RUN
+    ANIMMODE_LOOP, // EN_GE2_ACTION_PLAYER_CAUGHT
+    ANIMMODE_LOOP, // EN_GE2_ACTION_STATIC
+    ANIMMODE_ONCE, // EN_GE2_ACTION_LOOK_AT_PLAYER
 };
 
-void func_80A32BD0(EnGe2* this, s32 arg1) {
-    this->unk308 = D_80A3433C[arg1];
-    Animation_Change(&this->skelAnime, D_80A34360[arg1], 1.0f, 0.0f, Animation_GetLastFrame(D_80A34360[arg1]),
-                     D_80A34384[arg1], -8.0f);
-    this->unk2F4 &= ~2;
+void EnGe2_SetupAction(EnGe2* this, s32 action) {
+    this->actionFunc = sActionFuncs[action];
+    Animation_Change(&this->skelAnime, sAnims[action], 1.0f, 0.0f, Animation_GetLastFrame(sAnims[action]),
+                     sAnimModes[action], -8.0f);
+    this->stateFlags &= ~EN_GE2_STATE_FLAG_NO_SKELANIME_UPDATE;
 }
 
 void EnGe2_Init(Actor* thisx, PlayState* play) {
@@ -104,7 +133,8 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gObjectGlaSkel, NULL, this->unk1DC, this->unk260, 22);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gObjectGlaSkel, NULL, this->jointTable, this->morphTable,
+                       OBJECT_GLA_LIMB_MAX);
     Animation_PlayLoop(&this->skelAnime, &gObjectGlaWalkAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -115,45 +145,45 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     } else {
         this->actor.cullingVolumeDistance = 1200.0f;
     }
-    this->unk2FC = (this->actor.world.rot.z + 1) * 40.0f;
+    this->detectionYRange = (this->actor.world.rot.z + 1) * 40.0f;
     this->actor.world.rot.z = 0;
     this->actor.shape.rot.z = 0;
     switch (PARAMS_GET_S(thisx->params, 0, 8)) {
-        case 0:
-            func_80A32BD0(this, 0);
-            if (func_80A330A0() != 0) {
-                this->actor.update = func_80A33D10;
+        case EN_GE2_TYPE_PATROL:
+            EnGe2_SetupAction(this, EN_GE2_ACTION_PATROL_WALK);
+            if (EnGe2_AreAllCarpentersRescued()) {
+                this->actor.update = EnGe2_UpdateFriendly;
                 this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
 
-        case 1:
-            func_80A32BD0(this, 7);
-            if (func_80A330A0() != 0) {
-                this->actor.update = func_80A33D10;
+        case EN_GE2_TYPE_STATIC:
+            EnGe2_SetupAction(this, EN_GE2_ACTION_STATIC);
+            if (EnGe2_AreAllCarpentersRescued()) {
+                this->actor.update = EnGe2_UpdateFriendly;
                 this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
 
-        case 2:
-            func_80A32BD0(this, 8);
-            this->actor.update = func_80A33DE0;
-            this->unk308 = func_80A33AFC;
+        case EN_GE2_TYPE_GERUDOS_CARD_GIVER:
+            EnGe2_SetupAction(this, EN_GE2_ACTION_LOOK_AT_PLAYER);
+            this->actor.update = EnGe2_UpdateTalking;
+            this->actionFunc = EnGe2_WaitTalk;
             this->actor.attentionRangeType = ATTENTION_RANGE_6;
             break;
 
         default:
-            ASSERT(0, "0", "../z_en_ge2.c", 0x1A2);
+            ASSERT(0, "0", "../z_en_ge2.c", 418);
             break;
     }
-    this->unk2F4 = 0;
-    this->unk304 = 0;
-    this->unk302 = 0;
-    this->unk306 = 0;
+    this->stateFlags = 0;
+    this->unk_304 = 0;
+    this->patrolTimer = 0;
+    this->playerNoise = 0;
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
-    this->unk2F6 = this->actor.world.rot.y;
-    this->unk300 = PARAMS_GET_S(thisx->params, 8, 8) * 0xA;
+    this->targetYaw = this->actor.world.rot.y;
+    this->patrolTime = PARAMS_GET_S(thisx->params, 8, 8) * 10;
 }
 
 void EnGe2_Destroy(Actor* thisx, PlayState* play) {
@@ -162,65 +192,65 @@ void EnGe2_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-s32 func_80A32ECC(PlayState* play, EnGe2* this) {
-    f32 var_fv0;
+s32 EnGe2_GetPlayerNoiseLevel(PlayState* play, EnGe2* this) {
+    f32 xzRangeFac;
 
     if (!IS_DAY) {
-        var_fv0 = 0.75f;
+        xzRangeFac = 0.75f;
     } else {
-        var_fv0 = 1.5f;
+        xzRangeFac = 1.5f;
     }
-    if ((250.0f * var_fv0) < this->actor.xzDistToPlayer) {
+    if ((250.0f * xzRangeFac) < this->actor.xzDistToPlayer) {
         return 0;
     }
     if (this->actor.xzDistToPlayer < 50.0f) {
         return 2;
     }
-    if (func_8002DDE4(play) != 0) {
+    if (func_8002DDE4(play)) {
         return 1;
     }
     return 0;
 }
 
-s32 func_80A32F74(PlayState* play, EnGe2* this, Vec3f* arg2, s16 arg3, f32 arg4) {
+s32 EnGe2_CanSeePlayer(PlayState* play, EnGe2* this, Vec3f* headPos, s16 yaw, f32 yRange) {
     Player* player = GET_PLAYER(play);
-    Vec3f sp38;
-    CollisionPoly* sp34;
-    f32 var_fv0;
-    s16 temp_v0;
+    Vec3f pos;
+    CollisionPoly* poly;
+    f32 xzRangeFac;
+    s16 relYawTowardsPlayer;
 
     if (!IS_DAY) {
-        var_fv0 = 0.75f;
+        xzRangeFac = 0.75f;
     } else {
-        var_fv0 = 1.5f;
+        xzRangeFac = 1.5f;
     }
-    if ((250.0f * var_fv0) < this->actor.xzDistToPlayer) {
-        return 0;
+    if ((250.0f * xzRangeFac) < this->actor.xzDistToPlayer) {
+        return false;
     }
-    if (arg4 < ABS(this->actor.yDistToPlayer)) {
-        return 0;
+    if (yRange < ABS(this->actor.yDistToPlayer)) {
+        return false;
     }
-    temp_v0 = this->actor.yawTowardsPlayer - arg3;
-    if (ABS(temp_v0) > 0x2000) {
-        return 0;
+    relYawTowardsPlayer = this->actor.yawTowardsPlayer - yaw;
+    if (ABS(relYawTowardsPlayer) > 0x2000) {
+        return false;
     }
-    if (BgCheck_AnyLineTest1(&play->colCtx, arg2, &player->bodyPartsPos[PLAYER_BODYPART_HEAD], &sp38, &sp34, 0)) {
-        return 0;
+    if (BgCheck_AnyLineTest1(&play->colCtx, headPos, &player->bodyPartsPos[PLAYER_BODYPART_HEAD], &pos, &poly, false)) {
+        return false;
     }
-    return 1;
+    return true;
 }
 
-s32 func_80A330A0(void) {
+s32 EnGe2_AreAllCarpentersRescued(void) {
     if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED2()) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
-void func_80A330CC(EnGe2* this, PlayState* play) {
-    if (this->unk305 > 0) {
-        this->unk305--;
+void EnGe2_PlayerCaught(EnGe2* this, PlayState* play) {
+    if (this->timer > 0) {
+        this->timer--;
     } else {
         Horse_ResetHorseData(play);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
@@ -235,15 +265,15 @@ void func_80A330CC(EnGe2* this, PlayState* play) {
     }
 }
 
-void func_80A331A0(EnGe2* this, PlayState* play) {
+void EnGe2_PlayerCaughtRun(EnGe2* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x400, 0x100);
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->actor.xzDistToPlayer < 50.0f) {
-        func_80A32BD0(this, 6);
+        EnGe2_SetupAction(this, EN_GE2_ACTION_PLAYER_CAUGHT);
         this->actor.speed = 0.0f;
     }
-    if (this->unk305 > 0) {
-        this->unk305--;
+    if (this->timer > 0) {
+        this->timer--;
     } else {
         Horse_ResetHorseData(play);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
@@ -258,301 +288,303 @@ void func_80A331A0(EnGe2* this, PlayState* play) {
     }
 }
 
-void func_80A332D4(EnGe2* this, PlayState* play) {
+void EnGe2_PlayerCaughtTurn(EnGe2* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x400, 0x100);
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->actor.world.rot.y == this->actor.yawTowardsPlayer) {
-        func_80A32BD0(this, 5);
-        this->unk305 = 0x32;
+        EnGe2_SetupAction(this, EN_GE2_ACTION_PLAYER_CAUGHT_RUN);
+        this->timer = 50;
         this->actor.speed = 4.0f;
     }
 }
 
-void func_80A3334C(EnGe2* this, PlayState* play) {
-    s32 temp_v0;
-    Vec3f sp38;
+void EnGe2_Faint(EnGe2* this, PlayState* play) {
+    static Vec3f sEffVel = { 0.0f, -0.05f, 0.0f };
+    static Vec3f sEffAccel = { 0.0f, -0.025f, 0.0f };
+    static Color_RGBA8 sEffPrimColor = { 255, 255, 255, 0 };
+    static Color_RGBA8 sEffEnvColor = { 255, 150, 0, 0 };
+    s32 angle;
+    Vec3f effPos;
 
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    if (this->unk2F4 & 2) {
-        temp_v0 = play->state.frames * 0x2800;
-        sp38.x = this->actor.focus.pos.x + (Math_CosS(temp_v0) * 5.0f);
-        sp38.y = this->actor.focus.pos.y + 10.0f;
-        sp38.z = this->actor.focus.pos.z + (Math_SinS(temp_v0) * 5.0f);
-        EffectSsKiraKira_SpawnDispersed(play, &sp38, &D_80A34390, &D_80A3439C, &D_80A343A8, &D_80A343AC, 0x3E8, 0x10);
+    if (this->stateFlags & EN_GE2_STATE_FLAG_NO_SKELANIME_UPDATE) {
+        angle = play->state.frames * 0x2800;
+        effPos.x = this->actor.focus.pos.x + (Math_CosS(angle) * 5.0f);
+        effPos.y = this->actor.focus.pos.y + 10.0f;
+        effPos.z = this->actor.focus.pos.z + (Math_SinS(angle) * 5.0f);
+        EffectSsKiraKira_SpawnDispersed(play, &effPos, &sEffVel, &sEffAccel, &sEffPrimColor, &sEffEnvColor, 1000, 16);
     }
 }
 
-void func_80A33444(EnGe2* this, PlayState* play) {
-    s32 temp_v0_2;
+void EnGe2_PatrolAlerted(EnGe2* this, PlayState* play) {
+    s32 playerNoise;
 
     this->actor.speed = 0.0f;
-    if (this->unk2F4 & 0x10) {
-        this->unk2F4 &= ~0x10;
+    if (this->stateFlags & EN_GE2_STATE_FLAG_4) {
+        this->stateFlags &= ~EN_GE2_STATE_FLAG_4;
     } else {
-        temp_v0_2 = func_80A32ECC(play, this);
-        if (temp_v0_2 != 0) {
-            this->unk305 = 0x64;
-            this->unk2F8 = this->actor.yawTowardsPlayer;
-            if (this->unk306 < temp_v0_2) {
-                this->unk306 = temp_v0_2;
+        playerNoise = EnGe2_GetPlayerNoiseLevel(play, this);
+        if (playerNoise != 0) {
+            this->timer = 100;
+            this->patrolAlertedYaw = this->actor.yawTowardsPlayer;
+            if (this->playerNoise < playerNoise) {
+                this->playerNoise = playerNoise;
             }
-        } else if (this->actor.world.rot.y == this->unk2F8) {
-            this->unk306 = 0;
-            func_80A32BD0(this, 1);
+        } else if (this->actor.world.rot.y == this->patrolAlertedYaw) {
+            this->playerNoise = 0;
+            EnGe2_SetupAction(this, EN_GE2_ACTION_PATROL_TURN_AROUND);
             return;
         }
     }
-    switch (this->unk306) {
+    switch (this->playerNoise) {
         case 1:
-            Math_SmoothStepToS(&this->actor.world.rot.y, this->unk2F8, 2, 0x200, 0x100);
+            Math_SmoothStepToS(&this->actor.world.rot.y, this->patrolAlertedYaw, 2, 0x200, 0x100);
             break;
 
         case 2:
-            Math_SmoothStepToS(&this->actor.world.rot.y, this->unk2F8, 2, 0x600, 0x180);
+            Math_SmoothStepToS(&this->actor.world.rot.y, this->patrolAlertedYaw, 2, 0x600, 0x180);
             break;
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-void func_80A3354C(EnGe2* this, PlayState* play) {
-    s32 temp_v0;
+void EnGe2_PatrolTurnAround(EnGe2* this, PlayState* play) {
+    s32 playerNoise;
 
     this->actor.speed = 0.0f;
-    temp_v0 = func_80A32ECC(play, this);
-    if (temp_v0 != 0) {
-        func_80A32BD0(this, 2);
-        this->unk305 = 0x64;
-        this->unk306 = temp_v0;
-        this->unk2F8 = this->actor.yawTowardsPlayer;
-    } else if (this->unk2F4 & 2) {
-        Math_SmoothStepToS(&this->actor.world.rot.y, this->unk2F6, 2, 0x400, 0x200);
+    playerNoise = EnGe2_GetPlayerNoiseLevel(play, this);
+    if (playerNoise != 0) {
+        EnGe2_SetupAction(this, EN_GE2_ACTION_PATROL_ALERTED);
+        this->timer = 100;
+        this->playerNoise = playerNoise;
+        this->patrolAlertedYaw = this->actor.yawTowardsPlayer;
+    } else if (this->stateFlags & EN_GE2_STATE_FLAG_NO_SKELANIME_UPDATE) {
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->targetYaw, 2, 0x400, 0x200);
         this->actor.shape.rot.y = this->actor.world.rot.y;
     }
-    if (this->actor.shape.rot.y == this->unk2F6) {
-        func_80A32BD0(this, 0);
+    if (this->actor.shape.rot.y == this->targetYaw) {
+        EnGe2_SetupAction(this, EN_GE2_ACTION_PATROL_WALK);
     }
 }
 
-void func_80A33600(EnGe2* this, PlayState* play) {
-    u8 temp_v0;
+void EnGe2_PatrolWalk(EnGe2* this, PlayState* play) {
+    u8 playerNoise;
 
-    temp_v0 = func_80A32ECC(play, this);
-    if (temp_v0 != 0) {
+    playerNoise = EnGe2_GetPlayerNoiseLevel(play, this);
+    if (playerNoise != 0) {
         this->actor.speed = 0.0f;
-        func_80A32BD0(this, 2);
-        this->unk305 = 0x64;
-        this->unk306 = temp_v0;
-        this->unk2F8 = this->actor.yawTowardsPlayer;
-    } else if (this->unk302 >= this->unk300) {
-        this->unk302 = 0;
-        this->unk2F6 += 0x8000;
-        func_80A32BD0(this, 1);
+        EnGe2_SetupAction(this, EN_GE2_ACTION_PATROL_ALERTED);
+        this->timer = 100;
+        this->playerNoise = playerNoise;
+        this->patrolAlertedYaw = this->actor.yawTowardsPlayer;
+    } else if (this->patrolTimer >= this->patrolTime) {
+        this->patrolTimer = 0;
+        this->targetYaw += 0x8000;
+        EnGe2_SetupAction(this, EN_GE2_ACTION_PATROL_TURN_AROUND);
         this->actor.speed = 0.0f;
     } else {
-        this->unk302 += 1;
+        this->patrolTimer++;
         this->actor.speed = 2.0f;
     }
 }
 
-void func_80A336C4(EnGe2* this, PlayState* play) {
-    Math_SmoothStepToS(&this->actor.world.rot.y, this->unk2F6, 2, 0x400, 0x200);
+void EnGe2_Static(EnGe2* this, PlayState* play) {
+    Math_SmoothStepToS(&this->actor.world.rot.y, this->targetYaw, 2, 0x400, 0x200);
 }
 
-void func_80A33704(EnGe2* this, PlayState* play) {
-    s16 temp_v0;
+void EnGe2_TrackPlayer(EnGe2* this, PlayState* play) {
+    s16 relYawTowardsPlayer;
     s32 pad;
 
-    temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (ABS(temp_v0) <= 0x4000) {
+    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        Actor_TrackPlayer(play, &this->actor, &this->unk2E8, &this->unk2EE, this->actor.focus.pos);
-        return;
-    }
-    if (temp_v0 < 0) {
-        Math_SmoothStepToS(&this->unk2E8.y, -0x2000, 6, 0x1838, 0x100);
+        Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
     } else {
-        Math_SmoothStepToS(&this->unk2E8.y, 0x2000, 6, 0x1838, 0x100);
-    }
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xC, 0x3E8, 0x64);
-    this->actor.world.rot.y = this->actor.shape.rot.y;
-}
-
-void func_80A3381C(EnGe2* this, PlayState* play) {
-    s16 temp_v0;
-
-    temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if ((ABS(temp_v0) < 0x4301) && (this->actor.xzDistToPlayer < 200.0f)) {
-        Actor_TrackPlayer(play, &this->actor, &this->unk2E8, &this->unk2EE, this->actor.focus.pos);
-    } else {
-        Math_SmoothStepToS(&this->unk2E8.x, 0, 6, 0x1838, 0x64);
-        Math_SmoothStepToS(&this->unk2E8.y, 0, 6, 0x1838, 0x64);
-        Math_SmoothStepToS(&this->unk2EE.x, 0, 6, 0x1838, 0x64);
-        Math_SmoothStepToS(&this->unk2EE.y, 0, 6, 0x1838, 0x64);
+        if (relYawTowardsPlayer < 0) {
+            Math_SmoothStepToS(&this->headRot.y, -0x2000, 6, 0x1838, 0x100);
+        } else {
+            Math_SmoothStepToS(&this->headRot.y, 0x2000, 6, 0x1838, 0x100);
+        }
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 12, 0x3E8, 0x64);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
     }
 }
 
-void func_80A33930(EnGe2* this, PlayState* play) {
+void EnGe2_TrackPlayerIfNear(EnGe2* this, PlayState* play) {
+    s16 relYawTowardsPlayer;
+
+    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    if ((ABS(relYawTowardsPlayer) <= 0x4300) && (this->actor.xzDistToPlayer < 200.0f)) {
+        Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
+    } else {
+        Math_SmoothStepToS(&this->headRot.x, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->headRot.y, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->torsoRot.x, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->torsoRot.y, 0, 6, 0x1838, 0x64);
+    }
+}
+
+void EnGe2_WaitTalkEnd(EnGe2* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         switch (PARAMS_GET_S(this->actor.params, 0, 8)) {
-            case 0:
-                func_80A32BD0(this, 1);
+            case EN_GE2_TYPE_PATROL:
+                EnGe2_SetupAction(this, EN_GE2_ACTION_PATROL_TURN_AROUND);
                 break;
 
-            case 1:
-                func_80A32BD0(this, 7);
+            case EN_GE2_TYPE_STATIC:
+                EnGe2_SetupAction(this, EN_GE2_ACTION_STATIC);
                 break;
 
-            case 2:
-                this->unk308 = func_80A339EC;
+            case EN_GE2_TYPE_GERUDOS_CARD_GIVER:
+                this->actionFunc = EnGe2_LookAtPlayer;
                 break;
         }
-        this->actor.update = func_80A33D10;
+        this->actor.update = EnGe2_UpdateFriendly;
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
-    func_80A33704(this, play);
+    EnGe2_TrackPlayer(this, play);
 }
 
-void func_80A339EC(EnGe2* this, PlayState* play) {
-    func_80A3381C(this, play);
+void EnGe2_LookAtPlayer(EnGe2* this, PlayState* play) {
+    EnGe2_TrackPlayerIfNear(this, play);
 }
 
-void func_80A33A0C(EnGe2* this, PlayState* play) {
-    if (Actor_HasParent(&this->actor, play) != 0) {
+void EnGe2_GiveGerudosCard(EnGe2* this, PlayState* play) {
+    if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
-        this->unk308 = func_80A33930;
+        this->actionFunc = EnGe2_WaitTalkEnd;
     } else {
         Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
-void func_80A33A6C(EnGe2* this, PlayState* play) {
+void EnGe2_Talking(EnGe2* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
-        this->unk308 = func_80A33A0C;
+        this->actionFunc = EnGe2_GiveGerudosCard;
         Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
-void func_80A33AFC(EnGe2* this, PlayState* play) {
+void EnGe2_WaitTalk(EnGe2* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        this->unk308 = func_80A33A6C;
+        this->actionFunc = EnGe2_Talking;
     } else {
         this->actor.textId = 0x6004;
         this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
-    func_80A3381C(this, play);
+    EnGe2_TrackPlayerIfNear(this, play);
 }
 
-void func_80A33B7C(EnGe2* this, PlayState* play) {
-    this->unk2F4 |= 8;
+void EnGe2_SetupPlayerCaught(EnGe2* this, PlayState* play) {
+    this->stateFlags |= EN_GE2_STATE_FLAG_PLAYER_CAUGHT;
     this->actor.speed = 0.0f;
-    func_80A32BD0(this, 4);
+    EnGe2_SetupAction(this, EN_GE2_ACTION_PLAYER_CAUGHT_TURN);
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_95);
     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
 
-void func_80A33BE8(EnGe2* this, PlayState* play) {
+void EnGe2_UpdateImplPre(EnGe2* this, PlayState* play) {
     s32 pad[2];
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    if (!(this->unk2F4 & 2) && SkelAnime_Update(&this->skelAnime)) {
-        this->unk2F4 |= 2;
+    if (!(this->stateFlags & EN_GE2_STATE_FLAG_NO_SKELANIME_UPDATE) && SkelAnime_Update(&this->skelAnime)) {
+        this->stateFlags |= EN_GE2_STATE_FLAG_NO_SKELANIME_UPDATE;
     }
 }
 
-void func_80A33C8C(EnGe2* this, PlayState* play) {
+void EnGe2_UpdateImplPost(EnGe2* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
-    if (DECR(this->unk2E6) == 0) {
-        this->unk2E6 = Rand_S16Offset(0x3C, 0x3C);
+    if (DECR(this->eyeTimer) == 0) {
+        this->eyeTimer = Rand_S16Offset(60, 60);
     }
-    this->unk2E4 = this->unk2E6;
-    if (this->unk2E4 >= 3) {
-        this->unk2E4 = 0;
+    this->eyeTexIndex = this->eyeTimer;
+    if (this->eyeTexIndex >= 3) {
+        this->eyeTexIndex = 0;
     }
 }
 
-void func_80A33D10(Actor* thisx, PlayState* play) {
+void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play) {
     EnGe2* this = (EnGe2*)thisx;
 
-    func_80A33BE8(this, play);
-    this->unk308(this, play);
+    EnGe2_UpdateImplPre(this, play);
+    this->actionFunc(this, play);
     if (Actor_TalkOfferAccepted(thisx, play)) {
-        if (PARAMS_GET_S(thisx->params, 0, 8) == 0) {
+        if (PARAMS_GET_S(thisx->params, 0, 8) == EN_GE2_TYPE_PATROL) {
             thisx->speed = 0.0f;
-            func_80A32BD0(this, 8);
+            EnGe2_SetupAction(this, EN_GE2_ACTION_LOOK_AT_PLAYER);
         }
-        this->unk308 = func_80A33930;
-        thisx->update = func_80A33DE0;
+        this->actionFunc = EnGe2_WaitTalkEnd;
+        thisx->update = EnGe2_UpdateTalking;
     } else {
         thisx->textId = 0x6005;
         if (thisx->xzDistToPlayer < 100.0f) {
             Actor_OfferTalk(thisx, play, 100.0f);
         }
     }
-    func_80A33C8C(this, play);
+    EnGe2_UpdateImplPost(this, play);
 }
 
-void func_80A33DE0(Actor* thisx, PlayState* play) {
+void EnGe2_UpdateTalking(Actor* thisx, PlayState* play) {
     EnGe2* this = (EnGe2*)thisx;
 
-    this->unk2F4 |= 0x10;
-    func_80A33BE8(this, play);
-    this->unk308(this, play);
-    func_80A33C8C(this, play);
+    this->stateFlags |= EN_GE2_STATE_FLAG_4;
+    EnGe2_UpdateImplPre(this, play);
+    this->actionFunc(this, play);
+    EnGe2_UpdateImplPost(this, play);
 }
 
 void EnGe2_Update(Actor* thisx, PlayState* play) {
     EnGe2* this = (EnGe2*)thisx;
 
-    func_80A33BE8(this, play);
-    if ((this->unk2F4 & 4) || (this->unk2F4 & 8)) {
-        this->unk308(this, play);
+    EnGe2_UpdateImplPre(this, play);
+    if ((this->stateFlags & EN_GE2_STATE_FLAG_2) || (this->stateFlags & EN_GE2_STATE_FLAG_PLAYER_CAUGHT)) {
+        this->actionFunc(this, play);
+    } else if (this->collider.base.acFlags & AC_HIT) {
+        if ((this->collider.elem.acHitElem != NULL) &&
+            (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
+            //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the
+            //! colorfilter.
+            //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
+            this->actor.update = EnGe2_UpdateStunned;
+            return;
+        }
+        EnGe2_SetupAction(this, EN_GE2_ACTION_FAINT);
+        this->timer = 100;
+        this->stateFlags |= EN_GE2_STATE_FLAG_2;
+        this->actor.speed = 0.0f;
+        Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
     } else {
-        if (this->collider.base.acFlags & AC_HIT) {
-            if ((this->collider.elem.acHitElem != NULL) &&
-                (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
-                //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the
-                //! colorfilter.
-                //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
-                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
-                this->actor.update = func_80A3402C;
-                return;
-            }
-            func_80A32BD0(this, 3);
-            this->unk305 = 0x64;
-            this->unk2F4 |= 4;
-            this->actor.speed = 0.0f;
-            Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
-        } else {
-            this->unk308(this, play);
-            if (func_80A32F74(play, this, &this->actor.focus.pos, this->actor.shape.rot.y, this->unk2FC) != 0) {
-                PRINTF("\x1b[32m発見!!!!!!!!!!!!\n\x1b[m");
-                func_80A33B7C(this, play);
-            }
-            if ((PARAMS_GET_S(this->actor.params, 0, 8) == 1) && (this->actor.xzDistToPlayer < 100.0f)) {
-                PRINTF("\x1b[32m発見!!!!!!!!!!!!\n\x1b[m");
-                func_80A33B7C(this, play);
-            }
+        this->actionFunc(this, play);
+        if (EnGe2_CanSeePlayer(play, this, &this->actor.focus.pos, this->actor.shape.rot.y, this->detectionYRange)) {
+            PRINTF(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
+            EnGe2_SetupPlayerCaught(this, play);
+        }
+        if ((PARAMS_GET_S(this->actor.params, 0, 8) == EN_GE2_TYPE_STATIC) && (this->actor.xzDistToPlayer < 100.0f)) {
+            PRINTF(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
+            EnGe2_SetupPlayerCaught(this, play);
         }
     }
-    if (!(this->unk2F4 & 4) &&
-        ((PARAMS_GET_S(this->actor.params, 0, 8) == 0) || (PARAMS_GET_S(this->actor.params, 0, 8) == 1))) {
+    if (!(this->stateFlags & EN_GE2_STATE_FLAG_2) && ((PARAMS_GET_S(this->actor.params, 0, 8) == EN_GE2_TYPE_PATROL) ||
+                                                      (PARAMS_GET_S(this->actor.params, 0, 8) == EN_GE2_TYPE_STATIC))) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
-    func_80A33C8C(this, play);
-    if ((func_80A330A0() != 0) && !(this->unk2F4 & 4)) {
-        this->actor.update = func_80A33D10;
+    EnGe2_UpdateImplPost(this, play);
+    if (EnGe2_AreAllCarpentersRescued() && !(this->stateFlags & EN_GE2_STATE_FLAG_2)) {
+        this->actor.update = EnGe2_UpdateFriendly;
         this->actor.attentionRangeType = ATTENTION_RANGE_6;
     }
 }
 
-void func_80A3402C(Actor* thisx, PlayState* play2) {
+void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     EnGe2* this = (EnGe2*)thisx;
 
@@ -560,18 +592,18 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if ((this->collider.base.acFlags & AC_HIT) &&
-        (((this->collider.elem.acHitElem == NULL)) ||
+        ((this->collider.elem.acHitElem == NULL) ||
          !(this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
-        func_80A32BD0(this, 3);
-        this->unk305 = 0x64;
-        this->unk2F4 = (u16)(this->unk2F4 | 4);
+        EnGe2_SetupAction(this, EN_GE2_ACTION_FAINT);
+        this->timer = 100;
+        this->stateFlags |= EN_GE2_STATE_FLAG_2;
         this->actor.speed = 0.0f;
         Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
-    if (func_80A330A0() != 0) {
-        this->actor.update = func_80A33D10;
+    if (EnGe2_AreAllCarpentersRescued()) {
+        this->actor.update = EnGe2_UpdateFriendly;
         this->actor.attentionRangeType = ATTENTION_RANGE_6;
         this->actor.colorFilterTimer = 0;
     } else if (this->actor.colorFilterTimer == 0) {
@@ -579,33 +611,39 @@ void func_80A3402C(Actor* thisx, PlayState* play2) {
     }
 }
 
-s32 func_80A3415C(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx) {
+s32 EnGe2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnGe2* this = thisx;
 
-    if (arg1 == 3) {
-        arg4->x += this->unk2E8.y;
-        arg4->z += this->unk2E8.x;
+    if (limbIndex == OBJECT_GLA_LIMB_HEAD_ROOT) {
+        rot->x += this->headRot.y;
+        rot->z += this->headRot.x;
     }
-    return 0;
+    return false;
 }
 
-void func_80A341A0(PlayState* play, s32 arg1, Gfx** arg2, Vec3s* arg3, void* thisx) {
+void EnGe2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f sFocusOffset = { 600.0f, 700.0f, 0.0f };
     EnGe2* this = thisx;
 
-    if (arg1 == 6) {
-        Matrix_MultVec3f(&D_80A343B0, &this->actor.focus.pos);
+    if (limbIndex == OBJECT_GLA_LIMB_HEAD) {
+        Matrix_MultVec3f(&sFocusOffset, &this->actor.focus.pos);
     }
 }
 
 void EnGe2_Draw(Actor* thisx, PlayState* play) {
+    static void* sEyeTextures[] = {
+        gObjectGlaEyeOpenTex,
+        gObjectGlaEyeHalfTex,
+        gObjectGlaEyeClosedTex,
+    };
     EnGe2* this = (EnGe2*)thisx;
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge2.c", 1274);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80A343BC[this->unk2E4]));
+    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
     func_8002EBCC(&this->actor, play, 0);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_80A3415C, func_80A341A0, this);
+                          EnGe2_OverrideLimbDraw, EnGe2_PostLimbDraw, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge2.c", 1291);
 }

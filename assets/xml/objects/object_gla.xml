@@ -45,25 +45,25 @@
         <DList Name="gObjectGlaRightShinDL" Offset="0x42F8"/>
         <DList Name="gObjectGlaLeftThighDL" Offset="0x44B8"/>
         <DList Name="gObjectGlaLeftShinDL" Offset="0x45C8"/>
-        <Texture Name="object_gla_004788_Tex" Format="rgba16" Width="16" Height="16" Offset="0x4788"/>
-        <Texture Name="object_gla_004988_Tex" Format="ci8" Width="8" Height="8" Offset="0x4988" TlutOffset="0x4788"/>
-        <Texture Name="object_gla_0049C8_Tex" Format="ci8" Width="8" Height="8" Offset="0x49C8" TlutOffset="0x4788"/>
-        <Texture Name="object_gla_004A08_Tex" Format="ci8" Width="16" Height="16" Offset="0x4A08" TlutOffset="0x4788"/>
-        <Texture Name="object_gla_004B08_Tex" Format="ci8" Width="16" Height="16" Offset="0x4B08" TlutOffset="0x4788"/>
-        <Texture Name="object_gla_004C08_Tex" Format="i8" Width="16" Height="16" Offset="0x4C08"/>
-        <Texture Name="object_gla_004EB8_Tex" Format="ci8" Width="8" Height="8" Offset="0x4EB8" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_004EF8_Tex" Format="ci8" Width="8" Height="16" Offset="0x4EF8" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_004D08_Tex" Format="rgba16" Width="18" Height="12" Offset="0x4D08"/>
-        <Texture Name="object_gla_004F78_Tex" Format="ci8" Width="32" Height="32" Offset="0x4F78" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_005578_Tex" Format="ci8" Width="32" Height="32" Offset="0x5578" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_005BF8_Tex" Format="ci8" Width="32" Height="32" Offset="0x5BF8" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_005378_Tex" Format="ci8" Width="8" Height="8" Offset="0x5378" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_0053B8_Tex" Format="i8" Width="16" Height="16" Offset="0x53B8"/>
-        <Texture Name="object_gla_0054B8_Tex" Format="ci8" Width="8" Height="16" Offset="0x54B8" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_005538_Tex" Format="ci8" Width="8" Height="8" Offset="0x5538" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_005978_Tex" Format="i8" Width="8" Height="16" Offset="0x5978"/>
-        <Texture Name="object_gla_0059F8_Tex" Format="ci8" Width="16" Height="16" Offset="0x59F8" TlutOffset="0x4D08"/>
-        <Texture Name="object_gla_005AF8_Tex" Format="i8" Width="16" Height="16" Offset="0x5AF8"/>
+        <Texture Name="gObjectGla1TLUT" Format="rgba16" Width="16" Height="16" Offset="0x4788"/>
+        <Texture Name="gObjectGlaBodySkinTex" Format="ci8" Width="8" Height="8" Offset="0x4988" TlutOffset="0x4788"/>
+        <Texture Name="gObjectGlaRedClothTex" Format="ci8" Width="8" Height="8" Offset="0x49C8" TlutOffset="0x4788"/>
+        <Texture Name="gObjectGlaBellyTex" Format="ci8" Width="16" Height="16" Offset="0x4A08" TlutOffset="0x4788"/>
+        <Texture Name="gObjectGlaNeckJewelTex" Format="ci8" Width="16" Height="16" Offset="0x4B08" TlutOffset="0x4788"/>
+        <Texture Name="gObjectGlaPantsTex" Format="i8" Width="16" Height="16" Offset="0x4C08"/>
+        <Texture Name="gObjectGlaFaceSkinTex" Format="ci8" Width="8" Height="8" Offset="0x4EB8" TlutOffset="0x4D08"/>
+        <Texture Name="gObjectGlaEarTex" Format="ci8" Width="8" Height="16" Offset="0x4EF8" TlutOffset="0x4D08"/>
+        <Texture Name="gObjectGla2TLUT" Format="rgba16" Width="18" Height="12" Offset="0x4D08"/>
+        <Texture Name="gObjectGlaEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x4F78" TlutOffset="0x4D08"/>
+        <Texture Name="gObjectGlaSpearElementTex" Format="ci8" Width="8" Height="8" Offset="0x5378" TlutOffset="0x4D08"/>
+        <Texture Name="gObjectGlaClothAndSpearBladeTex" Format="i8" Width="16" Height="16" Offset="0x53B8"/>
+        <Texture Name="gObjectGlaShoeTex" Format="ci8" Width="8" Height="16" Offset="0x54B8" TlutOffset="0x4D08"/>
+        <Texture Name="gObjectGlaShoeSoleAndSpearHandleTex" Format="ci8" Width="8" Height="8" Offset="0x5538" TlutOffset="0x4D08"/>
+        <Texture Name="gObjectGlaEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x5578" TlutOffset="0x4D08"/>
+        <Texture Name="gObjectGlaMetalTex" Format="i8" Width="8" Height="16" Offset="0x5978"/>
+        <Texture Name="gObjectGlaHairTex" Format="ci8" Width="16" Height="16" Offset="0x59F8" TlutOffset="0x4D08"/>
+        <Texture Name="gObjectGlaGlovesTex" Format="i8" Width="16" Height="16" Offset="0x5AF8"/>
+        <Texture Name="gObjectGlaEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x5BF8" TlutOffset="0x4D08"/>
         <Array Name="gObjectGlaLeftFootVtx" Count="43" Offset="0x5FF8">
             <Vtx/>
         </Array>
