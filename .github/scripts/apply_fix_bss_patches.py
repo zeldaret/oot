@@ -64,6 +64,7 @@ def set_increment_block_numbers(
     for l in p.read_text().splitlines(keepends=True):
         if l.startswith("#pragma increment_block_number"):
             is_in_pragma = True
+            pragma_lines = []
         if not is_in_pragma:
             new_lines.append(l)
         if is_in_pragma:
