@@ -265,9 +265,8 @@ void EnBili_SetupFrozen(EnBili* this, PlayState* play) {
 
 void EnBili_UpdateTentaclesTexIndex(EnBili* this) {
     s16 n;
-    s16 animCurFrame;
+    s16 animCurFrame = this->skelAnime.curFrame;
 
-    animCurFrame = this->skelAnime.curFrame;
     if (this->actionFunc == EnBili_Electrify) {
         n = 3 - animCurFrame;
         this->tentaclesTexIndex = (ABS(n) + 5) % 8;
@@ -293,12 +292,11 @@ void EnBili_UpdateTentaclesTexIndex(EnBili* this) {
 }
 
 void EnBili_UpdateMovement(EnBili* this) {
-    f32 playerY;
+    f32 playerY = this->actor.world.pos.y + this->actor.yDistToPlayer;
     f32 floorY;
     f32 targetY;
     f32 targetYOffset;
 
-    playerY = this->actor.world.pos.y + this->actor.yDistToPlayer;
     if (this->actionFunc == EnBili_FleePlayer) {
         targetYOffset = 100.0f;
     } else {
@@ -348,7 +346,7 @@ void EnBili_Electrify(EnBili* this, PlayState* play) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        if (!((s32)(this->timer + (i << 1)) % 4)) {
+        if (!((this->timer + (i << 1)) % 4)) {
             effYaw = (s16)Rand_CenteredFloat(12288.0f) + (i * 0x4000) + 0x2000;
             effPos.x = Rand_CenteredFloat(5.0f) + this->actor.world.pos.x;
             effPos.y = (Rand_ZeroOne() * 5.0f) + this->actor.world.pos.y + 2.5f;
@@ -595,27 +593,27 @@ void EnBili_GetHoodLimbScale(EnBili* this, f32 frame, Vec3f* scale) {
     f32 f;
 
     if (this->actionFunc == EnBili_Electrify) {
-        scale->y = 1.0f - (sinf(0.5236092f * frame) * 0.26f);
+        scale->y = 1.0f - (sinf((M_PI * 0.16667f) * frame) * 0.26f);
     } else if (this->actionFunc == EnBili_AscendAway) {
         if (frame <= 8.0f) {
-            scale->y = (cosf(0.3926991f * frame) * 0.15f) + 0.85f;
+            scale->y = (cosf((M_PI / 8) * frame) * 0.15f) + 0.85f;
         } else if (frame <= 18.0f) {
-            f = cosf((frame - 8.0f) * 0.31415927f);
+            f = cosf((frame - 8.0f) * (M_PI / 10));
             scale->y = 1.0f - (0.3f * f);
             scale->x = (0.2f * f) + 0.8f;
         } else {
-            f = cosf((frame - 18.0f) * 0.071314156f);
+            f = cosf((frame - 18.0f) * (M_PI * 0.0227f));
             scale->y = (0.31f * f) + 1.0f;
             scale->x = 1.0f - (0.4f * f);
         }
         scale->z = scale->x;
     } else if (this->actionFunc == EnBili_Stunned) {
-        f = sinf(this->timer * 0.31415927f) * 0.08f;
+        f = sinf(this->timer * (M_PI / 10)) * 0.08f;
         scale->x -= f;
         scale->y += f;
         scale->z -= f;
     } else {
-        scale->y = (cosf(0.3926991f * frame) * 0.13f) + 0.87f;
+        scale->y = (cosf((M_PI / 8) * frame) * 0.13f) + 0.87f;
     }
 }
 
@@ -623,27 +621,27 @@ void EnBili_GetCoreLimbScale(EnBili* this, f32 frame, Vec3f* scale) {
     f32 f;
 
     if (this->actionFunc == EnBili_Electrify) {
-        scale->y = (sinf(0.5236092f * frame) * 0.2f) + 1.0f;
+        scale->y = (sinf((M_PI * 0.16667f) * frame) * 0.2f) + 1.0f;
     } else if (this->actionFunc == EnBili_AscendAway) {
         if (frame <= 8.0f) {
-            scale->x = 1.125f - (cosf(0.3926991f * frame) * 0.125f);
+            scale->x = 1.125f - (cosf((M_PI / 8) * frame) * 0.125f);
         } else if (frame <= 18.0f) {
-            f = cosf((frame - 8.0f) * 0.31415927f);
+            f = cosf((frame - 8.0f) * (M_PI / 10));
             scale->x = (0.275f * f) + 0.975f;
             scale->y = 1.25f - (0.25f * f);
         } else {
-            f = cosf((frame - 18.0f) * 0.071314156f);
+            f = cosf((frame - 18.0f) * (M_PI * 0.0227f));
             scale->x = 1.0f - (0.3f * f);
             scale->y = (0.48f * f) + 1.0f;
         }
         scale->z = scale->x;
     } else if (this->actionFunc == EnBili_Stunned) {
-        f = sinf(this->timer * 0.31415927f) * 0.08f;
+        f = sinf(this->timer * (M_PI / 10)) * 0.08f;
         scale->x += f;
         scale->y -= f;
         scale->z += f;
     } else {
-        scale->y = 1.1f - (cosf(0.3926991f * frame) * 0.1f);
+        scale->y = 1.1f - (cosf((M_PI / 8) * frame) * 0.1f);
     }
 }
 
@@ -652,15 +650,15 @@ void EnBili_GetTentaclesLimbScale(EnBili* this, f32 frame, Vec3f* scale) {
 
     if (this->actionFunc == EnBili_AscendAway) {
         if (frame <= 8.0f) {
-            f = cosf(0.3926991f * frame);
+            f = cosf((M_PI / 8) * frame);
             scale->x = 1.125f - (0.125f * f);
             scale->y = (0.3f * f) + 0.7f;
         } else if (frame <= 18.0f) {
-            f = cosf((frame - 8.0f) * 0.31415927f);
+            f = cosf((frame - 8.0f) * (M_PI / 10));
             scale->x = (0.325f * f) + 0.925f;
             scale->y = 0.95f - (0.55f * f);
         } else {
-            f = cosf((frame - 18.0f) * 0.071314156f);
+            f = cosf((frame - 18.0f) * (M_PI * 0.0227f));
             scale->x = 1.0f - (0.4f * f);
             scale->y = (0.52f * f) + 1.0f;
         }
