@@ -61,9 +61,8 @@ static s16 sWallRots[4] = {
 void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     BgBowlWall* this = (BgBowlWall*)thisx;
     s32 pad1[2];
-    CollisionHeader* colHeader;
+    CollisionHeader* colHeader = NULL;
 
-    colHeader = NULL;
     DynaPolyActor_Init(&this->dyna, 0);
     if (this->dyna.actor.params == BG_BOWL_WALL_TYPE_FIRST_WALL) {
         CollisionHeader_GetVirtual(&gBowlingFirstWallCol, &colHeader);
