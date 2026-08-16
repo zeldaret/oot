@@ -14,10 +14,12 @@ typedef enum EnBiliType {
 
 struct EnBili;
 
+typedef void (*EnBiliActionFunc)(struct EnBili*, struct PlayState*);
+
 typedef struct EnBili {
     /* 0x000 */ Actor actor;
     /* 0x14C */ SkelAnime skelAnime;
-    /* 0x190 */ void (*actionFunc)(struct EnBili*, struct PlayState*);
+    /* 0x190 */ EnBiliActionFunc actionFunc;
     /* 0x194 */ u8 tentaclesTexIndex;
     /* 0x195 */ u8 playFlySfx;
     /* 0x196 */ s16 timer;
