@@ -17,6 +17,8 @@ typedef enum EnZfType {
 
 struct EnZf;
 
+typedef void (*EnZfActionFunc)(struct EnZf*, struct PlayState*);
+
 typedef struct EnZf {
     /* 0x000 */ Actor actor;
     /* 0x14C */ SkelAnime skelAnime;
@@ -25,7 +27,7 @@ typedef struct EnZf {
     /* 0x3DC */ s32 action;
     /* 0x3E0 */ s32 unk_3E0; // unused
     /* 0x3E4 */ s32 actionState;
-    /* 0x3E8 */ void (*actionFunc)(struct EnZf*, struct PlayState*);
+    /* 0x3E8 */ EnZfActionFunc actionFunc;
     /* 0x3EC */ s16 headRot;
     /* 0x3EE */ s16 headRotStep;
     /* 0x3F0 */ s32 timer;
