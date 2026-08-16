@@ -14,11 +14,13 @@ typedef enum EnTpType {
 
 struct EnTp;
 
+typedef void (*EnTpActionFunc)(struct EnTp*, struct PlayState*);
+
 typedef struct EnTp {
     /* 0x000 */ Actor actor;
     /* 0x14C */ s32 action;
     /* 0x150 */ s32 modeVar;
-    /* 0x154 */ void (*actionFunc)(struct EnTp*, struct PlayState*);
+    /* 0x154 */ EnTpActionFunc actionFunc;
     /* 0x158 */ u8 unk_158;
     /* 0x159 */ char pad_159[1];
     /* 0x15A */ s16 timer;
