@@ -61,15 +61,17 @@ void GameState_FaultPrint(void) {
 void GameState_SetFBFilter(Gfx** gfx) {
     Gfx* gfxP = *gfx;
 
-    if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
+    if ((R_FB_FILTER_TYPE >= FB_FILTER_TYPE_VISCVG_TYPE_MODULATE_FB) &&
+        (R_FB_FILTER_TYPE <= FB_FILTER_TYPE_VISCVG_TYPE_MODULATE_FB_ADDITIVE_COLOR)) {
         sGameStateVisCvg.params.type = R_FB_FILTER_TYPE;
         sGameStateVisCvg.params.color1.r = R_FB_FILTER_COLOR1(0);
         sGameStateVisCvg.params.color1.g = R_FB_FILTER_COLOR1(1);
         sGameStateVisCvg.params.color1.b = R_FB_FILTER_COLOR1(2);
         sGameStateVisCvg.params.color1.a = R_FB_FILTER_A;
         VisCvg_Draw(&sGameStateVisCvg, &gfxP);
-    } else if ((R_FB_FILTER_TYPE == 5) || (R_FB_FILTER_TYPE == 6)) {
-        sGameStateVisZBuffer.params.type = (R_FB_FILTER_TYPE == 6);
+    } else if ((R_FB_FILTER_TYPE == FB_FILTER_TYPE_VISZBUFFER_AS_IA16) ||
+               (R_FB_FILTER_TYPE == FB_FILTER_TYPE_VISZBUFFER_AS_RGBA16)) {
+        sGameStateVisZBuffer.params.type = (R_FB_FILTER_TYPE == FB_FILTER_TYPE_VISZBUFFER_AS_RGBA16);
         sGameStateVisZBuffer.params.color1.r = R_FB_FILTER_COLOR1(0);
         sGameStateVisZBuffer.params.color1.g = R_FB_FILTER_COLOR1(1);
         sGameStateVisZBuffer.params.color1.b = R_FB_FILTER_COLOR1(2);
@@ -79,7 +81,7 @@ void GameState_SetFBFilter(Gfx** gfx) {
         sGameStateVisZBuffer.params.color2.b = R_FB_FILTER_COLOR2(2);
         sGameStateVisZBuffer.params.color2.a = R_FB_FILTER_A;
         VisZBuffer_Draw(&sGameStateVisZBuffer, &gfxP);
-    } else if (R_FB_FILTER_TYPE == 7) {
+    } else if (R_FB_FILTER_TYPE == FB_FILTER_TYPE_VISMONO) {
         sGameStateVisMono.params.type = 0;
         sGameStateVisMono.params.color1.r = R_FB_FILTER_COLOR1(0);
         sGameStateVisMono.params.color1.g = R_FB_FILTER_COLOR1(1);
