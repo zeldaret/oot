@@ -247,7 +247,7 @@ static void* sWolfosGrayEyeTextures[4] = { gWolfosGrayEyeOpenTex, gWolfosGrayEye
 static void* sWolfosWhiteEyeTextures[4] = { gWolfosWhiteEyeOpenTex, gWolfosWhiteEyeHalfTex, gWolfosWhiteEyeClosedTex,
                                             gWolfosWhiteEyeHalfTex };
 
-void EnWf_SetupAction(EnWf* this, void (*actionFunc)(EnWf*, PlayState*)) {
+void EnWf_SetupAction(EnWf* this, EnWfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
