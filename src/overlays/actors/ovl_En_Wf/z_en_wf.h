@@ -8,6 +8,8 @@
 
 struct EnWf;
 
+typedef void (*EnWfActionFunc)(struct EnWf*, struct PlayState*);
+
 typedef struct EnWf {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3s bodyPartsPos[10];
@@ -16,7 +18,7 @@ typedef struct EnWf {
     /* 0x250 */ Vec3s morphTable[WOLFOS_LIMB_MAX];
     /* 0x2D4 */ s32 action;
     /* 0x2D8 */ char pad_2D8[4];
-    /* 0x2DC */ void (*actionFunc)(struct EnWf*, struct PlayState*);
+    /* 0x2DC */ EnWfActionFunc actionFunc;
     /* 0x2E0 */ s16 unk_2E0;
     /* 0x2E2 */ s16 idleTimer;
     /* 0x2E4 */ s16 onFireTimer;
