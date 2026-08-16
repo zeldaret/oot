@@ -602,7 +602,7 @@ typedef struct NpcInteractInfo {
 #define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
 #define GET_TRANSITION_ACTOR_INDEX(actor) PARAMS_GET_NOMASK((u16)(actor)->params, 10)
 
-extern Gfx D_80116280[];
+extern Gfx gActorSetupXluDL[];
 
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale);
 void ActorShadow_DrawCircle(Actor* actor, struct Lights* lights, struct PlayState* play);

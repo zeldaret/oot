@@ -4717,7 +4717,7 @@ void func_8003555C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
 Vec3f D_80116274 = { 0.0f, -0.2f, 0.0f };
 
-Gfx D_80116280[] = {
+Gfx gActorSetupXluDL[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2 | Z_UPD),
     gsDPSetAlphaCompare(G_AC_THRESHOLD),
     gsSPEndDisplayList(),

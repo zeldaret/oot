@@ -2769,11 +2769,11 @@ void func_80B59FF4(EnZl3* this, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTex));
-    gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(eyeTex));
-    gSPSegment(POLY_OPA_DISP++, 0xA, SEGMENTED_TO_VIRTUAL(mouthTex));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0xB, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0B, &gActorSetupXluDL[2]);
 
     POLY_OPA_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, this, POLY_OPA_DISP);
@@ -2794,11 +2794,11 @@ void func_80B5A1D0(EnZl3* this, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(eyeTex));
-    gSPSegment(POLY_XLU_DISP++, 9, SEGMENTED_TO_VIRTUAL(eyeTex));
-    gSPSegment(POLY_XLU_DISP++, 10, SEGMENTED_TO_VIRTUAL(mouthTex));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-    gSPSegment(POLY_XLU_DISP++, 11, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 0x0B, gActorSetupXluDL);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl3_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);

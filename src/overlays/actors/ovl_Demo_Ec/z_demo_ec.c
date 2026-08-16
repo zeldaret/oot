@@ -281,7 +281,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* 
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, &gActorSetupXluDL[2]);
     POLY_OPA_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 595);
@@ -317,7 +317,7 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, &gActorSetupXluDL[2]);
     POLY_OPA_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
 

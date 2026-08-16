@@ -1092,12 +1092,12 @@ void EnPoh_DrawRegular(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (this->lightColor.a == 255 || this->lightColor.a == 0) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, this->lightColor.a);
-        gSPSegment(POLY_OPA_DISP++, 0x08, D_80116280 + 2);
+        gSPSegment(POLY_OPA_DISP++, 0x08, &gActorSetupXluDL[2]);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->lightColor.a);
-        gSPSegment(POLY_XLU_DISP++, 0x08, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x08, gActorSetupXluDL);
         POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
@@ -1132,7 +1132,7 @@ void EnPoh_DrawComposer(Actor* thisx, PlayState* play) {
                    Gfx_EnvColor(play->state.gfxCtx, sp90->r, sp90->g, sp90->b, this->lightColor.a));
         gSPSegment(POLY_OPA_DISP++, 0x0B,
                    Gfx_EnvColor(play->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
-        gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
+        gSPSegment(POLY_OPA_DISP++, 0x0C, &gActorSetupXluDL[2]);
         POLY_OPA_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
@@ -1146,7 +1146,7 @@ void EnPoh_DrawComposer(Actor* thisx, PlayState* play) {
                    Gfx_EnvColor(play->state.gfxCtx, sp90->r, sp90->g, sp90->b, this->lightColor.a));
         gSPSegment(POLY_XLU_DISP++, 0x0B,
                    Gfx_EnvColor(play->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
-        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
         POLY_XLU_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_XLU_DISP);

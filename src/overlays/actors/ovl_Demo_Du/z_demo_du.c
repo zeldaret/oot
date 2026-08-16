@@ -835,7 +835,7 @@ void DemoDu_Draw_02(Actor* thisx, PlayState* play2) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->shadowAlpha);
 
-    gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, 0, 0,
                                        POLY_XLU_DISP);
@@ -1030,7 +1030,7 @@ void DemoDu_Draw_01(Actor* thisx, PlayState* play2) {
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, &gActorSetupXluDL[2]);
 
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL, this);
 
