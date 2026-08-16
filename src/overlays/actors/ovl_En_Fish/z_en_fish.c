@@ -103,11 +103,9 @@ static EnFishSpeedParams sStaySpeedParams = { 0.0f, 0.04f, 0.09f };
 static EnFishSpeedParams sMoveSpeedParams = { 0.5f, 0.1f, 0.15f };
 
 f32 EnFish_DistXZSq(Vec3f* posA, Vec3f* posB) {
-    f32 dz;
-    f32 dx;
+    f32 dx = posA->x - posB->x;
+    f32 dz = posA->z - posB->z;
 
-    dx = posA->x - posB->x;
-    dz = posA->z - posB->z;
     return SQ(dx) + SQ(dz);
 }
 
@@ -153,9 +151,8 @@ void EnFish_JabuCutscene_Clear(EnFish* this) {
 
 void EnFish_Init(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
-    s16 type;
+    s16 type = this->actor.params;
 
-    type = this->actor.params;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gFishSkel, &gFishInWaterAnim, this->jointTable, this->morphTable, 7);
     Collider_InitJntSph(play, &this->collider);
@@ -188,10 +185,9 @@ void EnFish_UpdateBobbingUpDown(EnFish* this) {
 
 s32 EnFish_IsInRangeForCatch(EnFish* this, PlayState* play) {
     s32 pad;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     Vec3f playerPos;
 
-    player = GET_PLAYER(play);
     if (this->actor.xzDistToPlayer < 32.0f) {
         // Add a slight offset towards the fish to the player position.
         playerPos.x = (Math_SinS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f) + player->actor.world.pos.x;
@@ -333,13 +329,12 @@ void EnFish_Normal_SetupFollowPlayer(EnFish* this) {
 
 void EnFish_Normal_FollowPlayer(EnFish* this, PlayState* play) {
     s32 pad;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s32 pad2;
     Vec3f playerPos;
     s16 yaw;
     s16 angle;
 
-    player = GET_PLAYER(play);
     EnFish_UpdateBobbingUpDown(this);
     Math_SmoothStepToF(&this->actor.speed, 1.8f, 0.1f, 0.5f, 0.0f);
     if (EnFish_DistXZSq(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) {
@@ -434,9 +429,8 @@ void EnFish_Dropped_SetupFlapOnGround(EnFish* this) {
 void EnFish_Dropped_FlapOnGround(EnFish* this, PlayState* play) {
     s16 targetRotX;
     s16 pad;
-    s16 frames;
+    s16 frames = play->state.frames;
 
-    frames = play->state.frames;
     Math_SmoothStepToF(&this->actor.speed, Rand_ZeroOne() * 0.2f, 0.1f, 0.1f, 0.0f);
     targetRotX = (s16)(s32)((s16)((((frames >> 5) & 2) | ((frames >> 2) & 1)) * 0x800) * 0.3f);
     if (frames & 4) {
@@ -515,13 +509,12 @@ void EnFish_TinyPond_SetupSwim(EnFish* this) {
 
 void EnFish_TinyPond_Swim(EnFish* this, PlayState* play) {
     s32 pad2;
-    u32 frames;
+    u32 frames = play->gameplayFrames;
     EnFishSpeedParams* speedParams;
     s32 pad3;
     f32 animPlaySpeedBoost;
     s32 pad;
 
-    frames = play->gameplayFrames;
     if (this->actor.xzDistToPlayer < 60.0f) {
         if (this->timer < 12) {
             speedParams = &sMoveSpeedParams;
@@ -558,11 +551,9 @@ void EnFish_TinyPond_Swim(EnFish* this, PlayState* play) {
 }
 
 void EnFish_JabuCutscene_CueFlapOnGround(EnFish* this, PlayState* play) {
-    f32 sp24;
-    f32 sp20;
+    f32 sp24 = Math_SinS(this->phase1);
+    f32 sp20 = Math_SinS(this->phase2);
 
-    sp24 = Math_SinS(this->phase1);
-    sp20 = Math_SinS(this->phase2);
     sJabuCutsceneOffsetY += sJabuCutsceneOffsetYSpeed;
     if (sJabuCutsceneOffsetY <= 1.0f) {
         sJabuCutsceneOffsetY = 1.0f;
@@ -581,11 +572,9 @@ void EnFish_JabuCutscene_CueFlapOnGround(EnFish* this, PlayState* play) {
 
 void EnFish_JabuCutscene_CueFly(EnFish* this, PlayState* play) {
     s32 pad;
-    f32 sp28;
-    f32 sp24;
+    f32 sp28= Math_SinS(this->phase1);
+    f32 sp24= Math_SinS(this->phase2);
 
-    sp28 = Math_SinS(this->phase1);
-    sp24 = Math_SinS(this->phase2);
     this->actor.shape.rot.x -= 0x1F4;
     this->actor.shape.rot.z += 0x64;
     Math_StepToF(&sJabuCutsceneOffsetY, 0.0f, 1.0f);
@@ -596,7 +585,7 @@ void EnFish_JabuCutscene_CueFly(EnFish* this, PlayState* play) {
 void EnFish_JabuCutscene_Update(EnFish* this, PlayState* play) {
     f32 factor;
     s32 pad;
-    CsCmdActorCue* cue;
+    CsCmdActorCue* cue = play->csCtx.actorCues[1];
     Vec3f startPos;
     Vec3f endPos;
     s32 pad2;
@@ -605,7 +594,6 @@ void EnFish_JabuCutscene_Update(EnFish* this, PlayState* play) {
     if (play) {}
     if (play) {}
 
-    cue = play->csCtx.actorCues[1];
     if (cue == NULL) {
         if (1) {}
         PRINTF("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1169,
