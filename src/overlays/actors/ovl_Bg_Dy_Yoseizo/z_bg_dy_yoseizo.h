@@ -29,7 +29,7 @@ typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, struct PlayState*);
 
 typedef struct BgDyYoseizo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ void (*actionFunc)(struct BgDyYoseizo*, struct PlayState*);
+    /* 0x014C */ BgDyYoseizoActionFunc actionFunc;
     /* 0x0150 */ SkelAnime skelAnime;
     /* 0x0194 */ Vec3s jointTable[28];
     /* 0x023C */ Vec3s morphTable[28];

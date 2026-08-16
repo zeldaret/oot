@@ -413,9 +413,8 @@ void BgDyYoseizo_Revisit_Appear(BgDyYoseizo* this, PlayState* play) {
 }
 
 void BgDyYoseizo_Revisit_FinishAppear(BgDyYoseizo* this, PlayState* play) {
-    f32 animPrevFrame;
+    f32 animPrevFrame = this->skelAnime.curFrame;
 
-    animPrevFrame = this->skelAnime.curFrame;
 #if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 #endif
@@ -482,13 +481,11 @@ void BgDyYoseizo_Revisit_SetupRefillPlayerEnergy(BgDyYoseizo* this, PlayState* p
 }
 
 void BgDyYoseizo_Revisit_RefillPlayerEnergy(BgDyYoseizo* this, PlayState* play) {
-    Player* player;
-    f32 animPrevFrame;
+    Player* player = GET_PLAYER(play);
+    f32 animPrevFrame = this->skelAnime.curFrame;
     s16 beamType;
     Vec3f beamPos;
 
-    player = GET_PLAYER(play);
-    animPrevFrame = this->skelAnime.curFrame;
     if (this->hasSwitchedAnim) {
         this->yVelocityPhase = this->skelAnime.curFrame * 1300.0f;
         if ((this->curAnimLastFrame * 1300.0f) <= this->yVelocityPhase) {
@@ -645,9 +642,8 @@ void BgDyYoseizo_Reward_WaitCutscene(BgDyYoseizo* this, PlayState* play) {
 }
 
 void BgDyYoseizo_Reward_Appear(BgDyYoseizo* this, PlayState* play) {
-    f32 animPrevFrame;
+    f32 animPrevFrame = this->skelAnime.curFrame;
 
-    animPrevFrame = this->skelAnime.curFrame;
     if (!this->isDoneAppearing) {
         Math_ApproachF(&this->actor.world.pos.y, this->aboveFountainY, this->yApproachFraction, 100.0f);
         Math_ApproachF(&this->scale, 0.035f, this->scaleApproachFraction, 0.005f);
@@ -700,14 +696,12 @@ void BgDyYoseizo_Reward_Appear(BgDyYoseizo* this, PlayState* play) {
 }
 
 void BgDyYoseizo_Reward_GiveReward(BgDyYoseizo* this, PlayState* play) {
-    f32 animPrevFrame;
-    Player* player;
+    f32 animPrevFrame = this->skelAnime.curFrame;
+    Player* player = GET_PLAYER(play);
     s16 n;
     s16 demoEffectParams;
     Vec3f itemPos;
 
-    animPrevFrame = this->skelAnime.curFrame;
-    player = GET_PLAYER(play);
     if (this->hasSwitchedAnim) {
         this->yVelocityPhase = this->skelAnime.curFrame * 1400.0f;
         if (this->yVelocityPhase >= (this->curAnimLastFrame * 1400.0f)) {
@@ -901,7 +895,7 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
 }
 
 s32 BgDyYoseizo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    BgDyYoseizo* this = thisx;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     if (limbIndex == 8) {
         rot->x += this->torsoRot.y;
@@ -1013,13 +1007,11 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, PlayState* play) {
 }
 
 void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
-    GraphicsContext* gfxCtx;
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
     BgDyYoseizoEffect* effect;
-    u8 materialFlag;
+    u8 materialFlag = 0;
 
-    gfxCtx = play->state.gfxCtx;
-    materialFlag = 0;
     effect = this->effects;
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
