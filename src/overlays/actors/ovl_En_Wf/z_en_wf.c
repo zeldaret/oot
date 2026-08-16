@@ -239,13 +239,6 @@ static InitChainEntry sInitChain[2] = {
     ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
-static Vec3f D_80B37AD0 = { 0.0f, 0.5f, 0.0f };
-static Vec3f D_80B37ADC = { 1200.0f, 0.0f, 0.0f };
-static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
-static void* sWolfosGrayEyeTextures[4] = { gWolfosGrayEyeOpenTex, gWolfosGrayEyeHalfTex, gWolfosGrayEyeClosedTex,
-                                           gWolfosGrayEyeHalfTex };
-static void* sWolfosWhiteEyeTextures[4] = { gWolfosWhiteEyeOpenTex, gWolfosWhiteEyeHalfTex, gWolfosWhiteEyeClosedTex,
-                                            gWolfosWhiteEyeHalfTex };
 
 void EnWf_SetupAction(EnWf* this, EnWfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -322,12 +315,10 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
  * @return true if an action was picked
  */
 s32 EnWf_PickAction(PlayState* play, EnWf* this, s16 mustPick) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s32 pad;
     s16 absRelWallYaw;
     s16 absRelYawTowardsPlayer;
-
-    player = GET_PLAYER(play);
 
     absRelWallYaw = this->actor.wallYaw - this->actor.shape.rot.y;
     if (absRelWallYaw < 0) {
@@ -462,11 +453,10 @@ void EnWf_SetupIdle(EnWf* this) {
 }
 
 void EnWf_Idle(EnWf* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s32 pad;
     s16 yaw;
 
-    player = GET_PLAYER(play);
     SkelAnime_Update(&this->skelAnime);
     if (this->idleTimer != 0) {
         yaw = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->headRot;
@@ -533,17 +523,15 @@ void EnWf_RunToAttack(EnWf* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
     s32 pad;
-    f32 sp50_real;
+    f32 sp50_real = 0.0f;
     s32 pad2;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s32 pad3;
     s16 temp_v1_real;
     s16 var_v0_real;
     f32 absPlaySpeed;
     s32 pad4;
 
-    sp50_real = 0.0f;
-    player = GET_PLAYER(play);
     if (!EnWf_ReactToProjectile(play, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -674,15 +662,13 @@ void EnWf_SetupCirclePlayer(EnWf* this) {
 void EnWf_CirclePlayer(EnWf* this, PlayState* play) {
     s16 sp56_real;
     s32 new_var;
-    f32 extraRadius;
+    f32 extraRadius = 0.0f;
     s32 prevFrame;
     s32 beforeCurFrame;
     s32 absPlaySpeed;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s16 yawWallRelToTarget;
 
-    extraRadius = 0.0f;
-    player = GET_PLAYER(play);
     Math_SmoothStepToS(&this->actor.shape.rot.y, (s16)(this->actor.yawTowardsPlayer + this->circlePlayerDirection), 1,
                        0xFA0, 1);
     if (!EnWf_ReactToProjectile(play, this) && !EnWf_PickAction(play, this, false)) {
@@ -815,9 +801,8 @@ void EnWf_Attack(EnWf* this, PlayState* play) {
 }
 
 void EnWf_SetupAttackBouncedOff(EnWf* this) {
-    f32 animEndFrame;
+    f32 animEndFrame = 1.0f;
 
-    animEndFrame = 1.0f;
     if ((s32)this->skelAnime.curFrame >= 16) {
         animEndFrame = 15.0f;
     }
@@ -1013,9 +998,8 @@ void EnWf_BackflipForward(EnWf* this, PlayState* play) {
 }
 
 void EnWf_SetupBlock(EnWf* this) {
-    f32 animEndFrame;
+    f32 animEndFrame = (f32)Animation_GetLastFrame(&gWolfosBlockAnim);
 
-    animEndFrame = (f32)Animation_GetLastFrame(&gWolfosBlockAnim);
     if (this->attackState != 0) {
         this->attackState = -1;
     }
@@ -1027,13 +1011,12 @@ void EnWf_SetupBlock(EnWf* this) {
 }
 
 void EnWf_Block(EnWf* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s32 pad;
     s16 pad2;
     s16 yawDiff;
     s16 relYawTowardsPlayer;
 
-    player = GET_PLAYER(play);
     if (this->timer != 0) {
         this->timer -= 1;
     } else {
@@ -1108,18 +1091,16 @@ void EnWf_SetupShortCirclePlayer(EnWf* this, PlayState* play) {
 
 void EnWf_ShortCirclePlayer(EnWf* this, PlayState* play) {
     Player* player2;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s32 prevFrame;
     s32 beforeCurFrame;
     s32 new_var;
-    f32 extraRadius;
+    f32 extraRadius = 0.0f;
     s32 absPlaySpeed;
     s16 yawWallRelToTarget;
     s16 behindPlayerYawAbs;
     s16 behindPlayerYaw;
 
-    player = GET_PLAYER(play);
-    extraRadius = 0.0f;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->circlePlayerDirection, 1, 0xBB8,
                        1);
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
@@ -1231,9 +1212,8 @@ void EnWf_Die(EnWf* this, PlayState* play) {
     } else {
         s32 i;
         Vec3f pos;
-        Vec3f velAccel;
+        Vec3f velAccel = { 0.0f, 0.5f, 0.0f };
 
-        velAccel = D_80B37AD0;
         this->timer--;
         for (i = ((s32)this->skelAnime.animLength - this->timer) >> 1; i >= 0; i--) {
             pos.x = this->actor.world.pos.x + Rand_CenteredFloat(60.0f);
@@ -1350,7 +1330,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 EnWf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnWf* this = thisx;
+    EnWf* this = (EnWf*)thisx;
 
     if ((limbIndex == WOLFOS_LIMB_HEAD) || (limbIndex == WOLFOS_LIMB_EYES)) {
         rot->y -= this->headRot;
@@ -1359,7 +1339,9 @@ s32 EnWf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 }
 
 void EnWf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnWf* this = thisx;
+    static Vec3f D_80B37ADC = { 1200.0f, 0.0f, 0.0f };
+    static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
+    EnWf* this = (EnWf*)thisx;
     s32 bodyPartIndex;
     Vec3f tailColliderPos;
     Vec3f bodyPartPos;
@@ -1416,6 +1398,18 @@ void EnWf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 }
 
 void EnWf_Draw(Actor* thisx, PlayState* play) {
+    static void* sWolfosGrayEyeTextures[4] = {
+        gWolfosGrayEyeOpenTex,
+        gWolfosGrayEyeHalfTex,
+        gWolfosGrayEyeClosedTex,
+        gWolfosGrayEyeHalfTex,
+    };
+    static void* sWolfosWhiteEyeTextures[4] = {
+        gWolfosWhiteEyeOpenTex,
+        gWolfosWhiteEyeHalfTex,
+        gWolfosWhiteEyeClosedTex,
+        gWolfosWhiteEyeHalfTex,
+    };
     EnWf* this = (EnWf*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_wf.c", 2157);
@@ -1448,11 +1442,10 @@ void EnWf_Draw(Actor* thisx, PlayState* play) {
  * @return true if an action was picked
  */
 s32 EnWf_ReactToProjectile(PlayState* play, EnWf* this) {
-    Actor* projectile;
+    Actor* projectile = Actor_GetProjectileActor(play, &this->actor, 600.0f);
     s16 relYawTowardsProjectile;
     f32 projectileDist;
 
-    projectile = Actor_GetProjectileActor(play, &this->actor, 600.0f);
     if (projectile != NULL) {
         relYawTowardsProjectile = Actor_WorldYawTowardActor(&this->actor, projectile) - this->actor.shape.rot.y;
         this->actor.world.rot.y = (u16)(s16)(this->actor.shape.rot.y + 0);
