@@ -14,6 +14,8 @@ typedef enum EnGe2Type {
 
 struct EnGe2;
 
+typedef void (*EnGe2ActionFunc)(struct EnGe2*, struct PlayState*);
+
 typedef struct EnGe2 {
     /* 0x000 */ Actor actor;
     /* 0x14C */ ColliderCylinder collider;
@@ -35,7 +37,7 @@ typedef struct EnGe2 {
     /* 0x305 */ u8 timer;
     /* 0x306 */ u8 playerNoise;
     /* 0x307 */ char pad307[1];
-    /* 0x308 */ void (*actionFunc)(struct EnGe2*, struct PlayState*);
+    /* 0x308 */ EnGe2ActionFunc actionFunc;
 } EnGe2; // size = 0x30C
 
 #endif

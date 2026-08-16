@@ -6,6 +6,8 @@
 
 struct EnGe3;
 
+typedef void (*EnGe3ActionFunc)(struct EnGe3*, struct PlayState*);
+
 typedef struct EnGe3 {
     /* 0x000 */ Actor actor;
     /* 0x14C */ ColliderCylinder collider;
@@ -17,8 +19,8 @@ typedef struct EnGe3 {
     /* 0x300 */ Vec3s headRot;
     /* 0x306 */ Vec3s torsoRot;
     /* 0x30C */ u16 stateFlags;
-    /* 0x30E */ char pad30E[2];
-    /* 0x310 */ void (*actionFunc)(struct EnGe3*, struct PlayState*);
+    /* 0x30E */ char pad_30E[2];
+    /* 0x310 */ EnGe3ActionFunc actionFunc;
 } EnGe3; // size = 0x314
 
 #endif

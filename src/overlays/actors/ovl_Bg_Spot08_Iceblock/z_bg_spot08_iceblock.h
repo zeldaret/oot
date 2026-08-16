@@ -6,9 +6,11 @@
 
 struct BgSpot08Iceblock;
 
+typedef void (*BgSpot08IceblockActionFunc)(struct BgSpot08Iceblock*, struct PlayState*);
+
 typedef struct BgSpot08Iceblock {
     /* 0x000 */ DynaPolyActor dyna;
-    /* 0x164 */ void (*actionFunc)(struct BgSpot08Iceblock*, struct PlayState*);
+    /* 0x164 */ BgSpot08IceblockActionFunc actionFunc;
     /* 0x168 */ Vec3f unk_168;
     /* 0x174 */ Vec3f unk_174;
     /* 0x180 */ Vec3f swayAxis;

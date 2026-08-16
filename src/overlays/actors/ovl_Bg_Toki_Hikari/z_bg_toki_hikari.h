@@ -11,10 +11,12 @@ typedef enum BgTokiHikariType {
 
 struct BgTokiHikari;
 
+typedef void (*BgTokiHikariActionFunc)(struct BgTokiHikari*, struct PlayState*);
+
 typedef struct BgTokiHikari {
     /* 0x000 */ Actor actor;
     /* 0x14C */ f32 triforceFlashIntensity;
-    /* 0x150 */ void (*actionFunc)(struct BgTokiHikari*, struct PlayState*);
+    /* 0x150 */ BgTokiHikariActionFunc actionFunc;
 } BgTokiHikari; // size = 0x154
 
 #endif

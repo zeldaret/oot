@@ -52,7 +52,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeDownward, 2200, ICHAIN_STOP),
 };
 
-void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, void (*actionFunc)(BgSpot08Iceblock*, PlayState*)) {
+void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
