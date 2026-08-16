@@ -461,13 +461,11 @@ void EnDekubaba_WaitPlayerNear(EnDekubaba* this, PlayState* play) {
 }
 
 void EnDekubaba_ExitGround(EnDekubaba* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
     f32 dxz;
     f32 dy;
     f32 dx;
     f32 dz;
-
-    player = GET_PLAYER(play);
 
     if (this->actionState != 0) {
         this->actionState--;
@@ -678,9 +676,8 @@ void EnDekubaba_Attack(EnDekubaba* this, PlayState* play) {
 }
 
 void EnDekubaba_PrepareAttack(EnDekubaba* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
 
-    player = GET_PLAYER(play);
     if (this->actionState != 0) {
         this->actionState--;
     }
@@ -1144,7 +1141,7 @@ void EnDekubaba_DrawShadow(EnDekubaba* this, PlayState* play) {
 }
 
 void EnDekubaba_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnDekubaba* this = thisx;
+    EnDekubaba* this = (EnDekubaba*)thisx;
 
     if (limbIndex == DEKUBABA_HEAD_LIMB_ROOT) {
         Collider_UpdateSpheres(limbIndex, &this->collider);
