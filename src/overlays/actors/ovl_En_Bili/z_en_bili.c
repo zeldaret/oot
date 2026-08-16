@@ -668,7 +668,7 @@ void EnBili_GetTentaclesLimbScale(EnBili* this, f32 frame, Vec3f* scale) {
 
 s32 EnBili_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                             Gfx** gfx) {
-    EnBili* this = thisx;
+    EnBili* this = (EnBili*)thisx;
     Vec3f scale = { 1.0f, 1.0f, 1.0f };
     f32 animCurFrame = this->skelAnime.curFrame;
 
