@@ -8,10 +8,12 @@
 
 struct EnVali;
 
+typedef void (*EnValiActionFunc)(struct EnVali*, struct PlayState*);
+
 typedef struct EnVali {
     /* 0x000 */ Actor actor;
     /* 0x14C */ SkelAnime skelAnime;
-    /* 0x190 */ void (*actionFunc)(struct EnVali*, struct PlayState*);
+    /* 0x190 */ EnValiActionFunc actionFunc;
     /* 0x194 */ u8 electrifyTimer;
     /* 0x195 */ u8 spinTimer;
     /* 0x196 */ s16 timer;

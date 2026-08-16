@@ -175,6 +175,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
 
 void EnVali_Destroy(Actor* thisx, PlayState* play) {
     EnVali* this = (EnVali*)thisx;
+
     Collider_DestroyQuad(play, &this->leftTentacleCollider);
     Collider_DestroyQuad(play, &this->rightTentacleCollider);
     Collider_DestroyCylinder(play, &this->collider);
@@ -586,19 +587,19 @@ void EnVali_GetHoodScale(EnVali* this, f32 frame, Vec3f* scale) {
         if (n >= 10) {
             n -= 10;
         }
-        scale->y -= 0.2f * sinf(n * 0.31415927f);
+        scale->y -= 0.2f * sinf(n * (M_PI / 10));
     } else if (this->actionFunc == EnVali_Damaged) {
-        f = sinf(0.31415927f * frame);
+        f = sinf((M_PI / 10) * frame);
         scale->y -= 0.24f * f;
         scale->x -= 0.13f * f;
         scale->z = scale->x;
     } else if (this->actionFunc == EnVali_Recover) {
-        f = cosf(0.06283186f * frame);
+        f = cosf((M_PI / 50) * frame);
         scale->y -= 0.24f * f;
         scale->x -= 0.13f * f;
         scale->z = scale->x;
     } else if (this->actionFunc == EnVali_Stunned) {
-        f = sinf(this->timer * 0.31415927f) * 0.08f;
+        f = sinf(this->timer * (M_PI / 10)) * 0.08f;
         scale->x += f;
         scale->y -= f;
         scale->z += f;
@@ -606,7 +607,7 @@ void EnVali_GetHoodScale(EnVali* this, f32 frame, Vec3f* scale) {
         if (frame >= 40.0f) {
             frame -= 40.0f;
         }
-        scale->y -= 0.2f * sinf(0.07853982f * frame);
+        scale->y -= 0.2f * sinf((M_PI / 40) * frame);
     }
 }
 
@@ -619,19 +620,19 @@ void EnVali_GetCoreScale(EnVali* this, f32 frame, Vec3f* scale) {
         if (n >= 0xA) {
             n -= 0xA;
         }
-        scale->y -= 0.13f * sinf(n * 0.31415927f);
+        scale->y -= 0.13f * sinf(n * (M_PI / 10));
     } else if (this->actionFunc == EnVali_Damaged) {
-        f = sinf(0.31415927f * frame);
+        f = sinf((M_PI / 10) * frame);
         scale->y -= 0.18f * f;
         scale->x -= 0.1f * f;
         scale->z = scale->x;
     } else if (this->actionFunc == EnVali_Recover) {
-        f = cosf(0.06283186f * frame);
+        f = cosf((M_PI / 50) * frame);
         scale->y -= 0.18f * f;
         scale->x -= 0.1f * f;
         scale->z = scale->x;
     } else if (this->actionFunc == EnVali_Stunned) {
-        f = sinf(this->timer * 0.31415927f) * 0.08f;
+        f = sinf(this->timer * (M_PI / 10)) * 0.08f;
         scale->x -= f;
         scale->y += f;
         scale->z -= f;
@@ -639,7 +640,7 @@ void EnVali_GetCoreScale(EnVali* this, f32 frame, Vec3f* scale) {
         if (frame >= 40.0f) {
             frame -= 40.0f;
         }
-        scale->y -= 0.13f * sinf(0.07853982f * frame);
+        scale->y -= 0.13f * sinf((M_PI / 40) * frame);
     }
 }
 
@@ -655,9 +656,9 @@ s32 EnVali_UpdateTentaclesLengthFactor(EnVali* this, f32 frame) {
             target = 1.5f;
         }
     } else if (this->actionFunc == EnVali_Damaged) {
-        target = 1.0f - (sinf(0.31415927f * frame) * 0.35f);
+        target = 1.0f - (sinf((M_PI / 10) * frame) * 0.35f);
     } else if (this->actionFunc == EnVali_Recover) {
-        target = 1.0f - (cosf(0.06283186f * frame) * 0.35f);
+        target = 1.0f - (cosf((M_PI / 50) * frame) * 0.35f);
     } else if ((this->actionFunc == EnVali_Electrify) || (this->actionFunc == EnVali_Frozen)) {
         target = this->tentaclesLengthFactor;
     } else {
