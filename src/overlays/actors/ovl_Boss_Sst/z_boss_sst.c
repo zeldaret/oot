@@ -2909,7 +2909,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, 255);
-        gSPSegment(POLY_XLU_DISP++, 0x08, &gActorSetupXluDL[2]);
+        gSPSegment(POLY_XLU_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
     }
 
     if (this->actionFunc == BossSst_HeadThrash) {
