@@ -13,13 +13,15 @@ typedef enum EnDekubabaType {
 
 struct EnDekubaba;
 
+typedef void (*EnDekubabaActionFunc)(struct EnDekubaba*, struct PlayState*);
+
 typedef struct EnDekubaba {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3f unk_14C[2]; // unused
     /* 0x164 */ Vec3f unk_164;    // unused
     /* 0x170 */ Vec3f homePos;    // unused
     /* 0x17C */ SkelAnime skelAnime;
-    /* 0x1C0 */ void (*actionFunc)(struct EnDekubaba*, struct PlayState*);
+    /* 0x1C0 */ EnDekubabaActionFunc actionFunc;
     /* 0x1C4 */ char pad_1C4[2];
     /* 0x1C6 */ s16 actionState;
     /* 0x1C8 */ s16 wobbleTarget;
