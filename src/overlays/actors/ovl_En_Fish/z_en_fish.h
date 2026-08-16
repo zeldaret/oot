@@ -12,6 +12,8 @@ typedef enum EnFishType {
 
 struct EnFish;
 
+typedef void (*EnFishActionFunc)(struct EnFish*, struct PlayState*);
+
 typedef struct EnFish {
     /* 0x000 */ Actor actor;
     /* 0x14C */ ColliderJntSph collider;
@@ -19,7 +21,7 @@ typedef struct EnFish {
     /* 0x1AC */ SkelAnime skelAnime;
     /* 0x1F0 */ Vec3s jointTable[7];
     /* 0x21A */ Vec3s morphTable[7];
-    /* 0x244 */ void (*actionFunc)(struct EnFish*, struct PlayState*);
+    /* 0x244 */ EnFishActionFunc actionFunc;
     /* 0x248 */ s16 timer;
     /* 0x24A */ s16 reappearTimer;
     /* 0x24C */ s16 phase1;
