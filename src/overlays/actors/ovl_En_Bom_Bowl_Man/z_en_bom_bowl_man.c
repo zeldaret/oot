@@ -148,9 +148,8 @@ void EnBomBowlMan_SetupWakingUpTalking(EnBomBowlMan* this, PlayState* play) {
 }
 
 void EnBomBowlMan_WakingUpTalking(EnBomBowlMan* this, PlayState* play) {
-    f32 prevFrame;
+    f32 prevFrame = this->skelAnime.curFrame;
 
-    prevFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
     if (prevFrame == 30.0f) {
         this->waitMessageState = TEXT_STATE_EVENT;
@@ -493,7 +492,7 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 EnBomBowlMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnBomBowlMan* this = thisx;
+    EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
     if (limbIndex == BOWLING_GIRL_LIMB_HEAD) {
         rot->x += this->headRot.y;
