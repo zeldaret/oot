@@ -393,10 +393,9 @@ void EnGe2_Static(EnGe2* this, PlayState* play) {
 }
 
 void EnGe2_TrackPlayer(EnGe2* this, PlayState* play) {
-    s16 relYawTowardsPlayer;
+    s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     s32 pad;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -413,9 +412,8 @@ void EnGe2_TrackPlayer(EnGe2* this, PlayState* play) {
 }
 
 void EnGe2_TrackPlayerIfNear(EnGe2* this, PlayState* play) {
-    s16 relYawTowardsPlayer;
+    s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(relYawTowardsPlayer) <= 0x4300) && (this->actor.xzDistToPlayer < 200.0f)) {
         Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
     } else {
@@ -612,7 +610,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
 }
 
 s32 EnGe2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGe2* this = thisx;
+    EnGe2* this = (EnGe2*)thisx;
 
     if (limbIndex == OBJECT_GLA_LIMB_HEAD_ROOT) {
         rot->x += this->headRot.y;
@@ -623,7 +621,7 @@ s32 EnGe2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
 void EnGe2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sFocusOffset = { 600.0f, 700.0f, 0.0f };
-    EnGe2* this = thisx;
+    EnGe2* this = (EnGe2*)thisx;
 
     if (limbIndex == OBJECT_GLA_LIMB_HEAD) {
         Matrix_MultVec3f(&sFocusOffset, &this->actor.focus.pos);

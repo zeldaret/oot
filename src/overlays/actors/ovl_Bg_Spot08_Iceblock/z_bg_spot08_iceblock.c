@@ -239,11 +239,9 @@ void BgSpot08Iceblock_UpdateSwaying(BgSpot08Iceblock* this, PlayState* play) {
 
 void BgSpot08Iceblock_SetupIcebergDuo(BgSpot08Iceblock* this, PlayState* play) {
     s32 pad[2];
-    f32 dx;
-    f32 dz;
+    f32 dx = Math_SinS(this->dyna.actor.home.rot.y) * 100.0f;
+    f32 dz = Math_CosS(this->dyna.actor.home.rot.y) * 100.0f;
 
-    dx = Math_SinS(this->dyna.actor.home.rot.y) * 100.0f;
-    dz = Math_CosS(this->dyna.actor.home.rot.y) * 100.0f;
     if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 8, 1)) {
         Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT08_ICEBLOCK,
                            this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,

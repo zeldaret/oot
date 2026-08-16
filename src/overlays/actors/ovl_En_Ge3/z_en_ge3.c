@@ -104,10 +104,9 @@ void EnGe3_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnGe3_TrackPlayer(EnGe3* this, PlayState* play) {
-    s16 relYawTowardsPlayer;
+    s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     s32 pad;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -124,9 +123,8 @@ void EnGe3_TrackPlayer(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_TrackPlayerIfNear(EnGe3* this, PlayState* play) {
-    s16 relYawTowardsPlayer;
+    s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(relYawTowardsPlayer) <= 0x2300) && (this->actor.xzDistToPlayer < 100.0f)) {
         Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
     } else {
@@ -231,7 +229,7 @@ void EnGe3_UpdateTalking(Actor* thisx, PlayState* play) {
 }
 
 s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGe3* this = thisx;
+    EnGe3* this = (EnGe3*)thisx;
 
     switch (limbIndex) {
         case 5:
@@ -277,7 +275,7 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnGe3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGe3* this = thisx;
+    EnGe3* this = (EnGe3*)thisx;
     Vec3f focusOffset = { 600.0f, 700.0f, 0.0f };
 
     if (limbIndex == 6) {
