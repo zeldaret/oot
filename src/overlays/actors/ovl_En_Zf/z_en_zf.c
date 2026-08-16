@@ -258,7 +258,7 @@ static Gfx D_80B4A2F8[] = {
 };
 static s32 D_80B4AB30;
 
-void EnZf_SetupAction(EnZf* this, void (*actionFunc)(EnZf*, PlayState*)) {
+void EnZf_SetupAction(EnZf* this, EnZfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -349,11 +349,10 @@ s16 EnZf_TestNoFloorAheadShape(EnZf* this, PlayState* play, f32 distance) {
 void EnZf_Init(Actor* thisx, PlayState* play) {
     f32 yDiff;
     s32 pad;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     EffectBlureInit1 swordBlure;
     EnZf* this = (EnZf*)thisx;
 
-    player = GET_PLAYER(play);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->switchFlag = PARAMS_GET_S(thisx->params, 8, 8);
@@ -549,12 +548,10 @@ s16 EnZf_FindPlatformWithoutPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallback
 }
 
 s32 EnZf_FindPlatformCloseToPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallbackPlatform, PlayState* play) {
-    Vec3f* temp_s0;
     f32 platformDistToPlayer;
     f32 closestPlatformToPlayerDist;
     f32 secondClosestPlatformToPlayerDist;
     f32 maxPlatformDist;
-    s16 temp_fp;
     s16 i;
     s16 closestPlatformToPlayer;
     s16 secondClosestPlatformToPlayer;
@@ -608,10 +605,9 @@ s32 EnZf_FindPlatformCloseToPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallback
 
 s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
     s32 pad;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     Actor* playerFocusActor;
 
-    player = GET_PLAYER(play);
     if (ENZF_IS_TYPE_PAIRED(this->actor.params)) {
         if (player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
             return false;
@@ -641,11 +637,11 @@ s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
 }
 
 void EnZf_PickAction(EnZf* this, PlayState* play) {
-    s16 relYawTowardsPlayer;
+    s16 absRelYawTowardsPlayer;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    relYawTowardsPlayer = ABS(relYawTowardsPlayer);
-    if (relYawTowardsPlayer >= 0x1B58) {
+    absRelYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    absRelYawTowardsPlayer = ABS(absRelYawTowardsPlayer);
+    if (absRelYawTowardsPlayer >= 0x1B58) {
         EnZf_SetupCirclePlayerIfFloor(this, play);
     } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((play->gameplayFrames % 8) != 0) &&
                EnZf_CanAttack(play, this)) {
@@ -763,12 +759,11 @@ void EnZf_SetupIdle(EnZf* this) {
 }
 
 void EnZf_Idle(EnZf* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s32 pad;
     s16 absYawTowardsPlayerRelToHead;
     s16 absYawDiffWithPlayer;
 
-    player = GET_PLAYER(play);
     absYawTowardsPlayerRelToHead = this->actor.yawTowardsPlayer - this->headRot - this->actor.shape.rot.y;
     absYawTowardsPlayerRelToHead = ABS(absYawTowardsPlayerRelToHead);
     SkelAnime_Update(&this->skelAnime);
@@ -840,16 +835,12 @@ void EnZf_MainWalk(EnZf* this, PlayState* play) {
     s32 beforeCurFrame;
     s32 pad1;
     s16 absYawDiff;
-    s16 playerPlatform;
-    f32 maxTargetPlatformDistForJump;
-    f32 extraDistFromPlayer;
-    Player* player;
+    s16 playerPlatform = -1;
+    f32 maxTargetPlatformDistForJump = 350.0f;
+    f32 extraDistFromPlayer = 0.0f;
+    Player* player = GET_PLAYER(play);
     f32 absPlaySpeed;
 
-    playerPlatform = -1;
-    maxTargetPlatformDistForJump = 350.0f;
-    extraDistFromPlayer = 0.0f;
-    player = GET_PLAYER(play);
     if (ENZF_IS_TYPE_PAIRED(this->actor.params)) {
         playerPlatform = EnZf_FindPlatform(&player->actor.world.pos, -1);
         this->curPlatform = EnZf_FindPlatform(&this->actor.world.pos, playerPlatform);
@@ -1029,10 +1020,9 @@ void EnZf_TurnTowardsPlayer(EnZf* this, PlayState* play) {
     s32 pad;
     s16 relYawTowardsPlayer;
     s16 yawSpeed;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     f32 animPlaySpeed;
 
-    player = GET_PLAYER(play);
     if (!EnZf_ReactToProjectile(play, this) &&
         !((this->actor.params == ENZF_TYPE_DINOLFOS) && EnZf_DinolfosPickAction(play, this))) {
         relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -1103,12 +1093,10 @@ void EnZf_Sidestep(EnZf* this, PlayState* play) {
     s32 prevFrame;
     s32 pad;
     f32 absPlaySpeed;
-    Player* player;
-    f32 sp3C;
+    Player* player = GET_PLAYER(play);
+    f32 sp3C = 0.0f;
     s16 var_v0_3_real;
 
-    player = GET_PLAYER(play);
-    sp3C = 0.0f;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     if (!EnZf_ReactToProjectile(play, this) &&
         !((this->actor.params == ENZF_TYPE_DINOLFOS) && EnZf_DinolfosPickAction(play, this))) {
@@ -1214,11 +1202,10 @@ void EnZf_SetupAttack(EnZf* this) {
 }
 
 void EnZf_Attack(EnZf* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s16 absYawDiffWithPlayer;
     s16 absRelYawTowardsPlayer;
 
-    player = GET_PLAYER(play);
     this->actor.speed = 0.0f;
     if ((s32)this->skelAnime.curFrame == 10) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_ATTACK);
@@ -1378,11 +1365,9 @@ void EnZf_Stunned(EnZf* this, PlayState* play) {
 }
 
 void EnZf_Paired_SetupJumpAwayStartTurnAround(EnZf* this, PlayState* play) {
-    f32 animMorphFrames;
-    f32 animEndFrame;
+    f32 animMorphFrames = 0.0f;
+    f32 animEndFrame = Animation_GetLastFrame(&gZfRunAwayTurnAroundAnim);
 
-    animMorphFrames = 0.0f;
-    animEndFrame = Animation_GetLastFrame(&gZfRunAwayTurnAroundAnim);
     if (this->action <= ENZF_ACTION_DAMAGED) {
         animMorphFrames = -4.0f;
     }
@@ -1398,9 +1383,8 @@ void EnZf_Paired_SetupJumpAwayStartTurnAround(EnZf* this, PlayState* play) {
 }
 
 void EnZf_Paired_JumpAwayStartTurnAround(EnZf* this, PlayState* play) {
-    s16 yaw;
+    s16 yaw = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions[this->targetPlatform]) + 0x8000;
 
-    yaw = Actor_WorldYawTowardPoint(&this->actor, &sDCPlatformPositions[this->targetPlatform]) + 0x8000;
     Math_SmoothStepToS(&this->actor.world.rot.y, yaw, 1, 0x3E8, 0);
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1426,9 +1410,8 @@ void EnZf_Paired_SetupIdleHop(EnZf* this) {
 
 void EnZf_Paired_IdleHop(EnZf* this, PlayState* play) {
     f32 animEndFrame;
-    f32 minPlayerDist;
+    f32 minPlayerDist = 400.0f;
 
-    minPlayerDist = 400.0f;
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 1, 0xFA0, 0);
     if (this->actor.world.pos.y >= 420.0f) {
@@ -1492,8 +1475,8 @@ void EnZf_Paired_SetupJumpAway(EnZf* this, PlayState* play) {
 
 void EnZf_Paired_JumpAway(EnZf* this, PlayState* play) {
     f32 distToTargetPlatform;
-    f32 animPlaySpeed;
-    f32 var_fs0;
+    f32 animPlaySpeed = 1.0f;
+    f32 var_fs0 = 550.0f;
     f32 candidateDistance;
     s32 pad;
     f32 candidateSpeed;
@@ -1503,8 +1486,6 @@ void EnZf_Paired_JumpAway(EnZf* this, PlayState* play) {
     s32 floorAheadFlags;
     s32 i;
 
-    animPlaySpeed = 1.0f;
-    var_fs0 = 550.0f;
     distToTargetPlatform = Actor_WorldDistXZToPoint(&this->actor, &sDCPlatformPositions[this->targetPlatform]);
     prevActionState = this->actionState;
     if ((play->gameplayFrames & 0x5F) == 0) {
@@ -1608,9 +1589,8 @@ void EnZf_Paired_SetupEngageCombat(EnZf* this, PlayState* play) {
 }
 
 void EnZf_Paired_EngageCombat(EnZf* this, PlayState* play) {
-    s16 yawTowardsPlayer;
+    s16 yawTowardsPlayer = this->actor.yawTowardsPlayer;
 
-    yawTowardsPlayer = this->actor.yawTowardsPlayer;
     if (this->skelAnime.curFrame >= 26.0f) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, yawTowardsPlayer, 1, 0x1770, 0);
     }
@@ -1769,15 +1749,13 @@ void EnZf_SetupCirclePlayerIfFloor(EnZf* this, PlayState* play) {
 void EnZf_CirclePlayer(EnZf* this, PlayState* play) {
     s16 playerYaw;
     s16 yaw;
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s32 prevFrame;
     s32 beforeCurFrame;
     s32 pad;
-    f32 extraRadius;
+    f32 extraRadius = 0.0f;
     f32 absPlaySpeed;
 
-    player = GET_PLAYER(play);
-    extraRadius = 0.0f;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 1);
     playerYaw = player->actor.shape.rot.y;
     if (ENZF_IS_TYPE_PAIRED(this->actor.params)) {
@@ -2109,7 +2087,7 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 EnZf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
-    EnZf* this = thisx;
+    EnZf* this = (EnZf*)thisx;
 
     switch (limbIndex) {
         case ZF_LIMB_HEAD_ROOT:
@@ -2134,10 +2112,9 @@ s32 EnZf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnZf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Vec3f sp54;
     Vec3f sp48;
-    s32 bodyPartIndex;
-    EnZf* this = thisx;
+    s32 bodyPartIndex = -1;
+    EnZf* this = (EnZf*)thisx;
 
-    bodyPartIndex = -1;
     if (limbIndex == ZF_LIMB_RIGHT_HAND_AND_SWORD) {
         Matrix_MultVec3f(&D_80B4A2BC, &this->swordCollider.dim.quad[1]);
         Matrix_MultVec3f(&D_80B4A2C8, &this->swordCollider.dim.quad[0]);
@@ -2257,12 +2234,11 @@ void EnZf_SetupCirclePlayer(EnZf* this, f32 speed) {
  * @return true if an action was picked
  */
 s32 EnZf_ReactToProjectile(PlayState* play, EnZf* this) {
-    Actor* projectile;
+    Actor* projectile = Actor_GetProjectileActor(play, &this->actor, 600.0f);
     s16 relYawTowardsProjectile;
     s16 noFloorAheadFlags;
     s16 directionFlags;
 
-    projectile = Actor_GetProjectileActor(play, &this->actor, 600.0f);
     if (projectile != NULL) {
         relYawTowardsProjectile =
             Actor_WorldYawTowardActor(&this->actor, projectile) - (s16)(this->actor.shape.rot.y + 0);
