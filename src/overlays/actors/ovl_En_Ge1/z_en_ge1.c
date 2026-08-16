@@ -725,7 +725,7 @@ void EnGe1_PlayAnimOnce(EnGe1* this) {
 }
 
 s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGe1* this = thisx;
+    EnGe1* this = (EnGe1*)thisx;
     s32 pad;
 
     if (limbIndex == OBJECT_GE1_LIMB_HEAD) {
@@ -745,7 +745,7 @@ s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnGe1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGe1* this = thisx;
+    EnGe1* this = (EnGe1*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge1.c", 1419);
     if (limbIndex == OBJECT_GE1_LIMB_HEAD) {

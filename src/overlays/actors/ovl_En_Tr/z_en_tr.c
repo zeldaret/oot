@@ -415,7 +415,7 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
 s32 EnTr_OverrideLimbDraw(PlayState* play, s32 arg1, Gfx** arg2, Vec3f* arg3, Vec3s* arg4, void* thisx) {
     Vec3f sp34;
     Vec3f sp28;
-    EnTr* this = thisx;
+    EnTr* this = (EnTr*)thisx;
     Actor* sp20;
 
     sp34 = D_80B243DC;
