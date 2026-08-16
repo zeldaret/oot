@@ -4,6 +4,17 @@
 #include "ultra64.h"
 #include "color.h"
 
+typedef enum FbFilterType {
+    /* 0 */ FB_FILTER_TYPE_NONE,
+    /* 1 */ FB_FILTER_TYPE_VISCVG_TYPE_MODULATE_FB,
+    /* 2 */ FB_FILTER_TYPE_VISCVG_TYPE_FADE_AND_MODULATE_FB,
+    /* 3 */ FB_FILTER_TYPE_VISCVG_TYPE_MODULATE_COLOR,
+    /* 4 */ FB_FILTER_TYPE_VISCVG_TYPE_MODULATE_FB_ADDITIVE_COLOR,
+    /* 5 */ FB_FILTER_TYPE_VISZBUFFER_AS_IA16,
+    /* 6 */ FB_FILTER_TYPE_VISZBUFFER_AS_RGBA16,
+    /* 7 */ FB_FILTER_TYPE_VISMONO
+} FbFilterType;
+
 /**
  * Meaning of color1 and color2:
  * - VisCvg: see VisCvgType for color1. color2 unused
