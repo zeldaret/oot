@@ -626,6 +626,14 @@ fade_out_seq_player = {
     0x04: "CS_FADE_OUT_BGM_MAIN",
 }
 
+cutscene_text_types = {
+    0x00: "CS_TEXT_NORMAL",
+    0x01: "CS_TEXT_CHOICE",
+    0x02: "CS_TEXT_OCARINA_ACTION",
+    0x03: "CS_TEXT_GORON_RUBY",
+    0x04: "CS_TEXT_ZORA_SAPPHIRE",
+}
+
 """
 Entry format:
 
@@ -864,6 +872,8 @@ def format_arg(arg, words):
             result = fade_out_seq_player[unsigned_value]
         elif enum_no == 8:
             result = cutscene_cmd_ids[unsigned_value]
+        elif enum_no == 9:
+            result = cutscene_text_types[unsigned_value]
         else: # look up enum in actor_cue_id_table
             # for reference, 10 is player cue, 14 is first actor cue
             if enum_no in actor_cue_id_table:
@@ -896,7 +906,7 @@ def format_cmd(cmd, words):
             elif get_short(words[2], 1) == 2:
                 cmd = "CS_TEXT_OCARINA_ACTION(%h2:1:e2, %h1:1:s, %h2:2:s, %h2:3:x)"
             else:
-                cmd = "CS_TEXT(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x)"
+                cmd = "CS_TEXT(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:e9, %h2:3:x, %h1:3:x)"
     for arg in args_list(cmd):
         cmd = cmd.replace(arg, format_arg(arg, words))
     return cmd
