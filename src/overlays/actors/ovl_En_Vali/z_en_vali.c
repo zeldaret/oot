@@ -674,7 +674,7 @@ s32 EnVali_UpdateTentaclesLengthFactor(EnVali* this, f32 frame) {
 
 s32 EnVali_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                             Gfx** gfx) {
-    EnVali* this = thisx;
+    EnVali* this = (EnVali*)thisx;
     f32 animCurFrame;
 
     if ((limbIndex == BARI_LIMB_NUCLEUS) || (limbIndex == BARI_LIMB_HOOD) || (limbIndex == BARI_LIMB_CORE)) {
@@ -695,7 +695,7 @@ void EnVali_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
     static Vec3f D_80B2897C = { -1000.0f, 0.0f, 0.0f };
     Vec3f tentacleTipPos;
     Vec3f tentacleBasePos;
-    EnVali* this = thisx;
+    EnVali* this = (EnVali*)thisx;
 
     if (this->actionFunc == EnVali_Spin) {
         switch (limbIndex) {
