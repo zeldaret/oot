@@ -349,15 +349,12 @@ s32 EnFirefly_ApproachPerchSpot(EnFirefly* this, PlayState* play) {
 }
 
 s32 EnFirefly_ApproachLitTorch(EnFirefly* this, PlayState* play) {
-    Actor* iter;
-    f32 closestLitTorchDist;
+    Actor* iter = play->actorCtx.actorLists[ACTORCAT_PROP].head;
+    Actor* closestLitTorch = NULL;
+    f32 closestLitTorchDist = 35000.0f;
     f32 dist;
-    Actor* closestLitTorch;
     Vec3f torchFlamePos;
 
-    iter = play->actorCtx.actorLists[ACTORCAT_PROP].head;
-    closestLitTorch = NULL;
-    closestLitTorchDist = 35000.0f;
     while (iter != NULL) {
         if ((iter->id == ACTOR_OBJ_SYOKUDAI) && (((ObjSyokudai*)iter)->litTimer != 0)) {
             dist = Actor_WorldDistXYZToActor(&this->actor, iter);
@@ -726,7 +723,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
 
 s32 EnFirefly_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                                Gfx** gfx) {
-    EnFirefly* this = thisx;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     if ((this->actor.draw == EnFirefly_DrawXlu) && !play->actorCtx.lensActive) {
         *dList = NULL;
@@ -749,7 +746,7 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
     Color_RGBA8* effEnvColor;
     Color_RGBA8* effPrimColor;
     MtxF mf;
-    EnFirefly* this = thisx;
+    EnFirefly* this = (EnFirefly*)thisx;
     s16 effScaleStep;
     s16 effLife;
 
