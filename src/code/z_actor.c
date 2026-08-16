@@ -314,7 +314,7 @@ static AttentionColor sAttentionColors[ACTORCAT_MAX + 1] = {
 };
 
 // unused
-Gfx D_80115FF0[] = {
+Gfx gActorSetupOpaDL[] = {
     gsSPEndDisplayList(),
 };
 
