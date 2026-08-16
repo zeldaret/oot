@@ -2291,7 +2291,7 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
     if (this->alpha == 255) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
-        gSPSegment(POLY_OPA_DISP++, 0x09, &gActorSetupXluDL[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x09, ACTOR_SETUP_OPA_DL);
 
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnZf_OverrideLimbDraw, EnZf_PostLimbDraw, this, POLY_OPA_DISP);

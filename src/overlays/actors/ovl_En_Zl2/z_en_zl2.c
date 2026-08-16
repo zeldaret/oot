@@ -1696,7 +1696,7 @@ void func_80B523C8(EnZl2* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex2));
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0B, &gActorSetupXluDL[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0B, ACTOR_SETUP_OPA_DL);
 
     POLY_OPA_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, this, POLY_OPA_DISP);

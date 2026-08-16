@@ -647,7 +647,7 @@ void EnWeiyer_Draw(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != EnWeiyer_Dead) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, &gActorSetupXluDL[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnWeiyer_OverrideLimbDraw, NULL, &this->actor, POLY_OPA_DISP);

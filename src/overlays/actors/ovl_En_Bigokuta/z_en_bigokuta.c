@@ -891,7 +891,7 @@ void EnBigokuta_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->actionFunc != func_809BE26C) || (this->unk_196 != 0) || (this->unk_198 != 0)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x0C, &gActorSetupXluDL[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
         if (this->unk_196 & 1) {
             if ((this->actionFunc == func_809BE180 && this->unk_196 >= 8) ||

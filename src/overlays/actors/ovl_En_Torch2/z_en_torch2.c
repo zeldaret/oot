@@ -781,7 +781,7 @@ void EnTorch2_Draw(Actor* thisx, PlayState* play2) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (sAlpha == 255) {
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 0, 0, sAlpha);
-        gSPSegment(POLY_OPA_DISP++, 0x0C, &gActorSetupXluDL[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
         func_8002EBCC(&this->actor, play, 0);
         func_8002ED80(&this->actor, play, 0);
         POLY_OPA_DISP =

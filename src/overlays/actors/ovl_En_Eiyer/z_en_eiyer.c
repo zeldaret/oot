@@ -720,7 +720,7 @@ void EnEiyer_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc != EnEiyer_Dead) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, &gActorSetupXluDL[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
 
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelanime.skeleton, this->skelanime.jointTable,

@@ -605,6 +605,8 @@ typedef struct NpcInteractInfo {
 extern Gfx gActorSetupXluDL[];
 extern Gfx gActorSetupOpaDL[];
 
+#define ACTOR_SETUP_OPA_DL &gActorSetupXluDL[2]
+
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale);
 void ActorShadow_DrawCircle(Actor* actor, struct Lights* lights, struct PlayState* play);
 void ActorShadow_DrawWhiteCircle(Actor* actor, struct Lights* lights, struct PlayState* play);

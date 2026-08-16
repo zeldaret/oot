@@ -1234,7 +1234,7 @@ void DemoIm_DrawSolid(DemoIm* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &gActorSetupXluDL[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
 
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           DemoIm_OverrideLimbDraw, DemoIm_PostLimbDraw, this);

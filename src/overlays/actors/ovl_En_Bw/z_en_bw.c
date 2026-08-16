@@ -876,7 +876,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
     if (this->color1.a == 0xFF) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
-        gSPSegment(POLY_OPA_DISP++, 0x08, &gActorSetupXluDL[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_OPA_DISP);
     } else {

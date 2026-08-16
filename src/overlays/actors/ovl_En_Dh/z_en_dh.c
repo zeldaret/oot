@@ -589,7 +589,7 @@ void EnDh_Draw(Actor* thisx, PlayState* play) {
     if (this->alpha == 255) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
-        gSPSegment(POLY_OPA_DISP++, 0x08, &gActorSetupXluDL[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         POLY_OPA_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
