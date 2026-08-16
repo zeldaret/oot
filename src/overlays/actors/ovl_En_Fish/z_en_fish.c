@@ -572,8 +572,8 @@ void EnFish_JabuCutscene_CueFlapOnGround(EnFish* this, PlayState* play) {
 
 void EnFish_JabuCutscene_CueFly(EnFish* this, PlayState* play) {
     s32 pad;
-    f32 sp28= Math_SinS(this->phase1);
-    f32 sp24= Math_SinS(this->phase2);
+    f32 sp28 = Math_SinS(this->phase1);
+    f32 sp24 = Math_SinS(this->phase2);
 
     this->actor.shape.rot.x -= 0x1F4;
     this->actor.shape.rot.z += 0x64;
