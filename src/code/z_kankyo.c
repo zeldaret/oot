@@ -1,4 +1,4 @@
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
                                "ique-cn:224 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:240 pal-1.1:240"
 
 #include "libc64/qrand.h"
@@ -243,7 +243,7 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
                                "ique-cn:224 ntsc-1.0:208 ntsc-1.1:208 ntsc-1.2:208 pal-1.0:224 pal-1.1:224"
 
 LightNode* sNGameOverLightNode;
