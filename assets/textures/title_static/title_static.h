@@ -18,4 +18,4 @@ extern Gfx gFileSelWindow1DL[67];
 extern Gfx gFileSelWindow2DL[66];
 extern Gfx gFileSelWindow3DL[34];
 
-#endif /* TITLE_STATIC_H */
+#endif

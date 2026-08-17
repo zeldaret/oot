@@ -291,4 +291,4 @@ extern u64 gFileSelSelectYourLanguageTex[TEX_LEN(u64, gFileSelSelectYourLanguage
 #define gFileSelInitialLanguageCursorTex_HEIGHT 48
 extern u64 gFileSelInitialLanguageCursorTex[TEX_LEN(u64, gFileSelInitialLanguageCursorTex_WIDTH, gFileSelInitialLanguageCursorTex_HEIGHT, 4)];
 
-#endif /* TITLE_STATIC_PAL_N64_H */
+#endif

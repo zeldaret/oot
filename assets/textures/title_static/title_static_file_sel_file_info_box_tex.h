@@ -20,4 +20,4 @@ extern u64 gFileSelFileInfoBox4Tex[TEX_LEN(u64, gFileSelFileInfoBox4Tex_WIDTH, g
 #define gFileSelFileInfoBox5Tex_HEIGHT 56
 extern u64 gFileSelFileInfoBox5Tex[TEX_LEN(u64, gFileSelFileInfoBox5Tex_WIDTH, gFileSelFileInfoBox5Tex_HEIGHT, 16)];
 
-#endif /* TITLE_STATIC_FILE_SEL_FILE_INFO_BOX_TEX_H */
+#endif

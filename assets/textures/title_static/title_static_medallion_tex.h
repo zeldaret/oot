@@ -23,4 +23,4 @@ extern u64 gFileSelShadowMedallionTex[TEX_LEN(u64, gFileSelShadowMedallionTex_WI
 #define gFileSelLightMedallionTex_HEIGHT 16
 extern u64 gFileSelLightMedallionTex[TEX_LEN(u64, gFileSelLightMedallionTex_WIDTH, gFileSelLightMedallionTex_HEIGHT, 8)];
 
-#endif /* TITLE_STATIC_MEDALLION_TEX_H */
+#endif

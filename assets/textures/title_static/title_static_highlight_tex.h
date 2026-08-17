@@ -17,4 +17,4 @@ extern u64 gFileSelMediumButtonHighlightTex[TEX_LEN(u64, gFileSelMediumButtonHig
 #define gFileSelSmallButtonHighlightTex_HEIGHT 24
 extern u64 gFileSelSmallButtonHighlightTex[TEX_LEN(u64, gFileSelSmallButtonHighlightTex_WIDTH, gFileSelSmallButtonHighlightTex_HEIGHT, 8)];
 
-#endif /* TITLE_STATIC_HIGHLIGHT_TEX_H */
+#endif

@@ -305,4 +305,4 @@ extern u64 gFileSelOptionsButtonENGTex[TEX_LEN(u64, gFileSelOptionsButtonENGTex_
 extern u64 gFileSelOptionsButtonGERTex[TEX_LEN(u64, gFileSelOptionsButtonGERTex_WIDTH, gFileSelOptionsButtonGERTex_HEIGHT, 16)];
 // french uses the english texture
 
-#endif /* TITLE_STATIC_PAL_GC_H */
+#endif

@@ -254,4 +254,4 @@ extern u64 gFileSelQuitButtonENGTex[TEX_LEN(u64, gFileSelQuitButtonENGTex_WIDTH,
 #define gFileSelSaveXENGTex_HEIGHT 16
 extern u64 gFileSelSaveXENGTex[TEX_LEN(u64, gFileSelSaveXENGTex_WIDTH, gFileSelSaveXENGTex_HEIGHT, 4)];
 
-#endif /* TITLE_STATIC_NTSC_H */
+#endif

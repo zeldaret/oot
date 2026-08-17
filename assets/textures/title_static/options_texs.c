@@ -43,7 +43,7 @@ u64 gFileSelCheckBrightnessJPNTex[TEX_LEN(u64, gFileSelCheckBrightnessJPNTex_WID
                                           gFileSelCheckBrightnessJPNTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCheckBrightnessJPNTex.ia8.inc.c"
 };
-#endif /* OOT_NTSC */
+#endif
 
 #if OOT_PAL
 
@@ -161,5 +161,5 @@ u64 gFileSelLanguageGERTex[TEX_LEN(u64, gFileSelLanguageGERTex_WIDTH, gFileSelLa
 u64 gFileSelLanguageFRATex[TEX_LEN(u64, gFileSelLanguageFRATex_WIDTH, gFileSelLanguageFRATex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelLanguageFRATex.ia8.inc.c"
 };
-#endif /* OOT_PAL_N64 */
-#endif /* OOT_PAL */
+#endif
+#endif

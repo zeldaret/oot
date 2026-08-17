@@ -14,4 +14,4 @@ extern u64 gFileSelHiraganaButtonTex[TEX_LEN(u64, gFileSelHiraganaButtonTex_WIDT
 #define gFileSelKatakanaButtonTex_HEIGHT 16
 extern u64 gFileSelKatakanaButtonTex[TEX_LEN(u64, gFileSelKatakanaButtonTex_WIDTH, gFileSelKatakanaButtonTex_HEIGHT, 16)];
 
-#endif /* TITLE_STATIC_CHAR_SET_TEX_H */
+#endif

@@ -14,4 +14,4 @@ extern u64 gFileSelGoronRubyTex[TEX_LEN(u64, gFileSelGoronRubyTex_WIDTH, gFileSe
 #define gFileSelZoraSapphireTex_HEIGHT 16
 extern u64 gFileSelZoraSapphireTex[TEX_LEN(u64, gFileSelZoraSapphireTex_WIDTH, gFileSelZoraSapphireTex_HEIGHT, 32)];
 
-#endif /* TITLE_STATIC_STONE_TEX_H */
+#endif

@@ -65,4 +65,4 @@ extern u64 gFileSelWindow19Tex[TEX_LEN(u64, gFileSelWindow19Tex_WIDTH, gFileSelW
 #define gFileSelWindow20Tex_HEIGHT 32
 extern u64 gFileSelWindow20Tex[TEX_LEN(u64, gFileSelWindow20Tex_WIDTH, gFileSelWindow20Tex_HEIGHT, 16)];
 
-#endif /* TITLE_STATIC_FILE_SEL_WINDOW_TEX_H */
+#endif

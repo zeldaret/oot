@@ -100,6 +100,6 @@ extern u64 gFileSelLanguageGERTex[TEX_LEN(u64, gFileSelLanguageGERTex_WIDTH, gFi
 #define gFileSelLanguageFRATex_WIDTH 64
 #define gFileSelLanguageFRATex_HEIGHT 16
 extern u64 gFileSelLanguageFRATex[TEX_LEN(u64, gFileSelLanguageFRATex_WIDTH, gFileSelLanguageFRATex_HEIGHT, 8)];
-#endif /* OOT_PAL_N64 */
+#endif
 
-#endif /* TITLE_STATIC_OPTIONS_TEX_H */
+#endif
