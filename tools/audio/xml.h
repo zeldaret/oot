@@ -39,6 +39,8 @@ xml_parse_s8(const char *value, void *out);
 void
 xml_parse_note_number(const char *value, void *out);
 void
+xml_parse_fine_tune(const char *value, void *out);
+void
 xml_parse_string(const char *value, void *out);
 void
 xml_parse_c_identifier(const char *value, void *out);

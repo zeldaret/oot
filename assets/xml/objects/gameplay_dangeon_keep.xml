@@ -135,8 +135,8 @@
         <Texture Name="gameplay_dangeon_keep_0134A0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x134A0"/>
         <Texture Name="gameplay_dangeon_keep_013CA0_Tex" Format="ia8" Width="4" Height="4" Offset="0x13CA0"/>
         <Texture Name="gameplay_dangeon_keep_013CB0_Tex" Format="i4" Width="64" Height="64" Offset="0x13CB0"/>
-        <Texture Name="gCrstalSwitchRedTex" Format="rgba16" Width="32" Height="32" Offset="0x144B0"/>
-        <Texture Name="gCrstalSwitchBlueTex" Format="rgba16" Width="32" Height="32" Offset="0x14CB0"/>
+        <Texture Name="gCrystalSwitchRedTex" Format="rgba16" Width="32" Height="32" Offset="0x144B0"/>
+        <Texture Name="gCrystalSwitchBlueTex" Format="rgba16" Width="32" Height="32" Offset="0x14CB0"/>
         <Texture Name="gameplay_dangeon_keep_0154B0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x154B0"/>
         <Texture Name="gameplay_dangeon_keep_015CB0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x15CB0"/>
         <Texture Name="gameplay_dangeon_keep_0164B0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x164B0"/>

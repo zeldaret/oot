@@ -285,7 +285,7 @@ sequence_ids = {
     0x5B: "NA_BGM_SHADOW_TEMPLE",
     0x5C: "NA_BGM_WATER_TEMPLE",
     0x5D: "NA_BGM_BRIDGE_TO_GANONS",
-    0x5E: "NA_BGM_OCARINA_OF_TIME",
+    0x5E: "NA_BGM_SEAL_OF_SAGES",
     0x5F: "NA_BGM_GERUDO_VALLEY",
     0x60: "NA_BGM_POTION_SHOP",
     0x61: "NA_BGM_KOTAKE_KOUME",
@@ -293,7 +293,7 @@ sequence_ids = {
     0x63: "NA_BGM_UNDERGROUND",
     0x64: "NA_BGM_GANONDORF_BOSS",
     0x65: "NA_BGM_GANON_BOSS",
-    0x66: "NA_BGM_END_DEMO",
+    0x66: "NA_BGM_OCARINA_OF_TIME",
     0x67: "NA_BGM_STAFF_1",
     0x68: "NA_BGM_STAFF_2",
     0x69: "NA_BGM_STAFF_3",
@@ -580,6 +580,14 @@ fade_out_seq_player = {
     0x04: "CS_FADE_OUT_BGM_MAIN",
 }
 
+cutscene_text_types = {
+    0x00: "CS_TEXT_NORMAL",
+    0x01: "CS_TEXT_CHOICE",
+    0x02: "CS_TEXT_OCARINA_ACTION",
+    0x03: "CS_TEXT_GORON_RUBY",
+    0x04: "CS_TEXT_ZORA_SAPPHIRE",
+}
+
 """
 Entry format:
 
@@ -806,6 +814,8 @@ def format_arg(arg, words):
             result = fade_out_seq_player[unsigned_value]
         elif enum_no == 8:
             result = cutscene_cmd_ids[unsigned_value]
+        elif enum_no == 9:
+            result = cutscene_text_types[unsigned_value]
     elif format_type == "u":
         result = str(value)
     elif format_type == "s":
@@ -831,7 +841,7 @@ def format_cmd(cmd, words):
             elif get_short(words[2], 1) == 2:
                 cmd = "CS_TEXT_OCARINA_ACTION(%h2:1:e2, %h1:1:s, %h2:2:s, %h2:3:x)"
             else:
-                cmd = "CS_TEXT(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x)"
+                cmd = "CS_TEXT(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:e9, %h2:3:x, %h1:3:x)"
     for arg in args_list(cmd):
         cmd = cmd.replace(arg, format_arg(arg, words))
     return cmd

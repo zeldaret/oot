@@ -443,7 +443,8 @@ void EnGoma_Dead(EnGoma* this, PlayState* play) {
         }
         SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_EXTINCT);
         Actor_Kill(&this->actor);
-        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x30);
+        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_3, false));
     }
     this->visualState = 2;
 }
