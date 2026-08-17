@@ -16,6 +16,7 @@
 #include "z_lib.h"
 #include "play_state.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_boj/object_boj.h"

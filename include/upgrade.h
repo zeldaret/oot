@@ -3,6 +3,7 @@
 
 #include "assert.h"
 #include "ultra64/ultratypes.h"
+#include "save.h"
 
 typedef enum UpgradeType {
     /* 0x00 */ UPG_QUIVER,
@@ -110,8 +111,6 @@ typedef enum DekuNutUpgrades {
 
 static_assert(UPG_DEKU_NUTS_MAX <= 1 << BIT_WIDTH_UPG_DEKU_NUTS, "All deku nut upgrade values should fit in its assigned bitwidth");
 
-#define BITS_PER_BYTE 8
-
 static_assert(
     BIT_WIDTH_UPG_QUIVER +
     BIT_WIDTH_UPG_BOMB_BAG +
@@ -120,7 +119,7 @@ static_assert(
     BIT_WIDTH_UPG_WALLET +
     BIT_WIDTH_UPG_BULLET_BAG +
     BIT_WIDTH_UPG_DEKU_STICKS +
-    BIT_WIDTH_UPG_DEKU_NUTS <= sizeof(u32) * BITS_PER_BYTE,
+    BIT_WIDTH_UPG_DEKU_NUTS <= sizeof(u32) * 8,
     "Upgrades must fit in a u32"
 );
 
@@ -159,5 +158,9 @@ static_assert(
 #define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.save.info.inventory.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
+
+extern u32 gUpgradeMasks[UPG_MAX];
+extern u8 gUpgradeShifts[UPG_MAX];
+extern u16 gUpgradeCapacities[UPG_MAX][4];
 
 #endif

@@ -21,6 +21,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/objects/object_ge1/object_ge1.h"
 

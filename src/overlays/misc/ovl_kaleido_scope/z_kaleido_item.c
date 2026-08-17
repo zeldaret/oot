@@ -10,6 +10,7 @@
 #include "translation.h"
 #include "play_state.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 

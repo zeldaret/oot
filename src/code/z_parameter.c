@@ -24,6 +24,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"

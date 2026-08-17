@@ -21,6 +21,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/objects/gameplay_keep/item_drop_dl.h"
 #include "assets/objects/gameplay_keep/gameplay_keep_0x3C870.h"

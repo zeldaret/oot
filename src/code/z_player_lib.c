@@ -12,6 +12,7 @@
 #include "player.h"
 #include "save.h"
 #include "skin_matrix.h"
+#include "upgrade.h"
 
 #include "assets/objects/gameplay_keep/player_pause_joint_tables.h"
 #include "assets/objects/gameplay_keep/player_anim_headers.h"

@@ -16,6 +16,7 @@
 #include "save.h"
 #include "scene.h"
 #include "ss_sram.h"
+#include "upgrade.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)

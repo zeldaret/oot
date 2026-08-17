@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "item.h"
-#include "upgrade.h"
 
 struct PlayState;
 
@@ -14,10 +13,7 @@ void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
 extern u32 gBitFlags[32];
 extern u16 gEquipMasks[EQUIP_TYPE_MAX];
 extern u16 gEquipNegMasks[EQUIP_TYPE_MAX];
-extern u32 gUpgradeMasks[UPG_MAX];
 extern u8 gEquipShifts[EQUIP_TYPE_MAX];
-extern u8 gUpgradeShifts[UPG_MAX];
-extern u16 gUpgradeCapacities[UPG_MAX][4];
 extern u32 gGsFlagsMasks[4];
 extern u32 gGsFlagsShifts[4];
 extern void* gItemIcons[0x82];

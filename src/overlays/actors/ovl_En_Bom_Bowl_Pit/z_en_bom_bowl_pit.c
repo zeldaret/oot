@@ -10,6 +10,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "upgrade.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

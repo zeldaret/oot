@@ -18,6 +18,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/objects/gameplay_keep/shopkeeper_controls_tex.h"
 #include "assets/objects/object_ossan/object_ossan.h"

@@ -27,6 +27,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/objects/object_dns/object_dns.h"
 
