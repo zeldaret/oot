@@ -1,43 +1,65 @@
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
+#include <stdbool.h>
+#include <stddef.h>
+#include "ultra64.h"
 #include "libu64/gfxprint.h"
+#include "libu64/pad.h"
+#include "actor.h"
 #include "array_count.h"
+#include "audio.h"
+#include "camera.h"
+#include "color.h"
 #include "controller.h"
+#include "cutscene.h"
+#include "cutscene_flags.h"
+#include "environment.h"
 #include "gfx.h"
 #include "gfxalloc.h"
+#include "interface.h"
+#include "item.h"
 #include "letterbox.h"
+#include "light.h"
 #include "memory_utils.h"
+#include "message.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
 #include "printf.h"
+#include "quake.h"
 #include "regs.h"
 #include "rumble.h"
-#include "quake.h"
+#include "save.h"
+#include "scene.h"
 #include "segmented_address.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "transition.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "audio.h"
-#include "camera.h"
-#include "cutscene.h"
-#include "cutscene_flags.h"
-#include "ocarina.h"
-#include "play_state.h"
-#include "player.h"
-#include "save.h"
+#include "z_math.h"
+
+#include "assets/scenes/dungeons/bdan/bdan_scene.h"
+#include "assets/scenes/dungeons/ddan/ddan_scene.h"
+#include "assets/scenes/dungeons/ydan/ydan_scene.h"
+#include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
+#include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
+#include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
+
+#include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 
 #include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
 #include "assets/scenes/overworld/spot04/spot04_scene.h"
-#include "assets/scenes/overworld/spot05/spot05_scene.h"
 #include "assets/scenes/overworld/spot06/spot06_scene.h"
 #include "assets/scenes/overworld/spot07/spot07_scene.h"
 #include "assets/scenes/overworld/spot08/spot08_scene.h"
@@ -49,15 +71,6 @@
 #include "assets/scenes/overworld/spot17/spot17_scene.h"
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
 #include "assets/scenes/overworld/spot20/spot20_scene.h"
-
-#include "assets/scenes/dungeons/bdan/bdan_scene.h"
-#include "assets/scenes/dungeons/ddan/ddan_scene.h"
-#include "assets/scenes/dungeons/ydan/ydan_scene.h"
-#include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
-#include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
-#include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
-
-#include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 
 u16 sCurTextId = 0;
 u16 sCurOcarinaAction = 0;
@@ -149,8 +162,8 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
