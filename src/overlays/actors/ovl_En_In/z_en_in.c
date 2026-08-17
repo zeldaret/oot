@@ -36,7 +36,7 @@ void EnIn_RentalPeriod(EnIn* this, PlayState* play);
 void EnIn_OfferingRematch(EnIn* this, PlayState* play);
 void EnIn_ClosingGate(EnIn* this, PlayState* play);
 void EnIn_GuardingGate(EnIn* this, PlayState* play);
-void EnIn_LinkEscapesRanch(EnIn* this, PlayState* play);
+void EnIn_PlayerEscapesRanch(EnIn* this, PlayState* play);
 void EnIn_EndRentalPeriod(EnIn* this, PlayState* play);
 void EnIn_FinishClosingGate(EnIn* this, PlayState* play);
 void EnIn_PlayerLostRace(EnIn* this, PlayState* play);
@@ -81,8 +81,8 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 typedef enum EnInAnimation {
     /* 0 */ ENIN_ANIM_STANDING,
     /* 1 */ ENIN_ANIM_STANDING_MORPH,
-    /* 2 */ ENIN_ANIM_STANDING2,
-    /* 3 */ ENIN_ANIM_STANDING2_MORPH,
+    /* 2 */ ENIN_ANIM_STANDING_FOOT_FORWARD,
+    /* 3 */ ENIN_ANIM_STANDING_FOOT_FORWARD_MORPH,
     /* 4 */ ENIN_ANIM_GLOATING,
     /* 5 */ ENIN_ANIM_RUNNING,
     /* 6 */ ENIN_ANIM_LOSING,
@@ -100,11 +100,16 @@ typedef enum EnInStartMode {
 } EnInStartMode;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
-    { &gIngoStandingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },  { &gIngoStandingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gIngoStandingAnim2, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gIngoStandingAnim2, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gIngoGloatingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },  { &gIngoRunningAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gIngoLosingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },    { &gIngoSleepingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gIngoObedientAnim, 1.0f, ANIMMODE_LOOP, 0.0f },  { &gIngoWorkingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gIngoStandingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gIngoStandingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gIngoStandingFootForwardAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gIngoStandingFootForwardAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gIngoGloatingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gIngoRunningAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gIngoLosingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gIngoSleepingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gIngoObedientAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gIngoWorkingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
 };
 
 static AnimationHeader* sHorsebackAnimations[] = {
@@ -344,7 +349,7 @@ s16 EnIn_UpdateTalkState(PlayState* play, Actor* thisx) {
     return talkState;
 }
 
-void EnIn_UpdateTrackingMode(EnIn* this, PlayState* play) {
+void EnIn_UpdateTracking(EnIn* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
@@ -440,16 +445,16 @@ void EnIn_UpdateEyes(EnIn* this) {
     }
 }
 
-void EnIn_Sway(EnIn* this, PlayState* play) {
+void EnIn_Fidget(EnIn* this, PlayState* play) {
     s32 i;
     u32 f = 0;
 
     if (this->skelAnime.animation != &gIngoWorkingAnim) {
         f = play->gameplayFrames;
     }
-    for (i = 0; i < ARRAY_COUNT(this->swayVec); i++) {
-        this->swayVec[i].y = (2068 + 50 * i) * f;
-        this->swayVec[i].z = (2368 + 50 * i) * f;
+    for (i = 0; i < ARRAY_COUNT(this->fidgetVec); i++) {
+        this->fidgetVec[i].y = (FIDGET_FREQ_Y + FIDGET_FREQ_LIMB * i) * f;
+        this->fidgetVec[i].z = (FIDGET_FREQ_Z + FIDGET_FREQ_LIMB * i) * f;
     }
 }
 
@@ -604,13 +609,13 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                 switch (GET_EVENTINF_INGO_RACE_STATE()) {
                     case INGO_RACE_STATE_OFFER_RENTAL:
                     case INGO_RACE_STATE_RACING:
-                        EnIn_ChangeAnim(this, ENIN_ANIM_STANDING2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_STANDING_FOOT_FORWARD);
                         this->actionFunc = EnIn_StartRentalPeriod;
                         gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = 0;
                         break;
                     case INGO_RACE_STATE_HORSE_RENTAL_PERIOD:
                         this->actor.attentionRangeType = ATTENTION_RANGE_3;
-                        EnIn_ChangeAnim(this, ENIN_ANIM_STANDING2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_STANDING_FOOT_FORWARD);
                         this->actionFunc = EnIn_RentalPeriod;
                         Interface_SetTimer(60);
                         break;
@@ -631,7 +636,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                         this->actionFunc = EnIn_PlayerWonSecondRace;
                         break;
                     case INGO_RACE_STATE_REMATCH:
-                        EnIn_ChangeAnim(this, ENIN_ANIM_STANDING2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_STANDING_FOOT_FORWARD);
                         this->actionFunc = EnIn_OfferingRematch;
                         break;
                 }
@@ -733,7 +738,7 @@ void EnIn_PlayerLostRace(EnIn* this, PlayState* play) {
     } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         Rupees_ChangeBy(-50);
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
-        EnIn_ChangeAnim(this, ENIN_ANIM_STANDING2_MORPH);
+        EnIn_ChangeAnim(this, ENIN_ANIM_STANDING_FOOT_FORWARD_MORPH);
         this->actionFunc = EnIn_OfferingRematch;
         SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_REMATCH);
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
@@ -849,7 +854,7 @@ void EnIn_ClosingGate(EnIn* this, PlayState* play) {
                 this->actor.textId = 0x203C;
                 Message_StartTextbox(play, this->actor.textId, NULL);
                 this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
-                EnIn_ChangeAnim(this, ENIN_ANIM_STANDING2_MORPH);
+                EnIn_ChangeAnim(this, ENIN_ANIM_STANDING_FOOT_FORWARD_MORPH);
             } else {
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
@@ -903,7 +908,7 @@ void EnIn_GuardingGate(EnIn* this, PlayState* play) {
         play->nextEntranceIndex = ENTR_HYRULE_FIELD_15;
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
-        this->actionFunc = EnIn_LinkEscapesRanch;
+        this->actionFunc = EnIn_PlayerEscapesRanch;
     } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -911,7 +916,7 @@ void EnIn_GuardingGate(EnIn* this, PlayState* play) {
     }
 }
 
-void EnIn_LinkEscapesRanch(EnIn* this, PlayState* play) {
+void EnIn_PlayerEscapesRanch(EnIn* this, PlayState* play) {
 }
 
 void EnIn_EndRentalPeriod(EnIn* this, PlayState* play) {
@@ -961,7 +966,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     EnIn_UpdateEyes(this);
     this->actionFunc(this, play);
     if (this->actionFunc != EnIn_Racing) {
-        EnIn_Sway(this, play);
+        EnIn_Fidget(this, play);
 #if OOT_VERSION < PAL_1_0
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
                           ((this->actor.attentionRangeType == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
@@ -984,7 +989,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
             }
         }
 #endif
-        EnIn_UpdateTrackingMode(this, play);
+        EnIn_UpdateTracking(this, play);
     }
 }
 
@@ -1010,8 +1015,8 @@ s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
     }
     if (limbIndex == INGO_LIMB_CHEST || limbIndex == INGO_LIMB_LEFT_SHOULDER || limbIndex == INGO_LIMB_RIGHT_SHOULDER) {
-        rot->y += Math_SinS(this->swayVec[limbIndex].y) * 200.0f;
-        rot->z += Math_CosS(this->swayVec[limbIndex].z) * 200.0f;
+        rot->y += Math_SinS(this->fidgetVec[limbIndex].y) * 200.0f;
+        rot->z += Math_CosS(this->fidgetVec[limbIndex].z) * 200.0f;
     }
     return 0;
 }

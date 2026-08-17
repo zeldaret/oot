@@ -238,7 +238,7 @@
 
         <Skeleton Name="gIngoSkel" Type="Flex" LimbType="Standard" LimbNone="INGO_LIMB_NONE" LimbMax="INGO_LIMB_MAX" EnumName="IngoLimb" Offset="0x13B88"/>
 
-        <Animation Name="gIngoStandingAnim2" Offset="0x13C6C"/>
+        <Animation Name="gIngoStandingFootForwardAnim" Offset="0x13C6C"/>
         <Animation Name="gIngoSleepingAnim" Offset="0x13D60"/>
         <Animation Name="gIngoObedientAnim" Offset="0x1431C"/>
         <Animation Name="gIngoWorkingAnim" Offset="0x14CA8"/>

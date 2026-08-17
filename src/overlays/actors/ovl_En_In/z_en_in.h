@@ -32,7 +32,7 @@ typedef struct EnIn {
     /* 0x02F0 */ Vec3f subCamAtOffset;
     /* 0x02FC */ Vec3f subCamEyeOffset;
     /* 0x0308 */ NpcInteractInfo interactInfo;
-    /* 0x0330 */ Vec3s swayVec[INGO_LIMB_MAX];
+    /* 0x0330 */ Vec3s fidgetVec[INGO_LIMB_MAX];
 } EnIn; // size = 0x03A8
 
 typedef enum EnInHorseAnimation {
