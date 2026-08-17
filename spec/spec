@@ -940,7 +940,7 @@ beginseg
     name "title_static"
     compress
     romalign 0x1000
-    // A lot of assets where reordered between NTSC and PAL as well as N64 vs GC for PAL due to the language select
+    // A lot of assets were reordered between NTSC and PAL as well as N64 vs GC for PAL due to the language select
 #if OOT_NTSC
     include "$(BUILD_DIR)/assets/textures/title_static/ntsc_jpn_texs_1.o"
 #endif

@@ -3,7 +3,7 @@
 
 #include "versions.h"
 
-// A lot of assets where reordered between NTSC and PAL as well as N64 vs GC for PAL due to the language select
+// A lot of assets were reordered between NTSC and PAL as well as N64 vs GC for PAL due to the language select
 #if OOT_NTSC
 #include "assets/textures/title_static/title_static_ntsc.h"
 #elif OOT_PAL
