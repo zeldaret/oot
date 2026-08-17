@@ -92,8 +92,8 @@
     __asm__("multu %2,%3\n\t"    \
             "mflo %0\n\t"        \
             "mfhi %1"            \
-            : "=d"(w0), "=d"(w1) \
-            : "d"((USItype)(u)), "d"((USItype)(v)))
+            : "=r"(w0), "=r"(w1) \
+            : "r"((USItype)(u)), "r"((USItype)(v)))
 #endif
 
 #define udiv_qrnnd(q, r, n1, n0, d)                                             \

@@ -4,6 +4,18 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#define OBJSWITCH_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 3)
+#define OBJSWITCH_SUBTYPE(thisx) PARAMS_GET_U((thisx)->params, 4, 3)
+#define OBJSWITCH_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 6)
+#define OBJSWITCH_FROZEN(thisx) PARAMS_GET_U((thisx)->params, 7, 1)
+
+#define OBJSWITCH_FROZEN_FLAG (1 << 7)
+
+#define OBJSWITCH_PARAMS(type, subType, switchFlag) ((type) | ((subType) << 4) | ((switchFlag) << 8))
+// Same as OBJSWITCH_PARAMS but also sets two unused bits
+#define OBJSWITCH_PARAMS_ALT(type, subType, switchFlag) (OBJSWITCH_PARAMS(type, subType, switchFlag) | (0xC000))
+#define OBJSWITCH_PARAMS_EYE(subType, switchFlag, isFrozen) (OBJSWITCH_PARAMS(OBJSWITCH_TYPE_EYE, subType, switchFlag) | ((isFrozen) ? OBJSWITCH_FROZEN_FLAG : 0))
+
 struct ObjSwitch;
 
 typedef void (*ObjSwitchActionFunc)(struct ObjSwitch*, struct PlayState*);

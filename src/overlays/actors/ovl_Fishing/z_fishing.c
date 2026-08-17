@@ -869,7 +869,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 #if PLATFORM_N64
         // Anti-piracy check, if the check fails the line can't be reeled in if
         // a fish is caught and the fish will always let go after 50 frames.
-        sReelLock = !(B_80008EE0 == 0xAD090010);
+        sReelLock = !CIC_BOOT_MAGIC0_IS_CORRECT();
 #else
         sReelLock = 0;
 #endif

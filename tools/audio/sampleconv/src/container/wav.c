@@ -221,6 +221,25 @@ wav_read(container_data *out, const char *path, UNUSED bool matching)
                 smpl.num_sample_loops = le32toh(smpl.num_sample_loops);
                 smpl.sampler_data = le32toh(smpl.sampler_data);
 
+                if (!has_inst) {
+                    // No INST chunk (yet, if there is one later it will take priority)
+                    // Read the base note and fine tuning from the SMPL chunk.
+                    // Note the INST and SMPL chunk use different representations for the fine tuning
+                    // INST uses cents in [-50, 50]
+                    // SMPL uses a fraction [0, 255] with 128 = 50 cents
+                    // We use the INST format since AIFF uses that one
+                    uint32_t base_note = smpl.unity_note;
+                    // First scale down 128 -> 50, round to nearest
+                    int32_t fine_tune = (smpl.fine_tune * 50 + 0x40) / 128;
+                    // If the result is > 50, make it negative and adjust the base note
+                    if (fine_tune > 50) {
+                        base_note = (base_note - 1) % 128;
+                        fine_tune = fine_tune - 100;
+                    }
+                    out->base_note = base_note;
+                    out->fine_tune = fine_tune;
+                }
+
                 out->num_loops = smpl.num_sample_loops;
                 out->loops = NULL;
                 if (out->num_loops != 0) {
@@ -342,13 +361,14 @@ wav_read(container_data *out, const char *path, UNUSED bool matching)
         }
 
         long read_size = ftell(in) - start - 8;
+        uint32_t aligned_chunk_size = (chunk_size + 1) & ~1;
 
-        if (read_size > chunk_size)
+        if (read_size > aligned_chunk_size)
             error("overran chunk");
         else if (!skipped && read_size < chunk_size)
             warning("did not read entire %*s chunk: %lu vs %u", 4, cc4, read_size, chunk_size);
 
-        fseek(in, start + 8 + chunk_size, SEEK_SET);
+        fseek(in, start + 8 + aligned_chunk_size, SEEK_SET);
     }
 
     if (!has_fmt)
@@ -361,8 +381,10 @@ wav_read(container_data *out, const char *path, UNUSED bool matching)
     }
 
     if (!has_inst) {
-        out->base_note = 60; // C4
-        out->fine_tune = 0;
+        if (!has_smpl) {
+            out->base_note = 60; // C4
+            out->fine_tune = 0;
+        }
         out->key_low = 0;
         out->key_hi = 127;
         out->vel_low = 0;
@@ -452,13 +474,30 @@ wav_write(container_data *in, const char *path, bool matching)
     CHUNK_WRITE(out, &inst);
     CHUNK_END(out, chunk_start, htole32);
 
+    // INST and SMPL use a different representation for the fine tuning.
+    // INST represents it in cents in the range [-50, 50]
+    // SMPL represents it as a fraction in the range [0, 255] where 128 is 50 cents
+    // Our internal fine tuning follows the INST format, which AIFF also happens to agree with.
+    // When writing SMPL we need to convert to the fraction representation, which for
+    // positive fine tuning is simply a rescaling, while for negative fine tuning we need to
+    // adjust the base note to make the fine tuning positive first.
+    uint32_t smpl_unity_note = in->base_note;
+    uint32_t smpl_fine_tune = in->fine_tune;
+    if (in->fine_tune < 0) {
+        // [-50, -1] needs to increment unity_note and use the additive inverse mod 100
+        smpl_unity_note = (smpl_unity_note + 1) % 128;
+        smpl_fine_tune = 100 + smpl_fine_tune;
+    }
+    // Rescale 0..50 to 0..128, round to nearest
+    smpl_fine_tune = (smpl_fine_tune * 128 + 25) / 50;
+
     wav_smpl smpl = {
         .manufacturer = 0,
         .product = 0,
-        .sample_period = 0,
-        .unity_note = 0,
+        .sample_period = htole32(1000000000 / in->sample_rate),
+        .unity_note = htole32(smpl_unity_note),
         ._pad = {0, 0, 0},
-        .fine_tune = 0,
+        .fine_tune = smpl_fine_tune,
         .format = 0,
         .offset = 0,
         .num_sample_loops = htole32(in->num_loops),

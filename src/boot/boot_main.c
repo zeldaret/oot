@@ -29,14 +29,14 @@ void bootproc(void) {
 
     osMemSize = osGetMemSize();
 #if PLATFORM_N64
-    func_80001720();
+    CIC6105_SaveBootMagicValues();
 #endif
     bootclear();
     osInitialize();
 
     gCartHandle = osCartRomInit();
     osDriveRomInit();
-#if DEBUG_FEATURES
+#if DEBUG_FEATURES && !PLATFORM_IQUE
     isPrintfInit();
 #endif
     Locale_Init();

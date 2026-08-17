@@ -10,7 +10,6 @@ For macOS, use Homebrew to install the following dependencies:
 * coreutils
 * make
 * python3
-* libpng
 * bash
 * clang-format
 * libxml2
@@ -20,7 +19,7 @@ You can install them with the following commands:
 
 ```bash
 brew update
-brew install coreutils make python3 libpng bash clang-format libxml2 libiconv
+brew install coreutils make python3 bash clang-format libxml2 libiconv
 ```
 
 (The repository expects Homebrew-installed programs to be either linked correctly in `$PATH` etc. or in their default locations.)
@@ -43,8 +42,8 @@ cd ~/binutils-tmp
 
 Get and extract binutils source
 ```bash
-curl -O https://ftp.gnu.org/gnu/binutils/binutils-2.35.tar.bz2
-tar xjf binutils-2.35.tar.bz2
+curl -O https://ftp.gnu.org/gnu/binutils/binutils-2.46.0.tar.xz
+tar xjf binutils-2.46.0.tar.xz
 ```
 
 Create and enter a build directory
@@ -55,7 +54,7 @@ cd build-binutils
 
 Configure the build
 ```bash
-../binutils-2.35/configure --target=mips-linux-gnu --prefix=/opt/cross --with-system-zlib --disable-gprof --disable-gdb --disable-werror
+../binutils-2.46.0/configure --target=mips-linux-gnu --prefix=/opt/cross --with-system-zlib --disable-gprof --disable-gdb --disable-werror
 ```
 
 Make and install binutils
@@ -90,7 +89,7 @@ If you'd like to compile with GCC instead of IDO (e.g. for modding), you can bui
 
 Install dependences
 ```bash
-brew install gcc@14 gmp isl libmpc mpfr
+brew install gcc@15 gmp isl libmpc mpfr
 ```
 
 Create and enter local working dir
@@ -101,8 +100,8 @@ cd ~/gcc-tmp
 
 Get and extract gcc source
 ```bash
-curl -O https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz
-tar xvf gcc-14.2.0.tar.xz
+curl -O https://ftp.gnu.org/gnu/gcc/gcc-15.2.0/gcc-15.2.0.tar.xz
+tar xvf gcc-15.2.0.tar.xz
 ```
 
 Create and enter a build directory
@@ -113,12 +112,12 @@ cd build-gcc
 
 Configure the build
 ```bash
-CC=gcc-14 CXX=g++-14 ../gcc-14.2.0/configure --target=mips-linux-gnu --prefix=/opt/cross --disable-nls --enable-languages=c --with-gmp=$(brew --prefix)/opt/gmp --with-mpfr=$(brew --prefix)/opt/mpfr --with-mpc=$(brew --prefix)/opt/libmpc --with-isl=$(brew --prefix)/opt/isl
+CC=gcc-15 CXX=g++-15 ../gcc-15.2.0/configure --target=mips-linux-gnu --prefix=/opt/cross --disable-nls --enable-languages=c --with-gmp=$(brew --prefix)/opt/gmp --with-mpfr=$(brew --prefix)/opt/mpfr --with-mpc=$(brew --prefix)/opt/libmpc --with-isl=$(brew --prefix)/opt/isl
 ```
 
 Make and install gcc
 ```bash
-CC=gcc-14 CXX=g++-14 make all-gcc -j$(nproc)
+CC=gcc-15 CXX=g++-15 make all-gcc -j$(nproc)
 sudo make install-gcc
 ```
 

@@ -436,7 +436,7 @@
         <!--Eyes-->
         <Texture Name="gLinkChildEyesOpenTex" Format="ci8" Width="64" Height="32" Offset="0x0000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesHalfTex" Format="ci8" Width="64" Height="32" Offset="0x0800" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildEyesClosedfTex" Format="ci8" Width="64" Height="32" Offset="0x1000" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildEyesClosedTex" Format="ci8" Width="64" Height="32" Offset="0x1000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesLeftTex" Format="ci8" Width="64" Height="32" Offset="0x1800" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesRightTex" Format="ci8" Width="64" Height="32" Offset="0x2000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesWideTex" Format="ci8" Width="64" Height="32" Offset="0x2800" TlutOffset="0x5500"/>

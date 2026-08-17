@@ -36,7 +36,7 @@ typedef struct struct_801D9B90 {
 
 s32 func_801C7A1C(struct_801E0D18* arg0);
 
-void* D_801D2E50 = &B_801DC000;
+void* D_801D2E50 = &gN64DDDiskReadTemporaryBuffer;
 s32 (*D_801D2E54)(struct_801E0D18*) = func_801C7A1C;
 
 struct_801D9B90 B_801D9B90;
@@ -143,7 +143,7 @@ s32 func_801C7098(void) {
     B_801D9D50.unk_00 = 10;
     phi_v1 = (&func_801C8000)(&B_801D9D50);
     if (phi_v1 < 0) {
-        func_800D31A0();
+        Freeze_CurrentThread();
     }
     return phi_v1;
 }
@@ -375,7 +375,7 @@ s32 func_801C7818(void) {
 
     if (func_801C81C4() != 2) {
         func_801C761C();
-        func_800D31A0();
+        Freeze_CurrentThread();
         return -3;
     }
 
@@ -411,7 +411,7 @@ void func_801C7920(s32 arg0, void* arg1, s32 arg2) {
     }
     B_801D9D50.unk_00 = 7;
     if ((&func_801C8000)(&B_801D9D50) != 0) {
-        func_800D31A0();
+        Freeze_CurrentThread();
     }
 }
 
