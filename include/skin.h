@@ -83,13 +83,14 @@ typedef s32 (*SkinOverrideLimbDraw)(struct Actor*, struct PlayState*, s32, Skin*
 void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos);
 void Skin_DrawAnimatedLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 staticFlag, s32 drawFlags);
 void Skin_DrawLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlags);
-void Skin_DrawPT(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postDraw, s32 setTranslation);
-void Skin_DrawPOT(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation);
-void Skin_DrawPOTS(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postDraw,
+void Skin_DrawPT(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                 s32 setTranslation);
+void Skin_DrawPOT(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                  SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation);
+void Skin_DrawPOTS(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag);
-void Skin_DrawPOTSF(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag, s32 drawFlags);
+void Skin_DrawPOTSF(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag, s32 drawFlags);
 void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* offset, Vec3f* dst);
 void Skin_Init(struct PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
 void Skin_Free(struct PlayState* play, Skin* skin);

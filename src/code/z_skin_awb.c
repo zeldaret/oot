@@ -225,7 +225,8 @@ s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, 
         actor->world.pos.z);
 
     // Propagate limb transforms so it's all limb -> model transformations
-    ret = Skin_ApplyLimbTransform(skin, SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment), limbMatrices, LIMB_DONE, 0);
+    ret =
+        Skin_ApplyLimbTransform(skin, SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment), limbMatrices, LIMB_DONE, 0);
     if (!ret) {
         return ret;
     }

@@ -271,7 +271,6 @@ close_disps:
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 534);
 }
 
-
 /**
  * Draws a skin model.
  * Allows specifying postLimbDraw and setTranslation.
@@ -285,7 +284,7 @@ void Skin_DrawPT(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw pos
  * Allows specifying OverrideLimbDraw, postLimbDraw and setTranslation.
  */
 void Skin_DrawPOT(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation) {
+                  SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation) {
     Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, false, 0);
 }
 
@@ -303,7 +302,7 @@ void Skin_DrawPOTS(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw p
  * Allows specifying all variables.
  */
 void Skin_DrawPOTSF(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag, s32 drawFlags) {
+                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag, s32 drawFlags) {
     Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, staticFlag, drawFlags);
 }
 
