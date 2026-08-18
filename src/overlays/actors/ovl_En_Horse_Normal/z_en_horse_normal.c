@@ -658,7 +658,7 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play2) {
         func_80A6C8E0(this, play);
     }
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    func_800A6330(&this->actor, play, &this->skin, EnHorseNormal_PostDraw, true);
+    Skin_DrawPT(&this->actor, play, &this->skin, EnHorseNormal_PostDraw, true);
 
     if (this->action == HORSE_WAIT_CLONE) {
         MtxF skinMtx;
@@ -708,7 +708,7 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play2) {
         }
         gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        func_800A63CC(&this->actor, play, &this->skin, NULL, NULL, true, 0,
+        Skin_DrawPOTSF(&this->actor, play, &this->skin, NULL, NULL, true, 0,
                       SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS | SKIN_DRAW_FLAG_CUSTOM_MATRIX);
         this->cloneCollider.dim.pos.x = clonePos.x;
         this->cloneCollider.dim.pos.y = clonePos.y;
