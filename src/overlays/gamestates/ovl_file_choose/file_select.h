@@ -28,16 +28,16 @@ typedef enum MenuMode {
 } MenuMode;
 
 typedef enum ConfigMode {
-    /* 00 */ CM_FADE_IN_START,
-    /* 01 */ CM_FADE_IN_END,
-    /* 02 */ CM_MAIN_MENU,
-    /* 03 */ CM_SETUP_COPY_SOURCE,
-    /* 04 */ CM_SELECT_COPY_SOURCE,
-    /* 05 */ CM_SETUP_COPY_DEST_1,
-    /* 06 */ CM_SETUP_COPY_DEST_2,
-    /* 07 */ CM_SELECT_COPY_DEST,
-    /* 08 */ CM_EXIT_TO_COPY_SOURCE_1,
-    /* 09 */ CM_EXIT_TO_COPY_SOURCE_2,
+    /*  0 */ CM_FADE_IN_START,
+    /*  1 */ CM_FADE_IN_END,
+    /*  2 */ CM_MAIN_MENU,
+    /*  3 */ CM_SETUP_COPY_SOURCE,
+    /*  4 */ CM_SELECT_COPY_SOURCE,
+    /*  5 */ CM_SETUP_COPY_DEST_1,
+    /*  6 */ CM_SETUP_COPY_DEST_2,
+    /*  7 */ CM_SELECT_COPY_DEST,
+    /*  8 */ CM_EXIT_TO_COPY_SOURCE_1,
+    /*  9 */ CM_EXIT_TO_COPY_SOURCE_2,
     /* 10 */ CM_SETUP_COPY_CONFIRM_1,
     /* 11 */ CM_SETUP_COPY_CONFIRM_2,
     /* 12 */ CM_COPY_CONFIRM,
@@ -168,11 +168,11 @@ typedef enum CharPage {
 } CharPage;
 
 typedef enum KeyboardButton {
-    /* 00 */ FS_KBD_BTN_HIRA,
-    /* 01 */ FS_KBD_BTN_KATA,
-    /* 02 */ FS_KBD_BTN_ENG,
-    /* 03 */ FS_KBD_BTN_BACKSPACE,
-    /* 04 */ FS_KBD_BTN_END,
+    /*  0 */ FS_KBD_BTN_HIRA,
+    /*  1 */ FS_KBD_BTN_KATA,
+    /*  2 */ FS_KBD_BTN_ENG,
+    /*  3 */ FS_KBD_BTN_BACKSPACE,
+    /*  4 */ FS_KBD_BTN_END,
     /* 99 */ FS_KBD_BTN_NONE = 99
 } KeyboardButton;
 

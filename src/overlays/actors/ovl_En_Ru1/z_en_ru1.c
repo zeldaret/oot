@@ -955,7 +955,7 @@ void EnRu1_CheckStartFirstEncounter(EnRu1* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    if ((EnRu1_IsPlayerInRangeForFirstEncounter(this, play)) && (!Play_InCsMode(play)) &&
+    if ((EnRu1_IsPlayerInRangeForFirstEncounter(this, play)) && !Play_InCsMode(play) &&
         (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
@@ -1340,7 +1340,7 @@ s32 func_80AED624(EnRu1* this, PlayState* play) {
                (this->actor.depthInWater > kREG(16) + 50.0f) && (this->action != ENRU1_ACTION_SITTING_DISAPPEARING)) {
         this->action = ENRU1_ACTION_SITTING_DISAPPEARING;
         this->drawConfig = ENRU1_DRAW_XLU;
-        this->alpha = 0xFF;
+        this->alpha = 255;
         this->sinkTimer = 0.0f;
     }
     return true;
@@ -2054,7 +2054,7 @@ void EnRu1_RespondToSapphirePlatformMoving(EnRu1* this) {
     if (EnRu1_GetPlatformCamSetting(this) == 2) {
         EnRu1_SetEyes(this, ENRU1_EYES_UP);
         EnRu1_SetMouth(this, ENRU1_MOUTH_OPEN);
-        if (this->skelAnime.mode != 2) {
+        if (this->skelAnime.mode != ANIMMODE_ONCE) {
             EnRu1_AnimationChange(this, &gRutoChildShutterAnim, ANIMMODE_ONCE, -8.0f, false);
             EnRu1_PlayStartledSfx(this);
         }

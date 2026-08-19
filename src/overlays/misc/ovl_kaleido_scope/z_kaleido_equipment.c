@@ -690,7 +690,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
     if ((pauseCtx->mainState == PAUSE_MAIN_STATE_EQUIP_CHANGED) && (sEquipTimer == 9)) {
 #ifndef AVOID_UB
-        //! @bug: This function shouldn't take any arguments
+        //! @bug This function shouldn't take any arguments
         KaleidoScope_ProcessPlayerPreRender(play);
 #else
         KaleidoScope_ProcessPlayerPreRender();

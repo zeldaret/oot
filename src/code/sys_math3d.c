@@ -636,7 +636,7 @@ s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max) {
         ret |= 0x10;
     }
 
-    //! @bug: The next 2 conditions are the same check.
+    //! @bug The next 2 conditions are the same check.
     if ((-min->x - min->y + max->z) < (-point->x - point->y + point->z)) {
         ret |= 0x20;
     }
@@ -996,7 +996,7 @@ s32 Math3D_TriChkPointParaYImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f
     }
 
     if (fabsf(ny) > 0.5f) {
-        // Do a check on each face of the triangle, if the point is within `chkDist` units return true.
+        // Do a check on each edge of the triangle, if the point is within `chkDist` units return true.
         if (Math3D_PointDistSqToLine2D(z, x, v0->z, v0->x, v1->z, v1->x, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }

@@ -479,15 +479,15 @@ s32 func_80043F94(Camera* camera, Vec3f* from, CamColChk* to) {
         to->pos.x = to->norm.x + toNewPos.x;
         to->pos.y = to->norm.y + toNewPos.y;
         to->pos.z = to->norm.z + toNewPos.z;
-    } else if (playerFloorPoly != NULL) {
-        playerFloorNormF.x = COLPOLY_GET_NORMAL(playerFloorPoly->normal.x);
-        playerFloorNormF.y = COLPOLY_GET_NORMAL(playerFloorPoly->normal.y);
-        playerFloorNormF.z = COLPOLY_GET_NORMAL(playerFloorPoly->normal.z);
-        if (Math3D_LineSegVsPlane(playerFloorNormF.x, playerFloorNormF.y, playerFloorNormF.z, playerFloorPoly->dist,
+    } else if (sPlayerFloorPoly != NULL) {
+        playerFloorNormF.x = COLPOLY_GET_NORMAL(sPlayerFloorPoly->normal.x);
+        playerFloorNormF.y = COLPOLY_GET_NORMAL(sPlayerFloorPoly->normal.y);
+        playerFloorNormF.z = COLPOLY_GET_NORMAL(sPlayerFloorPoly->normal.z);
+        if (Math3D_LineSegVsPlane(playerFloorNormF.x, playerFloorNormF.y, playerFloorNormF.z, sPlayerFloorPoly->dist,
                                   from, &toPos, &toNewPos, 1)) {
             // line is from->to is touching the poly the player is on.
             to->norm = playerFloorNormF;
-            to->poly = playerFloorPoly;
+            to->poly = sPlayerFloorPoly;
             to->bgId = camera->bgId;
             to->pos.x = to->norm.x + toNewPos.x;
             to->pos.y = to->norm.y + toNewPos.y;
@@ -8079,13 +8079,13 @@ Vec3s Camera_Update(Camera* camera) {
         pos = curPlayerPosRot.pos;
         pos.y += Player_GetHeight(camera->player);
 
-        playerGroundY = BgCheck_EntityRaycastDown5(camera->play, &camera->play->colCtx, &playerFloorPoly, &bgId,
+        playerGroundY = BgCheck_EntityRaycastDown5(camera->play, &camera->play->colCtx, &sPlayerFloorPoly, &bgId,
                                                    &camera->player->actor, &pos);
         if (playerGroundY != BGCHECK_Y_MIN) {
             // player is above ground.
-            camera->floorNorm.x = COLPOLY_GET_NORMAL(playerFloorPoly->normal.x);
-            camera->floorNorm.y = COLPOLY_GET_NORMAL(playerFloorPoly->normal.y);
-            camera->floorNorm.z = COLPOLY_GET_NORMAL(playerFloorPoly->normal.z);
+            camera->floorNorm.x = COLPOLY_GET_NORMAL(sPlayerFloorPoly->normal.x);
+            camera->floorNorm.y = COLPOLY_GET_NORMAL(sPlayerFloorPoly->normal.y);
+            camera->floorNorm.z = COLPOLY_GET_NORMAL(sPlayerFloorPoly->normal.z);
             camera->bgId = bgId;
             camera->playerGroundY = playerGroundY;
             sOOBTimer = 0;
@@ -8113,7 +8113,7 @@ Vec3s Camera_Update(Camera* camera) {
                 !(camera->stateFlags & CAM_STATE_BLOCK_BG) &&
                 (!(camera->stateFlags & CAM_STATE_PLAYER_IN_WATER) || (player->currentBoots == PLAYER_BOOTS_IRON)) &&
                 !(camera->stateFlags & CAM_STATE_PLAYER_DIVING) && (playerGroundY != BGCHECK_Y_MIN)) {
-                bgCamIndex = Camera_GetBgCamIndex(camera, &bgId, playerFloorPoly);
+                bgCamIndex = Camera_GetBgCamIndex(camera, &bgId, sPlayerFloorPoly);
                 if (bgCamIndex != -1) {
                     camera->nextBgId = bgId;
                     if (bgId == BGCHECK_SCENE) {
@@ -8618,12 +8618,12 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
         settingChangeSuccessful = Camera_RequestSettingImpl(camera, requestedCamSetting,
                                                             CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
                                                                 CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
-        if ((settingChangeSuccessful != CAM_SET_NONE) || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
+        if (settingChangeSuccessful || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
             camera->bgCamIndex = requestedBgCamIndex;
             camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
-            //! @bug: `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
+            //! @bug `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
             //! The actual return of Camera_RequestSettingImpl or bgCamIndex would make more sense.
             PRINTF(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST,
                    requestedBgCamIndex, camera->camId, BGCHECK_SCENE, requestedCamSetting);

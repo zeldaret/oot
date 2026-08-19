@@ -553,7 +553,7 @@
         <Texture Name="gLinkAdultUnusedSheathTex" Format="ci8" Width="32" Height="64" Offset="0x8380" TlutOffset="0x5E00"/>
         <Texture Name="gLinkAdultUnusedSheathBandTex" Format="ci8" Width="32" Height="16" Offset="0x8B80" TlutOffset="0x5E00"/>
         <Texture Name="gLinkAdultUnusedSwordPommelTex" Format="ci8" Width="16" Height="16" Offset="0x8D80" TlutOffset="0x5E00"/>
-        <Texture Name="gLinkAdultUnusedSwordGuardTex" Format="ci8" Width="32" Height="32" Offset="0x8E80" TlutOffset="5E00"/>
+        <Texture Name="gLinkAdultUnusedSwordGuardTex" Format="ci8" Width="32" Height="32" Offset="0x8E80" TlutOffset="0x5E00"/>
         <Texture Name="gLinkAdultUnusedSwordEmblemTex" Format="ci8" Width="16" Height="16" Offset="0x9280" TlutOffset="0x5E00"/>
 
         <Array Name="gLinkAdultVtx_02E120" Count="38" Offset="0x2E120">

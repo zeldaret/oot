@@ -8363,7 +8363,7 @@ void Player_Action_80840DE4(Player* this, PlayState* play) {
     s32 temp3;
     s32 direction;
 
-    this->skelAnime.mode = 0;
+    this->skelAnime.mode = ANIMMODE_LOOP;
     LinkAnimation_SetUpdateFunction(&this->skelAnime);
 
     this->skelAnime.animation = func_8083356C(this);
