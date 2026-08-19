@@ -1,12 +1,5 @@
-#include <assert.h>
-#include <math.h>
-#include <stddef.h>
-#include <stdint.h>
-#include "ultra64.h"
-#include "libc64/malloc.h"
-#include "libc64/qrand.h"
-#include "libu64/debug.h"
-#include "libu64/pad.h"
+#include "play_state.h"
+
 #include "versions.h"
 #include "actor.h"
 #include "animation.h"
@@ -76,6 +69,16 @@
 #include "z_actor_dlftbls.h"
 #include "z_math.h"
 #include "zelda_arena.h"
+
+#include "libc64/malloc.h"
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "libu64/pad.h"
+#include "ultra64.h"
+#include <assert.h>
+#include <math.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
                                "ique-cn:224 ntsc-1.0:240 ntsc-1.1:240 ntsc-1.2:240 pal-1.0:240 pal-1.1:240"

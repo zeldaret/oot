@@ -1,18 +1,14 @@
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
                                "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
-#include <stdbool.h>
-#include <stddef.h>
-#include "ultra64.h"
-#include "libu64/gfxprint.h"
-#include "libu64/pad.h"
+#include "cutscene.h"
+
 #include "actor.h"
 #include "array_count.h"
 #include "audio.h"
 #include "camera.h"
 #include "color.h"
 #include "controller.h"
-#include "cutscene.h"
 #include "cutscene_flags.h"
 #include "environment.h"
 #include "gfx.h"
@@ -71,6 +67,12 @@
 #include "assets/scenes/overworld/spot17/spot17_scene.h"
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
 #include "assets/scenes/overworld/spot20/spot20_scene.h"
+
+#include "libu64/gfxprint.h"
+#include "libu64/pad.h"
+#include "ultra64.h"
+#include <stdbool.h>
+#include <stddef.h>
 
 u16 sCurTextId = 0;
 u16 sCurOcarinaAction = 0;

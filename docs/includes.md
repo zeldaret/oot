@@ -14,19 +14,21 @@ For further details see https://github.com/include-what-you-use/include-what-you
 
 The include should be ordered like this and sorted alphabetically within each group:
 
-- for overlays: the .h for the overlay
-- libc (files from `include/libc`)
-- `ultra64.h` if needed
+- main .h for the system/overlay
+- `versions.h` if needed
+- remaining includes not in this list
+- assets
 - `libc64/*.h`
 - `libu64/*.h`
-- `versions.h` if needed
-- remaining includes
-- assets
+- `ultra64.h` if needed
+- libc (files from `include/libc`)
+
+This minimizes the chance for headers to not be self-contained.
 
 There should be no empty line between groups, except:
 
-- after an overlay .h include
-- before assets includes
+- after the main .h include
+- before and after assets includes if any
 - in-between assets includes, as needed
 
 ## Square brackets vs quotes
