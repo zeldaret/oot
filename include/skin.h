@@ -83,6 +83,19 @@ typedef s32 (*SkinOverrideLimbDraw)(struct Actor*, struct PlayState*, s32, Skin*
 void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos);
 void Skin_DrawAnimatedLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 staticFlag, s32 drawFlags);
 void Skin_DrawLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlags);
+
+/**
+ * The Skin_Draw* functions all wrap a common implementation of skin drawing, accepting different argument sets. The
+ * names are abbreviations of the arguments that can be specified:
+ *  P : postLimbDraw callback can be set, to be called for each limb after appending graphics commands for that limb.
+ *  O : overrideLimbDraw callback can be set, to be called for each limb before appending graphics commands for that
+ *      limb. The current matrix at the time of the callback is the model-space matrix for the actor.
+ *  T : setTranslation can be set, indicating whether the root translation should be applied.
+ *  S : staticFlag can be set, indicating whether to select a static position for vertices or to transform them
+ *      according to vertex weights.
+ *  F : drawFlags can be set, refer to SKIN_DRAW_FLAG_*.
+ */
+
 void Skin_DrawPT(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
                  s32 setTranslation);
 void Skin_DrawPOT(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
@@ -91,6 +104,7 @@ void Skin_DrawPOTS(struct Actor* actor, struct PlayState* play, Skin* skin, Skin
                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag);
 void Skin_DrawPOTSF(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
                     SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag, s32 drawFlags);
+
 void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* offset, Vec3f* dst);
 void Skin_Init(struct PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
 void Skin_Free(struct PlayState* play, Skin* skin);
