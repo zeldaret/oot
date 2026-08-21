@@ -1399,6 +1399,10 @@ u8 Item_Give(PlayState* play, u8 item) {
     s16 slot;
     s16 temp;
 
+    //! @bug Undefined behavior: This macro (from save.h) will return a value out of bounds for items
+    //! that are not inventory items. This has no consequences for IDO nor GCC yet, but other compilers
+    //! depending on optimization have removed parts of the function due to UB, resulting in non-inventory
+    //! items ending up in inventory slots.
     slot = SLOT(item);
     if (item >= ITEM_DEKU_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
