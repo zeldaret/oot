@@ -14,7 +14,7 @@ For further details see https://github.com/include-what-you-use/include-what-you
 
 The include should be ordered like this and sorted alphabetically within each group:
 
-- main .h for the system/overlay
+- main header(s) for the system/overlay. That is, the .h file(s) that declare what the .c defines (functions, globals).
 - `versions.h` if needed
 - remaining includes not in this list
 - assets
@@ -27,7 +27,7 @@ This minimizes the chance for headers to not be self-contained.
 
 There should be no empty line between groups, except:
 
-- after the main .h include
+- after the main .h include(s)
 - before and after assets includes if any
 - in-between assets includes, as needed
 
