@@ -1190,11 +1190,10 @@ void Play_Draw(PlayState* this) {
         gSPSegment(POLY_OPA_DISP++, 0x01, this->billboardMtx);
 
         if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_COVER_ELEMENTS) {
-            Gfx* gfxP;
-            Gfx* sp1CC = POLY_OPA_DISP;
+            Gfx* gfxChild;
+            Gfx* gfxBufRef;
 
-            gfxP = Gfx_Open(sp1CC);
-            gSPDisplayList(OVERLAY_DISP++, gfxP);
+            GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
 
             if ((this->transitionMode == TRANS_MODE_INSTANCE_RUNNING) ||
                 (this->transitionMode == TRANS_MODE_INSTANCE_WAIT) || (this->transitionCtx.transitionType >= 56)) {
@@ -1205,11 +1204,11 @@ void Play_Draw(PlayState* this) {
 
                 SET_FULLSCREEN_VIEWPORT(&view);
 
-                View_ApplyTo(&view, VIEW_ALL, &gfxP);
-                this->transitionCtx.draw(&this->transitionCtx.instanceData, &gfxP);
+                View_ApplyTo(&view, VIEW_ALL, &gfxChild);
+                this->transitionCtx.draw(&this->transitionCtx.instanceData, &gfxChild);
             }
 
-            TransitionFade_Draw(&this->transitionFadeFlash, &gfxP);
+            TransitionFade_Draw(&this->transitionFadeFlash, &gfxChild);
 
 #if PLATFORM_N64
             if (gVisMonoColor.a != 0)
@@ -1218,12 +1217,10 @@ void Play_Draw(PlayState* this) {
 #endif
             {
                 gPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
-                VisMono_Draw(&gPlayVisMono, &gfxP);
+                VisMono_Draw(&gPlayVisMono, &gfxChild);
             }
 
-            gSPEndDisplayList(gfxP++);
-            Gfx_Close(sp1CC, gfxP);
-            POLY_OPA_DISP = gfxP;
+            GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
         }
 
         if (gTransitionTileState == TRANS_TILE_READY) {
