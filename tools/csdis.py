@@ -578,7 +578,7 @@ player_cue_ids = {
 # Enumerations for different actor cues
 # Please keep the key value the same as the command id
 actor_cue_id_table = {
-    47: # Sheik
+    0x2F: # Sheik
     {
         0x00: "ENXC_CUEID_NONE",
         0x01: "ENXC_CUEID_IDLE",
@@ -606,13 +606,13 @@ actor_cue_id_table = {
         0x17: "ENXC_CUEID_PLAY_HARP_PRELUDE",
         0x18: "ENXC_CUEID_BLOCK_PEDESTAL",
     },
-    123: # Sheik Eff Flame
+    0x7B: # Sheik Eff Flame
     {
         0x00: "ENXC_EFF_FLAME_CUEID_NONE",
         0x01: "ENXC_EFF_FLAME_CUEID_1",
         0x02: "ENXC_EFF_FLAME_CUEID_2",
     },
-    144: # Sheik Eff Splash
+    0x90: # Sheik Eff Splash
     {
         0x00: "ENXC_EFF_SPLASH_CUEID_NONE",
         0x01: "ENXC_EFF_SPLASH_CUEID_1",
@@ -694,16 +694,16 @@ cutscene_command_macros = {
     10:
         ("CS_PLAYER_CUE_LIST(%w1:1:s)", 2, None, 0,
               "CS_PLAYER_CUE(%h2:1:e6, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
-    (15,17,18,23,34,39,46,76,85,93,105,107,110,119,138,139,#123,144 # actor cue index 0
-     14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # actor cue index 1
-     25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # actor cue index 2
-     29,37,42,51,53,63,65,66,75,82,108,127,133,                     # actor cue index 3
-     30,38,43,54,79,83,128,135,#47,                                 # actor cue index 4
-     44,55,77,84,90,129,136,                                        # actor cue index 5
-     31,52,57,58,88,115,130,137,                                    # actor cue index 6
-     49,60,89,111,114,134,142,                                      # actor cue index 7
-     62,                                                            # actor cue index 8
-     143):                                                          # actor cue index 9
+    (0x0F,0x11,0x12,0x17,0x22,0x27,0x2E,0x4C,0x55,0x5D,0x69,0x6B,0x6E,0x77,0x8A,0x8B,#0x7B,0x90 # actor cue index 0
+     0x0E,0x10,0x18,0x23,0x28,0x30,0x40,0x44,0x46,0x4E,0x50,0x5E,0x74,0x76,0x78,0x7D,0x83,0x8D, # actor cue index 1
+     0x19,0x24,0x29,0x32,0x43,0x45,0x48,0x4A,0x51,0x6A,0x75,0x79,0x7E,0x84,                     # actor cue index 2
+     0x1D,0x25,0x2A,0x33,0x35,0x3F,0x41,0x42,0x4B,0x52,0x6C,0x7F,0x85,                          # actor cue index 3
+     0x1E,0x26,0x2B,0x36,0x4F,0x53,0x80,0x87,#0x2F,                                             # actor cue index 4
+     0x2C,0x37,0x4D,0x54,0x5A,0x81,0x88,                                                        # actor cue index 5
+     0x1F,0x34,0x39,0x3A,0x58,0x73,0x82,0x89,                                                   # actor cue index 6
+     0x31,0x3C,0x59,0x6F,0x72,0x86,0x8E,                                                        # actor cue index 7
+     0x3E,                                                                                      # actor cue index 8
+     0x8F):                                                                                     # actor cue index 9
         ("CS_ACTOR_CUE_LIST(%w1:0:e8, %w1:1:s)", 2, None, 0,
               "CS_ACTOR_CUE(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
     1:
