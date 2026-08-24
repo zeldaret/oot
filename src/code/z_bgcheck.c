@@ -4273,7 +4273,7 @@ f32 sZorasDomainWaterBoxMaxZ = -967.0f;
  * `outWaterBox` returns a pointer to the WaterBox
  *
  * This performs a special case check on a custom waterbox in Zora's Domain that has a finite depth
- * Otherwise, the search performed assumes waterboxes cannot overlap, as water has effectively infinite depth
+ * Otherwise, the search performed assumes waterboxes do not overlap, and have infinite depth.
  */
 s32 BgCheck_GetWaterSurfaceAllHack(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* y,
                                    WaterBox** outWaterBox) {
@@ -4296,7 +4296,7 @@ s32 BgCheck_GetWaterSurfaceAllHack(PlayState* play, CollisionContext* colCtx, f3
  * `outWaterSurface` returns the WaterBox's surface
  * `outWaterBox` returns a pointer to the WaterBox
  *
- * The search performed assumes waterboxes cannot overlap, as water has effectively infinite depth
+ * The search performed assumes waterboxes do not overlap, and have infinite depth.
  */
 s32 BgCheck_GetWaterSurface(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* outWaterSurface,
                             WaterBox** outWaterBox) {
@@ -4316,7 +4316,9 @@ s32 BgCheck_GetWaterSurface(PlayState* play, CollisionContext* colCtx, f32 x, f3
         if (waterBox->properties & WATERBOX_IS_DISABLED) {
             continue;
         }
-        //! @bug: WaterBox bounds check issue.
+        //! @bug: WaterBox bounds check issue. This range check excludes all points falling exactly on the border of the
+        //! WaterBox. Thus, when two waterboxes are flush against each other, a seam will exist between them where no
+        //! water is detected.
         if (waterBox->xMin < x && x < waterBox->xMin + waterBox->xLength) {
             if (waterBox->zMin < z && z < waterBox->zMin + waterBox->zLength) {
                 *outWaterBox = waterBox;
@@ -4410,7 +4412,7 @@ u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox) {
  * `outWaterSurface` returns the WaterBox's surface
  * `outWaterBox` returns a pointer to the WaterBox
  *
- * The search performed assumes waterboxes cannot overlap
+ * The search performed assumes waterboxes do not overlap.
  */
 s32 func_800425B0(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* outWaterSurface,
                   WaterBox** outWaterBox) {

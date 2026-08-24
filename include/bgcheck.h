@@ -38,14 +38,14 @@ typedef struct ScaleRotPos {
 #define COLPOLY_VTX_INDEX(vI) ((vI) & 0x1FFF)
 #define COLPOLY_VTX(vtxId, flags) ((((flags) & 7) << 13) | ((vtxId) & 0x1FFF))
 
-// flags for variable flags_vIA
+// flags for flags_vIA
 // poly exclusion flags (xpFlags)
 #define COLPOLY_IGNORE_NONE 0
 #define COLPOLY_IGNORE_CAMERA (1 << 0)
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
 #define COLPOLY_IGNORE_PROJECTILES (1 << 2)
 
-// flags for variable flags_vIB
+// flags for flags_vIB
 #define COLPOLY_IS_FLOOR_CONVEYOR (1 << 0)
 
 typedef struct CollisionPoly {
@@ -92,12 +92,12 @@ typedef struct BgCamFuncData {
      (((roomIndex)  & 0x3F) << 13) | \
      (((isDisabled) &    1) << 19))
 
-#define WATERBOX_LIGHT_INDEX_NONE 0x1F // Generates warning when built for debug and defaults to 0
+#define WATERBOX_LIGHT_INDEX_NONE 0x1F // Generates printf warning when built for debug and defaults to 0
 #define WATERBOX_ROOM(properties) (((properties) >> 13) & 0x3F) // retrieves the room the waterbox is active in
 #define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
 
-/* The true purpose of the flag is unknown. The state is never enabled on any waterbox, and functions that
- * pass on flag enabled are never called, so there is no direct usecase context. */
+// The original intended purpose of this flag may not be disabling a waterbox. See func_800425B0 (unused) which by
+// contrast only considers waterboxes with this flag set.
 #define WATERBOX_IS_DISABLED (1 << 19) // Disables waterbox collision
 
 typedef struct WaterBox {
@@ -250,7 +250,7 @@ typedef struct CollisionHeader {
     /* 0x1C */ SurfaceType* surfaceTypeList;
     /* 0x20 */ BgCamInfo* bgCamList;
     /* 0x24 */ u16 numWaterBoxes;
-    /* 0x28 */ WaterBox* waterBoxes;
+    /* 0x28 */ WaterBox* waterBoxes; // an unsorted list of non-overlapping waterboxes
 } CollisionHeader; // original name: BGDataInfo
 
 typedef struct SSNode {
