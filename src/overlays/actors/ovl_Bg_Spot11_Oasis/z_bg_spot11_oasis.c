@@ -29,12 +29,12 @@
 void BgSpot11Oasis_Init(Actor* thisx, PlayState* play);
 void BgSpot11Oasis_Update(Actor* thisx, PlayState* play);
 void BgSpot11Oasis_Draw(Actor* thisx, PlayState* play);
-void func_808B2970(BgSpot11Oasis* this);
-void func_808B2980(BgSpot11Oasis* this, PlayState* play);
-void func_808B29E0(BgSpot11Oasis* this);
-void func_808B29F0(BgSpot11Oasis* this, PlayState* play);
-void func_808B2AA8(BgSpot11Oasis* this);
-void func_808B2AB8(BgSpot11Oasis* this, PlayState* play);
+void BgSpot11Oasis_SetupWait(BgSpot11Oasis* this);
+void BgSpot11Oasis_Wait(BgSpot11Oasis* this, PlayState* play);
+void BgSpot11Oasis_SetupRise(BgSpot11Oasis* this);
+void BgSpot11Oasis_Rise(BgSpot11Oasis* this, PlayState* play);
+void BgSpot11Oasis_SetupFull(BgSpot11Oasis* this);
+void BgSpot11Oasis_Full(BgSpot11Oasis* this, PlayState* play);
 
 ActorProfile Bg_Spot11_Oasis_Profile = {
     /**/ ACTOR_BG_SPOT11_OASIS,
@@ -48,7 +48,7 @@ ActorProfile Bg_Spot11_Oasis_Profile = {
     /**/ NULL,
 };
 
-static s16 D_808B2E10[][2] = {
+static s16 sOasisPolygon[][2] = {
     { 1260, 2040 }, { 1259, 1947 }, { 1135, 1860 }, { 1087, 1912 }, { 1173, 2044 },
 };
 
@@ -59,36 +59,36 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
-static Vec3f D_808B2E34[] = {
+static Vec3f sBubbleSpawnOffsets[] = {
     { 0.0f, -100.0f, 0.0f },   { 100.0f, -80.0f, -50.0f }, { -50.0f, -80.0f, -100.0f },
     { -75.0f, -90.0f, 90.0f }, { 30.0f, -100.0f, 40.0f },
 };
 
-void func_808B27F0(PlayState* play, s16 waterSurface) {
+void BgSpot11Oasis_SetWaterLevel(PlayState* play, s16 waterSurface) {
     WaterBox* waterBox = &play->colCtx.colHeader->waterBoxes[0];
 
     waterBox->ySurface = waterSurface;
 }
 
-s32 func_808B280C(PlayState* play) {
+s32 BgSpot11Oasis_IsPlayerInsideOasis(PlayState* play) {
     Player* player = GET_PLAYER(play);
     Vec3f sp58;
     Vec3f sp4C;
     Vec3f sp40;
     s32 i;
 
-    sp58.x = D_808B2E10[0][0];
-    sp58.z = D_808B2E10[0][1];
+    sp58.x = sOasisPolygon[0][0];
+    sp58.z = sOasisPolygon[0][1];
     sp58.y = 0.0f;
 
     sp4C.y = 0.0f;
     sp40.y = 0.0f;
 
-    for (i = 1; i < ARRAY_COUNT(D_808B2E10) - 1; i++) {
-        sp4C.x = D_808B2E10[i][0];
-        sp4C.z = D_808B2E10[i][1];
-        sp40.x = D_808B2E10[i + 1][0];
-        sp40.z = D_808B2E10[i + 1][1];
+    for (i = 1; i < ARRAY_COUNT(sOasisPolygon) - 1; i++) {
+        sp4C.x = sOasisPolygon[i][0];
+        sp4C.z = sOasisPolygon[i][1];
+        sp40.x = sOasisPolygon[i + 1][0];
+        sp40.z = sOasisPolygon[i + 1][1];
         if (Math3D_TriChkPointParaYSlopedY(&sp58, &sp4C, &sp40, player->actor.world.pos.z, player->actor.world.pos.x)) {
             return 1;
         }
@@ -100,41 +100,41 @@ void BgSpot11Oasis_Init(Actor* thisx, PlayState* play) {
     BgSpot11Oasis* this = (BgSpot11Oasis*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    func_808B2970(this);
+    BgSpot11Oasis_SetupWait(this);
     this->actor.world.pos.y = -100.0f;
-    func_808B27F0(play, -100);
+    BgSpot11Oasis_SetWaterLevel(play, -100);
 }
 
-void func_808B2970(BgSpot11Oasis* this) {
-    this->actionFunc = func_808B2980;
+void BgSpot11Oasis_SetupWait(BgSpot11Oasis* this) {
+    this->actionFunc = BgSpot11Oasis_Wait;
 }
 
-void func_808B2980(BgSpot11Oasis* this, PlayState* play) {
-    if (CutsceneFlags_Get(play, 5) && func_808B280C(play)) {
+void BgSpot11Oasis_Wait(BgSpot11Oasis* this, PlayState* play) {
+    if (CutsceneFlags_Get(play, 5) && BgSpot11Oasis_IsPlayerInsideOasis(play)) {
         OnePointCutscene_Init(play, 4150, -99, &this->actor, CAM_ID_MAIN);
-        func_808B29E0(this);
+        BgSpot11Oasis_SetupRise(this);
     }
 }
 
-void func_808B29E0(BgSpot11Oasis* this) {
-    this->actionFunc = func_808B29F0;
+void BgSpot11Oasis_SetupRise(BgSpot11Oasis* this) {
+    this->actionFunc = BgSpot11Oasis_Rise;
 }
 
-void func_808B29F0(BgSpot11Oasis* this, PlayState* play) {
+void BgSpot11Oasis_Rise(BgSpot11Oasis* this, PlayState* play) {
     if (Math_StepToF(&this->actor.world.pos.y, 0.0f, 0.7f)) {
-        func_808B2AA8(this);
+        BgSpot11Oasis_SetupFull(this);
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.world.pos.x, this->actor.world.pos.y + 40.0f,
                     this->actor.world.pos.z, 0, 0, 0, FAIRY_SPAWNER);
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
-    func_808B27F0(play, this->actor.world.pos.y);
+    BgSpot11Oasis_SetWaterLevel(play, this->actor.world.pos.y);
 }
 
-void func_808B2AA8(BgSpot11Oasis* this) {
-    this->actionFunc = func_808B2AB8;
+void BgSpot11Oasis_SetupFull(BgSpot11Oasis* this) {
+    this->actionFunc = BgSpot11Oasis_Full;
 }
 
-void func_808B2AB8(BgSpot11Oasis* this, PlayState* play) {
+void BgSpot11Oasis_Full(BgSpot11Oasis* this, PlayState* play) {
 }
 
 void BgSpot11Oasis_Update(Actor* thisx, PlayState* play) {
@@ -143,7 +143,7 @@ void BgSpot11Oasis_Update(Actor* thisx, PlayState* play) {
     u32 gameplayFrames;
 
     this->actionFunc(this, play);
-    if (this->actionFunc == func_808B2980) {
+    if (this->actionFunc == BgSpot11Oasis_Wait) {
         this->actor.draw = NULL;
         return;
     }
@@ -153,10 +153,10 @@ void BgSpot11Oasis_Update(Actor* thisx, PlayState* play) {
         if (gameplayFrames & 4) {
             Vec3f sp30;
 
-            Math_Vec3f_Sum(&this->actor.world.pos, &D_808B2E34[this->unk_151], &sp30);
+            Math_Vec3f_Sum(&this->actor.world.pos, &sBubbleSpawnOffsets[this->bubbleSpawnIdx], &sp30);
             EffectSsBubble_Spawn(play, &sp30, 0.0f, 15.0f, 50.0f, (Rand_ZeroOne() * 0.12f) + 0.02f);
             if (Rand_ZeroOne() < 0.3f) {
-                this->unk_151 = Rand_ZeroOne() * 4.9f;
+                this->bubbleSpawnIdx = Rand_ZeroOne() * 4.9f;
             }
         }
     } else {

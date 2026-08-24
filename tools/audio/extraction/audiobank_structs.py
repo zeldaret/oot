@@ -64,7 +64,7 @@ class SoundFontSample: # SampleHeader ?
         if rate_override is not None:
             attrs["SampleRate"] = rate_override
         if note_override is not None:
-            attrs["BaseNote"] = note_override
+            attrs["BaseNote"] = pitch_names[note_override]
         if self.medium != 0:
             attrs["IsDD"] = "true"
         if self.cached:
@@ -235,7 +235,7 @@ class SoundFontSound:
             if self.needs_rate_override:
                 attrs["SampleRate"] = self.sample_rate
             if self.needs_note_override:
-                attrs["BaseNote"] = self.base_note
+                attrs["BaseNote"] = pitch_names[self.base_note]
 
             xml.write_element("Effect", attrs)
 
@@ -383,7 +383,7 @@ class Instrument:
         if self.needs_rate_override[1]:
             attributes["SampleRate"] = self.sample_rate[1]
         if self.needs_note_override[1]:
-            attributes["BaseNote"] = self.base_note[1]
+            attributes["BaseNote"] = pitch_names[self.base_note[1]]
 
         if self.normal_range_lo != 0:
             attributes["RangeLo"] = pitch_names[self.normal_range_lo]
@@ -392,7 +392,7 @@ class Instrument:
             if self.needs_rate_override[0]:
                 attributes["SampleRateLo"] = self.sample_rate[0]
             if self.needs_note_override[0]:
-                attributes["BaseNoteLo"] = self.base_note[0]
+                attributes["BaseNoteLo"] = pitch_names[self.base_note[0]]
 
         if self.normal_range_hi != 127:
             attributes["RangeHi"] = pitch_names[self.normal_range_hi]
@@ -401,6 +401,6 @@ class Instrument:
             if self.needs_rate_override[2]:
                 attributes["SampleRateHi"] = self.sample_rate[2]
             if self.needs_note_override[2]:
-                attributes["BaseNoteHi"] = self.base_note[2]
+                attributes["BaseNoteHi"] = pitch_names[self.base_note[2]]
 
         xml.write_element("Instrument" if not self.unused else "InstrumentUnused", attributes)

@@ -1150,7 +1150,8 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
                                      9, true);
             }
         } else {
-            Item_DropCollectibleRandom(play, &this->actor, &effPos, 0xC0);
+            Item_DropCollectibleRandom(play, &this->actor, &effPos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_12, false));
             Actor_Kill(&this->actor);
         }
     } else if ((s32)this->skelAnime.curFrame == 15 || (s32)this->skelAnime.curFrame == 22) {
@@ -1385,7 +1386,8 @@ void EnMb_SpearDead(EnMb* this, PlayState* play) {
                                      true);
             }
         } else {
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_14, false));
             Actor_Kill(&this->actor);
         }
     }
