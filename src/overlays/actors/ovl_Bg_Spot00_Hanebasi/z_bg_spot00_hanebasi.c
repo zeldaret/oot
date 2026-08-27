@@ -220,7 +220,8 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         if (play->sceneId == SCENE_HYRULE_FIELD) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) && LINK_IS_CHILD) {
+                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) &&
+                LINK_IS_CHILD) {
                 player = GET_PLAYER(play);
 
                 if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&

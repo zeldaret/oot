@@ -663,17 +663,20 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             }
 
         case ENHY_TYPE_MAN_2_BALD:
-            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? (GET_INFTABLE(INFTABLE_C4) ? 0x7001 : 0x70EB) : 0x7001;
+            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? (GET_INFTABLE(INFTABLE_C4) ? 0x7001 : 0x70EB)
+                                                                  : 0x7001;
 
         case ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT:
-            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
+            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x704B
+                                                                  : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
 
         case ENHY_TYPE_BEGGAR:
             player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
             return 0x700C;
 
         case ENHY_TYPE_OLD_WOMAN:
-            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
+            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x704A
+                                                                  : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
 
         case ENHY_TYPE_OLD_MAN:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
@@ -681,7 +684,8 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return 0x5087;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x704D
+                                                                      : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
             }
 
         case ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR:
@@ -697,7 +701,8 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x7049
+                                                                      : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
 
         case ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT:
@@ -707,9 +712,11 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
 #if OOT_VERSION < NTSC_1_1
-                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x7046 : (GET_INFTABLE(INFTABLE_CB) ? 0x7019 : 0x7018);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x7046
+                                                                      : (GET_INFTABLE(INFTABLE_CB) ? 0x7019 : 0x7018);
 #else
-                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x7046
+                                                                      : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
 #endif
             }
 
@@ -751,7 +758,8 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
 
         case ENHY_TYPE_WOMAN_2:
             if (!LINK_IS_ADULT) {
-                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) ? 0x505F
+                                                                      : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
                 return (this->talonEventChkInf & EVENTCHKINF_MASK(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO))
                            ? 0x5062
@@ -1116,7 +1124,8 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
                 return true;
             } else if (IS_NIGHT) {
                 return false;
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) && !GET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_PULLED)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) &&
+                       !GET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_PULLED)) {
                 return false;
             } else {
                 return true;
