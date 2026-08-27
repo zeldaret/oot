@@ -21,7 +21,7 @@
 #include "player.h"
 
 #include "assets/objects/gameplay_keep/gFishInWaterAnim.h"
-#include "assets/objects/gameplay_keep/gFishOutOfWaterAnim.h"
+#include "assets/objects/gameplay_keep/gFishInAirAnim.h"
 #include "assets/objects/gameplay_keep/gameplay_keep_0x18610.h"
 
 #define FLAGS 0
@@ -109,7 +109,7 @@ void EnFish_SetInWaterAnimation(EnFish* this) {
 }
 
 void EnFish_SetOutOfWaterAnimation(EnFish* this) {
-    Animation_Change(&this->skelAnime, &gFishOutOfWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishOutOfWaterAnim),
+    Animation_Change(&this->skelAnime, &gFishInAirAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishInAirAnim),
                      ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
