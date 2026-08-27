@@ -144,13 +144,13 @@ void Object_UpdateEntries(ObjectContext* objectCtx) {
 
 /**
  * Get object slot for a given object id.
- * ABS(slot.id) is necessary because object might not yet be loaded.
  * @return object slot for given id, or -1 if not in any slot
  */
 s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId) {
     s32 i;
 
     for (i = 0; i < objectCtx->numEntries; i++) {
+        // ABS is necessary because object might not yet be loaded
         if (ABS(objectCtx->slots[i].id) == objectId) {
             return i;
         }
@@ -160,7 +160,7 @@ s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId) {
 }
 
 /**
- * Check if the object in a given slot is loaded (positive id).
+ * Check if the object in a given slot is loaded.
  * @return true if loaded, else false
  */
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot) {
@@ -191,12 +191,12 @@ void Object_ReloadAll(ObjectContext* objectCtx) {
 }
 
 /**
- * Sets up a given slot to be filled with data from given object id. `Called by Scene_CommandObjectList`
+ * Sets up a given slot to be filled with data from given object id. Called by `Scene_CommandObjectList`
  * for every non-persistent object to be added. The data is used by `Object_UpdateEntries` to load the
  * objects.
  * @note There is an assert to ensure that the next object slot address is within the object memory space,
  * but in non-debug builds this is not included, and no bounds check is done.
- * @return void* with start address of the next object slot's space in object memory
+ * @return start address of the next object slot's memory in object space
  */
 void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
     ObjectEntry* entry = &objectCtx->slots[slot];
@@ -221,7 +221,8 @@ void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
 }
 
 /**
- * Executes commands from scene lists, such as loading actor entry lists, object list.
+ * Executes all the scene commands for the current scene/room upon loading. The commands to be run
+ * for a particular scene/room is found in the scene's data.
  */
 s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
     while (true) {
@@ -328,8 +329,10 @@ BAD_RETURN(s32) Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     entries = play->objectCtx.slots;
     entry = &play->objectCtx.slots[i];
 
-    // On room entry/scene init, remove non-persistent objects if the new object
-    // at the same slot doesn't have the same id. Also kill their dependent actors.
+    // On room load (room change/scene init), go through all current loaded non-persistent
+    // object slots and new objects to be loaded in those slots.
+    // If a slot's object id is not the same for both rooms, invalidate that object slot
+    // and every following slot. Also kill any actors dependent on those objects.
     while (i < play->objectCtx.numEntries) {
         if (entry->id != *objectListEntry) {
 
@@ -354,8 +357,8 @@ BAD_RETURN(s32) Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     ASSERT(cmd->objectList.length <= ARRAY_COUNT(play->objectCtx.slots),
            "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
 
-    // Add object from new object list at `nextPtr` (next start address in object memory space)
     while (k < cmd->objectList.length) {
+        // Add object from new object list at `nextPtr` (next start address in object memory space)
         nextPtr = func_800982FC(&play->objectCtx, i, *objectListEntry);
         if (i < (ARRAY_COUNT(play->objectCtx.slots) - 1)) {
             entries[i + 1].segment = nextPtr;
