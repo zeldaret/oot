@@ -248,7 +248,7 @@ void EnWeiyer_FreeSwim(EnWeiyer* this, PlayState* play) {
     f32 curFrame;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x800);
     animRestarted = Animation_OnFrame(&this->skelAnime, 0.0f);
     curFrame = this->skelAnime.curFrame;
     Math_StepToF(&this->swimHeight, this->targetSwimHeight, 0.5f);
@@ -265,7 +265,7 @@ void EnWeiyer_FreeSwim(EnWeiyer* this, PlayState* play) {
         this->timer = 30;
     }
 
-    if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 182)) {
+    if (Math_RotationStepToS(&this->actor.shape.rot.y, this->targetYaw, 182)) {
         if (this->timer != 0) {
             this->timer--;
         }
@@ -311,7 +311,7 @@ void EnWeiyer_TurnAround(EnWeiyer* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer == 0) {
-        if (Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x800)) {
+        if (Math_RotationStepToS(&this->actor.shape.rot.x, -0x4000, 0x800)) {
             this->actor.shape.rot.z = 0;
             this->actor.shape.rot.y += 0x8000;
             this->timer = 1;
@@ -319,7 +319,7 @@ void EnWeiyer_TurnAround(EnWeiyer* this, PlayState* play) {
             this->actor.shape.rot.z = this->actor.shape.rot.x * 2;
         }
     } else {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
         if (this->actor.world.pos.y < this->actor.home.pos.y) {
             if (this->actor.shape.rot.x > 0) {
@@ -341,7 +341,7 @@ void EnWeiyer_StuckOnFloor(EnWeiyer* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_FLUTTER);
     }
 
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x800);
     Math_StepToF(&this->actor.speed, 0.0f, 1.0f);
 
     if (this->timer != 0) {
@@ -411,7 +411,7 @@ void EnWeiyer_Inactive(EnWeiyer* this, PlayState* play) {
     f32 curFrame;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x800);
     curFrame = this->skelAnime.curFrame;
     Math_StepToF(&this->swimHeight, (this->actor.home.pos.y - this->actor.floorHeight) / 4.0f + this->actor.floorHeight,
                  1.0f);
@@ -461,8 +461,8 @@ void EnWeiyer_Hurt(EnWeiyer* this, PlayState* play) {
         this->targetYaw = this->actor.yawTowardsPlayer + 0x8000;
     }
 
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0x38E);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x200);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->targetYaw, 0x38E);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x200);
     this->actor.shape.rot.z = sinf(this->timer * (M_PI / 5)) * 5120.0f;
 
     if (this->timer == 0) {
@@ -474,7 +474,7 @@ void EnWeiyer_Hurt(EnWeiyer* this, PlayState* play) {
 
 void EnWeiyer_Die(EnWeiyer* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x400);
+    Math_RotationStepToS(&this->actor.shape.rot.x, -0x4000, 0x400);
     this->actor.shape.rot.z += 0x1000;
 
     if (this->timer != 0) {
@@ -502,8 +502,8 @@ void EnWeiyer_Stunned(EnWeiyer* this, PlayState* play) {
         this->timer--;
     }
 
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x200);
-    Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x200);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x200);
+    Math_RotationStepToS(&this->actor.shape.rot.z, 0, 0x200);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.home.pos.y < this->actor.floorHeight) {
@@ -556,7 +556,7 @@ void EnWeiyer_OutOfWater(EnWeiyer* this, PlayState* play) {
         }
 
         if (this->actor.shape.rot.x < pitch) {
-            Math_ScaledStepToS(&this->actor.shape.rot.x, pitch, 0x400);
+            Math_RotationStepToS(&this->actor.shape.rot.x, pitch, 0x400);
         }
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {

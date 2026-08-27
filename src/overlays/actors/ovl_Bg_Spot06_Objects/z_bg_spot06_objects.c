@@ -372,7 +372,7 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, PlayState* play) {
         this->dyna.actor.world.pos.y -= 1.3f;
         BgSpot06Objects_LockSpawnWaterRipples(this, play, 0);
 
-        if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, 0, 0x260) != 0) {
+        if (Math_RotationStepToS(&this->dyna.actor.shape.rot.x, 0, 0x260) != 0) {
             this->dyna.actor.home.pos.x =
                 this->dyna.actor.world.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y) * 16.0f);
             this->dyna.actor.home.pos.z =
@@ -398,7 +398,7 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, PlayState* play) {
         } else {
             BgSpot06Objects_LockSpawnBubbles(this, play, 0);
 
-            if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, 0x30)) {
+            if (Math_RotationStepToS(&this->dyna.actor.shape.rot.x, -0x4000, 0x30)) {
                 this->dyna.actor.home.pos.x = this->dyna.actor.world.pos.x;
                 this->dyna.actor.home.pos.y = -1993.0f;
                 this->dyna.actor.home.pos.z = this->dyna.actor.world.pos.z;

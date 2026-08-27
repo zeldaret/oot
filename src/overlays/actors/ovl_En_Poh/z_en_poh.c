@@ -490,7 +490,7 @@ void func_80ADEA5C(EnPoh* this) {
     if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 400.0f) {
         this->unk_19C = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     }
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->unk_19C, 0x71C);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->unk_19C, 0x71C);
 }
 
 void func_80ADEAC4(EnPoh* this, PlayState* play) {
@@ -542,11 +542,11 @@ void func_80ADEC9C(EnPoh* this, PlayState* play) {
     }
     facingDiff = this->actor.yawTowardsPlayer - player->actor.shape.rot.y;
     if (facingDiff >= 0x3001) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x3000, 0x71C);
+        Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x3000, 0x71C);
     } else if (facingDiff < -0x3000) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer - 0x3000, 0x71C);
+        Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer - 0x3000, 0x71C);
     } else {
-        Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x71C);
+        Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x71C);
     }
     EnPoh_MoveTowardsPlayerHeight(this, play);
     if (this->actor.xzDistToPlayer > 280.0f) {
@@ -570,7 +570,7 @@ void EnPoh_Attack(EnPoh* this, PlayState* play) {
     }
     EnPoh_MoveTowardsPlayerHeight(this, play);
     if (this->unk_198 >= 10) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0xE38);
+        Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0xE38);
     } else if (this->unk_198 == 9) {
         this->actor.speed = 5.0f;
         this->skelAnime.playSpeed = 2.0f;
@@ -678,7 +678,7 @@ void func_80ADF574(EnPoh* this, PlayState* play) {
 
 void func_80ADF5E0(EnPoh* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (Math_ScaledStepToS(&this->actor.world.rot.y, this->unk_19C, 1820) != 0) {
+    if (Math_RotationStepToS(&this->actor.world.rot.y, this->unk_19C, 1820) != 0) {
         EnPoh_SetupIdle(this);
     }
     if (this->actor.xzDistToPlayer < 200.0f) {
@@ -719,7 +719,7 @@ void func_80ADF894(EnPoh* this, PlayState* play) {
     multiplier = Math_SinS(this->unk_195 * 0x800) * 3.0f;
     this->actor.world.pos.x -= multiplier * Math_CosS(this->actor.shape.rot.y);
     this->actor.world.pos.z += multiplier * Math_SinS(this->actor.shape.rot.y);
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0x71C);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0x71C);
     EnPoh_MoveTowardsPlayerHeight(this, play);
     if (this->unk_198 == 0 || this->actor.xzDistToPlayer > 250.0f) {
         this->actor.world.rot.y = this->actor.shape.rot.y;

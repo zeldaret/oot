@@ -510,13 +510,13 @@ void BgHakaTrap_FanBlade_ToggleFanGust(BgHakaTrap* this, PlayState* play) {
     // world.rot.z is the current angular velocity of the fan
     if (this->timer != 0) {
         // Fan winds down
-        if (Math_ScaledStepToS(&this->dyna.actor.world.rot.z, 0, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
+        if (Math_RotationStepToS(&this->dyna.actor.world.rot.z, 0, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
             this->timer = 40;
             this->actionFunc = BgHakaTrap_FanBlade_Idle;
         }
     } else {
         // Fan speeds up
-        if (Math_ScaledStepToS(&this->dyna.actor.world.rot.z, 0x3A00, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
+        if (Math_RotationStepToS(&this->dyna.actor.world.rot.z, 0x3A00, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
             this->timer = 100;
             this->actionFunc = BgHakaTrap_FanBlade_FullGust;
         }

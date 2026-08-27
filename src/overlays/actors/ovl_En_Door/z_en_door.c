@@ -299,13 +299,13 @@ void EnDoor_AjarWait(EnDoor* this, PlayState* play) {
 void EnDoor_AjarOpen(EnDoor* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < DOOR_AJAR_SLAM_RANGE) {
         this->actionFunc = EnDoor_AjarClose;
-    } else if (Math_ScaledStepToS(&this->actor.world.rot.y, -0x1800, 0x100)) {
+    } else if (Math_RotationStepToS(&this->actor.world.rot.y, -0x1800, 0x100)) {
         this->actionFunc = EnDoor_AjarWait;
     }
 }
 
 void EnDoor_AjarClose(EnDoor* this, PlayState* play) {
-    if (Math_ScaledStepToS(&this->actor.world.rot.y, 0, 0x700)) {
+    if (Math_RotationStepToS(&this->actor.world.rot.y, 0, 0x700)) {
         this->actionFunc = EnDoor_Idle;
     }
 }

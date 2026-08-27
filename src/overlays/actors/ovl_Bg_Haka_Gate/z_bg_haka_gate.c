@@ -267,12 +267,12 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, PlayState* play) {
         this->vTimer--;
     }
     if (this->vTimer == 0) {
-        if (Math_ScaledStepToS(&this->vOpenAngle, 0, 0x800)) {
+        if (Math_RotationStepToS(&this->vOpenAngle, 0, 0x800)) {
             DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->actionFunc = BgHakaGate_FloorClosed;
         }
     } else {
-        Math_ScaledStepToS(&this->vOpenAngle, 0x3000, 0x800);
+        Math_RotationStepToS(&this->vOpenAngle, 0x3000, 0x800);
     }
 }
 

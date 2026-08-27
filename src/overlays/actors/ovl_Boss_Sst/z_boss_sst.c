@@ -1340,7 +1340,7 @@ void BossSst_HandDownbeatEnd(BossSst* this, PlayState* play) {
         BossSst_HandSetupWait(this);
     } else {
         Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 40.0f, 0.5f, 20.0f, 3.0f);
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x800, 0x100);
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0x800, 0x100);
         Math_StepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f);
         Math_StepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f);
         if ((sHead->actionFunc != BossSst_HeadIntro) && ((sHead->timer % 28) == 12)) {
@@ -1392,7 +1392,7 @@ void BossSst_HandOffbeatEnd(BossSst* this, PlayState* play) {
         BossSst_HandSetupWait(this);
     } else {
         Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 40.0f, 0.5f, 20.0f, 3.0f);
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x400, 0xA0);
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0x400, 0xA0);
         Math_StepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f);
         Math_StepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f);
         if (sHead->actionFunc == BossSst_HeadWait) {
@@ -1455,9 +1455,9 @@ void BossSst_HandRetreat(BossSst* this, PlayState* play) {
             Animation_MorphToLoop(&this->skelAnime, sHandIdleAnims[this->actor.params], 4.0f);
         }
     } else {
-        inPosition = Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, 0x200);
-        inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0x200);
-        inPosition &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x800);
+        inPosition = Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, 0x200);
+        inPosition &= Math_RotationStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0x200);
+        inPosition &= Math_RotationStepToS(&this->handYRotMod, 0, 0x800);
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
         if ((Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f) &&
             inPosition && (diff < 10.0f)) {
@@ -1490,7 +1490,7 @@ void BossSst_HandReadySlam(BossSst* this, PlayState* play) {
             (this->actor.xzDistToPlayer < 140.0f)) {
             this->timer = 20;
         }
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x1000, 0x100);
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0x1000, 0x100);
         Math_ApproachF(&this->actor.world.pos.x, player->actor.world.pos.x, 0.5f, 40.0f);
         Math_ApproachF(&this->actor.world.pos.z, player->actor.world.pos.z, 0.5f, 40.0f);
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
@@ -1510,8 +1510,8 @@ void BossSst_HandSetupSlam(BossSst* this) {
 void BossSst_HandSlam(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_StepToS(&this->handZPosMod, -0xDAC, 0x1F4);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x1000);
-    Math_ScaledStepToS(&this->handYRotMod, 0, 0x1000);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x1000);
+    Math_RotationStepToS(&this->handYRotMod, 0, 0x1000);
     if (this->timer != 0) {
         if (this->timer != 0) {
             this->timer--;
@@ -1551,7 +1551,7 @@ void BossSst_HandSlam(BossSst* this, PlayState* play) {
             Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 5.0f, this->actor.yawTowardsPlayer, 0.0f);
         }
 
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x200);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x200);
     }
 }
 
@@ -1569,8 +1569,8 @@ void BossSst_HandReadySweep(BossSst* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     inPosition = Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 50.0f, 4.0f);
-    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
-    inPosition &= Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0x400);
+    inPosition &= Math_RotationStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
+    inPosition &= Math_RotationStepToS(&this->actor.world.rot.y, this->targetYaw, 0x400);
     inPosition &= (Math_SmoothStepToF(&this->radius, sHead->actor.xzDistToPlayer, 0.5f, 60.0f, 1.0f) < 10.0f);
 
     this->actor.world.pos.x = (Math_SinS(this->actor.world.rot.y) * this->radius) + sHead->actor.world.pos.x;
@@ -1636,7 +1636,7 @@ void BossSst_HandSetupReadyPunch(BossSst* this) {
 }
 
 void BossSst_HandReadyPunch(BossSst* this, PlayState* play) {
-    s32 inPosition = Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x400);
+    s32 inPosition = Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x400);
 
     if (SkelAnime_Update(&this->skelAnime) && inPosition) {
         BossSst_HandSetupPunch(this);
@@ -1655,7 +1655,7 @@ void BossSst_HandSetupPunch(BossSst* this) {
 void BossSst_HandPunch(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 80.0f, 20.0f);
-    if (Math_ScaledStepToS(&this->actor.shape.rot.z, this->targetRoll, 0x400)) {
+    if (Math_RotationStepToS(&this->actor.shape.rot.z, this->targetRoll, 0x400)) {
         this->targetRoll *= -1;
     }
 
@@ -1705,10 +1705,10 @@ void BossSst_HandReadyClap(BossSst* this, PlayState* play) {
         }
     } else if (!this->ready) {
         this->ready = SkelAnime_Update(&this->skelAnime);
-        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x600);
-        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->targetRoll, 0x600);
-        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
-        this->ready &= Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0x400);
+        this->ready &= Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x600);
+        this->ready &= Math_RotationStepToS(&this->actor.shape.rot.z, this->targetRoll, 0x600);
+        this->ready &= Math_RotationStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
+        this->ready &= Math_RotationStepToS(&this->actor.world.rot.y, this->targetYaw, 0x400);
         this->ready &= Math_SmoothStepToF(&this->radius, sHead->actor.xzDistToPlayer, 0.5f, 50.0f, 1.0f) < 10.0f;
         this->ready &= Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 95.0f, 0.5f, 30.0f, 1.0f) < 1.0f;
 
@@ -1766,7 +1766,7 @@ void BossSst_HandClap(BossSst* this, PlayState* play) {
             this->handAngSpeed += 0x40;
             this->handAngSpeed = CLAMP_MAX(this->handAngSpeed, this->handMaxSpeed);
 
-            if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, this->handAngSpeed)) {
+            if (Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, this->handAngSpeed)) {
                 if (this->actor.params == BONGO_LEFT_HAND) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_SHADEST_CLAP);
                 }
@@ -1795,8 +1795,8 @@ void BossSst_HandSetupEndClap(BossSst* this) {
 
 void BossSst_HandEndClap(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x200);
-    if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x100)) {
+    Math_RotationStepToS(&this->actor.shape.rot.z, 0, 0x200);
+    if (Math_RotationStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x100)) {
         BossSst_HandSetupRetreat(this);
     }
     this->actor.world.pos.x = (Math_SinS(this->actor.shape.rot.y) * this->radius) + sHead->actor.world.pos.x;
@@ -1816,7 +1816,7 @@ void BossSst_HandReadyGrab(BossSst* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     inPosition = Math_SmoothStepToS(&this->actor.shape.rot.z, this->targetRoll, 4, 0x800, 0x100) == 0;
-    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->targetYaw, 0xA00);
+    inPosition &= Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->targetYaw, 0xA00);
     Math_ApproachF(&this->actor.world.pos.y, ROOM_CENTER_Y + 95.0f, 0.5f, 20.0f);
     if (inPosition) {
         BossSst_HandSetupGrab(this);
@@ -1941,7 +1941,7 @@ void BossSst_HandSwing(BossSst* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 offXZ;
 
-    if (Math_ScaledStepToS(&this->actor.shape.rot.x, this->amplitude, this->timer * 0xE4 + 0x1C8)) {
+    if (Math_RotationStepToS(&this->actor.shape.rot.x, this->amplitude, this->timer * 0xE4 + 0x1C8)) {
         if (this->amplitude != 0) {
             this->amplitude = 0;
             if (this->timer == 4) {
@@ -1966,7 +1966,7 @@ void BossSst_HandSwing(BossSst* this, PlayState* play) {
     if (this->timer != 4) {
         this->actor.shape.rot.z = (this->actor.shape.rot.x + 0x4000) * this->vParity;
     } else {
-        Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x800);
+        Math_RotationStepToS(&this->actor.shape.rot.z, 0, 0x800);
     }
 
     if (player->stateFlags2 & PLAYER_STATE2_7) {
@@ -1975,8 +1975,8 @@ void BossSst_HandSwing(BossSst* this, PlayState* play) {
         player->actor.shape.rot.x = this->actor.shape.rot.x;
         player->actor.shape.rot.z = (this->vParity * -0x4000) + this->actor.shape.rot.z;
     } else {
-        Math_ScaledStepToS(&player->actor.shape.rot.x, 0, 0x600);
-        Math_ScaledStepToS(&player->actor.shape.rot.z, 0, 0x600);
+        Math_RotationStepToS(&player->actor.shape.rot.x, 0, 0x600);
+        Math_RotationStepToS(&player->actor.shape.rot.z, 0, 0x600);
         player->actor.world.pos.x += 20.0f * Math_SinS(this->actor.shape.rot.y);
         player->actor.world.pos.z += 20.0f * Math_CosS(this->actor.shape.rot.y);
     }
@@ -2042,11 +2042,11 @@ void BossSst_HandReadyShake(BossSst* this, PlayState* play) {
     diff = Math_SmoothStepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 0.5f, 25.0f, 1.0f);
     diff += Math_SmoothStepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 0.5f, 25.0f, 1.0f);
     diff += Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 200.0f, 0.2f, 30.0f, 1.0f);
-    inPosition = Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x400);
-    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x1000);
-    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, 0x800);
+    inPosition = Math_RotationStepToS(&this->actor.shape.rot.x, 0x4000, 0x400);
+    inPosition &= Math_RotationStepToS(&this->actor.shape.rot.z, 0, 0x1000);
+    inPosition &= Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, 0x800);
     inPosition &= Math_StepToS(&this->handZPosMod, -0x5DC, 0x1F4);
-    inPosition &= Math_ScaledStepToS(&this->handYRotMod, this->vParity * -0x2000, 0x800);
+    inPosition &= Math_RotationStepToS(&this->handYRotMod, this->vParity * -0x2000, 0x800);
     this->actor.colorFilterTimer = 200;
     if ((diff < 30.0f) && inPosition) {
         BossSst_HandSetupShake(this);
@@ -2095,11 +2095,11 @@ void BossSst_HandSetupReadyCharge(BossSst* this) {
 void BossSst_HandReadyCharge(BossSst* this, PlayState* play) {
     if (!this->ready) {
         this->ready = SkelAnime_Update(&this->skelAnime);
-        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x800);
+        this->ready &= Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x800);
         this->ready &=
-            Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y + (this->vParity * 0x1000), 0x800);
-        this->ready &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x800);
-        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->vParity * 0x2800, 0x800);
+            Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y + (this->vParity * 0x1000), 0x800);
+        this->ready &= Math_RotationStepToS(&this->handYRotMod, 0, 0x800);
+        this->ready &= Math_RotationStepToS(&this->actor.shape.rot.z, this->vParity * 0x2800, 0x800);
         this->ready &= Math_StepToS(&this->handZPosMod, -0xDAC, 0x1F4);
         if (this->ready) {
             this->actor.colorFilterTimer = 0;
@@ -2134,11 +2134,11 @@ void BossSst_HandStunned(BossSst* this, PlayState* play) {
     Math_ApproachF(&this->actor.world.pos.x, (Math_SinS(sHead->actor.shape.rot.y) * 200.0f) + this->actor.home.pos.x,
                    0.5f, 25.0f);
     if (!this->ready) {
-        Math_ScaledStepToS(&this->handYRotMod, 0, 0x800);
+        Math_RotationStepToS(&this->handYRotMod, 0, 0x800);
         Math_StepToS(&this->handZPosMod, -0xDAC, 0x1F4);
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.home.rot.x, 0x800);
-        Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0x800);
-        Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, 0x800);
+        Math_RotationStepToS(&this->actor.shape.rot.x, this->actor.home.rot.x, 0x800);
+        Math_RotationStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0x800);
+        Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, 0x800);
         if (sHead->actionFunc == BossSst_HeadVulnerable) {
             this->ready = true;
             Animation_MorphToPlayOnce(&this->skelAnime, sHandDamagePoses[this->actor.params], 10.0f);
@@ -2203,7 +2203,7 @@ void BossSst_HandThrash(BossSst* this, PlayState* play) {
                    0.5f, 25.0f);
     Math_ApproachF(&this->actor.world.pos.x, (Math_SinS(sHead->actor.shape.rot.y) * 200.0f) + this->actor.home.pos.x,
                    0.5f, 25.0f);
-    if (Math_ScaledStepToS(&this->actor.shape.rot.x, this->amplitude, this->handAngSpeed)) {
+    if (Math_RotationStepToS(&this->actor.shape.rot.x, this->amplitude, this->handAngSpeed)) {
         if (this->amplitude != 0) {
             this->amplitude = 0;
             Animation_MorphToPlayOnce(&this->skelAnime, sHandFlatPoses[this->actor.params], 5.0f);
@@ -2233,7 +2233,7 @@ void BossSst_HandSetupDarken(BossSst* this) {
 
 void BossSst_HandDarken(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, -0x800, this->handAngSpeed);
+    Math_RotationStepToS(&this->actor.shape.rot.x, -0x800, this->handAngSpeed);
     Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 90.0f, 5.0f);
     if (sHead->actionFunc == BossSst_HeadFall) {
         BossSst_HandSetupFall(this);
@@ -2247,7 +2247,7 @@ void BossSst_HandSetupFall(BossSst* this) {
 
 void BossSst_HandFall(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x400);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x400);
     this->actor.world.pos.y = sHead->actor.world.pos.y + 230.0f;
     if (sHead->actionFunc == BossSst_HeadMelt) {
         BossSst_HandSetupMelt(this);
@@ -2378,10 +2378,10 @@ void BossSst_HandSetupReadyBreakIce(BossSst* this) {
 void BossSst_HandReadyBreakIce(BossSst* this, PlayState* play) {
     s32 inPosition;
 
-    inPosition = Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x400);
-    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1000, 0x400);
-    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x800);
-    inPosition &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x400);
+    inPosition = Math_RotationStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x400);
+    inPosition &= Math_RotationStepToS(&this->actor.shape.rot.x, 0x1000, 0x400);
+    inPosition &= Math_RotationStepToS(&this->actor.shape.rot.z, 0, 0x800);
+    inPosition &= Math_RotationStepToS(&this->handYRotMod, 0, 0x400);
     inPosition &= Math_StepToF(&this->actor.world.pos.y, OTHER_HAND(this)->center.y + 200.0f, 50.0f);
     inPosition &= Math_StepToF(&this->radius, 400.0f, 60.0f);
     this->actor.world.pos.x = OTHER_HAND(this)->center.x - (Math_SinS(this->targetYaw) * this->radius);

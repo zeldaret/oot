@@ -175,16 +175,16 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
     Actor* childsChild;
     s16 angle = 80;
 
-    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, this->destAngle, 80)) {
+    if (Math_RotationStepToS(&this->dyna.actor.shape.rot.x, this->destAngle, 80)) {
         this->actionFunc = BgSpot00Hanebasi_DrawbridgeWait;
     }
 
     if (this->dyna.actor.shape.rot.x >= -0x27D8) {
         child = (BgSpot00Hanebasi*)this->dyna.actor.child;
         angle *= 0.4f;
-        Math_ScaledStepToS(&child->dyna.actor.shape.rot.x, child->destAngle, angle);
+        Math_RotationStepToS(&child->dyna.actor.shape.rot.x, child->destAngle, angle);
         childsChild = child->dyna.actor.child;
-        Math_ScaledStepToS(&childsChild->shape.rot.x, child->destAngle, angle);
+        Math_RotationStepToS(&childsChild->shape.rot.x, child->destAngle, angle);
     }
 
     if (this->destAngle < 0) {

@@ -451,7 +451,7 @@ void EnBili_SetNewHomeHeight(EnBili* this, PlayState* play) {
         this->timer--;
     }
 
-    Math_ScaledStepToS(&this->actor.world.rot.y, (s16)(this->actor.yawTowardsPlayer + 0x8000), 910);
+    Math_RotationStepToS(&this->actor.world.rot.y, (s16)(this->actor.yawTowardsPlayer + 0x8000), 910);
     EnBili_UpdateFloating(this);
 
     if (this->timer == 0) {

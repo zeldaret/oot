@@ -322,10 +322,10 @@ void EnInsect_Crawl(EnInsect* this, PlayState* play) {
     if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 1600.0f ||
         (this->actionTimer < 4)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
-        Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
+        Math_RotationStepToS(&this->actor.world.rot.y, yaw, 2000);
     } else if (this->actor.child != NULL && &this->actor != this->actor.child) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.child->world.pos);
-        Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
+        Math_RotationStepToS(&this->actor.world.rot.y, yaw, 2000);
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -368,7 +368,7 @@ void EnInsect_RunFromPlayer(EnInsect* this, PlayState* play) {
 
     if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 25600.0f || this->actionTimer < 4) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
-        Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
+        Math_RotationStepToS(&this->actor.world.rot.y, yaw, 2000);
     } else if (playerIsClose) {
         frames = play->state.frames;
         yaw = this->actor.yawTowardsPlayer + 0x8000;
@@ -383,7 +383,7 @@ void EnInsect_RunFromPlayer(EnInsect* this, PlayState* play) {
             }
         }
         if (play) {} // Must be 'play'
-        Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
+        Math_RotationStepToS(&this->actor.world.rot.y, yaw, 2000);
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
     this->skelAnime.playSpeed = CLAMP(this->actor.speed * 1.6f, 0.8f, 1.9f);
@@ -513,7 +513,7 @@ void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
     this->unk_318 = CLAMP(this->unk_318, -temp_v1, temp_v1);
     this->actor.shape.rot.y += this->unk_318;
 
-    Math_ScaledStepToS(&this->actor.world.rot.x, 0, 3000);
+    Math_RotationStepToS(&this->actor.world.rot.x, 0, 3000);
     this->actor.shape.rot.x = this->actor.world.rot.x;
 
     if (Rand_ZeroOne() < 0.03f) {
@@ -654,8 +654,8 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_SmoothStepToF(&this->actor.speed, this->unk_324, 0.1f, 0.5f, 0.0f);
-        Math_ScaledStepToS(&this->actor.world.rot.y, this->unk_328, 2000);
-        sp50 = Math_ScaledStepToS(&this->actor.world.rot.x, 0, 2000);
+        Math_RotationStepToS(&this->actor.world.rot.y, this->unk_328, 2000);
+        sp50 = Math_RotationStepToS(&this->actor.world.rot.x, 0, 2000);
         this->actor.shape.rot.y = this->actor.world.rot.y;
         this->actor.shape.rot.x = this->actor.world.rot.x;
     } else {

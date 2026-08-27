@@ -354,7 +354,7 @@ void BgBdanObjects_OctoPlatform_BattleInProgress(BgBdanObjects* this, PlayState*
 }
 
 void BgBdanObjects_SinkToFloorHeight(BgBdanObjects* this, PlayState* play) {
-    s32 cond = Math_ScaledStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.home.rot.y, 0x200);
+    s32 cond = Math_RotationStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.home.rot.y, 0x200);
 
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + -125.0f, 3.0f)) {
         if (cond) {

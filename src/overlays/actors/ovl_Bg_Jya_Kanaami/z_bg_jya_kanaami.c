@@ -114,7 +114,7 @@ void func_80899950(BgJyaKanaami* this, PlayState* play) {
     s32 quakeIndex;
 
     this->unk_168 += 0x20;
-    if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
+    if (Math_RotationStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
 

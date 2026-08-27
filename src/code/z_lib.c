@@ -48,9 +48,12 @@ f32 Math_SinS(s16 angle) {
 
 /**
  * Changes pValue by step (scaled by the update rate) towards target, setting it equal when the target is reached.
- * Returns true when target is reached, false otherwise.
+ * This is used for rotations, as it handles the fact that XYZ rotations are stored as signed integers, i.e.
+ * 32,727 is followed by -32,728 when rotating in a circle, and will correctly adjust the step if the change
+ * crosses this boundary.
+ * @return true when target is reached, false otherwise.
  */
-s32 Math_ScaledStepToS(s16* pValue, s16 target, s16 step) {
+s32 Math_RotationStepToS(s16* pValue, s16 target, s16 step) {
     if (step != 0) {
         f32 updateScale = R_UPDATE_RATE * 0.5f;
 

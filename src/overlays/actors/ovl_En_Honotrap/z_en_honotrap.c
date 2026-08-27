@@ -425,7 +425,7 @@ void EnHonotrap_SetupFlameChase(EnHonotrap* this) {
 void EnHonotrap_FlameChase(EnHonotrap* this, PlayState* play) {
     s32 pad;
 
-    Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x300);
+    Math_RotationStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x300);
     Math_StepToF(&this->actor.speed, 3.0f, 0.1f);
     this->actor.gravity = (-this->actor.yDistToPlayer < 10.0f) ? 0.08f : -0.08f;
     Actor_UpdateVelocityXZGravity(&this->actor);

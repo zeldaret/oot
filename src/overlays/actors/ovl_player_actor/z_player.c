@@ -3148,7 +3148,7 @@ s32 func_808351D4(Player* this, PlayState* play) {
         sp2C = 1;
     }
 
-    Math_ScaledStepToS(&this->upperLimbRot.z, 1200, 400);
+    Math_RotationStepToS(&this->upperLimbRot.z, 1200, 400);
     this->unk_6AE_rotFlags |= UNK6AE_ROT_UPPER_Z;
 
     if ((this->unk_836 == 0) && (Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) &&
@@ -3776,14 +3776,14 @@ void Player_UpdateShapeYaw(Player* this, PlayState* play) {
 
         if ((focusActor != NULL) &&
             ((play->actorCtx.attention.reticleSpinCounter != 0) || (this->actor.category != ACTORCAT_PLAYER))) {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &focusActor->focus.pos),
+            Math_RotationStepToS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &focusActor->focus.pos),
                                4000);
         } else if ((this->stateFlags1 & PLAYER_STATE1_PARALLEL) &&
                    !(this->stateFlags2 & (PLAYER_STATE2_5 | PLAYER_STATE2_6))) {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, this->parallelYaw, 4000);
+            Math_RotationStepToS(&this->actor.shape.rot.y, this->parallelYaw, 4000);
         }
     } else if (!(this->stateFlags2 & PLAYER_STATE2_6)) {
-        Math_ScaledStepToS(&this->actor.shape.rot.y, this->yaw, 2000);
+        Math_RotationStepToS(&this->actor.shape.rot.y, this->yaw, 2000);
     }
 
     this->unk_87C = this->actor.shape.rot.y - previousYaw;
@@ -3809,7 +3809,7 @@ s32 Player_ScaledStepBinangClamped(s16* pValue, s16 target, s16 step, s16 overfl
     clampedDiff = CLAMP(clampedDiff, -constraintRange, constraintRange);
     *pValue += (s16)(diff - clampedDiff);
 
-    Math_ScaledStepToS(pValue, target, step);
+    Math_RotationStepToS(pValue, target, step);
 
     valueBeforeOverflowClamp = *pValue;
     if (*pValue < -overflowRange) {
@@ -7149,11 +7149,11 @@ void func_8083DDC8(Player* this, PlayState* play) {
         targetPitch = CLAMP(targetPitch, -4000, 4000);
         targetRoll = CLAMP(-targetRoll, -4000, 4000);
 
-        Math_ScaledStepToS(&this->upperLimbRot.x, targetPitch, 900);
+        Math_RotationStepToS(&this->upperLimbRot.x, targetPitch, 900);
         this->headLimbRot.x = -(f32)this->upperLimbRot.x * 0.5f;
 
-        Math_ScaledStepToS(&this->headLimbRot.z, targetRoll, 300);
-        Math_ScaledStepToS(&this->upperLimbRot.z, targetRoll, 200);
+        Math_RotationStepToS(&this->headLimbRot.z, targetRoll, 300);
+        Math_RotationStepToS(&this->upperLimbRot.z, targetRoll, 200);
 
         this->unk_6AE_rotFlags |= UNK6AE_ROT_HEAD_X | UNK6AE_ROT_HEAD_Z | UNK6AE_ROT_UPPER_X | UNK6AE_ROT_UPPER_Z;
     } else {
@@ -7163,7 +7163,7 @@ void func_8083DDC8(Player* this, PlayState* play) {
 
 void func_8083DF68(Player* this, f32 arg1, s16 arg2) {
     Math_AsymStepToF(&this->speedXZ, arg1, REG(19) / 100.0f, 1.5f);
-    Math_ScaledStepToS(&this->yaw, arg2, REG(27));
+    Math_RotationStepToS(&this->yaw, arg2, REG(27));
 }
 
 void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
@@ -7179,7 +7179,7 @@ void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
         }
     } else {
         Math_AsymStepToF(&this->speedXZ, *arg1, 0.05f, 0.1f);
-        Math_ScaledStepToS(&this->yaw, *arg2, 200);
+        Math_RotationStepToS(&this->yaw, *arg2, 200);
     }
 }
 
@@ -7709,7 +7709,7 @@ s32 func_8083F360(PlayState* play, Player* this, f32 arg1, f32 arg2, f32 arg3, f
         wallPolyNormalX = COLPOLY_GET_NORMAL(wallPoly->normal.x);
         wallPolyNormalZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
         temp = Math_Atan2S(-wallPolyNormalZ, -wallPolyNormalX);
-        Math_ScaledStepToS(&this->actor.shape.rot.y, temp, 800);
+        Math_RotationStepToS(&this->actor.shape.rot.y, temp, 800);
 
         this->yaw = this->actor.shape.rot.y;
         this->actor.world.pos.x = sp54.x - (Math_SinS(this->actor.shape.rot.y) * arg2);
@@ -8133,7 +8133,7 @@ void Player_Action_80840450(Player* this, PlayState* play) {
         Math_AsymStepToF(&this->speedXZ, speedTarget * 0.3f, 2.0f, 1.5f);
 
         if (!(this->stateFlags3 & PLAYER_STATE3_3)) {
-            Math_ScaledStepToS(&this->yaw, yawTarget, temp4 * 0.1f);
+            Math_RotationStepToS(&this->yaw, yawTarget, temp4 * 0.1f);
         }
     }
 }
@@ -8343,7 +8343,7 @@ void Player_Action_Idle(Player* this, PlayState* play) {
                 return;
             }
 
-            Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, 1200);
+            Math_RotationStepToS(&this->actor.shape.rot.y, yawTarget, 1200);
             this->yaw = this->actor.shape.rot.y;
 
             if (Player_GetIdleAnim(this) == this->skelAnime.animation) {
@@ -8439,7 +8439,7 @@ void Player_Action_80840DE4(Player* this, PlayState* play) {
         }
 
         Math_AsymStepToF(&this->speedXZ, speedTarget * 0.4f, 1.5f, 1.5f);
-        Math_ScaledStepToS(&this->yaw, yawTarget, temp3 * 0.1f);
+        Math_RotationStepToS(&this->yaw, yawTarget, temp3 * 0.1f);
     }
 }
 
@@ -8539,7 +8539,7 @@ void Player_Action_808414F8(Player* this, PlayState* play) {
             s16 sp2A = yawTarget - this->yaw;
 
             Math_AsymStepToF(&this->speedXZ, speedTarget * 1.5f, 1.5f, 2.0f);
-            Math_ScaledStepToS(&this->yaw, yawTarget, sp2A * 0.1f);
+            Math_RotationStepToS(&this->yaw, yawTarget, sp2A * 0.1f);
 
             if ((speedTarget == 0.0f) && (this->speedXZ == 0.0f)) {
                 func_80839F30(this, play);
@@ -8649,7 +8649,7 @@ void Player_Action_8084193C(Player* this, PlayState* play) {
             } else {
                 speedTarget *= 0.9f;
                 Math_AsymStepToF(&this->speedXZ, speedTarget, 2.0f, 3.0f);
-                Math_ScaledStepToS(&this->yaw, yawTarget, temp3 * 0.1f);
+                Math_RotationStepToS(&this->yaw, yawTarget, temp3 * 0.1f);
             }
         }
     }
@@ -8689,7 +8689,7 @@ void Player_Action_TurnInPlace(Player* this, PlayState* play) {
         if (speedTarget != 0.0f) {
             this->actor.shape.rot.y = yawTarget;
             func_8083C858(this, play);
-        } else if (Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, this->turnRate)) {
+        } else if (Math_RotationStepToS(&this->actor.shape.rot.y, yawTarget, this->turnRate)) {
             func_8083C0E8(this, play);
         }
 
@@ -8708,7 +8708,7 @@ void func_80841CC4(Player* this, s32 arg1, PlayState* play) {
         target = CLAMP(sFloorShapePitch, -10922, 10922);
     }
 
-    Math_ScaledStepToS(&this->unk_89C, target, 400);
+    Math_RotationStepToS(&this->unk_89C, target, 400);
 
     if ((this->modelAnimType == PLAYER_ANIMTYPE_3) || ((this->unk_89C == 0) && (this->unk_6C4 <= 0.0f))) {
         if (arg1 == 0) {
@@ -9202,9 +9202,9 @@ void Player_Action_80843188(Player* this, PlayState* play) {
             sp46 = 50;
         }
 
-        Math_ScaledStepToS(&this->actor.focus.rot.x, sp4C, sp48);
+        Math_RotationStepToS(&this->actor.focus.rot.x, sp4C, sp48);
         this->upperLimbRot.x = this->actor.focus.rot.x;
-        Math_ScaledStepToS(&this->upperLimbRot.y, sp4A, sp46);
+        Math_RotationStepToS(&this->upperLimbRot.y, sp4A, sp46);
 
         if (this->av1.actionVar1 != 0) {
             if (!func_80842DF4(play, this)) {
@@ -9970,7 +9970,7 @@ void Player_Action_80845000(Player* this, PlayState* play) {
         }
 
         Math_AsymStepToF(&this->speedXZ, speedTarget * 0.2f, 1.0f, 0.5f);
-        Math_ScaledStepToS(&this->yaw, yawTarget, sp44 * 0.1f);
+        Math_RotationStepToS(&this->yaw, yawTarget, sp44 * 0.1f);
 
         if ((speedTarget == 0.0f) && (this->speedXZ == 0.0f)) {
             func_80844DC8(this, play);
@@ -10038,7 +10038,7 @@ void Player_Action_80845308(Player* this, PlayState* play) {
         }
 
         Math_AsymStepToF(&this->speedXZ, speedTarget * 0.2f, 1.0f, 0.5f);
-        Math_ScaledStepToS(&this->yaw, yawTarget, sp44 * 0.1f);
+        Math_RotationStepToS(&this->yaw, yawTarget, sp44 * 0.1f);
 
         if ((speedTarget == 0.0f) && (this->speedXZ == 0.0f) && (sp5C == 0.0f)) {
             func_80844DC8(this, play);
@@ -10329,7 +10329,7 @@ void Player_Action_80846050(Player* this, PlayState* play) {
             this->unk_3BC.y = interactRangeActor->shape.rot.y - this->actor.shape.rot.y;
         }
     } else {
-        Math_ScaledStepToS(&this->unk_3BC.y, 0, 4000);
+        Math_RotationStepToS(&this->unk_3BC.y, 0, 4000);
     }
 }
 
@@ -10833,7 +10833,7 @@ void Player_ApproachZeroBinang(s16* pValue) {
     step = ABS(*pValue) * 100.0f / 1000.0f;
     step = CLAMP(step, 400, 4000);
 
-    Math_ScaledStepToS(pValue, 0, step);
+    Math_RotationStepToS(pValue, 0, step);
 }
 
 void func_80847298(Player* this) {
@@ -11788,7 +11788,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             this->unk_844--;
         }
 
-        Math_ScaledStepToS(&this->unk_6C2, 0, 400);
+        Math_RotationStepToS(&this->unk_6C2, 0, 400);
 
         FaceChange_UpdateBlinking(&this->faceChange, 20, 80, 6);
         this->actor.shape.face = this->faceChange.face + ((play->gameplayFrames & 32) ? 0 : 3);
@@ -11826,7 +11826,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                     step = (fabsf(this->speedXZ) * 700.0f) - (fabsf(this->actor.speed) * 100.0f);
                     step = CLAMP(step, 0, 1350);
 
-                    Math_ScaledStepToS(&this->actor.world.rot.y, yawTarget, step);
+                    Math_RotationStepToS(&this->actor.world.rot.y, yawTarget, step);
                 }
 
                 if ((this->speedXZ == 0.0f) && (this->actor.speed != 0.0f)) {
@@ -11897,7 +11897,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
             Math_StepToF(&this->pushedSpeed, conveyorSpeed, conveyorSpeed * 0.1f);
 
-            Math_ScaledStepToS(&this->pushedYaw, sConveyorYaw,
+            Math_RotationStepToS(&this->pushedYaw, sConveyorYaw,
                                ((this->stateFlags1 & PLAYER_STATE1_27) ? 400.0f : 800.0f) * conveyorSpeed);
         } else if (this->pushedSpeed != 0.0f) {
             Math_StepToF(&this->pushedSpeed, 0.0f, (this->stateFlags1 & PLAYER_STATE1_27) ? 0.5f : 1.0f);
@@ -12409,7 +12409,7 @@ void func_8084AEEC(Player* this, f32* arg1, f32 arg2, s16 arg3) {
     }
 
     Math_AsymStepToF(arg1, arg2 * 0.8f, temp1, (fabsf(*arg1) * 0.02f) + 0.05f);
-    Math_ScaledStepToS(&this->yaw, arg3, 1600);
+    Math_RotationStepToS(&this->yaw, arg3, 1600);
 }
 
 void func_8084B000(Player* this) {
@@ -12773,7 +12773,7 @@ void Player_Action_8084BBE4(Player* this, PlayState* play) {
         }
     }
 
-    Math_ScaledStepToS(&this->actor.shape.rot.y, this->yaw, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.y, this->yaw, 0x800);
 
     if (this->av1.actionVar1 != 0) {
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
@@ -13655,7 +13655,7 @@ void Player_Action_8084DC48(Player* this, PlayState* play) {
             }
 
             func_8084B158(play, this, sControlInput, fabsf(this->actor.velocity.y));
-            Math_ScaledStepToS(&this->unk_6C2, -10000, 800);
+            Math_RotationStepToS(&this->unk_6C2, -10000, 800);
 
             if (sp2C > 8.0f) {
                 sp2C = 8.0f;
@@ -13922,7 +13922,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
         }
 
         if (this->skelAnime.animation == &gPlayerAnim_link_demo_get_itemB) {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000, 4000);
+            Math_RotationStepToS(&this->actor.shape.rot.y, Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000, 4000);
         }
 
         if (LinkAnimation_OnFrame(&this->skelAnime, 21.0f)) {
@@ -14307,7 +14307,7 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
         }
 
         Math_SmoothStepToS(&this->yaw, downwardSlopeYaw, 10, 4000, 800);
-        Math_ScaledStepToS(&this->actor.shape.rot.y, shapeYawTarget, 2000);
+        Math_RotationStepToS(&this->actor.shape.rot.y, shapeYawTarget, 2000);
     }
 }
 
@@ -14706,7 +14706,7 @@ void Player_Action_808502D0(Player* this, PlayState* play) {
                 shockwavePos.y = func_8083973C(play, this, &D_80854A40, &shockwavePos);
                 sp2C = this->actor.world.pos.y - shockwavePos.y;
 
-                Math_ScaledStepToS(&this->actor.focus.rot.x, Math_Atan2S(45.0f, sp2C), 800);
+                Math_RotationStepToS(&this->actor.focus.rot.x, Math_Atan2S(45.0f, sp2C), 800);
                 func_80836AB8(this, true);
 
                 if ((((this->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD) &&
@@ -14920,7 +14920,7 @@ void Player_Action_HookshotFly(Player* this, PlayState* play) {
         this->stateFlags1 |= PLAYER_STATE1_2;
     } else if ((this->skelAnime.animation != &gPlayerAnim_link_hook_fly_start) || (4.0f <= this->skelAnime.curFrame)) {
         this->actor.gravity = 0.0f;
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x, 0x800);
+        Math_RotationStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x, 0x800);
         Player_RequestRumble(this, 100, 2, 100, 0);
     }
 }
@@ -15347,7 +15347,7 @@ void func_808513BC(PlayState* play, Player* this, CsCmdActorCue* cue) {
             this->av1.actionVar1 = 1;
         } else {
             func_8084B158(play, this, NULL, fabsf(this->actor.velocity.y));
-            Math_ScaledStepToS(&this->unk_6C2, -10000, 800);
+            Math_RotationStepToS(&this->unk_6C2, -10000, 800);
             func_8084AEEC(this, &this->actor.velocity.y, 4.0f, this->yaw);
         }
         return;

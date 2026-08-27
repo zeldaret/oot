@@ -605,7 +605,7 @@ void EnFloormas_Charge(EnFloormas* this, PlayState* play) {
     }
 
     Math_StepToF(&this->actor.speed, 15.0f, SQ(this->actor.speed) * (1.0f / 3.0f));
-    Math_ScaledStepToS(&this->actor.shape.rot.x, -0x1680, 0x140);
+    Math_RotationStepToS(&this->actor.shape.rot.x, -0x1680, 0x140);
 
     distFromGround = this->actor.world.pos.y - this->actor.floorHeight;
     if (distFromGround < 10.0f) {
@@ -669,7 +669,7 @@ void EnFloormas_Land(EnFloormas* this, PlayState* play) {
         }
     }
 
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x140);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x140);
     Math_StepToS(&this->zOffset, -1600, 100);
 }
 
@@ -702,7 +702,7 @@ void EnFloormas_SmallWalk(EnFloormas* this, PlayState* play) {
         this->actionTarget = this->actor.wallYaw;
         EnFloormas_SetupTurn(this);
     } else if (this->actor.xzDistToPlayer < 120.0f) {
-        Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0x38E);
+        Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0x38E);
     }
 }
 
@@ -731,7 +731,7 @@ void EnFloormas_SmallDecideAction(EnFloormas* this, PlayState* play) {
             return;
         }
 
-        Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, primaryFloormas), 0x38E);
+        Math_RotationStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, primaryFloormas), 0x38E);
         if (Actor_WorldDistXZToActor(&this->actor, primaryFloormas) < 80.0f) {
             EnFloormas_SetupSmallFollowerJumpAtLeader(this);
         }

@@ -165,7 +165,7 @@ void BgHakaShip_SetupCrash(BgHakaShip* this, PlayState* play) {
         this->counter = 40;
         this->actionFunc = BgHakaShip_CrashShake;
     }
-    Math_ScaledStepToS(&this->yOffset, 0, 128);
+    Math_RotationStepToS(&this->yOffset, 0, 128);
 }
 
 void BgHakaShip_CrashShake(BgHakaShip* this, PlayState* play) {

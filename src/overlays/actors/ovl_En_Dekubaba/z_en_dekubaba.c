@@ -506,28 +506,28 @@ void EnDekubaba_Grow(EnDekubaba* this, PlayState* play) {
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
         this->size * 0.01f * (0.5f + (15 - this->timer) * 0.5f / 15.0f);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
     headDistVertical = sinf(CLAMP_MAX((15 - this->timer) * (1.0f / 15), 0.7f) * M_PI) * 32.0f + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
         headDistHorizontal = 0.0f;
     } else if (this->actor.shape.rot.x < -0x238E) {
-        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x38E);
+        Math_RotationStepToS(&this->stemSectionAngle[0], -0x5555, 0x38E);
         headDistHorizontal = Math_CosS(this->stemSectionAngle[0]) * 20.0f;
     } else if (this->actor.shape.rot.x < -0xE38) {
-        Math_ScaledStepToS(&this->stemSectionAngle[0], -0xAAA, 0x38E);
-        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x5555, 0x38E);
-        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
+        Math_RotationStepToS(&this->stemSectionAngle[0], -0xAAA, 0x38E);
+        Math_RotationStepToS(&this->stemSectionAngle[1], -0x5555, 0x38E);
+        Math_RotationStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
 
         headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
                              (headDistVertical -
                               20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
                                  Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     } else {
-        Math_ScaledStepToS(&this->stemSectionAngle[0], -0xAAA, 0x38E);
-        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x31C7, 0x222);
-        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
+        Math_RotationStepToS(&this->stemSectionAngle[0], -0xAAA, 0x38E);
+        Math_RotationStepToS(&this->stemSectionAngle[1], -0x31C7, 0x222);
+        Math_RotationStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
 
         headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
                              (headDistVertical -
@@ -573,28 +573,28 @@ void EnDekubaba_Retract(EnDekubaba* this, PlayState* play) {
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
         this->size * 0.01f * (0.5f + this->timer * (1.0f / 30));
-    Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
+    Math_RotationStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
 
     headDistVertical = (sinf(CLAMP_MAX(this->timer * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
         headDistHorizontal = 0.0f;
     } else if (this->actor.shape.rot.x < -0x238E) {
-        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x4000, 0x555);
+        Math_RotationStepToS(&this->stemSectionAngle[0], -0x4000, 0x555);
         headDistHorizontal = Math_CosS(this->stemSectionAngle[0]) * 20.0f;
     } else if (this->actor.shape.rot.x < -0xE38) {
-        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
-        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4000, 0x555);
-        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
+        Math_RotationStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
+        Math_RotationStepToS(&this->stemSectionAngle[1], -0x4000, 0x555);
+        Math_RotationStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
 
         headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
                              (headDistVertical -
                               20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
                                  Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     } else {
-        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
-        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x5555, 0x333);
-        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
+        Math_RotationStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
+        Math_RotationStepToS(&this->stemSectionAngle[1], -0x5555, 0x333);
+        Math_RotationStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
 
         headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
                              (headDistVertical -
@@ -695,14 +695,14 @@ void EnDekubaba_Lunge(EnDekubaba* this, PlayState* play) {
             }
         }
 
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x222);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x222);
 
         curFrame10 = this->skelAnime.curFrame * 10.0f;
 
         allStepsDone = true;
-        allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[0], -0xE38, curFrame10 + 0x38E);
-        allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[1], -0xE38, curFrame10 + 0x71C);
-        allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[2], -0xE38, curFrame10 + 0xE38);
+        allStepsDone &= Math_RotationStepToS(&this->stemSectionAngle[0], -0xE38, curFrame10 + 0x38E);
+        allStepsDone &= Math_RotationStepToS(&this->stemSectionAngle[1], -0xE38, curFrame10 + 0x71C);
+        allStepsDone &= Math_RotationStepToS(&this->stemSectionAngle[2], -0xE38, curFrame10 + 0xE38);
 
         if (allStepsDone) {
             Animation_PlayLoopSetSpeed(&this->skelAnime, &gDekuBabaFastChompAnim, 4.0f);
@@ -745,9 +745,9 @@ void EnDekubaba_PrepareLunge(EnDekubaba* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 2, 0xE38, 0x71C);
     Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2, 0xE38);
-    Math_ScaledStepToS(&this->stemSectionAngle[0], 0xAAA, 0x444);
-    Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4718, 0x888);
-    Math_ScaledStepToS(&this->stemSectionAngle[2], -0x6AA4, 0x888);
+    Math_RotationStepToS(&this->stemSectionAngle[0], 0xAAA, 0x444);
+    Math_RotationStepToS(&this->stemSectionAngle[1], -0x4718, 0x888);
+    Math_RotationStepToS(&this->stemSectionAngle[2], -0x6AA4, 0x888);
 
     if (this->timer == 0) {
         EnDekubaba_SetupLunge(this);
@@ -765,10 +765,10 @@ void EnDekubaba_PullBack(EnDekubaba* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer == 0) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x38E);
-        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x888, 0x16C);
-        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x888, 0x16C);
-        if (Math_ScaledStepToS(&this->stemSectionAngle[2], -0x888, 0x16C)) {
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0x93E, 0x38E);
+        Math_RotationStepToS(&this->stemSectionAngle[0], -0x888, 0x16C);
+        Math_RotationStepToS(&this->stemSectionAngle[1], -0x888, 0x16C);
+        if (Math_RotationStepToS(&this->stemSectionAngle[2], -0x888, 0x16C)) {
             xIncr = Math_SinS(this->actor.shape.rot.y) * 30.0f * this->size;
             zIncr = Math_CosS(this->actor.shape.rot.y) * 30.0f * this->size;
             dustPos = this->actor.home.pos;
@@ -782,40 +782,40 @@ void EnDekubaba_PullBack(EnDekubaba* this, PlayState* play) {
             this->timer = 1;
         }
     } else if (this->timer == 11) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x200);
-        Math_ScaledStepToS(&this->stemSectionAngle[0], -0xAAA, 0x200);
-        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5C71, 0x200);
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0x93E, 0x200);
+        Math_RotationStepToS(&this->stemSectionAngle[0], -0xAAA, 0x200);
+        Math_RotationStepToS(&this->stemSectionAngle[2], -0x5C71, 0x200);
 
-        if (Math_ScaledStepToS(&this->stemSectionAngle[1], 0x238C, 0x200)) {
+        if (Math_RotationStepToS(&this->stemSectionAngle[1], 0x238C, 0x200)) {
             this->timer = 12;
         }
     } else if (this->timer == 18) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x2AA8, 0xAAA);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0x2AA8, 0xAAA);
 
-        if (Math_ScaledStepToS(&this->stemSectionAngle[0], 0x1554, 0x5B0)) {
+        if (Math_RotationStepToS(&this->stemSectionAngle[0], 0x1554, 0x5B0)) {
             this->timer = 25;
         }
 
-        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x38E3, 0xAAA);
-        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5C71, 0x2D8);
+        Math_RotationStepToS(&this->stemSectionAngle[1], -0x38E3, 0xAAA);
+        Math_RotationStepToS(&this->stemSectionAngle[2], -0x5C71, 0x2D8);
     } else if (this->timer == 25) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x5550, 0xAAA);
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0x5550, 0xAAA);
 
-        if (Math_ScaledStepToS(&this->stemSectionAngle[0], -0x6388, 0x93E)) {
+        if (Math_RotationStepToS(&this->stemSectionAngle[0], -0x6388, 0x93E)) {
             this->timer = 26;
         }
 
-        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x3FFC, 0x4FA);
-        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x238C, 0x444);
+        Math_RotationStepToS(&this->stemSectionAngle[1], -0x3FFC, 0x4FA);
+        Math_RotationStepToS(&this->stemSectionAngle[2], -0x238C, 0x444);
     } else if (this->timer == 26) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x93E);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0x1800, 0x93E);
 
-        if (Math_ScaledStepToS(&this->stemSectionAngle[0], -0x1555, 0x71C)) {
+        if (Math_RotationStepToS(&this->stemSectionAngle[0], -0x1555, 0x71C)) {
             this->timer = 27;
         }
 
-        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x38E3, 0x2D8);
-        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5C71, 0x5B0);
+        Math_RotationStepToS(&this->stemSectionAngle[1], -0x38E3, 0x2D8);
+        Math_RotationStepToS(&this->stemSectionAngle[2], -0x5C71, 0x5B0);
     } else if (this->timer >= 27) {
         this->timer++;
 
@@ -834,7 +834,7 @@ void EnDekubaba_PullBack(EnDekubaba* this, PlayState* play) {
         }
 
         if (this->timer >= 12) {
-            Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5C71, 0x88);
+            Math_RotationStepToS(&this->stemSectionAngle[2], -0x5C71, 0x88);
         }
     }
 
@@ -877,10 +877,10 @@ void EnDekubaba_Hit(EnDekubaba* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     allStepsDone = true;
-    allStepsDone &= Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38);
-    allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[0], -0x4000, 0xE38);
-    allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4000, 0xE38);
-    allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0xE38);
+    allStepsDone &= Math_RotationStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38);
+    allStepsDone &= Math_RotationStepToS(&this->stemSectionAngle[0], -0x4000, 0xE38);
+    allStepsDone &= Math_RotationStepToS(&this->stemSectionAngle[1], -0x4000, 0xE38);
+    allStepsDone &= Math_RotationStepToS(&this->stemSectionAngle[2], -0x4000, 0xE38);
 
     if (allStepsDone) {
         if (this->actor.colChkInfo.health == 0) {
@@ -927,11 +927,11 @@ void EnDekubaba_Sway(EnDekubaba* this, PlayState* play) {
     s16 angleToVertical;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, this->stemSectionAngle[0], 0x71C);
-    Math_ScaledStepToS(&this->stemSectionAngle[0], this->stemSectionAngle[1], 0x71C);
-    Math_ScaledStepToS(&this->stemSectionAngle[1], this->stemSectionAngle[2], 0x71C);
+    Math_RotationStepToS(&this->actor.shape.rot.x, this->stemSectionAngle[0], 0x71C);
+    Math_RotationStepToS(&this->stemSectionAngle[0], this->stemSectionAngle[1], 0x71C);
+    Math_RotationStepToS(&this->stemSectionAngle[1], this->stemSectionAngle[2], 0x71C);
 
-    if (Math_ScaledStepToS(&this->stemSectionAngle[2], this->targetSwayAngle, 0x71C)) {
+    if (Math_RotationStepToS(&this->stemSectionAngle[2], this->targetSwayAngle, 0x71C)) {
         this->targetSwayAngle = -0x4000 - (this->targetSwayAngle + 0x4000) * 0.8f;
     }
     angleToVertical = this->targetSwayAngle + 0x4000;
@@ -958,9 +958,9 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, PlayState* play) {
     Math_StepToF(&this->actor.speed, 0.0f, this->size * 0.1f);
 
     if (this->timer == 0) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
-        Math_ScaledStepToS(&this->stemSectionAngle[0], 0x4800, 0x71C);
-        Math_ScaledStepToS(&this->stemSectionAngle[1], 0x4800, 0x71C);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
+        Math_RotationStepToS(&this->stemSectionAngle[0], 0x4800, 0x71C);
+        Math_RotationStepToS(&this->stemSectionAngle[1], 0x4800, 0x71C);
 
         EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
                                  this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);

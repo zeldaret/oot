@@ -219,7 +219,7 @@ void EnFirefly_Destroy(Actor* thisx, PlayState* play) {
 void EnFirefly_SetupFlyIdle(EnFirefly* this) {
     this->timer = Rand_S16Offset(70, 100);
     this->actor.speed = (Rand_ZeroOne() * 1.5f) + 1.5f;
-    Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
+    Math_RotationStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
     this->targetPitch = ((this->maxAltitude < this->actor.world.pos.y) ? 0xC00 : -0xC00) + 0x1554;
     this->skelAnime.playSpeed = 1.0f;
     this->actionFunc = EnFirefly_FlyIdle;
@@ -331,9 +331,9 @@ s32 EnFirefly_ReturnToPerch(EnFirefly* this, PlayState* play) {
             this->actor.speed *= distFromHome;
         }
 
-        Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
+        Math_RotationStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            0x300);
-        Math_ScaledStepToS(&this->actor.shape.rot.x,
+        Math_RotationStepToS(&this->actor.shape.rot.x,
                            Actor_WorldPitchTowardPoint(&this->actor, &this->actor.home.pos) + 0x1554, 0x100);
         return 1;
     }
@@ -371,9 +371,9 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, PlayState* play) {
             EnFirefly_Ignite(this);
             return 1;
         } else {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, &closestTorch->actor),
+            Math_RotationStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, &closestTorch->actor),
                                0x300);
-            Math_ScaledStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &flamePos) + 0x1554,
+            Math_RotationStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &flamePos) + 0x1554,
                                0x100);
             return 1;
         }
@@ -396,7 +396,7 @@ void EnFirefly_FlyIdle(EnFirefly* this, PlayState* play) {
         if (skelanimeUpdated) {
             rand = Rand_ZeroOne();
             if (rand < 0.5f) {
-                Math_ScaledStepToS(&this->actor.shape.rot.y,
+                Math_RotationStepToS(&this->actor.shape.rot.y,
                                    Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
             } else if (rand < 0.8f) {
                 this->actor.shape.rot.y += Rand_CenteredFloat(1536.0f);
@@ -421,7 +421,7 @@ void EnFirefly_FlyIdle(EnFirefly* this, PlayState* play) {
                 this->targetPitch = 0x2154;
             }
         }
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
+        Math_RotationStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
@@ -442,7 +442,7 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
     if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
         this->actor.colorFilterTimer = 40;
     } else {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x6800, 0x200);
+        Math_RotationStepToS(&this->actor.shape.rot.x, 0x6800, 0x200);
         this->actor.shape.rot.y -= 0x300;
         if (this->timer != 0) {
             this->timer--;
@@ -478,7 +478,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, PlayState* play) {
     Math_StepToF(&this->actor.speed, 4.0f, 0.5f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
+        Math_RotationStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x2800)) {
         if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
             this->skelAnime.playSpeed = 0.0f;
@@ -503,7 +503,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, PlayState* play) {
         } else {
             this->targetPitch = 0x954;
         }
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
+        Math_RotationStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     }
     if ((this->timer == 0) || (Player_GetMask(play) == PLAYER_MASK_SKULL)) {
         EnFirefly_SetupFlyAway(this);
@@ -513,7 +513,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, PlayState* play) {
 // Knockback after hitting player
 void EnFirefly_Rebound(EnFirefly* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x100);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x100);
     Math_StepToF(&this->actor.velocity.y, 0.0f, 0.4f);
     if (Math_StepToF(&this->actor.speed, 0.0f, 0.15f)) {
         if (this->timer != 0) {
@@ -547,16 +547,16 @@ void EnFirefly_FlyAway(EnFirefly* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
     } else {
-        Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
+        Math_RotationStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            0x300);
     }
-    Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
+    Math_RotationStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
 }
 
 void EnFirefly_Stunned(EnFirefly* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1554, 0x100);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0x1554, 0x100);
     if (this->timer != 0) {
         this->timer--;
     }
@@ -586,7 +586,7 @@ void EnFirefly_FrozenFall(EnFirefly* this, PlayState* play) {
 
 // When perching, sit on collision and flap at random intervals
 void EnFirefly_Perch(EnFirefly* this, PlayState* play) {
-    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x100);
+    Math_RotationStepToS(&this->actor.shape.rot.x, 0, 0x100);
 
     if (this->timer != 0) {
         SkelAnime_Update(&this->skelAnime);
@@ -613,14 +613,14 @@ void EnFirefly_DisturbDiveAttack(EnFirefly* this, PlayState* play) {
     }
 
     if (this->timer < 40) {
-        Math_ScaledStepToS(&this->actor.shape.rot.x, -0xAAC, 0x100);
+        Math_RotationStepToS(&this->actor.shape.rot.x, -0xAAC, 0x100);
     } else {
         preyPos.x = player->actor.world.pos.x;
         preyPos.y = player->actor.world.pos.y + 20.0f;
         preyPos.z = player->actor.world.pos.z;
-        Math_ScaledStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &preyPos) + 0x1554,
+        Math_RotationStepToS(&this->actor.shape.rot.x, Actor_WorldPitchTowardPoint(&this->actor, &preyPos) + 0x1554,
                            0x100);
-        Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x300);
+        Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x300);
     }
 
     if (this->timer == 0) {

@@ -353,9 +353,9 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
         }
     }
 
-    Math_ScaledStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x, 0x800);
-    Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x800);
-    Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.world.rot.z, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x800);
+    Math_RotationStepToS(&this->actor.shape.rot.z, this->actor.world.rot.z, 0x800);
 
     Actor_PlaySfx_Flagged2(&this->actor, NA_SE_IT_BOMBCHU_MOVE - SFX_FLAG);
 }

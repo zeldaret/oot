@@ -9,7 +9,7 @@
 void Lib_MemSet(u8* dest, size_t len, u8 val);
 f32 Math_CosS(s16 angle);
 f32 Math_SinS(s16 angle);
-s32 Math_ScaledStepToS(s16* pValue, s16 target, s16 step);
+s32 Math_RotationStepToS(s16* pValue, s16 target, s16 step);
 s32 Math_StepToS(s16* pValue, s16 target, s16 step);
 s32 Math_StepToF(f32* pValue, f32 target, f32 step);
 s32 Math_StepUntilAngleS(s16* pValue, s16 limit, s16 step);

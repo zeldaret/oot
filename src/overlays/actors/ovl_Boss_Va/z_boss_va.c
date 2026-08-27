@@ -1998,8 +1998,8 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
                 sp54 = -sp54;
             }
 
-            Math_ScaledStepToS(&sp6C, sp6E, sp5A * sp50);
-            Math_ScaledStepToS(&sp56, sp58, sp54 * sp50);
+            Math_RotationStepToS(&sp6C, sp6E, sp5A * sp50);
+            Math_RotationStepToS(&sp56, sp58, sp54 * sp50);
 
             sp68 = -Math_SinS(sp56) * 12.0f;
             sp5C = Math_CosS(sp56) * 12.0f;
