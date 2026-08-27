@@ -697,7 +697,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_C4 0xC4
 #define EVENTCHKINF_C5 0xC5
 #define EVENTCHKINF_C6 0xC6
-#define EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL 0xC7 //This flag is mainly used for when caught by the Gerudo, but Zelda will later purge it for use in the Tower collapse scene.
+#define EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL 0xC7 // This flag is mainly used for when first caught by the Gerudo, but Zelda will later purge it for use in the Tower collapse sequence.
 #define EVENTCHKINF_C8 0xC8
 #define EVENTCHKINF_C9 0xC9
 
