@@ -44,7 +44,7 @@
 #include "gameplay_keep_0x16A50.h"
 #include "hilite4_tex.h"
 #include "gameplay_keep_0x173D0.h"
-#include "gFishOutOfWaterAnim.h"
+#include "gFishInAirAnim.h"
 #include "gameplay_keep_0x18610.h"
 #include "gFishInWaterAnim.h"
 #include "eff_shockwave.h"
