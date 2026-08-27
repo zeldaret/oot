@@ -2709,6 +2709,14 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
         // the z-buffer will later only allow drawing inside the lens circle
     } else {
         // Update the z-buffer but not the color frame buffer
+        // The render mode here sets the following modes for framebuffer and z-buffer access:
+        //  - Framebuffer reads & writes
+        //  - Z-Buffer writes only, value from primitive Z
+        //  - Framebuffer coverage is unchanged
+        // Since the goal is to mask the z-buffer, there are two options:
+        //  - Set the FB to the ZB and render a texture over it
+        //  - Read and write the FB without changes to its contents, since ZB writes only happen when FB writes happen
+        // Here the second option is used.
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -4512,7 +4520,7 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
 
     displayList = displayListHead = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
-    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, Z_UPD | G_RM_AA_ZB_XLU_SURF2);
+    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2 | Z_UPD);
 
     gSPEndDisplayList(displayListHead++);
 
@@ -4710,8 +4718,7 @@ Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
 Vec3f D_80116274 = { 0.0f, -0.2f, 0.0f };
 
 Gfx D_80116280[] = {
-    gsDPSetRenderMode(G_RM_FOG_SHADE_A, AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU |
-                                            FORCE_BL | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA)),
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2 | Z_UPD),
     gsDPSetAlphaCompare(G_AC_THRESHOLD),
     gsSPEndDisplayList(),
 };
@@ -4925,21 +4932,21 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
     switch (arg1) {
         case 0:
             if (Flags_GetEventChkInf(EVENTCHKINF_09)) {
-                if (Flags_GetInfTable(INFTABLE_05)) {
+                if (Flags_GetInfTable(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE)) {
                     retTextId = 0x1048;
                 } else {
                     retTextId = 0x1047;
                 }
             } else {
                 if (Flags_GetEventChkInf(EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS)) {
-                    if (Flags_GetInfTable(INFTABLE_03)) {
+                    if (Flags_GetInfTable(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO)) {
                         retTextId = 0x1032;
                     } else {
                         retTextId = 0x1031;
                     }
                 } else {
-                    if (Flags_GetInfTable(INFTABLE_00)) {
-                        if (Flags_GetInfTable(INFTABLE_01)) {
+                    if (Flags_GetInfTable(INFTABLE_SARIA_GREETED_LINK)) {
+                        if (Flags_GetInfTable(INFTABLE_SARIA_NOTICED_FAIRY)) {
                             retTextId = 0x1003;
                         } else {
                             retTextId = 0x1002;
@@ -4959,7 +4966,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                         retTextId = 0x1045;
                     }
                 } else {
-                    if (Flags_GetEventChkInf(EVENTCHKINF_03)) {
+                    if (Flags_GetEventChkInf(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO)) {
                         if (Flags_GetInfTable(INFTABLE_0E)) {
                             retTextId = 0x1034;
                         } else {
@@ -5621,7 +5628,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     retTextId = 0x2040;
-                } else if (Flags_GetInfTable(INFTABLE_94)) {
+                } else if (Flags_GetInfTable(INFTABLE_INGO_TALKED_TO_CHILD_LINK_BEFORE_TALON_RETURNED)) {
                     retTextId = 0x2040;
                 } else {
                     retTextId = 0x203F;
@@ -5630,7 +5637,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 if (!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
                     if (!IS_DAY) {
                         retTextId = 0x204E;
-                    } else if (Flags_GetInfTable(INFTABLE_9A)) {
+                    } else if (Flags_GetInfTable(INFTABLE_INGO_TALKED_TO_ADULT_LINK)) {
                         retTextId = 0x2031;
                     } else {
                         retTextId = 0x2030;
@@ -5652,17 +5659,17 @@ void func_80036E50(u16 textId, s16 arg1) {
         case 0:
             switch (textId) {
                 case 0x1001:
-                    Flags_SetInfTable(INFTABLE_00);
+                    Flags_SetInfTable(INFTABLE_SARIA_GREETED_LINK);
                     return;
                 case 0x1002:
-                    Flags_SetInfTable(INFTABLE_01);
+                    Flags_SetInfTable(INFTABLE_SARIA_NOTICED_FAIRY);
                     return;
                 case 0x1031:
-                    Flags_SetEventChkInf(EVENTCHKINF_03);
-                    Flags_SetInfTable(INFTABLE_03);
+                    Flags_SetEventChkInf(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO);
+                    Flags_SetInfTable(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO);
                     return;
                 case 0x1047:
-                    Flags_SetInfTable(INFTABLE_05);
+                    Flags_SetInfTable(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE);
                     return;
             }
             return;
@@ -6017,7 +6024,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
             if (msgCtx->choiceIndex == 1) {
                 func_80035B18(play, actor, 0x2032);
             }
-            Flags_SetInfTable(INFTABLE_9A);
+            Flags_SetInfTable(INFTABLE_INGO_TALKED_TO_ADULT_LINK);
             ret = 0;
             break;
         case 0x2035:

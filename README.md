@@ -1,9 +1,9 @@
 # The Legend of Zelda: Ocarina of Time
 
-[![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
+[![Build Status][gha-badge]][gha] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
 
-[jenkins]: https://jenkins.deco.mp/job/OOT/job/main
-[jenkins-badge]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.deco.mp%2Fjob%2FOOT%2Fjob%2Fmain
+[gha]: https://github.com/zeldaret/oot/actions/workflows/ci.yml?query=branch%3Amain+event%3Apush
+[gha-badge]: https://img.shields.io/github/actions/workflow/status/zeldaret/oot/ci.yml
 
 [progress]: https://zelda.deco.mp/games/oot
 [progress-badge]: https://img.shields.io/endpoint?url=https://zelda.deco.mp/assets/csv/progress-oot-shield.json
@@ -38,6 +38,7 @@ It builds the following versions:
 | gc-jp-mq     | 02-10-30 00:15:15 | GameCube Japan Master Quest               | `69895c5c78442260f6eafb2506dc482a` |
 | gc-us        | 02-12-19 13:28:09 | GameCube US                               | `cd09029edcfb7c097ac01986a0f83d3f` |
 | gc-us-mq     | 02-12-19 14:05:42 | GameCube US Master Quest                  | `da35577fe54579f6a266931cc75f512d` |
+| gc-eu-dbg-2  | 03-02-13 19:46:49 | GameCube Europe/PAL Debug (earlier build) | `ab1ca59d0039e3b34d82db650b54d7b9`<br>`2814fde8d6cfe23a220de6be955b4196` |
 | gc-eu-mq-dbg | 03-02-21 00:16:31 | GameCube Europe/PAL Master Quest Debug    | `75e344f41c26ec2ec5ad92caa9e25629`<br>`8ca71e87de4ce5e9f6ec916202a623e9`<br>`f751d1a097764e2337b1ac9ba1e27699`<br>`dde376d47187b931820d5b2957cded14` |
 | gc-eu-dbg    | 03-02-21 00:49:18 | GameCube Europe/PAL Debug                 | `3c10b67a76616ae2c162def7528724cf`<br>`382dc484e317d6522745c95387e7d5b9` |
 | gc-eu        | 03-02-21 20:12:23 | GameCube Europe/PAL                       | `2c27b4e000e85fd78dbca551f1b1c965` |
@@ -82,7 +83,6 @@ The build process has the following package requirements:
 
 * git
 * build-essential
-* binutils-mips-linux-gnu
 * curl
 * python3
 * python3-pip
@@ -95,18 +95,18 @@ Under Debian / Ubuntu (which we recommend using), you can install them with the 
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu curl python3 python3-pip python3-venv libxml2-dev
+sudo apt-get install git build-essential curl python3 python3-pip python3-venv libxml2-dev
 ```
 
-If you are using GCC as the compiler for Ocarina of Time, you will also need:
+In addition to these packages, a MIPS binutils installation is required. The project aims to support a couple of commonly-encountered MIPS toolchains out-of-the-box, only one is required and is automatically detected:
 
-* gcc-mips-linux-gnu
+* mips64-ultra-elf- or mips64- from the [practicerom toolchain](https://github.com/PracticeROM/packages)
+* mips64-elf- from the [libdragon n64 homebrew library](https://github.com/DragonMinded/libdragon/releases/tag/toolchain-continuous-prerelease)
+* mips-linux-gnu- or mips64-linux-gnu- found in common distribution package managers as e.g. `binutils-mips-linux-gnu`
 
-which can be installed under Debian / Ubuntu with:
+If none of these are available to install, the makefile exposes `MIPS_BINUTILS_PREFIX` as a means to set your own toolchain prefix. Otherwise, consider building one of the first two options from source.
 
-```bash
-sudo apt-get install gcc-mips-linux-gnu
-```
+If you are using GCC as the compiler for Ocarina of Time, you will also need the corresponding gcc compiler for the chosen toolchain. For the first two options above, gcc is included automatically. For mips-linux-gnu- or mips64-linux-gnu- it is often a separate package, e.g. `gcc-mips-linux-gnu`.
 
 #### 2. Clone the repository
 
@@ -151,6 +151,7 @@ This downloads some dependencies (from pip), and compiles tools for the build pr
 Then it generates a new ROM `baseroms/<the-version>/baserom-decompressed.z64`.
 For retail (non-debug) versions, that ROM will be the decompressed equivalent of the ROM.
 For the `gc-eu-mq-dbg` version, that ROM will have the overdump removed and the header patched.
+The other debug ROMs `gc-eu-dbg-2` and `gc-eu-dbg` will also have the overdump removed.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM
