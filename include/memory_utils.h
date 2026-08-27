@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 
-void* MemCpy(void* dest, const void* src, s32 len);
-void* MemSet(void* dest, s32 val, s32 len);
+void* MemCopy(void* dest, void* src, s32 size);
+void* MemSet(void* dest, s32 val, s32 size);
 
 #endif
