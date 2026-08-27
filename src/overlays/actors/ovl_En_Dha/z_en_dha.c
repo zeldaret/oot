@@ -417,7 +417,8 @@ void EnDha_UpdateHealth(EnDha* this, PlayState* play) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDha_SetupDeath(this);
                 this->actor.colChkInfo.health = 8;
-                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
+                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                           COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_14, false));
             } else {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
                 this->unk_1C0 = 9;
