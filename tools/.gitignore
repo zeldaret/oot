@@ -1,14 +1,14 @@
 # Output files
 *.exe
+armips
 bin2c
-elf2rom
-makeromfs
 mkdmadata
 mkldscript
+mkspecrules
 preprocess_pragmas
-reloc_prereq
 vtxdis
 yaz0
 
+compiler_archives/archives/
 ido_recomp/
 egcs/

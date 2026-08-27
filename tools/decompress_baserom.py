@@ -141,7 +141,7 @@ def per_version_fixes(file_content: bytearray, version: str) -> bytearray:
         # Patch the header
         print("Patching header...")
         file_content[0x3E] = 0x50
-    if version == "gc-eu-dbg":
+    if version in {"gc-eu-dbg-2", "gc-eu-dbg"}:
         # Strip the overdump, which consists of an area of 0xFF bytes (which may
         # be erased flash memory) and some unknown data
         print("Stripping overdump...")
@@ -233,7 +233,7 @@ def main():
 
     # Check to see if the ROM is a "vanilla" ROM
     str_hash = get_str_hash(file_content)
-    if version in {"gc-eu-mq-dbg", "gc-eu-dbg"}:
+    if version in {"gc-eu-dbg-2", "gc-eu-mq-dbg", "gc-eu-dbg"}:
         correct_str_hashes = decompressed_str_hashes
     else:
         correct_str_hashes = compressed_str_hashes
