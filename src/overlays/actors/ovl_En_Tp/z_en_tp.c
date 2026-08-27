@@ -32,30 +32,28 @@ void EnTp_Destroy(Actor* thisx, PlayState* play);
 void EnTp_Update(Actor* thisx, PlayState* play);
 void EnTp_Draw(Actor* thisx, PlayState* play);
 
-void EnTp_Tail_SetupFollowHead(EnTp* this);
-void EnTp_Tail_FollowHead(EnTp* this, PlayState* play);
-void EnTp_Head_SetupApproachPlayer(EnTp* this);
-void EnTp_Head_ApproachPlayer(EnTp* this, PlayState* play);
-void EnTp_SetupDie(EnTp* this);
-void EnTp_Die(EnTp* this, PlayState* play);
-void EnTp_Fragment_SetupFade(EnTp* this);
-void EnTp_Fragment_Fade(EnTp* this, PlayState* play);
-void EnTp_Head_SetupTakeOff(EnTp* this);
-void EnTp_Head_TakeOff(EnTp* this, PlayState* play);
-void EnTp_Head_SetupWait(EnTp* this);
-void EnTp_Head_Wait(EnTp* this, PlayState* play);
-void EnTp_Head_SetupBurrowReturnHome(EnTp* this);
-void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play);
+void EnTp_SetupBodyElem(EnTp* this);
+void EnTp_BodyElem(EnTp* this, PlayState* play);
+void EnTp_Head_Attack(EnTp* this, PlayState* play);
+void EnTp_SetupDying(EnTp* this);
+void EnTp_Dying(EnTp* this, PlayState* play);
+void EnTp_SetupBodyElemRemnant(EnTp* this);
+void EnTp_BodyElemRemnant(EnTp* this, PlayState* play);
+void EnTp_Head_Hover(EnTp* this, PlayState* play);
+void EnTp_Head_SetupWaitPlayerAndRise(EnTp* this);
+void EnTp_Head_WaitPlayerAndRise(EnTp* this, PlayState* play);
+void EnTp_Head_SetupSinkIntoGroundAndReappear(EnTp* this);
+void EnTp_Head_SinkIntoGroundAndReappear(EnTp* this, PlayState* play);
 
-typedef enum TailpasaranAction {
-    /* 0 */ TAILPASARAN_ACTION_FRAGMENT_FADE,
-    /* 1 */ TAILPASARAN_ACTION_DIE,
-    /* 2 */ TAILPASARAN_ACTION_TAIL_FOLLOWHEAD,
-    /* 4 */ TAILPASARAN_ACTION_HEAD_WAIT = 4,
-    /* 7 */ TAILPASARAN_ACTION_HEAD_APPROACHPLAYER = 7,
-    /* 8 */ TAILPASARAN_ACTION_HEAD_TAKEOFF,
-    /* 9 */ TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME
-} TailpasaranAction;
+typedef enum EnTpAction {
+    ENTP_ACTION_BODYELEMREMNANT,
+    ENTP_ACTION_DYING,
+    ENTP_ACTION_BODYELEM,
+    ENTP_ACTION_HEAD_WAIT_PLAYER_AND_RISE = 4,
+    ENTP_ACTION_HEAD_ATTACK = 7,
+    ENTP_ACTION_HEAD_8,
+    ENTP_ACTION_HEAD_SINK_INTO_GROUND_AND_REAPPEAR
+} EnTpAction;
 
 ActorProfile En_Tp_Profile = {
     /**/ ACTOR_EN_TP,
@@ -96,114 +94,108 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef enum TailpasaranDamageReaction {
-    /* 00 */ TAILPASARAN_DMG_REACT_NONE,
-    /* 01 */ TAILPASARAN_DMG_REACT_DEKUNUT,
-    /* 14 */ TAILPASARAN_DMG_REACT_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
-    /* 15 */ TAILPASARAN_DMG_REACT_INSULATING     // Kills the Tailpasaran and does not shock Player
-} TailpasaranDamageReaction;
+typedef enum EnTpDamageReaction {
+    ENTP_DMG_REACT_NO_EFFECT,
+    ENTP_DMG_REACT_STUN,
+    ENTP_DMG_REACT_MELEE_BACKLASH = 0xE,
+    ENTP_DMG_REACT_VULNERABLE
+} EnTpDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_DEKUNUT),
-    /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_INSULATING),
-    /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Explosive     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Boomerang     */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_INSULATING),
-    /* Normal arrow  */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Hookshot      */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Master sword  */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Giant's Knife */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Fire arrow    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Ice arrow     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Light arrow   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Fire magic    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Ice magic     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Light magic   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Shield        */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Giant spin    */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Master spin   */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Kokiri jump   */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Giant jump    */ DMG_ENTRY(8, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Master jump   */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Unknown 1     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
-    /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, ENTP_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, ENTP_DMG_REACT_VULNERABLE),
+    /* Slingshot     */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Explosive     */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Boomerang     */ DMG_ENTRY(1, ENTP_DMG_REACT_VULNERABLE),
+    /* Normal arrow  */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Hammer swing  */ DMG_ENTRY(2, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Hookshot      */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Master sword  */ DMG_ENTRY(2, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Giant's Knife */ DMG_ENTRY(4, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Fire arrow    */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Ice arrow     */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Light arrow   */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Unk arrow 1   */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Unk arrow 2   */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Unk arrow 3   */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Fire magic    */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Ice magic     */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Light magic   */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Shield        */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Giant spin    */ DMG_ENTRY(4, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Master spin   */ DMG_ENTRY(2, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Giant jump    */ DMG_ENTRY(8, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Master jump   */ DMG_ENTRY(4, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Unknown 1     */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Unblockable   */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
+    /* Hammer jump   */ DMG_ENTRY(4, ENTP_DMG_REACT_MELEE_BACKLASH),
+    /* Unknown 2     */ DMG_ENTRY(0, ENTP_DMG_REACT_NO_EFFECT),
 };
-
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
 };
 
-void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
+void EnTp_SetupAction(EnTp* this, void (*actionFunc)(EnTp*, PlayState*)) {
     this->actionFunc = actionFunc;
 }
 
 void EnTp_Init(Actor* thisx, PlayState* play2) {
-    PlayState* play = play2;
-    EnTp* this = (EnTp*)thisx;
-    EnTp* now;
-    EnTp* next;
+    EnTp* newChild;
+    EnTp* prevChild;
     s32 i;
+    EnTp* this = (EnTp*)thisx;
+    PlayState* play = play2;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
-    this->unk_150 = 0;
+    this->modeVar = 0;
     this->actor.colChkInfo.health = 1;
-    now = this;
-    this->alpha = 255;
+    prevChild = this;
+    this->bodyElemAlpha = 255;
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
-
-    if (this->actor.params <= TAILPASARAN_HEAD) {
+    if (this->actor.params < 0) { // ENTP_TYPE_HEAD
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->timer = 0;
         this->collider.base.acFlags |= AC_HARD;
-        this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius = 8;
-        EnTp_Head_SetupWait(this);
+        this->collider.elements[0].dim.worldSphere.radius = 8;
+        this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius;
+        EnTp_Head_SetupWaitPlayerAndRise(this);
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Actor_SetScale(&this->actor, 1.5f);
-
-        for (i = 0; i <= 6; i++) {
-            next = (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
-                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0 * i);
-
-            if ((0 * i) != 0) {} // Very fake, but needed to get the s registers right
-
-            if (next != NULL) {
-                now->actor.child = &next->actor;
-                next->actor.parent = &now->actor;
-                next->kiraSpawnTimer = i + 1;
-                next->head = this;
-                Actor_SetScale(&next->actor, 0.3f);
-
+        for (i = 0; i < 7; i++) {
+            if (((0 * i) != 0) && ((0 * i) != 0)) {}
+            newChild =
+                (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x, this->actor.world.pos.y,
+                                   this->actor.world.pos.z, 0, 0, 0, 0 * i /* ENTP_TYPE_BODYELEM */);
+            if (newChild != NULL) {
+                prevChild->actor.child = &newChild->actor;
+                newChild->actor.parent = &prevChild->actor;
+                newChild->sparkTimer = i + 1;
+                newChild->headInstance = this;
+                Actor_SetScale(&newChild->actor, 0.3f);
                 if (i == 2) {
-                    next->actor.flags |=
+                    newChild->actor.flags |=
                         ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
-                    next->unk_150 = 1; // Why?
+                    newChild->modeVar = 1;
                 }
-
-                next->timer = next->unk_15C = i * -5;
-                next->horizontalVariation = 6.0f - (i * 0.75f);
-                now = next;
-
-                if ((0 * i) != 0) {}
+                newChild->timer2 = i * -5;
+                newChild->timer = i * -5;
+                prevChild = newChild;
+                newChild->bodyElemDist = 6.0f - ((f32)i * 0.75f);
             }
         }
-    } else if (this->actor.params == TAILPASARAN_TAIL) {
-        EnTp_Tail_SetupFollowHead(this);
-    } else {
-        EnTp_Fragment_SetupFade(this);
+    } else if (this->actor.params == ENTP_TYPE_BODYELEM) {
+        EnTp_SetupBodyElem(this);
+    } else { // ENTP_TYPE_BODYELEMREMNANT (only remaining params EnTp is spawned with)
+        EnTp_SetupBodyElemRemnant(this);
     }
 }
 
@@ -213,251 +205,222 @@ void EnTp_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-void EnTp_Tail_SetupFollowHead(EnTp* this) {
-    this->actionIndex = TAILPASARAN_ACTION_TAIL_FOLLOWHEAD;
-    EnTp_SetupAction(this, EnTp_Tail_FollowHead);
+void EnTp_SetupBodyElem(EnTp* this) {
+    this->action = ENTP_ACTION_BODYELEM;
+    EnTp_SetupAction(this, EnTp_BodyElem);
 }
 
-void EnTp_Tail_FollowHead(EnTp* this, PlayState* play) {
-    s16 angle;
-    s16 phase;
+void EnTp_BodyElem(EnTp* this, PlayState* play) {
+    s16 sp36;
+    s16 temp_a0_sp34;
 
-    if (this->actor.params == TAILPASARAN_TAIL_DYING) {
-        this->actionIndex = TAILPASARAN_ACTION_DIE;
-
+    if (this->actor.params == ENTP_TYPE_BODYELEM_DYING) {
+        this->action = ENTP_ACTION_DYING;
         if (this->actor.parent == NULL) {
-            EnTp_SetupDie(this);
+            EnTp_SetupDying(this);
         }
     } else {
-        if (this->unk_150 != 0) {
+        if (this->modeVar != 0) {
             this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         }
-
-        if (this->head->unk_150 != 0) {
-            this->actor.speed = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
-            if (this->actor.world.pos.y < this->head->actor.home.pos.y) {
+        if (this->headInstance->modeVar != 0) {
+            this->actor.speed = this->redShineAmount = this->actor.velocity.y = this->unk_168 = 0.0f;
+            if (this->actor.world.pos.y < this->headInstance->actor.home.pos.y) {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
-
             this->actor.world.pos = this->actor.parent->prevPos;
         } else {
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.parent->world.pos.y - 4.0f, 1.0f, 1.0f, 0.0f);
-            angle = this->head->actor.shape.rot.y + 0x4000;
-            phase = 2000 * (this->head->unk_15C + this->timer);
+            sp36 = this->headInstance->actor.shape.rot.y + 0x4000;
+            temp_a0_sp34 = (this->headInstance->timer2 + this->timer) * 0x7D0;
             this->actor.world.pos.x =
-                this->actor.home.pos.x + Math_SinS(phase) * (Math_SinS(angle) * this->horizontalVariation);
+                (Math_SinS(temp_a0_sp34) * (Math_SinS(sp36) * this->bodyElemDist)) + this->actor.home.pos.x;
             this->actor.world.pos.z =
-                this->actor.home.pos.z + Math_SinS(phase) * (Math_CosS(angle) * this->horizontalVariation);
+                (Math_SinS(temp_a0_sp34) * (Math_CosS(sp36) * this->bodyElemDist)) + this->actor.home.pos.z;
         }
     }
 }
 
-void EnTp_Head_SetupApproachPlayer(EnTp* this) {
-    this->actionIndex = TAILPASARAN_ACTION_HEAD_APPROACHPLAYER;
+void EnTp_Head_SetupAttack(EnTp* this) {
+    this->action = ENTP_ACTION_HEAD_ATTACK;
     this->timer = 200;
-    EnTp_SetupAction(this, EnTp_Head_ApproachPlayer);
+    EnTp_SetupAction(this, EnTp_Head_Attack);
 }
 
-void EnTp_Head_ApproachPlayer(EnTp* this, PlayState* play) {
-    Player* player = GET_PLAYER(play);
+void EnTp_Head_Attack(EnTp* this, PlayState* play) {
+    Player* player;
 
+    player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
     SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
-
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->collider.base.at) {
             this->timer = 1;
         }
     }
-
-    if (this->red < 255) {
-        this->red += 15;
+    if (this->redShineAmount < 255) {
+        this->redShineAmount += 15;
     }
-
-    if (Math_CosF(this->heightPhase) == 0.0f) {
-        this->extraHeightVariation = 2.0f * Rand_ZeroOne();
+    if (Math_CosF(this->unk_168) == 0.0f) {
+        this->unk_170 = 2.0f * Rand_ZeroOne();
     }
-
-    this->actor.world.pos.y += Math_CosF(this->heightPhase) * (2.0f + this->extraHeightVariation);
-    this->heightPhase += 0.2f;
+    this->actor.world.pos.y += Math_CosF(this->unk_168) * (2.0f + this->unk_170);
+    this->unk_168 += 0.2f;
     Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     this->timer--;
-
     if (this->timer != 0) {
-        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 750, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.shape.rot.y = this->actor.world.rot.y;
     } else {
-        EnTp_Head_SetupBurrowReturnHome(this);
+        EnTp_Head_SetupSinkIntoGroundAndReappear(this);
     }
 }
 
-void EnTp_SetupDie(EnTp* this) {
-    Actor* now;
+void EnTp_SetupDying(EnTp* this) {
+    Actor* child;
 
     this->timer = 2;
-
-    if (this->actor.params <= TAILPASARAN_HEAD) {
-        for (now = this->actor.child; now != NULL; now = now->child) {
-            now->params = TAILPASARAN_TAIL_DYING;
-            now->colChkInfo.health = 0;
+    if (this->actor.params < 0) { // ENTP_TYPE_HEAD
+        child = this->actor.child;
+        while (child != NULL) {
+            child->params = ENTP_TYPE_BODYELEM_DYING;
+            child->colChkInfo.health = 0;
+            child = child->child;
         }
-
         this->timer = 13;
         Actor_PlaySfx(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
-    this->actionIndex = TAILPASARAN_ACTION_DIE;
-    EnTp_SetupAction(this, EnTp_Die);
+    this->action = ENTP_ACTION_DYING;
+    EnTp_SetupAction(this, EnTp_Dying);
 }
 
-/**
- * Spawns effects and smaller tail segment-like fragments
- */
-void EnTp_Die(EnTp* this, PlayState* play) {
-    EnTp* now;
+void EnTp_Dying(EnTp* this, PlayState* play) {
     s16 i;
+    EnTp* actor;
     s32 pad;
-    Vec3f effectVelAccel = { 0.0f, 0.5f, 0.0f };
-    Vec3f effectPos = { 0.0f, 0.0f, 0.0f };
+    Vec3f sp78 = { 0.0f, 0.5f, 0.0f };
+    Vec3f sp6C = { 0.0f, 0.0f, 0.0f };
 
     this->timer--;
-
     if (this->timer <= 0) {
-        if (this->actor.params == TAILPASARAN_HEAD_DYING) {
-            effectPos.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
-            effectPos.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
-            effectPos.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(play, &effectPos, &effectVelAccel, &effectVelAccel, 100, 0, 255, 255, 255, 255, 0, 0,
-                                 255, 1, 9, 1);
-
-            effectPos.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
-            effectPos.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
-            effectPos.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(play, &effectPos, &effectVelAccel, &effectVelAccel, 100, 0, 255, 255, 255, 255, 0, 0,
-                                 255, 1, 9, 1);
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
-        } else {
+        if (this->actor.params == ENTP_TYPE_HEAD_DYING) {
+            sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
+            sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
+            sp6C.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
+            EffectSsDeadDb_Spawn(play, &sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
+            sp6C.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
+            sp6C.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
+            sp6C.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
+            EffectSsDeadDb_Spawn(play, &sp6C, &sp78, &sp78, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_5, false));
+        } else { // ENTP_TYPE_BODYELEM_DYING
 #if OOT_VERSION < NTSC_1_1
             for (i = 0; i < 2; i++)
 #else
             for (i = 0; i < 1; i++)
 #endif
             {
-                now =
-                    (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
-                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, TAILPASARAN_FRAGMENT);
-
-                if (now != NULL) {
-                    Actor_SetScale(&now->actor, this->actor.scale.z * 0.5f);
-                    now->red = this->red;
+                actor = (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
+                                           this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
+                                           ENTP_TYPE_BODYELEMREMNANT);
+                if (actor != NULL) {
+                    Actor_SetScale(&actor->actor, this->actor.scale.z * 0.5f);
+                    actor->redShineAmount = this->redShineAmount;
                 }
             }
         }
-
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
-            this->actor.child->params = TAILPASARAN_TAIL_DYING;
+            this->actor.child->params = ENTP_TYPE_BODYELEM_DYING;
             this->actor.child->colChkInfo.health = 0;
         }
-
-        this->unk_150 = 2;
+        this->modeVar = 2;
         Actor_Kill(&this->actor);
     }
 }
 
-void EnTp_Fragment_SetupFade(EnTp* this) {
-    this->actionIndex = TAILPASARAN_ACTION_FRAGMENT_FADE;
-    this->actor.world.pos.x += ((Rand_ZeroOne() - 0.5f) * 5.0f);
-    this->actor.world.pos.y += ((Rand_ZeroOne() - 0.5f) * 5.0f);
-    this->actor.world.pos.z += ((Rand_ZeroOne() - 0.5f) * 5.0f);
+void EnTp_SetupBodyElemRemnant(EnTp* this) {
+    this->action = ENTP_ACTION_BODYELEMREMNANT;
+    this->actor.world.pos.x += (Rand_ZeroOne() - 0.5f) * 5.0f;
+    this->actor.world.pos.y += (Rand_ZeroOne() - 0.5f) * 5.0f;
+    this->actor.world.pos.z += (Rand_ZeroOne() - 0.5f) * 5.0f;
     this->actor.velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    EnTp_SetupAction(this, EnTp_Fragment_Fade);
+    EnTp_SetupAction(this, EnTp_BodyElemRemnant);
 }
 
-void EnTp_Fragment_Fade(EnTp* this, PlayState* play) {
+void EnTp_BodyElemRemnant(EnTp* this, PlayState* play) {
     Actor_UpdatePos(&this->actor);
-    this->alpha -= 20;
-
-    if (this->alpha < 20) {
-        this->alpha = 0;
+    this->bodyElemAlpha -= 20;
+    if (this->bodyElemAlpha < 20) {
+        this->bodyElemAlpha = 0;
         Actor_Kill(&this->actor);
     }
 }
 
-void EnTp_Head_SetupTakeOff(EnTp* this) {
+void EnTp_Head_SetupHover(EnTp* this) {
     this->timer = (Rand_ZeroOne() * 15.0f) + 40.0f;
-    this->actionIndex = TAILPASARAN_ACTION_HEAD_TAKEOFF;
-    EnTp_SetupAction(this, EnTp_Head_TakeOff);
+    this->action = ENTP_ACTION_HEAD_8;
+    EnTp_SetupAction(this, EnTp_Head_Hover);
 }
 
-/**
- * Flies up and loops around until it makes for Player
- */
-void EnTp_Head_TakeOff(EnTp* this, PlayState* play) {
+void EnTp_Head_Hover(EnTp* this, PlayState* play) {
     s32 pad;
-    Player* player = GET_PLAYER(play);
+    Player* player;
 
+    player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
-    Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->horizontalVariation, 1.0f,
+    // bodyElemDist_ is always 0 here
+    Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->bodyElemDist, 1.0f,
                        this->actor.speed * 0.25f, 0.0f);
     SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
-
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->collider.base.at) {
-            this->unk_15C = 1;
+            this->timer2 = 1;
         }
     }
-
-    if (this->red != 0) {
-        this->red -= 15;
+    if (this->redShineAmount != 0) {
+        this->redShineAmount -= 15;
     }
-
-    if (Math_CosF(this->heightPhase) == 0.0f) {
-        this->extraHeightVariation = Rand_ZeroOne() * 4.0f;
+    if (Math_CosF(this->unk_168) == 0.0f) {
+        this->unk_170 = Rand_ZeroOne() * 4.0f;
     }
-
-    this->actor.world.pos.y +=
-        Math_CosF(this->heightPhase) * ((this->actor.speed * 0.25f) + this->extraHeightVariation);
+    this->actor.world.pos.y += Math_CosF(this->unk_168) * ((this->actor.speed * 0.25f) + this->unk_170);
+    // unk_164 is always 0
     this->actor.world.rot.y += this->unk_164;
-    this->heightPhase += 0.2f;
-
+    this->unk_168 += 0.2f;
     if (this->timer != 0) {
         this->timer--;
     }
-
-    Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos), 1, 750,
-                       0);
-
+    Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos), 1,
+                       0x2EE, 0);
     if (this->timer == 0) {
-        EnTp_Head_SetupApproachPlayer(this);
+        EnTp_Head_SetupAttack(this);
     }
-
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-void EnTp_Head_SetupWait(EnTp* this) {
-    this->actionIndex = TAILPASARAN_ACTION_HEAD_WAIT;
-    this->unk_150 = 0;
+void EnTp_Head_SetupWaitPlayerAndRise(EnTp* this) {
+    this->action = ENTP_ACTION_HEAD_WAIT_PLAYER_AND_RISE;
+    this->modeVar = 0;
     this->actor.shape.rot.x = -0x4000;
     this->timer = 60;
-    this->unk_15C = 0;
+    this->timer2 = 0;
     this->actor.speed = 0.0f;
-    EnTp_SetupAction(this, EnTp_Head_Wait);
+    EnTp_SetupAction(this, EnTp_Head_WaitPlayerAndRise);
 }
 
-/**
- * Awaken and rise from the ground when Player is closer than 200
- */
-void EnTp_Head_Wait(EnTp* this, PlayState* play) {
-    Player* player = GET_PLAYER(play);
-    s16 yaw;
+void EnTp_Head_WaitPlayerAndRise(EnTp* this, PlayState* play) {
+    Player* player;
+    s16 sp32;
 
-    this->unk_15C--;
-
+    player = GET_PLAYER(play);
+    this->timer2--;
     if (this->actor.xzDistToPlayer < 200.0f) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
@@ -465,168 +428,159 @@ void EnTp_Head_Wait(EnTp* this, PlayState* play) {
                 this->timer = 0;
             }
         }
-
         if (this->timer != 0) {
             this->timer--;
-
-            Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 500, 0);
-            Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 1500, 0);
-
-            yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos) + 0x4000;
+            Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 0x1F4, 0);
+            Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
+            sp32 = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos) + 0x4000;
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 0.3f, 1.0f, 0.3f);
-            this->actor.world.pos.x = this->actor.home.pos.x +
-                                      (Math_SinS(2000 * this->unk_15C) * (Math_SinS(yaw) * this->horizontalVariation));
-            this->actor.world.pos.z = this->actor.home.pos.z +
-                                      (Math_SinS(2000 * this->unk_15C) * (Math_CosS(yaw) * this->horizontalVariation));
+            // bodyElemDist_ is always 0 here
+            this->actor.world.pos.x =
+                (Math_SinS(this->timer2 * 0x7D0) * (Math_SinS(sp32) * this->bodyElemDist)) + this->actor.home.pos.x;
+            this->actor.world.pos.z =
+                (Math_SinS(this->timer2 * 0x7D0) * (Math_CosS(sp32) * this->bodyElemDist)) + this->actor.home.pos.z;
         } else {
             this->actor.shape.rot.x = 0;
-            this->unk_150 = 1;
-            EnTp_Head_SetupTakeOff(this);
+            this->modeVar = 1;
+            EnTp_Head_SetupHover(this);
         }
     } else {
-        Math_SmoothStepToS(&this->actor.shape.rot.x, -0x4000, 1, 500, 0);
-
+        Math_SmoothStepToS(&this->actor.shape.rot.x, -0x4000, 1, 0x1F4, 0);
         if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.3f, 1.5f, 0.3f) == 0.0f) {
             this->timer = 60;
         } else {
-            yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
+            sp32 = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
             this->actor.world.pos.x =
-                this->actor.home.pos.x + (Math_SinS(2000 * this->unk_15C) * (Math_SinS(yaw) * 6.0f));
+                (Math_SinS(this->timer2 * 0x7D0) * (Math_SinS(sp32) * 6.0f)) + this->actor.home.pos.x;
             this->actor.world.pos.z =
-                this->actor.home.pos.z + (Math_SinS(2000 * this->unk_15C) * (Math_CosS(yaw) * 6.0f));
+                (Math_SinS(this->timer2 * 0x7D0) * (Math_CosS(sp32) * 6.0f)) + this->actor.home.pos.z;
         }
     }
-
     this->actor.shape.rot.y = this->actor.world.rot.y;
-
     if (this->actor.world.pos.y != this->actor.home.pos.y) {
         SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
     }
 }
 
-void EnTp_Head_SetupBurrowReturnHome(EnTp* this) {
-    this->actionIndex = TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME;
+void EnTp_Head_SetupSinkIntoGroundAndReappear(EnTp* this) {
+    this->action = ENTP_ACTION_HEAD_SINK_INTO_GROUND_AND_REAPPEAR;
     this->timer = 0;
-    EnTp_SetupAction(this, EnTp_Head_BurrowReturnHome);
+    EnTp_SetupAction(this, EnTp_Head_SinkIntoGroundAndReappear);
 }
 
-void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play) {
-    static Vec3f bubbleAccel = { 0.0f, -0.5f, 0.0f };
-    static Color_RGBA8 bubblePrimColor = { 255, 255, 255, 255 };
-    static Color_RGBA8 bubbleEnvColor = { 150, 150, 150, 0 };
-    Vec3f bubbleVelocity;
+void EnTp_Head_SinkIntoGroundAndReappear(EnTp* this, PlayState* play) {
+    static Vec3f sBubbleAccel = { 0.0f, -0.5f, 0.0f };
+    static Color_RGBA8 sBubblePrimColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 sBubbleEnvColor = { 150, 150, 150, 0 };
+    Vec3f bubbleVel;
     Vec3f bubblePos;
-    s32 closeToFloor;
-    EnTp* now;
-    s16 temp_v0; // Required to match, usage can maybe be improved
+    s32 isInsideGround;
+    EnTp* child;
+    s16 new_var; //! FAKE
 
-    closeToFloor = false;
-    temp_v0 = this->timer;
-    this->unk_15C--;
-
-    if ((temp_v0 != 0) || ((this->actor.home.pos.y - this->actor.world.pos.y) > 60.0f)) {
-        this->timer = temp_v0 - 1;
-        temp_v0 = this->timer;
-
-        if (temp_v0 == 0) {
-            EnTp_Head_SetupWait(this);
-
-            for (now = (EnTp*)this->actor.child; now != NULL; now = (EnTp*)now->actor.child) {
-                now->unk_15C = now->timer;
+    isInsideGround = false;
+    this->timer2--;
+    // timer is initialized to 0,
+    // so this runs due to the pos.y check once the actor is deep enough under ground (see other "plunge" branch below)
+    if ((this->timer != 0) || ((this->actor.home.pos.y - this->actor.world.pos.y) > 60.0f)) {
+        if (1) {
+            this->timer--;
+        }
+        // The first time this is reached timer is -1, so the other branch runs
+        if ((new_var = this->timer) == 0) {
+            // 4. Finished reappearing
+            EnTp_Head_SetupWaitPlayerAndRise(this);
+            child = (EnTp*)this->actor.child;
+            while (child != NULL) {
+                child->timer2 = child->timer;
+                child = (EnTp*)child->actor.child;
             }
         } else {
+            // The first time this is reached shape.rot.x is 0x4000 (see below)
+            // and this block sets it to -0x4000, hence this block runs once
             if (this->actor.shape.rot.x != -0x4000) {
                 this->timer = 80;
+                // 2. Teleport the head (this) and all body elements to home
                 this->actor.velocity.y = 0.0f;
                 this->actor.speed = 0.0f;
                 this->actor.world.pos = this->actor.home.pos;
                 this->actor.shape.rot.x = -0x4000;
-
-                for (now = (EnTp*)this->actor.child; now != NULL; now = (EnTp*)now->actor.child) {
-                    now->actor.velocity.y = 0.0f;
-                    now->actor.speed = 0.0f;
-                    now->actor.world.pos = this->actor.home.pos;
-                    now->actor.world.pos.y = this->actor.home.pos.y - 80.0f;
+                child = (EnTp*)this->actor.child;
+                while (child != NULL) {
+                    child->actor.velocity.y = 0.0f;
+                    child->actor.speed = 0.0f;
+                    child->actor.world.pos = this->actor.home.pos;
+                    child->actor.world.pos.y = this->actor.home.pos.y - 80.0f;
+                    child = (EnTp*)child->actor.child;
                 }
             }
-
-            this->actor.world.pos.y = this->actor.home.pos.y - this->timer;
+            // 3. Raise back up through the floor
+            this->actor.world.pos.y = this->actor.home.pos.y - (f32)this->timer;
         }
     } else {
+        // 1. Plunge towards and into the ground
         if (this->actor.shape.rot.x != 0x4000) {
             this->actor.shape.rot.x -= 0x400;
         }
-
-        if (this->red != 0) {
-            this->red -= 15;
+        if (this->redShineAmount != 0) {
+            this->redShineAmount -= 15;
         }
-
         this->actor.speed = 2.0f * Math_CosS(this->actor.shape.rot.x);
         this->actor.velocity.y = Math_SinS(this->actor.shape.rot.x) * -2.0f;
-
         if ((this->actor.world.pos.y - this->actor.floorHeight) < 20.0f) {
-            closeToFloor = true;
+            isInsideGround = true;
         }
-
         if (this->actor.world.pos.y != this->actor.home.pos.y) {
             SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
         }
-
-        if (closeToFloor && ((play->gameplayFrames & 1) != 0)) {
+        if (isInsideGround && (play->gameplayFrames & 1)) {
             bubblePos = this->actor.world.pos;
             bubblePos.y = this->actor.floorHeight;
-
-            bubbleVelocity.x = Rand_CenteredFloat(5.0f);
-            bubbleVelocity.y = (Rand_ZeroOne() * 3.5f) + 1.5f;
-            bubbleVelocity.z = Rand_CenteredFloat(5.0f);
-
-            EffectSsDtBubble_SpawnCustomColor(play, &bubblePos, &bubbleVelocity, &bubbleAccel, &bubblePrimColor,
-                                              &bubbleEnvColor, Rand_S16Offset(100, 50), 20, 0);
+            bubbleVel.x = Rand_CenteredFloat(5.0f);
+            bubbleVel.y = (Rand_ZeroOne() * 3.5f) + 1.5f;
+            bubbleVel.z = Rand_CenteredFloat(5.0f);
+            EffectSsDtBubble_SpawnCustomColor(play, &bubblePos, &bubbleVel, &sBubbleAccel, &sBubblePrimColor,
+                                              &sBubbleEnvColor, Rand_S16Offset(100, 50), 20, 0);
         }
     }
 }
 
-void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
-    s32 phi_s2;
-    s32 phi_s4;
-    EnTp* head; // Can eliminate this and just use now, but they're used differently
-    EnTp* now;
+void EnTp_CheckCollide(EnTp* this, PlayState* play) {
+    EnTp* parent;
+    EnTp* child;
+    s32 isHeadInstance;
+    s32 applyStun;
+    EnTp* headInstance;
 
-    if ((this->collider.base.acFlags & AC_HIT) && (this->actionIndex >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD)) {
-        phi_s4 = phi_s2 = 0;
-
-        if (this->actor.params <= TAILPASARAN_HEAD) {
-            phi_s2 = 1;
+    if ((this->collider.base.acFlags & AC_HIT) && (this->action >= ENTP_ACTION_BODYELEM)) {
+        isHeadInstance = false;
+        applyStun = false;
+        if (this->actor.params < 0) { // ENTP_TYPE_HEAD
+            isHeadInstance = true;
         }
-
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
-        this->damageReaction = this->actor.colChkInfo.damageReaction;
-
-        if (this->actor.colChkInfo.damageReaction != TAILPASARAN_DMG_REACT_NONE) {
-            if (this->actor.colChkInfo.damageReaction == TAILPASARAN_DMG_REACT_DEKUNUT) {
-                phi_s4 = 1;
+        this->unk_158 = this->actor.colChkInfo.damageReaction;
+        if (this->actor.colChkInfo.damageReaction != ENTP_DMG_REACT_NO_EFFECT) {
+            if (this->actor.colChkInfo.damageReaction == ENTP_DMG_REACT_STUN) {
+                applyStun = true;
             }
-
-            // Head is invincible
-            if (phi_s2 == 0) {
+            if (!isHeadInstance) {
                 Actor_ApplyDamage(&this->actor);
             }
-
             if (this->actor.colChkInfo.health == 0) {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                head = this->head;
-
-                if (head->actor.params <= TAILPASARAN_HEAD) {
-                    EnTp_SetupDie(head);
-                    head->damageReaction = this->actor.colChkInfo.damageReaction;
-                    head->actor.params = TAILPASARAN_HEAD_DYING;
+                headInstance = this->headInstance;
+                if (headInstance->actor.params < 0) { // ENTP_TYPE_HEAD
+                    EnTp_SetupDying(headInstance);
+                    headInstance->unk_158 = this->actor.colChkInfo.damageReaction;
+                    headInstance->actor.params = ENTP_TYPE_HEAD_DYING;
                 }
             } else {
-                if (phi_s4 != 0) {
+                if (applyStun) {
                     this->actor.freezeTimer = 80;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                    if (phi_s2 != 0) {
+                    if (isHeadInstance) {
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
                                              80);
                     } else {
@@ -634,37 +588,36 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
                                              80);
                     }
                 }
-
-                for (now = (EnTp*)this->actor.parent; now != NULL; now = (EnTp*)now->actor.parent) {
-                    now->collider.base.acFlags &= ~AC_HIT;
-
-                    if (phi_s4 != 0) {
-                        now->actor.freezeTimer = 80;
+                parent = (EnTp*)this->actor.parent;
+                while (parent != NULL) {
+                    parent->collider.base.acFlags &= ~AC_HIT;
+                    if (applyStun) {
+                        parent->actor.freezeTimer = 80;
                         Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-
-                        if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
-                                                 80);
+                        if (isHeadInstance) {
+                            Actor_SetColorFilter(&parent->actor, COLORFILTER_COLORFLAG_BLUE, 255,
+                                                 COLORFILTER_BUFFLAG_OPA, 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
-                                                 80);
+                            Actor_SetColorFilter(&parent->actor, COLORFILTER_COLORFLAG_BLUE, 255,
+                                                 COLORFILTER_BUFFLAG_XLU, 80);
                         }
                     }
+                    parent = (EnTp*)parent->actor.parent;
                 }
-
-                for (now = (EnTp*)this->actor.child; now != NULL; now = (EnTp*)now->actor.child) {
-                    now->collider.base.acFlags &= ~AC_HIT;
-                    if (phi_s4 != 0) {
-                        now->actor.freezeTimer = 80;
-
-                        if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
-                                                 80);
+                child = (EnTp*)this->actor.child;
+                while (child != NULL) {
+                    child->collider.base.acFlags &= ~AC_HIT;
+                    if (applyStun) {
+                        child->actor.freezeTimer = 80;
+                        if (isHeadInstance) {
+                            Actor_SetColorFilter(&child->actor, COLORFILTER_COLORFLAG_BLUE, 255,
+                                                 COLORFILTER_BUFFLAG_OPA, 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
-                                                 80);
+                            Actor_SetColorFilter(&child->actor, COLORFILTER_COLORFLAG_BLUE, 255,
+                                                 COLORFILTER_BUFFLAG_XLU, 80);
                         }
                     }
+                    child = (EnTp*)child->actor.child;
                 }
             }
         }
@@ -672,121 +625,104 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 }
 
 void EnTp_Update(Actor* thisx, PlayState* play) {
+    Player* player;
     s32 pad;
+    Vec3f sparkVel = { 0.0f, 0.0f, 0.0f };
+    Vec3f sparkAccel = { 0.0f, -0.6f, 0.0f };
+    Vec3f sparkPos;
+    Color_RGBA8 sparkPrimColor = { 0, 0, 255, 255 };
+    Color_RGBA8 sparkEnvColor = { 0, 0, 0, 0 };
     EnTp* this = (EnTp*)thisx;
-    Vec3f kiraVelocity = { 0.0f, 0.0f, 0.0f };
-    Vec3f kiraAccel = { 0.0f, -0.6f, 0.0f };
-    Vec3f kiraPos;
-    Color_RGBA8 kiraPrimColor = { 0, 0, 255, 255 };
-    Color_RGBA8 kiraEnvColor = { 0, 0, 0, 0 };
-    Player* player = GET_PLAYER(play);
-    s16 yawToWall;
+    s16 v;
 
-    if (player->stateFlags1 & PLAYER_STATE1_26) { // Shielding
-        this->damageReaction = TAILPASARAN_DMG_REACT_NONE;
+    player = GET_PLAYER(play);
+
+    if (player->stateFlags1 & PLAYER_STATE1_26) {
+        this->unk_158 = ENTP_DMG_REACT_NO_EFFECT;
     }
-
     if (this->actor.colChkInfo.health != 0) {
-        EnTp_UpdateDamage(this, play);
+        EnTp_CheckCollide(this, play);
     }
-
     this->actionFunc(this, play);
-
-    if (this->actor.params <= TAILPASARAN_HEAD) {
+    if (this->actor.params < 0) { // ENTP_TYPE_HEAD
         Actor_MoveXZGravity(&this->actor);
-
-        if (this->actionIndex != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
+        if (this->action != ENTP_ACTION_HEAD_SINK_INTO_GROUND_AND_REAPPEAR) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 15.0f, 10.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
-
-        // Turn away from wall
         if ((this->actor.speed != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
-            yawToWall = this->actor.wallYaw - this->actor.world.rot.y;
-
-            if (ABS(yawToWall) > 0x4000) {
-                if (yawToWall >= 0) {
-                    this->actor.world.rot.y -= 500;
+            v = this->actor.wallYaw - this->actor.world.rot.y;
+            if (ABS(v) > 0x4000) {
+                if (v >= 0) {
+                    this->actor.world.rot.y -= 0x1F4;
                 } else {
-                    this->actor.world.rot.y += 500;
+                    this->actor.world.rot.y += 0x1F4;
                 }
-
                 this->actor.shape.rot.y = this->actor.world.rot.y;
             }
         }
-
         this->actor.shape.rot.z += 0x800;
-
         if (this->actor.shape.rot.z == 0) {
             SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_CRY);
         }
-
-        if (this->actionIndex >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) {
+        if (this->action >= ENTP_ACTION_BODYELEM) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
     }
-
-    if (this->actor.params != TAILPASARAN_TAIL_DYING) {
-        this->kiraSpawnTimer--;
-        this->kiraSpawnTimer &= 7;
+    if (this->actor.params != ENTP_TYPE_BODYELEM_DYING) {
+        this->sparkTimer--;
+        this->sparkTimer &= 7;
     }
-
     this->actor.focus.pos = this->actor.world.pos;
-
-    if (this->damageReaction == TAILPASARAN_DMG_REACT_SHOCKING) {
+    if (this->unk_158 == ENTP_DMG_REACT_MELEE_BACKLASH) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
-
-    if ((this->kiraSpawnTimer & 7) == 0) {
-        kiraPrimColor.r = this->red;
-        kiraAccel.x = -this->actor.velocity.x * 0.25f;
-        kiraAccel.y = -this->actor.velocity.y * 0.25f;
-        kiraAccel.z = -this->actor.velocity.z * 0.25f;
-        kiraPos.x = ((Rand_ZeroOne() - 0.5f) * 25.0f) + this->actor.world.pos.x;
-        kiraPos.y = ((Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.world.pos.y;
-        kiraPos.z = ((Rand_ZeroOne() - 0.5f) * 25.0f) + this->actor.world.pos.z;
-        EffectSsKiraKira_SpawnSmall(play, &kiraPos, &kiraVelocity, &kiraAccel, &kiraPrimColor, &kiraEnvColor);
+    if ((this->sparkTimer & 7) == 0) {
+        sparkPrimColor.r = this->redShineAmount;
+        sparkAccel.x = -this->actor.velocity.x * 0.25f;
+        sparkAccel.y = -this->actor.velocity.y * 0.25f;
+        sparkAccel.z = -this->actor.velocity.z * 0.25f;
+        sparkPos.x = ((Rand_ZeroOne() - 0.5f) * 25.0f) + this->actor.world.pos.x;
+        sparkPos.y = ((Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.world.pos.y;
+        sparkPos.z = ((Rand_ZeroOne() - 0.5f) * 25.0f) + this->actor.world.pos.z;
+        EffectSsKiraKira_SpawnSmall(play, &sparkPos, &sparkVel, &sparkAccel, &sparkPrimColor, &sparkEnvColor);
     }
-
-    if ((this->actionIndex >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) && (this->actor.colChkInfo.health != 0)) {
+    if ((this->action >= ENTP_ACTION_BODYELEM) && (this->actor.colChkInfo.health != 0)) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
 void EnTp_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    s16 type;
     EnTp* this = (EnTp*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_tp.c", 1451);
-
-    if (this->unk_150 != 2) {
-        if ((thisx->params <= TAILPASARAN_HEAD) || (thisx->params == TAILPASARAN_HEAD_DYING)) {
+    if (this->modeVar != 2) {
+        type = this->actor.params;
+        if ((type < 0) /* ENTP_TYPE_HEAD */ || (type == ENTP_TYPE_HEAD_DYING)) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
-
             MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1459);
             gSPDisplayList(POLY_OPA_DISP++, gTailpasaranHeadDL);
-
             Matrix_Translate(0.0f, 0.0f, 8.0f, MTXMODE_APPLY);
-        } else {
+        } else { // ENTP_TYPE_BODYELEM, ENTP_TYPE_BODYELEMREMNANT, ENTP_TYPE_BODYELEM_DYING
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_ReplaceRotation(&play->billboardMtxF);
-
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->red, 0, 255, this->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, this->redShineAmount, 0, 255, this->bodyElemAlpha);
             gDPPipeSync(POLY_XLU_DISP++);
+            // Note: gTailpasaranBodyElemDL overrides the combiner before drawing
             gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
                               TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
                               TEXEL0, ENVIRONMENT);
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gTailpasaranTailSegmentTex));
+            gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(gTailpasaranBodyElemTex));
             gDPPipeSync(POLY_XLU_DISP++);
             MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1480);
-            gSPDisplayList(POLY_XLU_DISP++, gTailpasaranTailSegmentDL);
+            gSPDisplayList(POLY_XLU_DISP++, gTailpasaranBodyElemDL);
         }
     }
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_tp.c", 1495);
-
-    if ((thisx->params <= TAILPASARAN_TAIL) || (thisx->params == TAILPASARAN_TAIL_DYING)) {
+    if ((this->actor.params <= 0) /* ENTP_TYPE_HEAD, ENTP_TYPE_BODYELEM */ ||
+        (this->actor.params == ENTP_TYPE_BODYELEM_DYING)) {
         Collider_UpdateSpheres(0, &this->collider);
     }
 }

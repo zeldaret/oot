@@ -269,11 +269,12 @@ void EnIshi_DropCollectible(EnIshi* this, PlayState* play) {
     if (PARAMS_GET_U(this->actor.params, 0, 1) == ROCK_SMALL) {
         dropParams = PARAMS_GET_U(this->actor.params, 8, 4);
 
-        if (dropParams >= 0xD) {
-            dropParams = 0;
+        if (dropParams >= COLLECTIBLE_DROP_TABLE_13) {
+            dropParams = COLLECTIBLE_DROP_TABLE_0;
         }
 
-        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, dropParams << 4);
+        Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(dropParams, false));
     }
 }
 
