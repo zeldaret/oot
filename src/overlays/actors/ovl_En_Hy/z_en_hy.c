@@ -1125,7 +1125,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else if (IS_NIGHT) {
                 return false;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) &&
-                       !GET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_PULLED)) {
+                       !GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_MASTER_SWORD)) {
                 return false;
             } else {
                 return true;

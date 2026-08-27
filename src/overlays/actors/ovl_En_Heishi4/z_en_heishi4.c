@@ -151,7 +151,7 @@ void func_80A563BC(EnHeishi4* this, PlayState* play) {
             this->actionFunc = func_80A56B40;
             return;
         }
-        if (GET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_PULLED)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_MASTER_SWORD)) {
             this->actor.textId = 0x5068;
             this->actionFunc = func_80A56B40;
             return;
@@ -229,7 +229,7 @@ void func_80A56614(EnHeishi4* this, PlayState* play) {
 void func_80A5673C(EnHeishi4* this, PlayState* play) {
     f32 frames;
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_PULLED)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_MASTER_SWORD)) {
         PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n",
                                   " ☆☆☆☆☆ Congratulations on obtaining the Master Sword! ☆☆☆☆☆ \n") VT_RST);
         Actor_Kill(&this->actor);

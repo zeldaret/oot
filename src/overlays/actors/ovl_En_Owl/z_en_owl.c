@@ -179,7 +179,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitHyruleCastle;
             break;
         case OWL_KAKARIKO:
-            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDA_LETTER)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 // has zelda's letter
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
@@ -201,7 +201,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitLakeHylia;
             break;
         case OWL_ZORA_RIVER:
-            if (GET_EVENTCHKINF(EVENTCHKINF_39) || !GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDA_LETTER)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_39) || !GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 // opened zora's domain or has zelda's letter
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
@@ -459,7 +459,7 @@ void func_80ACAB88(EnOwl* this, PlayState* play) {
         switch (play->msgCtx.choiceIndex) {
             case OWL_REPEAT:
                 // obtained zelda's letter
-                if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDA_LETTER)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                     Message_ContinueTextbox(play, 0x206D);
                 } else {
                     Message_ContinueTextbox(play, 0x206C);
