@@ -32,7 +32,6 @@ from ido_block_numbers import (
 import elftools.elf.elffile
 import mapfile_parser.mapfile
 
-
 # Set on program start since we replace sys.stdout in worker processes
 stdout_isatty = sys.stdout.isatty()
 
@@ -217,6 +216,13 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
 
     mapfile = mapfile_parser.mapfile.MapFile()
     mapfile.readMapFile(mapfile_path)
+    def resolver(x: Path) -> Path|None:
+        if x.suffix == ".plf":
+            plf_map_path = x.with_suffix(".map")
+            if plf_map_path.exists():
+                return plf_map_path
+        return None
+    mapfile = mapfile.resolvePartiallyLinkedFiles(resolver)
 
     # Segments built from source code (filtering out assets)
     source_code_segments = []
@@ -330,6 +336,7 @@ class Pragma:
 @dataclass
 class BssVariable:
     block_number: int
+    is_top_level: bool
     name: str
     size: int
     align: int
@@ -388,9 +395,12 @@ def find_bss_variables(
             if block_number in init_block_numbers:
                 continue  # not BSS
 
-            name = symbol_table[block_number].name
             if op.opcode_name == "fsym":
-                name = f"{last_function_name}::{name}"
+                name = f"{last_function_name}::{symbol_table[block_number].name}"
+                is_top_level = False
+            else:
+                name = symbol_table[block_number].name
+                is_top_level = True
 
             size = op.args[0]
             align = 1 << op.lexlev
@@ -401,7 +411,9 @@ def find_bss_variables(
 
             referenced_in_data = block_number in referenced_in_data_block_numbers
             bss_variables.append(
-                BssVariable(block_number, name, size, align, referenced_in_data)
+                BssVariable(
+                    block_number, is_top_level, name, size, align, referenced_in_data
+                )
             )
         elif op.opcode_name == "init":
             if op.dtype == 10:  # Ndt, "non-local label"
@@ -432,10 +444,16 @@ def predict_bss_ordering(variables: list[BssVariable]) -> list[BssSymbol]:
     # For variables referenced in .data or .rodata, keep the original order.
     referenced_in_data = [var for var in variables if var.referenced_in_data]
 
-    # For the others, sort by block number mod 256. For ties, sort by block number.
+    # For the others, sort by block number mod 256. Ties are broken with the following priority:
+    # 1. top-level global and static variables, in original (block number) order
+    # 2. in-function static variables, in reverse order
     not_referenced_in_data = [var for var in variables if not var.referenced_in_data]
     not_referenced_in_data.sort(
-        key=lambda var: (var.block_number % 256, var.block_number)
+        key=lambda var: (
+            var.block_number % 256,
+            not var.is_top_level,
+            var.block_number if var.is_top_level else -var.block_number,
+        )
     )
 
     sorted_variables = referenced_in_data + not_referenced_in_data
@@ -581,6 +599,7 @@ def solve_bss_ordering(
             new_bss_variables.append(
                 BssVariable(
                     new_block_number,
+                    var.is_top_level,
                     var.name,
                     var.size,
                     var.align,

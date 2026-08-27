@@ -32,7 +32,9 @@ COMPILER ?= ido
 #   gc-jp-mq       GameCube Japan Master Quest
 #   gc-us          GameCube US
 #   gc-us-mq       GameCube US Master Quest
+#   gc-eu-dbg-2    GameCube Europe/PAL Debug (earlier build)
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
+#   gc-eu-dbg      GameCube Europe/PAL Debug
 #   gc-eu          GameCube Europe/PAL
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-jp-ce       GameCube Japan (Collector's Edition disc)
@@ -42,11 +44,13 @@ VERSION ?= gc-eu-mq-dbg
 N_THREADS ?= $(shell nproc)
 # If DEBUG_OBJECTS is 1, produce additional debugging files such as objdump output or raw binaries for assets
 DEBUG_OBJECTS ?= 0
-# Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
-# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH indicates missing dependencies.
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+# Supply a MIPS toolchain prefix to use (e.g. 'mips-linux-gnu-' or 'mips64-elf-')
+# In nearly all cases, leave this blank. The most commonly used prefixes are automatically detected when this is blank.
+MIPS_BINUTILS_PREFIX ?=
 # Emulator w/ flags for 'make run'.
 N64_EMULATOR ?=
+# Set to also write .tmp.s and .sym files when assembling microcodes, for build debugging or development purposes
+UCODE_ASM_DEBUG ?= 0
 # Set to override game region in the ROM header (options: JP, US, EU). This can be used to build a fake US version
 # of the debug ROM for better emulator compatibility, or to build US versions of NTSC N64 ROMs.
 # REGION ?= US
@@ -132,6 +136,14 @@ else ifeq ($(VERSION),gc-us-mq)
   BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 02-12-19
   BUILD_TIME := 14:05:42
+  REVISION := 15
+else ifeq ($(VERSION),gc-eu-dbg-2)
+  REGION ?= EU
+  PLATFORM := GC
+  DEBUG_FEATURES ?= 1
+  BUILD_CREATOR := zelda@srd022j
+  BUILD_DATE := 03-02-13
+  BUILD_TIME := 19:46:49
   REVISION := 15
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
@@ -260,12 +272,41 @@ else
 endif
 
 #### Tools ####
-ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-  $(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Please install or build MIPS binutils, commonly mips-linux-gnu. (or set MIPS_BINUTILS_PREFIX if your MIPS binutils install uses another prefix))
+
+ifeq ($(MIPS_BINUTILS_PREFIX),)
+  # Try to find a known MIPS toolchain if one wasn't set
+  # - practicerom: https://github.com/PracticeROM/packages
+  # - libdragon: https://github.com/DragonMinded/libdragon/releases/tag/toolchain-continuous-prerelease
+  # - various mips-linux-gnu / mips64-linux-gnu packages available on common package managers
+  ifeq ($(shell type mips64-ultra-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # practicerom
+    MIPS_BINUTILS_PREFIX := mips64-ultra-elf-
+  else ifeq ($(shell type $(N64_GCCPREFIX)/bin/mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
+    MIPS_BINUTILS_PREFIX := $(N64_GCCPREFIX)/bin/mips64-elf-
+  else ifeq ($(shell type $(N64_INST)/bin/mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
+    MIPS_BINUTILS_PREFIX := $(N64_INST)/bin/mips64-elf-
+  else ifeq ($(shell type mips64-elf-ld >/dev/null 2>/dev/null; echo $$?), 0) # libdragon
+    MIPS_BINUTILS_PREFIX := mips64-elf-
+  else ifeq ($(shell type mips64-ld >/dev/null 2>/dev/null; echo $$?), 0) # practicerom
+    MIPS_BINUTILS_PREFIX := mips64-
+  else ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0) # on package managers
+    MIPS_BINUTILS_PREFIX := mips-linux-gnu-
+  else ifeq ($(shell type mips64-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0) # on package managers
+    MIPS_BINUTILS_PREFIX := mips64-linux-gnu-
+  else
+    $(error Unable to find a known MIPS toolchain. Refer to the README.)
+  endif
+else
+  # If one was set, make sure it's present
+  ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
+    $(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Is $(MIPS_BINUTILS_PREFIX) correct?))
+  endif
 endif
 
 # Detect compiler and set variables appropriately.
 ifeq ($(COMPILER),gcc)
+  ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)gcc >/dev/null 2>/dev/null; echo $$?), 0)
+    $(error Unable to find $(MIPS_BINUTILS_PREFIX)gcc. Please install or build the corresponding MIPS gcc for this toolchain.)
+  endif
   CC       := $(MIPS_BINUTILS_PREFIX)gcc
   CCAS     := $(CC) -x assembler-with-cpp
 else ifeq ($(COMPILER),ido)
@@ -314,6 +355,8 @@ else
   ICONV := iconv
 endif
 
+LD_OFORMAT := $(shell $(LD) --print-output-format)
+
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
 # Check code syntax with host compiler
@@ -322,14 +365,16 @@ CHECK_WARNINGS += -Werror=implicit-int -Werror=implicit-function-declaration -We
 
 # The `cpp` command behaves differently on macOS (it behaves as if
 # `-traditional-cpp` was passed) so we use `gcc -E` instead.
-CPP        := gcc -E
-MKLDSCRIPT := tools/mkldscript
-MKDMADATA  := tools/mkdmadata
-ELF2ROM    := tools/elf2rom
-BIN2C      := tools/bin2c
-N64TEXCONV := tools/assets/n64texconv/n64texconv
-FADO       := tools/fado/fado.elf
-PYTHON     ?= $(VENV)/bin/python3
+CPP            := gcc -E
+MKLDSCRIPT     := tools/mkldscript
+MKSPECRULES    := tools/mkspecrules
+MKDMADATA      := tools/mkdmadata
+BIN2C          := tools/bin2c
+FADO           := tools/fado/fado.elf
+ARMIPS         := tools/armips
+PYTHON         ?= $(VENV)/bin/python3
+BUILD_FROM_PNG := tools/assets/build_from_png/build_from_png
+BUILD_JFIF     := tools/assets/build_jfif/build_jfif
 
 # Command to replace $(BUILD_DIR) in some files with the build path.
 # We can't use the C preprocessor for this because it won't substitute inside string literals.
@@ -421,6 +466,7 @@ SPEC := spec/spec
 SPEC_INCLUDES := $(wildcard spec/*.inc)
 
 SRC_DIRS := $(shell find src -type d)
+RSP_DIRS := $(shell find rsp -type d)
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
 ifneq ($(wildcard $(EXTRACTED_DIR)/assets/audio),)
@@ -499,16 +545,6 @@ ASSET_FILES_BIN_COMMITTED := $(foreach dir,$(ASSET_BIN_DIRS_COMMITTED),$(wildcar
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_BIN_EXTRACTED:.bin=.bin.inc.c),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)) \
                    $(foreach f,$(ASSET_FILES_BIN_COMMITTED:.bin=.bin.inc.c),$(BUILD_DIR)/$f)
 
-# Find all .o files included in the spec
-SPEC_O_FILES := $(shell $(CPP) $(CPPFLAGS) -I. $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
-
-# Split out reloc files
-O_FILES := $(filter-out %_reloc.o,$(SPEC_O_FILES))
-OVL_RELOC_FILES := $(filter %_reloc.o,$(SPEC_O_FILES))
-
-# Automatic dependency files
-DEP_FILES := $(O_FILES:.o=.d) $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d) $(BUILD_DIR)/spec.d
-
 TEXTURE_FILES_PNG_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_PNG_COMMITTED := $(foreach dir,$(ASSET_BIN_DIRS_COMMITTED),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_JPG_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.jpg))
@@ -518,12 +554,16 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG_EXTRACTED:.png=.inc.c),$(f:
                      $(foreach f,$(TEXTURE_FILES_JPG_EXTRACTED:.jpg=.jpg.inc.c),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)) \
                      $(foreach f,$(TEXTURE_FILES_JPG_COMMITTED:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f)
 
+SEGMENTS_DIR := $(BUILD_DIR)/segments
+
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/baserom \
                  $(BUILD_DIR)/assets/text \
-                 $(BUILD_DIR)/linker_scripts)
+                 $(BUILD_DIR)/linker_scripts \
+				 $(SEGMENTS_DIR))
 $(shell mkdir -p $(foreach dir, \
                       $(SRC_DIRS) \
+                      $(RSP_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
                       $(SAMPLE_DIRS) \
                       $(SAMPLEBANK_DIRS) \
@@ -540,6 +580,40 @@ $(shell mkdir -p $(foreach dir, \
                       $(ASSET_BIN_DIRS_EXTRACTED), \
                     $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 endif
+
+COM_PLUGIN := tools/com-plugin/common-plugin.so
+COM_PLUGIN_FLAGS =
+ifeq ($(PLATFORM),IQUE)
+  ifeq ($(NON_MATCHING),0)
+    $(SEGMENTS_DIR)/boot.plf: $(BASEROM_DIR)/bss-order-boot.txt
+    $(SEGMENTS_DIR)/boot.plf: COM_PLUGIN_FLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order-boot.txt -plugin-opt min_align=0x10
+
+    $(SEGMENTS_DIR)/code.plf: $(BASEROM_DIR)/bss-order-code.txt
+    $(SEGMENTS_DIR)/code.plf: COM_PLUGIN_FLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order-code.txt -plugin-opt min_align=0x10
+  endif
+endif
+
+# Generate and include segment makefile rules for combining .o files into single .plf files for an entire spec segment.
+# Overlay relocations will be generated from these if the spec segment has the OVERLAY flag.
+# If this makefile doesn't exist or if the spec has been modified since make was last ran it will use the rule
+# later on in the file to regenerate this file before including it. The test against MAKECMDGOALS ensures this
+# doesn't happen if we're not running a task that needs these partially linked files; this is especially important
+# for setup since the rule to generate the segment makefile rules requires setup to have ran first.
+SEG_LDFLAGS = -r $(COM_PLUGIN_FLAGS) -T $(@:.plf=.ld) -Map $(@:.plf=.map)
+SEG_VERBOSE = @
+ifeq ($(MAKECMDGOALS),$(filter-out clean assetclean distclean setup,$(MAKECMDGOALS)))
+include $(SEGMENTS_DIR)/Makefile
+else
+SEGMENT_FILES :=
+OVL_SEGMENT_FILES :=
+endif
+OVL_RELOC_FILES := $(OVL_SEGMENT_FILES:.plf=.reloc.o)
+
+O_FILES := $(shell $(CPP) $(CPPFLAGS) -I. $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
+MAKEROM_O_FILES := $(BUILD_DIR)/src/makerom/rom_header.o $(BUILD_DIR)/src/makerom/ipl3.o $(BUILD_DIR)/src/makerom/entry.o
+
+# Automatic dependency files
+DEP_FILES := $(O_FILES:.o=.d) $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d) $(BUILD_DIR)/spec.d $(MAKEROM_O_FILES:.o=.d)
 
 $(BUILD_DIR)/src/boot/build.o: CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 
@@ -749,7 +823,7 @@ else
 $(BUILD_DIR)/assets/%.o: CFLAGS += -fno-zero-initialized-in-bss -fno-toplevel-reorder
 $(BUILD_DIR)/src/%.o: CFLAGS += -fexec-charset=euc-jp
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
-$(BUILD_DIR)/src/overlays/%.o: CFLAGS += -fno-merge-constants -mno-explicit-relocs -mno-split-addresses
+$(BUILD_DIR)/src/overlays/%.o: CFLAGS += -mno-explicit-relocs -mno-split-addresses
 endif
 
 #### Main Targets ###
@@ -828,23 +902,18 @@ else
 endif
 
 $(ROM): $(ELF)
-	$(ELF2ROM) -cic $(CIC) $< $@
+# Here we extract the value of the _RomSize symbol to know to what size the ROM should be padded to
+	$(OBJCOPY) --pad-to 0x$$($(OBJDUMP) -t $< | grep _RomSize | cut -d ' ' -f 1) -O binary $< $@
+	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
 	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
-COM_PLUGIN := tools/com-plugin/common-plugin.so
+LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs -Map $(MAP)
 
-LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP)
-ifeq ($(PLATFORM),IQUE)
-  ifeq ($(NON_MATCHING),0)
-    LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order.txt
-    $(ELF): $(BASEROM_DIR)/bss-order.txt
-  endif
-endif
-
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(MAKEROM_O_FILES) \
+        $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
 	$(LD) $(LDFLAGS) -o $@
@@ -868,13 +937,26 @@ $(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
 	$(CPP) $(CPPFLAGS) -MD -MP -MF $@.d -MT $@ -I. $< | $(BUILD_DIR_REPLACE) > $@
 
 $(LDSCRIPT): $(BUILD_DIR)/spec
-	$(MKLDSCRIPT) $< $@
+	$(MKLDSCRIPT) $< $@ $(BUILD_DIR)/src/makerom $(SEGMENTS_DIR)
+
+# Generates a makefile containing rules for building .plf files
+# from overlay .o files for every overlay defined in the spec.
+$(SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/spec
+	$(MKSPECRULES) $< $(SEGMENTS_DIR) $@
+
+# Generates relocations for each overlay after partial linking so that the final
+# link step cannot later insert padding between individual overlay files after
+# relocations have already been calculated.
+$(SEGMENTS_DIR)/%.reloc.o: $(SEGMENTS_DIR)/%.plf
+	$(FADO) $< -n $(notdir $*) -o $(@:.o=.s)
+	$(POSTPROCESS_OBJ) $(@:.o=.s)
+	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
 
 $(BUILD_DIR)/baserom/%.o: $(EXTRACTED_DIR)/baserom/%
-	$(OBJCOPY) -I binary -O elf32-big $< $@
+	$(OBJCOPY) -I binary -O $(LD_OFORMAT) $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
 	$(CPP) $(CPPFLAGS) -MD -MP -MF $(@:.o=.d) -MT $@ -Iinclude $< | $(AS) $(ASFLAGS) -o $@
@@ -929,7 +1011,7 @@ endif
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/src/makerom/ipl3.o: $(EXTRACTED_DIR)/incbin/ipl3
-	$(OBJCOPY) -I binary -O elf32-big --rename-section .data=.text $< $@
+	$(OBJCOPY) -I binary -O $(LD_OFORMAT) --rename-section .data=.text $< $@
 
 $(BUILD_DIR)/src/%.o: src/%.s
 ifeq ($(COMPILER),ido)
@@ -962,6 +1044,44 @@ $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)
 $(BUILD_DIR)/src/boot/z_std_dma.o: $(BUILD_DIR)/dmadata_table_spec.h
 $(BUILD_DIR)/src/dmadata/dmadata.o: $(BUILD_DIR)/dmadata_table_spec.h
 
+# Note this is required for f3dex2 on GC/iQue as the rsp text is in .rodata
+RSP_TEXT_SECTION := .text
+RSP_DATA_SECTION := .rodata
+
+.PRECIOUS: $(BUILD_DIR)/rsp/%.s
+$(BUILD_DIR)/rsp/%.s: rsp/%.s
+	$(CPP) $(CPPFLAGS) -D_LANGUAGE_ASSEMBLY $(GBI_DEFINES) -MMD -MP -MT $@ -I include -I include/ultra64 -I rsp $< -o $@
+
+ifneq ($(UCODE_ASM_DEBUG),0)
+# Instruct armips to output a symbol map and a processed view of the asm
+ARMIPS_FLAGS = -sym2 $(<:.s=.sym) -temp $(<:.s=.tmp.s)
+else
+ARMIPS_FLAGS =
+endif
+
+.PRECIOUS: $(BUILD_DIR)/rsp/%.text.bin $(BUILD_DIR)/rsp/%.data.bin
+$(BUILD_DIR)/rsp/%.text.bin $(BUILD_DIR)/rsp/%.data.bin: $(BUILD_DIR)/rsp/%.s
+# assemble to code and data binaries
+	$(ARMIPS) -strequ CODE_FILE $(<:.s=.text.bin) -strequ DATA_FILE $(<:.s=.data.bin) $< $(ARMIPS_FLAGS)
+# create an empty file if armips did not error but one of the files was not created
+	touch $(<:.s=.text.bin) $(<:.s=.data.bin)
+
+# The default microcode name equals the source file name with dots substituted for underscores.
+UC_NAME = $(subst .,_,$(@F:.o=))
+
+# Override the name for the antipiracy rspboot variant to just be "rspboot"
+$(BUILD_DIR)/rsp/rspboot_ap.o: UC_NAME = rspboot
+
+RSP2ELF_DEFS =                              \
+    -D UC_NAME=$(UC_NAME)                   \
+    -D UC_TEXT_SECTION=$(RSP_TEXT_SECTION)  \
+    -D UC_DATA_SECTION=$(RSP_DATA_SECTION)  \
+    -D UC_TEXT_BIN_PATH="$(@:.o=.text.bin)" \
+    -D UC_DATA_BIN_PATH="$(@:.o=.data.bin)"
+
+$(BUILD_DIR)/rsp/%.o: $(BUILD_DIR)/rsp/%.text.bin $(BUILD_DIR)/rsp/%.data.bin rsp/rsp2elf.s
+	$(CPP) $(CPPFLAGS) $(RSP2ELF_DEFS) rsp/rsp2elf.s | $(AS) $(ASFLAGS) -o $@
+
 $(BUILD_DIR)/src/%.o: src/%.c
 	$(CC_CHECK) $< -o $@
 	$(PREPROCESS) $(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
@@ -977,36 +1097,31 @@ $(BUILD_DIR)/src/audio/game/session_init.o: src/audio/game/session_init.c $(BUIL
 
 ifeq ($(PLATFORM),IQUE)
 ifneq ($(NON_MATCHING),1)
-$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o: POSTPROCESS_OBJ := $(PYTHON) tools/patch_ique_kaleido_reloc.py
+$(BUILD_DIR)/segments/ovl_kaleido_scope.reloc.o: POSTPROCESS_OBJ := $(PYTHON) tools/patch_ique_kaleido_reloc.py
 endif
 endif
-
-$(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
-	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
-	$(POSTPROCESS_OBJ) $(@:.o=.s)
-	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 # Assets from assets/
 
 $(BUILD_DIR)/assets/%.inc.c: assets/%.png
-	tools/assets/build_from_png/build_from_png $< $(dir $@) assets/$(dir $*) $(wildcard $(EXTRACTED_DIR)/assets/$(dir $*))
+	$(BUILD_FROM_PNG) $< $(dir $@) assets/$(dir $*) $(wildcard $(EXTRACTED_DIR)/assets/$(dir $*))
 
 $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
 	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
-	$(N64TEXCONV) JFIF "" $< $@
+	$(BUILD_JFIF) $< $@
 
 # Assets from extracted/
 
 $(BUILD_DIR)/assets/%.inc.c: $(EXTRACTED_DIR)/assets/%.png
-	tools/assets/build_from_png/build_from_png $< $(dir $@) $(wildcard assets/$(dir $*)) $(EXTRACTED_DIR)/assets/$(dir $*)
+	$(BUILD_FROM_PNG) $< $(dir $@) $(wildcard assets/$(dir $*)) $(EXTRACTED_DIR)/assets/$(dir $*)
 
 $(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
 	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
-	$(N64TEXCONV) JFIF "" $< $@
+	$(BUILD_JFIF) $< $@
 
 # Audio
 

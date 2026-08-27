@@ -27,7 +27,8 @@ enum {
     FLAG_OBJECT = (1 << 1),
     FLAG_RAW = (1 << 2),
     FLAG_NOLOAD = (1 << 3),
-    FLAG_SYMS = (1 << 4)
+    FLAG_SYMS = (1 << 4),
+    FLAG_OVL = (1 << 5)
 };
 
 struct Include {
@@ -53,10 +54,6 @@ typedef struct Segment {
 } Segment;
 
 void parse_rom_spec(char* spec, struct Segment** segments, int* segment_count);
-
-bool get_single_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName);
-
-void free_single_segment_elements(struct Segment *segment);
 
 void free_rom_spec(struct Segment* segments, int segment_count);
 
