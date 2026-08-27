@@ -136,13 +136,13 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play2) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.save.dayTime < CLOCK_TIME(17, 18) - 1) || IS_DAY) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        if (((gSaveContext.save.dayTime < CLOCK_TIME(17, 18) - 1) || IS_DAY) && !GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE)) {
             this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.save.dayTime > CLOCK_TIME(17, 18) - 1) || !IS_DAY || GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        if ((gSaveContext.save.dayTime > CLOCK_TIME(17, 18) - 1) || !IS_DAY || GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);

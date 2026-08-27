@@ -92,7 +92,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
 
         if (gSaveContext.sceneLayer != 6) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE)) {
                 this->dyna.actor.shape.rot.x = -0x4000;
             }
         }
@@ -152,7 +152,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
     BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->dyna.actor.child;
 
     if (!IS_CUTSCENE_LAYER && CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-        CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE)) {
         return;
     }
 
@@ -220,13 +220,13 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         if (play->sceneId == SCENE_HYRULE_FIELD) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
+                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) && LINK_IS_CHILD) {
                 player = GET_PLAYER(play);
 
                 if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&
                     (player->actor.world.pos.z > 1080.0f) && (player->actor.world.pos.z < 1700.0f) &&
                     (!(Play_InCsMode(play)))) {
-                    SET_EVENTCHKINF(EVENTCHKINF_80);
+                    SET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
                     Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);

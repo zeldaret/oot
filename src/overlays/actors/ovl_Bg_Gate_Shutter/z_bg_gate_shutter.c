@@ -54,7 +54,7 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
-    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneId == SCENE_KAKARIKO_VILLAGE)) {
+    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_PULLED)) && (play->sceneId == SCENE_KAKARIKO_VILLAGE)) {
         thisx->world.pos.x = -89.0f;
         thisx->world.pos.z = -1375.0f;
     }
