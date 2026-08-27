@@ -256,7 +256,7 @@ s32 Inventory_ReplaceItem(struct PlayState* play, u16 oldItem, u16 newItem);
 s32 Inventory_HasEmptyBottle(void);
 s32 Inventory_HasSpecificBottle(u8 bottleItem);
 void Inventory_UpdateBottleItem(struct PlayState* play, u8 item, u8 button);
-s32 Inventory_ConsumeFairy(struct PlayState* play);
+s32 Inventory_FairyRevive(struct PlayState* play);
 void Interface_SetDoAction(struct PlayState* play, u16 action);
 void Interface_SetNaviCall(struct PlayState* play, u16 naviCallState);
 void Interface_LoadActionLabelB(struct PlayState* play, u16 action);
