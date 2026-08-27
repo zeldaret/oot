@@ -80,21 +80,49 @@ palette_dim(size_t count, size_t *width, size_t *height)
     *height = best_height;
 }
 
+static bool
+ci_alpha_fixup(struct color *texels, size_t width, size_t height, int pal_fmt)
+{
+    bool has_alpha = false;
+    if (pal_fmt == G_IM_FMT_RGBA) {
+        // For RGBA16 palette targets, preprocess the alpha channel prior to quantization
+        // to enforce single-bit alpha resolution, and set transparent pixels to transparent
+        // black to better guide quantization.
+        for (size_t i = 0; i < width * height; i++) {
+            has_alpha |= texels[i].a < 128;
+            if (texels[i].a < 128)
+                texels[i].w = 0; // Set to transparent black
+            else
+                texels[i].a = 255; // Set to opaque
+        }
+    } else {
+        has_alpha = true;
+    }
+    return has_alpha;
+}
+
 static void
 n64texconv_quantize(uint8_t *out_indices, struct color *out_pal, size_t *out_pal_count, struct color *texels,
-                    size_t width, size_t height, unsigned int max_colors, float dither_level)
+                    size_t width, size_t height, unsigned int max_colors, float dither_level, int pal_fmt)
 {
     assert(out_indices != NULL);
     assert(out_pal != NULL);
     assert(out_pal_count != NULL);
     assert(texels != NULL);
 
+    bool has_alpha = ci_alpha_fixup(texels, width, height, pal_fmt);
+
     // Set options
     liq_attr *attr = liq_attr_create();
     liq_set_max_colors(attr, max_colors);
+    // For RGBA16, ignore 3 lsbits in each color channel since the target format will be 5 bits per channel in the end
+    if (pal_fmt == G_IM_FMT_RGBA)
+        liq_set_min_posterization(attr, 3);
 
     // Quantize
     liq_image *img = liq_image_create_rgba(attr, (void *)texels, width, height, 0.0);
+    if (has_alpha)
+        liq_image_add_fixed_color(img, (liq_color){ 0, 0, 0, 0 });
     liq_result *result;
     liq_error err = liq_image_quantize(img, attr, &result);
     assert(err == LIQ_OK);
@@ -122,7 +150,7 @@ n64texconv_quantize(uint8_t *out_indices, struct color *out_pal, size_t *out_pal
 int
 n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t *out_pal_count, struct color **texels,
                            size_t *widths, size_t *heights, size_t num_images, unsigned int max_colors,
-                           float dither_level)
+                           float dither_level, int pal_fmt)
 {
     assert(out_indices != NULL);
     assert(out_pal != NULL);
@@ -131,11 +159,18 @@ n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t 
     assert(widths != NULL);
     assert(heights != NULL);
 
+    bool has_alpha = false;
+    for (size_t i = 0; i < num_images; i++)
+        has_alpha |= ci_alpha_fixup(texels[i], widths[i], heights[i], pal_fmt);
+
     int rv = 0;
 
     // Set options
     liq_attr *attr = liq_attr_create();
     liq_set_max_colors(attr, max_colors);
+    // For RGBA16, ignore 3 lsbits in each color channel since the target format will be 5 bits per channel in the end
+    if (pal_fmt == G_IM_FMT_RGBA)
+        liq_set_min_posterization(attr, 3);
 
     // Create histogram
     liq_histogram *hist = liq_histogram_create(attr);
@@ -144,6 +179,8 @@ n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t 
     liq_image *images[num_images];
     for (size_t i = 0; i < num_images; i++) {
         images[i] = liq_image_create_rgba(attr, (void *)texels[i], widths[i], heights[i], 0);
+        if (has_alpha)
+            liq_image_add_fixed_color(images[i], (liq_color){ 0, 0, 0, 0 });
         liq_histogram_add_image(hist, attr, images[i]);
     }
 
@@ -948,7 +985,7 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
                 goto error_post_create_img;
 
             n64texconv_quantize(img->color_indices, pal->texels, &pal->count, img->texels, width, height, max_colors,
-                                0.5f);
+                                0.5f, pal_fmt);
         }
 
         // Populate texels from color indices and palette
@@ -1077,7 +1114,7 @@ n64texconv_image_reformat(struct n64_image *img, int fmt, int siz, struct n64_pa
 
             // Quantize and fill color indices
             n64texconv_quantize(new_img->color_indices, pal->texels, &pal->count, new_img->texels, width, height,
-                                max_colors, 0.5f);
+                                max_colors, 0.5f, pal->fmt);
             // Replace old texels
             for (size_t i = 0; i < width * height; i++) {
                 new_img->texels[i] = pal->texels[new_img->color_indices[i]];

@@ -1,8 +1,8 @@
 <Root>
     <File Name="object_hs" Segment="6">
-        <Animation Name="object_hs_Anim_000304" Offset="0x304"/>
-        <Animation Name="object_hs_Anim_000528" Offset="0x528"/>
-        <Animation Name="object_hs_Anim_0005C0" Offset="0x5C0"/>
+        <Animation Name="gCarpenterSonReachingAnim" Offset="0x304"/>
+        <Animation Name="gCarpenterSonPleadingAnim" Offset="0x528"/>
+        <Animation Name="gCarpenterSonSittingAnim" Offset="0x5C0"/>
         <Array Name="object_hs_Vtx_0005D0" Count="129" Offset="0x5D0">
             <Vtx/>
         </Array>
@@ -75,6 +75,6 @@
         <Limb Name="object_hs_Limb_006200" LimbType="Standard" Offset="0x6200"/>
         <Limb Name="object_hs_Limb_00620C" LimbType="Standard" Offset="0x620C"/>
         <Limb Name="object_hs_Limb_006218" LimbType="Standard" Offset="0x6218"/>
-        <Skeleton Name="object_hs_Skel_006260" Type="Flex" LimbType="Standard" Offset="0x6260"/>
+        <Skeleton Name="gCarpenterSonSkel" Type="Flex" LimbType="Standard" Offset="0x6260"/>
     </File>
 </Root>
