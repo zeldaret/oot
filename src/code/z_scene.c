@@ -20,18 +20,18 @@ SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
 RomFile sNaviQuestHintFiles[];
 
 /**
- * Spawn an object file of a specified ID that will persist through room changes.
+ * Loads an object file of a specified ID that will persist through room changes.
  *
  * This waits for the file to be fully loaded, the data is available when the function returns.
  *
  * @return The new object slot corresponding to the requested object ID.
  *
- * @note This function is not meant to be called externally to spawn object files on the fly.
- * When an object is spawned with this function, all objects that come before it in the entry list will be treated as
+ * @note This function is not meant to be called externally to load object files on the fly.
+ * When an object is loaded with this function, all objects that come before it in the entry list will be treated as
  * persistent, which will likely cause either the amount of free slots or object space memory to run out.
  * This function is only meant to be called internally on scene load, before the object list from any room is processed.
  */
-s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
+s32 Object_LoadPersistent(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
 
     objectCtx->slots[objectCtx->numEntries].id = objectId;
@@ -109,10 +109,14 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
         GAME_STATE_ALLOC(&play->state, spaceSize, "../z_scene.c", 219);
     objectCtx->spaceEnd = (void*)((uintptr_t)objectCtx->spaceStart + spaceSize);
 
-    objectCtx->mainKeepSlot = Object_SpawnPersistent(objectCtx, OBJECT_GAMEPLAY_KEEP);
+    objectCtx->mainKeepSlot = Object_LoadPersistent(objectCtx, OBJECT_GAMEPLAY_KEEP);
     gSegments[4] = OS_K0_TO_PHYSICAL(objectCtx->slots[objectCtx->mainKeepSlot].segment);
 }
 
+/**
+ * Run every frame. Loads objects on scene init/room change, whose data have been added to the
+ * object slot array by `func_800982FC`. Unloaded status marked by negative object id.
+ */
 void Object_UpdateEntries(ObjectContext* objectCtx) {
     s32 i;
     ObjectEntry* entry = &objectCtx->slots[0];
@@ -120,7 +124,7 @@ void Object_UpdateEntries(ObjectContext* objectCtx) {
     u32 size;
 
     for (i = 0; i < objectCtx->numEntries; i++) {
-        if (entry->id < 0) {
+        if (entry->id < 0) { // Not yet loaded object
             if (entry->dmaRequest.vromAddr == 0) {
                 osCreateMesgQueue(&entry->loadQueue, &entry->loadMsg, 1);
                 objectFile = &gObjectTable[-entry->id];
@@ -131,13 +135,18 @@ void Object_UpdateEntries(ObjectContext* objectCtx) {
                 DMA_REQUEST_ASYNC(&entry->dmaRequest, entry->segment, objectFile->vromStart, size, 0, &entry->loadQueue,
                                   NULL, "../z_scene.c", 266);
             } else if (osRecvMesg(&entry->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
-                entry->id = -entry->id;
+                entry->id = -entry->id; // Object now loaded
             }
         }
         entry++;
     }
 }
 
+/**
+ * Get object slot for a given object id.
+ * ABS(slot.id) is necessary because object might not yet be loaded.
+ * @return object slot for given id, or -1 if not in any slot
+ */
 s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId) {
     s32 i;
 
@@ -150,6 +159,10 @@ s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId) {
     return -1;
 }
 
+/**
+ * Check if the object in a given slot is loaded (positive id).
+ * @return true if loaded, else false
+ */
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot) {
     if (objectCtx->slots[slot].id > 0) {
         return true;
@@ -158,7 +171,11 @@ s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot) {
     }
 }
 
-void func_800981B8(ObjectContext* objectCtx) {
+/**
+ * Run when exiting the pause menu (either to continue play or due to game over).
+ * Sync DMA loads all objects for current room.
+ */
+void Object_ReloadAll(ObjectContext* objectCtx) {
     s32 i;
     s32 id;
     u32 size;
@@ -173,6 +190,14 @@ void func_800981B8(ObjectContext* objectCtx) {
     }
 }
 
+/**
+ * Sets up a given slot to be filled with data from given object id. `Called by Scene_CommandObjectList`
+ * for every non-persistent object to be added. The data is used by `Object_UpdateEntries` to load the
+ * objects.
+ * @note There is an assert to ensure that the next object slot address is within the object memory space,
+ * but in non-debug builds this is not included, and no bounds check is done.
+ * @return void* with start address of the next object slot's space in object memory
+ */
 void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
     ObjectEntry* entry = &objectCtx->slots[slot];
     RomFile* objectFile = &gObjectTable[objectId];
@@ -195,6 +220,9 @@ void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
     return nextPtr;
 }
 
+/**
+ * Executes commands from scene lists, such as loading actor entry lists, object list.
+ */
 s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
     while (true) {
         u32 cmdCode = sceneCmd->base.code;
@@ -230,7 +258,7 @@ BAD_RETURN(s32) Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
     linkObjectId = gLinkObjectIds[((void)0, gSaveContext.save.linkAge)];
 
     gActorOverlayTable[playerEntry->id].profile->objectId = linkObjectId;
-    Object_SpawnPersistent(&play->objectCtx, linkObjectId);
+    Object_LoadPersistent(&play->objectCtx, linkObjectId);
 }
 
 BAD_RETURN(s32) Scene_CommandActorEntryList(PlayState* play, SceneCmd* cmd) {
@@ -265,7 +293,7 @@ BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
 
 BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
-        play->objectCtx.subKeepSlot = Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
+        play->objectCtx.subKeepSlot = Object_LoadPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
         gSegments[5] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
     }
 
@@ -300,6 +328,8 @@ BAD_RETURN(s32) Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     entries = play->objectCtx.slots;
     entry = &play->objectCtx.slots[i];
 
+    // On room entry/scene init, remove non-persistent objects if the new object
+    // at the same slot doesn't have the same id. Also kill their dependent actors.
     while (i < play->objectCtx.numEntries) {
         if (entry->id != *objectListEntry) {
 
@@ -324,6 +354,7 @@ BAD_RETURN(s32) Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     ASSERT(cmd->objectList.length <= ARRAY_COUNT(play->objectCtx.slots),
            "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
 
+    // Add object from new object list at `nextPtr` (next start address in object memory space)
     while (k < cmd->objectList.length) {
         nextPtr = func_800982FC(&play->objectCtx, i, *objectListEntry);
         if (i < (ARRAY_COUNT(play->objectCtx.slots) - 1)) {
