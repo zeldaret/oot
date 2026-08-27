@@ -13,10 +13,10 @@ Gfx gEffFire2DL[24] = {
 #include "assets/objects/gameplay_keep/gEffFire2DL.inc.c"
 };
 
-u64 gDecorativeFlameMaskTex[TEX_LEN(u64, gDecorativeFlameMaskTex_WIDTH, gDecorativeFlameMaskTex_HEIGHT, 4)] = {
-#include "assets/objects/gameplay_keep/gDecorativeFlameMaskTex.i4.inc.c"
+u64 gEffFire1Tex[TEX_LEN(u64, gEffFire1Tex_WIDTH, gEffFire1Tex_HEIGHT, 4)] = {
+#include "assets/objects/gameplay_keep/gEffFire1Tex.i4.inc.c"
 };
 
-u64 gDecorativeFlameTex[TEX_LEN(u64, gDecorativeFlameTex_WIDTH, gDecorativeFlameTex_HEIGHT, 8)] = {
-#include "assets/objects/gameplay_keep/gDecorativeFlameTex.i8.inc.c"
+u64 gEffFire2Tex[TEX_LEN(u64, gEffFire2Tex_WIDTH, gEffFire2Tex_HEIGHT, 8)] = {
+#include "assets/objects/gameplay_keep/gEffFire2Tex.i8.inc.c"
 };
