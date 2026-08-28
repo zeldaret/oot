@@ -60,7 +60,7 @@ void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* mod
     }
 }
 
-void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 staticFlag) {
+void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 singleBindFlag) {
     s32 modifCount;
     SkinLimb** skeleton;
     SkinLimb* limb;
@@ -68,7 +68,7 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
     SkinLimbModif* modif;
     SkinLimbVtx* vtxEntry;
     s32 transformCount;
-    f32 scale;
+    f32 weight;
     SkinVertex* skinVertices;
     SkinTransformation* limbTransformations;
     Vtx* vtxBuf;
@@ -102,7 +102,7 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
             limbPos.z = limbTransformations[0].z;
 
             SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[limbTransformations[0].limbIndex], &limbPos, &vtxPoint);
-        } else if (staticFlag == 1) {
+        } else if (singleBindFlag == 1) {
             // There are multiple transforms, but this flag selects a static choice encoded in the modification info
             Vec3f limbPos;
 
@@ -125,7 +125,7 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
                  transformationEntry < &limbTransformations[transformCount]; transformationEntry++) {
                 Vec3f limbPos;
 
-                scale = transformationEntry->weight * 0.01f;
+                weight = transformationEntry->weight * 0.01f;
 
                 limbPos.x = transformationEntry->x;
                 limbPos.y = transformationEntry->y;
@@ -134,9 +134,9 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
                 SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[transformationEntry->limbIndex], &limbPos,
                                             &transformedLimbPos);
 
-                transformedLimbPos.x *= scale;
-                transformedLimbPos.y *= scale;
-                transformedLimbPos.z *= scale;
+                transformedLimbPos.x *= weight;
+                transformedLimbPos.y *= weight;
+                transformedLimbPos.z *= weight;
 
                 finalLimbPos.x += transformedLimbPos.x;
                 finalLimbPos.y += transformedLimbPos.y;
@@ -168,7 +168,7 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
  * Draw a limb of type SKIN_LIMB_TYPE_ANIMATED, of the skeleton `skin` at index `limbIndex`
  * The vertices of this limb are modified dynamically
  */
-void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 staticFlag, s32 drawFlags) {
+void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 singleBindFlag, s32 drawFlags) {
     SkinLimb** skeleton;
     SkinAnimatedLimbData* data;
 
@@ -178,7 +178,7 @@ void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s
     data = SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
 
     if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS)) {
-        Skin_ApplyLimbModifications(gfxCtx, skin, limbIndex, staticFlag);
+        Skin_ApplyLimbModifications(gfxCtx, skin, limbIndex, singleBindFlag);
     }
 
     gSPDisplayList(POLY_OPA_DISP++, data->dlist);
@@ -217,7 +217,7 @@ void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlis
 }
 
 void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag, s32 drawFlags) {
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 singleBindFlag, s32 drawFlags) {
     s32 i;
     s32 segmentType;
     SkinLimb** skeleton;
@@ -233,8 +233,8 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw p
 
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
 
-    // No custom matrix, set model -> world matrix
     if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_MATRIX)) {
+        // Set model -> world matrix
         gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &skin->mtx);
 
@@ -245,7 +245,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw p
         gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     }
 
-    // Draw each limb, transformed were prepared in advance above this loop so there's no tree walk required at this
+    // Draw each limb, transforms were prepared in advance above this loop so there's no tree walk required at this
     // stage unlike how z_skelanime skeleton drawing is implemented.
     for (i = 0; i < skin->skeletonHeader->limbCount; i++) {
         s32 shouldDraw = true;
@@ -257,7 +257,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw p
         segmentType = ((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[i]))->segmentType;
 
         if (segmentType == SKIN_LIMB_TYPE_ANIMATED && shouldDraw == true) {
-            Skin_DrawAnimatedLimb(gfxCtx, skin, i, staticFlag, drawFlags);
+            Skin_DrawAnimatedLimb(gfxCtx, skin, i, singleBindFlag, drawFlags);
         } else if (segmentType == SKIN_LIMB_TYPE_NORMAL && shouldDraw == true) {
             Skin_DrawLimb(gfxCtx, skin, i, NULL, drawFlags);
         }
@@ -290,11 +290,11 @@ void Skin_DrawPOT(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw po
 
 /**
  * Draws a skin model.
- * Allows specifying OverrideLimbDraw, postLimbDraw, setTranslation, and staticFlag.
+ * Allows specifying OverrideLimbDraw, postLimbDraw, setTranslation, and singleBindFlag.
  */
 void Skin_DrawPOTS(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag) {
-    Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, staticFlag, 0);
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 singleBindFlag) {
+    Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, singleBindFlag, 0);
 }
 
 /**
@@ -302,8 +302,8 @@ void Skin_DrawPOTS(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw p
  * Allows specifying all variables.
  */
 void Skin_DrawPOTSF(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
-                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 staticFlag, s32 drawFlags) {
-    Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, staticFlag, drawFlags);
+                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 singleBindFlag, s32 drawFlags) {
+    Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, singleBindFlag, drawFlags);
 }
 
 /**
