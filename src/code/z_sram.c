@@ -563,9 +563,9 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
     if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-        i = gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_OBTAINED_ZELDA_LETTER];
+        i = gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_OBTAINED_ZELDAS_LETTER];
         i &= ~EVENTCHKINF_MASK(EVENTCHKINF_OBTAINED_ZELDAS_LETTER);
-        gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_OBTAINED_ZELDA_LETTER] = i;
+        gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_OBTAINED_ZELDAS_LETTER] = i;
 
         INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CHICKEN;
 
