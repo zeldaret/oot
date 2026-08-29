@@ -13,6 +13,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/objects/object_du/object_du.h"
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
@@ -117,7 +118,7 @@ u16 EnDu_GetTextId(PlayState* play, Actor* actor) {
     if (textId != 0) {
         return textId;
     }
-    if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
+    if (CUR_UPG_VALUE(UPG_STRENGTH) != UPG_STRENGTH_NONE) {
         if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
             return 0x301E;
         } else {
@@ -522,7 +523,7 @@ void func_809FEB08(EnDu* this, PlayState* play) {
         EnDu_SetupAction(this, func_809FE3C0);
         return;
     }
-    if (CUR_UPG_VALUE(UPG_STRENGTH) <= 0) {
+    if (CUR_UPG_VALUE(UPG_STRENGTH) < UPG_STRENGTH_GORON_BRACELET) {
         this->actor.textId = 0x301C;
         EnDu_SetupAction(this, func_809FEC14);
     } else {

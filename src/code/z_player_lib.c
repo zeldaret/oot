@@ -12,6 +12,7 @@
 #include "player.h"
 #include "save.h"
 #include "skin_matrix.h"
+#include "upgrade.h"
 
 #include "assets/objects/gameplay_keep/player_pause_joint_tables.h"
 #include "assets/objects/gameplay_keep/player_anim_headers.h"
@@ -816,7 +817,7 @@ s32 Player_GetStrength(void) {
 
     if (LINK_IS_ADULT) {
         return strengthUpgrade;
-    } else if (strengthUpgrade != 0) {
+    } else if (strengthUpgrade != UPG_STRENGTH_NONE) {
         return PLAYER_STR_BRACELET;
     } else {
         return PLAYER_STR_NONE;
@@ -1133,10 +1134,10 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
-            if (strengthUpgrade >= 2) { // silver or gold gauntlets
+            if (strengthUpgrade >= UPG_STRENGTH_SILVER_GAUNTLETS) {
                 gDPPipeSync(POLY_OPA_DISP++);
 
-                color = &sGauntletColors[strengthUpgrade - 2];
+                color = &sGauntletColors[strengthUpgrade - UPG_STRENGTH_SILVER_GAUNTLETS];
                 gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultLeftGauntletPlate1DL);

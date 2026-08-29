@@ -18,6 +18,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/objects/gameplay_keep/shopkeeper_controls_tex.h"
 #include "assets/objects/object_ossan/object_ossan.h"
@@ -536,7 +537,7 @@ void EnOssan_TalkGoronShopkeeper(PlayState* play) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
             Message_ContinueTextbox(play, 0x3028);
-        } else if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
+        } else if (CUR_UPG_VALUE(UPG_STRENGTH) != UPG_STRENGTH_NONE) {
             Message_ContinueTextbox(play, 0x302D);
         } else {
             Message_ContinueTextbox(play, 0x300F);

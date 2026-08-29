@@ -16,6 +16,7 @@
 #include "z_lib.h"
 #include "play_state.h"
 #include "save.h"
+#include "upgrade.h"
 
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_boj/object_boj.h"
@@ -247,11 +248,11 @@ void EnSth_GivePlayerItem(EnSth* this, PlayState* play) {
         case 1:
         case 3:
             switch (CUR_UPG_VALUE(UPG_WALLET)) {
-                case 0:
+                case UPG_WALLET_CHILD:
                     getItemId = GI_WALLET_ADULT;
                     break;
 
-                case 1:
+                case UPG_WALLET_ADULT:
                     getItemId = GI_WALLET_GIANT;
                     break;
             }
