@@ -63,8 +63,8 @@ void VisZBuffer_Init(VisZBuffer* this) {
 void VisZBuffer_Destroy(VisZBuffer* this) {
 }
 
-void VisZBuffer_Draw(VisZBuffer* this, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void VisZBuffer_Draw(VisZBuffer* this, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
     s32 pad;
     u16* tex = D_0E000000;
     s32 fmt = this->params.type == 0 ? G_IM_FMT_IA : G_IM_FMT_RGBA;
@@ -96,5 +96,5 @@ void VisZBuffer_Draw(VisZBuffer* this, Gfx** gfxp) {
     }
 
     gDPPipeSync(gfx++);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }

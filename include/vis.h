@@ -52,14 +52,14 @@ typedef struct VisZBuffer {
 
 void VisCvg_Init(VisCvg* this);
 void VisCvg_Destroy(VisCvg* this);
-void VisCvg_Draw(VisCvg* this, Gfx** gfxp);
+void VisCvg_Draw(VisCvg* this, Gfx** gfxP);
 
 void VisMono_Init(VisMono* this);
 void VisMono_Destroy(VisMono* this);
-void VisMono_Draw(VisMono* this, Gfx** gfxp);
+void VisMono_Draw(VisMono* this, Gfx** gfxP);
 
 void VisZBuffer_Init(VisZBuffer* this);
 void VisZBuffer_Destroy(VisZBuffer* this);
-void VisZBuffer_Draw(VisZBuffer* this, Gfx** gfxp);
+void VisZBuffer_Draw(VisZBuffer* this, Gfx** gfxP);
 
 #endif

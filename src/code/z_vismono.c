@@ -143,8 +143,8 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     return gfx;
 }
 
-void VisMono_Draw(VisMono* this, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void VisMono_Draw(VisMono* this, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
     u16* tlut;
     Gfx* dList;
     Gfx* dListEnd;
@@ -186,7 +186,7 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
 
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 void VisMono_DrawOld(VisMono* this) {
