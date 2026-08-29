@@ -38,8 +38,8 @@ Use angle brackets for libc includes (files from `include/libc`), and quotes for
 Example:
 
 ```c
-#include <stddef.h>
 #include "actor.h"
+#include <stddef.h>
 ```
 
 ## Conditional includes
