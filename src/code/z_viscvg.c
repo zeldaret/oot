@@ -71,8 +71,8 @@ void VisCvg_Init(VisCvg* this) {
 void VisCvg_Destroy(VisCvg* this) {
 }
 
-void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void VisCvg_Draw(VisCvg* this, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
 
     gDPPipeSync(gfx++);
     // Set full dz, see comment in PreRender_FetchFbufCoverage for details.
@@ -104,5 +104,5 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
     }
 
     gDPPipeSync(gfx++);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
