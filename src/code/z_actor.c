@@ -5627,7 +5627,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     retTextId = 0x2040;
-                } else if (Flags_GetInfTable(INFTABLE_94)) {
+                } else if (Flags_GetInfTable(INFTABLE_INGO_TALKED_TO_CHILD_LINK_BEFORE_TALON_RETURNED)) {
                     retTextId = 0x2040;
                 } else {
                     retTextId = 0x203F;
@@ -5636,7 +5636,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 if (!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
                     if (!IS_DAY) {
                         retTextId = 0x204E;
-                    } else if (Flags_GetInfTable(INFTABLE_9A)) {
+                    } else if (Flags_GetInfTable(INFTABLE_INGO_TALKED_TO_ADULT_LINK)) {
                         retTextId = 0x2031;
                     } else {
                         retTextId = 0x2030;
@@ -6023,7 +6023,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
             if (msgCtx->choiceIndex == 1) {
                 func_80035B18(play, actor, 0x2032);
             }
-            Flags_SetInfTable(INFTABLE_9A);
+            Flags_SetInfTable(INFTABLE_INGO_TALKED_TO_ADULT_LINK);
             ret = 0;
             break;
         case 0x2035:
