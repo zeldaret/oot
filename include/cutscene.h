@@ -66,7 +66,7 @@ typedef enum CutsceneCmd {
     /* 0x002C */ CS_CMD_ACTOR_CUE_5_0,
     /* 0x002D */ CS_CMD_TRANSITION,
     /* 0x002E */ CS_CMD_ACTOR_CUE_0_6,
-    /* 0x002F */ CS_CMD_ACTOR_CUE_4_3,
+    /* 0x002F */ CS_CMD_ACTOR_CUE_4_SHEIK,
     /* 0x0030 */ CS_CMD_ACTOR_CUE_1_5,
     /* 0x0031 */ CS_CMD_ACTOR_CUE_7_0,
     /* 0x0032 */ CS_CMD_ACTOR_CUE_2_3,
@@ -80,7 +80,7 @@ typedef enum CutsceneCmd {
     /* 0x003B */ CS_CMD_UNIMPLEMENTED_3B,
     /* 0x003C */ CS_CMD_ACTOR_CUE_7_1,
     /* 0x003D */ CS_CMD_UNIMPLEMENTED_3D,
-    /* 0x003E */ CS_CMD_ACTOR_CUE_8_0,
+    /* 0x003E */ CS_CMD_ACTOR_CUE_8_NAVI,
     /* 0x003F */ CS_CMD_ACTOR_CUE_3_5,
     /* 0x0040 */ CS_CMD_ACTOR_CUE_1_6,
     /* 0x0041 */ CS_CMD_ACTOR_CUE_3_6,
@@ -128,7 +128,7 @@ typedef enum CutsceneCmd {
     /* 0x0077 */ CS_CMD_ACTOR_CUE_0_13,
     /* 0x0078 */ CS_CMD_ACTOR_CUE_1_14,
     /* 0x0079 */ CS_CMD_ACTOR_CUE_2_11,
-    /* 0x007B */ CS_CMD_ACTOR_CUE_0_14 = 0x7B,
+    /* 0x007B */ CS_CMD_ACTOR_CUE_0_SHEIK_EFF_FLAME = 0x7B,
     /* 0x007C */ CS_CMD_FADE_OUT_SEQ,
     /* 0x007D */ CS_CMD_ACTOR_CUE_1_15,
     /* 0x007E */ CS_CMD_ACTOR_CUE_2_12,
@@ -149,7 +149,7 @@ typedef enum CutsceneCmd {
     /* 0x008D */ CS_CMD_ACTOR_CUE_1_17,
     /* 0x008E */ CS_CMD_ACTOR_CUE_7_6,
     /* 0x008F */ CS_CMD_ACTOR_CUE_9_0,
-    /* 0x0090 */ CS_CMD_ACTOR_CUE_0_17,
+    /* 0x0090 */ CS_CMD_ACTOR_CUE_0_SHEIK_EFF_SPLASH,
     /* 0x03E8 */ CS_CMD_DESTINATION = 0x03E8
 } CutsceneCmd;
 
@@ -343,6 +343,47 @@ typedef enum CutsceneDestination {
     /* 0x76 */ CS_DEST_GANON_BATTLE_TOWER_COLLAPSE,
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
+
+typedef enum EnXcCueId {
+    /* 0x00 */ ENXC_CUEID_NONE,
+    /* 0x01 */ ENXC_CUEID_IDLE,
+    /* 0x02 */ ENXC_CUEID_GRACEFUL_FALL,
+    /* 0x03 */ ENXC_CUEID_PLAY_HARP, // Generic Anim
+    /* 0x04 */ ENXC_CUEID_BACK_AWAY,
+    /* 0x05 */ ENXC_CUEID_PUT_AWAY_HARP,
+    /* 0x06 */ ENXC_CUEID_APPEAR,
+    /* 0x07 */ ENXC_CUEID_7,
+    /* 0x08 */ ENXC_CUEID_PLAY_HARP_STALL, // Freeze in place while playing harp
+    /* 0x09 */ ENXC_CUEID_VANISH,
+    /* 0x0A */ ENXC_CUEID_TRANSFORM_POSE,
+    /* 0x0B */ ENXC_CUEID_PLAY_HARP_MINUET,
+    /* 0x0C */ ENXC_CUEID_PLAY_HARP_BOLERO,
+    /* 0x0D */ ENXC_CUEID_PLAY_HARP_SERENADE,
+    /* 0x0E */ ENXC_CUEID_HARD_FACEPLANT,
+    /* 0x0F */ ENXC_CUEID_GESTURE_STOP_LINK,
+    /* 0x10 */ ENXC_CUEID_KNEEL,
+    /* 0x11 */ ENXC_CUEID_NOCTURNE_IDLE,
+    /* 0x12 */ ENXC_CUEID_CONTORTIONS,
+    /* 0x13 */ ENXC_CUEID_PUSHUP_PRONE_OR_TRIFORCE_MARK2,
+    /* 0x14 */ ENXC_CUEID_DEFENSE_STANCE,
+    /* 0x15 */ ENXC_CUEID_TRANSFORM_REVEAL_TRIFORCE_MARK,
+    /* 0x16 */ ENXC_CUEID_DIVE,
+    /* 0x17 */ ENXC_CUEID_PLAY_HARP_PRELUDE,
+    /* 0x18 */ ENXC_CUEID_BLOCK_PEDESTAL
+} EnXcCueId; // CS_CMD_ACTOR_CUE_4_SHEIK
+
+typedef enum EnXcEffSplashCueId {
+    /* 0x00 */ ENXC_EFF_SPLASH_CUEID_NONE,
+    /* 0x01 */ ENXC_EFF_SPLASH_CUEID_1,
+    /* 0x02 */ ENXC_EFF_SPLASH_CUEID_2,
+    /* 0x03 */ ENXC_EFF_SPLASH_CUEID_3
+} EnXcEffSplashCueId; // CS_CMD_ACTOR_CUE_0_SHEIK_EFF_SPLASH
+
+typedef enum EnXcEffFlameCueId {
+    /* 0x00 */ ENXC_EFF_FLAME_CUEID_NONE,
+    /* 0x01 */ ENXC_EFF_FLAME_CUEID_1,
+    /* 0x02 */ ENXC_EFF_FLAME_CUEID_2
+} EnXcEffFlameCueId; // CS_CMD_ACTOR_CUE_0_SHEIK_EFF_FLAME
 
 typedef union CsCmdCam {
     struct {
