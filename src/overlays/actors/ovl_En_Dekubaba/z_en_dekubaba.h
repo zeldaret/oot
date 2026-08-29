@@ -7,8 +7,8 @@
 #include "assets/objects/object_dekubaba/object_dekubaba.h"
 
 typedef enum EnDekubabaType {
-    EN_DEKUBABA_TYPE_0,
-    EN_DEKUBABA_TYPE_1
+    EN_DEKUBABA_TYPE_NORMAL,
+    EN_DEKUBABA_TYPE_BIG
 } EnDekubabaType;
 
 struct EnDekubaba;
