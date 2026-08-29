@@ -370,11 +370,9 @@ void EnBili_Electrify(EnBili* this, PlayState* play) {
 }
 
 void EnBili_AscendAway(EnBili* this, PlayState* play) {
-    s32 animFinished;
-    f32 animCurFrame;
+    s32 animFinished = SkelAnime_Update(&this->skelAnime);
+    f32 animCurFrame = this->skelAnime.curFrame;
 
-    animFinished = SkelAnime_Update(&this->skelAnime);
-    animCurFrame = this->skelAnime.curFrame;
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_JUMP);
     }
