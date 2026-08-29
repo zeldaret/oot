@@ -156,7 +156,7 @@ typedef enum EnDekubabaDamageReaction {
     EN_DEKUBABA_DMG_REACT_SWORD
 } EnDekubabaDamageReaction;
 
-static DamageTable D_809E8FE0 = {
+static DamageTable sDamageTableNormal = {
     /* Deku nut      */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_STUN),
     /* Deku stick    */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
     /* Slingshot     */ DMG_ENTRY(1, EN_DEKUBABA_DMG_REACT_NONE),
@@ -191,7 +191,7 @@ static DamageTable D_809E8FE0 = {
     /* Unknown 2     */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_NONE),
 };
 
-static DamageTable D_809E9000 = {
+static DamageTable sDamageTableBig = {
     /* Deku nut      */ DMG_ENTRY(0, EN_DEKUBABA_DMG_REACT_STUN),
     /* Deku stick    */ DMG_ENTRY(2, EN_DEKUBABA_DMG_REACT_NONE),
     /* Slingshot     */ DMG_ENTRY(1, EN_DEKUBABA_DMG_REACT_NONE),
@@ -240,28 +240,28 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
                    DEKUBABA_HEAD_LIMB_MAX);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
-    if (this->actor.params == EN_DEKUBABA_TYPE_1) {
+    if (this->actor.params == EN_DEKUBABA_TYPE_BIG) {
         this->scaleFac = 2.50f;
         for (i = 0; i < sJntSphInit.count; i++) {
             this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius =
                 sJntSphElementsInit[i].dim.modelSphere.radius * 2.5f;
         }
         if (!LINK_IS_ADULT) {
-            D_809E9000.table[27] = 4;
+            sDamageTableBig.table[27] = 4;
         }
-        CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E9000, &sColChkInfoInit);
+        CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTableBig, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
         this->actor.attentionRangeType = ATTENTION_RANGE_2;
-    } else {
+    } else { // EN_DEKUBABA_TYPE_NORMAL
         this->scaleFac = 1.0f;
         for (i = 0; i < sJntSphInit.count; i++) {
             this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
         }
         if (!LINK_IS_ADULT) {
-            D_809E8FE0.table[27] = 4;
+            sDamageTableNormal.table[27] = 4;
         }
-        CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809E8FE0, &sColChkInfoInit);
+        CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTableNormal, &sColChkInfoInit);
         this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
         this->actor.attentionRangeType = ATTENTION_RANGE_1;
     }
@@ -280,7 +280,7 @@ void EnDekubaba_Destroy(Actor* thisx, PlayState* play) {
 void EnDekubaba_DisableStemColliderAC(EnDekubaba* this) {
     s32 i;
 
-    for (i = 1; i < 7; i++) {
+    for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].base.acElemFlags &= ~ACELEM_ON;
     }
 }
@@ -297,7 +297,7 @@ void EnDekubaba_SetupWaitPlayerNear(EnDekubaba* this) {
     this->collider.base.colMaterial = COL_MATERIAL_HARD;
     this->collider.base.acFlags |= AC_HARD;
     this->actionState = 45;
-    for (i = 1; i < 7; i++) {
+    for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
         elem = &this->collider.elements[i];
         elem->dim.worldSphere.center.x = this->actor.world.pos.x;
         elem->dim.worldSphere.center.y = (s16)this->actor.world.pos.y - 7;
@@ -312,7 +312,7 @@ void EnDekubaba_SetupExitGround(EnDekubaba* this) {
     Animation_Change(&this->skelAnime, &gDekubabaChompAnim, Animation_GetLastFrame(&gDekubabaChompAnim) * 0.06666667f,
                      0.0f, Animation_GetLastFrame(&gDekubabaChompAnim), ANIMMODE_ONCE, 0.0f);
     this->actionState = 15;
-    for (i = 2; i < 7; i++) {
+    for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].base.ocElemFlags |= OCELEM_ON;
     }
     this->collider.base.colMaterial = COL_MATERIAL_HIT6;
@@ -327,7 +327,7 @@ void EnDekubaba_SetupEnterGround(EnDekubaba* this) {
     Animation_Change(&this->skelAnime, &gDekubabaChompAnim, -1.5f, Animation_GetLastFrame(&gDekubabaChompAnim), 0.0f,
                      ANIMMODE_ONCE, -3.0f);
     this->actionState = 15;
-    for (i = 2; i < 7; i++) {
+    for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }
     this->actionFunc = EnDekubaba_EnterGround;
@@ -406,7 +406,7 @@ void EnDekubaba_SetupDie(EnDekubaba* this) {
 void EnDekubaba_SetupVulnerable(EnDekubaba* this) {
     s32 i;
 
-    for (i = 1; i < 7; i++) {
+    for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].base.acElemFlags |= ACELEM_ON;
     }
     if (this->actionState == EN_DEKUBABA_ATTACKED_TYPE_WEAKENED) {
@@ -589,7 +589,7 @@ void EnDekubaba_ChompAir(EnDekubaba* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
-        if (this->actor.params == EN_DEKUBABA_TYPE_1) {
+        if (this->actor.params == EN_DEKUBABA_TYPE_BIG) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_MOUTH);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
@@ -635,7 +635,7 @@ void EnDekubaba_Attack(EnDekubaba* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->actionState == 0) {
         if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
-            if (this->actor.params == EN_DEKUBABA_TYPE_1) {
+            if (this->actor.params == EN_DEKUBABA_TYPE_BIG) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_ATTACK);
             } else {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_ATTACK);
@@ -665,7 +665,7 @@ void EnDekubaba_Attack(EnDekubaba* this, PlayState* play) {
             Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 15, 0x71C);
         }
         if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
-            if (this->actor.params == EN_DEKUBABA_TYPE_1) {
+            if (this->actor.params == EN_DEKUBABA_TYPE_BIG) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_MOUTH);
             } else {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
@@ -901,10 +901,10 @@ void EnDekubaba_Die(EnDekubaba* this, PlayState* play) {
         func_800286CC(play, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->scaleFac * 500.0f,
                       this->scaleFac * 100.0f);
         if (this->actor.dropFlag == 0) {
-            Item_DropCollectible(play, &this->actor.world.pos, 0xC);
-            if (this->actor.params == EN_DEKUBABA_TYPE_1) {
-                Item_DropCollectible(play, &this->actor.world.pos, 0xC);
-                Item_DropCollectible(play, &this->actor.world.pos, 0xC);
+            Item_DropCollectible(play, &this->actor.world.pos, ITEM00_NUTS);
+            if (this->actor.params == EN_DEKUBABA_TYPE_BIG) {
+                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_NUTS);
+                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_NUTS);
             }
         } else {
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
@@ -999,7 +999,7 @@ void EnDekubaba_CheckCollide(EnDekubaba* this, PlayState* play) {
         }
     } else {
         Enemy_StartFinishingBlow(play, &this->actor);
-        if (this->actor.params == EN_DEKUBABA_TYPE_1) {
+        if (this->actor.params == EN_DEKUBABA_TYPE_BIG) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_DEAD);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
