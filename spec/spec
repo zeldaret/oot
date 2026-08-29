@@ -661,7 +661,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/fault_gc.o"
     include "$(BUILD_DIR)/src/code/fault_gc_drawer.o"
 #endif
-    include "$(BUILD_DIR)/src/code/kanread.o"
+    include "$(BUILD_DIR)/src/code/kanji_tex.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
 #endif
