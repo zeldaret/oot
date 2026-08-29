@@ -802,7 +802,7 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 void EnFirefly_DrawOpa(Actor* thisx, PlayState* play) {
     EnFirefly* this = (EnFirefly*)thisx;
 
-    OPEN_DISPS(play->state.gfxCtx, "../z_en_firefly.c", 0x6C5);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_firefly.c", 1733);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (this->bodyElementalType != EN_FIREFLY_BODY_ELEMENTAL_TYPE_NORMAL) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
