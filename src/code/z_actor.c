@@ -313,7 +313,6 @@ static AttentionColor sAttentionColors[ACTORCAT_MAX + 1] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unused extra entry
 };
 
-// unused
 Gfx gActorSetupOpaDL[] = {
     gsSPEndDisplayList(),
 };

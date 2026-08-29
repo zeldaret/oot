@@ -602,9 +602,26 @@ typedef struct NpcInteractInfo {
 #define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
 #define GET_TRANSITION_ACTOR_INDEX(actor) PARAMS_GET_NOMASK((u16)(actor)->params, 10)
 
+/**
+ * A display list setting up for translucent drawing when a fading actor is partially faded,
+ * overriding the opaque render mode from the calling display list.
+ * Typically this DL is assigned to a segment that is called by the display lists from the assets.
+ * @see ACTOR_SETUP_OPA_DL
+ */
 extern Gfx gActorSetupXluDL[];
+
+/**
+ * Unused.
+ * @see ACTOR_SETUP_OPA_DL
+ */
 extern Gfx gActorSetupOpaDL[];
 
+/**
+ * A no-op display list to use when a fading actor is fully opaque,
+ * retaining the opaque render mode from the calling display list.
+ * Typically this DL is assigned to a segment that is called by the display lists from the assets.
+ * @see gActorSetupXluDL
+ */
 #define ACTOR_SETUP_OPA_DL &gActorSetupXluDL[2]
 
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale);
