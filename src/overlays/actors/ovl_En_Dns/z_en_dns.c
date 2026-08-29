@@ -498,7 +498,7 @@ void EnDns_PostBurrow(EnDns* this, PlayState* play) {
             sp38.y = this->unk2C4;
             sp38.z = this->actor.world.pos.z;
             for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                Item_DropCollectible(play, &sp38, 3);
+                Item_DropCollectible(play, &sp38, ITEM00_RECOVERY_HEART);
             }
         }
         Actor_Kill(&this->actor);

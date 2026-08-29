@@ -144,9 +144,9 @@ void func_80A9B07C(EnKusa* this, PlayState* play) {
             break;
         case ENKUSA_TYPE_1:
             if (Rand_ZeroOne() < 0.5f) {
-                Item_DropCollectible(play, &this->actor.world.pos, 0x10);
+                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_SEEDS);
             } else {
-                Item_DropCollectible(play, &this->actor.world.pos, 3);
+                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RECOVERY_HEART);
             }
             break;
     }
