@@ -247,7 +247,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
                 sJntSphElementsInit[i].dim.modelSphere.radius * 2.5f;
         }
         if (!LINK_IS_ADULT) {
-            sDamageTableBig.table[27] = 4;
+            sDamageTableBig.table[27] = DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_NONE);
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTableBig, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
@@ -259,7 +259,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
             this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
         }
         if (!LINK_IS_ADULT) {
-            sDamageTableNormal.table[27] = 4;
+            sDamageTableNormal.table[27] = DMG_ENTRY(4, EN_DEKUBABA_DMG_REACT_NONE);
         }
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTableNormal, &sColChkInfoInit);
         this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
@@ -309,7 +309,7 @@ void EnDekubaba_SetupWaitPlayerNear(EnDekubaba* this) {
 void EnDekubaba_SetupExitGround(EnDekubaba* this) {
     s32 i;
 
-    Animation_Change(&this->skelAnime, &gDekubabaChompAnim, Animation_GetLastFrame(&gDekubabaChompAnim) * 0.06666667f,
+    Animation_Change(&this->skelAnime, &gDekubabaChompAnim, Animation_GetLastFrame(&gDekubabaChompAnim) * (1.0f / 15),
                      0.0f, Animation_GetLastFrame(&gDekubabaChompAnim), ANIMMODE_ONCE, 0.0f);
     this->actionState = 15;
     for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
@@ -476,7 +476,7 @@ void EnDekubaba_ExitGround(EnDekubaba* this, PlayState* play) {
         this->scaleFac * 0.01f * (0.5f + (((15 - this->actionState) * 0.5f) / 15.0f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
-    dy = (sinf(CLAMP_MAX(((15 - this->actionState)) * 0.06666667014f, 0.7f) * 3.1415927f) * 32.0f) + 14.0f;
+    dy = (sinf(CLAMP_MAX(((15 - this->actionState)) * (1.0f / 15), 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
         dxz = 0.0f;
@@ -534,7 +534,7 @@ void EnDekubaba_EnterGround(EnDekubaba* this, PlayState* play) {
     }
     SkelAnime_Update(&this->skelAnime);
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->scaleFac * 0.01f * (0.5f + (this->actionState * 0.033333335f));
+        this->scaleFac * 0.01f * (0.5f + (this->actionState * (1.0f / 30)));
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
     dy = (sinf(CLAMP_MAX(this->actionState * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
     if (this->actor.shape.rot.x < -0x38E3) {
@@ -930,7 +930,7 @@ void EnDekubaba_DekuStick(EnDekubaba* this, PlayState* play) {
 }
 
 void EnDekubaba_CheckCollide(EnDekubaba* this, PlayState* play) {
-    f32 new_var2;
+    f32 scale;
     s32 newHealth;
     s32 i;
 
@@ -974,9 +974,9 @@ void EnDekubaba_CheckCollide(EnDekubaba* this, PlayState* play) {
                 this->actor.colChkInfo.health = newHealth;
             }
             if (this->actor.colChkInfo.damageReaction == EN_DEKUBABA_DMG_REACT_FIRE) {
-                new_var2 = this->scaleFac * 70.0f;
+                scale = this->scaleFac * 70.0f;
                 for (i = 0; i < 4; i++) {
-                    EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, new_var2, 0, 0, i);
+                    EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, scale, 0, 0, i);
                 }
             }
         } else {
