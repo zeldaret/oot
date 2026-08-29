@@ -73,6 +73,7 @@ typedef enum BgDyYoseizoRewardMagic {
     BG_DY_YOSEIZO_REWARD_MAGIC_DOUBLE_DEFENSE
 } BgDyYoseizoRewardMagic;
 
+// This unused data is probably { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE }
 static s32 D_80875440[3] = { 0x5D, 0x5E, 0x5C };
 
 ActorProfile Bg_Dy_Yoseizo_Profile = {
