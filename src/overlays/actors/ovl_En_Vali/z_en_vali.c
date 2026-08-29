@@ -196,48 +196,22 @@ void EnVali_SetupAppear(EnVali* this) {
 }
 
 void EnVali_SetupSpin(EnVali* this) {
-    Vec3f sp84;
-    Vec3f sp78;
-    Vec3f sp6C;
-    Vec3f sp60;
-    Vec3f sp54;
-    Vec3f sp48;
-    Vec3f sp3C;
-    f32 temp_fv0;
-    f32 temp_fv1;
-    s32 pad[6];
-
     Animation_MorphToLoop(&this->skelAnime, &gBariAttackAnim, -3.0f);
-    sp3C = this->actor.world.pos;
-    this->rightTentacleCollider.dim.quad[1] = sp3C;
-    sp48 = sp3C;
-    this->rightTentacleCollider.dim.quad[0] = sp48;
-    sp54 = sp48;
-    this->leftTentacleCollider.dim.quad[1] = sp54;
-    sp60 = sp54;
-    this->leftTentacleCollider.dim.quad[0] = sp60;
-    sp6C = sp60;
-    this->rightTentacleCollider.dim.quad[3] = sp6C;
-    sp78 = sp6C;
-    this->rightTentacleCollider.dim.quad[2] = sp78;
-    sp84 = sp78;
-    this->leftTentacleCollider.dim.quad[3] = sp84;
-    temp_fv1 = this->actor.world.pos.y;
-    temp_fv0 = temp_fv1 - 10.0f;
-    this->leftTentacleCollider.dim.quad[2] = sp84;
-    this->leftTentacleCollider.dim.quad[2].y = temp_fv0;
-    this->leftTentacleCollider.dim.quad[3].y = temp_fv0;
-    this->rightTentacleCollider.dim.quad[2].y = temp_fv0;
-    this->rightTentacleCollider.dim.quad[3].y = temp_fv0;
-    this->leftTentacleCollider.dim.quad[0].y = temp_fv0;
-    this->leftTentacleCollider.dim.quad[1].y = temp_fv0;
-    this->rightTentacleCollider.dim.quad[0].y = temp_fv0;
-    this->rightTentacleCollider.dim.quad[1].y = temp_fv0;
+    this->leftTentacleCollider.dim.quad[2] = this->leftTentacleCollider.dim.quad[3] =
+        this->rightTentacleCollider.dim.quad[2] = this->rightTentacleCollider.dim.quad[3] =
+            this->leftTentacleCollider.dim.quad[0] = this->leftTentacleCollider.dim.quad[1] =
+                this->rightTentacleCollider.dim.quad[0] = this->rightTentacleCollider.dim.quad[1] =
+                    this->actor.world.pos;
+    this->leftTentacleCollider.dim.quad[2].y = this->leftTentacleCollider.dim.quad[3].y =
+        this->rightTentacleCollider.dim.quad[2].y = this->rightTentacleCollider.dim.quad[3].y =
+            this->leftTentacleCollider.dim.quad[0].y = this->leftTentacleCollider.dim.quad[1].y =
+                this->rightTentacleCollider.dim.quad[0].y = this->rightTentacleCollider.dim.quad[1].y =
+                    this->actor.world.pos.y - 10.0f;
     this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->collider.base.acFlags |= AC_ON;
     this->spinTimer = 0;
     this->actionFunc = EnVali_Spin;
-    this->spinHeight = temp_fv1;
+    this->spinHeight = this->actor.world.pos.y;
 }
 
 void EnVali_SetupElectrify(EnVali* this) {
@@ -506,11 +480,10 @@ void EnVali_Bury(EnVali* this, PlayState* play) {
 }
 
 void EnVali_CheckCollide(EnVali* this, PlayState* play) {
-    if ((this->collider.base.acFlags & AC_HIT)) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (((Actor_SetDropFlag(&this->actor, &this->collider.elem, true),
-              (this->actor.colChkInfo.damageReaction != EN_VALI_DMG_REACT_NONE)) ||
-             (this->actor.colChkInfo.damage != 0))) {
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
+        if ((this->actor.colChkInfo.damageReaction != EN_VALI_DMG_REACT_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
