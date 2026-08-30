@@ -54,7 +54,7 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;
     thisx->scale.z = 1.0f;
-    this->unk_16C = thisx->world.pos;
+    this->worldPos = thisx->world.pos;
     BgBomGuard_SetupAction(this, func_8086E638);
 }
 

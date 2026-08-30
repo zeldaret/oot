@@ -65,15 +65,15 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
 }
 
 #if PLATFORM_N64
-void func_80800AD0_unknown(MapSelectState* this, s32 arg1) {
-    if (D_80121212 != 0) {
-        n64dd_SetDiskVersion(1);
+void MapSelect_EnableDiskContent(MapSelectState* this, s32 arg1) {
+    if (n64dd_isDiskContentRunning != 0) {
+        n64dd_toggleExtras(1);
     }
 }
 
-void func_80800B08_unknown(MapSelectState* this, s32 arg1) {
-    if (D_80121212 != 0) {
-        n64dd_SetDiskVersion(0);
+void MapSelect_DisableDiskContent(MapSelectState* this, s32 arg1) {
+    if (n64dd_isDiskContentRunning != 0) {
+        n64dd_toggleExtras(0);
     }
 }
 #endif
@@ -283,8 +283,8 @@ static MapSelectEntry sMapSelectEntries[] = {
 #endif
     { "title", (void*)MapSelect_LoadTitle, 0 },
 #if PLATFORM_N64
-    { "64DD TEST  n64dd_SetDiskVersion(1)", (void*)func_80800AD0_unknown, 0 },
-    { "64DD TEST2 n64dd_SetDiskVersion(0)", (void*)func_80800B08_unknown, 0 },
+    { "64DD TEST  n64dd_toggleExtras(1)", (void*)MapSelect_EnableDiskContent, 0 },
+    { "64DD TEST2 n64dd_toggleExtras(0)", (void*)MapSelect_DisableDiskContent, 0 },
 #endif
 };
 

@@ -153,8 +153,8 @@ void func_800C4344(GameState* gameState) {
 #endif
 
 #if PLATFORM_N64
-    if (D_80121212 != 0) {
-        func_801C7E78();
+    if (n64dd_isDiskContentRunning != 0) {
+        n64dd_empty2();
     }
 #endif
 }
@@ -275,8 +275,8 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     gSPDisplayList(OVERLAY_DISP++, newDlist);
 
 #if PLATFORM_N64
-    if (D_80121212 != 0) {
-        func_801C6EA0(&newDlist);
+    if (n64dd_isDiskContentRunning != 0) {
+        n64dd_gfxHook(&newDlist);
     }
 #endif
 
@@ -301,8 +301,8 @@ void GameState_Update(GameState* gameState) {
     gameState->main(gameState);
 
 #if PLATFORM_N64
-    if (D_80121212 != 0) {
-        func_801C7E78();
+    if (n64dd_isDiskContentRunning != 0) {
+        n64dd_empty2();
     }
     if ((B_80121220 != NULL) && (B_80121220->unk_74 != NULL)) {
         B_80121220->unk_74(gameState);

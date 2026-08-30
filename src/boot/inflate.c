@@ -177,7 +177,7 @@ static ush cplens[] = { /* Copy lengths for literal codes 257..285 */
 /* note: see note #13 above about the 258 in this list. */
 static ush cplext[] = { /* Extra bits for literal codes 257..285 */
                         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 99, 99
-};                      /* 99==invalid */
+}; /* 99==invalid */
 static ush cpdist[] = { /* Copy offsets for distance codes 0..29 */
                         1,   2,   3,   4,   5,   7,    9,    13,   17,   25,   33,   49,   65,    97,    129,
                         193, 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577

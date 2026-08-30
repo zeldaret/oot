@@ -7,7 +7,7 @@
 #include "save.h"
 
 n64ddStruct_800FEE70_pointers D_800FEE70 = {
-    func_801C7C1C,
+    n64dd_loadData,
     NULL,
     NULL,
     Fault_RemoveClient,

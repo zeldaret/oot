@@ -110,17 +110,20 @@ void ArrowFire_Charge(ArrowFire* this, PlayState* play) {
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
-        this->unkPos = this->actor.world.pos;
+        this->worldPos = this->actor.world.pos;
         this->radius = 10;
         ArrowFire_SetupAction(this, ArrowFire_Fly);
         this->alpha = 255;
     }
 }
 
-void func_80865ECC(Vec3f* unkPos, Vec3f* firePos, f32 scale) {
-    unkPos->x += ((firePos->x - unkPos->x) * scale);
-    unkPos->y += ((firePos->y - unkPos->y) * scale);
-    unkPos->z += ((firePos->z - unkPos->z) * scale);
+/**
+ * Used to move the arrow actor to the same world position of the arrow.
+ */
+void ArrowFire_MoveActor(Vec3f* actorPos, Vec3f* firePos, f32 scale) {
+    actorPos->x += ((firePos->x - actorPos->x) * scale);
+    actorPos->y += ((firePos->y - actorPos->y) * scale);
+    actorPos->z += ((firePos->z - actorPos->z) * scale);
 }
 
 void ArrowFire_Hit(ArrowFire* this, PlayState* play) {
@@ -188,12 +191,12 @@ void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
     // copy position and rotation from arrow
     this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
-    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.world.pos) * (1.0f / 24.0f);
+    distanceScaled = Math_Vec3f_DistXYZ(&this->worldPos, &this->actor.world.pos) * (1.0f / 24.0f);
     this->unk_158 = distanceScaled;
     if (distanceScaled < 1.0f) {
         this->unk_158 = 1.0f;
     }
-    func_80865ECC(&this->unkPos, &this->actor.world.pos, 0.05f);
+    ArrowFire_MoveActor(&this->worldPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
         Actor_PlaySfx(&this->actor, NA_SE_IT_EXPLOSION_FRAME);

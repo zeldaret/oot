@@ -493,7 +493,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
 
 #if PLATFORM_N64
 void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
-    if ((D_80121212 != 0) && (func_801C70FC() != 0)) {
+    if ((n64dd_isDiskContentRunning != 0) && (n64dd_isDiskCorrect() != 0)) {
         Gfx* gfx = *gfxP;
         s32 temp_a3 = (arg1 + 0x40) << 2;
         s32 temp_t0 = (arg2 + 5) << 2;
@@ -557,17 +557,11 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     // For iQue, the word "PRESS" is drawn below as a Chinese character instead (gTitlePressCHN)
     static u8 pressStartFontIndices[] = {
 #if !PLATFORM_IQUE
-        FILENAME_UPPERCASE('P'),
-        FILENAME_UPPERCASE('R'),
-        FILENAME_UPPERCASE('E'),
-        FILENAME_UPPERCASE('S'),
-        FILENAME_UPPERCASE('S'),
+        FILENAME_UPPERCASE('P'), FILENAME_UPPERCASE('R'), FILENAME_UPPERCASE('E'),
+        FILENAME_UPPERCASE('S'), FILENAME_UPPERCASE('S'),
 #endif
-        FILENAME_UPPERCASE('S'),
-        FILENAME_UPPERCASE('T'),
-        FILENAME_UPPERCASE('A'),
-        FILENAME_UPPERCASE('R'),
-        FILENAME_UPPERCASE('T'),
+        FILENAME_UPPERCASE('S'), FILENAME_UPPERCASE('T'), FILENAME_UPPERCASE('A'),
+        FILENAME_UPPERCASE('R'), FILENAME_UPPERCASE('T'),
     };
     static void* effectMaskTextures[] = {
         gTitleEffectMask00Tex, gTitleEffectMask01Tex, gTitleEffectMask02Tex,
