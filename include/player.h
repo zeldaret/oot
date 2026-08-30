@@ -690,8 +690,8 @@ typedef struct PlayerAgeProperties {
     /* 0xA8 */ LinkAnimationHeader* unk_A8;
     /* 0xAC */ LinkAnimationHeader* unk_AC[4];
     /* 0xBC */ LinkAnimationHeader* unk_BC[2];
-    /* 0xC4 */ LinkAnimationHeader* unk_C4[2];
-    /* 0xCC */ LinkAnimationHeader* unk_CC[2];
+    /* 0xC4 */ LinkAnimationHeader* dismountLadderDownAnim[2];
+    /* 0xCC */ LinkAnimationHeader* dismountLadderUpAnim[2];
 } PlayerAgeProperties; // size = 0xD4
 
 #define MELEE_WEAPON_INFO_TIP(weaponInfo) (&(weaponInfo)->posA)

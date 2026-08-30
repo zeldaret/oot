@@ -458,8 +458,8 @@ static PlayerAgeProperties sAgeProperties[] = {
         { &gPlayerAnim_link_normal_climb_upL, &gPlayerAnim_link_normal_climb_upR, &gPlayerAnim_link_normal_Fclimb_upL,
           &gPlayerAnim_link_normal_Fclimb_upR },                                          // unk_AC
         { &gPlayerAnim_link_normal_Fclimb_sideL, &gPlayerAnim_link_normal_Fclimb_sideR }, // unk_BC
-        { &gPlayerAnim_link_normal_climb_endAL, &gPlayerAnim_link_normal_climb_endAR },   // unk_C4
-        { &gPlayerAnim_link_normal_climb_endBR, &gPlayerAnim_link_normal_climb_endBL },   // unk_CC
+        { &gPlayerAnim_link_normal_climb_endAL, &gPlayerAnim_link_normal_climb_endAR },   // dismountLadderDownAnim
+        { &gPlayerAnim_link_normal_climb_endBR, &gPlayerAnim_link_normal_climb_endBL },   // dismountLadderUpAnim
     },
     {
         40.0f,                   // ceilingCheckHeight
@@ -510,8 +510,8 @@ static PlayerAgeProperties sAgeProperties[] = {
         { &gPlayerAnim_clink_normal_climb_upL, &gPlayerAnim_clink_normal_climb_upR, &gPlayerAnim_link_normal_Fclimb_upL,
           &gPlayerAnim_link_normal_Fclimb_upR },                                          // unk_AC
         { &gPlayerAnim_link_normal_Fclimb_sideL, &gPlayerAnim_link_normal_Fclimb_sideR }, // unk_BC
-        { &gPlayerAnim_clink_normal_climb_endAL, &gPlayerAnim_clink_normal_climb_endAR }, // unk_C4
-        { &gPlayerAnim_clink_normal_climb_endBR, &gPlayerAnim_clink_normal_climb_endBL }, // unk_CC
+        { &gPlayerAnim_clink_normal_climb_endAL, &gPlayerAnim_clink_normal_climb_endAR }, // dismountLadderDownAnim
+        { &gPlayerAnim_clink_normal_climb_endBR, &gPlayerAnim_clink_normal_climb_endBL }, // dismountLadderUpAnim
     },
 };
 
@@ -12905,7 +12905,8 @@ void Player_Action_8084BF1C(Player* this, PlayState* play) {
                             func_8083A9B8(this, &gPlayerAnim_link_normal_jump_climb_up_free, play);
                             this->stateFlags1 |= PLAYER_STATE1_14;
                         } else {
-                            Player_SetupDismountLadder(this, this->ageProperties->unk_CC[this->av2.actionVar2], play);
+                            Player_SetupDismountLadder(
+                                this, this->ageProperties->dismountLadderUpAnim[this->av2.actionVar2], play);
                         }
                     } else {
                         this->skelAnime.prevTransl = this->ageProperties->unk_4A[sp68];
@@ -12919,8 +12920,9 @@ void Player_Action_8084BF1C(Player* this, PlayState* play) {
                             if (this->av2.actionVar2 != 0) {
                                 this->skelAnime.prevTransl = this->ageProperties->unk_44;
                             }
-                            Player_SetupDismountLadder(this, this->ageProperties->unk_C4[this->av2.actionVar2], play);
-                            this->av2.actionVar2 = 1;
+                            Player_SetupDismountLadder(
+                                this, this->ageProperties->dismountLadderDownAnim[this->av2.actionVar2], play);
+                            this->av2.dismountDown = true;
                         }
                     } else {
                         sp68 ^= 1;
@@ -12992,12 +12994,12 @@ void Player_Action_DismountLadder(Player* this, PlayState* play) {
 
     interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 4.0f);
 
-    //! @bug Ladder dismount cutscene softlock. Player_TryActionInterrupt will always return true in cutscene
-    //! as AH 0 calls AH 13 (due to unk_6AD > 0) and then returns true. This both removes PLAYER_STATE1_CLIMBING
-    //! below, which causes Player_UpdateCommon to continuously set unk_6AD to 3, and causes the final
-    //! LinkAnimation_Update (that normally exits the action and sets idle action) to never run.
+    //! @bug Ladder dismount cutscene/CS items softlock. `Player_TryActionInterrupt` always returns true in cutscene
+    //! as AH 0 returns true after calling AH 13 (due to unk_6AD > 0). This removes PLAYER_STATE1_21 below,
+    //! which causes `Player_UpdateCommon` to continuously set unk_6AD to 3, and causes `LinkAnimation_Update`
+    //! to never run (which would return true when end of animation is reached and change player action to idle).
     //! This also causes ladder restricted items softlock with cutscene items (unk_6AD is 4).
-    //! Adding `&& this->unk_6AD < 3` prevents this softlock, as the animation update can play.
+    //! Adding `&& this->unk_6AD < 3` prevents this softlock, as the animation will be updated.
     if (interruptResult == PLAYER_INTERRUPT_NEW_ACTION) {
         this->stateFlags1 &= ~PLAYER_STATE1_21;
         return;
@@ -13011,7 +13013,7 @@ void Player_Action_DismountLadder(Player* this, PlayState* play) {
 
     frame = sUpDismountLadderFrames;
 
-    if (this->av2.dismountDown != false) {
+    if (this->av2.dismountDown) {
         Player_ProcessAnimSfxList(this, sDownDismountLadderAnimSfx);
         frame = sDownDismountLadderFrames;
     }
