@@ -308,7 +308,7 @@ u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
             gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] = 1;
         }
 
-        Player_SetEquipmentData(play, player);
+        PlayerLib_SetEquipmentData(play, player);
         play->pauseCtx.cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 

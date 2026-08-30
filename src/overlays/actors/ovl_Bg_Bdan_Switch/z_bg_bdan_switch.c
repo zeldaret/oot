@@ -515,7 +515,7 @@ void BgBdanSwitch_Update(Actor* thisx, PlayState* play) {
     if (type != 3 && type != 4) {
         this->unk_1D8--;
     } else {
-        if (!Player_InCsMode(play) && this->unk_1D8 > 0) {
+        if (!PlayerLib_InCsMode(play) && this->unk_1D8 > 0) {
             this->unk_1D8--;
         }
         this->unk_1DC = this->collider.base.acFlags;

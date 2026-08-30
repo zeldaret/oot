@@ -117,7 +117,7 @@ void BgHakaHuta_PlaySfx(BgHakaHuta* this, PlayState* play, u16 sfx) {
 }
 
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params) && !Player_InCsMode(play)) {
+    if (Flags_GetSwitch(play, this->dyna.actor.params) && !PlayerLib_InCsMode(play)) {
         this->counter = 25;
         this->actionFunc = BgHakaHuta_Open;
         OnePointCutscene_Init(play, 6001, 999, &this->dyna.actor, CAM_ID_MAIN);

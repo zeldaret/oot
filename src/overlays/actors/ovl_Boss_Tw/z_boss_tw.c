@@ -894,7 +894,7 @@ s32 BossTw_CheckBeamReflection(BossTw* this, PlayState* play) {
             // and the distance from the beams origin to 10 units in front of link is less than the beams
             // current distance (the distance of the beam is equal to or longer than the distance to 10 units
             // in front of link)
-            if (Player_HasMirrorShieldEquipped(play)) {
+            if (PlayerLib_HasMirrorShieldEquipped(play)) {
                 // player has mirror shield equipped
                 this->beamDist = sqrtf(SQ(offset.x) + SQ(offset.y) + SQ(offset.z));
                 return 1;
@@ -3721,7 +3721,7 @@ void BossTw_ShieldChargeDraw(BossTw* this, PlayState* play) {
         temp_t0 = 1;
     }
 
-    if (Player_HasMirrorShieldEquipped(play)) {
+    if (PlayerLib_HasMirrorShieldEquipped(play)) {
         if (temp_t0 != 0) {
             Matrix_Mult(&player->shieldMf, MTXMODE_NEW);
             Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
@@ -3759,7 +3759,7 @@ void BossTw_ShieldChargeDraw(BossTw* this, PlayState* play) {
         Math_ApproachF(&D_8094C858, 0.0f, 1.0f, step);
     }
 
-    if (Player_HasMirrorShieldEquipped(play) && D_8094C858 > 0.0f) {
+    if (PlayerLib_HasMirrorShieldEquipped(play) && D_8094C858 > 0.0f) {
         f32 scale = D_8094C872 > 0 ? 1.3f : 1.0f;
 
         Matrix_Mult(&player->shieldMf, MTXMODE_NEW);
@@ -4337,7 +4337,7 @@ s32 BossTw_BlastShieldCheck(BossTw* this, PlayState* play) {
                 play->envCtx.lightBlend = 1.0f;
                 Rumble_Request(0.0f, 100, 5, 4);
 
-                if (Player_HasMirrorShieldEquipped(play)) {
+                if (PlayerLib_HasMirrorShieldEquipped(play)) {
                     if (this->blastType == 1) {
                         if (sShieldIceCharge != 0) {
                             sShieldIceCharge = 0;

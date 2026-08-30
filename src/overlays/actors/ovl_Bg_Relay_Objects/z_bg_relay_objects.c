@@ -181,7 +181,7 @@ void func_808A932C(BgRelayObjects* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        if (!Player_InCsMode(play)) {
+        if (!PlayerLib_InCsMode(play)) {
             Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
             Play_TriggerRespawn(play);
             this->actionFunc = BgRelayObjects_DoNothing;

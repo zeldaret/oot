@@ -12,7 +12,6 @@
 #include "z_actor_dlftbls.h"
 #include "z_lib.h"
 #include "play_state.h"
-#include "player.h"
 #include "save.h"
 #include "scene.h"
 

@@ -1658,7 +1658,7 @@ s32 EnRu1_IsOnSapphirePlatform(EnRu1* this, PlayState* play) {
         floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
         dynaPolyActor = DynaPoly_GetActor(colCtx, floorBgId);
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
-            dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
+            dynaPolyActor->actor.params == 0 && !PlayerLib_InCsMode(play) && play->msgCtx.msgLength == 0) {
             EnRu1_StopMoving(this);
             play->csCtx.script = gRutoObtainingSapphireCs;
             gSaveContext.cutsceneTrigger = 1;
@@ -1729,7 +1729,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
     if (!GET_INFTABLE(INFTABLE_RUTO_BROUGHT_TO_SAPPHIRE_ROOM) && (func_80AEB124(play) != NULL)) {
-        if (!Player_InCsMode(play)) {
+        if (!PlayerLib_InCsMode(play)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
             func_80AED600(this);

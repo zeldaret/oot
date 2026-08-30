@@ -137,7 +137,7 @@ void ArmsHook_DetachFromActor(ArmsHook* this) {
 s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
 
-    if (Player_HoldsHookshot(player)) {
+    if (PlayerLib_HoldsHookshot(player)) {
         if ((player->itemAction != player->heldItemAction) || (player->actor.flags & ACTOR_FLAG_TALK) ||
             ((player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_26)))) {
             this->timer = 0;
@@ -158,7 +158,7 @@ void ArmsHook_AttachToActor(ArmsHook* this, Actor* actor) {
 void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((this->actor.parent == NULL) || (!Player_HoldsHookshot(player))) {
+    if ((this->actor.parent == NULL) || (!PlayerLib_HoldsHookshot(player))) {
         ArmsHook_DetachFromActor(this);
         Actor_Kill(&this->actor);
         return;
@@ -355,7 +355,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
             Matrix_MultVec3f(&D_80865BAC, &posB);
         }
 
-        Player_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB);
+        PlayerLib_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 895);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);

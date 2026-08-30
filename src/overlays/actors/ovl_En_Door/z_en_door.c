@@ -247,7 +247,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
             Flags_SetSwitch(play, ENDOOR_GET_LOCKED_SWITCH_FLAG(&this->actor));
             Actor_PlaySfx(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
-    } else if (!Player_InCsMode(play)) {
+    } else if (!PlayerLib_InCsMode(play)) {
         if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f &&
             fabsf(playerPosRelToDoor.z) < 50.0f) {
             s16 yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;

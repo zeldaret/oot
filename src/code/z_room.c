@@ -732,7 +732,7 @@ s32 Room_ProcessRoomRequest(PlayState* play, RoomContext* roomCtx) {
             gSegments[3] = OS_K0_TO_PHYSICAL(roomCtx->curRoom.segment);
 
             Scene_ExecuteCommands(play, roomCtx->curRoom.segment);
-            Player_SetBootData(play, GET_PLAYER(play));
+            PlayerLib_SetBootData(play, GET_PLAYER(play));
             Actor_SpawnTransitionActors(play, &play->actorCtx);
         } else {
             return false;

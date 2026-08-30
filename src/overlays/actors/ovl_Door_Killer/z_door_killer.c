@@ -449,7 +449,7 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
         DoorKiller_SpawnRubble(&this->actor, play);
         this->actionFunc = DoorKiller_Die;
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
-    } else if (!Player_InCsMode(play) && (fabsf(playerPosRelToDoor.y) < 20.0f) &&
+    } else if (!PlayerLib_InCsMode(play) && (fabsf(playerPosRelToDoor.y) < 20.0f) &&
                (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) &&
                (playerPosRelToDoor.z > 0.0f)) {
         // Set player properties to make the door openable if within range

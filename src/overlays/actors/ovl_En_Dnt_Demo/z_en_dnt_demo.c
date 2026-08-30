@@ -140,7 +140,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
         }
         this->leaderSignal = DNT_SIGNAL_NONE;
         this->actionFunc = EnDntDemo_Results;
-    } else if ((this->actor.xzDistToPlayer > 30.0f) || (Player_GetMask(play) == 0)) {
+    } else if ((this->actor.xzDistToPlayer > 30.0f) || (PlayerLib_GetMask(play) == 0)) {
         this->debugArrowTimer++;
         if (this->subCamId != SUB_CAM_ID_DONE) {
             this->subCamId = SUB_CAM_ID_DONE;
@@ -152,7 +152,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
             this->judgeTimer = 0;
         }
     } else {
-        if ((Player_GetMask(play) != 0) && (this->subCamId == SUB_CAM_ID_DONE)) {
+        if ((PlayerLib_GetMask(play) != 0) && (this->subCamId == SUB_CAM_ID_DONE)) {
             this->subCamId = OnePointCutscene_Init(play, 2220, -99, &this->scrubs[3]->actor, CAM_ID_MAIN);
         }
         this->debugArrowTimer = 0;
@@ -172,7 +172,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
             ignore = false;
             reaction = DNT_SIGNAL_NONE;
             delay = 0;
-            switch (Player_GetMask(play)) {
+            switch (PlayerLib_GetMask(play)) {
                 case PLAYER_MASK_SKULL:
                     if (!GET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_STICK_UPGRADE)) {
                         reaction = DNT_SIGNAL_CELEBRATE;
@@ -183,7 +183,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                     FALLTHROUGH;
                 case PLAYER_MASK_TRUTH:
                     if (!GET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE) &&
-                        (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
+                        (PlayerLib_GetMask(play) != PLAYER_MASK_SKULL)) {
                         SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                         this->prize = DNT_PRIZE_NUTS;
                         this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
@@ -203,8 +203,8 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                 case PLAYER_MASK_ZORA:
                 case PLAYER_MASK_GERUDO:
                     rand9 = Rand_ZeroFloat(8.99f);
-                    // fake match, possible alternative is `maskIdx = Player_GetMask(play); maskIdx--;` on one line
-                    maskIdx = (s16)Player_GetMask(play) - 1;
+                    // fake match, possible alternative is `maskIdx = PlayerLib_GetMask(play); maskIdx--;` on one line
+                    maskIdx = (s16)PlayerLib_GetMask(play) - 1;
                     if (rand9 == 8) {
                         ignore = true;
                         delay = 8;

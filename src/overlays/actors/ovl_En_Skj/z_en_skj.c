@@ -942,7 +942,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
-        if ((Player_GetMask(play) == PLAYER_MASK_SKULL) && !GET_ITEMGETINF(ITEMGETINF_39)) {
+        if ((PlayerLib_GetMask(play) == PLAYER_MASK_SKULL) && !GET_ITEMGETINF(ITEMGETINF_39)) {
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             EnSkj_SetupMaskTrade(this);
         } else {
@@ -958,9 +958,9 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
                 if (this->textId == 0) {
                     this->textId = 0x1020;
                 }
-            } else if (Player_GetMask(play) == PLAYER_MASK_NONE) {
+            } else if (PlayerLib_GetMask(play) == PLAYER_MASK_NONE) {
                 this->textId = 0x10BC;
-            } else if (Player_GetMask(play) == PLAYER_MASK_SKULL) {
+            } else if (PlayerLib_GetMask(play) == PLAYER_MASK_SKULL) {
                 this->textId = 0x101B;
             } else {
                 this->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SKULL_KID);
@@ -1185,7 +1185,7 @@ void EnSkj_TakeMask(EnSkj* this, PlayState* play) {
         Rupees_ChangeBy(10);
         SET_ITEMGETINF(ITEMGETINF_39);
         EnSkj_SetNaviId(this);
-        Player_UnsetMask(play);
+        PlayerLib_UnsetMask(play);
         Item_Give(play, ITEM_SOLD_OUT);
         Message_ContinueTextbox(play, 0x101F);
         EnSkj_SetupWaitForMaskTextClear(this);

@@ -1769,7 +1769,7 @@ s32 Actor_TalkOfferAccepted(Actor* actor, PlayState* play) {
 s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->actor.flags & ACTOR_FLAG_TALK) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
+    if ((player->actor.flags & ACTOR_FLAG_TALK) || ((exchangeItemId != EXCH_ITEM_NONE) && PlayerLib_InCsMode(play)) ||
         (!actor->isLockedOn &&
          ((fabsf(actor->yDistToPlayer) > yRange) || (actor->xzDistToPlayer > player->talkActorDistance) ||
           (actor->xzDistToPlayer > xzRange)))) {
@@ -1867,7 +1867,7 @@ s32 Actor_OfferGetItem(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange
     if (!(player->stateFlags1 &
           (PLAYER_STATE1_DEAD | PLAYER_STATE1_CHARGING_SPIN_ATTACK | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
            PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21)) &&
-        Player_GetExplosiveHeld(player) < 0) {
+        PlayerLib_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (player->talkActor == actor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
             (!(player->stateFlags1 & (PLAYER_STATE1_CARRYING_ACTOR | PLAYER_STATE1_29)))) {
@@ -2525,7 +2525,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
     if ((actor != NULL) && (actor->update == NULL)) {
         actor = NULL;
-        Player_ReleaseLockOn(player);
+        PlayerLib_ReleaseLockOn(player);
     }
 
     if ((actor == NULL) || (player->zTargetActiveTimer < 5)) {
@@ -2974,7 +2974,7 @@ void Actor_DrawAll(PlayState* play, ActorContext* actorCtx) {
     if (!DEBUG_FEATURES || (HREG(64) != 1) || (HREG(72) != 0)) {
         if (play->actorCtx.lensActive) {
             Actor_DrawLensActors(play, invisibleActorCounter, invisibleActors);
-            if ((play->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(play)) {
+            if ((play->csCtx.state != CS_STATE_IDLE) || PlayerLib_InCsMode(play)) {
                 Actor_DisableLens(play);
             }
         }
@@ -3389,7 +3389,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     ACTOR_DEBUG_PRINTF(T("アクタークラス削除 [%s]\n", "Actor class deleted [%s]\n"), name);
 
     if ((player != NULL) && (player->focusActor == actor)) {
-        Player_ReleaseLockOn(player);
+        PlayerLib_ReleaseLockOn(player);
         Camera_RequestMode(Play_GetCamera(play2, Play_GetActiveCamId(play2)), CAM_MODE_NORMAL);
     }
 
@@ -3535,7 +3535,7 @@ Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** atte
     sNearestAttentionActorDistSq = sBgmEnemyDistSq = MAXFLOAT;
     sHighestAttentionPriority = INT32_MAX;
 
-    if (!Player_InCsMode(play)) {
+    if (!PlayerLib_InCsMode(play)) {
         category = &sAttentionCategorySearchOrder[0];
         actorCtx->attention.bgmEnemy = NULL;
         sAttentionPlayerRotY = player->actor.shape.rot.y;

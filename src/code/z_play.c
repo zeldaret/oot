@@ -265,7 +265,7 @@ void Play_Destroy(GameState* thisx) {
 
     if (gSaveContext.save.linkAge != this->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
-        Player_SetEquipmentData(this, player);
+        PlayerLib_SetEquipmentData(this, player);
     }
 
     func_80031C3C(&this->actorCtx, this);
@@ -1035,7 +1035,7 @@ void Play_Update(PlayState* this) {
                     if (IS_PAUSED(&this->pauseCtx)) {
                         PRINTF(VT_FGCOL(CYAN) T("カレイドスコープ中につき視点変更を禁止しております\n",
                                                 "Changing viewpoint is prohibited due to the kaleidoscope\n") VT_RST);
-                    } else if (Player_InCsMode(this)) {
+                    } else if (PlayerLib_InCsMode(this)) {
                         PRINTF(VT_FGCOL(CYAN) T("デモ中につき視点変更を禁止しております\n",
                                                 "Changing viewpoint is prohibited during the cutscene\n") VT_RST);
                     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
@@ -1453,7 +1453,7 @@ void Play_Main(GameState* thisx) {
 
 // original name: "Game_play_demo_mode_check"
 int Play_InCsMode(PlayState* this) {
-    return (this->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(this);
+    return (this->csCtx.state != CS_STATE_IDLE) || PlayerLib_InCsMode(this);
 }
 
 f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* pos) {

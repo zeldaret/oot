@@ -1109,9 +1109,9 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
 
             case CS_DEST_TEMPLE_OF_TIME_CREDITS:
                 gSaveContext.save.info.equips.equipment |= EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4);
-                Player_SetEquipmentData(play, player);
+                PlayerLib_SetEquipmentData(play, player);
                 gSaveContext.save.info.equips.equipment |= EQUIP_VALUE_BOOTS_KOKIRI << (EQUIP_TYPE_BOOTS * 4);
-                Player_SetEquipmentData(play, player);
+                PlayerLib_SetEquipmentData(play, player);
                 play->linkAgeOnLoad = LINK_AGE_CHILD;
                 play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
@@ -2321,7 +2321,7 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
 void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
     u8 i;
 
-    if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !Player_InCsMode(play)) {
+    if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !PlayerLib_InCsMode(play)) {
         gSaveContext.save.cutsceneIndex = CS_INDEX_D;
     }
 

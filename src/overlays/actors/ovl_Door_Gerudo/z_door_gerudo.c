@@ -92,7 +92,7 @@ s32 func_80994750(DoorGerudo* this, PlayState* play) {
     f32 temp_f0;
     s16 rotYDiff;
 
-    if (!Player_InCsMode(play)) {
+    if (!PlayerLib_InCsMode(play)) {
         temp_f0 = func_809946BC(play, this, 0.0f, 20.0f, 15.0f);
         if (fabsf(temp_f0) < 40.0f) {
             rotYDiff = player->actor.shape.rot.y - this->dyna.actor.shape.rot.y;
