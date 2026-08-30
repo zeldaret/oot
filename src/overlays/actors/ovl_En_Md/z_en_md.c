@@ -451,7 +451,7 @@ u16 func_80AAACF8(PlayState* play, EnMd* this) {
 u16 func_80AAADE0(PlayState* play, EnMd* this) {
     this->messageEntry = 0;
     this->messageState = TEXT_STATE_NONE;
-    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         return 0x1028;
     }
     return 0x1046;
@@ -534,7 +534,7 @@ s16 EnMd_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 s32 func_80AAB03C(EnMd* this, PlayState* play) {
     if ((play->sceneId == SCENE_KOKIRI_FOREST) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
-        !GET_EVENTCHKINF(EVENTCHKINF_40)) {
+        !GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         return 1;
     } else if ((play->sceneId == SCENE_MIDOS_HOUSE) &&
                ((gSaveContext.save.info.eventChkInf[1] & 0x1000) || (gSaveContext.save.info.eventChkInf[4] & 1)) &&

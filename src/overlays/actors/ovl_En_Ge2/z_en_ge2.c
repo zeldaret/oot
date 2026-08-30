@@ -255,7 +255,7 @@ void EnGe2_PlayerCaught(EnGe2* this, PlayState* play) {
         Horse_ResetHorseData(play);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
-        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL)) {
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
@@ -278,7 +278,7 @@ void EnGe2_PlayerCaughtRun(EnGe2* this, PlayState* play) {
         Horse_ResetHorseData(play);
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
-        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL)) {
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;

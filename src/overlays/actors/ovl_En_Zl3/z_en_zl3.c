@@ -2633,7 +2633,7 @@ void func_80B59AD0(EnZl3* this, PlayState* play) {
     Interface_SetSubTimer(180);
     func_80B54EA4(this, play);
     func_80B53614(this, play);
-    CLEAR_EVENTCHKINF(EVENTCHKINF_C7);
+    CLEAR_EVENTCHKINF(EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL);
     func_80B56F10(this, play);
     gSaveContext.healthAccumulator = 320;
     Magic_Fill(play);
