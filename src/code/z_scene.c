@@ -114,8 +114,8 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
 }
 
 /**
- * Run every frame. Loads objects on scene init/room change, whose data have been added to the
- * object slot array by `func_800982FC`. Unloaded status marked by negative object id.
+ * Run every frame. Loads non-persistent objects on scene init/room change, whose data have
+ * been added to the object slot array by `func_800982FC`. Unloaded status is marked by negative object id.
  */
 void Object_UpdateEntries(ObjectContext* objectCtx) {
     s32 i;
@@ -125,7 +125,7 @@ void Object_UpdateEntries(ObjectContext* objectCtx) {
 
     for (i = 0; i < objectCtx->numEntries; i++) {
         if (entry->id < 0) { // Not yet loaded object
-            if (entry->dmaRequest.vromAddr == 0) {
+            if (entry->dmaRequest.vromAddr == NULL) {
                 osCreateMesgQueue(&entry->loadQueue, &entry->loadMsg, 1);
                 objectFile = &gObjectTable[-entry->id];
                 size = objectFile->vromEnd - objectFile->vromStart;
@@ -174,6 +174,7 @@ s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot) {
 /**
  * Run when exiting the pause menu (either to continue play or due to game over).
  * Sync DMA loads all objects for current room.
+ * (Collision header data is restored by `func_800418D0`)
  */
 void Object_ReloadAll(ObjectContext* objectCtx) {
     s32 i;
@@ -191,11 +192,11 @@ void Object_ReloadAll(ObjectContext* objectCtx) {
 }
 
 /**
- * Sets up a given slot to be filled with data from given object id. Called by `Scene_CommandObjectList`
+ * Prepares a given slot to be filled with data of given object id. Called by `Scene_CommandObjectList`
  * for every non-persistent object to be added. The data is used by `Object_UpdateEntries` to load the
  * objects.
  * @note There is an assert to ensure that the next object slot address is within the object memory space,
- * but in non-debug builds this is not included, and no bounds check is done.
+ * but in non-debug builds this is not included, and no other bounds check is done.
  * @return start address of the next object slot's memory in object space
  */
 void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
@@ -205,7 +206,7 @@ void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
     void* nextPtr;
 
     entry->id = -objectId;
-    entry->dmaRequest.vromAddr = 0;
+    entry->dmaRequest.vromAddr = NULL;
 
     size = objectFile->vromEnd - objectFile->vromStart;
     PRINTF("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", slot, objectId, size / 1024.0f);
@@ -222,7 +223,7 @@ void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
 
 /**
  * Executes all the scene commands for the current scene/room upon loading. The commands to be run
- * for a particular scene/room is found in the scene's data.
+ * for a particular scene/room is found in the scene/room file's data.
  */
 s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
     while (true) {
