@@ -551,7 +551,7 @@ f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offset
 s32 DoorShutter_GetPlayerSide(DoorShutter* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (!Player_InCsMode(play)) {
+    if (!PlayerLib_InCsMode(play)) {
         DoorShutterGfxInfo* gfxInfo = &sGfxInfo[this->gfxType];
         f32 playerDistForwards =
             DoorShutter_GetPlayerDistance(play, this, (this->gfxType != DOORSHUTTER_GFX_JABU_JABU) ? 0.0f : 80.0f,
@@ -976,7 +976,7 @@ s32 DoorShutter_ShouldDraw(DoorShutter* this, PlayState* play) {
     s32 relYawTowardsPlayer;
     s32 relYawTowardsViewEye;
 
-    if (Player_InCsMode(play)) {
+    if (PlayerLib_InCsMode(play)) {
         return true;
     }
 

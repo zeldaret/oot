@@ -136,7 +136,7 @@ void BgHidanDalm_Destroy(Actor* thisx, PlayState* play) {
 void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(play) &&
+    if ((this->collider.base.acFlags & AC_HIT) && !PlayerLib_InCsMode(play) &&
         (player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD ||
          player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_SIDE)) {
         this->collider.base.acFlags &= ~AC_HIT;

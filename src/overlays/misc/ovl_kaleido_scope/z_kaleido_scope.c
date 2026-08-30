@@ -3724,7 +3724,7 @@ void KaleidoScope_Update(PlayState* play) {
             //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->playerSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
 
-            size1 = Player_InitPauseDrawData(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
+            size1 = PlayerLib_InitPauseDrawData(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
             PRINTF(T("プレイヤー size1＝%x\n", "Player size1=%x\n"), size1);
 
             size0 = (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
@@ -4741,7 +4741,7 @@ void KaleidoScope_Update(PlayState* play) {
             gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
             Interface_ChangeHudVisibilityMode(gSaveContext.prevHudVisibilityMode);
             player->talkActor = NULL;
-            Player_SetEquipmentData(play, player);
+            PlayerLib_SetEquipmentData(play, player);
             PRINTF_RST();
             break;
     }

@@ -770,8 +770,8 @@ void func_80083108(PlayState* play) {
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
             }
         } else if (msgCtx->msgMode == MSGMODE_NONE) {
-            if ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
-                (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
+            if ((PlayerLib_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+                (PlayerLib_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     sp28 = true;
                 }
@@ -779,7 +779,7 @@ void func_80083108(PlayState* play) {
                 gSaveContext.buttonStatus[0] = BTN_DISABLED;
 
                 for (i = 1; i < 4; i++) {
-                    if (Player_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) {
+                    if (PlayerLib_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) {
                         if ((gSaveContext.save.info.equips.buttonItems[i] != ITEM_HOOKSHOT) &&
                             (gSaveContext.save.info.equips.buttonItems[i] != ITEM_LONGSHOT)) {
                             if (gSaveContext.buttonStatus[i] == BTN_ENABLED) {
@@ -2599,8 +2599,8 @@ void Magic_Update(PlayState* play) {
                 (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {
                 if ((gSaveContext.save.info.playerData.magic == 0) ||
 
-                    ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
-                     (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) ||
+                    ((PlayerLib_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+                     (PlayerLib_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) ||
                     ((gSaveContext.save.info.equips.buttonItems[1] != ITEM_LENS_OF_TRUTH) &&
                      (gSaveContext.save.info.equips.buttonItems[2] != ITEM_LENS_OF_TRUTH) &&
                      (gSaveContext.save.info.equips.buttonItems[3] != ITEM_LENS_OF_TRUTH)) ||
@@ -2915,7 +2915,7 @@ void Interface_DrawItemButtons(PlayState* play) {
                 (gSaveContext.hudVisibilityMode == HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE)) {
                 temp = 0;
             } else if ((player->stateFlags1 & PLAYER_STATE1_21) ||
-                       (Player_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FREE) ||
+                       (PlayerLib_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FREE) ||
                        (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
                 temp = 70;
             } else {
@@ -4185,14 +4185,14 @@ void Interface_Update(PlayState* play) {
     }
 
     Health_UpdateBeatingHeart(play);
-    sEnvHazard = Player_GetEnvironmentalHazard(play);
+    sEnvHazard = PlayerLib_GetEnvironmentalHazard(play);
 
     if (sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) {
         if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_GORON) {
             sEnvHazard = PLAYER_ENV_HAZARD_NONE;
         }
-    } else if ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
-               (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
+    } else if ((PlayerLib_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
+               (PlayerLib_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) {
         if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_ZORA) {
             sEnvHazard = PLAYER_ENV_HAZARD_NONE;
         }
@@ -4284,7 +4284,8 @@ void Interface_Update(PlayState* play) {
     // Update Magic
     if (!IS_PAUSED(&play->pauseCtx) && (msgCtx->msgMode == MSGMODE_NONE) &&
         (play->transitionTrigger == TRANS_TRIGGER_OFF) && (play->gameOverCtx.state == GAMEOVER_INACTIVE) &&
-        (play->transitionMode == TRANS_MODE_OFF) && ((play->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(play))) {
+        (play->transitionMode == TRANS_MODE_OFF) &&
+        ((play->csCtx.state == CS_STATE_IDLE) || !PlayerLib_InCsMode(play))) {
 
         if (gSaveContext.save.info.playerData.isMagicAcquired && (gSaveContext.save.info.playerData.magicLevel == 0)) {
             gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.isDoubleMagicAcquired + 1;

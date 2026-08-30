@@ -391,9 +391,9 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
                     // If Player can't update, `player->zTargetActiveTimer` won't update, which means
                     // the Attention system will not be notified of a new actor lock-on occurring.
                     // So, no reticle will appear. But the camera will still focus on the actor.
-                    Player_SetAutoLockOnActor(play, &this->actor);
+                    PlayerLib_SetAutoLockOnActor(play, &this->actor);
 
-                    // This is redundant, `autoLockOnActor` gets set by `Player_SetAutoLockOnActor` above
+                    // This is redundant, `autoLockOnActor` gets set by `PlayerLib_SetAutoLockOnActor` above
                     GET_PLAYER(play)->autoLockOnActor = &this->actor;
 
                     Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
@@ -641,7 +641,7 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
             Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
 
             // The same note mentioned with this function call in `EnRd_WalkToPlayer` applies here too
-            Player_SetAutoLockOnActor(play, &this->actor);
+            PlayerLib_SetAutoLockOnActor(play, &this->actor);
         }
 
         Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_AIM);

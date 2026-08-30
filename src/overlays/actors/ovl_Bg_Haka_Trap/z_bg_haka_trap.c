@@ -280,7 +280,7 @@ void BgHakaTrap_SpikedWall_CloseIn(BgHakaTrap* this, PlayState* play) {
     static s32 sSpikedWallFlags = 0;
     Player* player = GET_PLAYER(play);
 
-    if (!sIsSpikeWallBurning && !Player_InCsMode(play)) {
+    if (!sIsSpikeWallBurning && !PlayerLib_InCsMode(play)) {
         // Step towards the home position. If we haven't reached it, play the sliding sfx
         if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x, 0.5f)) {
             Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);

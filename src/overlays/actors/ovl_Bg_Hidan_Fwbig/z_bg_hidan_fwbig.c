@@ -196,7 +196,7 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, PlayState* play) {
 }
 
 void BgHidanFwbig_Move(BgHidanFwbig* this, PlayState* play) {
-    if (!Player_InCsMode(play)) {
+    if (!PlayerLib_InCsMode(play)) {
         if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y + (this->direction * 0x6390), 0x20)) {
             this->moveState = FWBIG_RESET;
             this->actionFunc = BgHidanFwbig_Lower;

@@ -368,7 +368,7 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
     var = 0;
     if (GET_INFTABLE(INFTABLE_76)) {
         if (!GET_INFTABLE(INFTABLE_77)) {
-            if (Player_GetMask(play) == PLAYER_MASK_KEATON) {
+            if (PlayerLib_GetMask(play) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A;
                 } else {
@@ -556,7 +556,7 @@ void func_80A540C0(EnHeishi2* this, PlayState* play) {
             case 0:
                 this->actor.textId = 0x2020;
                 Message_ContinueTextbox(play, this->actor.textId);
-                Player_UnsetMask(play);
+                PlayerLib_UnsetMask(play);
                 SET_INFTABLE(INFTABLE_77);
                 SET_ITEMGETINF(ITEMGETINF_38);
                 Item_Give(play, ITEM_SOLD_OUT);

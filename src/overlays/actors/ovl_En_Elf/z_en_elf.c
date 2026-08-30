@@ -648,7 +648,7 @@ void func_80A0329C(EnElf* this, PlayState* play) {
         return;
     }
 
-    if (!Player_InCsMode(play)) {
+    if (!PlayerLib_InCsMode(play)) {
         heightDiff = this->actor.world.pos.y - refActor->actor.world.pos.y;
 
         if ((heightDiff > 0.0f) && (heightDiff < 60.0f)) {
