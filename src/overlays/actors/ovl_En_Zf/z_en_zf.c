@@ -2207,11 +2207,7 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-<<<<<<< HEAD
-        gSPSegment(POLY_XLU_DISP++, 9, D_80116280);
-=======
-        gSPSegment(POLY_XLU_DISP++, 0x09, gActorSetupXluDL);
->>>>>>> main
+        gSPSegment(POLY_XLU_DISP++, 9, gActorSetupXluDL);
         POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnZf_OverrideLimbDraw, EnZf_PostLimbDraw, this, POLY_XLU_DISP);
     }
