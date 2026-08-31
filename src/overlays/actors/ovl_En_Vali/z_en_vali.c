@@ -246,7 +246,7 @@ void EnVali_SetupDie(EnVali* this, PlayState* play) {
 
     for (i = 0; i < 3; i++) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BILI, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, this->actor.world.rot.y, 0, 0);
+                    this->actor.world.pos.z, 0, this->actor.world.rot.y, 0, EN_BILI_TYPE_SPAWNED_BY_BARI);
         this->actor.world.rot.y += 0x5555;
     }
     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
