@@ -269,9 +269,9 @@ void EnPoDesert_Draw(Actor* thisx, PlayState* play) {
                Gfx_EnvColor(play->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                             this->lightColor.a));
     if (this->actionFunc == EnPoDesert_Disappear) {
-        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
     } else {
-        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280 + 2);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
     }
     POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                    EnPoDesert_OverrideLimbDraw, EnPoDesert_PostLimbDraw, &this->actor, POLY_XLU_DISP);

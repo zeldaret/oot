@@ -1,11 +1,14 @@
 /**
- * @file z_vismono.c
+ * Color frame buffer effect to desaturate the colors.
  *
- * This file implements a full-screen framebuffer effect for desaturating the contents of the framebuffer image.
+ * The result of the desaturation is used to LERP from color2 (0) to color1 (1).
+ * In the simplest case, to get a grayscale result, set color1 to white and color2 to black.
  *
- * Broadly, this effect is achieved by reinterpreting the contents of the RGBA16 color image as indices into an IA16
- * color palette that converts each color into the desaturated equivalent. More precise details can be found in inline
- * comments.
+ * This effect is achieved by making the RDP read the rgba16 framebuffer as a ci8 texture using a specific ia16 palette.
+ * For every two-bytes pixel in the rgba16 framebuffer, the palette maps in particular an intensity to the high byte and
+ * an alpha value to the low byte. The sum of those intensity and alpha value corresponds to the gray level of the
+ * desaturated color. This sum is done by the RDP with a clever setup of texture tiles and an adequate combiner.
+ * See the rest of the file for specifics.
  */
 
 #include "libc64/malloc.h"
@@ -17,7 +20,7 @@
 
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
-// the half of TMEM dedicated to color-indexed data.
+// the half of tmem dedicated to color-indexed data.
 #define VISMONO_CFBFRAG_HEIGHT ((TMEM_SIZE / 2) / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
 
 // Maximum size of the dlist written by `VisMono_DesaturateDList`.
@@ -37,16 +40,16 @@ extern u16 D_0F000000[];
 
 void VisMono_Init(VisMono* this) {
     bzero(this, sizeof(VisMono));
-    this->vis.type = 0;
-    this->vis.scissorType = VIS_NO_SETSCISSOR;
-    this->vis.primColor.r = 255;
-    this->vis.primColor.g = 255;
-    this->vis.primColor.b = 255;
-    this->vis.primColor.a = 255;
-    this->vis.envColor.r = 0;
-    this->vis.envColor.g = 0;
-    this->vis.envColor.b = 0;
-    this->vis.envColor.a = 0;
+    this->params.type = 0;
+    this->params.setScissor = false;
+    this->params.color1.r = 255;
+    this->params.color1.g = 255;
+    this->params.color1.b = 255;
+    this->params.color1.a = 255;
+    this->params.color2.r = 0;
+    this->params.color2.g = 0;
+    this->params.color2.b = 0;
+    this->params.color2.a = 0;
 }
 
 void VisMono_Destroy(VisMono* this) {
@@ -105,8 +108,7 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
 
         // Set texel 1 to be a CI8 image with width `SCREEN_WIDTH * 2` and height `VISMONO_CFBFRAG_HEIGHT`
         // Its position in texture image space is shifted along +S by 1
-        // Note the palette index for this tile has also been incremented from 0 to 1, however the palette index is
-        // ignored for CI8 texture sampling.
+        // (palette is set to 1 here but that's ignored in the case of CI8 where there is only one palette)
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, 1, 1,
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
         gDPSetTileSize(gfx++, 1, 1 << 2, 0, (SCREEN_WIDTH * 2) << 2, (height - 1) << 2);
@@ -171,12 +173,12 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP) {
 
     gDPPipeSync(gfx++);
 
-    if (this->vis.scissorType == VIS_SETSCISSOR) {
+    if (this->params.setScissor == true) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->vis.primColor.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->vis.envColor.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->params.color1.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->params.color2.rgba);
 
     gDPLoadTLUT_pal256(gfx++, tlut);
 

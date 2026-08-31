@@ -37,6 +37,8 @@
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
+#define INGO_FLAG_LASHING (1 << 0)
+
 typedef void (*EnHorseCsFunc)(EnHorse*, PlayState*, CsCmdActorCue*);
 typedef void (*EnHorseActionFunc)(EnHorse*, PlayState*);
 
@@ -399,9 +401,14 @@ static InitChainEntry sInitChain[] = {
 
 static u8 sResetNoInput[] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0 };
 
-static s32 sIdleAnimIds[] = { 1, 3, 0, 3, 1, 0 };
+static s32 sIdleAnimIds[] = { ENHORSE_ANIM_WHINNEY, ENHORSE_ANIM_REARING, ENHORSE_ANIM_IDLE,
+                              ENHORSE_ANIM_REARING, ENHORSE_ANIM_WHINNEY, ENHORSE_ANIM_IDLE };
 
-static s16 sIngoAnimations[] = { 7, 6, 2, 2, 1, 1, 0, 0, 0, 0 };
+static s16 sIngoAnimations[] = { ENIN_HORSE_ANIM_WHOOPING,        ENIN_HORSE_ANIM_SITTING_UPRIGHT,
+                                 ENIN_HORSE_ANIM_REARING,         ENIN_HORSE_ANIM_REARING,
+                                 ENIN_HORSE_ANIM_SITTING_FORWARD, ENIN_HORSE_ANIM_SITTING_FORWARD,
+                                 ENIN_HORSE_ANIM_SLOW_RIDE,       ENIN_HORSE_ANIM_SLOW_RIDE,
+                                 ENIN_HORSE_ANIM_SLOW_RIDE,       ENIN_HORSE_ANIM_SLOW_RIDE };
 
 void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
 void EnHorse_CsJumpInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
@@ -609,7 +616,7 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
         } else {
             this->actor.speed -= 0.47f;
         }
-        this->ingoRaceFlags |= 1;
+        this->ingoRaceFlags |= INGO_FLAG_LASHING;
         return;
     }
 
@@ -618,7 +625,7 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
     } else {
         this->actor.speed -= 0.4f;
     }
-    this->ingoRaceFlags &= ~0x1;
+    this->ingoRaceFlags &= ~INGO_FLAG_LASHING;
 }
 
 void EnHorse_PlayWalkingSfx(EnHorse* this) {
@@ -2011,18 +2018,19 @@ void EnHorse_InitIngoHorse(EnHorse* this) {
     }
 }
 
-void EnHorse_SetIngoAnimation(s32 index, f32 curFrame, s32 arg2, s16* animIdxOut, f32* curFrameOut) {
+void EnHorse_SetIngoAnimation(s32 index, f32 curFrame, s32 isLashing, s16* animIdxOut, f32* curFrameOut) {
     *animIdxOut = sIngoAnimations[index];
     *curFrameOut = curFrame;
-    if ((index == 3) || (index == 7) || (index == 8) || (index == 4)) {
+    if ((index == ENHORSE_ANIM_REARING) || (index == ENHORSE_ANIM_LOW_JUMP) || (index == ENHORSE_ANIM_HIGH_JUMP) ||
+        (index == ENHORSE_ANIM_WALK)) {
         *curFrameOut = 0.0f;
     }
-    if (arg2 == 1) {
-        if (index == 5) {
-            *animIdxOut = 4;
+    if (isLashing == INGO_FLAG_LASHING) {
+        if (index == ENHORSE_ANIM_TROT) {
+            *animIdxOut = ENIN_HORSE_ANIM_LASHING_SLOW;
             *curFrameOut = curFrame;
-        } else if (index == 6) {
-            *animIdxOut = 3;
+        } else if (index == ENHORSE_ANIM_GALLOP) {
+            *animIdxOut = ENIN_HORSE_ANIM_LASHING_FAST;
             *curFrameOut = curFrame;
         }
     }
@@ -2113,13 +2121,13 @@ void EnHorse_UpdateIngoRace(EnHorse* this, PlayState* play) {
     }
 
     if (this->stateFlags & ENHORSE_INGO_WON) {
-        ((EnIn*)this->rider)->animationIdx = 7;
-        ((EnIn*)this->rider)->unk_1E0 = 0;
+        ((EnIn*)this->rider)->horsebackAnimationIdx = ENIN_HORSE_ANIM_WHOOPING;
+        ((EnIn*)this->rider)->horsebackAnimFrame = 0;
         return;
     }
 
-    EnHorse_SetIngoAnimation(this->animationIdx, this->skin.skelAnime.curFrame, this->ingoRaceFlags & 1,
-                             &((EnIn*)this->rider)->animationIdx, &((EnIn*)this->rider)->unk_1E0);
+    EnHorse_SetIngoAnimation(this->animationIdx, this->skin.skelAnime.curFrame, this->ingoRaceFlags & INGO_FLAG_LASHING,
+                             &((EnIn*)this->rider)->horsebackAnimationIdx, &((EnIn*)this->rider)->horsebackAnimFrame);
 }
 
 void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {

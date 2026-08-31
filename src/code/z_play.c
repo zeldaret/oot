@@ -47,12 +47,12 @@
 #include "save.h"
 #include "vis.h"
 
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ique-cn:224 ntsc-1.0:240 ntsc-1.1:240 ntsc-1.2:240 pal-1.0:240 pal-1.1:240"
+#pragma increment_block_number "gc-eu:218 gc-eu-mq:218 gc-jp:218 gc-jp-ce:218 gc-jp-mq:218 gc-us:218 gc-us-mq:218" \
+                               "ique-cn:218 ntsc-1.0:218 ntsc-1.1:218 ntsc-1.2:218 pal-1.0:218 pal-1.1:218"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
-VisMono gPlayVisMono;
+VisMono sPlayVisMono;
 Color_RGBA8_u32 gVisMonoColor;
 
 #if DEBUG_FEATURES
@@ -261,7 +261,7 @@ void Play_Destroy(GameState* thisx) {
 
     Letterbox_Destroy();
     TransitionFade_Destroy(&this->transitionFadeFlash);
-    VisMono_Destroy(&gPlayVisMono);
+    VisMono_Destroy(&sPlayVisMono);
 
     if (gSaveContext.save.linkAge != this->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
@@ -482,7 +482,7 @@ void Play_Init(GameState* thisx) {
     TransitionFade_SetType(&this->transitionFadeFlash, TRANS_INSTANCE_TYPE_FADE_FLASH);
     TransitionFade_SetColor(&this->transitionFadeFlash, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&this->transitionFadeFlash);
-    VisMono_Init(&gPlayVisMono);
+    VisMono_Init(&sPlayVisMono);
     gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
 
@@ -1217,8 +1217,8 @@ void Play_Draw(PlayState* this) {
             if (gVisMonoColor.a > 0)
 #endif
             {
-                gPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
-                VisMono_Draw(&gPlayVisMono, &gfxP);
+                sPlayVisMono.params.color1.rgba = gVisMonoColor.rgba;
+                VisMono_Draw(&sPlayVisMono, &gfxP);
             }
 
             gSPEndDisplayList(gfxP++);

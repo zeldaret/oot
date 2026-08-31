@@ -4,81 +4,62 @@
 #include "ultra64.h"
 #include "color.h"
 
-typedef enum FramebufferFilterType {
-    /* 0 */ FB_FILTER_NONE,
-    /* 1 */ FB_FILTER_CVG_RGB,
-    /* 2 */ FB_FILTER_CVG_RGB_UNIFORM,
-    /* 3 */ FB_FILTER_CVG_ONLY,
-    /* 4 */ FB_FILTER_CVG_RGB_FOG, // Not recommended, easily overflows blender
-    /* 5 */ FB_FILTER_ZBUF_IA,
-    /* 6 */ FB_FILTER_ZBUF_RGBA,
-    /* 7 */ FB_FILTER_MONO
-} FramebufferFilterType;
+typedef enum FbFilterType {
+    /* 0 */ FB_FILTER_TYPE_NONE,
+    /* 1 */ FB_FILTER_TYPE_VISCVG_TYPE_MODULATE_FB,
+    /* 2 */ FB_FILTER_TYPE_VISCVG_TYPE_FADE_AND_MODULATE_FB,
+    /* 3 */ FB_FILTER_TYPE_VISCVG_TYPE_MODULATE_COLOR,
+    /* 4 */ FB_FILTER_TYPE_VISCVG_TYPE_MODULATE_FB_ADDITIVE_COLOR,
+    /* 5 */ FB_FILTER_TYPE_VISZBUFFER_AS_IA16,
+    /* 6 */ FB_FILTER_TYPE_VISZBUFFER_AS_RGBA16,
+    /* 7 */ FB_FILTER_TYPE_VISMONO
+} FbFilterType;
 
-typedef enum VisScissorType {
-    /* 0 */ VIS_NO_SETSCISSOR,
-    /* 1 */ VIS_SETSCISSOR
-} VisScissorType;
-
-typedef struct Vis {
+/**
+ * Meaning of color1 and color2:
+ * - VisCvg: see VisCvgType for color1. color2 unused
+ * - VisMono: LERP endpoints. See z_vismono.c file comment
+ * - VisZBuffer: LERP endpoints. See z_viszbuffer.c file comment
+ */
+typedef struct VisParams {
     /* 0x00 */ u32 type;
-    /* 0x04 */ u32 scissorType;
-    /* 0x08 */ Color_RGBA8_u32 primColor;
-    /* 0x0C */ Color_RGBA8_u32 envColor;
-} Vis; // size = 0x10
-
-
-/* Cvg: Coverage */
-
-#define FB_FILTER_TO_CVG_TYPE(filter) (filter)
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8_u32 color1;
+    /* 0x0C */ Color_RGBA8_u32 color2;
+} VisParams; // size = 0x10
 
 typedef enum VisCvgType {
-    /* 0 */ VIS_CVG_TYPE_NONE = FB_FILTER_TO_CVG_TYPE(FB_FILTER_NONE),
-    /* 1 */ VIS_CVG_TYPE_CVG_RGB = FB_FILTER_TO_CVG_TYPE(FB_FILTER_CVG_RGB),
-    /* 2 */ VIS_CVG_TYPE_CVG_RGB_UNIFORM = FB_FILTER_TO_CVG_TYPE(FB_FILTER_CVG_RGB_UNIFORM),
-    /* 3 */ VIS_CVG_TYPE_CVG_ONLY = FB_FILTER_TO_CVG_TYPE(FB_FILTER_CVG_ONLY),
-    /* 4 */ VIS_CVG_TYPE_CVG_RGB_FOG = FB_FILTER_TO_CVG_TYPE(FB_FILTER_CVG_RGB_FOG)
+    VISCVG_TYPE_NOP,
+    VISCVG_TYPE_MODULATE_FB,               // Multiply coverage with framebuffer
+    VISCVG_TYPE_FADE_AND_MODULATE_FB,      // Also fade to color1 by color1.a
+    VISCVG_TYPE_MODULATE_COLOR,            // Multiply coverage with color1
+    VISCVG_TYPE_MODULATE_FB_ADDITIVE_COLOR // Add color1
 } VisCvgType;
 
 typedef struct VisCvg {
-    /* 0x00 */ Vis vis;
+    /* 0x00 */ VisParams params; // params.color2 unused
 } VisCvg; // size = 0x10
+
+typedef struct VisMono {
+    /* 0x00 */ VisParams params; // params.type unused
+    /* 0x10 */ u16* tlut;
+    /* 0x14 */ Gfx* dList;
+} VisMono; // size = 0x18
+
+typedef struct VisZBuffer {
+    /* 0x00 */ VisParams params;
+} VisZBuffer; // size = 0x10
 
 void VisCvg_Init(VisCvg* this);
 void VisCvg_Destroy(VisCvg* this);
 void VisCvg_Draw(VisCvg* this, Gfx** gfxP);
 
-
-/* Mono: Desaturation */
-
-// Only one type
-
-typedef struct VisMono {
-    /* 0x00 */ Vis vis;
-    /* 0x10 */ u16* tlut;
-    /* 0x14 */ Gfx* dList;
-} VisMono; // size = 0x18
-
 void VisMono_Init(VisMono* this);
 void VisMono_Destroy(VisMono* this);
 void VisMono_Draw(VisMono* this, Gfx** gfxP);
 
-
-/* ZBuf: Z-Buffer */
-
-#define FB_FILTER_TO_ZBUF_TYPE(filter) ((filter) - FB_FILTER_ZBUF_IA)
-
-typedef enum VisZBufType {
-    /* 0 */ VIS_ZBUF_TYPE_IA = FB_FILTER_TO_ZBUF_TYPE(FB_FILTER_ZBUF_IA),
-    /* 1 */ VIS_ZBUF_TYPE_RGBA = FB_FILTER_TO_ZBUF_TYPE(FB_FILTER_ZBUF_RGBA)
-} VisZBufType;
-
-typedef struct VisZBuf {
-    /* 0x00 */ Vis vis;
-} VisZBuf; // size = 0x10
-
-void VisZBuf_Init(VisZBuf* this);
-void VisZBuf_Destroy(VisZBuf* this);
-void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP);
+void VisZBuffer_Init(VisZBuffer* this);
+void VisZBuffer_Destroy(VisZBuffer* this);
+void VisZBuffer_Draw(VisZBuffer* this, Gfx** gfxP);
 
 #endif

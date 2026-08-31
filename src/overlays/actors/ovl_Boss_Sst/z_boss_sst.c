@@ -2766,7 +2766,7 @@ void BossSst_DrawHand(Actor* thisx, PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
 
     if (!sBodyStatic) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
     } else {
         gDPSetEnvColor(POLY_OPA_DISP++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0);
         gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDL);
@@ -2901,7 +2901,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
         if (!sBodyStatic) {
-            gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
+            gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         } else {
             gDPSetEnvColor(POLY_OPA_DISP++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0);
             gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDL);
@@ -2909,7 +2909,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, 255);
-        gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_XLU_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
     }
 
     if (this->actionFunc == BossSst_HeadThrash) {
