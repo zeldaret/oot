@@ -768,13 +768,13 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_USING_OCARINA (1 << 27) // Playing the ocarina or warping out from an ocarina warp song
 #define PLAYER_STATE2_IDLE_FIDGET (1 << 28) // Playing a fidget idle animation (under typical circumstances, see `Player_ChooseNextIdleAnim` for more info)
 #define PLAYER_STATE2_29 (1 << 29)
-#define PLAYER_STATE2_30 (1 << 30)
+#define PLAYER_STATE2_ATTACK_MOVE_FORWARD (1 << 30) // Set when forward melee attack/releasing spin attack with stick forward, to move slightly forward during the attack
 #define PLAYER_STATE2_31 (1 << 31)
 
 #define PLAYER_STATE3_0 (1 << 0)
-#define PLAYER_STATE3_1 (1 << 1)
+#define PLAYER_STATE3_KNOCKBACK_JUMPSLASH (1 << 1) // Player is in the air and cannot control their actions due to being knocked back or doing a jumpslash
 #define PLAYER_STATE3_2 (1 << 2)
-#define PLAYER_STATE3_3 (1 << 3)
+#define PLAYER_STATE3_MELEE_ATTACK (1 << 3) // Set after melee attacks, maintained shortly by hostile idle action to avoid adjusting yaw
 #define PLAYER_STATE3_4 (1 << 4)
 #define PLAYER_STATE3_5 (1 << 5)
 #define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
@@ -906,7 +906,7 @@ typedef struct Player {
     /* 0x0842 */ s8 meleeWeaponAnimation;
     /* 0x0843 */ s8 meleeWeaponState;
     /* 0x0844 */ s8 unk_844;
-    /* 0x0845 */ u8 unk_845;
+    /* 0x0845 */ u8 tripleSlashCount;
     /* 0x0846 */ u8 controlStickDataIndex; // cycles between 0 - 3. Used to index `controlStickSpinAngles` and `controlStickDirections`
     /* 0x0847 */ s8 controlStickSpinAngles[4]; // Stores a modified version of the control stick angle for the last 4 frames. Used for checking spins.
     /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction (relative to shape yaw) for the last 4 frames. See `PlayerStickDirection`.
