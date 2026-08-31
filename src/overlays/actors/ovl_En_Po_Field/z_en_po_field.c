@@ -949,7 +949,7 @@ void EnPoField_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x08,
                        Gfx_EnvColor(play->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                                     this->lightColor.a));
-            gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
+            gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
             POLY_OPA_DISP =
                 SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoField_OverrideLimbDraw2,
                                EnPoField_PostLimDraw2, &this->actor, POLY_OPA_DISP);
@@ -957,7 +957,7 @@ void EnPoField_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_EnvColor(play->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                                     this->lightColor.a));
-            gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+            gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
             POLY_XLU_DISP =
                 SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoField_OverrideLimbDraw2,
                                EnPoField_PostLimDraw2, &this->actor, POLY_XLU_DISP);
