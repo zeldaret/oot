@@ -1597,7 +1597,7 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
             if (this->timer == 0) {
                 if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
                     play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
-                } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
+                } else if (GET_EVENTCHKINF(EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL)) {
                     play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
                 } else {
                     play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;

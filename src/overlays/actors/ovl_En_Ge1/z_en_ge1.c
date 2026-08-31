@@ -244,7 +244,7 @@ void EnGe1_KickPlayer(EnGe1* this, PlayState* play) {
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
-        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) { // Caught previously
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL)) { // Caught previously
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
