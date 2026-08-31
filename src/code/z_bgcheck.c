@@ -69,9 +69,9 @@ void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 s32 D_80119D90[WALL_TYPE_MAX] = {
     0,                         // WALL_TYPE_0
     WALL_FLAG_0,               // WALL_TYPE_1
-    WALL_FLAG_0 | WALL_FLAG_1, // WALL_TYPE_2
-    WALL_FLAG_0 | WALL_FLAG_2, // WALL_TYPE_3
-    WALL_FLAG_3,               // WALL_TYPE_4
+    WALL_FLAG_0 | WALL_FLAG_LADDER, // WALL_TYPE_2
+    WALL_FLAG_0 | WALL_FLAG_LADDER_TOP, // WALL_TYPE_3
+    WALL_FLAG_CLIMBABLE,               // WALL_TYPE_4
     WALL_FLAG_CRAWLSPACE_1,    // WALL_TYPE_5
     WALL_FLAG_CRAWLSPACE_2,    // WALL_TYPE_6
     WALL_FLAG_6,               // WALL_TYPE_7
@@ -4129,12 +4129,12 @@ s32 SurfaceType_CheckWallFlag0(CollisionContext* colCtx, CollisionPoly* poly, s3
     return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & WALL_FLAG_0) ? true : false;
 }
 
-s32 SurfaceType_CheckWallFlag1(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & WALL_FLAG_1) ? true : false;
+s32 SurfaceType_CheckWallFlagLadder(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & WALL_FLAG_LADDER) ? true : false;
 }
 
-s32 SurfaceType_CheckWallFlag2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & WALL_FLAG_2) ? true : false;
+s32 SurfaceType_CheckWallFlagLadderTop(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return (SurfaceType_GetWallFlags(colCtx, poly, bgId) & WALL_FLAG_LADDER_TOP) ? true : false;
 }
 
 u32 SurfaceType_GetFloorProperty2(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
