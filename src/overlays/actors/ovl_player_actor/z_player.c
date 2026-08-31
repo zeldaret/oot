@@ -284,7 +284,7 @@ void Player_Action_8084193C(Player* this, PlayState* play);
 void Player_Action_TurnInPlace(Player* this, PlayState* play);
 void Player_Action_80842180(Player* this, PlayState* play);
 void Player_Action_8084227C(Player* this, PlayState* play);
-void Player_Action_8084279C(Player* this, PlayState* play);
+void Player_Action_PlantMagicBean(Player* this, PlayState* play);
 void Player_Action_808423EC(Player* this, PlayState* play);
 void Player_Action_8084251C(Player* this, PlayState* play);
 void Player_Action_80843188(Player* this, PlayState* play);
@@ -6088,9 +6088,9 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                              (this->itemAction == PLAYER_IA_MAGIC_BEAN))) {
                             if (this->exchangeItemId == EXCH_ITEM_MAGIC_BEAN) {
                                 Inventory_ChangeAmmo(ITEM_MAGIC_BEAN, -1);
-                                Player_SetupActionPreserveItemAction(play, this, Player_Action_8084279C, 0);
+                                Player_SetupActionPreserveItemAction(play, this, Player_Action_PlantMagicBean, 0);
                                 this->stateFlags1 |= PLAYER_STATE1_29;
-                                this->av2.actionVar2 = 0x50;
+                                this->av2.plantBeanTimer = 80;
                                 this->av1.actionVar1 = -1;
                             }
                             talkActor->flags |= ACTOR_FLAG_TALK;
@@ -8934,10 +8934,13 @@ s32 func_8084269C(PlayState* play, Player* this) {
     return 0;
 }
 
-void Player_Action_8084279C(Player* this, PlayState* play) {
+/**
+ * Watch as Magic Bean gets planted, then setup idle.
+ */
+void Player_Action_PlantMagicBean(Player* this, PlayState* play) {
     func_80832CB0(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_check_wait, this->modelAnimType));
 
-    if (DECR(this->av2.actionVar2) == 0) {
+    if (DECR(this->av2.plantBeanTimer) == 0) { // Starts at 80
         if (!Player_ActionHandler_13(this, play)) {
             func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_check_end, this->modelAnimType), play);
         }
