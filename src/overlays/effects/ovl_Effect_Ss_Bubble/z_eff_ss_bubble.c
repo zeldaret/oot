@@ -71,7 +71,7 @@ void EffectSsBubble_Update(PlayState* play, u32 index, EffectSs* this) {
     f32 waterSurfaceY = this->pos.y;
 
     // kill bubble if it's out of range of a water box
-    if (!WaterBox_GetSurface1(play, &play->colCtx, this->pos.x, this->pos.z, &waterSurfaceY, &waterBox)) {
+    if (!BgCheck_GetWaterSurfaceAllHack(play, &play->colCtx, this->pos.x, this->pos.z, &waterSurfaceY, &waterBox)) {
         this->life = -1;
         return;
     }
