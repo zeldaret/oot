@@ -598,7 +598,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_vimode.o"
     include "$(BUILD_DIR)/src/code/z_viscvg.o"
     include "$(BUILD_DIR)/src/code/z_vismono.o"
-    include "$(BUILD_DIR)/src/code/z_viszbuf.o"
+    include "$(BUILD_DIR)/src/code/z_viszbuffer.o"
     include "$(BUILD_DIR)/src/code/z_vr_box.o"
     include "$(BUILD_DIR)/src/code/z_vr_box_draw.o"
     include "$(BUILD_DIR)/src/code/z_player_call.o"

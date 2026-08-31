@@ -232,7 +232,7 @@ void EnWeiyer_InitInsideWaterBox(EnWeiyer* this, PlayState* play) {
     this->actor.floorHeight =
         BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
 
-    if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
+    if (!BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
                                  &this->actor.home.pos.y, &waterBox) ||
         ((this->actor.home.pos.y - 5.0f) <= this->actor.floorHeight)) {
         Actor_Kill(&this->actor);
@@ -647,13 +647,13 @@ void EnWeiyer_Draw(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != EnWeiyer_Dead) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnWeiyer_OverrideLimbDraw, NULL, &this->actor, POLY_OPA_DISP);
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
+        gSPSegment(POLY_XLU_DISP++, 0x08, gActorSetupXluDL);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->actor.shape.shadowAlpha);
         POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnWeiyer_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
