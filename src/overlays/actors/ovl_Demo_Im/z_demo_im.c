@@ -559,7 +559,7 @@ void DemoIm_DrawTranslucent(DemoIm* this, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-    gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL,
                                        NULL, NULL, POLY_XLU_DISP);
@@ -921,7 +921,7 @@ void func_80986BE4(DemoIm* this, s32 arg1) {
 }
 
 void func_80986BF8(DemoIm* this, PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         this->action = 24;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -942,7 +942,7 @@ void func_80986C30(DemoIm* this, PlayState* play) {
 }
 
 void func_80986CC8(DemoIm* this) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         this->action = 26;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -966,7 +966,7 @@ void func_80986D40(DemoIm* this, PlayState* play) {
     }
 #endif
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE)) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_59)) {
         this->action = 23;
@@ -1234,7 +1234,7 @@ void DemoIm_DrawSolid(DemoIm* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
 
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           DemoIm_OverrideLimbDraw, DemoIm_PostLimbDraw, this);
