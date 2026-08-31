@@ -264,7 +264,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
     if ((this->boxObjectSlot > 0) && ((this->boxObjectSlot = Object_GetSlot(&play2->objectCtx, OBJECT_BOX)) > 0) &&
         Object_IsLoaded(&play2->objectCtx, this->boxObjectSlot)) {
         gSPSegment(POLY_OPA_DISP++, 0x06, play2->objectCtx.slots[this->boxObjectSlot].segment);
-        gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         Matrix_Put(&mtx);
         Matrix_Translate(147.0f, -245.0f, -453.0f, MTXMODE_APPLY);
         Matrix_RotateY(M_PI / 2, MTXMODE_APPLY);

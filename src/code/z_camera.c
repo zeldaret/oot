@@ -685,8 +685,8 @@ s32 Camera_GetWaterBoxBgCamIndex(Camera* camera, f32* waterY) {
     playerPosRot = Actor_GetWorldPosShapeRot(&camera->player->actor);
     *waterY = playerPosRot.pos.y;
 
-    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, playerPosRot.pos.x, playerPosRot.pos.z, waterY,
-                              &waterBox)) {
+    if (!BgCheck_GetWaterSurfaceAllHack(camera->play, &camera->play->colCtx, playerPosRot.pos.x, playerPosRot.pos.z,
+                                        waterY, &waterBox)) {
         // player's position is not within the x/z boundaries of a water box.
         *waterY = BGCHECK_Y_MIN;
         return -1;
@@ -722,7 +722,8 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* lightIndex) {
     playerPosRot = Actor_GetWorldPosShapeRot(&camera->player->actor);
     waterY = playerPosRot.pos.y;
 
-    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, chkPos->x, chkPos->z, &waterY, &waterBox)) {
+    if (!BgCheck_GetWaterSurfaceAllHack(camera->play, &camera->play->colCtx, chkPos->x, chkPos->z, &waterY,
+                                        &waterBox)) {
         // chkPos is not within the x/z boundaries of a water box.
         return BGCHECK_Y_MIN;
     }
@@ -3661,7 +3662,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:124 ntsc-1.1:124 ntsc-1.2:124 pal-1.0:124 pal-1.1:124"
+                               "ique-cn:128 ntsc-1.0:123 ntsc-1.1:123 ntsc-1.2:123 pal-1.0:123 pal-1.1:123"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f sAtTarget;

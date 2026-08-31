@@ -799,7 +799,7 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                     0xFF - (u8)(frames * 6), 8, 0x40));
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPSegment(POLY_XLU_DISP++, 0x9, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x09, gActorSetupXluDL);
 
         POLY_XLU_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

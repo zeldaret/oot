@@ -518,7 +518,7 @@ void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTexture));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-    gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL,
                                        NULL, NULL, POLY_XLU_DISP);
@@ -861,7 +861,7 @@ void DemoSa_DrawOpa(DemoSa* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
 
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           DemoSa_OverrideLimbDraw, NULL, &this->actor);
