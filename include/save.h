@@ -492,10 +492,10 @@ typedef enum LinkAge {
 #define CHECK_QUEST_ITEM(item) (gSaveContext.save.info.inventory.questItems & gBitFlags[item])
 #define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.save.info.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
 
-#define GET_GS_FLAGS(index) \
-    ((gSaveContext.save.info.gsFlags[(index) >> 2] & gGsFlagsMasks[(index) & 3]) >> gGsFlagsShifts[(index) & 3])
-#define SET_GS_FLAGS(index, value) \
-    (gSaveContext.save.info.gsFlags[(index) >> 2] |= (value) << gGsFlagsShifts[(index) & 3])
+#define GET_GS_FLAGS(mapIndex) \
+    ((gSaveContext.save.info.gsFlags[(mapIndex) >> 2] & gGsFlagsMasks[(mapIndex) & 3]) >> gGsFlagsShifts[(mapIndex) & 3])
+#define SET_GS_FLAGS(mapIndex, flags) \
+    (gSaveContext.save.info.gsFlags[(mapIndex) >> 2] |= (flags) << gGsFlagsShifts[(mapIndex) & 3])
 
 #define HIGH_SCORE(score) (gSaveContext.save.info.highScores[score])
 
