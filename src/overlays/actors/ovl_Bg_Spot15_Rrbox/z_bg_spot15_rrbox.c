@@ -253,11 +253,11 @@ void func_808B40AC(BgSpot15Rrbox* this, PlayState* play) {
             this->unk_17C = this->dyna.unk_150;
             func_808B4178(this, play);
         } else {
-            player->stateFlags2 &= ~PLAYER_STATE2_4;
+            player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
             this->dyna.unk_150 = 0.0f;
         }
     } else {
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
         this->dyna.unk_150 = 0.0f;
     }
 }
@@ -289,7 +289,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
     if (!BgSpot15Rrbox_TrySnapToFloor(this, play)) {
         actor->home.pos.x = actor->world.pos.x;
         actor->home.pos.z = actor->world.pos.z;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
         this->dyna.unk_150 = 0.0f;
         this->unk_178 = 0.0f;
         this->unk_174 = 0.0f;
@@ -304,7 +304,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
         }
         actor->home.pos.x = actor->world.pos.x;
         actor->home.pos.z = actor->world.pos.z;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
         this->dyna.unk_150 = 0.0f;
         this->unk_178 = 0.0f;
         this->unk_174 = 0.0f;
@@ -328,7 +328,7 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
     }
 
     Actor_MoveXZGravity(actor);
@@ -359,7 +359,7 @@ void func_808B44B8(BgSpot15Rrbox* this, PlayState* play) {
 void func_808B44CC(BgSpot15Rrbox* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    player->stateFlags2 &= ~PLAYER_STATE2_4;
+    player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
     this->dyna.unk_150 = 0.0f;
 }
 

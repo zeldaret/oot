@@ -477,7 +477,7 @@ void func_80896950(BgJyaCobra* this, PlayState* play) {
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
     }
 }
 
@@ -518,7 +518,7 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play) {
 
     if (Math_ScaledStepToS(&this->unk_170, this->unk_16A * 0x2000, this->unk_16E)) {
         this->unk_16C = (this->unk_16C + this->unk_16A) & 7;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
         this->dyna.unk_150 = 0.0f;
         func_80896918(this, play);
     } else {
@@ -526,7 +526,7 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play) {
             (this->unk_16C * 0x2000) + this->dyna.actor.home.rot.y + this->unk_170;
     }
 
-    if (player->stateFlags2 & PLAYER_STATE2_4) {
+    if (player->stateFlags2 & PLAYER_STATE2_PUSH_PULL) {
         if (this->unk_172) {
             func_80895BEC(this, play);
         }
