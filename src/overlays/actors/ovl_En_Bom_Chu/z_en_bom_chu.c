@@ -1,5 +1,5 @@
 #include "z_en_bom_chu.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "src/overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/math64.h"
 #include "array_count.h"

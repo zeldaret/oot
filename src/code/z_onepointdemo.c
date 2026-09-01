@@ -13,7 +13,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
-#include "overlays/actors/ovl_En_Sw/z_en_sw.h"
+#include "src/overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;
 static s16 sUnused = -1;

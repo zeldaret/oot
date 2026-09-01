@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "actor.h"
 
-#include "overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.h"
+#include "src/overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.h"
 
 struct DemoGj;
 

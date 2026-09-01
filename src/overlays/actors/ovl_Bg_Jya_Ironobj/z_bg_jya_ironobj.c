@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_jya_ironobj.h"
-#include "overlays/actors/ovl_En_Ik/z_en_ik.h"
+#include "src/overlays/actors/ovl_En_Ik/z_en_ik.h"
 
 #include "libc64/qrand.h"
 #include "ichain.h"

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_nutsball.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

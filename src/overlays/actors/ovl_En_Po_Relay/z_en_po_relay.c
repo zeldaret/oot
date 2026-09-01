@@ -5,7 +5,7 @@
  */
 
 #include "z_en_po_relay.h"
-#include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
+#include "src/overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

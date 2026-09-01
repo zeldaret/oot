@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_blockstop.h"
-#include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+#include "src/overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
 #include "sfx.h"
 #include "z_lib.h"

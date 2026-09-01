@@ -5,7 +5,7 @@
  */
 
 #include "z_en_jj.h"
-#include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
+#include "src/overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

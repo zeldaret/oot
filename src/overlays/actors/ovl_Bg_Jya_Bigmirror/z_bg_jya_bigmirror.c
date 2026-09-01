@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_jya_bigmirror.h"
-#include "overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.h"
+#include "src/overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

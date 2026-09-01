@@ -4,17 +4,17 @@
  * Description: Link
  */
 
-#include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
-#include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
-#include "overlays/actors/ovl_En_Boom/z_en_boom.h"
-#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
-#include "overlays/actors/ovl_En_Box/z_en_box.h"
-#include "overlays/actors/ovl_En_Door/z_en_door.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "overlays/actors/ovl_En_Fish/z_en_fish.h"
-#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
-#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
-#include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "src/overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
+#include "src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
+#include "src/overlays/actors/ovl_En_Boom/z_en_boom.h"
+#include "src/overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "src/overlays/actors/ovl_En_Box/z_en_box.h"
+#include "src/overlays/actors/ovl_En_Door/z_en_door.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/actors/ovl_En_Fish/z_en_fish.h"
+#include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "src/overlays/actors/ovl_En_Insect/z_en_insect.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
 #include "libc64/qrand.h"
 #include "libu64/debug.h"

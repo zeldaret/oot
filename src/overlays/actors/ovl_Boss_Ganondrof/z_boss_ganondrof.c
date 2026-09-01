@@ -5,11 +5,11 @@
  */
 
 #include "z_boss_ganondrof.h"
-#include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
-#include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
-#include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_En_fHG/z_en_fhg.h"
+#include "src/overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"

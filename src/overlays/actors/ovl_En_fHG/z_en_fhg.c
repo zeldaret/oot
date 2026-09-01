@@ -5,9 +5,9 @@
  */
 
 #include "z_en_fhg.h"
-#include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
-#include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
-#include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
+#include "src/overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
+#include "src/overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
+#include "src/overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
 #include "libc64/qrand.h"
 #include "attributes.h"

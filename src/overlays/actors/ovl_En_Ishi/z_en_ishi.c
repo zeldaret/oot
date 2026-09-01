@@ -5,8 +5,8 @@
  */
 
 #include "z_en_ishi.h"
-#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "src/overlays/actors/ovl_En_Insect/z_en_insect.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

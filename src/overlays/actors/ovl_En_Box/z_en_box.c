@@ -1,5 +1,5 @@
 #include "z_en_box.h"
-#include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
+#include "src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

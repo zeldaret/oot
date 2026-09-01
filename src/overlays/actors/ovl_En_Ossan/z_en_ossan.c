@@ -1,7 +1,7 @@
 #include "z_en_ossan.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "overlays/actors/ovl_En_GirlA/z_en_girla.h"
-#include "overlays/actors/ovl_En_Tana/z_en_tana.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/actors/ovl_En_GirlA/z_en_girla.h"
+#include "src/overlays/actors/ovl_En_Tana/z_en_tana.h"
 
 #include "libc64/qrand.h"
 #include "controller.h"

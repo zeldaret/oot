@@ -5,10 +5,10 @@
  */
 
 #include "z_en_dnt_nomal.h"
-#include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
-#include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
+#include "src/overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
+#include "src/overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "libc64/math64.h"
 #include "gfx.h"

@@ -1,5 +1,5 @@
 #include "z_boss_dodongo.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"

@@ -1,5 +1,5 @@
 #include "z_en_go2.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "src/overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

@@ -13,7 +13,7 @@
 #include "tex_len.h"
 #include "play_state.h"
 
-#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
+#include "src/overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 

@@ -28,8 +28,8 @@
 #include "save.h"
 #include "skin_matrix.h"
 
-#include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
-#include "overlays/actors/ovl_En_Part/z_en_part.h"
+#include "src/overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
+#include "src/overlays/actors/ovl_En_Part/z_en_part.h"
 
 #include "assets/objects/gameplay_keep/shadow_circle.h"
 #include "assets/objects/gameplay_keep/shadow_horse.h"
