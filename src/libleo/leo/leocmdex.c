@@ -1,29 +1,22 @@
-#include "ultra64/leo.h"
-#include "ultra64/leoappli.h"
+#include "ultra64.h"
+#include "ultra64/leo_internal.h"
 #include "ultra64/leodrive.h"
 #include "attributes.h"
 
-#include "ultra64.h"
+extern u16 LEOrw_flags;
 
-extern vu16 LEOrw_flags;
-
-static void (*cmd_tbl[16])(void) = {
+void (*cmd_tbl[])(void) = {
     NULL,          leoClr_queue, leoInquiry,    leoTest_unit_rdy, leoRezero,    leoRead,
     leoWrite,      leoSeek,      leoStart_stop, leoRd_capacity,   leoTranslate, leoMode_sel,
     leoReadDiskId, leoReadTimer, leoSetTimer,   leoClr_reset,
 };
+const LEOCmdRead system_read_cmd = { { LEO_COMMAND_READ, 0, 0, 0, 0, 0, 0, 0, NULL }, 0xC, 1, NULL, 0 };
 
-static LEOCmdRead system_read_cmd = {
-    { LEO_COMMAND_READ, 0, 0, 0, 0, 0, 0, 0, 0 }, 12, 1, 0, 0,
-};
-
-static const u8 system_lba[8] = { 0, 1, 8, 9, 0, 0, 0, 0 };
+const u8 system_lba[] = { 0, 1, 8, 9, 0, 0, 0, 0 };
 
 OSPiHandle* LEOPiInfo;
 OSIoMesg LEOPiDmaParam;
 s32 currentCommand;
-
-u8 leoRead_system_area(void);
 
 void leomain(void* arg0) {
     u32 cur_status;
@@ -44,8 +37,10 @@ void leomain(void* arg0) {
     LEOPiDmaParam.hdr.pri = 1;
     LEOPiDmaParam.hdr.retQueue = &LEOdma_que;
     osEPiReadIo(LEOPiInfo, ASIC_STATUS, &cur_status);
-    if (!(cur_status & 0x400000) && (cur_status & 0x06800000)) {
-        leoDrive_reset();
+    if (!(cur_status & 0x400000)) {
+        if ((cur_status & 0x06800000) != 0) {
+            leoDrive_reset();
+        }
     }
 
     while (true) {
@@ -62,19 +57,19 @@ void leomain(void* arg0) {
 
         do {
             if (cur_status == 0) {
-                if (sense_code == 0) {
+                if (sense_code == LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                     continue;
                 }
             } else {
                 switch (sense_code) {
-                    case 3:
-                    case 37:
-                    case 41:
-                    case 43:
+                    case LEO_SENSE_COMMAND_PHASE_ERROR:
+                    case LEO_SENSE_WAITING_NMI:
+                    case LEO_SENSE_DEVICE_COMMUNICATION_FAILURE:
+                    case LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED:
                         break;
-                    case 49:
-                        if (leoRetUnit_atten() == 43) {
-                            sense_code = 43;
+                    case LEO_SENSE_EJECTED_ILLEGALLY_RESUME:
+                        if (leoRetUnit_atten() == LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED) {
+                            sense_code = LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED;
                         }
                         break;
                     default:
@@ -83,38 +78,38 @@ void leomain(void* arg0) {
             }
 
             switch (sense_code) {
-                case 47:
+                case LEO_SENSE_MEDIUM_MAY_HAVE_CHANGED:
                     switch (LEOcur_command->header.command) {
-                        case 2:
-                        case 8:
-                        case 11:
-                        case 12:
-                        case 13:
-                        case 14:
-                        case 15:
+                        case LEO_COMMAND_INQUIRY:
+                        case LEO_COMMAND_START_STOP:
+                        case LEO_COMMAND_MODE_SELECT:
+                        case LEO_COMMAND_READ_DISK_ID:
+                        case LEO_COMMAND_READ_TIMER:
+                        case LEO_COMMAND_SET_TIMER:
+                        case 0xF:
                             continue;
                     }
                     break;
-                case 49:
+                case LEO_SENSE_EJECTED_ILLEGALLY_RESUME:
                     switch (LEOcur_command->header.command) {
-                        case 2:
-                        case 11:
-                        case 13:
-                        case 14:
-                        case 15:
+                        case LEO_COMMAND_INQUIRY:
+                        case LEO_COMMAND_MODE_SELECT:
+                        case LEO_COMMAND_READ_TIMER:
+                        case LEO_COMMAND_SET_TIMER:
+                        case 0xF:
                             continue;
                         default:
                             sense_code = 42;
                     }
                     break;
-                case 43:
+                case LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED:
                     switch (LEOcur_command->header.command) {
-                        case 15:
+                        case 0xF:
                             leoClrUA_RESET();
                             FALLTHROUGH;
-                        case 2:
-                        case 13:
-                        case 14:
+                        case LEO_COMMAND_INQUIRY:
+                        case LEO_COMMAND_READ_TIMER:
+                        case LEO_COMMAND_SET_TIMER:
                             continue;
                     }
                     break;
@@ -122,23 +117,23 @@ void leomain(void* arg0) {
                     /* empty */;
             }
 
-            if (LEOcur_command->header.command == 3) {
-                LEOcur_command->data.modeSelect.reserve1 = leoChk_cur_drvmode();
+            if (LEOcur_command->header.command == LEO_COMMAND_TEST_UNIT_READY) {
+                LEOcur_command->data.modeselect.reserve1 = leoChk_cur_drvmode();
             }
             LEOcur_command->header.sense = sense_code;
-            LEOcur_command->header.status = 2;
+            LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
             goto post_exe;
         } while (0);
 
         if (LEOdrive_flag == 0) {
             switch (LEOcur_command->header.command) {
-                case 2:
-                case 3:
-                case 8:
-                case 11:
-                case 13:
-                case 14:
-                case 15:
+                case LEO_COMMAND_INQUIRY:
+                case LEO_COMMAND_TEST_UNIT_READY:
+                case LEO_COMMAND_START_STOP:
+                case LEO_COMMAND_MODE_SELECT:
+                case LEO_COMMAND_READ_TIMER:
+                case LEO_COMMAND_SET_TIMER:
+                case 0xF:
                     break;
                 default:
                     if (LEO_country_code == 0) {
@@ -149,13 +144,14 @@ void leomain(void* arg0) {
                     }
 
                     if (leoRead_system_area() != 0) {
-                        LEOcur_command->header.status = 2;
+                        LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                         goto post_exe;
                     }
 
                     if ((LEOcur_command->header.sense =
-                             leoSend_asic_cmd_w(0xB0001, LEO_sys_data.param.disk_type << 16)) != 0) {
-                        LEOcur_command->header.status = 2;
+                             leoSend_asic_cmd_w(0xB0001, LEO_sys_data.param.disk_type << 16)) !=
+                        LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
+                        LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                         goto post_exe;
                     }
 
@@ -163,11 +159,11 @@ void leomain(void* arg0) {
                         goto invalid_disktype;
                     }
 
-                    LEOdisk_type = (LEO_sys_data.param.disk_type & 0xF);
+                    LEOdisk_type = LEO_sys_data.param.disk_type & 0xF;
                     if (LEOdisk_type >= 7) {
                     invalid_disktype:
-                        LEOcur_command->header.sense = 0xBU;
-                        LEOcur_command->header.status = 2;
+                        LEOcur_command->header.sense = 11;
+                        LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                         goto post_exe;
                     }
 
@@ -178,8 +174,8 @@ void leomain(void* arg0) {
         cmd_tbl[LEOcur_command->header.command]();
 
     post_exe:
-        if (LEOcur_command->header.control & 0x80) {
-            osSendMesg(LEOcur_command->header.post, (void*)(s32)LEOcur_command->header.sense, OS_MESG_BLOCK);
+        if (LEOcur_command->header.control & LEO_CONTROL_POST) {
+            osSendMesg(LEOcur_command->header.post, (OSMesg)(s32)LEOcur_command->header.sense, OS_MESG_BLOCK);
         }
         if (LEOclr_que_flag != 0) {
             leoClr_queue();
@@ -204,7 +200,7 @@ u8 leoRead_system_area(void) {
         LEO_sys_data.param.defect_num[0] = 0;
         LEOrw_flags = 0x3000;
         dummy_cmd = system_read_cmd;
-        dummy_cmd.buffPtr = &LEO_sys_data;
+        dummy_cmd.buff_ptr = &LEO_sys_data;
 
         if (read_mode == 0) {
             // read System LBA 12 (+0, this is an offset value for leoRead_common)
@@ -242,10 +238,10 @@ u8 leoRead_system_area(void) {
         }
 
     system_retry:
-        if (leoChk_err_retry(dummy_cmd.header.sense) != LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
+        if (leoChk_err_retry(dummy_cmd.header.sense) != 0) {
             break;
         }
-        if (retry_cntr++ >= 0x40U) {
+        if (retry_cntr++ >= 64) {
             break;
         }
         if ((retry_cntr & 7) == 0) {
@@ -260,5 +256,5 @@ u8 leoRead_system_area(void) {
 sys_read_end:
     LEOcur_command = backup_pointer;
     LEOcur_command->header.sense = dummy_cmd.header.sense;
-    return GET_ERROR(*LEOcur_command);
+    return LEOcur_command->header.sense;
 }
