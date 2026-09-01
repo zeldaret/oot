@@ -2,7 +2,7 @@
 #define ACTOR_H
 
 #include "color.h"
-#include "actor_profile.h"
+#include "actor_profile.h" // IWYU pragma: export
 #include "animation.h"
 #include "z_math.h"
 #include "collision_check.h"
