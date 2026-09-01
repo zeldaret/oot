@@ -80,12 +80,12 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ique-cn:224 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:171 gc-eu-mq:171 gc-jp:171 gc-jp-ce:171 gc-jp-mq:171 gc-us:171 gc-us-mq:171" \
+                               "ique-cn:171 ntsc-1.0:50 ntsc-1.1:50 ntsc-1.2:50 pal-1.0:50 pal-1.1:50"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
-VisMono gPlayVisMono;
+VisMono sPlayVisMono;
 Color_RGBA8_u32 gVisMonoColor;
 
 #if DEBUG_FEATURES
@@ -294,7 +294,7 @@ void Play_Destroy(GameState* thisx) {
 
     Letterbox_Destroy();
     TransitionFade_Destroy(&this->transitionFadeFlash);
-    VisMono_Destroy(&gPlayVisMono);
+    VisMono_Destroy(&sPlayVisMono);
 
     if (gSaveContext.save.linkAge != this->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
@@ -515,7 +515,7 @@ void Play_Init(GameState* thisx) {
     TransitionFade_SetType(&this->transitionFadeFlash, TRANS_INSTANCE_TYPE_FADE_FLASH);
     TransitionFade_SetColor(&this->transitionFadeFlash, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&this->transitionFadeFlash);
-    VisMono_Init(&gPlayVisMono);
+    VisMono_Init(&sPlayVisMono);
     gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
 
@@ -1250,8 +1250,8 @@ void Play_Draw(PlayState* this) {
             if (gVisMonoColor.a > 0)
 #endif
             {
-                gPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
-                VisMono_Draw(&gPlayVisMono, &gfxP);
+                sPlayVisMono.params.color1.rgba = gVisMonoColor.rgba;
+                VisMono_Draw(&sPlayVisMono, &gfxP);
             }
 
             gSPEndDisplayList(gfxP++);
@@ -2007,8 +2007,8 @@ s32 func_800C0DB4(PlayState* this, Vec3f* pos) {
 
     waterSurfacePos = *pos;
 
-    if (WaterBox_GetSurface1(this, &this->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
-                             &waterBox) == true &&
+    if (BgCheck_GetWaterSurfaceAllHack(this, &this->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
+                                       &waterBox) == true &&
         pos->y < waterSurfacePos.y &&
         BgCheck_EntityRaycastDown3(&this->colCtx, &poly, &bgId, &waterSurfacePos) != BGCHECK_Y_MIN) {
         return true;

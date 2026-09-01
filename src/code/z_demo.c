@@ -149,7 +149,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_INSIDE_GANONS_CASTLE_6, 2, EVENTCHKINF_BF, gLightBarrierCs },
     { ENTR_INSIDE_GANONS_CASTLE_7, 2, EVENTCHKINF_AD, gSpiritBarrierCs },
     { ENTR_SPIRIT_TEMPLE_BOSS_0, 0, EVENTCHKINF_C0, gSpiritBossNabooruKnuckleIntroCs },
-    { ENTR_GERUDOS_FORTRESS_17, 0, EVENTCHKINF_C7, gGerudoFortressFirstCaptureCs },
+    { ENTR_GERUDOS_FORTRESS_17, 0, EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL, gGerudoFortressFirstCaptureCs },
     { ENTR_DEATH_MOUNTAIN_CRATER_1, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
     { ENTR_KOKIRI_FOREST_12, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutPart3Cs },
 };
@@ -687,8 +687,8 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 gSaveContext.save.info.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
 
-                if (!GET_EVENTCHKINF(EVENTCHKINF_45)) {
-                    SET_EVENTCHKINF(EVENTCHKINF_45);
+                if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_MASTER_SWORD)) {
+                    SET_EVENTCHKINF(EVENTCHKINF_OBTAINED_MASTER_SWORD);
                     play->nextEntranceIndex = ENTR_CUTSCENE_MAP_0;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.save.cutsceneIndex = CS_INDEX_3;
@@ -2458,9 +2458,9 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
             Flags_SetEventChkInf(EVENTCHKINF_C4);
             gSaveContext.save.entranceIndex = ENTR_TEMPLE_OF_TIME_0;
             gSaveContext.save.cutsceneIndex = CS_INDEX_8;
-        } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7) &&
+        } else if (!Flags_GetEventChkInf(EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL) &&
                    (gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GANON_BOSS)) {
-            Flags_SetEventChkInf(EVENTCHKINF_C7);
+            Flags_SetEventChkInf(EVENTCHKINF_GERUDO_CAUGHT_TOWER_FALL);
             gSaveContext.save.entranceIndex = ENTR_GANON_BOSS_0;
             gSaveContext.save.cutsceneIndex = CS_INDEX_0;
         }
