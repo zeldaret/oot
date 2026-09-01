@@ -31,15 +31,15 @@ There should be no empty line between groups, except:
 - before and after assets includes if any
 - in-between assets includes, as needed
 
-## Square brackets vs quotes
+## Angle brackets vs quotes
 
-Use square brackets for libc includes (files from `include/libc`), and quotes for everything else.
+Use angle brackets for libc includes (files from `include/libc`), and quotes for everything else.
 
 Example:
 
 ```c
-#include <stddef.h>
 #include "actor.h"
+#include <stddef.h>
 ```
 
 ## Conditional includes
