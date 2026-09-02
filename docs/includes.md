@@ -30,6 +30,7 @@ There should be no empty line between groups, except:
 
 - after the main .h include(s)
 - before and after assets includes if any
+- before and after `src/*.h` includes if any
 - in-between assets includes, as needed
 
 ## Angle brackets vs quotes
