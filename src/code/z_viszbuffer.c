@@ -37,9 +37,13 @@
  * - blue: like green but even higher frequency
  */
 
-#include "ultra64.h"
-#include "gfx.h"
 #include "vis.h"
+
+#include "color.h"
+#include "gfx.h"
+
+#include "ultra64.h"
+#include <stdbool.h>
 
 // z-buffer
 extern u16 D_0E000000[];

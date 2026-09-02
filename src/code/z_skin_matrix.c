@@ -5,6 +5,11 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
+#include "z_math.h"
+
+#include "ultra64.h"
+#include <math.h>
+#include <stddef.h>
 
 // clang-format off
 MtxF sMtxFClear = {
