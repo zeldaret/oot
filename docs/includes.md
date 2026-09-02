@@ -18,6 +18,7 @@ The include should be ordered like this and sorted alphabetically within each gr
 - `versions.h` if needed
 - remaining includes not in this list
 - assets
+- `src/*.h`
 - `libc64/*.h`
 - `libu64/*.h`
 - `ultra64.h` if needed
