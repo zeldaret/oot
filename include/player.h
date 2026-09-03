@@ -690,8 +690,8 @@ typedef struct PlayerAgeProperties {
     /* 0xA8 */ LinkAnimationHeader* unk_A8;
     /* 0xAC */ LinkAnimationHeader* unk_AC[4];
     /* 0xBC */ LinkAnimationHeader* unk_BC[2];
-    /* 0xC4 */ LinkAnimationHeader* unk_C4[2];
-    /* 0xCC */ LinkAnimationHeader* unk_CC[2];
+    /* 0xC4 */ LinkAnimationHeader* dismountLadderDownAnim[2];
+    /* 0xCC */ LinkAnimationHeader* dismountLadderUpAnim[2];
 } PlayerAgeProperties; // size = 0xD4
 
 #define MELEE_WEAPON_INFO_TIP(weaponInfo) (&(weaponInfo)->posA)
@@ -929,6 +929,7 @@ typedef struct Player {
         s16 csDelayTimer; // Player_Action_WaitForCutscene: Number of frames to wait before responding to a cutscene
         s16 playedLandingSfx; // Player_Action_BlueWarpArrive: Played sfx when landing on the ground
         s16 appearTimer; // Player_Action_FaroresWindArrive: Counts up, appear at 20 frames (1 second)
+        s16 dismountDown; // Player_Action_DismountLadder: True if player is dismounting the ladder downwards
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
