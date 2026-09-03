@@ -6,48 +6,61 @@
 #include "skin.h"
 #include "skin_matrix.h"
 
-MtxF gSkinLimbMatrices[60]; // holds matrices for each limb of the skeleton currently being drawn
+// Holds limb -> model matrices for each limb of the skeleton currently being drawn
+MtxF gSkinLimbMatrices[60];
 
 void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos) {
     Vtx* vtx;
     SkinVertex* vertexEntry;
 
+    // For each vertex in the buffer
     for (vertexEntry = skinVertices; vertexEntry < &skinVertices[modifEntry->vtxCount]; vertexEntry++) {
-        f32 xwTemp;
-        f32 ywTemp;
-        f32 zwTemp;
-        Vec3f normal;
-        Vec3f sp64;
+        f32 tx;
+        f32 ty;
+        f32 tz;
+        Vec3f transformedNormal;
+        Vec3f untransformedNormal;
 
         vtx = &vtxBuf[vertexEntry->index];
 
+        // Install position
         vtx->n.ob[0] = pos->x;
         vtx->n.ob[1] = pos->y;
         vtx->n.ob[2] = pos->z;
 
-        xwTemp = mtx->xw;
-        ywTemp = mtx->yw;
-        zwTemp = mtx->zw;
+        // Save translation part of matrix
+        tx = mtx->xw;
+        ty = mtx->yw;
+        tz = mtx->zw;
 
+        // Zero the translation part for updating normals
         mtx->xw = mtx->yw = mtx->zw = 0.0f;
 
-        sp64.x = vertexEntry->normX;
-        sp64.y = vertexEntry->normY;
-        sp64.z = vertexEntry->normZ;
+        untransformedNormal.x = vertexEntry->normX;
+        untransformedNormal.y = vertexEntry->normY;
+        untransformedNormal.z = vertexEntry->normZ;
 
-        SkinMatrix_Vec3fMtxFMultXYZ(mtx, &sp64, &normal);
+        // Transform the normal.
+        // Note that this assumes that mtx after setting the translation part to 0 is a pure rotation matrix.
+        // Normals need to be transformed according to the inverse-transpose, for rotation matrices the
+        // inverse is the transpose and transpose is an involution so the inverse-transpose of a rotation
+        // matrix is itself. Further, the matrix transformation is assumed to be norm-preserving, which is
+        // the case for a rotation matrix, so that the normal doesn't require any pre- or post-normalization.
+        SkinMatrix_Vec3fMtxFMultXYZ(mtx, &untransformedNormal, &transformedNormal);
 
-        vtx->n.n[0] = normal.x;
-        vtx->n.n[1] = normal.y;
-        vtx->n.n[2] = normal.z;
+        // Install normal
+        vtx->n.n[0] = transformedNormal.x;
+        vtx->n.n[1] = transformedNormal.y;
+        vtx->n.n[2] = transformedNormal.z;
 
-        mtx->xw = xwTemp;
-        mtx->yw = ywTemp;
-        mtx->zw = zwTemp;
+        // Restore translation part of matrix
+        mtx->xw = tx;
+        mtx->yw = ty;
+        mtx->zw = tz;
     }
 }
 
-void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3) {
+void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 singleBindFlag) {
     s32 modifCount;
     SkinLimb** skeleton;
     SkinLimb* limb;
@@ -55,13 +68,13 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
     SkinLimbModif* modif;
     SkinLimbVtx* vtxEntry;
     s32 transformCount;
-    f32 scale;
+    f32 weight;
     SkinVertex* skinVertices;
     SkinTransformation* limbTransformations;
     Vtx* vtxBuf;
     SkinLimbModif* modifications;
     Vec3f vtxPoint;
-    Vec3f spD0;
+    Vec3f transformedLimbPos;
     SkinTransformation* transformationEntry;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 254);
@@ -80,60 +93,72 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
         limbTransformations = (SkinTransformation*)SEGMENTED_TO_VIRTUAL(modif->limbTransformations);
 
         if (transformCount == 1) {
-            Vec3f spAC;
+            // Exactly one transform, just multiply the position by the limb -> model matrix
+            // to get the model-space position
+            Vec3f limbPos;
 
-            spAC.x = limbTransformations[0].x;
-            spAC.y = limbTransformations[0].y;
-            spAC.z = limbTransformations[0].z;
+            limbPos.x = limbTransformations[0].x;
+            limbPos.y = limbTransformations[0].y;
+            limbPos.z = limbTransformations[0].z;
 
-            SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[limbTransformations[0].limbIndex], &spAC, &vtxPoint);
-        } else if (arg3 == 1) {
-            Vec3f spA0;
+            SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[limbTransformations[0].limbIndex], &limbPos, &vtxPoint);
+        } else if (singleBindFlag == 1) {
+            // There are multiple transforms, but this flag selects a static choice encoded in the modification info
+            Vec3f limbPos;
 
-            transformationEntry = &limbTransformations[modif->unk_4];
+            transformationEntry = &limbTransformations[modif->staticLimbTransformationIndex];
 
-            spA0.x = transformationEntry->x;
-            spA0.y = transformationEntry->y;
-            spA0.z = transformationEntry->z;
+            limbPos.x = transformationEntry->x;
+            limbPos.y = transformationEntry->y;
+            limbPos.z = transformationEntry->z;
 
-            SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[transformationEntry->limbIndex], &spA0, &vtxPoint);
+            SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[transformationEntry->limbIndex], &limbPos, &vtxPoint);
         } else {
-            Vec3f phi_f20;
+            // There are multiple transforms, which need to be weighted together to arrive at the result
+            Vec3f finalLimbPos;
 
-            phi_f20.x = phi_f20.y = phi_f20.z = 0.0f;
+            finalLimbPos.x = finalLimbPos.y = finalLimbPos.z = 0.0f;
 
+            // For each transformation, compute the weighted transformation
+            //      y = sum(i, w[i] * M[i] * x[i])
             for (transformationEntry = &limbTransformations[0];
                  transformationEntry < &limbTransformations[transformCount]; transformationEntry++) {
-                Vec3f sp88;
+                Vec3f limbPos;
 
-                scale = transformationEntry->scale * 0.01f;
+                weight = transformationEntry->weight * 0.01f;
 
-                sp88.x = transformationEntry->x;
-                sp88.y = transformationEntry->y;
-                sp88.z = transformationEntry->z;
+                limbPos.x = transformationEntry->x;
+                limbPos.y = transformationEntry->y;
+                limbPos.z = transformationEntry->z;
 
-                SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[transformationEntry->limbIndex], &sp88, &spD0);
+                SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[transformationEntry->limbIndex], &limbPos,
+                                            &transformedLimbPos);
 
-                spD0.x *= scale;
-                spD0.y *= scale;
-                spD0.z *= scale;
+                transformedLimbPos.x *= weight;
+                transformedLimbPos.y *= weight;
+                transformedLimbPos.z *= weight;
 
-                phi_f20.x += spD0.x;
-                phi_f20.y += spD0.y;
-                phi_f20.z += spD0.z;
+                finalLimbPos.x += transformedLimbPos.x;
+                finalLimbPos.y += transformedLimbPos.y;
+                finalLimbPos.z += transformedLimbPos.z;
             }
 
-            vtxPoint.x = phi_f20.x;
-            vtxPoint.y = phi_f20.y;
-            vtxPoint.z = phi_f20.z;
+            vtxPoint.x = finalLimbPos.x;
+            vtxPoint.y = finalLimbPos.y;
+            vtxPoint.z = finalLimbPos.z;
         }
 
-        Skin_UpdateVertices(&gSkinLimbMatrices[limbTransformations[modif->unk_4].limbIndex], skinVertices, modif,
-                            vtxBuf, &vtxPoint);
+        // This will install the position and normal into the model space vertices.
+        // The matrix argument is used to transform the vertex normal, which is not taken as a weighted sum like the
+        // position. The normal therefore always uses the static index for choosing the matrix.
+        Skin_UpdateVertices(&gSkinLimbMatrices[limbTransformations[modif->staticLimbTransformationIndex].limbIndex],
+                            skinVertices, modif, vtxBuf, &vtxPoint);
     }
 
+    // Set segment for vertex buffer access
     gSPSegment(POLY_OPA_DISP++, 0x08, vtxEntry->buf[vtxEntry->index]);
 
+    // Alternate vertex buffer
     vtxEntry->index = (vtxEntry->index == 0) ? 1 : 0;
 
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 344);
@@ -143,7 +168,7 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
  * Draw a limb of type SKIN_LIMB_TYPE_ANIMATED, of the skeleton `skin` at index `limbIndex`
  * The vertices of this limb are modified dynamically
  */
-void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3, s32 drawFlags) {
+void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 singleBindFlag, s32 drawFlags) {
     SkinLimb** skeleton;
     SkinAnimatedLimbData* data;
 
@@ -153,7 +178,7 @@ void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s
     data = SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
 
     if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS)) {
-        Skin_ApplyLimbModifications(gfxCtx, skin, limbIndex, arg3);
+        Skin_ApplyLimbModifications(gfxCtx, skin, limbIndex, singleBindFlag);
     }
 
     gSPDisplayList(POLY_OPA_DISP++, data->dlist);
@@ -191,8 +216,8 @@ void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlis
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 433);
 }
 
-void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags) {
+void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 singleBindFlag, s32 drawFlags) {
     s32 i;
     s32 segmentType;
     SkinLimb** skeleton;
@@ -201,6 +226,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 471);
 
+    // Prepare all limb transformations
     if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS)) {
         Skin_ApplyAnimTransformations(skin, gSkinLimbMatrices, actor, setTranslation);
     }
@@ -208,6 +234,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
 
     if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_MATRIX)) {
+        // Set model -> world matrix
         gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &skin->mtx);
 
@@ -218,6 +245,8 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
         gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     }
 
+    // Draw each limb, transforms were prepared in advance above this loop so there's no tree walk required at this
+    // stage unlike how z_skelanime skeleton drawing is implemented.
     for (i = 0; i < skin->skeletonHeader->limbCount; i++) {
         s32 shouldDraw = true;
 
@@ -228,46 +257,67 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
         segmentType = ((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[i]))->segmentType;
 
         if (segmentType == SKIN_LIMB_TYPE_ANIMATED && shouldDraw == true) {
-            Skin_DrawAnimatedLimb(gfxCtx, skin, i, arg6, drawFlags);
+            Skin_DrawAnimatedLimb(gfxCtx, skin, i, singleBindFlag, drawFlags);
         } else if (segmentType == SKIN_LIMB_TYPE_NORMAL && shouldDraw == true) {
             Skin_DrawLimb(gfxCtx, skin, i, NULL, drawFlags);
         }
     }
 
-    if (postDraw != NULL) {
-        postDraw(actor, play, skin);
+    if (postLimbDraw != NULL) {
+        postLimbDraw(actor, play, skin);
     }
 
 close_disps:
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 534);
 }
 
-// allows specifying PostLimbDraw and setTranslation
-void func_800A6330(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw, s32 setTranslation) {
-    Skin_DrawImpl(actor, play, skin, postDraw, NULL, setTranslation, false, 0);
+/**
+ * Draws a skin model.
+ * Allows specifying postLimbDraw and setTranslation.
+ */
+void Skin_DrawPT(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw, s32 setTranslation) {
+    Skin_DrawImpl(actor, play, skin, postLimbDraw, NULL, setTranslation, false, 0);
 }
 
-// allows specifying OverrideLimbDraw, PostLimbDraw and setTranslation
-void func_800A6360(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation) {
-    Skin_DrawImpl(actor, play, skin, postDraw, overrideLimbDraw, setTranslation, false, 0);
+/**
+ * Draws a skin model.
+ * Allows specifying OverrideLimbDraw, postLimbDraw and setTranslation.
+ */
+void Skin_DrawPOT(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                  SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation) {
+    Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, false, 0);
 }
 
-// allows specifying OverrideLimbDraw, PostLimbDraw, setTranslation, and arg6
-void func_800A6394(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6) {
-    Skin_DrawImpl(actor, play, skin, postDraw, overrideLimbDraw, setTranslation, arg6, 0);
+/**
+ * Draws a skin model.
+ * Allows specifying OverrideLimbDraw, postLimbDraw, setTranslation, and singleBindFlag.
+ */
+void Skin_DrawPOTS(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 singleBindFlag) {
+    Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, singleBindFlag, 0);
 }
 
-// allows specifying all variables
-void func_800A63CC(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags) {
-    Skin_DrawImpl(actor, play, skin, postDraw, overrideLimbDraw, setTranslation, arg6, drawFlags);
+/**
+ * Draws a skin model.
+ * Allows specifying all variables.
+ */
+void Skin_DrawPOTSF(Actor* actor, PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 singleBindFlag, s32 drawFlags) {
+    Skin_DrawImpl(actor, play, skin, postLimbDraw, overrideLimbDraw, setTranslation, singleBindFlag, drawFlags);
 }
 
+/**
+ * Retrieve the world space location of offset expressed in the limb coordinate
+ * system for the limb identified by limbIndex, the world space vector is returned
+ * in dst.
+ */
 void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* offset, Vec3f* dst) {
     MtxF mtxf;
 
+    // skin->mtx is a model -> world transformation
+    // gSkinLimbMatrices[limbIndex] is a limb -> model transformation
+    // Their product is then limb -> world
     SkinMatrix_MtxFMtxFMult(&skin->mtx, &gSkinLimbMatrices[limbIndex], &mtxf);
+    // Multiply the offset vector with the limb -> world matrix to get the offset in world space
     SkinMatrix_Vec3fMtxFMultXYZ(&mtxf, offset, dst);
 }

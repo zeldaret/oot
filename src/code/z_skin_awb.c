@@ -9,7 +9,8 @@
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 
 /**
- * Initialises the Vtx buffers used for limb at index `limbIndex`
+ * Initialises the Vtx buffers used for limb at index `limbIndex`. Installs transform-independent properties
+ * such as texture coordinates and vertex alpha.
  */
 void Skin_InitAnimatedLimb(PlayState* play, Skin* skin, s32 limbIndex) {
     s32 i;
@@ -20,13 +21,16 @@ void Skin_InitAnimatedLimb(PlayState* play, Skin* skin, s32 limbIndex) {
     SkinLimbModif* modifEntry;
     SkinVertex* skinVtxEntry;
 
+    // Loop over each buffer, there's two for double buffering of graphics data
     for (i = 0; i < ARRAY_COUNT(skin->vtxTable->buf); i++) {
         Vtx* vtxBuf = skin->vtxTable[limbIndex].buf[i];
 
+        // Loop over "modifications"
         for (modifEntry = limbModifications; modifEntry < limbModifications + animatedLimbData->limbModifCount;
              modifEntry++) {
             SkinVertex* skinVertices = SEGMENTED_TO_VIRTUAL(modifEntry->skinVertices);
 
+            // Loop over vertices within the modifications group, initializing unchanging properties of each vertex
             for (skinVtxEntry = skinVertices; skinVtxEntry < &skinVertices[modifEntry->vtxCount];) {
                 Vtx* vtx = &vtxBuf[skinVtxEntry->index];
 
@@ -65,11 +69,13 @@ void Skin_Init(PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, Anim
         SkinLimb* limb = SEGMENTED_TO_VIRTUAL(skeleton[i]);
 
         if ((limb->segmentType != SKIN_LIMB_TYPE_ANIMATED) || (limb->segment == NULL)) {
+            // Not skinned, or no geometry, or no animation
             vtxEntry->index = 0;
 
             vtxEntry->buf[0] = NULL;
             vtxEntry->buf[1] = NULL;
         } else {
+            // Has geometry, needs animating
             SkinAnimatedLimbData* animatedLimbData = SEGMENTED_TO_VIRTUAL(((void)0, limb->segment));
 
             vtxEntry->index = 0;
@@ -115,31 +121,33 @@ void Skin_Free(PlayState* play, Skin* skin) {
     }
 }
 
-s32 func_800A698C(Skin* skin, SkinLimb** skeleton, MtxF* limbMatrices, u8 parentIndex, u8 limbIndex) {
+s32 Skin_ApplyLimbTransform(Skin* skin, SkinLimb** skeleton, MtxF* limbMatrices, u8 parentIndex, u8 limbIndex) {
     s32 pad;
     SkinLimb* limb = SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]);
-    MtxF* mtx;
+    MtxF* limbMtxF;
     s32 ret;
-    MtxF sp28;
+    MtxF tempMtxF;
 
+    // Get matrix for this limb
     if (parentIndex == LIMB_DONE) {
-        SkinMatrix_GetClear(&mtx);
+        SkinMatrix_GetClear(&limbMtxF);
     } else {
-        mtx = &limbMatrices[(s32)parentIndex];
+        limbMtxF = &limbMatrices[(s32)parentIndex];
     }
 
-    SkinMatrix_MtxFMtxFMult(mtx, &limbMatrices[limbIndex], &sp28);
-    SkinMatrix_MtxFCopy(&sp28, &limbMatrices[limbIndex]);
+    // Compute the matrix for this limb
+    SkinMatrix_MtxFMtxFMult(limbMtxF, &limbMatrices[limbIndex], &tempMtxF);
+    SkinMatrix_MtxFCopy(&tempMtxF, &limbMatrices[limbIndex]);
 
     if (limb->child != LIMB_DONE) {
-        ret = func_800A698C(skin, skeleton, limbMatrices, limbIndex, limb->child);
+        ret = Skin_ApplyLimbTransform(skin, skeleton, limbMatrices, limbIndex, limb->child);
         if (ret) {
             return ret;
         }
     }
 
     if (limb->sibling != LIMB_DONE) {
-        ret = func_800A698C(skin, skeleton, limbMatrices, parentIndex, limb->sibling);
+        ret = Skin_ApplyLimbTransform(skin, skeleton, limbMatrices, parentIndex, limb->sibling);
         if (ret) {
             return ret;
         }
@@ -164,19 +172,21 @@ s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, 
     SkinLimb** skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     Vec3s* jointRot = &skin->skelAnime.jointTable[0];
 
+    // Skip translation
     jointRot++;
 
+    // Get rotation for this limb
     xRot = jointRot->x;
     yRot = jointRot->y;
     zRot = jointRot->z;
 
     if (setTranslation) {
-        jointRot--; // access joint table entry 0 for translation data
-
+        // Go back for translation if wanted
+        // Access joint table entry 0 for translation data
+        jointRot--;
         xTransl = jointRot->x;
         yTransl = jointRot->y;
         zTransl = jointRot->z;
-
         jointRot++;
 
         if (setTranslation == SKIN_TRANSFORM_IS_FHG) {
@@ -185,13 +195,16 @@ s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, 
             yRot += horse->turnRot;
         }
 
+        // Set root transformation with translation
         SkinMatrix_SetTranslateRotateZYX(&limbMatrices[0], xRot, yRot, zRot, xTransl, yTransl, zTransl);
     } else {
+        // Set root transformation without translation
         SkinMatrix_SetTranslateRotateZYX(&limbMatrices[0], xRot, yRot, zRot, 0.0f, 0.0f, 0.0f);
     }
 
     jointRot++;
 
+    // Prepare limb matrices
     for (i = 1; i < skin->skeletonHeader->limbCount; i++) {
         SkinLimb* limb = SEGMENTED_TO_VIRTUAL(skeleton[i]);
 
@@ -205,15 +218,17 @@ s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, 
         SkinMatrix_SetTranslateRotateZYX(&limbMatrices[i], xRot, yRot, zRot, xTransl, yTransl, zTransl);
     }
 
+    // Compute model -> world transform
     SkinMatrix_SetTranslateRotateYXZScale(
         &skin->mtx, actor->scale.x, actor->scale.y, actor->scale.z, actor->shape.rot.x, actor->shape.rot.y,
         actor->shape.rot.z, actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
         actor->world.pos.z);
 
-    ret = func_800A698C(skin, SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment), limbMatrices, LIMB_DONE, 0);
+    // Propagate limb transforms so it's all limb -> model transformations
+    ret =
+        Skin_ApplyLimbTransform(skin, SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment), limbMatrices, LIMB_DONE, 0);
     if (!ret) {
         return ret;
     }
-
     return false;
 }
