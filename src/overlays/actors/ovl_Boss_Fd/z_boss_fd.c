@@ -1495,7 +1495,7 @@ void BossFd_UpdateEffects(BossFd* this, PlayState* play) {
                 diff.z = player->actor.world.pos.z - effect->pos.z;
                 if ((this->timers[3] == 0) && (sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z)) < 20.0f)) {
                     this->timers[3] = 50;
-                    Actor_SetPlayerKnockbackLarge(play, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
+                    Actor_SetPlayerBumpKnockdown(play, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
                     if (!player->bodyIsBurning) {
                         s16 i2;
 

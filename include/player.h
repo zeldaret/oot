@@ -643,17 +643,17 @@ typedef enum PlayerStickDirection {
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
-typedef enum PlayerKnockbackType {
-    /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
-    /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
-    /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
-    /* 3 */ PLAYER_KNOCKBACK_LARGE_ELECTRIFIED // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
-} PlayerKnockbackType;
+typedef enum PlayerBumpType {
+    /* 0 */ PLAYER_BUMP_NONE, // No knockback
+    /* 1 */ PLAYER_BUMP_KNOCKBACK, // A small hop, remains standing up
+    /* 2 */ PLAYER_BUMP_KNOCKDOWN, // Sent flying in the air and lands laying down on the floor
+    /* 3 */ PLAYER_BUMP_KNOCKDOWN_ELECTRIFIED // Same as`PLAYER_BUMP_KNOCKDOWN` with an electric shock effect
+} PlayerBumpType;
 
 typedef enum PlayerHitResponseType {
     /* 0 */ PLAYER_HIT_RESPONSE_NONE,
-    /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
-    /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
+    /* 1 */ PLAYER_HIT_RESPONSE_KNOCKDOWN,
+    /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK,
     /* 3 */ PLAYER_HIT_RESPONSE_FROZEN,
     /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIFIED
 } PlayerHitResponseType;
@@ -961,11 +961,11 @@ typedef struct Player {
     /* 0x089A */ s16 floorPitchAlt; // the calculation for this value is bugged and doesn't represent anything meaningful
     /* 0x089C */ s16 unk_89C;
     /* 0x089E */ u16 floorSfxOffset;
-    /* 0x08A0 */ u8 knockbackDamage;
-    /* 0x08A1 */ u8 knockbackType;
-    /* 0x08A2 */ s16 knockbackRot;
-    /* 0x08A4 */ f32 knockbackSpeed;
-    /* 0x08A8 */ f32 knockbackYVelocity;
+    /* 0x08A0 */ u8 bumpDamage;
+    /* 0x08A1 */ u8 bumpType;
+    /* 0x08A2 */ s16 bumpRot;
+    /* 0x08A4 */ f32 bumpSpeed;
+    /* 0x08A8 */ f32 bumpYVelocity;
     /* 0x08AC */ f32 pushedSpeed; // Pushing player, examples include water currents, floor conveyors, climbing sloped surfaces
     /* 0x08B0 */ s16 pushedYaw; // Yaw direction of player being pushed
     /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
