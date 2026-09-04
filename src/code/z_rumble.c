@@ -15,6 +15,10 @@
 #include "padmgr.h"
 #include "z_math.h"
 
+#include "ultra64.h"
+#include <math.h>
+#include <stddef.h>
+
 static s32 sUnused[4];
 RumbleMgr sRumbleMgr;
 
