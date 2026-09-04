@@ -45,8 +45,8 @@
 #include "dma.h"
 #include "thread.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:82" \
-                               "pal-1.0:80 pal-1.1:80"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:102" \
+                               "pal-1.0:100 pal-1.1:100"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
@@ -338,7 +338,7 @@ const char* DmaMgr_FindFileName(uintptr_t vrom) {
         name++;
     }
     //! @bug Since there is no return, in case the file isn't found, the return value will be a pointer to the end
-    // of gDmaDataTable
+    //! of gDmaDataTable
 #ifdef AVOID_UB
     return "";
 #endif

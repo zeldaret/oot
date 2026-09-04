@@ -138,7 +138,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, PlayState* play) {
     BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
     Collider_DestroyTris(play, &this->collider);
-    if (this->dyna.actor.params == 1) {
+    if (thisx->params == 1) {
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
@@ -207,9 +207,7 @@ void BgYdanMaruta_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgYdanMaruta_Draw(Actor* thisx, PlayState* play) {
-    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
-
-    if (this->dyna.actor.params == 0) {
+    if (thisx->params == 0) {
         Gfx_DrawDListOpa(play, gDTRollingSpikeTrapDL);
     } else {
         Gfx_DrawDListOpa(play, gDTFallingLadderDL);

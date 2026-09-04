@@ -30,7 +30,7 @@ void func_808A2008(BgMoriElevator* this, PlayState* play);
 void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, PlayState* play);
 void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, PlayState* play);
 
-static s16 sIsSpawned = false;
+static s16 sIsSpawned = 0;
 
 ActorProfile Bg_Mori_Elevator_Profile = {
     /**/ ACTOR_BG_MORI_ELEVATOR,
@@ -113,9 +113,9 @@ void BgMoriElevator_Init(Actor* thisx, PlayState* play) {
 #endif
 
     switch (sIsSpawned) {
-        case false:
+        case 0:
             PRINTF(T("森の神殿 elevator CT\n", "Forest Temple elevator CT\n"));
-            sIsSpawned = true;
+            sIsSpawned = 1;
             this->dyna.actor.room = -1;
             Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
             DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
@@ -123,7 +123,7 @@ void BgMoriElevator_Init(Actor* thisx, PlayState* play) {
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
             BgMoriElevator_SetupWaitAfterInit(this);
             break;
-        case true:
+        case 1:
             Actor_Kill(thisx);
             break;
     }
@@ -135,7 +135,7 @@ void BgMoriElevator_Destroy(Actor* thisx, PlayState* play) {
     if (this->unk_172 == 0) {
         PRINTF(T("森の神殿 elevator DT\n", "Forest Temple elevator DT\n"));
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-        sIsSpawned = false;
+        sIsSpawned = 0;
     }
 }
 

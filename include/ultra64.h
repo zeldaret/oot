@@ -42,6 +42,8 @@
 #include "ultra64/version.h"
 // IWYU pragma: end_exports
 
+#include "ultra64/leo.h"
+
 union uObjBg;
 
 void __osPiCreateAccessQueue(void);

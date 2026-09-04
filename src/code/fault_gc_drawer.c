@@ -312,8 +312,6 @@ s32 Fault_Printf(const char* fmt, ...) {
     va_start(args, fmt);
 
     ret = Fault_VPrintf(fmt, args);
-
-    va_end(args);
     return ret;
 }
 
@@ -323,8 +321,6 @@ void Fault_DrawText(s32 x, s32 y, const char* fmt, ...) {
 
     Fault_SetCursor(x, y);
     Fault_VPrintf(fmt, args);
-
-    va_end(args);
 }
 
 void Fault_SetDrawerFB(void* fb, u16 w, u16 h) {

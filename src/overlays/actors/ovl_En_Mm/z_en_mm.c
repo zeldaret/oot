@@ -536,10 +536,9 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
         s32 linkChildObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_LINK_CHILD);
 
-        // Draw Bunny Hood
         if (linkChildObjectSlot >= 0) {
             Mtx* mtx;
-            Vec3s earRot;
+            Vec3s sp50;
             Mtx* mtx2;
 
             mtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 2);
@@ -551,20 +550,18 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
 
-            // Draw the ears in the neutral position (unlike Player, no flopping physics)
+            sp50.x = 994;
+            sp50.y = 3518;
+            sp50.z = -13450;
 
-            // Right ear
-            earRot.x = 0x3E2;
-            earRot.y = 0xDBE;
-            earRot.z = -0x348A;
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
             MATRIX_TO_MTX(mtx++, "../z_en_mm.c", 1124);
 
-            // Left ear
-            earRot.x = -0x3E2;
-            earRot.y = -0xDBE;
-            earRot.z = -0x348A;
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
+            sp50.x = -994;
+            sp50.y = -3518;
+            sp50.z = -13450;
+
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
             MATRIX_TO_MTX(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);

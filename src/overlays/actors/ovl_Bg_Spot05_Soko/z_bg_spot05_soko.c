@@ -47,11 +47,12 @@ static Gfx* sDLists[] = {
 };
 
 void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
-    s32 pad1;
     BgSpot05Soko* this = (BgSpot05Soko*)thisx;
-    CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    u32 pad1;
+    CollisionHeader* colHeader;
+    u32 pad2;
 
+    colHeader = NULL;
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
@@ -85,20 +86,23 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play) {
 }
 
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {
+    Actor* thisx = &this->dyna.actor;
+
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
-        Actor_SetFocus(&this->dyna.actor, 50.0f);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &thisx->world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
+        Actor_SetFocus(thisx, 50.0f);
         OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808AE630;
-        this->dyna.actor.speed = 0.5f;
+        thisx->speed = 0.5f;
     }
 }
 
 void func_808AE630(BgSpot05Soko* this, PlayState* play) {
-    this->dyna.actor.speed *= 1.5f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speed) !=
-        0) {
-        Actor_Kill(&this->dyna.actor);
+    Actor* thisx = &this->dyna.actor;
+
+    thisx->speed *= 1.5f;
+    if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y - 120.0f, thisx->speed) != 0) {
+        Actor_Kill(thisx);
     }
 }
 

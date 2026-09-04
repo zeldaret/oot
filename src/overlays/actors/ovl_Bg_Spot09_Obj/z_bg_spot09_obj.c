@@ -69,15 +69,16 @@ static Gfx* sDLists[] = {
 
 s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
     s32 carpentersRescued;
+    Actor* thisx = &this->dyna.actor;
 
     if (IS_CUTSCENE_LAYER) {
-        return this->dyna.actor.params == BG_SPOT09_OBJ_BRIDGE_SIDES;
+        return thisx->params == BG_SPOT09_OBJ_BRIDGE_SIDES;
     }
 
     carpentersRescued = GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED();
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        switch (this->dyna.actor.params) {
+        switch (thisx->params) {
             case BG_SPOT09_OBJ_BRIDGE_SIDES:
                 return false;
             case BG_SPOT09_OBJ_BRIDGE_BROKEN:
@@ -88,32 +89,34 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
                 return true;
         }
     } else {
-        return this->dyna.actor.params == BG_SPOT09_OBJ_BRIDGE_CHILD;
+        return thisx->params == BG_SPOT09_OBJ_BRIDGE_CHILD;
     }
 
     return false;
 }
 
 s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play) {
-    if (this->dyna.actor.params == BG_SPOT09_OBJ_TENT) {
-        Actor_SetScale(&this->dyna.actor, 0.1f);
+    Actor* thisx = &this->dyna.actor;
+
+    if (thisx->params == BG_SPOT09_OBJ_TENT) {
+        Actor_SetScale(thisx, 0.1f);
     } else {
-        Actor_SetScale(&this->dyna.actor, 1.0f);
+        Actor_SetScale(thisx, 1.0f);
     }
     return 1;
 }
 
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
-    s32 pad;
+    Actor* thisx = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
-    s32 pad2[2];
+    s32 pad[2];
 
-    if (D_808B1F90[this->dyna.actor.params] != NULL) {
+    if (D_808B1F90[thisx->params] != NULL) {
         DynaPolyActor_Init(&this->dyna, 0);
-        CollisionHeader_GetVirtual(D_808B1F90[this->dyna.actor.params], &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+        CollisionHeader_GetVirtual(D_808B1F90[thisx->params], &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     }
-    return true;
+    return 1;
 }
 
 s32 func_808B1C70(BgSpot09Obj* this, PlayState* play) {
@@ -121,20 +124,20 @@ s32 func_808B1C70(BgSpot09Obj* this, PlayState* play) {
 
     for (i = 0; i < ARRAY_COUNT(D_808B1FA4); i++) {
         if (!D_808B1FA4[i](this, play)) {
-            return false;
+            return 0;
         }
     }
-    return true;
+    return 1;
 }
 
 s32 func_808B1CEC(BgSpot09Obj* this, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain1);
-    return true;
+    return 1;
 }
 
 s32 func_808B1D18(BgSpot09Obj* this, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain2);
-    return true;
+    return 1;
 }
 
 s32 func_808B1D44(BgSpot09Obj* this, PlayState* play) {
@@ -148,20 +151,18 @@ s32 func_808B1D44(BgSpot09Obj* this, PlayState* play) {
 void BgSpot09Obj_Init(Actor* thisx, PlayState* play) {
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
-    PRINTF(T("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n",
-             "Spot09 Object [arg_data : 0x%04x](Carpenter Rescue Flag 0x%x)\n"),
-           this->dyna.actor.params, GET_EVENTCHKINF_CARPENTERS_RESCUED_FLAGS());
-    this->dyna.actor.params &= 0xFF;
-    if ((this->dyna.actor.params < 0) || (this->dyna.actor.params >= BG_SPOT09_OBJ_MAX)) {
-        PRINTF(T("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-                 "Error : Spot 09 object arg_data cannot be determined (%s %d)(arg_data 0x%04x)\n"),
-               "../z_bg_spot09_obj.c", 322, this->dyna.actor.params);
+    PRINTF("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", thisx->params,
+           GET_EVENTCHKINF_CARPENTERS_RESCUED_FLAGS());
+    thisx->params &= 0xFF;
+    if ((thisx->params < 0) || (thisx->params >= BG_SPOT09_OBJ_MAX)) {
+        PRINTF("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot09_obj.c",
+               322, thisx->params);
     }
 
     if (!func_808B1C70(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(thisx);
     } else if (!func_808B1D44(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(thisx);
     }
 }
 
@@ -169,7 +170,7 @@ void BgSpot09Obj_Destroy(Actor* thisx, PlayState* play) {
     DynaCollisionContext* dynaColCtx = &play->colCtx.dyna;
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
-    if (this->dyna.actor.params != BG_SPOT09_OBJ_BRIDGE_SIDES) {
+    if (thisx->params != BG_SPOT09_OBJ_BRIDGE_SIDES) {
         DynaPoly_DeleteBgActor(play, dynaColCtx, this->dyna.bgId);
     }
 }

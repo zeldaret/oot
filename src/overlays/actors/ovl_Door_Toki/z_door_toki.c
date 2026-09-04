@@ -35,8 +35,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 void DoorToki_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     DoorToki* this = (DoorToki*)thisx;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

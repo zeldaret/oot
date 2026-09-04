@@ -7,11 +7,11 @@
 struct BgHidanRsekizou;
 
 typedef struct BgHidanRsekizou {
-    /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ s16 bendFrame;
-    /* 0x0166 */ s16 burnFrame;
-    /* 0x0168 */ ColliderJntSph collider;
-    /* 0x0188 */ ColliderJntSphElement colliderElements[6];
+    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x164 */ s16 unk164;
+    /* 0x166 */ s16 unk166;
+    /* 0x168 */ ColliderJntSph collider;
+    /* 0x188 */ ColliderJntSphElement colliderElements[6];
 } BgHidanRsekizou; // size = 0x0308
 
 #endif

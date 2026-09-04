@@ -404,7 +404,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 node->next = newNext;
                 node->size = newSize;
-                memmove(node->next, next, sizeof(ArenaNode));
+                func_801068B0(node->next, next, sizeof(ArenaNode));
             } else {
                 newAlloc = __osMalloc(arena, newSize);
                 if (newAlloc != NULL) {

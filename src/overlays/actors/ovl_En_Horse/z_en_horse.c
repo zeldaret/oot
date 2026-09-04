@@ -172,7 +172,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit D_80A65F38 = { 10, 35, 100, MASS_HEAVY };
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 typedef struct EnHorseSpawnpoint {
     /* 0x0 */ s16 sceneId;
@@ -353,7 +353,7 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_LON_LON_RANCH, 882, 0, -2256, 0 },
     { SCENE_LON_LON_RANCH, -1003, 0, -755, 0 }, // Hardcoded to always load in lon lon
     { SCENE_LON_LON_RANCH, -2254, 0, -629, 0 },
-    { SCENE_LON_LON_RANCH, 907, 0, -2336, 0 },
+    { SCENE_LON_LON_RANCH, 907, 0, -2336, 0 }
 };
 
 typedef struct BridgeJumpPoint {
@@ -848,7 +848,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     Collider_SetCylinder(play, &this->colliderCylinder2, &this->actor, &sCylinderInit2);
     Collider_InitJntSph(play, &this->colliderJntSph);
     Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, DamageTable_Get(0xB), &D_80A65F38);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, DamageTable_Get(0xB), &sColChkInfoInit);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
     this->playerControlled = false;
@@ -2552,7 +2552,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
 
     if (play->interfaceCtx.hbaAmmo != 0) {
         if (!(this->hbaFlags & 2)) {
-            if (GET_INFTABLE(INFTABLE_190)) {
+            if (GET_INFTABLE(INFTABLE_HORSEBACK_ARCHERY_GOT_HEART_PIECE)) {
                 if ((s32)gSaveContext.minigameScore >= 1500) {
                     this->hbaFlags |= 4;
                 }
@@ -3240,7 +3240,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     obstaclePos.z += intersectDist * Math_CosS(this->actor.world.rot.y);
     obstacleTop = obstaclePos;
     obstacleTop.y = BgCheck_EntityRaycastDown3(&play->colCtx, &obstacleFloor, &bgId, &obstaclePos);
-    if (obstacleTop.y == BGCHECK_Y_MIN) {
+    if (obstacleTop.y == -32000.0f) {
         return;
     }
     obstacleHeight = obstacleTop.y - this->actor.world.pos.y;
@@ -3289,7 +3289,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 
     obstacleTop = obstaclePos;
     obstacleTop.y = BgCheck_EntityRaycastDown3(&play->colCtx, &obstacleFloor, &bgId, &obstaclePos);
-    if (obstacleTop.y == BGCHECK_Y_MIN) {
+    if (obstacleTop.y == -32000.0f) {
         return;
     }
 

@@ -373,24 +373,27 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, PlayState* play) {
     f32 viewY;
     f32 viewZ;
     Vec3f attackCuccoPos;
-    Actor* attackCucco;
+    EnAttackNiw* attackCucco;
 
-    if ((this->timer5 == 0) && (this->unk_296 < 7)) {
-        viewX = play->view.at.x - play->view.eye.x;
-        viewY = play->view.at.y - play->view.eye.y;
-        viewZ = play->view.at.z - play->view.eye.z;
-        attackCuccoPos.x = ((Rand_ZeroOne() - 0.5f) * viewX) + play->view.eye.x;
-        attackCuccoPos.y = Rand_CenteredFloat(0.3f) + ((play->view.eye.y + 50.0f) + (viewY * 0.5f));
-        attackCuccoPos.z = ((Rand_ZeroOne() - 0.5f) * viewZ) + play->view.eye.z;
-        attackCucco = Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ATTACK_NIW, attackCuccoPos.x,
-                                         attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
+    if (this->timer5 == 0) {
+        if (this->unk_296 < 7) {
+            viewX = play->view.at.x - play->view.eye.x;
+            viewY = play->view.at.y - play->view.eye.y;
+            viewZ = play->view.at.z - play->view.eye.z;
+            attackCuccoPos.x = ((Rand_ZeroOne() - 0.5f) * viewX) + play->view.eye.x;
+            attackCuccoPos.y = Rand_CenteredFloat(0.3f) + ((play->view.eye.y + 50.0f) + (viewY * 0.5f));
+            attackCuccoPos.z = ((Rand_ZeroOne() - 0.5f) * viewZ) + play->view.eye.z;
+            attackCucco =
+                (EnAttackNiw*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ATTACK_NIW,
+                                                 attackCuccoPos.x, attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
 
-        if (attackCucco != NULL) {
-            this->unk_296++;
-            this->timer5 = 10;
-        } else {
-            PRINTF("\n\n");
-            PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n", " ☆☆☆☆☆ Cannot spawn  ☆☆☆☆☆ \n") VT_RST);
+            if (attackCucco != NULL) {
+                this->unk_296++;
+                this->timer5 = 10;
+            } else {
+                PRINTF("\n\n");
+                PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n", " ☆☆☆☆☆ Cannot occur ☆☆☆☆☆ \n") VT_RST);
+            }
         }
     }
 }
@@ -458,7 +461,7 @@ void func_80AB6324(EnNiw* this, PlayState* play) {
 }
 
 void func_80AB63A8(EnNiw* this, PlayState* play) {
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.velocity.y < 0.0f) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND && this->actor.velocity.y < 0.0f) {
         this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
         this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
@@ -490,7 +493,6 @@ void func_80AB6450(EnNiw* this, PlayState* play) {
         this->actor.speed = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
-        // GI_NONE in this case allows the player to lift the actor
         Actor_OfferGetItem(&this->actor, play, GI_NONE, 25.0f, 10.0f);
         func_80AB5BF8(this, play, 1);
     }

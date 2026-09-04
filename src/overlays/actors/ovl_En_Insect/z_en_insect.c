@@ -1,9 +1,3 @@
-/*
- * File: z_en_insect.c
- * Overlay: ovl_En_Insect
- * Description: Bugs
- */
-
 #include "z_en_insect.h"
 #include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
 
@@ -124,7 +118,7 @@ f32 EnInsect_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
     return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
-s32 EnInsect_InBottleRange(EnInsect* this, PlayState* play) {
+s32 func_80A7BE6C(EnInsect* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
     Vec3f pos;
@@ -134,15 +128,12 @@ s32 EnInsect_InBottleRange(EnInsect* this, PlayState* play) {
         pos.y = player->actor.world.pos.y;
         pos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f + player->actor.world.pos.z;
 
-        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
-        //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
-        //! world rotation.
-        if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= SQ(20.0f)) {
-            return true;
+        if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= 400.0f) {
+            return 1;
         }
     }
 
-    return false;
+    return 0;
 }
 
 void EnInsect_SetCrawlAnim(EnInsect* this) {
@@ -183,7 +174,7 @@ s32 EnInsect_TryFindNearbySoil(EnInsect* this, PlayState* play) {
  */
 void EnInsect_UpdateCrawlSfx(EnInsect* this) {
     if (this->crawlSoundDelay > 0) {
-        this->crawlSoundDelay--;
+        this->crawlSoundDelay -= 1;
         return;
     }
 
@@ -568,9 +559,9 @@ void EnInsect_SetupDropped(EnInsect* this) {
     EnInsect_SetCrawlAnim(this);
     this->actionTimer = 100;
     this->unk_324 = 1.5f;
-    this->unk_328 = Rand_ZeroOne() * (0xFFFF + 0.5f);
+    this->unk_328 = Rand_ZeroOne() * 65535.5f;
     this->unk_316 = (Rand_ZeroOne() - 0.5f) * 1500.0f;
-    this->actor.world.rot.y = Rand_ZeroOne() * (0xFFFF + 0.5f);
+    this->actor.world.rot.y = Rand_ZeroOne() * 65535.5f;
     Actor_SetScale(&this->actor, 0.003f);
     this->actionFunc = EnInsect_Dropped;
     this->insectFlags |= INSECT_FLAG_CRAWLING;
@@ -722,7 +713,7 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
         EnInsect_SetupSlowDown(this);
     } else if ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
                (this->insectFlags & INSECT_FLAG_0) && this->lifeTimer <= 0 && this->actionTimer <= 0 &&
-               this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
+               this->actor.floorHeight < -31990.0f) {
         PRINTF_COLOR_WARNING();
         PRINTF(T("BG 抜け？ Actor_delete します(%s %d)\n", "BG missing? To do Actor_delete (%s %d)\n"),
                "../z_en_mushi.c", 1197);
@@ -794,10 +785,8 @@ void EnInsect_Update(Actor* thisx, PlayState* play) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             }
 
-            if (!(this->insectFlags & INSECT_FLAG_UNCATCHABLE) && sCaughtCount < 4 &&
-                EnInsect_InBottleRange(this, play) &&
-                // GI_MAX in this case allows the player to catch the actor in a bottle
-                Actor_OfferGetItem(&this->actor, play, GI_MAX, 60.0f, 30.0f)) {
+            if (!(this->insectFlags & INSECT_FLAG_UNCATCHABLE) && sCaughtCount < 4 && func_80A7BE6C(this, play) != 0 &&
+                Actor_OfferGetItem(&this->actor, play, GI_MAX, 60.0f, 30.0f) != 0) {
                 sCaughtCount++;
             }
         }

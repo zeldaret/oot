@@ -1442,7 +1442,7 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
     floorBgId = actor->floorBgId;
 
     if ((floorBgId != BGCHECK_SCENE) && (actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        DynaPolyActor_TransformCarriedActor(&play->colCtx, floorBgId, actor);
+        DynaPolyActor_TransformActorOnTop(&play->colCtx, floorBgId, actor);
     }
 
     if (flags & UPDBGCHECKINFO_FLAG_0) {
@@ -4697,7 +4697,7 @@ s32 func_800354B4(PlayState* play, Actor* actor, f32 range, s16 arg3, s16 arg4, 
     }
 }
 
-void func_8003555C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+void func_8003555C(PlayState* play, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
     Color_RGBA8 color1;
     Color_RGBA8 color2;
 
@@ -4710,7 +4710,7 @@ void func_8003555C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     color2.b = 50;
 
     //! @bug color1 and color2 alpha components not set before being passed on
-    EffectSsKiraKira_SpawnSmall(play, pos, velocity, accel, &color1, &color2);
+    EffectSsKiraKira_SpawnSmall(play, arg1, arg2, arg3, &color1, &color2);
 }
 
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
@@ -4722,8 +4722,8 @@ Gfx gActorSetupXluDL[] = {
     gsSPEndDisplayList(),
 };
 
-void func_800355B8(PlayState* play, Vec3f* pos) {
-    func_8003555C(play, pos, &D_80116268, &D_80116274);
+void func_800355B8(PlayState* play, Vec3f* arg1) {
+    func_8003555C(play, arg1, &D_80116268, &D_80116274);
 }
 
 u8 func_800355E4(PlayState* play, Collider* collider) {
@@ -4829,8 +4829,8 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
 /**
  * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
-Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused, PlayState* play,
-                     s16 params, Gfx* dList) {
+EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
+                      PlayState* play, s16 params, Gfx* dList) {
     EnPart* spawnedEnPart;
 
     spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
@@ -4843,7 +4843,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
         spawnedEnPart->timer = timer;
         spawnedEnPart->rotZ = arg3[1];
         spawnedEnPart->rotZSpeed = arg3[2];
-        return &spawnedEnPart->actor;
+        return spawnedEnPart;
     }
 
     return NULL;

@@ -888,7 +888,7 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
                 if (thisx->colChkInfo.health == 0) {
                     EnTite_SetupDeathCry(this);
                 } else {
-                    // Flip tektite back up if it's on its back
+                    // Flip tektite back up if it's on it's back
                     Actor_PlaySfx(thisx, NA_SE_EN_TEKU_DAMAGE);
                     if (this->flipState != TEKTITE_FLIPPED) {
                         EnTite_SetupRecoil(this);

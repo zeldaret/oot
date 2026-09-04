@@ -22,13 +22,13 @@ void EnCrow_Destroy(Actor* thisx, PlayState* play);
 void EnCrow_Update(Actor* thisx, PlayState* play);
 void EnCrow_Draw(Actor* thisx, PlayState* play);
 
-void EnCrow_SetupFlyIdle(EnCrow* this);
-void EnCrow_FlyIdle(EnCrow* this, PlayState* play);
-void EnCrow_Respawn(EnCrow* this, PlayState* play);
-void EnCrow_DiveAttack(EnCrow* this, PlayState* play);
+void EnCrow_SetupWait(EnCrow* this);
+void EnCrow_Wait(EnCrow* this, PlayState* play);
+void func_809E10A8(EnCrow* this, PlayState* play);
+void func_809E0C8C(EnCrow* this, PlayState* play);
 void EnCrow_Die(EnCrow* this, PlayState* play);
-void EnCrow_TurnAway(EnCrow* this, PlayState* play);
-void EnCrow_Damaged(EnCrow* this, PlayState* play);
+void func_809E1004(EnCrow* this, PlayState* play);
+void func_809E0E2C(EnCrow* this, PlayState* play);
 
 static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
@@ -130,7 +130,7 @@ void EnCrow_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawCircle, 20.0f);
     sDeathCount = 0;
-    EnCrow_SetupFlyIdle(this);
+    EnCrow_SetupWait(this);
 }
 
 void EnCrow_Destroy(Actor* thisx, PlayState* play) {
@@ -139,23 +139,21 @@ void EnCrow_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-// Setup Action functions
-
-void EnCrow_SetupFlyIdle(EnCrow* this) {
+void EnCrow_SetupWait(EnCrow* this) {
     this->timer = 100;
     this->collider.base.acFlags |= AC_ON;
-    this->actionFunc = EnCrow_FlyIdle;
+    this->actionFunc = EnCrow_Wait;
     this->skelAnime.playSpeed = 1.0f;
 }
 
-void EnCrow_SetupDiveAttack(EnCrow* this) {
+void func_809E0384(EnCrow* this) {
     this->timer = 300;
     this->actor.speed = 4.0f;
     this->skelAnime.playSpeed = 2.0f;
-    this->actionFunc = EnCrow_DiveAttack;
+    this->actionFunc = func_809E0C8C;
 }
 
-void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
+void func_809E03B4(EnCrow* this, PlayState* play) {
     s32 i;
     f32 scale;
     Vec3f iceParticlePos;
@@ -170,7 +168,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     this->actor.lockOnArrowOffset = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_DEAD);
 
-    if (this->actor.colChkInfo.damageReaction == 3) { // Ice arrows
+    if (this->actor.colChkInfo.damageReaction == 3) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 40);
         for (i = 0; i < 8; i++) {
             iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.x;
@@ -179,7 +177,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
             EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
                                            ((Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
-    } else if (this->actor.colChkInfo.damageReaction == 2) { // Fire arrows and Din's Fire
+    } else if (this->actor.colChkInfo.damageReaction == 2) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
 
         for (i = 0; i < 4; i++) {
@@ -196,7 +194,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
-    this->actionFunc = EnCrow_Damaged;
+    this->actionFunc = func_809E0E2C;
 }
 
 void EnCrow_SetupDie(EnCrow* this) {
@@ -204,7 +202,7 @@ void EnCrow_SetupDie(EnCrow* this) {
     this->actionFunc = EnCrow_Die;
 }
 
-void EnCrow_SetupTurnAway(EnCrow* this) {
+void func_809E06E8(EnCrow* this) {
     this->timer = 100;
     this->actor.speed = 3.5f;
     this->aimRotX = -0x1000;
@@ -212,10 +210,10 @@ void EnCrow_SetupTurnAway(EnCrow* this) {
     this->skelAnime.playSpeed = 2.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 5);
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    this->actionFunc = EnCrow_TurnAway;
+    this->actionFunc = func_809E1004;
 }
 
-void EnCrow_SetupRespawn(EnCrow* this) {
+void func_809E0770(EnCrow* this) {
     if (sDeathCount == 10) {
         this->actor.params = 1;
         sDeathCount = 0;
@@ -234,12 +232,10 @@ void EnCrow_SetupRespawn(EnCrow* this) {
     this->actor.shape.yOffset = 2000;
     this->actor.lockOnArrowOffset = 2000.0f;
     this->actor.draw = NULL;
-    this->actionFunc = EnCrow_Respawn;
+    this->actionFunc = func_809E10A8;
 }
 
-// Action functions
-
-void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
+void EnCrow_Wait(EnCrow* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 skelanimeUpdated;
     s16 var;
@@ -292,11 +288,11 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
     }
     if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE1_23) &&
         (this->actor.depthInWater < -40.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
-        EnCrow_SetupDiveAttack(this);
+        func_809E0384(this);
     }
 }
 
-void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
+void func_809E0C8C(EnCrow* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 facingPlayer;
 
@@ -335,11 +331,11 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_ATTACK);
         }
 
-        EnCrow_SetupFlyIdle(this);
+        EnCrow_SetupWait(this);
     }
 }
 
-void EnCrow_Damaged(EnCrow* this, PlayState* play) {
+void func_809E0E2C(EnCrow* this, PlayState* play) {
     Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
@@ -373,13 +369,13 @@ void EnCrow_Die(EnCrow* this, PlayState* play) {
         } else {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
-        EnCrow_SetupRespawn(this);
+        func_809E0770(this);
     }
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
 }
 
-void EnCrow_TurnAway(EnCrow* this, PlayState* play) {
+void func_809E1004(EnCrow* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
@@ -395,11 +391,11 @@ void EnCrow_TurnAway(EnCrow* this, PlayState* play) {
         this->timer--;
     }
     if (this->timer == 0) {
-        EnCrow_SetupFlyIdle(this);
+        EnCrow_SetupWait(this);
     }
 }
 
-void EnCrow_Respawn(EnCrow* this, PlayState* play) {
+void func_809E10A8(EnCrow* this, PlayState* play) {
     f32 target;
 
     if (this->timer != 0) {
@@ -418,24 +414,24 @@ void EnCrow_Respawn(EnCrow* this, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             this->actor.colChkInfo.health = 1;
-            EnCrow_SetupFlyIdle(this);
+            EnCrow_SetupWait(this);
         }
         this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
     }
 }
 
-void EnCrow_UpdateDamage(EnCrow* this, PlayState* play) {
+void func_809E1174(EnCrow* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
         if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
-            if (this->actor.colChkInfo.damageReaction == 1) { // Deku Nuts
-                EnCrow_SetupTurnAway(this);
+            if (this->actor.colChkInfo.damageReaction == 1) {
+                func_809E06E8(this);
             } else {
                 Actor_ApplyDamage(&this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 Enemy_StartFinishingBlow(play, &this->actor);
-                EnCrow_SetupDamaged(this, play);
+                func_809E03B4(this, play);
             }
         }
     }
@@ -447,13 +443,13 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
     f32 height;
     f32 scale;
 
-    EnCrow_UpdateDamage(this, play);
+    func_809E1174(this, play);
     this->actionFunc(this, play);
     scale = this->actor.scale.x * 100.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.world.rot.x = -this->actor.shape.rot.x;
 
-    if (this->actionFunc != EnCrow_Respawn) {
+    if (this->actionFunc != func_809E10A8) {
         if (this->actor.colChkInfo.health != 0) {
             height = 20.0f * scale;
             Actor_MoveXYZ(&this->actor);
@@ -471,7 +467,7 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
     this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y + height;
     this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
 
-    if (this->actionFunc == EnCrow_DiveAttack) {
+    if (this->actionFunc == func_809E0C8C) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 
@@ -479,7 +475,7 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 
-    if (this->actionFunc != EnCrow_Respawn) {
+    if (this->actionFunc != func_809E10A8) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 

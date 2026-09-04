@@ -498,7 +498,7 @@ def replace_all(repo):
                 file = subdir + os.sep + filename
                 replace_single(file)
 
-parser = argparse.ArgumentParser(description='Apply function renames to a file')
+parser = argparse.ArgumentParser(description='Update to the new animation names')
 parser.add_argument('file', help="source file to be processed. use . to process the whole repo")
 
 if __name__ == "__main__":

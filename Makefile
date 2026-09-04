@@ -40,7 +40,7 @@ COMPILER ?= ido
 #   gc-jp-ce       GameCube Japan (Collector's Edition disc)
 #   ique-cn        iQue Player (Simplified Chinese)
 VERSION ?= gc-eu-mq-dbg
-# Number of threads to extract and compress with.
+# Number of threads to extract assets and compress with.
 N_THREADS ?= $(shell nproc)
 # If DEBUG_OBJECTS is 1, produce additional debugging files such as objdump output or raw binaries for assets
 DEBUG_OBJECTS ?= 0
@@ -396,7 +396,7 @@ SFCFLAGS := --matching
 
 # Extra debugging steps
 ifeq ($(DEBUG_OBJECTS),1)
-  OBJDUMP_CMD = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+  OBJDUMP_CMD = @$(OBJDUMP) -d $@ > $(@:.o=.s)
   OBJCOPY_CMD = @$(OBJCOPY) -O binary $@ $(@:.o=.bin)
 else
   OBJDUMP_CMD = @:
@@ -449,8 +449,6 @@ ifeq ($(COMPILER),ido)
 else
   CC_CHECK = @:
 endif
-
-OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
 
 #### Files ####
 
@@ -607,13 +605,13 @@ else
 SEGMENT_FILES :=
 OVL_SEGMENT_FILES :=
 endif
-OVL_RELOC_FILES := $(OVL_SEGMENT_FILES:.plf=.reloc.o)
+RELOC_O_FILES := $(OVL_SEGMENT_FILES:.plf=.reloc.o)
 
 O_FILES := $(shell $(CPP) $(CPPFLAGS) -I. $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
 MAKEROM_O_FILES := $(BUILD_DIR)/src/makerom/rom_header.o $(BUILD_DIR)/src/makerom/ipl3.o $(BUILD_DIR)/src/makerom/entry.o
 
 # Automatic dependency files
-DEP_FILES := $(O_FILES:.o=.d) $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d) $(BUILD_DIR)/spec.d $(MAKEROM_O_FILES:.o=.d)
+DEP_FILES := $(O_FILES:.o=.d) $(O_FILES:.o=.asmproc.d) $(RELOC_O_FILES:.o=.d) $(BUILD_DIR)/spec.d $(MAKEROM_O_FILES:.o=.d)
 
 $(BUILD_DIR)/src/boot/build.o: CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 
@@ -685,7 +683,7 @@ $(BUILD_DIR)/src/libc/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
 $(BUILD_DIR)/src/libc/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libc/%.o: MIPS_VERSION :=
-$(BUILD_DIR)/src/libc/memmove.o: MIPS_VERSION := -mips2
+$(BUILD_DIR)/src/libc/code_801068B0.o: MIPS_VERSION := -mips2
 else ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/libc/%.o: ASOPTFLAGS := -g
@@ -881,12 +879,12 @@ disasm:
 	$(RM) -r $(EXPECTED_DIR)
 	VERSION=$(VERSION) DISASM_BASEROM=$(BASEROM_DIR)/baserom-decompressed.z64 DISASM_DIR=$(EXPECTED_DIR) PYTHON=$(PYTHON) AS_CMD='$(AS) $(ASFLAGS)' LD=$(LD) ./tools/disasm/do_disasm.sh
 
+resources: $(ASSET_FILES_OUT)
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
 	$(error Emulator path not set. Set N64_EMULATOR in the Makefile or define it as an environment variable)
 endif
 	$(N64_EMULATOR) $<
-
 
 .PHONY: all rom compress clean assetclean distclean venv setup disasm run
 .DEFAULT_GOAL := rom
@@ -912,7 +910,7 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 
 LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs -Map $(MAP)
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(MAKEROM_O_FILES) \
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(SEGMENT_FILES) $(RELOC_O_FILES) $(LDSCRIPT) $(MAKEROM_O_FILES) \
         $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
@@ -921,17 +919,9 @@ $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(SEGMENT_FILES) $(OVL_RELOC_FIL
 $(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
 	$(CPP) -I include $(CPPFLAGS) $< > $@
 
-## Order-only prerequisites
-# These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
-# The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
-
 o_files: $(O_FILES)
-$(OVL_RELOC_FILES): | o_files
-
-asset_files: $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT)
-$(O_FILES): | asset_files
-
-.PHONY: o_files asset_files
+$(RELOC_O_FILES): | o_files
+.PHONY: o_files
 
 $(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
 	$(CPP) $(CPPFLAGS) -MD -MP -MF $@.d -MT $@ -I. $< | $(BUILD_DIR_REPLACE) > $@
@@ -953,13 +943,13 @@ $(SEGMENTS_DIR)/%.reloc.o: $(SEGMENTS_DIR)/%.plf
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
-	$(CPP) $(CPPFLAGS) $< > $@
+	$(CPP) $(CPPFLAGS) $< > $(BUILD_DIR)/undefined_syms.txt
 
 $(BUILD_DIR)/baserom/%.o: $(EXTRACTED_DIR)/baserom/%
 	$(OBJCOPY) -I binary -O $(LD_OFORMAT) $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
-	$(CPP) $(CPPFLAGS) -MD -MP -MF $(@:.o=.d) -MT $@ -Iinclude $< | $(AS) $(ASFLAGS) -o $@
+	$(CPP) $(CPPFLAGS) -MD -MP -MF $(@:.o=.d) -MT $@ -Iinclude $< | iconv --from UTF-8 --to EUC-JP | $(AS) $(ASFLAGS) -o $@
 
 ifeq ($(PLATFORM),IQUE)
   NES_CHARMAP := assets/text/charmap.chn.txt

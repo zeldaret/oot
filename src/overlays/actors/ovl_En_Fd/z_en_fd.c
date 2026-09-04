@@ -1,9 +1,3 @@
-/*
- * File: z_en_fd.c
- * Overlay: ovl_En_Fd
- * Description: Flare Dancer (enflamed form)
- */
-
 #include "z_en_fd.h"
 
 #include "libc64/math64.h"
@@ -653,7 +647,7 @@ void EnFd_Run(EnFd* this, PlayState* play) {
 #define FLG_COREDONE (0x8000)
 
 /**
- * En_Fw will set `this` params when it is done with its action.
+ * En_Fw will set `this` params when it is done with it's action.
  * It will set FLG_COREDONE when the core has returned to `this`'s initial
  * position, and FLG_COREDEAD when there is no health left
  */

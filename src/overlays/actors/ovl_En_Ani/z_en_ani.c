@@ -70,18 +70,20 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
-    this->actionFunc = actionFunc;
-}
-
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDistance, 850, ICHAIN_STOP),
 };
 
+static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };
+
+void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
+}
+
 void EnAni_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     EnAni* this = (EnAni*)thisx;
+    s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawCircle, 36.0f);
@@ -191,14 +193,14 @@ void func_809B07F8(EnAni* this, PlayState* play) {
         } else {
             EnAni_SetupAction(this, func_809B0524);
         }
-    } else if (yawDiff > -0x36B0 && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
+    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
                -80.0f < this->actor.yDistToPlayer) {
         if (GET_ITEMGETINF(ITEMGETINF_15)) {
             EnAni_SetText(this, play, 0x5056);
         } else {
             EnAni_SetText(this, play, 0x5055);
         }
-    } else if (yawDiff > -0x3E8 && yawDiff < 0x36B0 && this->actor.xzDistToPlayer < 350.0f) {
+    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistToPlayer < 350.0f) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_2F)) {
             textId = 0x5052;
         } else {
@@ -287,12 +289,12 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
         Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
     }
 
-    if (DECR(this->blinkTimer) == 0) {
-        this->blinkTimer = Rand_S16Offset(60, 60);
+    if (DECR(this->unk_2AE) == 0) {
+        this->unk_2AE = Rand_S16Offset(60, 60);
     }
-    this->eyeIndex = this->blinkTimer;
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+    this->unk_2AC = this->unk_2AE;
+    if (this->unk_2AC >= 3) {
+        this->unk_2AC = 0;
     }
 }
 
@@ -307,7 +309,6 @@ s32 EnAni_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnAni_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };
     EnAni* this = (EnAni*)thisx;
 
     if (limbIndex == 15) {
@@ -328,7 +329,7 @@ void EnAni_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->unk_2AC]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, this);

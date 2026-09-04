@@ -395,9 +395,9 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-BAD_RETURN(s32) EnMag_DrawTextureI8(Gfx** gfxP, void* texture, s16 texWidth, s16 texHeight, s16 rectLeft, s16 rectTop,
+BAD_RETURN(s32) EnMag_DrawTextureI8(Gfx** gfxp, void* texture, s16 texWidth, s16 texHeight, s16 rectLeft, s16 rectTop,
                                     s16 rectWidth, s16 rectHeight, u16 dsdx, u16 dtdy) {
-    Gfx* gfx = *gfxP;
+    Gfx* gfx = *gfxp;
 
     gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_I, G_IM_SIZ_8b, texWidth, texHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -405,14 +405,14 @@ BAD_RETURN(s32) EnMag_DrawTextureI8(Gfx** gfxP, void* texture, s16 texWidth, s16
     gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + rectWidth) << 2, (rectTop + rectHeight) << 2,
                         G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
 
-    *gfxP = gfx;
+    *gfxp = gfx;
 }
 
-BAD_RETURN(s32) EnMag_DrawEffectTextures(Gfx** gfxP, void* maskTex, void* effectTex, s16 maskWidth, s16 maskHeight,
+BAD_RETURN(s32) EnMag_DrawEffectTextures(Gfx** gfxp, void* maskTex, void* effectTex, s16 maskWidth, s16 maskHeight,
                                          s16 effectWidth, s16 effectHeight, s16 rectLeft, s16 rectTop, s16 rectWidth,
                                          s16 rectHeight, u16 dsdx, u16 dtdy, u16 shifts, u16 shiftt, u16 flag,
                                          EnMag* this) {
-    Gfx* gfx = *gfxP;
+    Gfx* gfx = *gfxp;
 
     gDPLoadMultiBlock_4b(gfx++, maskTex, 0x0000, G_TX_RENDERTILE, G_IM_FMT_I, maskWidth, maskHeight, 0,
                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -428,11 +428,11 @@ BAD_RETURN(s32) EnMag_DrawEffectTextures(Gfx** gfxP, void* maskTex, void* effect
     gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + rectWidth) << 2, (rectTop + rectHeight) << 2,
                         G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
 
-    *gfxP = gfx;
+    *gfxp = gfx;
 }
 
-void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32 width, u32 height) {
-    Gfx* gfx = *gfxP;
+void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 centerX, s16 centerY, u8* source, u32 width, u32 height) {
+    Gfx* gfx = *gfxp;
     u8* curTexture;
     s32 textureCount;
     u32 rectLeft;
@@ -488,7 +488,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
         }
     }
 
-    *gfxP = gfx;
+    *gfxp = gfx;
 }
 
 #if PLATFORM_N64
@@ -517,8 +517,8 @@ void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
 }
 #endif
 
-void EnMag_DrawCharTexture(Gfx** gfxP, u8* texture, s32 rectLeft, s32 rectTop) {
-    Gfx* gfx = *gfxP;
+void EnMag_DrawCharTexture(Gfx** gfxp, u8* texture, s32 rectLeft, s32 rectTop) {
+    Gfx* gfx = *gfxp;
 
     YREG(0) = 1024.0f / (YREG(1) / 100.0f);
     YREG(2) = 16.0f * (YREG(1) / 100.0f);
@@ -529,7 +529,7 @@ void EnMag_DrawCharTexture(Gfx** gfxP, u8* texture, s32 rectLeft, s32 rectTop) {
     gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + YREG(2)) << 2, (rectTop + YREG(2)) << 2,
                         G_TX_RENDERTILE, 0, 0, YREG(0), YREG(0));
 
-    *gfxP = gfx;
+    *gfxp = gfx;
 }
 
 #if PLATFORM_IQUE
@@ -545,7 +545,7 @@ void EnMag_DrawCharTexture(Gfx** gfxP, u8* texture, s32 rectLeft, s32 rectTop) {
 #define TITLE_X_SHIFT (-32)
 #endif
 
-void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
+void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxp) {
     static s16 textAlpha = 0;
     static s16 textFadeDirection = 0;
     static s16 textFadeTimer = 0;
@@ -577,7 +577,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     EnMag* this = (EnMag*)thisx;
     Font* font = &this->font;
     s32 pad;
-    Gfx* gfx = *gfxP;
+    Gfx* gfx = *gfxp;
     u16 i, j, k;
     u16 rectLeft;
     u16 rectTop;
@@ -879,7 +879,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         }
     }
 
-    *gfxP = gfx;
+    *gfxp = gfx;
 }
 
 void EnMag_Draw(Actor* thisx, PlayState* play) {

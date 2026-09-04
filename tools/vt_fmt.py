@@ -9,7 +9,7 @@ COLORS = [
     'GREEN',
     'YELLOW',
     'BLUE',
-    'PURPLE',
+    'MAGENTA',
     'CYAN',
     'WHITE',
 ]

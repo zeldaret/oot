@@ -30,8 +30,5 @@ int sprintf(char* dst, const char* fmt, ...) {
     if (ret > -1) {
         dst[ret] = '\0';
     }
-
-    va_end(args);
-
     return ret;
 }

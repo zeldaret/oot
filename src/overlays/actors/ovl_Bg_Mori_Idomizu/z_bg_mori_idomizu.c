@@ -30,7 +30,7 @@ void BgMoriIdomizu_WaitForMoriTex(BgMoriIdomizu* this, PlayState* play);
 void BgMoriIdomizu_SetupMain(BgMoriIdomizu* this);
 void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play);
 
-static s16 sIsSpawned = false;
+static s16 sAlreadyLoaded = false;
 
 ActorProfile Bg_Mori_Idomizu_Profile = {
     /**/ ACTOR_BG_MORI_IDOMIZU,
@@ -60,7 +60,7 @@ void BgMoriIdomizu_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
 
-    if (sIsSpawned) {
+    if (sAlreadyLoaded) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -85,7 +85,7 @@ void BgMoriIdomizu_Init(Actor* thisx, PlayState* play) {
         return;
     }
     BgMoriIdomizu_SetupWaitForMoriTex(this);
-    sIsSpawned = true;
+    sAlreadyLoaded = true;
     this->isLoaded = true;
     this->actor.room = -1;
     PRINTF(T("(森の神殿 井戸水)(arg_data 0x%04x)\n", "(Forest Temple well water)(arg_data 0x%04x)\n"),
@@ -97,7 +97,7 @@ void BgMoriIdomizu_Destroy(Actor* thisx, PlayState* play) {
     BgMoriIdomizu* this = (BgMoriIdomizu*)thisx;
 
     if (this->isLoaded) {
-        sIsSpawned = false;
+        sAlreadyLoaded = false;
     }
 }
 

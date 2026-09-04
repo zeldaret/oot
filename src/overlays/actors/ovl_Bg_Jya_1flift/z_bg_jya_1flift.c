@@ -32,7 +32,7 @@ void BgJya1flift_SetupDoNothing(BgJya1flift* this);
 void BgJya1flift_ResetMoveDelay(BgJya1flift* this);
 void BgJya1flift_DelayMove(BgJya1flift* this, PlayState* play);
 
-static u8 sIsSpawned = false;
+static u8 sHasSpawned = false;
 
 ActorProfile Bg_Jya_1flift_Profile = {
     /**/ ACTOR_BG_JYA_1FLIFT,
@@ -104,10 +104,11 @@ void BgJya1flift_InitCollision(Actor* thisx, PlayState* play) {
 
 void BgJya1flift_Init(Actor* thisx, PlayState* play) {
     BgJya1flift* this = (BgJya1flift*)thisx;
-    PRINTF(T("(１Ｆリフト)(flag %d)(room %d)\n", "(1F lift)(flag %d)(room %d)\n"), sIsSpawned,
+
+    PRINTF(T("(１Ｆリフト)(flag %d)(room %d)\n", "(1F lift)(flag %d)(room %d)\n"), sHasSpawned,
            play->roomCtx.curRoom.num);
     this->hasInitialized = false;
-    if (sIsSpawned) {
+    if (sHasSpawned) {
         Actor_Kill(thisx);
         return;
     }
@@ -120,7 +121,7 @@ void BgJya1flift_Init(Actor* thisx, PlayState* play) {
         BgJya1flift_SetupWaitForSwitch(this);
     }
     thisx->room = -1;
-    sIsSpawned = true;
+    sHasSpawned = true;
     this->hasInitialized = true;
 }
 
@@ -128,7 +129,7 @@ void BgJya1flift_Destroy(Actor* thisx, PlayState* play) {
     BgJya1flift* this = (BgJya1flift*)thisx;
 
     if (this->hasInitialized) {
-        sIsSpawned = false;
+        sHasSpawned = false;
         Collider_DestroyCylinder(play, &this->collider);
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     }

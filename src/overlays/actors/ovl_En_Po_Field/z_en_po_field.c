@@ -102,7 +102,7 @@ static ColliderCylinderInit D_80AD70AC = {
     { 10, 30, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit D_80AD70D8 = { 4, 25, 50, 40 };
+static CollisionCheckInfoInit sColChkInfoInit = { 4, 25, 50, 40 };
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),
@@ -187,7 +187,7 @@ void EnPoField_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &D_80AD7080);
     Collider_InitCylinder(play, &this->flameCollider);
     Collider_SetCylinder(play, &this->flameCollider, &this->actor, &D_80AD70AC);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &D_80AD70D8);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
                             255, 255, 255, 0);
@@ -215,7 +215,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, PlayState* play) {
     this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED);
     this->collider.base.acFlags &= ~AC_ON;
     this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_ALL;
-    this->actor.colChkInfo.health = D_80AD70D8.health;
+    this->actor.colChkInfo.health = sColChkInfoInit.health;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actionFunc = EnPoField_WaitForSpawn;

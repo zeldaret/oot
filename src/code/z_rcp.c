@@ -947,8 +947,8 @@ Gfx* Gfx_SetupDL(Gfx* gfx, u32 i) {
     return Gfx_SetupDLImpl(gfx, i);
 }
 
-void Gfx_SetupDLAtPtr(Gfx** gfxP, u32 i) {
-    *gfxP = Gfx_SetupDL(*gfxP, i);
+void Gfx_SetupDLAtPtr(Gfx** gfxp, u32 i) {
+    *gfxp = Gfx_SetupDL(*gfxp, i);
 }
 
 Gfx* Gfx_SetupDL_57(Gfx* gfx) {
@@ -1233,11 +1233,11 @@ void Gfx_SetupDL_39Overlay(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1811);
 }
 
-void Gfx_SetupDL_39Ptr(Gfx** gfxP) {
-    Gfx* gfx = *gfxP;
+void Gfx_SetupDL_39Ptr(Gfx** gfxp) {
+    Gfx* gfx = *gfxp;
 
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_39]);
-    *gfxP = gfx;
+    *gfxp = gfx;
 }
 
 void Gfx_SetupDL_40Opa(GraphicsContext* gfxCtx) {
@@ -1395,12 +1395,12 @@ void Gfx_SetupDL_56Opa(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2090);
 }
 
-void Gfx_SetupDL_56Ptr(Gfx** gfxP) {
-    Gfx* gfx = *gfxP;
+void Gfx_SetupDL_56Ptr(Gfx** gfxp) {
+    Gfx* gfx = *gfxp;
 
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_56]);
 
-    *gfxP = gfx;
+    *gfxp = gfx;
 }
 
 void Gfx_SetupDL_59Opa(GraphicsContext* gfxCtx) {
@@ -1411,8 +1411,8 @@ void Gfx_SetupDL_59Opa(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2116);
 }
 
-Gfx* Gfx_BranchTexScroll(Gfx** gfxP, u32 x, u32 y, s32 width, s32 height) {
-    Gfx* displayList = Gfx_Alloc(gfxP, 3 * sizeof(Gfx));
+Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
+    Gfx* displayList = Gfx_Alloc(gfxp, 3 * sizeof(Gfx));
 
     gDPTileSync(displayList);
     gDPSetTileSize(displayList + 1, G_TX_RENDERTILE, x, y, x + ((width - 1) << 2), y + ((height - 1) << 2));
@@ -1421,8 +1421,8 @@ Gfx* Gfx_BranchTexScroll(Gfx** gfxP, u32 x, u32 y, s32 width, s32 height) {
     return displayList;
 }
 
-Gfx* func_80094E54(Gfx** gfxP, u32 x, u32 y) {
-    return Gfx_BranchTexScroll(gfxP, x, y, 0, 0);
+Gfx* func_80094E54(Gfx** gfxp, u32 x, u32 y) {
+    return Gfx_BranchTexScroll(gfxp, x, y, 0, 0);
 }
 
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {

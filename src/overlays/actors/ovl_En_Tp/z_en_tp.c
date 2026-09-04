@@ -139,7 +139,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
 };
 
-void EnTp_SetupAction(EnTp* this, void (*actionFunc)(EnTp*, PlayState*)) {
+void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -248,9 +248,8 @@ void EnTp_Head_SetupAttack(EnTp* this) {
 }
 
 void EnTp_Head_Attack(EnTp* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
 
-    player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
     SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_TAIL_FLY - SFX_FLAG);
     if (this->collider.base.atFlags & AT_HIT) {
@@ -370,9 +369,8 @@ void EnTp_Head_SetupHover(EnTp* this) {
 
 void EnTp_Head_Hover(EnTp* this, PlayState* play) {
     s32 pad;
-    Player* player;
+    Player* player = GET_PLAYER(play);
 
-    player = GET_PLAYER(play);
     Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     // bodyElemDist_ is always 0 here
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->bodyElemDist, 1.0f,
@@ -416,10 +414,9 @@ void EnTp_Head_SetupWaitPlayerAndRise(EnTp* this) {
 }
 
 void EnTp_Head_WaitPlayerAndRise(EnTp* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
     s16 sp32;
 
-    player = GET_PLAYER(play);
     this->timer2--;
     if (this->actor.xzDistToPlayer < 200.0f) {
         if (this->collider.base.atFlags & AT_HIT) {
@@ -474,11 +471,10 @@ void EnTp_Head_SinkIntoGroundAndReappear(EnTp* this, PlayState* play) {
     static Color_RGBA8 sBubbleEnvColor = { 150, 150, 150, 0 };
     Vec3f bubbleVel;
     Vec3f bubblePos;
-    s32 isInsideGround;
+    s32 isInsideGround = false;
     EnTp* child;
     s16 new_var; //! FAKE
 
-    isInsideGround = false;
     this->timer2--;
     // timer is initialized to 0,
     // so this runs due to the pos.y check once the actor is deep enough under ground (see other "plunge" branch below)
@@ -625,17 +621,15 @@ void EnTp_CheckCollide(EnTp* this, PlayState* play) {
 }
 
 void EnTp_Update(Actor* thisx, PlayState* play) {
-    Player* player;
+    EnTp* this = (EnTp*)thisx;
     s32 pad;
     Vec3f sparkVel = { 0.0f, 0.0f, 0.0f };
     Vec3f sparkAccel = { 0.0f, -0.6f, 0.0f };
     Vec3f sparkPos;
     Color_RGBA8 sparkPrimColor = { 0, 0, 255, 255 };
     Color_RGBA8 sparkEnvColor = { 0, 0, 0, 0 };
-    EnTp* this = (EnTp*)thisx;
+    Player* player = GET_PLAYER(play);
     s16 v;
-
-    player = GET_PLAYER(play);
 
     if (player->stateFlags1 & PLAYER_STATE1_26) {
         this->unk_158 = ENTP_DMG_REACT_NO_EFFECT;

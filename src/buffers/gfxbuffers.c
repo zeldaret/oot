@@ -3,6 +3,8 @@
 #include "gfx.h"
 #include "ultra64.h"
 
+#pragma increment_block_number ""
+
 ALIGNED(16) u64 gGfxSPTaskOutputBuffer[0x3000];
 
 ALIGNED(16) u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)];
