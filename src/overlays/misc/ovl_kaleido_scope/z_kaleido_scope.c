@@ -688,6 +688,7 @@ static u8 gPageSwitchNextButtonStatus[][5] = {
     // PAUSE_EQUIP + PAGE_SWITCH_PT_RIGHT
     //  -> PAUSE_ITEM
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
+
 };
 
 static s16 D_8082AB8C = 0;
@@ -963,7 +964,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
 }
 
 void KaleidoScope_ProcessPlayerPreRender(void) {
-    Sleep_Msec(50);
+    Sleep_Msec(50); // TODO investigate if this is required
     PreRender_ApplyFilters(&sPlayerPreRender);
     PreRender_Destroy(&sPlayerPreRender);
 }
@@ -1164,7 +1165,7 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
                             sCursorColors[pauseCtx->cursorColorSet >> 2][1],
                             sCursorColors[pauseCtx->cursorColorSet >> 2][2], 255);
             gDPSetEnvColor(POLY_OPA_DISP++, D_8082AB8C, D_8082AB90, D_8082AB94, 255);
-            gSPVertex(POLY_OPA_DISP++, pauseCtx->cursorVtx, 16, 0);
+            gSPVertex(POLY_OPA_DISP++, pauseCtx->cursorVtx, 4 * 4, 0);
 
             for (i = j = 0; i < 4; i++, j += 4) {
                 gDPLoadTextureBlock_4b(POLY_OPA_DISP++, sCursorTexs[i], G_IM_FMT_IA, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH,
@@ -1236,10 +1237,12 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
     };
     static s16 D_8082AD3C = 20;
     static s16 D_8082AD40 = 0;
+
     static s16 sStickXRepeatTimer = 0;
     static s16 sStickYRepeatTimer = 0;
     static s16 sStickXRepeatState = 0;
     static s16 sStickYRepeatState = 0;
+
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 stepR;
     s16 stepG;
@@ -1574,6 +1577,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
              (pauseCtx->savePromptState < PAUSE_SAVE_PROMPT_STATE_SAVED)) ||
             (pauseCtx->state == PAUSE_STATE_GAME_OVER_SAVE_PROMPT)) {
+
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptMessageTexs[gSaveContext.language],
                                                         152, 16, PROMPT_QUAD_MESSAGE * 4);
 
@@ -1693,8 +1697,19 @@ void KaleidoScope_DrawUIOverlay(PlayState* play) {
     static s16 D_8082AE08[] = {
         10, 16, 16, 17, 12, 13, 18, 17, 17, 19, 13, 21, 20, 21, 14, 15, 15, 15, 11, 14,
     };
-    static s16 D_8082AE30[] = {
-        21, 20, 19, 18, 11, 14, 10, 15, 16, 13, 12, 17,
+    static s16 D_8082AE30[WORLD_MAP_POINT_MAX] = {
+        21, // WORLD_MAP_POINT_HAUNTED_WASTELAND
+        20, // WORLD_MAP_POINT_GERUDOS_FORTRESS
+        19, // WORLD_MAP_POINT_GERUDO_VALLEY
+        18, // WORLD_MAP_POINT_HYLIA_LAKESIDE
+        11, // WORLD_MAP_POINT_LON_LON_RANCH
+        14, // WORLD_MAP_POINT_MARKET
+        10, // WORLD_MAP_POINT_HYRULE_FIELD
+        15, // WORLD_MAP_POINT_DEATH_MOUNTAIN
+        16, // WORLD_MAP_POINT_KAKARIKO_VILLAGE
+        13, // WORLD_MAP_POINT_LOST_WOODS
+        12, // WORLD_MAP_POINT_KOKIRI_FOREST
+        17, // WORLD_MAP_POINT_ZORAS_DOMAIN
     };
     static s16 sLRSelectedPrimR;
     static s16 sLRSelectedPrimG;
@@ -1892,13 +1907,14 @@ void KaleidoScope_DrawUIOverlay(PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 20, 30, 40, 0);
 
     if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) &&
-        (pauseCtx->nameDisplayTimer < WREG(89)) &&
+        (pauseCtx->nameDisplayTimer < R_PAUSE_NAME_DISPLAY_TIMER_THRESHOLD_) &&
         (((u32)pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) ||
          (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
          ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) &&
           (pauseCtx->mainState <= PAUSE_MAIN_STATE_EQUIP_CHANGED)) ||
          (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
         (pauseCtx->cursorSpecialPos == 0)) {
+
         if (((u32)pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) ||
             (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
             ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) &&
@@ -2071,8 +2087,11 @@ void KaleidoScope_DrawUIOverlay(PlayState* play) {
             } else if ((pauseCtx->pageIndex == PAUSE_MAP) && sInDungeonScene) {
 
             } else if ((pauseCtx->pageIndex == PAUSE_QUEST) &&
-                       ((pauseCtx->cursorSlot[PAUSE_QUEST] >= 6) && (pauseCtx->cursorSlot[PAUSE_QUEST] <= 0x11))) {
+                       ((pauseCtx->cursorSlot[PAUSE_QUEST] >= QUEST_SONG_MINUET) &&
+                        (pauseCtx->cursorSlot[PAUSE_QUEST] < QUEST_KOKIRI_EMERALD))) {
                 if (pauseCtx->namedItem != PAUSE_ITEM_NONE) {
+                    // The cursor is on a learned song
+
                     // UI_OVERLAY_QUAD_INFO_ICON
                     pauseCtx->uiOverlayVtx[16].v.ob[0] = pauseCtx->uiOverlayVtx[18].v.ob[0] =
                         R_PAUSE_INFO_PANEL_ICON_PLAY_SONG_X(gSaveContext.language);
@@ -2201,13 +2220,14 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
         }
     } else if (pauseCtx->nameColorSet == 0) {
         if (((pauseCtx->pageIndex == PAUSE_QUEST) &&
-             ((pauseCtx->cursorSlot[PAUSE_QUEST] >= 6) && (pauseCtx->cursorSlot[PAUSE_QUEST] <= 0x11)) &&
+             ((pauseCtx->cursorSlot[PAUSE_QUEST] >= QUEST_SONG_MINUET) &&
+              (pauseCtx->cursorSlot[PAUSE_QUEST] < QUEST_KOKIRI_EMERALD)) &&
              (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) ||
             (pauseCtx->pageIndex == PAUSE_ITEM) ||
             ((pauseCtx->pageIndex == PAUSE_EQUIP) && (pauseCtx->cursorX[PAUSE_EQUIP] != EQUIP_CURSOR_X_UPG))) {
             if (pauseCtx->namedItem != ITEM_SOLD_OUT) {
                 pauseCtx->nameDisplayTimer++;
-                if (pauseCtx->nameDisplayTimer > WREG(88)) {
+                if (pauseCtx->nameDisplayTimer > R_PAUSE_NAME_DISPLAY_TIMER_MAX_) {
                     pauseCtx->nameDisplayTimer = 0;
                 }
             }
@@ -2251,19 +2271,19 @@ void KaleidoScope_UpdatePageSwitch(PlayState* play, Input* input) {
     }
 }
 
-void KaleidoScope_SetView(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
+void KaleidoScope_SetView(PauseContext* pauseCtx, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f eye;
-    Vec3f lookAt;
+    Vec3f at;
     Vec3f up;
 
-    eye.x = x;
-    eye.y = y;
-    eye.z = z;
-    lookAt.x = lookAt.y = lookAt.z = 0.0f;
+    eye.x = eyeX;
+    eye.y = eyeY;
+    eye.z = eyeZ;
+    at.x = at.y = at.z = 0.0f;
     up.x = up.z = 0.0f;
     up.y = 1.0f;
 
-    View_LookAt(&pauseCtx->view, &eye, &lookAt, &up);
+    View_LookAt(&pauseCtx->view, &eye, &at, &up);
     View_Apply(&pauseCtx->view,
                VIEW_ALL | VIEW_FORCE_VIEWING | VIEW_FORCE_VIEWPORT | VIEW_FORCE_PROJECTION_PERSPECTIVE);
 }
@@ -2341,6 +2361,7 @@ static s16 sVtxPagePromptQuadsX[VTX_PAGE_PROMPT_QUADS] = {
     -58, // PROMPT_QUAD_CHOICE_YES
     10,  // PROMPT_QUAD_CHOICE_NO
 };
+
 static s16 sVtxPageItemQuadsWidth[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
 static s16 sVtxPageEquipQuadsWidth[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
 static s16 sVtxPageMapDungeonQuadsWidth[VTX_PAGE_MAP_DUNGEON_QUADS] = {
@@ -2354,6 +2375,7 @@ static s16 sVtxPagePromptQuadsWidth[VTX_PAGE_PROMPT_QUADS] = {
     48,  // PROMPT_QUAD_CHOICE_YES
     48,  // PROMPT_QUAD_CHOICE_NO
 };
+
 static s16 sVtxPageItemQuadsY[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
 static s16 sVtxPageEquipQuadsY[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
 static s16 sVtxPageMapDungeonQuadsY[VTX_PAGE_MAP_DUNGEON_QUADS] = {
@@ -2401,6 +2423,7 @@ static s16 sVtxPagePromptQuadsY[VTX_PAGE_PROMPT_QUADS] = {
     -6, // PROMPT_QUAD_CHOICE_YES
     -6, // PROMPT_QUAD_CHOICE_NO
 };
+
 static s16 sVtxPageItemQuadsHeight[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
 static s16 sVtxPageEquipQuadsHeight[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
 static s16 sVtxPageMapDungeonQuadsHeight[VTX_PAGE_MAP_DUNGEON_QUADS] = {
@@ -3665,7 +3688,7 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
 void KaleidoScope_Update(PlayState* play) {
     static s16 sMainStateAfterSongPlayerPlayingDone = PAUSE_MAIN_STATE_IDLE;
     static s16 sDelayTimer = 10;
-    static s16 D_8082B260 = 0;
+    static s16 sTimer_ = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     GameOverContext* gameOverCtx = &play->gameOverCtx;
@@ -3696,6 +3719,7 @@ void KaleidoScope_Update(PlayState* play) {
             KaleidoScope_HandlePageToggles(pauseCtx, input);
         } else if ((pauseCtx->pageIndex == PAUSE_QUEST) && ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) ||
                                                             (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT))) {
+
             KaleidoScope_UpdateCursorVtx(play);
         }
 
@@ -3772,6 +3796,7 @@ void KaleidoScope_Update(PlayState* play) {
                 case SCENE_SPIRIT_TEMPLE_BOSS:
                 case SCENE_SHADOW_TEMPLE_BOSS:
                     sInDungeonScene = true;
+
                     size2 = (uintptr_t)_icon_item_dungeon_staticSegmentRomEnd -
                             (uintptr_t)_icon_item_dungeon_staticSegmentRomStart;
                     PRINTF("icon_item_dungeon dungeon-size2=%x\n", size2);
@@ -3785,6 +3810,7 @@ void KaleidoScope_Update(PlayState* play) {
 
                 default:
                     sInDungeonScene = false;
+
                     size2 = (uintptr_t)_icon_item_field_staticSegmentRomEnd -
                             (uintptr_t)_icon_item_field_staticSegmentRomStart;
                     PRINTF("icon_item_field field-size2=%x\n", size2);
@@ -3828,6 +3854,8 @@ void KaleidoScope_Update(PlayState* play) {
 
             pauseCtx->nameSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemLangSegment + size);
 
+            // This printf may have been used to compute the size used on playerSegment at one point,
+            // but is missing the size of icon_item_24_static
             PRINTF(T("サイズ＝%x\n", "size=%x\n"), size2 + size1 + size0 + size);
             PRINTF("item_name I_N_PT=%x\n", 0x800);
             Interface_SetDoAction(play, DO_ACTION_DECIDE);
@@ -4095,7 +4123,7 @@ void KaleidoScope_Update(PlayState* play) {
             R_PAUSE_BUTTON_LEFT_X += R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
             R_PAUSE_BUTTON_RIGHT_X += R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
             XREG(5) += 150 / R_PAUSE_UI_ANIMS_DURATION;
-            pauseCtx->alpha += (u16)(255 / (R_PAUSE_UI_ANIMS_DURATION + WREG(4)));
+            pauseCtx->alpha += (u16)(255 / (R_PAUSE_UI_ANIMS_DURATION + R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION));
 
             if (pauseCtx->itemPagePitch == 0) {
                 interfaceCtx->startAlpha = 255;
@@ -4107,7 +4135,7 @@ void KaleidoScope_Update(PlayState* play) {
             break;
 
         case PAUSE_STATE_OPENING_2:
-            pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
+            pauseCtx->alpha += (u16)(255 / (R_PAUSE_UI_ANIMS_DURATION + R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION));
             KaleidoScope_UpdateOpening(play);
 
             if (pauseCtx->state == PAUSE_STATE_MAIN) {
@@ -4186,6 +4214,7 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->state = PAUSE_STATE_SAVE_PROMPT;
                     } else if (pauseCtx->ocarinaStaff->state == pauseCtx->ocarinaSongIdx) {
                         // The player successfully played the song
+
                         SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
 
                         sMainStateAfterSongPlayerPlayingDone = PAUSE_MAIN_STATE_IDLE;
@@ -4193,6 +4222,7 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->mainState = PAUSE_MAIN_STATE_SONG_PROMPT_DONE;
                     } else if (pauseCtx->ocarinaStaff->state == 0xFF) {
                         // The player failed to play the song
+
                         SFX_PLAY_CENTERED(NA_SE_SY_OCARINA_ERROR);
 
                         sMainStateAfterSongPlayerPlayingDone = PAUSE_MAIN_STATE_SONG_PROMPT_INIT;
@@ -4264,10 +4294,12 @@ void KaleidoScope_Update(PlayState* play) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         if (pauseCtx->promptChoice != 0) {
                             Interface_SetDoAction(play, DO_ACTION_NONE);
+
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
                             gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                             Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
+
                             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
                             R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                             YREG(8) = pauseCtx->promptPitch;
@@ -4277,9 +4309,11 @@ void KaleidoScope_Update(PlayState* play) {
 #endif
                         } else {
                             SFX_PLAY_CENTERED(NA_SE_SY_PIECE_OF_HEART);
+
                             Play_SaveSceneFlags(play);
                             gSaveContext.save.info.playerData.savedSceneId = play->sceneId;
                             Sram_WriteSave(&play->sramCtx);
+
                             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_SAVED;
 #if !PLATFORM_GC
                             sDelayTimer = 90;
@@ -4289,11 +4323,14 @@ void KaleidoScope_Update(PlayState* play) {
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_START) ||
                                CHECK_BTN_ALL(input->press.button, BTN_B)) {
+
                         Interface_SetDoAction(play, DO_ACTION_NONE);
+
                         pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
                         R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                         YREG(8) = pauseCtx->promptPitch;
                         func_800F64E0(0);
+
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
@@ -4307,11 +4344,14 @@ void KaleidoScope_Update(PlayState* play) {
                 case PAUSE_SAVE_PROMPT_STATE_SAVED:
                     if (CHECK_BTN_ALL(input->press.button, BTN_B) || CHECK_BTN_ALL(input->press.button, BTN_A) ||
                         CHECK_BTN_ALL(input->press.button, BTN_START) || (--sDelayTimer == 0)) {
+
                         Interface_SetDoAction(play, DO_ACTION_NONE);
+
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
+
                         pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED;
                         R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                         YREG(8) = pauseCtx->promptPitch;
@@ -4432,17 +4472,17 @@ void KaleidoScope_Update(PlayState* play) {
             D_8082AB9C = 30;
             D_8082ABA0 = 0;
             D_8082ABA4 = 0;
-            D_8082B260 = 30;
+            sTimer_ = 30;
             VREG(88) = 98;
             pauseCtx->promptChoice = 0;
             pauseCtx->state++; // PAUSE_STATE_GAME_OVER_SHOW_MESSAGE
             break;
 
         case PAUSE_STATE_GAME_OVER_SHOW_MESSAGE:
-            stepR = ABS(D_8082AB8C - 30) / D_8082B260;
-            stepG = ABS(D_8082AB90) / D_8082B260;
-            stepB = ABS(D_8082AB94) / D_8082B260;
-            stepA = ABS(D_8082AB98 - 255) / D_8082B260;
+            stepR = ABS(D_8082AB8C - 30) / sTimer_;
+            stepG = ABS(D_8082AB90) / sTimer_;
+            stepB = ABS(D_8082AB94) / sTimer_;
+            stepA = ABS(D_8082AB98 - 255) / sTimer_;
             if (D_8082AB8C >= 30) {
                 D_8082AB8C -= stepR;
             } else {
@@ -4464,9 +4504,9 @@ void KaleidoScope_Update(PlayState* play) {
                 D_8082AB98 += stepA;
             }
 
-            stepR = ABS(D_8082AB9C - 255) / D_8082B260;
-            stepG = ABS(D_8082ABA0 - 130) / D_8082B260;
-            stepB = ABS(D_8082ABA4) / D_8082B260;
+            stepR = ABS(D_8082AB9C - 255) / sTimer_;
+            stepG = ABS(D_8082ABA0 - 130) / sTimer_;
+            stepB = ABS(D_8082ABA4) / sTimer_;
             if (D_8082AB9C >= 255) {
                 D_8082AB9C -= stepR;
             } else {
@@ -4483,8 +4523,8 @@ void KaleidoScope_Update(PlayState* play) {
                 D_8082ABA4 += stepB;
             }
 
-            D_8082B260--;
-            if (D_8082B260 == 0) {
+            sTimer_--;
+            if (sTimer_ == 0) {
                 D_8082AB8C = 30;
                 D_8082AB90 = 0;
                 D_8082AB94 = 0;
@@ -4493,15 +4533,15 @@ void KaleidoScope_Update(PlayState* play) {
                 D_8082AB9C = 255;
                 D_8082ABA0 = 130;
                 D_8082ABA4 = 0;
-                D_8082B260 = 40;
+                sTimer_ = 40;
 
                 pauseCtx->state++; // PAUSE_STATE_GAME_OVER_WINDOW_DELAY
             }
             break;
 
         case PAUSE_STATE_GAME_OVER_WINDOW_DELAY:
-            D_8082B260--;
-            if (D_8082B260 == 0) {
+            sTimer_--;
+            if (sTimer_ == 0) {
                 pauseCtx->state = PAUSE_STATE_GAME_OVER_SHOW_WINDOW;
             }
             break;
@@ -4515,7 +4555,7 @@ void KaleidoScope_Update(PlayState* play) {
             R_PAUSE_BUTTON_LEFT_X += R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
             R_PAUSE_BUTTON_RIGHT_X += R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
             XREG(5) += 150 / R_PAUSE_UI_ANIMS_DURATION;
-            pauseCtx->alpha += (u16)(255 / (R_PAUSE_UI_ANIMS_DURATION + WREG(4)));
+            pauseCtx->alpha += (u16)(255 / (R_PAUSE_UI_ANIMS_DURATION + R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION));
             if (pauseCtx->promptPitch < -628.0f) {
                 pauseCtx->promptPitch = -628.0f;
                 interfaceCtx->startAlpha = 255;
@@ -4690,10 +4730,8 @@ void KaleidoScope_Update(PlayState* play) {
             } else {
                 pauseCtx->debugState = PAUSE_DEBUG_STATE_CLOSED;
                 pauseCtx->state = PAUSE_STATE_RESUME_GAMEPLAY;
-                pauseCtx->questPagePitch = 160.0f;
-                pauseCtx->mapPagePitch = 160.0f;
-                pauseCtx->equipPagePitch = 160.0f;
-                pauseCtx->itemPagePitch = 160.0f;
+                pauseCtx->itemPagePitch = pauseCtx->equipPagePitch = pauseCtx->mapPagePitch = pauseCtx->questPagePitch =
+                    160.0f;
                 pauseCtx->namedItem = PAUSE_ITEM_NONE;
                 interfaceCtx->startAlpha = 0;
             }
@@ -4735,13 +4773,17 @@ void KaleidoScope_Update(PlayState* play) {
             gSaveContext.buttonStatus[2] = sSavedButtonStatus[2];
             gSaveContext.buttonStatus[3] = sSavedButtonStatus[3];
             gSaveContext.buttonStatus[4] = sSavedButtonStatus[4];
+
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
+
             PRINTF_COLOR_YELLOW();
             PRINTF("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.prevHudVisibilityMode);
             gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
             Interface_ChangeHudVisibilityMode(gSaveContext.prevHudVisibilityMode);
+
             player->talkActor = NULL;
             Player_SetEquipmentData(play, player);
+
             PRINTF_RST();
             break;
     }

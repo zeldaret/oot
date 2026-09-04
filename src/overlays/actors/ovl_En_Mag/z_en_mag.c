@@ -22,6 +22,7 @@
 #include "versions.h"
 #include "audio.h"
 #include "cutscene_flags.h"
+#include "ocarina.h"
 #include "play_state.h"
 #include "save.h"
 #include "ss_sram.h"
@@ -101,9 +102,9 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
     this->fadeOutAlphaStep = 10;
 
     VREG(19) = 99;
-    VREG(21) = 9;
-    VREG(23) = 10;
-    VREG(24) = 8;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_A) = 9;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_RIGHT) = 10;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_LEFT) = 8;
 
     this->effectScroll = 0;
     this->unk_E30C = 0;
