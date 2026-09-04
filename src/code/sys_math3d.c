@@ -30,7 +30,7 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     static InfiniteLine planeIntersectLine;
     static Linef planeIntersectSeg;
 
-    Vec3f sp34; // unused
+    Vec3f _point; // discarded
 
     if (!Math3D_PlaneVsPlaneNewLine(planeAA, planeAB, planeAC, planeADist, planeBA, planeBB, planeBC, planeBDist,
                                     &planeIntersectLine)) {
@@ -44,9 +44,9 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     planeIntersectSeg.b.y = (planeIntersectLine.dir.y * 100.0f) + planeIntersectLine.point.y;
     planeIntersectSeg.b.z = (planeIntersectLine.dir.z * 100.0f) + planeIntersectLine.point.z;
 
-    // closestPoint is a point on planeIntersect, sp34 is a point on linePointA, linePointB
+    // closestPoint is a point on planeIntersect, _point is a point on linePointA, linePointB
     if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB,
-                                           closestPoint, &sp34)) {
+                                           closestPoint, &_point)) {
         return false;
     }
     return true;
