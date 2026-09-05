@@ -1,8 +1,8 @@
 #include "z_boss_ganon.h"
-#include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
-#include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
-#include "overlays/actors/ovl_Bg_Ganon_Otyuka/z_bg_ganon_otyuka.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "src/overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
+#include "src/overlays/actors/ovl_En_Zl3/z_en_zl3.h"
+#include "src/overlays/actors/ovl_Bg_Ganon_Otyuka/z_bg_ganon_otyuka.h"
+#include "src/overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"

@@ -5,7 +5,7 @@
  */
 
 #include "z_arrow_ice.h"
-#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "src/overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

@@ -5,8 +5,8 @@
  */
 
 #include "z_boss_sst.h"
-#include "overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

@@ -1,5 +1,5 @@
 #include "z_en_daiku.h"
-#include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
+#include "src/overlays/actors/ovl_En_GeldB/z_en_geldb.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"

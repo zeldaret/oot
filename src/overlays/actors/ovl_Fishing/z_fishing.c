@@ -6,7 +6,7 @@
 
 #include "z_fishing.h"
 
-#include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
+#include "src/overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
 #include "libc64/math64.h"
 #include "array_count.h"

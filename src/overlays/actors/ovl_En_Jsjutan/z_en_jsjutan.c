@@ -5,7 +5,7 @@
  */
 
 #include "z_en_jsjutan.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "src/overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "array_count.h"
 #include "gfx.h"

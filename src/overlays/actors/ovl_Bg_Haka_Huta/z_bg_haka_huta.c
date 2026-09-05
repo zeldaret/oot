@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_haka_huta.h"
-#include "overlays/actors/ovl_En_Rd/z_en_rd.h"
+#include "src/overlays/actors/ovl_En_Rd/z_en_rd.h"
 
 #include "libc64/qrand.h"
 #include "ichain.h"

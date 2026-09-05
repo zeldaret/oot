@@ -5,9 +5,9 @@
  */
 
 #include "z_en_bom_bowl_man.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
-#include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
+#include "src/overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
+#include "src/overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "src/overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

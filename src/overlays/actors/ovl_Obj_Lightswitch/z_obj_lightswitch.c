@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_lightswitch.h"
-#include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+#include "src/overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

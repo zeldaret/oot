@@ -5,7 +5,7 @@
  */
 
 #include "z_en_bom.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #include "array_count.h"
 #include "gfx.h"

@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_syokudai.h"
-#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "src/overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

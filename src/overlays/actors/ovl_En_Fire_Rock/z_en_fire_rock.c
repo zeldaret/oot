@@ -1,5 +1,5 @@
 #include "z_en_fire_rock.h"
-#include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
+#include "src/overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 
 #include "attributes.h"
 #include "gfx.h"

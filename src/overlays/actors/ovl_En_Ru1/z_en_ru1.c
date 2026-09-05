@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ru1.h"
-#include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+#include "src/overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
 #include "libc64/math64.h"
 #include "array_count.h"

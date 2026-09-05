@@ -1,6 +1,6 @@
 #include "z_en_ex_ruppy.h"
-#include "overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
-#include "overlays/actors/ovl_En_Heishi1/z_en_heishi1.h"
+#include "src/overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
+#include "src/overlays/actors/ovl_En_Heishi1/z_en_heishi1.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

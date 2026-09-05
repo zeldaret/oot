@@ -1,5 +1,5 @@
 #include "z_en_encount2.h"
-#include "overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.h"
+#include "src/overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.h"
 
 #include "libc64/qrand.h"
 #include "attributes.h"

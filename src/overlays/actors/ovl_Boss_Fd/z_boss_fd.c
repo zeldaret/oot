@@ -5,10 +5,10 @@
  */
 
 #include "z_boss_fd.h"
-#include "overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.h"
-#include "overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.h"
-#include "overlays/actors/ovl_Boss_Fd2/z_boss_fd2.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.h"
+#include "src/overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.h"
+#include "src/overlays/actors/ovl_Boss_Fd2/z_boss_fd2.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"

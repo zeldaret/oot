@@ -5,7 +5,7 @@
  */
 
 #include "z_en_dodojr.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "src/overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

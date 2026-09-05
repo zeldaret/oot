@@ -5,7 +5,7 @@
  */
 
 #include "z_en_horse.h"
-#include "overlays/actors/ovl_En_In/z_en_in.h"
+#include "src/overlays/actors/ovl_En_In/z_en_in.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
