@@ -24,9 +24,9 @@ typedef enum EnPohInfoType {
 typedef struct EnPohInfo {
     /* 0x0000 */ Color_RGB8 primColor;
     /* 0x0003 */ Color_RGB8 lightColor;
-    /* 0x0006 */ u8 unk_6; // limb index
-    /* 0x0007 */ u8 unk_7; // limb index
-    /* 0x0008 */ s8 unk_8; // rate of some kind
+    /* 0x0006 */ u8 lanternLimb;
+    /* 0x0007 */ u8 burnLimb;
+    /* 0x0008 */ s8 soulScrollRate;
     /* 0x000C */ AnimationHeader* idleAnim;
     /* 0x0010 */ AnimationHeader* idleAnim2;
     /* 0x0014 */ AnimationHeader* damageAnim;
@@ -40,13 +40,13 @@ typedef struct EnPoh {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnPohActionFunc actionFunc;
-    /* 0x0194 */ u8 unk_194;
-    /* 0x0195 */ u8 unk_195;
+    /* 0x0194 */ u8 lockOnTimer;
+    /* 0x0195 */ u8 bobPhase;
     /* 0x0196 */ s8 requiredObjectSlot;
     /* 0x0197 */ u8 infoIdx;
-    /* 0x0198 */ s16 unk_198;
+    /* 0x0198 */ s16 timer;
     /* 0x019A */ s16 visibilityTimer;
-    /* 0x019C */ s16 unk_19C;
+    /* 0x019C */ s16 targetYaw;
     /* 0x019E */ Vec3s jointTable[21];
     /* 0x021C */ Vec3s morphTable[21];
     /* 0x029A */ Color_RGBA8 lightColor;
@@ -57,7 +57,7 @@ typedef struct EnPoh {
     /* 0x02BC */ ColliderCylinder colliderCylinder;
     /* 0x0308 */ ColliderJntSph colliderJntSph;
     /* 0x0328 */ ColliderJntSphElement colliderJntSphElements[1];
-    /* 0x0368 */ MtxF unk_368;
+    /* 0x0368 */ MtxF lanternMtxF;
 } EnPoh; // size = 0x03A8
 
 #endif
