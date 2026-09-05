@@ -4,12 +4,39 @@
 #include "ultra64.h"
 #include "actor.h"
 
+/*
+ * EnWood02 params
+ *
+ * EnWood02 takes params from its params 0xPPTT and its Z rotation 0xZZ.
+ * 0xTT is the type, see the `WoodType` enum.
+ *
+ * If 0xZZ is zero:
+ *  0xPP is the drop table for the random collectible gotten when bonking the tree or going through the bush,
+ *  see the `CollectibleDropTable` enum.
+ *  0xPP can be 0xFF to indicate no collectible to be dropped.
+ *
+ * If 0xZZ is non-zero (only allowed for trees, types `WOOD_TREE_*`):
+ *  The tree spawns a Skulltula (EnSw) when bonked, with params `(0xZZPP & 0x1FFF) | 0xE000`.
+ *  (TODO more details once EnSw params are documented)
+ */
+
+#define ENWOOD02_DATA_SHIFT 8
+#define ENWOOD02_GET_DATA(thisx) PARAMS_GET_U((thisx)->params, 8, 8)
+#define ENWOOD02_GET_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 8)
+
+#define ENWOOD02_PARAMS_DATA_PRESHIFTED(type, dataPreShifted) (s16)((dataPreShifted) | (type))
+#define ENWOOD02_PARAMS(type, data) ENWOOD02_PARAMS_DATA_PRESHIFTED(type, (data) << 8)
+#define ENWOOD02_PARAMS_NODATA(type) ENWOOD02_PARAMS(type, 0xFF)
+
 struct EnWood02;
+
+#define ENWOOD02_SPAWNED_CHILD_INDEX(this) (this)->spawnedChildrenFlags[0]
+#define ENWOOD02_LEAF_TIMER(this) (this)->spawnedChildrenFlags[0]
 
 typedef struct EnWood02 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s16 unk_14C;
-    /* 0x014E */ u8 unk_14E[5];
+    /* 0x014C */ s16 stateVar;
+    /* 0x014E */ u8 spawnedChildrenFlags[5]; // Named after the use by spawner instances, but also used by spawned and leaf instances (see `SPAWNED_CHILD_WOOD_INDEX` and `ENWOOD02_LEAF_TIMER`)
     /* 0x0153 */ u8 spawnType;
     /* 0x0154 */ u8 drawType;
     /* 0x0158 */ ColliderCylinder collider;
