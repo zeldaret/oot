@@ -22,9 +22,9 @@ void BgSpot15Saku_Destroy(Actor* thisx, PlayState* play);
 void BgSpot15Saku_Update(Actor* thisx, PlayState* play);
 void BgSpot15Saku_Draw(Actor* thisx, PlayState* play);
 
-void func_808B4930(BgSpot15Saku* this, PlayState* play);
-void func_808B4978(BgSpot15Saku* this, PlayState* play);
-void func_808B4A04(BgSpot15Saku* this, PlayState* play);
+void BgSpot15Saku_WaitOpen(BgSpot15Saku* this, PlayState* play);
+void BgSpot15Saku_SlideOpen(BgSpot15Saku* this, PlayState* play);
+void BgSpot15Saku_WaitReset(BgSpot15Saku* this, PlayState* play);
 
 ActorProfile Bg_Spot15_Saku_Profile = {
     /**/ ACTOR_BG_SPOT15_SAKU,
@@ -50,13 +50,13 @@ void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.scale.x = 0.1f;
     this->dyna.actor.scale.y = 0.1f;
     this->dyna.actor.scale.z = 0.1f;
-    this->unk_170.x = this->dyna.actor.world.pos.x;
-    this->unk_170.y = this->dyna.actor.world.pos.y;
-    this->unk_170.z = this->dyna.actor.world.pos.z;
+    this->initPos.x = this->dyna.actor.world.pos.x;
+    this->initPos.y = this->dyna.actor.world.pos.y;
+    this->initPos.z = this->dyna.actor.world.pos.z;
     if (GET_INFTABLE(INFTABLE_71)) {
         this->dyna.actor.world.pos.z = 2659.0f;
     }
-    this->actionFunc = func_808B4930;
+    this->actionFunc = BgSpot15Saku_WaitOpen;
 }
 
 void BgSpot15Saku_Destroy(Actor* thisx, PlayState* play) {
@@ -65,29 +65,29 @@ void BgSpot15Saku_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808B4930(BgSpot15Saku* this, PlayState* play) {
-    if (this->unk_168 && !GET_INFTABLE(INFTABLE_71)) {
+void BgSpot15Saku_WaitOpen(BgSpot15Saku* this, PlayState* play) {
+    if (this->openFlag && !GET_INFTABLE(INFTABLE_71)) {
         this->timer = 2;
-        this->actionFunc = func_808B4978;
+        this->actionFunc = BgSpot15Saku_SlideOpen;
     }
 }
 
-void func_808B4978(BgSpot15Saku* this, PlayState* play) {
+void BgSpot15Saku_SlideOpen(BgSpot15Saku* this, PlayState* play) {
     if (this->timer == 0) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         this->dyna.actor.world.pos.z -= 2.0f;
         if (this->dyna.actor.world.pos.z < 2660.0f) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->timer = 30;
-            this->actionFunc = func_808B4A04;
+            this->actionFunc = BgSpot15Saku_WaitReset;
         }
     }
 }
 
-void func_808B4A04(BgSpot15Saku* this, PlayState* play) {
+void BgSpot15Saku_WaitReset(BgSpot15Saku* this, PlayState* play) {
     if (this->timer == 0) {
-        this->unk_168 = 0;
-        this->actionFunc = func_808B4930;
+        this->openFlag = 0;
+        this->actionFunc = BgSpot15Saku_WaitOpen;
     }
 }
 
