@@ -1,5 +1,5 @@
 #include "z_en_bom_chu.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "src/overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/math64.h"
 #include "array_count.h"
@@ -465,8 +465,8 @@ void EnBomChu_Update(Actor* thisx, PlayState* play2) {
 
         waterY = this->actor.world.pos.y;
 
-        if (WaterBox_GetSurface1(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterY,
-                                 &waterBox)) {
+        if (BgCheck_GetWaterSurfaceAllHack(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
+                                           &waterY, &waterBox)) {
             this->actor.depthInWater = waterY - this->actor.world.pos.y;
 
             if (this->actor.depthInWater < 0.0f) {

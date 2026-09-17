@@ -1,5 +1,5 @@
 #include "z_en_sa.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "attributes.h"
 #include "gfx.h"
@@ -422,10 +422,10 @@ SariaType EnSa_GetType(EnSa* this, PlayState* play) {
         }
     }
     if (play->sceneId == SCENE_SARIAS_HOUSE && !LINK_IS_ADULT &&
-        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
+        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         return SARIA_TYPE_STANDING;
     }
-    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         return CHECK_QUEST_ITEM(QUEST_SONG_SARIA) ? SARIA_TYPE_MEADOW_PLAYING : SARIA_TYPE_MEADOW_WAITING;
     }
     if (play->sceneId == SCENE_KOKIRI_FOREST && !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {

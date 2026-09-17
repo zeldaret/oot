@@ -6,7 +6,7 @@
 #include "skin.h"
 #include "skin_matrix.h"
 
-#include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
+#include "src/overlays/actors/ovl_En_fHG/z_en_fhg.h"
 
 /**
  * Initialises the Vtx buffers used for limb at index `limbIndex`

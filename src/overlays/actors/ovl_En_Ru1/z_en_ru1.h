@@ -4,8 +4,8 @@
 #include "ultra64.h"
 #include "actor.h"
 
-#include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #define ENRU1_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 8)
 #define ENRU1_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 8)

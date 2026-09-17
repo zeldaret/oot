@@ -1,5 +1,5 @@
 #include "z_en_niw_lady.h"
-#include "overlays/actors/ovl_En_Niw/z_en_niw.h"
+#include "src/overlays/actors/ovl_En_Niw/z_en_niw.h"
 
 #include "attributes.h"
 #include "gfx.h"

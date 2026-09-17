@@ -1,18 +1,29 @@
-#include "libu64/debug.h"
+#include "animation.h"
+#include "animation_legacy.h"
+
+#include "actor.h"
+#include "alignment.h"
 #include "avoid_ub.h"
+#include "dma.h"
 #include "gfx.h"
+#include "play_state.h"
 #include "printf.h"
 #include "regs.h"
-#include "segmented_address.h"
 #include "segment_symbols.h"
+#include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
+#include "z_math.h"
 #include "zelda_arena.h"
-#include "animation.h"
-#include "animation_legacy.h"
-#include "play_state.h"
+
+#include "libu64/debug.h"
+#include "ultra64.h"
+#include <assert.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #define ANIM_INTERP 1
 

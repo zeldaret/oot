@@ -66,7 +66,7 @@ void ItemOcarina_Init(Actor* thisx, PlayState* play) {
             break;
         case 3:
             ItemOcarina_SetupAction(this, ItemOcarina_WaitInWater);
-            if (!GET_EVENTCHKINF(EVENTCHKINF_80) || GET_EVENTCHKINF(EVENTCHKINF_43)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) || GET_EVENTCHKINF(EVENTCHKINF_43)) {
                 Actor_Kill(thisx);
                 return;
             }

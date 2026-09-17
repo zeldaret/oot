@@ -1,11 +1,20 @@
+#include "sample_state.h"
+
+#include "controller.h"
+#include "dma.h"
+#include "game.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
-#include "controller.h"
-#include "regs.h"
-#include "sample_state.h"
-#include "segment_symbols.h"
-#include "dma.h"
 #include "play_state.h"
+#include "regs.h"
+#include "segment_symbols.h"
+#include "view.h"
+#include "z_math.h"
+
+#include "ultra64.h"
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 void Sample_HandleStateChange(SampleState* this) {
     if (CHECK_BTN_ALL(this->state.input[0].press.button, BTN_START)) {
