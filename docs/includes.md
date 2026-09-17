@@ -32,6 +32,13 @@ There should be no empty line between groups, except:
 - before and after assets includes if any
 - before and after `src/*.h` includes if any
 
+This ordering style is almost entirely automated by `format.py` for files not listed in `tools/format_includes_todo.txt`.
+See `.clang-format-includes` for the clang-format configuration.
+Eventually all files should have their includes ordering be automatically formatted.
+
+The only thing clang-format doesn't handle is about putting the main header(s) first.
+Those includes must be wrapped in `// clang-format off`/`on`.
+
 ## Angle brackets vs quotes
 
 Use angle brackets for libc includes (files from `include/libc`), and quotes for everything else.
