@@ -372,6 +372,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, UNUSED s32 a
     envCtx->windDirection.x = 80;
     envCtx->windDirection.y = 80;
     envCtx->windDirection.z = 80;
+    //! @bug envCtx->windSpeed is not initialized.
 
     envCtx->lightBlendEnabled = false;
     envCtx->lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;

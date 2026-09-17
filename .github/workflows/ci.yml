@@ -79,7 +79,7 @@ jobs:
     needs: [build_repo]
     runs-on: ubuntu-latest
     # Solution 1 from https://github.com/actions/runner/issues/2566#issuecomment-3053484216
-    if: 'always() && ${{ github.repository == ''zeldaret/oot'' }}'
+    if: ${{ always() && github.repository == 'zeldaret/oot' }}
     steps:
       - run: |
          if [ "${{ needs.build_repo.result }}" != "success" ]; then
@@ -90,7 +90,7 @@ jobs:
     name: Merge BSS fixes
     runs-on: ubuntu-latest
     needs: [build_repo]
-    if: '!cancelled() && ${{ github.repository == ''zeldaret/oot'' }}'  # Run even if build_repo fails
+    if: ${{ !cancelled() && github.repository == 'zeldaret/oot' }}  # Run even if build_repo fails
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

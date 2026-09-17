@@ -10,50 +10,40 @@
 import re
 from pathlib import Path
 import struct
+import sys
 
 import mapfile_parser
 
 import csdis
 from overlayhelpers import filemap
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+import sym_info
+
+sys.path.pop(0)
 
 SRC_ENCODING = "UTF-8"
 
 MAPFILE_P = Path("build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.map")
+ELF_P = Path("build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.elf")
 BASEROM_SEGMENTS_P = Path("extracted/gc-eu-mq-dbg/baserom/")
-
-HARDCODED_SYM_ROM = {
-    "gFireMedallionCs": 0xD25834,
-    "D_80AF0880": 0xEA6860,
-    "D_80AF10A4": 0xEA7084,
-    "D_80AF1728": 0xEA7708,
-    "D_808BCE20": 0xC8BB20,
-    "D_808BD2A0": 0xC8BFA0,
-    "D_808BD520": 0xC8C220,
-    "D_808BD790": 0xC8C490,
-    "gSpiritMedallionCs": 0xE6A38C,
-    "gShadowMedallionCs": 0xD40EFC,
-    "D_80B4C5D0": 0xF022D0,
-    "D_80ABF9D0": 0xE75A40,
-    "D_80ABFB40": 0xE75BB0,
-    "gWaterMedallionCs": 0xEAA0FC,
-    "D_80A88164": 0xE3ED34,
-    "D_808BB2F0": 0xC89FF0,
-    "D_808BB7A0": 0xC8A4A0,
-    "D_808BBD90": 0xC8AA90,
-    "gChildWarpInCS": 0xD45460,
-    "gAdultWarpOutToTCS": 0xD45340,
-    "gChildWarpOutToTCS": 0xD45840,
-    "gChildWarpInToTCS": 0xD45710,
-    "gAdultWarpInToTCS": 0xD45230,
-    "gAdultWarpInCS": 0xD44FA0,
-    "gChildWarpOutCS": 0xD45590,
-    "gAdultWarpOutCS": 0xD450B0,
-    "gForestMedallionCs": 0xD4974C,
-}
 
 mapfile = mapfile_parser.MapFile()
 mapfile.readMapFile(MAPFILE_P)
+
+
+def resolver(x: Path) -> Path | None:
+    if x.suffix == ".plf":
+        plf_map_path = x.with_suffix(".map")
+        if plf_map_path.exists():
+            return plf_map_path
+    return None
+
+
+mapfile = mapfile.resolvePartiallyLinkedFiles(resolver)
+
+local_symbols = sym_info.read_local_symbols_from_mdebug(ELF_P)
+sym_info.merge_local_symbols(mapfile, local_symbols)
 
 pat_CutsceneData = re.compile(
     r"""
@@ -71,33 +61,19 @@ pat_CutsceneData = re.compile(
 )
 
 
-def get_sym_rom(sym_name: str):
-    rom = HARDCODED_SYM_ROM.get(sym_name)
-    if rom:
-        return rom
-    print(f"Trying to find {sym_name} from the map (assuming OK build)")
-    sym = mapfile.findSymbolByName(sym_name)
-    print(f'"{sym_name}": 0x{sym.symbol.vrom:X}')
-    return sym.symbol.vrom
-
-
 def repl(m: re.Match):
     sym_name = m.group(1)
-    sym_rom = get_sym_rom(sym_name)
+    sym_rom = mapfile.findSymbolByName(sym_name).symbol.vrom
     file_result = filemap.GetFromRom(sym_rom)
     assert file_result is not None, (sym_name, sym_rom)
     data = (BASEROM_SEGMENTS_P / file_result.name).read_bytes()
     cs_data_bytes = data[file_result.offset :]
     cs_data = [i[0] for i in struct.iter_unpack(">I", cs_data_bytes)]
+    cs_size, cs_src = csdis.disassemble_cutscene(cs_data)
     return (
         f"CutsceneData {sym_name}[] = "
         + "{\n"
-        + (
-            "\n".join(
-                f"    {line}"
-                for line in csdis.disassemble_cutscene(cs_data).splitlines()
-            ).rstrip()
-        )
+        + ("\n".join(f"    {line}" for line in cs_src.splitlines()).rstrip())
         + "\n};"
     )
 
