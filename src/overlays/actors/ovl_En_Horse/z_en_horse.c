@@ -2863,7 +2863,7 @@ s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, Collisio
         return 1; // No floor
     }
 
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, pos->x, pos->z, &waterY, &waterBox) == 1 &&
+    if (BgCheck_GetWaterSurface(play, &play->colCtx, pos->x, pos->z, &waterY, &waterBox) == true &&
         *floorHeight < waterY) {
         return 2; // Water
     }
@@ -2932,8 +2932,8 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
     WaterBox* waterBox;
     STACK_PAD(s32);
 
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterHeight,
-                                &waterBox) == 1 &&
+    if (BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterHeight,
+                                &waterBox) == true &&
         this->actor.floorHeight < waterHeight) {
         EnHorse_ObstructMovement(this, play, 1, galloping);
         return;
