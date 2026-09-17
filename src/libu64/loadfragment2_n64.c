@@ -8,6 +8,7 @@
  */
 #include "libc64/malloc.h"
 #include "libu64/overlay.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "dma.h"
 
@@ -143,7 +144,7 @@ void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlReloc
 }
 
 size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 size = vromEnd - vromStart;
     uintptr_t end;
     OverlayRelocationSection* ovlRelocs;

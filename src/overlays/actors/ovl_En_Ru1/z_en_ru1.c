@@ -9,6 +9,7 @@
 
 #include "libc64/math64.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -17,6 +18,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -139,7 +141,7 @@ static void* sMouthTextures[] = {
     gRutoChildMouthOpenTex,
 };
 
-static s32 sUnused = 0;
+UNUSED static s32 sUnused = 0;
 
 #include "z_en_ru1_cutscene_data.inc.c"
 
@@ -219,14 +221,14 @@ ActorProfile En_Ru1_Profile = {
 };
 
 void EnRu1_UpdateStandingOC(EnRu1* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->standingCollider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->standingCollider.base);
 }
 
 void EnRu1_UpdateSittingOC(EnRu1* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
     if (this->isSittingOCActive) {
@@ -237,7 +239,7 @@ void EnRu1_UpdateSittingOC(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_UpdateSittingAT(EnRu1* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->sittingCollider.base);
@@ -281,7 +283,7 @@ void EnRu1_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnRu1_UpdateEyes(EnRu1* this) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* blinkTimer = &this->blinkTimer;
     s16* eyes = &this->eyes;
 
@@ -321,7 +323,7 @@ s32 EnRu1_IsCsStateIdle(PlayState* play) {
 }
 
 CsCmdActorCue* EnRu1_GetCue(PlayState* play, s32 cueChannel) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CsCmdActorCue* cue = NULL;
 
     if (!EnRu1_IsCsStateIdle(play)) {
@@ -441,7 +443,7 @@ void func_80AEB220(EnRu1* this, PlayState* play) {
 #endif
 
 void EnRu1_AnimationChange(EnRu1* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 playReversed) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     AnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     f32 frameCount = Animation_GetLastFrame(animHeader);
     f32 playbackSpeed;
@@ -506,7 +508,6 @@ s32 EnRu1_CheckFountainCueNotMatchingId(PlayState* play, u16 cueId) {
 
 void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
     Vec3f pos;
-    Actor* thisx = &this->actor;
 
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y + this->actor.depthInWater;
@@ -608,7 +609,7 @@ void EnRu1_SwimTowardLink(EnRu1* this, PlayState* play) {
     Vec3f* thisPos;
     f32 swimProximity;
     CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
-    s32 pad;
+    STACK_PAD(s32);
 
     if (cue != NULL) {
         swimProximity = EnRu1_GetSwimLerpFactor(cue, play);
@@ -624,12 +625,12 @@ void EnRu1_StartSwimmingAwayFromLink(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SwimAwayFromLink(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f* treadStartPos = &this->treadStartPos;
     Vec3f* thisPos;
     f32 proximity;
     CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
-    s32 pad2;
+    STACK_PAD(s32);
 
     if (cue != NULL) {
         proximity = EnRu1_GetSwimLerpFactor(cue, play);
@@ -708,7 +709,7 @@ void EnRu1_EnterFountainWater(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_Resurface(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 frameCount;
 
     if (EnRu1_CheckFountainCueNotMatchingId(play, 3)) {
@@ -722,7 +723,7 @@ void EnRu1_Resurface(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_ResurfaceProgress(EnRu1* this, PlayState* play, s32 isResurfaced) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (isResurfaced != 0) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildTreadWaterAnim);
@@ -736,7 +737,7 @@ void EnRu1_ResurfaceProgress(EnRu1* this, PlayState* play, s32 isResurfaced) {
 }
 
 void EnRu1_StopTreading(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 frameCount;
 
     if (EnRu1_CheckFountainCueMatchingId(play, 6)) {
@@ -750,7 +751,7 @@ void EnRu1_StopTreading(EnRu1* this, PlayState* play) {
 
 void EnRu1_TransitionToBackSwimming(EnRu1* this, PlayState* play) {
     if (EnRu1_CheckFountainCueNotMatchingId(play, 6)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         EnRu1_StopMovingInWater(this);
         this->action = ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK;
@@ -925,7 +926,7 @@ s32 EnRu1_IsPlayerInRangeForFirstEncounter(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_PlayStepSfx(EnRu1* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (this->isFalling == 0) {
         if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
@@ -952,7 +953,7 @@ void EnRu1_RespondToFalling(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_CheckStartFirstEncounter(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     if ((EnRu1_IsPlayerInRangeForFirstEncounter(this, play)) && (!Play_InCsMode(play)) &&
@@ -1012,7 +1013,7 @@ void EnRu1_AdvanceWalkingAway(EnRu1* this) {
 
 void EnRu1_CheckStartFalling(EnRu1* this) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         this->action = ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE;
         this->walkingFrame = 0.0f;
@@ -1086,13 +1087,13 @@ void EnRu1_Meeting_End(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SpawnBlueWarp(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f* pos;
     s16 yawTowardsPlayer;
     f32 spawnX;
     f32 spawnY;
     f32 spawnZ;
-    s32 pad2[2];
+    STACK_PADS(s32, 2);
 
     yawTowardsPlayer = this->actor.yawTowardsPlayer;
     pos = &this->actor.world.pos;
@@ -1122,11 +1123,11 @@ void EnRu1_Rise(EnRu1* this, PlayState* play) {
  * Ruto rises up in sync with Link as they warp out together.
  */
 void EnRu1_RiseWithLink(EnRu1* this, PlayState* play) {
-    s32 pad2;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f* playerPos = &player->actor.world.pos;
     s16 shapeRotY = player->actor.shape.rot.y;
-    s32 pad;
+    STACK_PAD(s32);
     f32 xzDistToPlayer = this->xzDistToPlayerInBlueWarp;
     Vec3f* pos = &this->actor.world.pos;
 
@@ -1136,7 +1137,7 @@ void EnRu1_RiseWithLink(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_SetPlayerMarkInBlueWarp(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f* player_unk_450 = &player->unk_450;
     Vec3f* pos = &this->actor.world.pos;
@@ -1157,7 +1158,7 @@ s32 EnRu1_IsLinkInBlueWarp(EnRu1* this, PlayState* play) {
     s16 targetRotY;
     f32 dx;
     f32 dz;
-    s32 pad2[5];
+    STACK_PADS(s32, 5);
 
     this->walkingFrame += 1.0f;
     if ((player->actor.speed == 0.0f) && (this->walkingFrame >= 3.0f)) {
@@ -1366,7 +1367,7 @@ void EnRu1_CheckIfBackInHolesRoom(PlayState* play) {
 
 void EnRu1_FadeWhileSinking(EnRu1* this, PlayState* play) {
     if (func_80AED624(this, play)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         this->sinkTimer += 1.0f;
         if (this->sinkTimer < 20.0f) {
@@ -1381,7 +1382,7 @@ void EnRu1_FadeWhileSinking(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_TurnUpperBodyForward(EnRu1* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3s* headRot;
     Vec3s* torsoRot;
 
@@ -1398,7 +1399,7 @@ void EnRu1_UpdateHeadRotation(EnRu1* this) {
     s16* headRotTimer = &this->headRotTimer;
     s16* headRotY = &this->interactInfo.headRot.y;
     s16* headTurnSpeed = &this->headTurnSpeed;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (DECR(*headRotTimer) == 0) {
         *headRotTimer = Rand_S16Offset(0xA, 0x19);
@@ -1477,7 +1478,7 @@ void EnRu1_UpdateBouncing(EnRu1* this, PlayState* play) {
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
-        s32 pad;
+        STACK_PAD(s32);
 
         speedXZ = &this->actor.speed;
         velocityY = &this->actor.velocity.y;
@@ -1557,7 +1558,7 @@ void EnRu1_StopMoving(EnRu1* this) {
 }
 
 void EnRu1_UpdateWaterState(EnRu1* this) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 bobMagnitude;
     f32 startY;
     EnRu1* thisx = this; // necessary to match
@@ -1648,7 +1649,7 @@ void EnRu1_CheckForDoorSwitch(EnRu1* this, PlayState* play) {
 }
 
 s32 EnRu1_IsOnSapphirePlatform(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionContext* colCtx;
     DynaPolyActor* dynaPolyActor;
     s32 floorBgId;
@@ -1683,7 +1684,7 @@ void EnRu1_UpdateSittingAction(EnRu1* this, PlayState* play) {
         this->action = ENRU1_ACTION_SITTING_CARRIED;
         EnRu1_PlayLiftingSfx(this, play);
     } else if (!EnRu1_IsOnSapphirePlatform(this, play) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
@@ -1695,7 +1696,7 @@ void EnRu1_CheckLanding(EnRu1* this, PlayState* play) {
     if (!EnRu1_IsOnSapphirePlatform(this, play)) {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speed == 0.0f) &&
             (this->actor.minVelocityY == 0.0f)) {
-            s32 pad;
+            STACK_PAD(s32);
 
             EnRu1_StopMoving(this);
             Actor_OfferCarry(&this->actor, play);
@@ -1712,7 +1713,7 @@ void EnRu1_CheckLanding(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_EndSeeingSapphireAnimation(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
     if (EnRu1_IsCsStateIdle(play)) {
@@ -1725,7 +1726,7 @@ void EnRu1_EndSeeingSapphireAnimation(EnRu1* this, PlayState* play) {
 }
 
 s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
     if (!GET_INFTABLE(INFTABLE_RUTO_BROUGHT_TO_SAPPHIRE_ROOM) && (func_80AEB124(play) != NULL)) {
@@ -1746,7 +1747,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
-    s32 pad[9];
+    STACK_PADS(s32, 9);
     Player* player;
     f32* carryIdleTimer = &this->carryIdleTimer;
 
@@ -1763,7 +1764,7 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
         this->action = ENRU1_ACTION_SITTING_RELEASED;
         *carryIdleTimer = 0.0f;
     } else if (func_80AEE6D0(this, play)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         *carryIdleTimer = 0.0f;
     } else {
@@ -1803,7 +1804,7 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
 
 s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        s32 pad;
+        STACK_PAD(s32);
 
         EnRu1_StopMoving(this);
         Actor_OfferCarry(&this->actor, play);
@@ -2133,7 +2134,7 @@ void EnRu1_KeepArmsDown(EnRu1* this, s32 armsAreDown) {
 }
 
 void EnRu1_EndRetrievalCutscene(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s8 curRoomNum;
 
     if (!(DEBUG_FEATURES && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
@@ -2244,7 +2245,7 @@ void EnRu1_SapphireRoom_BeingAbducted(EnRu1* this, PlayState* play) {
 
 void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) && !GET_INFTABLE(INFTABLE_RUTO_ABDUCTED)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = ENRU1_ACTION_WAITING_IN_SAPPHIRE_ROOM;
@@ -2372,7 +2373,7 @@ void EnRu1_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnRu1_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnRu1* this = (EnRu1*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -2464,13 +2465,13 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyes = this->eyes;
     void* eyeTex = sEyeTextures[eyes];
     s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
     void* mouthTex = sMouthTextures[mouth];
-    s32 pad1;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1282);
 
@@ -2489,13 +2490,13 @@ void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyes = this->eyes;
     void* eyeTex = sEyeTextures[eyes];
     s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
     void* mouthTex = sMouthTextures[mouth];
-    s32 pad1;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1324);
 

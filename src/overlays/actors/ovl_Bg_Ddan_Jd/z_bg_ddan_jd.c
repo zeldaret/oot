@@ -10,6 +10,7 @@
 #include "one_point_cutscene.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -59,7 +60,7 @@ typedef enum BgDdanJdState {
 #define SHORTCUT_Y_SPEED 5
 
 void BgDdanJd_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgDdanJd* this = (BgDdanJd*)thisx;
     CollisionHeader* colHeader = NULL;
 

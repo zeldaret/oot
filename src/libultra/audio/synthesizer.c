@@ -1,6 +1,7 @@
 #include "libaudio.h"
 #include "synthInternals.h"
 #include "stddef.h"
+#include "attributes.h"
 
 #ifndef MIN
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -11,9 +12,9 @@ static s32 _timeToSamplesNoRound(ALSynth* synth, s32 micros);
 
 void alSynNew(ALSynth* drvr, ALSynConfig* c) {
     s32 i;
-    ALVoice* vv;
+    UNUSED ALVoice* vv;
     PVoice* pv;
-    ALVoice* vvoices;
+    UNUSED ALVoice* vvoices;
     PVoice* pvoices;
     ALHeap* hp = c->heap;
     ALSave* save;

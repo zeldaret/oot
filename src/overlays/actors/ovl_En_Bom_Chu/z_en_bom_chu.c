@@ -8,6 +8,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
@@ -492,7 +493,7 @@ void EnBomChu_Update(Actor* thisx, PlayState* play2) {
 }
 
 void EnBomChu_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnBomChu* this = (EnBomChu*)thisx;
     f32 colorIntensity;
     s32 blinkHalfPeriod;

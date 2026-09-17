@@ -18,7 +18,7 @@ typedef struct EnDekubaba {
     /* 0x014C */ Vec3f bodyPartsPos[4];
     /* 0x017C */ SkelAnime skelAnime;
     /* 0x01C0 */ EnDekubabaActionFunc actionFunc;
-    /* 0x01C4 */ char pad[0x2];
+    /* 0x01C4 */ char unk_1C4[0x2];
     /* 0x01C6 */ s16 timer;
     /* 0x01C8 */ s16 targetSwayAngle;
     /* 0x01CA */ s16 stemSectionAngle[3]; // Used to calculate the position of the stem sections and head with spherical trigonometry

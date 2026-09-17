@@ -4,6 +4,7 @@
 #include "ultra64.h"
 #include "ultra64/gbi.h"
 #include "alignment.h"
+#include "attributes.h"
 #include "sched.h"
 #include "thga.h"
 #include "versions.h"
@@ -109,10 +110,10 @@ void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file,
 
 #else
 
-#define OPEN_DISPS(gfxCtx, file, line)      \
-    {                                       \
-        GraphicsContext* __gfxCtx = gfxCtx; \
-        s32 __dispPad
+#define OPEN_DISPS(gfxCtx, file, line)             \
+    {                                              \
+        UNUSED GraphicsContext* __gfxCtx = gfxCtx; \
+        UNUSED s32 __dispPad
 
 #define CLOSE_DISPS(gfxCtx, file, line) \
         do {} while (0);                \
@@ -123,7 +124,7 @@ void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file,
 
 #endif
 
-void Graph_ThreadEntry(void*);
+void Graph_ThreadEntry(void* arg);
 
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
 extern u64 gMojiFontTex[]; // original name: "font_ff"

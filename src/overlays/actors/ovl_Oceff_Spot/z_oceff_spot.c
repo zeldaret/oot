@@ -6,11 +6,13 @@
 
 #include "z_oceff_spot.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "printf.h"
 #include "regs.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "tex_len.h"
@@ -71,7 +73,7 @@ void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {
 }
 
 void OceffSpot_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     OceffSpot* this = (OceffSpot*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -94,7 +96,7 @@ void OceffSpot_Init(Actor* thisx, PlayState* play) {
 }
 
 void OceffSpot_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     OceffSpot* this = (OceffSpot*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -148,7 +150,7 @@ void OceffSpot_GrowCylinder(OceffSpot* this, PlayState* play) {
 
 void OceffSpot_Update(Actor* thisx, PlayState* play) {
     OceffSpot* this = (OceffSpot*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     f32 temp;
 
@@ -176,7 +178,7 @@ void OceffSpot_Update(Actor* thisx, PlayState* play) {
 }
 
 void OceffSpot_Draw(Actor* thisx, PlayState* play) {
-    OceffSpot* this = (OceffSpot*)thisx;
+    UNUSED OceffSpot* this = (OceffSpot*)thisx;
     u32 scroll = play->state.frames & 0xFFFF;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_oceff_spot.c", 466);

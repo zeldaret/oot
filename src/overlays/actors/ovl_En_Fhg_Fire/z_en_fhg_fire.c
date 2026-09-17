@@ -19,6 +19,7 @@
 #include "rumble.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -99,7 +100,7 @@ void EnFhgFire_SetUpdate(EnFhgFire* this, EnFhgFireUpdateFunc updateFunc) {
 }
 
 void EnFhgFire_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnFhgFire* this = (EnFhgFire*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -181,7 +182,7 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnFhgFire_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnFhgFire* this = (EnFhgFire*)thisx;
 
     if ((this->actor.params == FHGFIRE_LIGHTNING_SHOCK) || (this->actor.params == FHGFIRE_LIGHTNING_BURST) ||
@@ -693,7 +694,7 @@ void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play) {
 }
 
 void EnFhgFire_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnFhgFire* this = (EnFhgFire*)thisx;
 
     this->work[FHGFIRE_VARIANCE_TIMER]++;
@@ -708,12 +709,12 @@ void EnFhgFire_Update(Actor* thisx, PlayState* play) {
     this->updateFunc(this, play);
 }
 
-static void* sDustTextures[] = {
+UNUSED static void* sDustTextures[] = {
     gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
 };
 
 void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnFhgFire* this = (EnFhgFire*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fhg_fire.c", 1723);

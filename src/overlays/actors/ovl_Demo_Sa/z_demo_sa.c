@@ -15,6 +15,7 @@
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -137,7 +138,7 @@ void DemoSa_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DemoSa_Blink(DemoSa* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16* eyeIndex = &this->eyeIndex;
     s16* blinkTimer = &this->blinkTimer;
 
@@ -236,7 +237,7 @@ void DemoSa_SetStartPosRotFromCue(DemoSa* this, PlayState* play, s32 cueChannel)
 }
 
 void DemoSa_AnimationChange(DemoSa* this, AnimationHeader* animHeaderSeg, u8 mode, f32 morphFrames, s32 playReversed) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
     f32 startFrame;
@@ -287,7 +288,7 @@ void DemoSa_CsForestMedallion_Rise(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_CsForestMedallion_CheckCutscene(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_FOREST) && !IS_CUTSCENE_LAYER) {
@@ -391,7 +392,7 @@ void DemoSa_Action_EndMedallionCs(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_InitTrialOrSealingGanon(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gSariaSealGanonAnim);
 
@@ -502,11 +503,11 @@ void DemoSa_Action_AwaitLightBall(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* eyeTexture = sEyeTextures[eyeIndex];
     s16 mouthIndex = this->mouthIndex;
-    s32 pad2;
+    STACK_PAD(s32);
     void* mouthTexture = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -845,10 +846,10 @@ void DemoSa_DrawNothing(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_DrawOpa(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* eyeTex = sEyeTextures[eyeIndex];
-    s32 pad2;
+    STACK_PAD(s32);
     s16 mouthIndex = this->mouthIndex;
     void* mouthTex = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;

@@ -24,6 +24,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -426,7 +427,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
 }
 
 void BossMo_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossMo* this = (BossMo*)thisx;
 
     if (this->actor.params >= BOSSMO_TENTACLE) {
@@ -583,7 +584,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Vec3f ripplePos;
                 f32 randAngle;
                 f32 randFloat;
-                s32 pad;
+                STACK_PAD(s32);
 
                 if (this->timers[0] > 50) {
                     rippleCount = 1;
@@ -895,9 +896,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             if (this->meltIndex < 41) {
                 Vec3f sp120;
                 s16 indS0;
-                s32 pad118;
-                s32 pad114;
-                s32 pad110;
+                STACK_PADS(s32, 3);
 
                 for (indS0 = 0; indS0 < 10; indS0++) {
                     sp120 = this->tentPos[this->meltIndex];
@@ -1101,12 +1100,12 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachF(&this->tentSpeed, 0.1f, 1.0f, 0.005f);
                 this->actor.velocity.y = 0.0;
             } else {
-                f32 padEC;
+                f32 spEC;
 
                 this->fwork[MO_TENT_MAX_STRETCH] = 0.2f;
                 this->fwork[MO_TENT_MAX_STRETCH] += Math_SinS(this->work[MO_TENT_MOVE_TIMER] * 0x2000) * 0.05f;
-                padEC = Math_CosS(this->work[MO_TENT_MOVE_TIMER] * 0x2000) * 0.0005f;
-                Math_ApproachF(&this->actor.scale.x, 0.002f + padEC, 0.5f, 0.0005f);
+                spEC = Math_CosS(this->work[MO_TENT_MOVE_TIMER] * 0x2000) * 0.0005f;
+                Math_ApproachF(&this->actor.scale.x, 0.002f + spEC, 0.5f, 0.0005f);
                 this->actor.world.pos.y += this->actor.velocity.y;
                 this->actor.velocity.y -= 1.0f;
                 if (this->actor.world.pos.y < -250.0f) {
@@ -1234,7 +1233,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
     f32 dz;
     f32 tempX;
     f32 tempY;
-    s32 pad84;
+    STACK_PAD(s32);
     f32 sp80;
     f32 sp7C;
     f32 sp78;
@@ -1243,9 +1242,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
     Vec3f bubblePos;
     Vec3f bubblePos2;
     Camera* mainCam2;
-    f32 pad50;
-    f32 pad4C;
-    f32 pad48;
+    STACK_PADS(s32, 3);
 
     if (this->csState < MO_INTRO_REVEAL) {
         this->subCamFov = 80.0f;
@@ -1883,19 +1880,18 @@ void BossMo_Core(BossMo* this, PlayState* play) {
     f32 spD4;
     f32 spD0;
     f32 spCC;
-    s32 padC8;
+    STACK_PAD(s32);
     s32 temp;         // not on stack
     f32 xScaleTarget; // not on stack
     f32 yScaleTarget;
     Vec3f effectPos;
     Vec3f effectVelocity;
     Vec3f effectAccel;
-    s32 pad94;
-    s32 pad90;
+    STACK_PADS(s32, 2);
     s16 j;
     s16 index; // not on stack
     f32 sp88;
-    s32 pad84;
+    STACK_PAD(s32);
 
     this->waterTex1x += -1.0f;
     this->waterTex1y += -1.0f;
@@ -2248,7 +2244,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
 }
 
 void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossMo* this = (BossMo*)thisx;
     s16 i;
     Player* player = GET_PLAYER(play);
@@ -2298,7 +2294,7 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
 void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
     s16 i;
     s16 index;
-    s32 pad;
+    STACK_PAD(s32);
     BossMo* this = (BossMo*)thisx;
     Player* player = GET_PLAYER(play);
     f32 phi_f0;
@@ -2391,7 +2387,7 @@ void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
         Vec3f sp7C;
         Vec3f bubblePos;
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-        s32 pad;
+        STACK_PAD(s32);
 
         this->baseBubblesTimer--;
         sp88.x = 0.0;
@@ -2502,8 +2498,7 @@ void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
     BossMo_InitRand(1, 29100, 9786);
 
     for (i = 0; i < 41; i++, matrix++) {
-        s32 pad;
-        s32 pad2;
+        STACK_PADS(s32, 2);
 
         if (i < 2) {
             Matrix_Push();
@@ -2605,7 +2600,7 @@ void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
 }
 
 void BossMo_DrawWater(BossMo* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_mo.c", 6582);
     if (1) {}
@@ -2634,7 +2629,7 @@ void BossMo_DrawWater(BossMo* this, PlayState* play) {
 }
 
 void BossMo_DrawCore(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossMo* this = (BossMo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_mo.c", 6688);
@@ -2760,7 +2755,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
 }
 
 void BossMo_DrawTent(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossMo* this = (BossMo*)thisx;
     u16 texCoordScale;
 
@@ -2941,7 +2936,7 @@ void BossMo_UpdateEffects(BossMo* this, PlayState* play) {
 void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     u8 materialFlag = 0;
     s16 i;
-    s32 pad;
+    STACK_PAD(s32);
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     BossMoEffect* effectHead = effect;
 

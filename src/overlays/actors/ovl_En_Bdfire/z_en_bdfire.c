@@ -13,6 +13,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "light.h"
@@ -54,7 +55,7 @@ void EnbdFire_SetupDraw(EnBdfire* this, EnBdfireDrawFunc drawFunc) {
 
 void EnBdfire_Init(Actor* thisx, PlayState* play) {
     EnBdfire* this = (EnBdfire*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_SetScale(&this->actor, 0.6f);
     EnbdFire_SetupDraw(this, EnBdfire_DrawFire);
@@ -205,7 +206,7 @@ void EnBdfire_DrawFire(EnBdfire* this, PlayState* play) {
         object_kingdodongo_Tex_02C4E0, object_kingdodongo_Tex_02D4E0,
     };
     s16 texIndex;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bdfire.c", 612);
     texIndex = this->unk_156 & 7;

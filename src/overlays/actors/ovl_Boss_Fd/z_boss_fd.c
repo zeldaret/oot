@@ -23,6 +23,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -194,7 +195,7 @@ void BossFd_UpdateCamera(BossFd* this, PlayState* play) {
 }
 
 void BossFd_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossFd* this = (BossFd*)thisx;
     s16 i;
 
@@ -247,7 +248,7 @@ void BossFd_Init(Actor* thisx, PlayState* play) {
 }
 
 void BossFd_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossFd* this = (BossFd*)thisx;
 
     SkelAnime_Free(&this->skelAnimeHead, play);
@@ -290,7 +291,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 angleToTarget;
     f32 pitchToTarget;
-    Vec3f* holePosition1;
+    STACK_PAD(s32);
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
@@ -778,7 +779,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 Vec3f sp170;
                 Vec3f sp164 = { 0.0f, 0.03f, 0.0f };
                 Vec3f sp158;
-                f32 pad154;
+                STACK_PAD(s32);
                 s16 temp_rand2;
                 s16 sp150;
 
@@ -1023,9 +1024,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
         } else {
             for (i2 = 0; i2 < 3; i2++) {
                 f32 phi_f20 = 0.0f;
-                f32 padB4;
-                f32 padB0;
-                f32 padAC;
+                STACK_PADS(s32, 3);
 
                 Math_ApproachZeroF(&this->rightArmRot[i2].y, 0.1f, 100.0f);
                 Math_ApproachZeroF(&this->leftArmRot[i2].y, 0.1f, 100.0f);
@@ -1103,7 +1102,7 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
         play->envCtx.prevLightSetting = 0;
         Math_ApproachF(&play->envCtx.lightBlend, 1.0f, 1.0f, 0.05f);
     } else if (this->fogMode == 2) {
-        s16 pad;
+        STACK_PAD(s16);
 
         this->fogMode--;
         play->envCtx.lightSettingOverride = 0;
@@ -1113,7 +1112,7 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
         play->envCtx.lightSetting = 3;
         play->envCtx.prevLightSetting = 0;
     } else if (this->fogMode == 10) {
-        s16 pad;
+        STACK_PAD(s16);
 
         this->fogMode = 1;
         play->envCtx.lightSettingOverride = 0;
@@ -1355,7 +1354,7 @@ void BossFd_Update(Actor* thisx, PlayState* play) {
         f32 headGlow;
         f32 rManeGlow;
         f32 lManeGlow;
-        s32 pad;
+        STACK_PAD(s32);
 
         Math_ApproachF(&this->fwork[BFD_BODY_TEX2_ALPHA], (this->work[BFD_VAR_TIMER] & 0x10) ? 30.0f : 158.0f, 1.0f,
                        8.0f);
@@ -1648,7 +1647,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
 }
 
 void BossFd_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossFd* this = (BossFd*)thisx;
 
     PRINTF("FD DRAW START\n");
@@ -1714,7 +1713,7 @@ s32 BossFd_OverrideLeftArmDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 }
 
 static s16 sBodyIndex[] = { 0, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5 };
-static s16 sManeIndex[] = { 0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 }; // Unused
+UNUSED static s16 sManeIndex[] = { 0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 };
 
 void BossFd_DrawMane(PlayState* play, BossFd* this, Vec3f* manePos, Vec3f* maneRot, f32* maneScale, u8 mode) {
     f32 sp140[] = { 0.0f, 10.0f, 17.0f, 20.0f, 19.5f, 18.0f, 17.0f, 15.0f, 15.0f, 15.0f };

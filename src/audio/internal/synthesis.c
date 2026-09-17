@@ -2,6 +2,8 @@
  * original name: driver.c
  */
 #include "alignment.h"
+#include "attributes.h"
+#include "stack_pad.h"
 #include "ultra64.h"
 #include "audio.h"
 
@@ -68,7 +70,7 @@ u8 sNumSamplesPerWavePeriod[] = {
  */
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     SynthesisReverb* reverb = &gAudioCtx.synthesisReverbs[reverbIndex];
     s32 temp_a0_2;
     s32 temp_a0_4;
@@ -168,7 +170,6 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
     Acmd* cmdP;
     s32 i;
     s32 j;
-    SynthesisReverb* reverb;
 
     cmdP = cmdStart;
     for (i = gAudioCtx.audioBufferParameters.ticksPerUpdate; i > 0; i--) {
@@ -520,7 +521,7 @@ void AudioSynth_LoadFilterSize(Acmd* cmd, s32 size, void* addr) {
 /**
  * original name: Nas_LoadAuxBuffer1
  */
-Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
+Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, UNUSED s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* ringBufferItem = &reverb->items[reverb->curFrame][updateIndex];
 
     cmd =
@@ -537,7 +538,7 @@ Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 aiBufLen, SynthesisReverb* rever
 /**
  * original name: Nas_LoadAuxBuffer1_B
  */
-Acmd* AudioSynth_LoadRingBuffer2(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
+Acmd* AudioSynth_LoadRingBuffer2(Acmd* cmd, UNUSED s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][updateIndex];
 
     cmd = AudioSynth_LoadRingBufferPart(cmd, DMEM_WET_LEFT_CH, bufItem->startPos, bufItem->lengthA, reverb);
@@ -777,9 +778,9 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 /**
  * original name: Nas_SynthMain
  */
-Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSampleState* sampleState, NoteSynthesisState* synthState, s16* aiBuf,
-                             s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
-    s32 pad1[3];
+Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSampleState* sampleState, NoteSynthesisState* synthState,
+                             UNUSED s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
+    STACK_PADS(s32, 3);
     Sample* sample;
     AdpcmLoop* loopInfo;
     s32 nSamplesUntilLoopEnd;
@@ -793,7 +794,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSampleState* sampleState, NoteSy
     s32 gain;
     s32 frameIndex;
     s32 skipBytes;
-    s32 temp_v1_6;
+    STACK_PAD(s32);
     s16* combFilterState;
     s32 nSamplesToDecode;
     u32 sampleAddr;
@@ -804,7 +805,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSampleState* sampleState, NoteSy
     s32 nSamplesToProcess;
     s32 phi_s4;
     s32 nFirstFrameSamplesToIgnore;
-    s32 pad2[7];
+    STACK_PADS(s32, 7);
     s32 frameSize;
     s32 nFramesToDecode;
     s32 skipInitialSamples;
@@ -828,7 +829,6 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSampleState* sampleState, NoteSy
     s32 finished;
     s32 aligned;
     s16 addr;
-    u16 unused;
 
     bookOffset = sampleState->bitField1.bookOffset;
     finished = sampleState->bitField0.finished;
@@ -1234,7 +1234,7 @@ Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 si
  * original name: Nas_Synth_Envelope
  */
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSampleState* sampleState, NoteSynthesisState* synthState, s32 aiBufLen,
-                                 u16 dmemSrc, s32 haasEffectDelaySide, s32 flags) {
+                                 u16 dmemSrc, s32 haasEffectDelaySide, UNUSED s32 flags) {
     u32 dmemDests;
     u16 curVolLeft;
     u16 targetVolLeft;
@@ -1246,7 +1246,7 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSampleState* sampleState, NoteSy
     s16 rampReverb;
     s16 sourceReverbVol;
     u16 targetVolRight;
-    s32 pad;
+    STACK_PAD(s32);
 
     curVolLeft = synthState->curVolLeft;
     targetVolLeft = sampleState->targetVolLeft;

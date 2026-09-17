@@ -6,7 +6,9 @@
 
 #include "z_en_trap.h"
 
+#include "attributes.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -78,7 +80,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     s16 zSpeed;
     s16 xSpeed;
     EnTrap* this = (EnTrap*)thisx;
-    ColliderCylinder* unused = &this->collider; // required to match
+    UNUSED ColliderCylinder* collider = &this->collider; // required to match
 
     this->upperParams = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
@@ -141,7 +143,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     s16 angleToCollidedActor;
     s16 touchingActor;
     s16 blockedOnReturn;
-    s32 pad;
+    STACK_PAD(s32);
     s16 angleToWall;
     Vec3f icePos;
     Vec3f posAhead;

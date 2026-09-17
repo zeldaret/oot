@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "play_state.h"
 #include "save.h"
@@ -96,7 +97,7 @@ s32 func_808AC22C(Path* pathList, Vec3f* pos, s32 path, s32 waypoint) {
 void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     Actor* thisx = &this->dyna.actor;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f position;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {

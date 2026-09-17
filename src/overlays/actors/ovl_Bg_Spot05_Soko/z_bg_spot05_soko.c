@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 #include "save.h"
@@ -47,10 +48,10 @@ static Gfx* sDLists[] = {
 };
 
 void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
-    s32 pad1;
+    STACK_PAD(s32);
     BgSpot05Soko* this = (BgSpot05Soko*)thisx;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);

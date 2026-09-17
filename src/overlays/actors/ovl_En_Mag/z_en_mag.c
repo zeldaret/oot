@@ -18,6 +18,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "versions.h"
 #include "audio.h"
@@ -207,7 +208,7 @@ void EnMag_CheckSramResetCode(PlayState* play, EnMag* this) {
 #endif
 
 void EnMag_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Input* input = &play->state.input[0];
     EnMag* this = (EnMag*)thisx;
 
@@ -440,7 +441,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
     u32 textureHeight;
     s32 remainingSize;
     s32 textureSize;
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     Gfx_SetupDL_56Ptr(&gfx);
@@ -576,7 +577,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     };
     EnMag* this = (EnMag*)thisx;
     Font* font = &this->font;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* gfx = *gfxP;
     u16 i, j, k;
     u16 rectLeft;
@@ -883,7 +884,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 }
 
 void EnMag_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* gfx;
     Gfx* gfxRef;
 

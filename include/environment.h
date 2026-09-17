@@ -263,7 +263,7 @@ void Environment_DrawSkyboxFilters(struct PlayState* play);
 s32 Environment_ZBufValToFixedPoint(s32 zBufferVal);
 u16 Environment_GetPixelDepth(s32 x, s32 y);
 void Environment_GraphCallback(struct GraphicsContext* gfxCtx, void* param);
-void Environment_Init(struct PlayState* play2, EnvironmentContext* envCtx, s32 unused);
+void Environment_Init(struct PlayState* play2, EnvironmentContext* envCtx, s32 arg2);
 u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep);
 u8 Environment_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep);
 f32 Environment_LerpWeight(u16 max, u16 min, u16 val);
@@ -275,15 +275,15 @@ void Environment_Update(struct PlayState* play, EnvironmentContext* envCtx, Ligh
                         struct GameOverContext* gameOverCtx, struct GraphicsContext* gfxCtx);
 void Environment_DrawSunAndMoon(struct PlayState* play);
 void Environment_DrawSunLensFlare(struct PlayState* play, EnvironmentContext* envCtx, struct View* view,
-                                  struct GraphicsContext* gfxCtx, Vec3f pos, s32 unused);
+                                  struct GraphicsContext* gfxCtx, Vec3f pos, s32 arg5);
 void Environment_DrawLensFlare(struct PlayState* play, EnvironmentContext* envCtx, struct View* view,
-                               struct GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
+                               struct GraphicsContext* gfxCtx, Vec3f pos, s32 arg5, s16 scale, f32 colorIntensity,
                                s16 glareStrength, u8 isSun);
 void Environment_DrawRain(struct PlayState* play, struct View* view, struct GraphicsContext* gfxCtx);
 void Environment_ChangeLightSetting(struct PlayState* play, u32 lightSetting);
 void Environment_UpdateLightningStrike(struct PlayState* play);
 void Environment_AddLightningBolts(struct PlayState* play, u8 num);
-void Environment_DrawLightning(struct PlayState* play, s32 unused);
+void Environment_DrawLightning(struct PlayState* play, s32 arg1);
 void Environment_PlaySceneSequence(struct PlayState* play);
 void Environment_DrawCustomLensFlare(struct PlayState* play);
 void Environment_InitGameOverLights(struct PlayState* play);

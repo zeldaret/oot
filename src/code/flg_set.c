@@ -7,6 +7,7 @@
 #include "controller.h"
 #include "play_state.h"
 #include "save.h"
+#include "stack_pad.h"
 
 typedef struct FlagSetEntry {
     /* 0x00 */ u16* value;
@@ -83,7 +84,7 @@ void FlagSet_Update(PlayState* play) {
 
     {
         GfxPrint printer;
-        s32 pad;
+        STACK_PAD(s32);
 
         polyOpa = POLY_OPA_DISP;
         gfx = Gfx_Open(polyOpa);

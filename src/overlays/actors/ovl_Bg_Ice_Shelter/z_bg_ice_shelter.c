@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -99,7 +100,7 @@ static ColliderCylinderInit sCylinderInit2 = {
 void BgIceShelter_InitColliders(BgIceShelter* this, PlayState* play) {
     static s16 cylinderRadii[] = { 47, 33, 44, 41, 100 };
     static s16 cylinderHeights[] = { 80, 54, 90, 60, 200 };
-    s32 pad;
+    STACK_PAD(s32);
     s32 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
     // All types use at least one collider in order to detect blue fire
@@ -126,7 +127,7 @@ void BgIceShelter_InitColliders(BgIceShelter* this, PlayState* play) {
 }
 
 void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
@@ -135,7 +136,7 @@ void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHea
 
 #if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        s32 pad2;
+        STACK_PAD(s32);
 
         PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
                  "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
@@ -251,7 +252,7 @@ void BgIceShelter_SpawnSteamAround(BgIceShelter* this, PlayState* play, f32 part
     s16 angle;
     s16 frameCounter;
     s32 i;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f steamPos;
     Vec3f steamVel;
     Vec3f steamAccel;
@@ -299,7 +300,7 @@ void BgIceShelter_SpawnSteamAlong(BgIceShelter* this, PlayState* play, f32 parti
     static f32 signs[] = { -1.0f, 1.0f };
     Vec3f* icePos;
     s16 frameCounter;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f steamPos;
     Vec3f steamVel;
     Vec3f steamAccel;
@@ -345,7 +346,7 @@ void BgIceShelter_SetupIdle(BgIceShelter* this) {
  * Checks for collision with blue fire. Also used to freeze King Zora's actor.
  */
 void BgIceShelter_Idle(BgIceShelter* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
     // Freeze King Zora
@@ -411,8 +412,7 @@ static void (*sSteamSpawnFuncs[])(BgIceShelter* this, PlayState* play, f32 parti
  * Progressively reduces the height and opacity of the red ice, while spawning steam effects at its base.
  */
 void BgIceShelter_Melt(BgIceShelter* this, PlayState* play) {
-
-    s32 pad;
+    STACK_PAD(s32);
     s32 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
     f32 particleSpawningChance;
 

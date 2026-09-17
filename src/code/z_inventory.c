@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "play_state.h"
 #include "player.h"
@@ -288,7 +289,7 @@ void Inventory_ChangeEquipment(s16 equipment, u16 value) {
 
 u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     u16 equipValue = gSaveContext.save.info.equips.equipment & gEquipMasks[equipment];
 
     PRINTF(T("装備アイテム抹消 = %d  zzz=%d\n", "Erasing equipment item = %d  zzz=%d\n"), equipment, equipValue);

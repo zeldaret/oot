@@ -10,6 +10,7 @@
 #include "irqmgr.h"
 #include "line_numbers.h"
 #include "stack.h"
+#include "stack_pad.h"
 #include "stackcheck.h"
 #include "sys_freeze.h"
 #include "versions.h"
@@ -68,7 +69,7 @@ u32 func_801C6E80(void) {
 #endif
 }
 
-void func_801C6EA0(Gfx** gfxP) {
+void func_801C6EA0(UNUSED Gfx** gfxP) {
 }
 
 void func_801C6EAC(void) {
@@ -205,7 +206,7 @@ void func_801C7B28_ne2(void) {
 #endif
 
 void func_801C7268(void) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 sp20;
     s32 sp1C;
 
@@ -281,7 +282,7 @@ void func_801C746C(void* arg0, void* arg1, void* arg2) {
 }
 
 void func_801C75BC(void* arg0, void* arg1, void* arg2) {
-    s32 temp;
+    STACK_PAD(s32);
 
     if (arg0 == NULL && arg1 == NULL && arg2 == NULL) {
         return;
@@ -423,7 +424,7 @@ void func_801C79CC(void* arg0, s32 arg1, s32 arg2) {
     (&func_801C8000)(&B_801D9D50);
 }
 
-void func_801C7A10(LEODiskID* arg0) {
+void func_801C7A10(UNUSED LEODiskID* arg0) {
 }
 
 // Checks diskId, sets B_801D9DC8 and returns true if diskId is correct
@@ -544,7 +545,7 @@ void func_801C7E78(void) {
 s32 func_801C7E80(void) {
     s32 sp24;
     s32 sp20;
-    s32 sp1C;
+    STACK_PAD(s32);
     uintptr_t sp18;
 
     if (B_801D9D48 != NULL) {

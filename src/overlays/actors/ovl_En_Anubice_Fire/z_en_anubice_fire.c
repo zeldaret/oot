@@ -12,6 +12,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -104,7 +105,7 @@ void func_809B26EC(EnAnubiceFire* this, PlayState* play) {
 }
 
 void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
@@ -160,7 +161,7 @@ void func_809B2B48(EnAnubiceFire* this, PlayState* play) {
     Vec3f pos;
     Color_RGBA8 primColor = { 255, 255, 0, 255 };
     Color_RGBA8 envColor = { 255, 0, 0, 255 };
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     if (this->unk_15C == 0) {
@@ -184,7 +185,7 @@ void func_809B2B48(EnAnubiceFire* this, PlayState* play) {
 
 void EnAnubiceFire_Update(Actor* thisx, PlayState* play) {
     EnAnubiceFire* this = (EnAnubiceFire*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     Actor_SetScale(&this->actor, this->scale);
@@ -231,7 +232,7 @@ void EnAnubiceFire_Draw(Actor* thisx, PlayState* play) {
         gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex,
     };
     EnAnubiceFire* this = (EnAnubiceFire*)thisx;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 i;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_anubice_fire.c", 503);

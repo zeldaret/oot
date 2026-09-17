@@ -10,6 +10,7 @@
 #include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -107,7 +108,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHidanDalm_Init(Actor* thisx, PlayState* play) {
     BgHidanDalm* this = (BgHidanDalm*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);

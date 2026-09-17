@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -132,7 +133,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play) {
 
 void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
     ObjBombiwa* this = (ObjBombiwa*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((func_80033684(play, &this->actor) != NULL) ||
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HAMMER))) {

@@ -2,6 +2,7 @@
 #define FILE_SELECT_H
 
 #include "stddef.h"
+#include "attributes.h"
 #include "ultra64.h"
 #include "gfx.h"
 #include "versions.h"

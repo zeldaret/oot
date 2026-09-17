@@ -18,6 +18,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -1246,7 +1247,7 @@ void EnTa_AnimRunToEnd(EnTa* this) {
 
 void EnTa_Update(Actor* thisx, PlayState* play) {
     EnTa* this = (EnTa*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -1327,7 +1328,7 @@ void EnTa_Draw(Actor* thisx, PlayState* play) {
         gTalonEyeClosedTex,
     };
     EnTa* this = (EnTa*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ta.c", 2381);
 

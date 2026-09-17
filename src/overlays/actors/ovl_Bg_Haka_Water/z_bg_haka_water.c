@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -116,9 +117,9 @@ void BgHakaWater_Update(Actor* thisx, PlayState* play) {
 
 void BgHakaWater_Draw(Actor* thisx, PlayState* play) {
     BgHakaWater* this = (BgHakaWater*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 temp;
-    s32 pad2;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_haka_water.c", 287);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);

@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -104,7 +105,7 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
     };
     EnDyExtra* this = (EnDyExtra*)thisx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     Vtx* vertices = SEGMENTED_TO_VIRTUAL(gGreatFairySpiralBeamVtx);
     s32 i;
     u8 alphaVals[3];

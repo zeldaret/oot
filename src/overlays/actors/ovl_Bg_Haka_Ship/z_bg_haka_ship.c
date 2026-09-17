@@ -12,6 +12,7 @@
 #include "one_point_cutscene.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -52,7 +53,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaShip_Init(Actor* thisx, PlayState* play) {
     BgHakaShip* this = (BgHakaShip*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -237,7 +238,7 @@ void BgHakaShip_Draw(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_haka_ship.c", 568);
 
     if (this->actionFunc == BgHakaShip_CutsceneStationary || this->actionFunc == BgHakaShip_Move) {
-        s32 pad;
+        STACK_PAD(s32);
         Vec3f sp2C;
 
         sp2C.x = this->dyna.actor.world.pos.x + -367.0f;

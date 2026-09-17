@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -53,7 +54,7 @@ void func_80891AC0(BgIceShutter* this) {
 
 void BgIceShutter_Init(Actor* thisx, PlayState* play) {
     BgIceShutter* this = (BgIceShutter*)thisx;
-    f32 sp24;
+    STACK_PAD(s32);
     CollisionHeader* colHeader;
     s32 sp28;
 

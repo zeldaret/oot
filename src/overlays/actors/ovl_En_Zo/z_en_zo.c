@@ -6,12 +6,14 @@
 
 #include "z_en_zo.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -44,7 +46,7 @@ void EnZo_Dive(EnZo* this, PlayState* play);
 
 void EnZo_SpawnRipple(EnZo* this, Vec3f* pos, f32 scale, f32 targetScale, u8 alpha) {
     EnZoEffect* effect;
-    Vec3f vec = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
     effect = this->effects;
@@ -63,7 +65,7 @@ void EnZo_SpawnRipple(EnZo* this, Vec3f* pos, f32 scale, f32 targetScale, u8 alp
 
 void EnZo_SpawnBubble(EnZo* this, Vec3f* pos) {
     EnZoEffect* effect;
-    Vec3f vec = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec = { 0.0f, 0.0f, 0.0f };
     Vec3f vel = { 0.0f, 1.0f, 0.0f };
     s16 i;
     f32 waterSurface;
@@ -731,7 +733,7 @@ void EnZo_Dive(EnZo* this, PlayState* play) {
 
 void EnZo_Update(Actor* thisx, PlayState* play) {
     EnZo* this = (EnZo*)thisx;
-    u32 pad;
+    STACK_PAD(s32);
     Vec3f pos;
 
     if ((s32)this->alpha != 0) {

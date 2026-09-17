@@ -1,12 +1,14 @@
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:0" \
                                "pal-1.0:0 pal-1.1:0"
 #include "libc64/malloc.h"
+#include "attributes.h"
 #include "libu64/debug.h"
 #include "array_count.h"
 #include "gfx.h"
 #include "printf.h"
 #include "regs.h"
 #include "speed_meter.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "zelda_arena.h"
 #include "game.h"
@@ -112,18 +114,18 @@ void SpeedMeter_Init(SpeedMeter* this) {
     SpeedMeter_InitImpl(this, 32, 22);
 }
 
-void SpeedMeter_Destroy(SpeedMeter* this) {
+void SpeedMeter_Destroy(UNUSED SpeedMeter* this) {
 }
 
 void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     u32 baseX = 32;
     s32 width;
     s32 i;
     s32 uly;
     s32 lry;
     View view;
-    u32 pad2[3];
+    STACK_PADS(s32, 3);
     Gfx* gfx;
 
     uly = this->y;
@@ -224,8 +226,8 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
     }
 }
 
-void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state) {
-    s32 pad1[2];
+void SpeedMeter_DrawAllocEntries(UNUSED SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state) {
+    STACK_PADS(s32, 2);
     u32 ulx = 30;
     u32 lrx = 290;
     SpeedMeterAllocEntry entry;

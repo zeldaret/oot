@@ -12,6 +12,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -47,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_808B6BC0(BgSpot17Bakudankabe* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 i;
     Vec3f burstDepthY;
     Vec3f burstDepthX;
@@ -103,7 +104,7 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, PlayState* play) {
 
 void BgSpot17Bakudankabe_Init(Actor* thisx, PlayState* play) {
     BgSpot17Bakudankabe* this = (BgSpot17Bakudankabe*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

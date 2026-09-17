@@ -10,6 +10,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -83,7 +84,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgYdanMaruta* this = (BgYdanMaruta*)thisx;
     Vec3f sp4C[3];
     s32 i;

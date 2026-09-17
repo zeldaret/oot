@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "audio.h"
@@ -270,7 +271,7 @@ void EnMa1_UpdateSinging(EnMa1* this) {
 
 void EnMa1_Init(Actor* thisx, PlayState* play) {
     EnMa1* this = (EnMa1*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gMalonChildSkel, NULL, NULL, NULL, 0);
@@ -406,7 +407,7 @@ void EnMa1_DoNothing(EnMa1* this, PlayState* play) {
 
 void EnMa1_Update(Actor* thisx, PlayState* play) {
     EnMa1* this = (EnMa1*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -470,7 +471,7 @@ void EnMa1_Draw(Actor* thisx, PlayState* play) {
     EnMa1* this = (EnMa1*)thisx;
     Camera* activeCam;
     f32 distFromCamEye;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma1.c", 1226);
 

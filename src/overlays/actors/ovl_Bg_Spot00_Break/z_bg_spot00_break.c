@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "play_state.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_spot00_break/object_spot00_break.h"
 
@@ -40,7 +41,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot00Break_Init(Actor* thisx, PlayState* play) {
     BgSpot00Break* this = (BgSpot00Break*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

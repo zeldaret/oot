@@ -10,6 +10,7 @@
 #include "regs.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -67,7 +68,9 @@ s16 D_80812544[] = {
 
 void FileSelect_SetKeyboardVtx(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
+#if OOT_PAL
     s16 phi_t2;
+#endif
     s16 phi_t0;
     s16 phi_t3;
     s16 phi_s1;
@@ -195,7 +198,7 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     Font* font = &this->font;
     s16 phi_s0;
     s16 phi_t1;
-#if OOT_PAL
+#if OOT_PAL && OOT_VERSION >= PAL_1_1
     u8 temp;
 #endif
     s16 phi_v0;
@@ -538,7 +541,7 @@ s32 FileSelect_ApplyDiacriticToCharacter(GameState* thisx, s16 diacritic, s16 ch
  */
 s32 FileSelect_ApplyDiacriticToFilename(GameState* thisx, s16 diacritic) {
     FileSelectState* this = (FileSelectState*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (!FileSelect_ApplyDiacriticToCharacter(&this->state, diacritic, this->newFileNameCharCount)) {
         if (this->newFileNameCharCount != 0) {
@@ -969,8 +972,12 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     s16 prevKbdX;
 #if !(PLATFORM_GC && OOT_PAL)
+#if OOT_NTSC
     Input* input = &this->state.input[0];
-    s32 pad;
+#else
+    STACK_PAD(s32);
+#endif
+    STACK_PAD(s32);
 #endif
 
 #if OOT_NTSC
@@ -1525,14 +1532,14 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     s16 cursorBlue;
 #if !OOT_PAL_N64
     s16 i;
-    s16 j;
+    STACK_PAD(s16);
     s16 vtx;
 #else
     s16 startIndex;
     s32 endIndex;
     s32 i;
     s32 vtx;
-    s32 pad;
+    STACK_PAD(s32);
 #endif
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 848);

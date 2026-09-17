@@ -1,4 +1,5 @@
 #include "gfx.h"
+#include "attributes.h"
 #include "printf.h"
 #include "translation.h"
 #include "effect.h"
@@ -215,7 +216,7 @@ void Effect_UpdateAll(PlayState* play) {
     }
 }
 
-void Effect_Delete(PlayState* play, s32 index) {
+void Effect_Delete(UNUSED PlayState* play, s32 index) {
     if (index == TOTAL_EFFECT_COUNT) {
         return;
     }
@@ -241,7 +242,7 @@ void Effect_Delete(PlayState* play, s32 index) {
     }
 }
 
-void Effect_DeleteAll(PlayState* play) {
+void Effect_DeleteAll(UNUSED PlayState* play) {
     s32 i;
 
     PRINTF(T("エフェクト総て解放\n", "All effects release\n"));

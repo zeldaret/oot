@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -184,7 +185,7 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, PlayState* play
 
 void BgHidanFirewall_Update(Actor* thisx, PlayState* play) {
     BgHidanFirewall* this = (BgHidanFirewall*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->unk_150 = (this->unk_150 + 1) % 8;
 

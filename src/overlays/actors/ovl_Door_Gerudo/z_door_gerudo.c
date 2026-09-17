@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -47,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void DoorGerudo_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     DoorGerudo* this = (DoorGerudo*)thisx;
     CollisionHeader* colHeader = NULL;
 

@@ -14,6 +14,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "z_lib.h"
 #include "actor.h"
@@ -155,7 +156,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.005f);
@@ -562,7 +563,7 @@ static u8 sEyeIndexOrder[] = { 0, 1, 2, 1 };
 
 void EnHorseLinkChild_Update(Actor* thisx, PlayState* play) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     sActionFuncs[this->action](this, play);
     Actor_MoveXZGravity(&this->actor);

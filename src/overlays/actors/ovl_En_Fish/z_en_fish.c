@@ -6,6 +6,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "item.h"
 #include "play_state.h"
@@ -184,7 +185,7 @@ void EnFish_UpdateBobbingUpDown(EnFish* this) {
 }
 
 s32 EnFish_IsInRangeForCatch(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f playerPos;
 
@@ -238,7 +239,7 @@ void EnFish_Normal_SetupSwim(EnFish* this) {
 }
 
 void EnFish_Normal_Swim(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     EnFish_UpdateBobbingUpDown(this);
     Math_SmoothStepToF(&this->actor.speed, 1.8f, 0.08f, 0.4f, 0.0f);
@@ -278,8 +279,8 @@ void EnFish_Normal_SetupFleePlayer(EnFish* this) {
 void EnFish_Normal_FleePlayer(EnFish* this, PlayState* play) {
     s16 frames;
     s16 yaw;
-    s32 pad2;
-    s16 pad;
+    STACK_PAD(s32);
+    STACK_PAD(s16);
     s16 isCloseToPlayer;
 
     EnFish_UpdateBobbingUpDown(this);
@@ -328,9 +329,9 @@ void EnFish_Normal_SetupFollowPlayer(EnFish* this) {
 }
 
 void EnFish_Normal_FollowPlayer(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
-    s32 pad2;
+    STACK_PAD(s32);
     Vec3f playerPos;
     s16 yaw;
     s16 angle;
@@ -396,7 +397,7 @@ void EnFish_Dropped_Fall(EnFish* this, PlayState* play) {
 }
 
 void EnFish_Dropped_SetupFlapOnGround(EnFish* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 playLeapSfx;
     f32 rng;
 
@@ -428,7 +429,7 @@ void EnFish_Dropped_SetupFlapOnGround(EnFish* this) {
 
 void EnFish_Dropped_FlapOnGround(EnFish* this, PlayState* play) {
     s16 targetRotX;
-    s16 pad;
+    STACK_PAD(s16);
     s16 frames = play->state.frames;
 
     Math_SmoothStepToF(&this->actor.speed, Rand_ZeroOne() * 0.2f, 0.1f, 0.1f, 0.0f);
@@ -472,7 +473,7 @@ void EnFish_Dropped_SetupSwim(EnFish* this) {
 }
 
 void EnFish_Dropped_Swim(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Math_SmoothStepToF(&this->actor.speed, 2.8f, 0.1f, 0.4f, 0.0f);
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
@@ -508,12 +509,12 @@ void EnFish_TinyPond_SetupSwim(EnFish* this) {
 }
 
 void EnFish_TinyPond_Swim(EnFish* this, PlayState* play) {
-    s32 pad2;
+    STACK_PAD(s32);
     u32 frames = play->gameplayFrames;
     EnFishSpeedParams* speedParams;
-    s32 pad3;
+    STACK_PAD(s32);
     f32 animPlaySpeedBoost;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actor.xzDistToPlayer < 60.0f) {
         if (this->timer < 12) {
@@ -571,7 +572,7 @@ void EnFish_JabuCutscene_CueFlapOnGround(EnFish* this, PlayState* play) {
 }
 
 void EnFish_JabuCutscene_CueFly(EnFish* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 sp28 = Math_SinS(this->phase1);
     f32 sp24 = Math_SinS(this->phase2);
 
@@ -584,11 +585,11 @@ void EnFish_JabuCutscene_CueFly(EnFish* this, PlayState* play) {
 
 void EnFish_JabuCutscene_Update(EnFish* this, PlayState* play) {
     f32 factor;
-    s32 pad;
+    STACK_PAD(s32);
     CsCmdActorCue* cue = play->csCtx.actorCues[1];
     Vec3f startPos;
     Vec3f endPos;
-    s32 pad2;
+    STACK_PAD(s32);
     s32 bgId;
 
     if (play) {}

@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "play_state.h"
@@ -62,7 +63,7 @@ void func_808B746C(Actor* thisx, PlayState* play) {
 }
 
 void func_808B7478(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot17_funen.c", 153);
 

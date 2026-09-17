@@ -16,6 +16,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -169,7 +170,7 @@ void EnRu2_InitCollider(Actor* thisx, PlayState* play) {
 }
 
 void EnRu2_UpdateCollider(EnRu2* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
@@ -182,7 +183,7 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnRu2_UpdateEyes(EnRu2* this) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeIndex = &this->eyeIndex;
 
@@ -362,7 +363,7 @@ void EnRu2_SpawnWaterMedallion(EnRu2* this, PlayState* play) {
  * This function will loop endlessly if the current sage cutscene is not for the Water Medallion.
  */
 void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player;
     s16 yaw;
 
@@ -605,7 +606,7 @@ void EnRu2_AwaitSpawnLightBall(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_DrawXlu(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* tex = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -830,12 +831,12 @@ void EnRu2_EncounterBeginningHandler(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_DialogCameraHandler(EnRu2* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     MessageContext* msgCtx;
-    s32 pad2;
+    STACK_PAD(s32);
     u8 dialogState;
     Player* player;
-    s32 pad3;
+    STACK_PAD(s32);
 
     msgCtx = &play->msgCtx;
     dialogState = Message_GetState(msgCtx);
@@ -966,7 +967,7 @@ void EnRu2_DrawNothing(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_DrawOpa(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* tex = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;

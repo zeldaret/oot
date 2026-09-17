@@ -12,6 +12,7 @@
 #include "printf.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -103,7 +104,7 @@ static InitChainEntry sInitChain[] = {
 static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
 void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, flag);
@@ -112,7 +113,7 @@ void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHea
 
 #if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        s32 pad2;
+        STACK_PAD(s32);
 
         PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
                  "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
@@ -153,7 +154,7 @@ void func_8086D0EC(BgBdanSwitch* this) {
 
 void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
     BgBdanSwitch* this = (BgBdanSwitch*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s16 type;
     s32 flag;
 
@@ -237,7 +238,7 @@ void BgBdanSwitch_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_8086D4B4(BgBdanSwitch* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 type;
 
     if (!Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
@@ -502,7 +503,7 @@ void func_8086DDC0(BgBdanSwitch* this, PlayState* play) {
 }
 
 void BgBdanSwitch_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgBdanSwitch* this = (BgBdanSwitch*)thisx;
     s32 type;
 

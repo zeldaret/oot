@@ -14,6 +14,7 @@
 #include "effect.h"
 #include "play_state.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -101,7 +102,7 @@ void ItemEtcetera_SetupAction(ItemEtcetera* this, ItemEtceteraActionFunc actionF
 
 void ItemEtcetera_Init(Actor* thisx, PlayState* play) {
     ItemEtcetera* this = (ItemEtcetera*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 type;
     s32 objectSlot;
 

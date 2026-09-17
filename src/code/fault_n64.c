@@ -8,6 +8,7 @@
 #include "padmgr.h"
 #include "segmented_address.h"
 #include "stack.h"
+#include "stack_pad.h"
 #include "stackcheck.h"
 #include "terminal.h"
 #include "thread.h"
@@ -454,7 +455,7 @@ void Fault_WaitForButtonCombo(void) {
     s32 x;
     s32 y;
     s32 count;
-    s32 pad[4];
+    STACK_PADS(s32, 4);
 
     // "KeyWaitB (L R Z Up Down Up Down Left Left Right Right B A START)"
     osSyncPrintf(VT_FGCOL(WHITE) T("KeyWaitB (ＬＲＺ ", "KeyWaitB (L R Z ") VT_FGCOL(WHITE) T("上", "Up ")
@@ -625,7 +626,7 @@ void func_800AF0E0(void) {
     Fault_DrawText(40, 180, "Arena_failcnt = %d", gTotalAllocFailures);
 }
 
-void Fault_DrawMemDumpContents(const char* title, void* memory, u32 arg2) {
+void Fault_DrawMemDumpContents(const char* title, void* memory, UNUSED u32 arg2) {
     s32 x;
     s32 y;
     u32* ptr = (u32*)((uintptr_t)memory & ~3);
@@ -661,7 +662,7 @@ void Fault_DrawMemDumpSP(OSThread* thread) {
 
 void func_800AF3DC(void) {
     static s32 B_80122570[16];
-    static s32 B_801225B0[8]; // Unused
+    UNUSED static s32 B_801225B0[8];
     s32 i;
 
     Fault_DrawRecBlack(22, 16, 276, 208);
@@ -750,7 +751,7 @@ void Fault_ProcessClients(void) {
 #define FAULT_MSG_FAULT ((OSMesg)2)
 #define FAULT_MSG_UNK ((OSMesg)3)
 
-void Fault_ThreadEntry(void* arg0) {
+void Fault_ThreadEntry(UNUSED void* arg0) {
     OSMesg msg;
     OSThread* faultedThread;
 

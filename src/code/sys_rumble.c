@@ -13,6 +13,7 @@
  * @note Original filename is likely sys_vibrate.c or similar as it is ordered after sys_ucode.c
  */
 #include "rumble.h"
+#include "attributes.h"
 #include "padmgr.h"
 
 /**
@@ -147,7 +148,7 @@ void RumbleMgr_Init(RumbleMgr* rumbleMgr) {
     rumbleMgr->updateEnabled = true;
 }
 
-void RumbleMgr_Destroy(RumbleMgr* rumbleMgr) {
+void RumbleMgr_Destroy(UNUSED_NDEBUG RumbleMgr* rumbleMgr) {
 #if DEBUG_FEATURES
     bzero(rumbleMgr, sizeof(RumbleMgr));
 #endif

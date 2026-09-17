@@ -10,7 +10,9 @@ StackEntry* sStackInfoListEnd = NULL;
 
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name) {
+#if !PLATFORM_N64
     StackEntry* iter;
+#endif
     u32* addr;
 
     if (entry == NULL) {
