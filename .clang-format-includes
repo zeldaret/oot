@@ -32,23 +32,25 @@ TypenameMacros: ['BAD_RETURN', 'ALIGNED']
 IncludeBlocks: Regroup
 IncludeCategories:
   - Regex:           '^"versions.h"$'
-    Priority:        1
-    SortPriority:    -1
+    Priority:        10
+    SortPriority:    -10
   - Regex:           '^"assets/.*"$'
-    Priority:        2
+    Priority:        20
+  - Regex:           '^"src/.*"$'
+    Priority:        30
   - Regex:           '^"libc64/.*"$'
-    Priority:        3
-    SortPriority:    3
+    Priority:        40
+    SortPriority:    40
   - Regex:           '^"libu64/.*"$'
-    Priority:        3
-    SortPriority:    4
+    Priority:        40
+    SortPriority:    41
   - Regex:           '^"ultra64(.h|/.*)"$'
-    Priority:        3
-    SortPriority:    5
+    Priority:        40
+    SortPriority:    42
   - Regex:           '^<.*>$'
-    Priority:        3
-    SortPriority:    6
+    Priority:        40
+    SortPriority:    43
   - Regex:           '.*'
-    Priority:        1
-    SortPriority:    1
+    Priority:        10
+    SortPriority:    10
 SortIncludes: true

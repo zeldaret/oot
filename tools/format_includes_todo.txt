@@ -325,7 +325,6 @@ src/code/title_setup.c
 src/code/TwoHeadArena.c
 src/code/TwoHeadGfxArena.c
 src/code/ucode_disas.c
-src/code/z_actor.c
 src/code/z_actor_dlftbls.c
 src/code/z_bgcheck.c
 src/code/z_bg_collect.c
