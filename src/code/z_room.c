@@ -1,10 +1,16 @@
-#include "libu64/debug.h"
-#include "attributes.h"
-#include "stack_pad.h"
-#include "ultra64/gs2dex.h"
+#include "room.h"
+
+#include "versions.h"
+#include "actor.h"
+#include "alignment.h"
 #include "array_count.h"
+#include "attributes.h"
+#include "bgcheck.h"
 #include "buffers.h"
+#include "camera.h"
+#include "dma.h"
 #include "fault.h"
+#include "game.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "jpeg.h"
@@ -16,17 +22,27 @@
 #include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "sys_ucode.h"
 #include "terminal.h"
 #include "translation.h"
-#include "versions.h"
 #include "audio.h"
 #include "play_state.h"
 #include "player.h"
-#include "room.h"
 #include "save.h"
+#include "scene.h"
 #include "skin_matrix.h"
+#include "z_math.h"
+
+#include "libu64/debug.h"
+#include "libu64/pad.h"
+#include "ultra64.h"
+#include "ultra64/gs2dex.h"
+#include <assert.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 

@@ -1,8 +1,11 @@
+#include "skybox.h"
+
 #include "gfx.h"
 #include "attributes.h"
 #include "gfx_setupdl.h"
 #include "sys_matrix.h"
-#include "skybox.h"
+
+#include "ultra64.h"
 
 Mtx* sSkyboxDrawMatrix;
 

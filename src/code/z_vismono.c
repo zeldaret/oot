@@ -11,12 +11,19 @@
  * See the rest of the file for specifics.
  */
 
-#include "libc64/malloc.h"
-#include "libu64/debug.h"
+#include "vis.h"
+
 #include "attributes.h"
+#include "color.h"
 #include "gfx.h"
 #include "gfxalloc.h"
-#include "vis.h"
+
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "ultra64.h"
+#include <assert.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into

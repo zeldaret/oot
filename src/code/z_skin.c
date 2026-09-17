@@ -1,12 +1,18 @@
-#include "gfx.h"
+#include "skin.h"
+
+#include "actor.h"
 #include "attributes.h"
+#include "gfx.h"
+#include "play_state.h"
 #include "segmented_address.h"
+#include "skin_matrix.h"
 #include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_math.h"
-#include "play_state.h"
-#include "skin.h"
-#include "skin_matrix.h"
+
+#include "ultra64.h"
+#include <stdbool.h>
+#include <stddef.h>
 
 MtxF gSkinLimbMatrices[60]; // holds matrices for each limb of the skeleton currently being drawn
 
