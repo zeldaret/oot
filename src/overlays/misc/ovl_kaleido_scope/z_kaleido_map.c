@@ -8,6 +8,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_ucode.h"
 #include "versions.h"
 #include "play_state.h"
@@ -647,7 +648,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
 #if PLATFORM_N64 && OOT_VERSION != NTSC_1_2
     if (0) {
-        s32 pad[3];
+        STACK_PADS(s32, 3);
     }
 #endif
 
