@@ -1,5 +1,7 @@
+// clang-format off
 #include "animation.h"
 #include "animation_legacy.h"
+// clang-format on
 
 #include "actor.h"
 #include "alignment.h"

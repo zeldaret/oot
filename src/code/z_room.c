@@ -1,4 +1,6 @@
+// clang-format off
 #include "room.h"
+// clang-format on
 
 #include "versions.h"
 #include "actor.h"
@@ -18,19 +20,19 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
 #include "printf.h"
 #include "regs.h"
+#include "save.h"
+#include "scene.h"
 #include "segmented_address.h"
+#include "skin_matrix.h"
 #include "sys_matrix.h"
 #include "sys_ucode.h"
 #include "terminal.h"
 #include "translation.h"
-#include "audio.h"
-#include "play_state.h"
-#include "player.h"
-#include "save.h"
-#include "scene.h"
-#include "skin_matrix.h"
 #include "z_math.h"
 
 #include "libu64/debug.h"

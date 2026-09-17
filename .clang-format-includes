@@ -1,0 +1,54 @@
+# This is a copy of .clang-format with also does includes sorting,
+# used on a per-file basis (see format.py and tools/format_includes_todo.txt)
+# until all files are formatted.
+
+IndentWidth: 4
+Language: Cpp
+UseTab: Never
+ColumnLimit: 120
+PointerAlignment: Left
+BreakBeforeBraces: Attach
+SpaceAfterCStyleCast: false
+Cpp11BracedListStyle: false
+IndentCaseLabels: true
+IndentPPDirectives: None
+BinPackArguments: true
+BinPackParameters: true
+AlignAfterOpenBracket: Align
+AlignOperands: true
+BreakBeforeTernaryOperators: true
+BreakBeforeBinaryOperators: None
+AllowShortBlocksOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AlignEscapedNewlines: Left
+AlignTrailingComments: true
+SortIncludes: false
+TypenameMacros: ['BAD_RETURN', 'ALIGNED']
+
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           '^"versions.h"$'
+    Priority:        1
+    SortPriority:    -1
+  - Regex:           '^"assets/.*"$'
+    Priority:        2
+  - Regex:           '^"libc64/.*"$'
+    Priority:        3
+    SortPriority:    3
+  - Regex:           '^"libu64/.*"$'
+    Priority:        3
+    SortPriority:    4
+  - Regex:           '^"ultra64(.h|/.*)"$'
+    Priority:        3
+    SortPriority:    5
+  - Regex:           '^<.*>$'
+    Priority:        3
+    SortPriority:    6
+  - Regex:           '.*'
+    Priority:        1
+    SortPriority:    1
+SortIncludes: true

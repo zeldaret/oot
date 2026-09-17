@@ -1,4 +1,6 @@
+// clang-format off
 #include "skin.h"
+// clang-format on
 
 #include "actor.h"
 #include "gfx.h"

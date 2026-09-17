@@ -6,7 +6,9 @@
  * usually highlight silhouettes.
  */
 
+// clang-format off
 #include "vis.h"
+// clang-format on
 
 #include "color.h"
 #include "gfx.h"
