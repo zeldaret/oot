@@ -100,7 +100,7 @@ void func_801C9D54(u8* buf, s32 number) {
 void func_801C9DB8(u8* arg0, s32 errorNum) {
     u8* errorHeader = (u8*)func_801C9CA4();
 
-    //! @bug: both of these functions will write to the pointer target, but errorHeader points to a string literal,
+    //! @bug both of these functions will write to the pointer target, but errorHeader points to a string literal,
     //! which is meant to be const.
     if (gCurrentRegion == 1) {
         func_801C9CD4(&errorHeader[12], errorNum);

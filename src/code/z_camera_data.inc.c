@@ -2687,4 +2687,4 @@ PlayState* D_8015BD7C;
 DebugCam D_8015BD80;
 #endif
 
-CollisionPoly* playerFloorPoly;
+CollisionPoly* sPlayerFloorPoly;

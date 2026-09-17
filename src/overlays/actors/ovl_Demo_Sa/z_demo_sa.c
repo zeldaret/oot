@@ -406,7 +406,7 @@ void DemoSa_InitTrialOrSealingGanon(DemoSa* this, PlayState* play) {
 void DemoSa_SageMagic_LowerEyes(DemoSa* this) {
     f32 curFrame = this->skelAnime.curFrame;
 
-    if ((this->skelAnime.mode == 2) && (curFrame >= 32.0f)) {
+    if ((this->skelAnime.mode == ANIMMODE_ONCE) && (curFrame >= 32.0f)) {
         DemoSa_SetEyes(this, SARIA_EYE_HALF);
         DemoSa_SetMouth(this, SARIA_MOUTH_CLOSED2);
     }

@@ -866,7 +866,7 @@ s32 __osCheckArena(Arena* arena) {
         arena);
     iter = arena->head;
     while (iter != NULL) {
-        //! @bug: Probably intended to be `!NODE_IS_VALID(iter)`
+        //! @bug Probably intended to be `!NODE_IS_VALID(iter)`
         if (NODE_IS_VALID(iter)) {
 #if DEBUG_FEATURES
             osSyncPrintf(VT_COL(RED, WHITE) T("おおっと！！ (%08x %08x)\n", "Oops!! (%08x %08x)\n") VT_RST, iter,

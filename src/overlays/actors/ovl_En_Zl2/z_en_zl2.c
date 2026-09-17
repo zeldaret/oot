@@ -1261,7 +1261,7 @@ void func_80B514F8(EnZl2* this, PlayState* play) {
 void func_80B5154C(EnZl2* this, PlayState* play) {
     CutsceneContext* csCtx;
 
-    if (this->skelAnime.mode != 0) {
+    if (this->skelAnime.mode != ANIMMODE_LOOP) {
         EnZl2_UpdateEyes(this);
     } else {
         csCtx = &play->csCtx;

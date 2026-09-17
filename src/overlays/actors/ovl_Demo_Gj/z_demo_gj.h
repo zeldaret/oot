@@ -29,9 +29,9 @@ typedef struct DemoGj {
  * bits  0- 7: A value of the enum DemoGjType.
  */
 typedef enum DemoGjType {
-    /* 04 */ DEMOGJ_TYPE_AROUNDARENA = 4, // This is the indestructible rubble around the arena. This actor keeps alive the whole fight.
-    /* 08 */ DEMOGJ_TYPE_RUBBLE_PILE_1 = 8, // DEMOGJ_TYPE_RUBBLE_PILE_X are the rubbles from where Ganondorf rises. When he transforms into Ganon these are removed from the scene (Actor_Kill).
-    /* 09 */ DEMOGJ_TYPE_RUBBLE_PILE_2,
+    /*  4 */ DEMOGJ_TYPE_AROUNDARENA = 4, // This is the indestructible rubble around the arena. This actor keeps alive the whole fight.
+    /*  8 */ DEMOGJ_TYPE_RUBBLE_PILE_1 = 8, // DEMOGJ_TYPE_RUBBLE_PILE_X are the rubbles from where Ganondorf rises. When he transforms into Ganon these are removed from the scene (Actor_Kill).
+    /*  9 */ DEMOGJ_TYPE_RUBBLE_PILE_2,
     /* 10 */ DEMOGJ_TYPE_RUBBLE_PILE_3,
     /* 11 */ DEMOGJ_TYPE_RUBBLE_PILE_4,
     /* 12 */ DEMOGJ_TYPE_RUBBLE_PILE_5,

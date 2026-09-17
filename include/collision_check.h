@@ -381,7 +381,7 @@ typedef struct CollisionCheckContext {
 #define ATELEM_HIT (1 << 1) // Had an AT collision
 #define ATELEM_NEAREST (1 << 2) // For COLSHAPE_QUAD colliders, only collide with the closest AC element
 #define ATELEM_SFX_MASK (3 << 3)
-#define ATELEM_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
+#define ATELEM_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's material
 #define ATELEM_SFX_HARD (1 << 3) // Always uses hard deflection sound
 #define ATELEM_SFX_WOOD (2 << 3) // Always uses wood deflection sound
 #define ATELEM_SFX_NONE (3 << 3) // No hit sound effect

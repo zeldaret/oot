@@ -52,12 +52,12 @@ AudioTask* AudioThread_UpdateImpl(void) {
     s32 i;
 
     gAudioCtx.totalTaskCount++;
-    if (gAudioCtx.totalTaskCount % (gAudioCtx.audioBufferParameters.specUnk4) != 0) {
+    if ((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) != 0) {
         if (gAudioCustomUpdateFunction != NULL) {
             gAudioCustomUpdateFunction();
         }
 
-        if ((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) + 1 ==
+        if (((gAudioCtx.totalTaskCount % gAudioCtx.audioBufferParameters.specUnk4) + 1) ==
             gAudioCtx.audioBufferParameters.specUnk4) {
             return sWaitingAudioTask;
         } else {
@@ -758,7 +758,7 @@ void AudioThread_ProcessChannelCmd(SequenceChannel* channel, AudioCmd* cmd) {
             break;
 
         case AUDIOCMD_OP_CHANNEL_SET_PAN_WEIGHT:
-            //! @bug: Should compare `asSbyte` to `panChannelWeight`
+            //! @bug Should compare `asSbyte` to `panChannelWeight`
             if (channel->newPan != cmd->asSbyte) {
                 channel->panChannelWeight = cmd->asSbyte;
                 channel->changes.s.pan = true;
