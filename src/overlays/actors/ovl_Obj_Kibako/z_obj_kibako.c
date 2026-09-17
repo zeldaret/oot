@@ -5,10 +5,10 @@
  */
 
 #include "z_obj_kibako.h"
-#include "attributes.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
+#include "attributes.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"

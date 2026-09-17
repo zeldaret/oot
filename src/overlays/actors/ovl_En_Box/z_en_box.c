@@ -1,7 +1,7 @@
 #include "z_en_box.h"
-#include "attributes.h"
-#include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
+#include "src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

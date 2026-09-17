@@ -1,5 +1,5 @@
 #include "z_en_syateki_man.h"
-#include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
+#include "src/overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

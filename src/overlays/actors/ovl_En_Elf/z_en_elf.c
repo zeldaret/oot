@@ -5,7 +5,7 @@
  */
 
 #include "z_en_elf.h"
-#include "overlays/actors/ovl_Elf_Msg/z_elf_msg.h"
+#include "src/overlays/actors/ovl_Elf_Msg/z_elf_msg.h"
 
 #include "libc64/qrand.h"
 #include "libu64/debug.h"

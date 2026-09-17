@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ru2.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "array_count.h"
 #include "gfx.h"

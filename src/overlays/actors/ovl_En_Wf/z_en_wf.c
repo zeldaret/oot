@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wf.h"
-#include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
+#include "src/overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

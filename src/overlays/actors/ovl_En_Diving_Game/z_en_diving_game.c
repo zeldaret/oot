@@ -5,7 +5,7 @@
  */
 
 #include "z_en_diving_game.h"
-#include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
+#include "src/overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

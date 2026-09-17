@@ -5,7 +5,7 @@
  */
 
 #include "z_en_niw_girl.h"
-#include "overlays/actors/ovl_En_Niw/z_en_niw.h"
+#include "src/overlays/actors/ovl_En_Niw/z_en_niw.h"
 
 #include "libc64/math64.h"
 #include "gfx.h"

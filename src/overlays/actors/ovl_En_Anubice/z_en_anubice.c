@@ -5,8 +5,8 @@
  */
 
 #include "z_en_anubice.h"
-#include "overlays/actors/ovl_En_Anubice_Tag/z_en_anubice_tag.h"
-#include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
+#include "src/overlays/actors/ovl_En_Anubice_Tag/z_en_anubice_tag.h"
+#include "src/overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 
 #include "libc64/math64.h"
 #include "array_count.h"

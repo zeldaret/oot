@@ -1,6 +1,6 @@
 #include "z_bg_jya_cobra.h"
-#include "overlays/actors/ovl_Bg_Jya_Bigmirror/z_bg_jya_bigmirror.h"
-#include "overlays/actors/ovl_Mir_Ray/z_mir_ray.h"
+#include "src/overlays/actors/ovl_Bg_Jya_Bigmirror/z_bg_jya_bigmirror.h"
+#include "src/overlays/actors/ovl_Mir_Ray/z_mir_ray.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

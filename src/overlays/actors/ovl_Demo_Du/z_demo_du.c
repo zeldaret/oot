@@ -1,8 +1,8 @@
 #include "z_demo_du.h"
-#include "attributes.h"
-#include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

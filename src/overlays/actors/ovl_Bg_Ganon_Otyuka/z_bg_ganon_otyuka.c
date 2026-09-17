@@ -5,10 +5,10 @@
  */
 
 #include "z_bg_ganon_otyuka.h"
-#include "attributes.h"
-#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
+#include "src/overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

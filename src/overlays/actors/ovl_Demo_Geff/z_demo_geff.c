@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_geff.h"
-#include "overlays/actors/ovl_Demo_Gt/z_demo_gt.h"
+#include "src/overlays/actors/ovl_Demo_Gt/z_demo_gt.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

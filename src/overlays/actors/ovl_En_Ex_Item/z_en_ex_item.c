@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ex_item.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
+#include "src/overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
 
 #include "attributes.h"
 #include "gfx.h"

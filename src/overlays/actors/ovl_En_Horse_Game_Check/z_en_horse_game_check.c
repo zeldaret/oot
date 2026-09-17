@@ -5,10 +5,10 @@
  */
 
 #include "z_en_horse_game_check.h"
-#include "attributes.h"
-#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #include "libu64/debug.h"
+#include "attributes.h"
 #include "line_numbers.h"
 #include "printf.h"
 #include "regs.h"
