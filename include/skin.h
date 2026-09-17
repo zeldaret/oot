@@ -9,33 +9,34 @@ struct PlayState;
 
 /**
  * Holds a compact version of a vertex used in the Skin system
- * It is used to initialise the Vtx used by an animated limb
+ * It is used to initialise the Vtx used by an animated limb to common data
+ * that is unaffected by vertex weights
  */
 typedef struct SkinVertex {
-    /* 0x00 */ u16 index;
+    /* 0x00 */ u16 index; // output vertex buffer index
     /* 0x02 */ s16 s; // s and t are texture coordinates (also known as u and v)
     /* 0x04 */ s16 t;
-    /* 0x06 */ s8 normX;
+    /* 0x06 */ s8 normX; // limb-space vertex normal
     /* 0x07 */ s8 normY;
     /* 0x08 */ s8 normZ;
     /* 0x09 */ u8 alpha;
 } SkinVertex; // size = 0xA
 
 /**
- * Describes a position displacement and a scale to be applied to a limb at index `limbIndex`
+ * Describes a position displacement and a vertex weight to be applied to a limb at index `limbIndex`
  */
 typedef struct SkinTransformation {
-    /* 0x00 */ u8 limbIndex;
-    /* 0x02 */ s16 x;
+    /* 0x00 */ u8 limbIndex; // limb index from which to source the matrix
+    /* 0x02 */ s16 x; // position in the limb space of limbIndex
     /* 0x04 */ s16 y;
     /* 0x06 */ s16 z;
-    /* 0x08 */ u8 scale;
+    /* 0x08 */ u8 weight; // sums to 100 over a `SkinTransformation` array
 } SkinTransformation; // size = 0xA
 
 typedef struct SkinLimbModif {
     /* 0x00 */ u16 vtxCount; // number of vertices in this modif entry
-    /* 0x02 */ u16 transformCount;
-    /* 0x04 */ u16 unk_4; // index of limbTransformations?
+    /* 0x02 */ u16 transformCount; // number of transformations
+    /* 0x04 */ u16 staticLimbTransformationIndex; // indicates where to find the limb-space normal, or if singleBindFlag where to also find the limb-space position
     /* 0x08 */ SkinVertex* skinVertices;
     /* 0x0C */ SkinTransformation* limbTransformations;
 } SkinLimbModif; // size = 0x10
@@ -60,18 +61,18 @@ typedef struct SkinLimb {
 
 typedef struct SkinLimbVtx {
     /* 0x000 */ u8 index; // alternates every draw cycle
-    /* 0x004 */ Vtx* buf[2]; // number of vertices in buffer determined by `totalVtxCount`
+    /* 0x004 */ Vtx* buf[2]; // number of vertices in buffer determined by `totalVtxCount`, vertices are in model space
 } SkinLimbVtx; // size = 0xC
 
 typedef struct Skin {
     /* 0x000 */ SkeletonHeader* skeletonHeader;
-    /* 0x004 */ MtxF mtx;
+    /* 0x004 */ MtxF mtx; // model -> world matrix
     /* 0x044 */ s32 limbCount;
     /* 0x048 */ SkinLimbVtx* vtxTable; // double buffered list of vertices for each limb
     /* 0x04C */ SkelAnime skelAnime;
 } Skin; // size = 0x90
 
-typedef void (*SkinPostDraw)(struct Actor*, struct PlayState*, Skin*);
+typedef void (*SkinPostLimbDraw)(struct Actor*, struct PlayState*, Skin*);
 typedef s32 (*SkinOverrideLimbDraw)(struct Actor*, struct PlayState*, s32, Skin*);
 
 #define SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS (1 << 0)
@@ -80,15 +81,30 @@ typedef s32 (*SkinOverrideLimbDraw)(struct Actor*, struct PlayState*, s32, Skin*
 #define SKIN_TRANSFORM_IS_FHG 0x23
 
 void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos);
-void Skin_DrawAnimatedLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3, s32 drawFlags);
+void Skin_DrawAnimatedLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 singleBindFlag, s32 drawFlags);
 void Skin_DrawLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlags);
-void func_800A6330(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostDraw postDraw, s32 setTranslation);
-void func_800A6360(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation);
-void func_800A6394(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6);
-void func_800A63CC(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags);
+
+/**
+ * The Skin_Draw* functions all wrap a common implementation of skin drawing, accepting different argument sets. The
+ * names are abbreviations of the arguments that can be specified:
+ *  P : postLimbDraw callback can be set, to be called for each limb after appending graphics commands for that limb.
+ *  O : overrideLimbDraw callback can be set, to be called for each limb before appending graphics commands for that
+ *      limb. The current matrix at the time of the callback is the model-space matrix for the actor.
+ *  T : setTranslation can be set, indicating whether the root translation should be applied.
+ *  S : singleBindFlag can be set, indicating whether to source vertex positions from a single limb or to transform them
+ *      according to vertex weights.
+ *  F : drawFlags can be set, refer to SKIN_DRAW_FLAG_*.
+ */
+
+void Skin_DrawPT(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                 s32 setTranslation);
+void Skin_DrawPOT(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                  SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation);
+void Skin_DrawPOTS(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 singleBindFlag);
+void Skin_DrawPOTSF(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostLimbDraw postLimbDraw,
+                    SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 singleBindFlag, s32 drawFlags);
+
 void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* offset, Vec3f* dst);
 void Skin_Init(struct PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
 void Skin_Free(struct PlayState* play, Skin* skin);

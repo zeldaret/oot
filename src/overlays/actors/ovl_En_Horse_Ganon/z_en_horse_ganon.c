@@ -337,5 +337,5 @@ void EnHorseGanon_Draw(Actor* thisx, PlayState* play) {
 
     func_80A68E14(this, play);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    func_800A6330(&this->actor, play, &this->skin, EnHorseGanon_PostDraw, true);
+    Skin_DrawPT(&this->actor, play, &this->skin, EnHorseGanon_PostDraw, true);
 }

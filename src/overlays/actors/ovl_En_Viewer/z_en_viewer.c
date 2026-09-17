@@ -601,7 +601,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, PlayState* play) {
 }
 
 void EnViewer_DrawHorse(EnViewer* this, PlayState* play) {
-    func_800A6330(&this->actor, play, &this->skin, NULL, true);
+    Skin_DrawPT(&this->actor, play, &this->skin, NULL, true);
 }
 
 s32 EnViewer_ZeldaOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

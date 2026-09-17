@@ -285,5 +285,5 @@ void EnHorseZelda_Draw(Actor* thisx, PlayState* play) {
 
     EnHorseZelda_SetRotate(this, play);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    func_800A6330(&this->actor, play, &this->skin, EnHorseZelda_PostDraw, true);
+    Skin_DrawPT(&this->actor, play, &this->skin, EnHorseZelda_PostDraw, true);
 }
