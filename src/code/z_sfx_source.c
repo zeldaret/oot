@@ -1,4 +1,6 @@
+// clang-format off
 #include "sfx_source.h"
+// clang-format on
 
 #include "array_count.h"
 #include "play_state.h"

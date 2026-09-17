@@ -1,4 +1,6 @@
+// clang-format off
 #include "sample_state.h"
+// clang-format on
 
 #include "controller.h"
 #include "dma.h"

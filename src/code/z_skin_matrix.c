@@ -1,4 +1,6 @@
+// clang-format off
 #include "skin_matrix.h"
+// clang-format on
 
 #include "gfx.h"
 #include "printf.h"

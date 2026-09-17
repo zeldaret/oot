@@ -1,4 +1,6 @@
+// clang-format off
 #include "skybox.h"
+// clang-format on
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

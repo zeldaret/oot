@@ -1,4 +1,6 @@
+// clang-format off
 #include "vi_mode.h"
+// clang-format on
 
 #include "versions.h"
 #include "controller.h"

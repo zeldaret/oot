@@ -11,7 +11,11 @@
  *
  * @note Original filename is likely z_vibrate.c or similar as it is ordered after z_ss_sram.c and before z_view.c
  */
+
+// clang-format off
 #include "rumble.h"
+// clang-format on
+
 #include "padmgr.h"
 #include "z_math.h"
 
