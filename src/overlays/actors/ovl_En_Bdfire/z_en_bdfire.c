@@ -5,7 +5,7 @@
  */
 
 #include "z_en_bdfire.h"
-#include "overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.h"
+#include "src/overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

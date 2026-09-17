@@ -5,8 +5,8 @@
  */
 
 #include "z_obj_mure.h"
-#include "overlays/actors/ovl_En_Fish/z_en_fish.h"
-#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
+#include "src/overlays/actors/ovl_En_Fish/z_en_fish.h"
+#include "src/overlays/actors/ovl_En_Insect/z_en_insect.h"
 
 #include "libc64/qrand.h"
 #include "ichain.h"
