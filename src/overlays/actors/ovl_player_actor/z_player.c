@@ -289,7 +289,7 @@ void Player_Action_808423EC(Player* this, PlayState* play);
 void Player_Action_8084251C(Player* this, PlayState* play);
 void Player_Action_80843188(Player* this, PlayState* play);
 void Player_Action_808435C4(Player* this, PlayState* play);
-void Player_Action_8084370C(Player* this, PlayState* play);
+void Player_Action_DamageAnimation(Player* this, PlayState* play);
 void Player_Action_8084377C(Player* this, PlayState* play);
 void Player_Action_80843954(Player* this, PlayState* play);
 void Player_Action_80843A38(Player* this, PlayState* play);
@@ -4725,7 +4725,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed
 
             sp28 = D_808544B0;
 
-            Player_SetupAction(play, this, Player_Action_8084370C, 0);
+            Player_SetupAction(play, this, Player_Action_DamageAnimation, 0);
             func_80833C3C(this);
 
             if (this->actor.colChkInfo.damage < 5) {
@@ -9279,7 +9279,12 @@ void Player_Action_808435C4(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8084370C(Player* this, PlayState* play) {
+/**
+ * Action when playing take damage animation when not running.
+ * This action is setup early in the gameframe and thus run on the same frame
+ * (replacing the previous player action).
+ */
+void Player_Action_DamageAnimation(Player* this, PlayState* play) {
     s32 interruptResult;
 
     Player_DecelerateToZero(this);
