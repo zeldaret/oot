@@ -30,7 +30,7 @@ void AudioMgr_NotifyTaskDone(AudioMgr* audioMgr) {
 void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     AudioTask* rspTask;
 
-    if (R_AUDIOMGR_DEBUG_LEVEL > AUDIOMGR_DEBUG_LEVEL_NONE) {
+    if (R_AUDIOMGR_ACTIVITY_LEVEL > AUDIOMGR_ACTIVITY_LEVEL_ALL) {
         // Inhibit audio rsp task processing
         audioMgr->rspTask = NULL;
     }
@@ -54,7 +54,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
 
     gAudioThreadUpdateTimeStart = osGetTime();
 
-    if (R_AUDIOMGR_DEBUG_LEVEL >= AUDIOMGR_DEBUG_LEVEL_NO_UPDATE) {
+    if (R_AUDIOMGR_ACTIVITY_LEVEL >= AUDIOMGR_ACTIVITY_LEVEL_NO_UPDATE) {
         // Skip update, no rsp task produced
         rspTask = NULL;
     } else {
@@ -161,7 +161,7 @@ void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Schedule
     audioMgr->rspTask = NULL;
 
 #if PLATFORM_N64
-    R_AUDIOMGR_DEBUG_LEVEL = AUDIOMGR_DEBUG_LEVEL_NO_RSP;
+    R_AUDIOMGR_ACTIVITY_LEVEL = AUDIOMGR_ACTIVITY_LEVEL_NO_RSP;
 #endif
 
     osCreateMesgQueue(&audioMgr->taskDoneQueue, &audioMgr->taskDoneMsg, 1);

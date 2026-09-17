@@ -1,0 +1,20 @@
+inputs:
+  version:
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Fix BSS
+      shell: sh
+      run: .venv/bin/python3 tools/fix_bss.py -v ${{ inputs.version }}
+
+    - name: Generate patch
+      shell: sh
+      run: git diff > fix_bss_${{ inputs.version }}.patch
+
+    - name: Upload patch
+      uses: actions/upload-artifact@v7
+      with:
+        name: fix_bss_${{ inputs.version }}.patch
+        path: fix_bss_${{ inputs.version }}.patch

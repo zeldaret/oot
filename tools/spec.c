@@ -87,6 +87,8 @@ static bool parse_flags(char *str, unsigned int *flags)
             f |= FLAG_NOLOAD;
         else if (strcmp(str, "SYMS") == 0)
             f |= FLAG_SYMS;
+        else if (strcmp(str, "OVERLAY") == 0)
+            f |= FLAG_OVL;
         else
             return false;
 

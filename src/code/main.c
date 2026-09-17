@@ -159,7 +159,7 @@ void Main(void* arg) {
 
 #if PLATFORM_N64
     CIC6105_AddFaultClient();
-    func_80001640();
+    CIC6105_RunBootTask();
 #endif
 
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);

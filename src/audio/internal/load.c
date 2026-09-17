@@ -119,7 +119,7 @@ void AudioLoad_DecreaseSampleDmaTtls(void) {
 }
 
 /**
- * original name:Nas_WaveDmaCallBack
+ * original name: Nas_WaveDmaCallBack
  */
 void* AudioLoad_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, s32 medium) {
     STACK_PAD(s32);

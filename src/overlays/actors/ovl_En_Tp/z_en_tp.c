@@ -336,7 +336,8 @@ void EnTp_Die(EnTp* this, PlayState* play) {
             effectPos.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
             EffectSsDeadDb_Spawn(play, &effectPos, &effectVelAccel, &effectVelAccel, 100, 0, 255, 255, 255, 255, 0, 0,
                                  255, 1, 9, 1);
-            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                       COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_5, false));
         } else {
 #if OOT_VERSION < NTSC_1_1
             for (i = 0; i < 2; i++)

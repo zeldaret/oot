@@ -4,6 +4,26 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#define COLLECTIBLE_DROP_RANDOM_PARAMS(dropTable, params8000) (((dropTable) * 16) | ((params8000) ? 0x8000 : 0))
+
+typedef enum CollectibleDropTable {
+    /*  0 */ COLLECTIBLE_DROP_TABLE_0,
+    /*  1 */ COLLECTIBLE_DROP_TABLE_1,
+    /*  2 */ COLLECTIBLE_DROP_TABLE_2,
+    /*  3 */ COLLECTIBLE_DROP_TABLE_3,
+    /*  4 */ COLLECTIBLE_DROP_TABLE_4,
+    /*  5 */ COLLECTIBLE_DROP_TABLE_5,
+    /*  6 */ COLLECTIBLE_DROP_TABLE_6,
+    /*  7 */ COLLECTIBLE_DROP_TABLE_7,
+    /*  8 */ COLLECTIBLE_DROP_TABLE_8,
+    /*  9 */ COLLECTIBLE_DROP_TABLE_9,
+    /* 10 */ COLLECTIBLE_DROP_TABLE_10,
+    /* 11 */ COLLECTIBLE_DROP_TABLE_11,
+    /* 12 */ COLLECTIBLE_DROP_TABLE_12,
+    /* 13 */ COLLECTIBLE_DROP_TABLE_13,
+    /* 14 */ COLLECTIBLE_DROP_TABLE_14
+} CollectibleDropTable;
+
 typedef enum Item00Type {
     /* 0x00 */ ITEM00_RUPEE_GREEN,
     /* 0x01 */ ITEM00_RUPEE_BLUE,

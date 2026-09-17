@@ -1,8 +1,13 @@
 #include "ultra64.h"
 #include "sys_ucode.h"
 
+#ifndef F3DEX_GBI_PL
+u64* sDefaultGSPUCodeText = gspF3DZEX2_NoN_fifoTextStart;
+u64* sDefaultGSPUCodeData = gspF3DZEX2_NoN_fifoDataStart;
+#else
 u64* sDefaultGSPUCodeText = gspF3DZEX2_NoN_PosLight_fifoTextStart;
 u64* sDefaultGSPUCodeData = gspF3DZEX2_NoN_PosLight_fifoDataStart;
+#endif
 
 u64* SysUcode_GetUCodeBoot(void) {
     return rspbootTextStart;

@@ -574,7 +574,8 @@ void EnFz_SetupDespawn(EnFz* this, PlayState* play) {
     this->isActive = false;
     this->timer = 60;
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
-    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x60);
+    Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                               COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_6, false));
     this->actionFunc = EnFz_Despawn;
 }
 

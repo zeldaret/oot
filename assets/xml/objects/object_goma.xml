@@ -1,240 +1,11 @@
 <Root>
     <File Name="object_goma" Segment="6">
-        <!-- Skeleton -->
-        <Skeleton Name="gGohmaSkel" Type="Normal" LimbType="Standard" Offset="0x1C8F8"/>
-
-        <!-- Limbs -->
-        <Limb Name="gGohmaRoot1Limb" LimbType="Standard" Offset="0x1C3A8"/>
-        <Limb Name="gGohmaRoot2Limb" LimbType="Standard" Offset="0x1C3B4"/>
-        <Limb Name="gGohmaBodyLimb" LimbType="Standard" Offset="0x1C3C0"/>
-        <Limb Name="gGohmaBodyShellLimb" LimbType="Standard" Offset="0x1C3CC"/>
-        <Limb Name="gGohmaEyeLimb" LimbType="Standard" Offset="0x1C3D8"/>
-        <Limb Name="gGohmaTailRootLimb" LimbType="Standard" Offset="0x1C3E4"/>
-        <Limb Name="gGohmaTail1RootLimb" LimbType="Standard" Offset="0x1C3F0"/>
-        <Limb Name="gGohmaTail2RootLimb" LimbType="Standard" Offset="0x1C3FC"/>
-        <Limb Name="gGohmaTail3RootLimb" LimbType="Standard" Offset="0x1C408"/>
-        <Limb Name="gGohmaTail4RootLimb" LimbType="Standard" Offset="0x1C414"/>
-        <Limb Name="gGohmaTail4Limb" LimbType="Standard" Offset="0x1C420"/>
-        <Limb Name="gGohmaTail3Limb" LimbType="Standard" Offset="0x1C42C"/>
-        <Limb Name="gGohmaTail2Limb" LimbType="Standard" Offset="0x1C438"/>
-        <Limb Name="gGohmaTail1Limb" LimbType="Standard" Offset="0x1C444"/>
-        <Limb Name="gGohmaRightLegRootLimb" LimbType="Standard" Offset="0x1C450"/>
-        <Limb Name="gGohmaRightThighRootLimb" LimbType="Standard" Offset="0x1C45C"/>
-        <Limb Name="gGohmaRightLegLowerRootLimb" LimbType="Standard" Offset="0x1C468"/>
-        <Limb Name="gGohmaRightFeetRootLimb" LimbType="Standard" Offset="0x1C474"/>
-        <Limb Name="gGohmaRightFeetBackRoot1Limb" LimbType="Standard" Offset="0x1C480"/>
-        <Limb Name="gGohmaRightFeetBackRoot2Limb" LimbType="Standard" Offset="0x1C48C"/>
-        <Limb Name="gGohmaRightFeetBackLimb" LimbType="Standard" Offset="0x1C498"/>
-        <Limb Name="gGohmaRightFeetLimb" LimbType="Standard" Offset="0x1C4A4"/>
-        <Limb Name="gGohmaRightShinLimb" LimbType="Standard" Offset="0x1C4B0"/>
-        <Limb Name="gGohmaRightKneeRoot1Limb" LimbType="Standard" Offset="0x1C4BC"/>
-        <Limb Name="gGohmaRightKneeRoot2Limb" LimbType="Standard" Offset="0x1C4C8"/>
-        <Limb Name="gGohmaRightKneeLimb" LimbType="Standard" Offset="0x1C4D4"/>
-        <Limb Name="gGohmaRightThighShellRoot1Limb" LimbType="Standard" Offset="0x1C4E0"/>
-        <Limb Name="gGohmaRightThighShellRoot2Limb" LimbType="Standard" Offset="0x1C4EC"/>
-        <Limb Name="gGohmaRightThighShellLimb" LimbType="Standard" Offset="0x1C4F8"/>
-        <Limb Name="gGohmaRightThighLimb" LimbType="Standard" Offset="0x1C504"/>
-        <Limb Name="gGohmaEyeLidBottomRoot1Limb" LimbType="Standard" Offset="0x1C510"/>
-        <Limb Name="gGohmaEyeLidBottomRoot2Limb" LimbType="Standard" Offset="0x1C51C"/>
-        <Limb Name="gGohmaEyeLidBottomLimb" LimbType="Standard" Offset="0x1C528"/>
-        <Limb Name="gGohmaEyeLidTopRoot1Limb" LimbType="Standard" Offset="0x1C534"/>
-        <Limb Name="gGohmaEyeLidTopRoot2Limb" LimbType="Standard" Offset="0x1C540"/>
-        <Limb Name="gGohmaEyeLidTopLimb" LimbType="Standard" Offset="0x1C54C"/>
-        <Limb Name="gGohmaIrisRoot1Limb" LimbType="Standard" Offset="0x1C558"/>
-        <Limb Name="gGohmaIrisRoot2Limb" LimbType="Standard" Offset="0x1C564"/>
-        <Limb Name="gGohmaIrisLimb" LimbType="Standard" Offset="0x1C570"/>
-        <Limb Name="gGohmaMandiblesRoot1Limb" LimbType="Standard" Offset="0x1C57C"/>
-        <Limb Name="gGohmaMandiblesRoot2Limb" LimbType="Standard" Offset="0x1C588"/>
-        <Limb Name="gGohmaMandiblesBodyLimb" LimbType="Standard" Offset="0x1C594"/>
-        <Limb Name="gGohmaLeftMandiblesRootLimb" LimbType="Standard" Offset="0x1C5A0"/>
-        <Limb Name="gGohmaLeftMandibles1RootLimb" LimbType="Standard" Offset="0x1C5AC"/>
-        <Limb Name="gGohmaLeftMandibles2RootLimb" LimbType="Standard" Offset="0x1C5B8"/>
-        <Limb Name="gGohmaLeftMandibles2Limb" LimbType="Standard" Offset="0x1C5C4"/>
-        <Limb Name="gGohmaLeftMandibles1Limb" LimbType="Standard" Offset="0x1C5D0"/>
-        <Limb Name="gGohmaRightMandiblesRootLimb" LimbType="Standard" Offset="0x1C5DC"/>
-        <Limb Name="gGohmaRightMandibles1RootLimb" LimbType="Standard" Offset="0x1C5E8"/>
-        <Limb Name="gGohmaRightMandibles2RootLimb" LimbType="Standard" Offset="0x1C5F4"/>
-        <Limb Name="gGohmaRightMandibles2Limb" LimbType="Standard" Offset="0x1C600"/>
-        <Limb Name="gGohmaRightMandibles1Limb" LimbType="Standard" Offset="0x1C60C"/>
-        <Limb Name="gGohmaLeftAntennaRootLimb" LimbType="Standard" Offset="0x1C618"/>
-        <Limb Name="gGohmaLeftAntennaBodyRootLimb" LimbType="Standard" Offset="0x1C624"/>
-        <Limb Name="gGohmaLeftAntennaShellRootLimb" LimbType="Standard" Offset="0x1C630"/>
-        <Limb Name="gGohmaLeftAntennaClawRootLimb" LimbType="Standard" Offset="0x1C63C"/>
-        <Limb Name="gGohmaLeftAntennaClawLimb" LimbType="Standard" Offset="0x1C648"/>
-        <Limb Name="gGohmaLeftAntennaShellLimb" LimbType="Standard" Offset="0x1C654"/>
-        <Limb Name="gGohmaLeftAntennaBodyLimb" LimbType="Standard" Offset="0x1C660"/>
-        <Limb Name="gGohmaRightAntennaRootLimb" LimbType="Standard" Offset="0x1C66C"/>
-        <Limb Name="gGohmaRightAntennaBodyRootLimb" LimbType="Standard" Offset="0x1C678"/>
-        <Limb Name="gGohmaRightAntennaShellRootLimb" LimbType="Standard" Offset="0x1C684"/>
-        <Limb Name="gGohmaRightAntennaClawRootLimb" LimbType="Standard" Offset="0x1C690"/>
-        <Limb Name="gGohmaRightAntennaClawLimb" LimbType="Standard" Offset="0x1C69C"/>
-        <Limb Name="gGohmaRightAntennaShellLimb" LimbType="Standard" Offset="0x1C6A8"/>
-        <Limb Name="gGohmaRightAntennaBodyLimb" LimbType="Standard" Offset="0x1C6B4"/>
-        <Limb Name="gGohmaLeftLegRootLimb" LimbType="Standard" Offset="0x1C6C0"/>
-        <Limb Name="gGohmaLeftThighRootLimb" LimbType="Standard" Offset="0x1C6CC"/>
-        <Limb Name="gGohmaLeftLegLowerRootLimb" LimbType="Standard" Offset="0x1C6D8"/>
-        <Limb Name="gGohmaLeftFeetRootLimb" LimbType="Standard" Offset="0x1C6E4"/>
-        <Limb Name="gGohmaLeftFeetBackRoot1Limb" LimbType="Standard" Offset="0x1C6F0"/>
-        <Limb Name="gGohmaLeftFeetBackRoot2Limb" LimbType="Standard" Offset="0x1C6FC"/>
-        <Limb Name="gGohmaLeftFeetBackLimb" LimbType="Standard" Offset="0x1C708"/>
-        <Limb Name="gGohmaLeftFeetLimb" LimbType="Standard" Offset="0x1C714"/>
-        <Limb Name="gGohmaLeftShinLimb" LimbType="Standard" Offset="0x1C720"/>
-        <Limb Name="gGohmaLeftKneeRoot1Limb" LimbType="Standard" Offset="0x1C72C"/>
-        <Limb Name="gGohmaLeftKneeRoot2Limb" LimbType="Standard" Offset="0x1C738"/>
-        <Limb Name="gGohmaLeftKneeLimb" LimbType="Standard" Offset="0x1C744"/>
-        <Limb Name="gGohmaLeftThighShellRoot1Limb" LimbType="Standard" Offset="0x1C750"/>
-        <Limb Name="gGohmaLeftThighShellRoot2Limb" LimbType="Standard" Offset="0x1C75C"/>
-        <Limb Name="gGohmaLeftThighShellLimb" LimbType="Standard" Offset="0x1C768"/>
-        <Limb Name="gGohmaLeftThighLimb" LimbType="Standard" Offset="0x1C774"/>
-        <Limb Name="gGohmaBodyShellBackRoot1Limb" LimbType="Standard" Offset="0x1C780"/>
-        <Limb Name="gGohmaBodyShellBackRoot2Limb" LimbType="Standard" Offset="0x1C78C"/>
-        <Limb Name="gGohmaBodyShellBackLimb" LimbType="Standard" Offset="0x1C798"/>
-
-        <!-- Vertices -->
-        <Array Name="gGohmaLeftAntennaBodyVtx" Count="14" Offset="0x12690">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftAntennaShellVtx" Count="45" Offset="0x12828">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightAntennaBodyVtx" Count="14" Offset="0x12C90">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightAntennaShellVtx" Count="48" Offset="0x12E28">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightMandibles1Vtx" Count="6" Offset="0x132C0">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightMandibles2Vtx" Count="11" Offset="0x133D0">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftMandibles1Vtx" Count="6" Offset="0x13590">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftMandibles2Vtx" Count="11" Offset="0x136A0">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaBodyVtx" Count="32" Offset="0x13860">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaBodyShellVtx" Count="117" Offset="0x13B48">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaBodyShellBackVtx" Count="9" Offset="0x14420">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftThighShellVtx" Count="14" Offset="0x14560">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightThighShellVtx" Count="14" Offset="0x146F0">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaEyeVtx" Count="25" Offset="0x14880">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftFeetVtx" Count="40" Offset="0x14B40">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightFeetVtx" Count="37" Offset="0x14F18">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaIrisVtx" Count="9" Offset="0x152A8">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftKneeVtx" Count="47" Offset="0x153E8">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightKneeVtx" Count="48" Offset="0x15828">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftFeetBackVtx" Count="13" Offset="0x15C78">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightFeetBackVtx" Count="13" Offset="0x15E58">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftThighVtx" Count="49" Offset="0x16038">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightThighVtx" Count="49" Offset="0x16490">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaEyeLidTopVtx" Count="29" Offset="0x168E8">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaEyeLidBottomVtx" Count="29" Offset="0x16BD0">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaMandiblesBodyVtx" Count="20" Offset="0x16EA8">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftShinVtx" Count="22" Offset="0x17108">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightShinVtx" Count="22" Offset="0x173A0">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaTail1Vtx" Count="19" Offset="0x17638">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaTail2Vtx" Count="19" Offset="0x17830">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaTail3Vtx" Count="14" Offset="0x17A28">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaTail4Vtx" Count="25" Offset="0x17BF0">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaLeftAntennaClawVtx" Count="26" Offset="0x17E68">
-            <Vtx/>
-        </Array>
-        <Array Name="gGohmaRightAntennaClawVtx" Count="23" Offset="0x18120">
-            <Vtx/>
-        </Array>
-
-        <!-- Display Lists-->
-        <DList Name="gGohmaBodyDL" Offset="0x13A60"/>
-        <DList Name="gGohmaBodyShellDL" Offset="0x14298"/>
-        <DList Name="gGohmaEyeDL" Offset="0x14A10"/>
-        <DList Name="gGohmaTail4DL" Offset="0x17D80"/>
-        <DList Name="gGohmaTail3DL" Offset="0x17B08"/>
-        <DList Name="gGohmaTail2DL" Offset="0x17960"/>
-        <DList Name="gGohmaTail1DL" Offset="0x17768"/>
-        <DList Name="gGohmaRightFeetBackDL" Offset="0x15F28"/>
-        <DList Name="gGohmaRightFeetDL" Offset="0x15168"/>
-        <DList Name="gGohmaRightShinDL" Offset="0x17500"/>
-        <DList Name="gGohmaRightKneeDL" Offset="0x15B28"/>
-        <DList Name="gGohmaRightThighShellDL" Offset="0x147D0"/>
-        <DList Name="gGohmaRightThighDL" Offset="0x167A0"/>
-        <DList Name="gGohmaEyeLidBottomDL" Offset="0x16DA0"/>
-        <DList Name="gGohmaEyeLidTopDL" Offset="0x16AB8"/>
-        <DList Name="gGohmaIrisDL" Offset="0x15338"/>
-        <DList Name="gGohmaMandiblesBodyDL" Offset="0x16FE8"/>
-        <DList Name="gGohmaLeftMandibles2DL" Offset="0x13750"/>
-        <DList Name="gGohmaLeftMandibles1DL" Offset="0x135F0"/>
-        <DList Name="gGohmaRightMandibles2DL" Offset="0x13480"/>
-        <DList Name="gGohmaRightMandibles1DL" Offset="0x13320"/>
-        <DList Name="gGohmaLeftAntennaClawDL" Offset="0x18008"/>
-        <DList Name="gGohmaLeftAntennaShellDL" Offset="0x12AF8"/>
-        <DList Name="gGohmaLeftAntennaBodyDL" Offset="0x12770"/>
-        <DList Name="gGohmaRightAntennaClawDL" Offset="0x18290"/>
-        <DList Name="gGohmaRightAntennaShellDL" Offset="0x13128"/>
-        <DList Name="gGohmaRightAntennaBodyDL" Offset="0x12D70"/>
-        <DList Name="gGohmaLeftFeetBackDL" Offset="0x15D48"/>
-        <DList Name="gGohmaLeftFeetDL" Offset="0x14DC0"/>
-        <DList Name="gGohmaLeftShinDL" Offset="0x17268"/>
-        <DList Name="gGohmaLeftKneeDL" Offset="0x156D8"/>
-        <DList Name="gGohmaLeftThighShellDL" Offset="0x14640"/>
-        <DList Name="gGohmaLeftThighDL" Offset="0x16348"/>
-        <DList Name="gGohmaBodyShellBackDL" Offset="0x144B0"/>
-
-        <!-- Animations  -->
+        <!-- Animations 1 -->
         <Animation Name="gGohmaStandAnim" Offset="0xAE8"/>
         <Animation Name="gGohmaHangAnim" Offset="0x193C"/> <!-- hang from the ceiling -->
         <Animation Name="gGohmaWalkAnim" Offset="0x2360"/>
         <Animation Name="gGohmaPrepareEggsAnim" Offset="0x29F0"/> <!-- hanging, shaking -->
+        <Animation Name="gGohmaViolentAttackAnim" Offset="0x39D0"/> <!-- unused -->
         <Animation Name="gGohmaAttackAnim" Offset="0x4318"/>
         <Animation Name="gGohmaRestAfterAttackAnim" Offset="0x4A20"/>
         <Animation Name="gGohmaRecoverAfterAttackAnim" Offset="0x5330"/>
@@ -249,10 +20,144 @@
         <Animation Name="gGohmaEyeRollAnim" Offset="0x10918"/>
         <Animation Name="gGohmaLayEggsAnim" Offset="0x113BC"/>
         <Animation Name="gGohmaIdleCrouchedAnim" Offset="0x12678"/>
-        <Animation Name="gGohmaWalkCrouchedAnim" Offset="0x1D74C"/>
 
-        <!-- Unused animations -->
-        <Animation Name="gGohmaViolentAttackAnim" Offset="0x39D0"/>
+        <!-- Vertices and DLists -->
+        <Array Name="gGohmaLeftAntennaBodyVtx" Count="14" Offset="0x12690">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftAntennaBodyDL" Offset="0x12770"/>
+        <Array Name="gGohmaLeftAntennaShellVtx" Count="45" Offset="0x12828">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftAntennaShellDL" Offset="0x12AF8"/>
+        <Array Name="gGohmaRightAntennaBodyVtx" Count="14" Offset="0x12C90">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightAntennaBodyDL" Offset="0x12D70"/>
+        <Array Name="gGohmaRightAntennaShellVtx" Count="48" Offset="0x12E28">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightAntennaShellDL" Offset="0x13128"/>
+        <Array Name="gGohmaRightMandibles1Vtx" Count="6" Offset="0x132C0">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightMandibles1DL" Offset="0x13320"/>
+        <Array Name="gGohmaRightMandibles2Vtx" Count="11" Offset="0x133D0">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightMandibles2DL" Offset="0x13480"/>
+        <Array Name="gGohmaLeftMandibles1Vtx" Count="6" Offset="0x13590">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftMandibles1DL" Offset="0x135F0"/>
+        <Array Name="gGohmaLeftMandibles2Vtx" Count="11" Offset="0x136A0">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftMandibles2DL" Offset="0x13750"/>
+        <Array Name="gGohmaBodyVtx" Count="32" Offset="0x13860">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaBodyDL" Offset="0x13A60"/>
+        <Array Name="gGohmaBodyShellVtx" Count="117" Offset="0x13B48">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaBodyShellDL" Offset="0x14298"/>
+        <Array Name="gGohmaBodyShellBackVtx" Count="9" Offset="0x14420">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaBodyShellBackDL" Offset="0x144B0"/>
+        <Array Name="gGohmaLeftThighShellVtx" Count="14" Offset="0x14560">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftThighShellDL" Offset="0x14640"/>
+        <Array Name="gGohmaRightThighShellVtx" Count="14" Offset="0x146F0">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightThighShellDL" Offset="0x147D0"/>
+        <Array Name="gGohmaEyeVtx" Count="25" Offset="0x14880">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaEyeDL" Offset="0x14A10"/>
+        <Array Name="gGohmaLeftFeetVtx" Count="40" Offset="0x14B40">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftFeetDL" Offset="0x14DC0"/>
+        <Array Name="gGohmaRightFeetVtx" Count="37" Offset="0x14F18">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightFeetDL" Offset="0x15168"/>
+        <Array Name="gGohmaIrisVtx" Count="9" Offset="0x152A8">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaIrisDL" Offset="0x15338"/>
+        <Array Name="gGohmaLeftKneeVtx" Count="47" Offset="0x153E8">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftKneeDL" Offset="0x156D8"/>
+        <Array Name="gGohmaRightKneeVtx" Count="48" Offset="0x15828">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightKneeDL" Offset="0x15B28"/>
+        <Array Name="gGohmaLeftFeetBackVtx" Count="13" Offset="0x15C78">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftFeetBackDL" Offset="0x15D48"/>
+        <Array Name="gGohmaRightFeetBackVtx" Count="13" Offset="0x15E58">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightFeetBackDL" Offset="0x15F28"/>
+        <Array Name="gGohmaLeftThighVtx" Count="49" Offset="0x16038">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftThighDL" Offset="0x16348"/>
+        <Array Name="gGohmaRightThighVtx" Count="49" Offset="0x16490">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightThighDL" Offset="0x167A0"/>
+        <Array Name="gGohmaEyeLidTopVtx" Count="29" Offset="0x168E8">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaEyeLidTopDL" Offset="0x16AB8"/>
+        <Array Name="gGohmaEyeLidBottomVtx" Count="29" Offset="0x16BD0">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaEyeLidBottomDL" Offset="0x16DA0"/>
+        <Array Name="gGohmaMandiblesBodyVtx" Count="20" Offset="0x16EA8">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaMandiblesBodyDL" Offset="0x16FE8"/>
+        <Array Name="gGohmaLeftShinVtx" Count="22" Offset="0x17108">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftShinDL" Offset="0x17268"/>
+        <Array Name="gGohmaRightShinVtx" Count="22" Offset="0x173A0">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightShinDL" Offset="0x17500"/>
+        <Array Name="gGohmaTail1Vtx" Count="19" Offset="0x17638">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaTail1DL" Offset="0x17768"/>
+        <Array Name="gGohmaTail2Vtx" Count="19" Offset="0x17830">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaTail2DL" Offset="0x17960"/>
+        <Array Name="gGohmaTail3Vtx" Count="14" Offset="0x17A28">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaTail3DL" Offset="0x17B08"/>
+        <Array Name="gGohmaTail4Vtx" Count="25" Offset="0x17BF0">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaTail4DL" Offset="0x17D80"/>
+        <Array Name="gGohmaLeftAntennaClawVtx" Count="26" Offset="0x17E68">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaLeftAntennaClawDL" Offset="0x18008"/>
+        <Array Name="gGohmaRightAntennaClawVtx" Count="23" Offset="0x18120">
+            <Vtx/>
+        </Array>
+        <DList Name="gGohmaRightAntennaClawDL" Offset="0x18290"/>
 
         <!-- Limb textures -->
         <Texture Name="gGohmaBodyTex" Format="rgba16" Width="16" Height="16" Offset="0x183A8"/>
@@ -263,16 +168,113 @@
         <Texture Name="gGohmaIrisTex" Format="rgba16" Width="32" Height="32" Offset="0x193A8"/>
 
         <!-- Boss title card -->
-        <Texture Name="gGohmaTitleCardTex" Format="ia8" Width="128" Height="80" Offset="0x19BA8"/>
+        <Version Pattern="ntsc-.*|gc-jp.*|gc-us.*|ique-cn">
+            <Texture Name="gGohmaTitleCardTex" Format="ia8" Width="128" Height="80" Offset="0x19BA8"/>
+        </Version>
+        <Version Pattern="pal-.*|gc-eu.*">
+            <Texture Name="gGohmaTitleCardTex" Format="ia8" Width="128" Height="120" Offset="0x19BA8"/>
+        </Version>
+
+        <!-- Limbs -->
+        <Limb Name="gGohmaRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaBodyLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaBodyShellLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaEyeLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaTailRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaTail1RootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaTail2RootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaTail3RootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaTail4RootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaTail4Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaTail3Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaTail2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaTail1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightLegRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightThighRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightLegLowerRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightFeetRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightFeetBackRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightFeetBackRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightFeetBackLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightFeetLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightShinLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightKneeRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightKneeRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightKneeLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightThighShellRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightThighShellRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightThighShellLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightThighLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaEyeLidBottomRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaEyeLidBottomRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaEyeLidBottomLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaEyeLidTopRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaEyeLidTopRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaEyeLidTopLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaIrisRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaIrisRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaIrisLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaMandiblesRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaMandiblesRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaMandiblesBodyLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftMandiblesRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftMandibles1RootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftMandibles2RootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftMandibles2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftMandibles1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightMandiblesRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightMandibles1RootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightMandibles2RootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightMandibles2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightMandibles1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftAntennaRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftAntennaBodyRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftAntennaShellRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftAntennaClawRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftAntennaClawLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftAntennaShellLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftAntennaBodyLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightAntennaRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightAntennaBodyRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightAntennaShellRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightAntennaClawRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightAntennaClawLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightAntennaShellLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaRightAntennaBodyLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftLegRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftThighRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftLegLowerRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftFeetRootLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftFeetBackRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftFeetBackRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftFeetBackLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftFeetLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftShinLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftKneeRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftKneeRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftKneeLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftThighShellRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftThighShellRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftThighShellLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaLeftThighLimb" LimbType="Standard"/>
+        <Limb Name="gGohmaBodyShellBackRoot1Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaBodyShellBackRoot2Limb" LimbType="Standard"/>
+        <Limb Name="gGohmaBodyShellBackLimb" LimbType="Standard"/>
+
+        <!-- Skeleton -->
+        <LimbTable Name="gGohmaLimbs" LimbType="Standard" Count="85"/>
+        <Skeleton Name="gGohmaSkel" Type="Normal" LimbType="Standard"/>
+
+        <!-- Animations 2 -->
+        <Animation Name="gGohmaWalkCrouchedAnim" Offset=".+0xE4C"/>
 
         <!-- Door -->
-        <Array Name="gGohmaDoorVtx" Count="12" Offset="0x1D760">
+        <Array Name="gGohmaDoorVtx" Count="12" Offset=".+0x4">
             <Vtx/>
         </Array>
-        <DList Name="gGohmaDoorDL" Offset="0x1D820"/>
-        <Collision Name="gGohmaDoorCol" Offset="0x1D9D0"/>
-        <Texture Name="gGohmaDoorTex" Format="rgba16" Width="32" Height="32" Offset="0x1DA00"/>
-
-        <!-- Vertices -->
+        <DList Name="gGohmaDoorDL" Length="22"/>
+        <Collision Name="gGohmaDoorCol" Offset=".+0x100"/>
+        <Texture Name="gGohmaDoorTex" Format="rgba16" Width="32" Height="32" Offset=".+0x4"/>
     </File>
 </Root>

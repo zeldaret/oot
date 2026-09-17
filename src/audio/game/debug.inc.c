@@ -109,7 +109,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
     GfxPrint_Printf(printer, "- %s -", sAudioDebugPageNames[sAudioDebugPage]);
 
     for (i = 0; i < gAudioSpecs[gAudioSpecId].numNotes; i++) {
-        if (gAudioCtx.notes[i].noteSubEu.bitField0.enabled == 1) {
+        if (gAudioCtx.notes[i].sampleState.bitField0.enabled == 1) {
             numEnabledNotes++;
         }
     }

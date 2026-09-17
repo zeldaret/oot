@@ -70,12 +70,13 @@ static struct {
     size_t                              num_ofiles;
     // Our options
     char                               *order_path;
+    size_t                              min_align;
     // LD plugin
     int                                 api_version;
     int                                 gnu_ld_version;
     int                                 linker_output;
     const char                         *output_name;
-    ld_plugin_message                   message;
+    ld_plugin_message                   message __attribute__((format(printf, 2, 3)));
     ld_plugin_add_symbols               add_symbols;
     ld_plugin_get_symbols               get_symbols;
     ld_plugin_get_symbols               get_symbols_v2;
@@ -339,6 +340,8 @@ all_symbols_read(void)
 
             sym_offset += be32toh(sym->st_size);
         }
+        if (greatest_align < pl.min_align)
+            greatest_align = pl.min_align;
         sym_offset = (sym_offset + greatest_align - 1) & ~(greatest_align - 1);
 
         size_t symtab_size = ftell(elf) - symtab_offset;
@@ -491,7 +494,7 @@ parse_order_file(const char *order_file)
     // Read the entire bss order file and null-terminate it
     FILE *bss_order = fopen(order_file, "rb");
     if (bss_order == NULL) {
-        pl.message(LDPL_FATAL, "Could not open bss order file %s for reading: %s", bss_order, strerror(errno));
+        pl.message(LDPL_FATAL, "Could not open bss order file \"%s\" for reading: %s", order_file, strerror(errno));
         return LDPS_ERR;
     }
 
@@ -501,7 +504,7 @@ parse_order_file(const char *order_file)
 
     pl.string_pool = malloc((fsize + 1) * sizeof(char));
     if (fread(pl.string_pool, fsize, 1, bss_order) != 1) {
-        pl.message(LDPL_FATAL, "Failed to read bss order file %s: %s", order_file, strerror(errno));
+        pl.message(LDPL_FATAL, "Failed to read bss order file \"%s\": %s", order_file, strerror(errno));
         free(pl.string_pool);
         fclose(bss_order);
         return LDPS_ERR;
@@ -716,11 +719,54 @@ syntaxerror:
 }
 
 static enum ld_plugin_status
+read_int(size_t *out, const char *s)
+{
+    if (s[0] == '\0')
+        goto err;
+
+    size_t res;
+
+    size_t length = strlen(s);
+    size_t start = 0;
+
+    // we expect unsigned input, error on - and skip +
+    if (s[start] == '-')
+        goto err;
+    if (s[start] == '+')
+        start++;
+
+    // determine the base of the input via the presence of an 0x prefix
+    int base;
+    if (start + 2 < length && s[start + 0] == '0' && tolower(s[start + 1]) == 'x') {
+        start += 2;
+        base = 16;
+    } else {
+        base = 10;
+    }
+
+    // read the value in the appropriate base
+    char *str_end;
+    res = strtoull(&s[start], &str_end, base);
+    size_t end = str_end - s;
+    if (start == end)
+        goto err;
+
+    *out = res;
+    return LDPS_OK;
+err:
+    fprintf(stderr, "Bad input to min_align, must be an unsigned integer in base 10 or 16: %s", s);
+    return LDPS_ERR;
+}
+
+static enum ld_plugin_status
 parse_option(const char *opt)
 {
     if (strequ(opt, "order=")) {
         pl.order_path = strdup(opt + sizeof("order=") - 1);
         return LDPS_OK;
+    }
+    if (strequ(opt, "min_align=")) {
+        return read_int(&pl.min_align, opt + sizeof("min_align=") - 1);
     }
 
     fprintf(stderr, "Unknown option: %s\n", opt);

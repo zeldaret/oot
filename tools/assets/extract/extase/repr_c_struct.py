@@ -38,6 +38,16 @@ class CData_Value(CData):
     def unpack_from(self, data: memoryview, offset: int = 0):
         return self.unpack_struct.unpack_from(data, offset)[0]
 
+    s8: "CData_Value"
+    u8: "CData_Value"
+    s16: "CData_Value"
+    u16: "CData_Value"
+    s32: "CData_Value"
+    u32: "CData_Value"
+    f32: "CData_Value"
+    f64: "CData_Value"
+    pointer: "CData_Value"
+
 
 CData_Value.s8 = CData_Value("b")
 CData_Value.u8 = CData_Value("B")
@@ -142,26 +152,30 @@ def try_stuff():
     } data = { varLenArray, 3, { 421, 0x01020304 } };
     """
 
-    array_bytes = bytes(
-        [
-            1,
-            0,
-            *(0, 2),
-            3,
-            0,
-            *(0, 4),
-        ]
+    array_bytes = memoryview(
+        bytes(
+            [
+                1,
+                0,
+                *(0, 2),
+                3,
+                0,
+                *(0, 4),
+            ]
+        )
     )
-    varLenArray_bytes = bytes([1, 2, 3])
-    data_bytes = bytes(
-        [
-            *(0x12, 0x34, 0x56, 0x78),
-            *(0, 3),
-            0,
-            0,
-            *(0, 0, 421 >> 8, 421 & 0xFF),
-            *(1, 2, 3, 4),
-        ]
+    varLenArray_bytes = memoryview(bytes([1, 2, 3]))
+    data_bytes = memoryview(
+        bytes(
+            [
+                *(0x12, 0x34, 0x56, 0x78),
+                *(0, 3),
+                0,
+                0,
+                *(0, 0, 421 >> 8, 421 & 0xFF),
+                *(1, 2, 3, 4),
+            ]
+        )
     )
 
     arrayElem_CData_Struct = CData_Struct(

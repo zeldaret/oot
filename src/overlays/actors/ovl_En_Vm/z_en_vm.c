@@ -396,7 +396,8 @@ void EnVm_Die(EnVm* this, PlayState* play) {
             bomb->timer = 0;
         }
 
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xA0);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_10, false));
         Actor_Kill(&this->actor);
     }
 }

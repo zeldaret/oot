@@ -158,7 +158,8 @@ s32 EnBubble_Explosion(EnBubble* this, PlayState* play) {
         EffectSsDtBubble_SpawnCustomColor(play, &effectPos, &effectVel, &effectAccel, &sEffectPrimColor,
                                           &sEffectEnvColor, Rand_S16Offset(100, 50), 0x19, 0);
     }
-    Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x50);
+    Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos,
+                               COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_5, false));
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     return Rand_S16Offset(90, 60);
 }

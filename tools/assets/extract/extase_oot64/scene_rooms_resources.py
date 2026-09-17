@@ -158,8 +158,8 @@ class SpawnListResource(CDataArrayResource):
     )
 
     # (eventually) set by SceneCommandsResource
-    player_entry_list_length = None
-    room_list_length = None
+    player_entry_list_length: int | None = None
+    room_list_length: int | None = None
 
     def try_parse_data(self, memory_context):
         if self.player_entry_list_length is None or self.room_list_length is None:

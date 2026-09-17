@@ -448,7 +448,8 @@ void EnFloormas_Die(EnFloormas* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_FLOORMASTER_SPLIT);
     } else {
         // Die
-        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x90);
+        Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
+                                   COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_9, false));
         EnFloormas_SetupSmallShrink(this, play);
     }
 }

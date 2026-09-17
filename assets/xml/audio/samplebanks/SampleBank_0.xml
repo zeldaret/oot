@@ -12,8 +12,8 @@
     <Sample Name="SAMPLE_0_9" FileName="Sample009" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_10" FileName="Sample010" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_11" FileName="Sample011" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_12" FileName="Sample012" SampleRate="32000" BaseNote="F3"/>
-    <Sample Name="SAMPLE_0_13" FileName="Sample013" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_12" FileName="Sample012" SampleRate="16000" BaseNote="G3"/>
+    <Sample Name="SAMPLE_0_13" FileName="Sample013" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_14" FileName="Sample014" SampleRate="24000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_15" FileName="Sample015" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_16" FileName="Sample016" SampleRate="22050" BaseNote="C4"/>
@@ -22,11 +22,11 @@
     <Sample Name="SAMPLE_0_19" FileName="Sample019" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_20" FileName="Sample020" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_21" FileName="Sample021" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_22" FileName="Sample022" SampleRate="16000" BaseNote="G4"/>
+    <Sample Name="SAMPLE_0_22" FileName="Sample022" SampleRate="16000" BaseNote="F3"/>
     <Sample Name="SAMPLE_0_23" FileName="Sample023" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_24" FileName="Sample024" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_25" FileName="Sample025" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_26" FileName="Sample026" SampleRate="8000" BaseNote="G3"/>
+    <Sample Name="SAMPLE_0_26" FileName="Sample026" SampleRate="16000" BaseNote="F5"/>
     <Sample Name="SAMPLE_0_27" FileName="Sample027" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_28" FileName="Sample028" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_29" FileName="Sample029" SampleRate="22050" BaseNote="C4"/>
@@ -41,7 +41,7 @@
     <Sample Name="SAMPLE_0_38" FileName="Sample038" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_39" FileName="Sample039" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_40" FileName="Sample040" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_41" FileName="Sample041" SampleRate="16000" BaseNote="AF4"/>
+    <Sample Name="SAMPLE_0_41" FileName="Sample041" SampleRate="16000" BaseNote="E3"/>
     <Sample Name="SAMPLE_0_42" FileName="Sample042" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_43" FileName="Sample043" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_44" FileName="Sample044" SampleRate="16000" BaseNote="C4"/>
@@ -64,34 +64,34 @@
     <Sample Name="SAMPLE_0_61" FileName="Sample061" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_62" FileName="Sample062" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_63" FileName="Sample063" SampleRate="22050" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_64" FileName="Sample064" SampleRate="22050" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_64" FileName="Sample064" SampleRate="22050" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_65" FileName="Sample065" SampleRate="22050" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_66" FileName="Sample066" SampleRate="22050" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_67" FileName="Sample067" SampleRate="16000" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_68" FileName="Sample068" SampleRate="22050" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_69" FileName="Sample069" SampleRate="45530" BaseNote="F1"/>
+    <Sample Name="SAMPLE_0_66" FileName="Sample066" SampleRate="22050" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_67" FileName="Sample067" SampleRate="16000" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_68" FileName="Sample068" SampleRate="22050" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_69" FileName="Sample069" SampleRate="45530" BaseNote="G6"/>
     <Sample Name="SAMPLE_0_70" FileName="Sample070" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_71" FileName="Sample071" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_71" FileName="Sample071" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_72" FileName="Sample072" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_73" FileName="Sample073" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_74" FileName="Sample074" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_75" FileName="Sample075" SampleRate="22050" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_76" FileName="Sample076" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_76" FileName="Sample076" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_77" FileName="Sample077" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_78" FileName="Sample078" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_79" FileName="Sample079" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_80" FileName="Sample080" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_81" FileName="Sample081" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_82" FileName="Sample082" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_83" FileName="Sample083" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_83" FileName="Sample083" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_84" FileName="Sample084" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_85" FileName="Sample085" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_86" FileName="Sample086" SampleRate="24000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_87" FileName="Sample087" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_88" FileName="Sample088" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_89" FileName="Sample089" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_89" FileName="Sample089" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_90" FileName="Sample090" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_91" FileName="Sample091" SampleRate="32000" BaseNote="B1"/>
+    <Sample Name="SAMPLE_0_91" FileName="Sample091" SampleRate="32000" BaseNote="DF6"/>
     <Sample Name="SAMPLE_0_92" FileName="Sample092" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_93" FileName="Sample093" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_94" FileName="Sample094" SampleRate="16000" BaseNote="C4"/>
@@ -101,29 +101,29 @@
     <Sample Name="SAMPLE_0_98" FileName="Sample098" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_99" FileName="Sample099" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_100" FileName="Sample100" SampleRate="22050" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_101" FileName="Sample101" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_101" FileName="Sample101" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_102" FileName="Sample102" SampleRate="22050" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_103" FileName="Sample103" SampleRate="22050" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_104" FileName="Sample104" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_103" FileName="Sample103" SampleRate="22050" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_104" FileName="Sample104" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_105" FileName="Sample105" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_106" FileName="Sample106" SampleRate="8000" BaseNote="A0"/>
-    <Sample Name="SAMPLE_0_107" FileName="Sample107" SampleRate="16000" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_108" FileName="Sample108" SampleRate="16000" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_109" FileName="Sample109" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_106" FileName="Sample106" SampleRate="8000" BaseNote="EF7"/>
+    <Sample Name="SAMPLE_0_107" FileName="Sample107" SampleRate="16000" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_108" FileName="Sample108" SampleRate="16000" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_109" FileName="Sample109" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_110" FileName="Sample110" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_111" FileName="Sample111" SampleRate="22050" BaseNote="GF3"/>
+    <Sample Name="SAMPLE_0_111" FileName="Sample111" SampleRate="22050" BaseNote="GF4"/>
     <Sample Name="SAMPLE_0_112" FileName="Sample112" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_113" FileName="Sample113" SampleRate="22050" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_113" FileName="Sample113" SampleRate="22050" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_114" FileName="Sample114" SampleRate="22050" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_115" FileName="Sample115" SampleRate="32000" BaseNote="E3"/>
+    <Sample Name="SAMPLE_0_115" FileName="Sample115" SampleRate="32000" BaseNote="AF4"/>
     <Sample Name="SAMPLE_0_116" FileName="Sample116" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_117" FileName="Sample117" SampleRate="24000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_118" FileName="Sample118" SampleRate="22050" BaseNote="E3"/>
-    <Sample Name="SAMPLE_0_119" FileName="Sample119" SampleRate="32000" BaseNote="F2"/>
+    <Sample Name="SAMPLE_0_118" FileName="Sample118" SampleRate="22050" BaseNote="AF4"/>
+    <Sample Name="SAMPLE_0_119" FileName="Sample119" SampleRate="8000" BaseNote="G3"/>
     <Sample Name="SAMPLE_0_120" FileName="Sample120" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_121" FileName="Sample121" SampleRate="32000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_121" FileName="Sample121" SampleRate="32000" BaseNote="BF3"/>
     <Sample Name="SAMPLE_0_122" FileName="Sample122" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_123" FileName="Sample123" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_123" FileName="Sample123" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_124" FileName="Sample124" SampleRate="20000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_125" FileName="Sample125" SampleRate="20000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_126" FileName="Sample126" SampleRate="20000" BaseNote="C4"/>
@@ -235,10 +235,10 @@
     <Sample Name="SAMPLE_0_232" FileName="Sample232" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_233" FileName="Sample233" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_234" FileName="Sample234" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_235" FileName="Sample235" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_236" FileName="Sample236" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_237" FileName="Sample237" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_238" FileName="Sample238" SampleRate="16000" BaseNote="BF3"/>
+    <Sample Name="SAMPLE_0_235" FileName="Sample235" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_236" FileName="Sample236" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_237" FileName="Sample237" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_238" FileName="Sample238" SampleRate="16000" BaseNote="D4"/>
     <Sample Name="SAMPLE_0_239" FileName="Sample239" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_240" FileName="Sample240" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_241" FileName="Sample241" SampleRate="16000" BaseNote="C4"/>
@@ -257,11 +257,11 @@
     <Sample Name="SAMPLE_0_254" FileName="Sample254" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_255" FileName="Sample255" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_256" FileName="Sample256" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_257" FileName="Sample257" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_257" FileName="Sample257" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_258" FileName="Sample258" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_259" FileName="Sample259" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_260" FileName="Sample260" SampleRate="16000" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_261" FileName="Sample261" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_260" FileName="Sample260" SampleRate="16000" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_261" FileName="Sample261" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_262" FileName="Sample262" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_263" FileName="Sample263" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_264" FileName="Sample264" SampleRate="16000" BaseNote="C4"/>
@@ -275,7 +275,7 @@
     <Sample Name="SAMPLE_0_272" FileName="Sample272" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_273" FileName="Sample273" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_274" FileName="Sample274" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_275" FileName="Sample275" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_275" FileName="Sample275" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_276" FileName="Sample276" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_277" FileName="Sample277" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_278" FileName="Sample278" SampleRate="16000" BaseNote="C4"/>
@@ -284,7 +284,7 @@
     <Sample Name="SAMPLE_0_281" FileName="Sample281" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_282" FileName="Sample282" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_283" FileName="Sample283" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_284" FileName="Sample284" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_284" FileName="Sample284" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_285" FileName="Sample285" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_286" FileName="Sample286" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_287" FileName="Sample287" SampleRate="16000" BaseNote="C4"/>
@@ -297,14 +297,14 @@
     <Sample Name="SAMPLE_0_294" FileName="Sample294" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_295" FileName="Sample295" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_296" FileName="Sample296" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_297" FileName="Sample297" SampleRate="16000" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_298" FileName="Sample298" SampleRate="16000" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_299" FileName="Sample299" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_300" FileName="Sample300" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_301" FileName="Sample301" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_302" FileName="Sample302" SampleRate="16000" BaseNote="BF3"/>
+    <Sample Name="SAMPLE_0_297" FileName="Sample297" SampleRate="16000" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_298" FileName="Sample298" SampleRate="16000" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_299" FileName="Sample299" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_300" FileName="Sample300" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_301" FileName="Sample301" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_302" FileName="Sample302" SampleRate="16000" BaseNote="D4"/>
     <Sample Name="SAMPLE_0_303" FileName="Sample303" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_304" FileName="Sample304" SampleRate="16000" BaseNote="BF3"/>
+    <Sample Name="SAMPLE_0_304" FileName="Sample304" SampleRate="16000" BaseNote="D4"/>
     <Sample Name="SAMPLE_0_305" FileName="Sample305" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_306" FileName="Sample306" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_307" FileName="Sample307" SampleRate="16000" BaseNote="C4"/>
@@ -312,125 +312,125 @@
     <Sample Name="SAMPLE_0_309" FileName="Sample309" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_310" FileName="Sample310" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_311" FileName="Sample311" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_312" FileName="Sample312" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_312" FileName="Sample312" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_313" FileName="Sample313" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_314" FileName="Sample314" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_315" FileName="Sample315" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_316" FileName="Sample316" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_317" FileName="Sample317" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_318" FileName="Sample318" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_319" FileName="Sample319" SampleRate="16000" BaseNote="AF3"/>
+    <Sample Name="SAMPLE_0_314" FileName="Sample314" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_315" FileName="Sample315" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_316" FileName="Sample316" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_317" FileName="Sample317" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_318" FileName="Sample318" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_319" FileName="Sample319" SampleRate="16000" BaseNote="E4"/>
     <Sample Name="SAMPLE_0_320" FileName="Sample320" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_321" FileName="Sample321" SampleRate="16000" BaseNote="C0"/>
-    <Sample Name="SAMPLE_0_322" FileName="Sample322" SampleRate="16000" BaseNote="BF3"/>
+    <Sample Name="SAMPLE_0_321" FileName="Sample321" SampleRate="16000" BaseNote="C8"/>
+    <Sample Name="SAMPLE_0_322" FileName="Sample322" SampleRate="16000" BaseNote="D4"/>
     <Sample Name="SAMPLE_0_323" FileName="Sample323" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_324" FileName="Sample324" SampleRate="16000" BaseNote="AF3"/>
-    <Sample Name="SAMPLE_0_325" FileName="Sample325" SampleRate="16000" BaseNote="AF3"/>
-    <Sample Name="SAMPLE_0_326" FileName="Sample326" SampleRate="22050" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_327" FileName="Sample327" SampleRate="16000" BaseNote="AF3"/>
-    <Sample Name="SAMPLE_0_328" FileName="Sample328" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_329" FileName="Sample329" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_330" FileName="Sample330" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_331" FileName="Sample331" SampleRate="16000" BaseNote="BF3"/>
+    <Sample Name="SAMPLE_0_324" FileName="Sample324" SampleRate="16000" BaseNote="E4"/>
+    <Sample Name="SAMPLE_0_325" FileName="Sample325" SampleRate="16000" BaseNote="E4"/>
+    <Sample Name="SAMPLE_0_326" FileName="Sample326" SampleRate="22050" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_327" FileName="Sample327" SampleRate="16000" BaseNote="E4"/>
+    <Sample Name="SAMPLE_0_328" FileName="Sample328" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_329" FileName="Sample329" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_330" FileName="Sample330" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_331" FileName="Sample331" SampleRate="16000" BaseNote="D4"/>
     <Sample Name="SAMPLE_0_332" FileName="Sample332" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_333" FileName="Sample333" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_334" FileName="Sample334" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_335" FileName="Sample335" SampleRate="16000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_336" FileName="Sample336" SampleRate="16000" BaseNote="AF3"/>
-    <Sample Name="SAMPLE_0_337" FileName="Sample337" SampleRate="16000" BaseNote="AF3"/>
-    <Sample Name="SAMPLE_0_338" FileName="Sample338" SampleRate="16000" BaseNote="BF3"/>
+    <Sample Name="SAMPLE_0_334" FileName="Sample334" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_335" FileName="Sample335" SampleRate="16000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_336" FileName="Sample336" SampleRate="16000" BaseNote="E4"/>
+    <Sample Name="SAMPLE_0_337" FileName="Sample337" SampleRate="16000" BaseNote="E4"/>
+    <Sample Name="SAMPLE_0_338" FileName="Sample338" SampleRate="16000" BaseNote="D4"/>
     <Sample Name="SAMPLE_0_339" FileName="Sample339" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_340" FileName="Sample340" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_341" FileName="Sample341" SampleRate="16000" BaseNote="AF3"/>
-    <Sample Name="SAMPLE_0_342" FileName="Sample342" SampleRate="16000" BaseNote="G3"/>
+    <Sample Name="SAMPLE_0_341" FileName="Sample341" SampleRate="16000" BaseNote="E4"/>
+    <Sample Name="SAMPLE_0_342" FileName="Sample342" SampleRate="16000" BaseNote="F4"/>
     <Sample Name="SAMPLE_0_343" FileName="Sample343" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_344" FileName="Sample344" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_345" FileName="Sample345" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_346" FileName="Sample346" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_347" FileName="Sample347" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_348" FileName="Sample348" SampleRate="16000" BaseNote="C0"/>
+    <Sample Name="SAMPLE_0_348" FileName="Sample348" SampleRate="16000" BaseNote="C8"/>
     <Sample Name="SAMPLE_0_349" FileName="Sample349" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_350" FileName="Sample350" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_351" FileName="Sample351" SampleRate="32000" BaseNote="G4"/>
-    <Sample Name="SAMPLE_0_352" FileName="Sample352" SampleRate="32000" BaseNote="C2"/>
-    <Sample Name="SAMPLE_0_353" FileName="Sample353" SampleRate="22050" BaseNote="GF4"/>
+    <Sample Name="SAMPLE_0_351" FileName="Sample351" SampleRate="32000" BaseNote="F3"/>
+    <Sample Name="SAMPLE_0_352" FileName="Sample352" SampleRate="32000" BaseNote="C6"/>
+    <Sample Name="SAMPLE_0_353" FileName="Sample353" SampleRate="22050" BaseNote="GF3"/>
     <Sample Name="SAMPLE_0_354" FileName="Sample354" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_355" FileName="Sample355" SampleRate="22050" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_356" FileName="Sample356" SampleRate="22050" BaseNote="A5"/>
+    <Sample Name="SAMPLE_0_356" FileName="Sample356" SampleRate="22050" BaseNote="EF2"/>
     <Sample Name="SAMPLE_0_357" FileName="Sample357" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_358" FileName="Sample358" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_359" FileName="Sample359" SampleRate="22050" BaseNote="G3"/>
-    <Sample Name="SAMPLE_0_360" FileName="Sample360" SampleRate="22050" BaseNote="DF3"/>
+    <Sample Name="SAMPLE_0_359" FileName="Sample359" SampleRate="22050" BaseNote="F4"/>
+    <Sample Name="SAMPLE_0_360" FileName="Sample360" SampleRate="22050" BaseNote="B4"/>
     <Sample Name="SAMPLE_0_361" FileName="Sample361" SampleRate="24000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_362" FileName="Sample362" SampleRate="32000" BaseNote="DF3"/>
+    <Sample Name="SAMPLE_0_362" FileName="Sample362" SampleRate="32000" BaseNote="B4"/>
     <Sample Name="SAMPLE_0_363" FileName="Sample363" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_364" FileName="Sample364" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_365" FileName="Sample365" SampleRate="32000" BaseNote="F3"/>
-    <Sample Name="SAMPLE_0_366" FileName="Sample366" SampleRate="32000" BaseNote="AF5"/>
+    <Sample Name="SAMPLE_0_365" FileName="Sample365" SampleRate="16000" BaseNote="G3"/>
+    <Sample Name="SAMPLE_0_366" FileName="Sample366" SampleRate="32000" BaseNote="E2"/>
     <Sample Name="SAMPLE_0_367" FileName="Sample367" SampleRate="22000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_368" FileName="Sample368" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_369" FileName="Sample369" SampleRate="32000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_369" FileName="Sample369" SampleRate="32000" BaseNote="B3"/>
     <Sample Name="SAMPLE_0_370" FileName="Sample370" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_371" FileName="Sample371" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_372" FileName="Sample372" SampleRate="32000" BaseNote="C6"/>
-    <Sample Name="SAMPLE_0_373" FileName="Sample373" SampleRate="32000" BaseNote="E4"/>
-    <Sample Name="SAMPLE_0_374" FileName="Sample374" SampleRate="32000" BaseNote="E3"/>
-    <Sample Name="SAMPLE_0_375" FileName="Sample375" SampleRate="32000" BaseNote="E3"/>
-    <Sample Name="SAMPLE_0_376" FileName="Sample376" SampleRate="32000" BaseNote="E4"/>
-    <Sample Name="SAMPLE_0_377" FileName="Sample377" SampleRate="32000" BaseNote="A2"/>
+    <Sample Name="SAMPLE_0_372" FileName="Sample372" SampleRate="32000" BaseNote="C2"/>
+    <Sample Name="SAMPLE_0_373" FileName="Sample373" SampleRate="32000" BaseNote="AF3"/>
+    <Sample Name="SAMPLE_0_374" FileName="Sample374" SampleRate="32000" BaseNote="AF4"/>
+    <Sample Name="SAMPLE_0_375" FileName="Sample375" SampleRate="32000" BaseNote="AF4"/>
+    <Sample Name="SAMPLE_0_376" FileName="Sample376" SampleRate="32000" BaseNote="AF3"/>
+    <Sample Name="SAMPLE_0_377" FileName="Sample377" SampleRate="32000" BaseNote="EF5"/>
     <Sample Name="SAMPLE_0_378" FileName="Sample378" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_379" FileName="Sample379" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_380" FileName="Sample380" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_381" FileName="Sample381" SampleRate="32000" BaseNote="AF2"/>
-    <Sample Name="SAMPLE_0_382" FileName="Sample382" SampleRate="32000" BaseNote="EF5"/>
-    <Sample Name="SAMPLE_0_383" FileName="Sample383" SampleRate="32000" BaseNote="DF5"/>
-    <Sample Name="SAMPLE_0_384" FileName="Sample384" SampleRate="32000" BaseNote="D3"/>
+    <Sample Name="SAMPLE_0_381" FileName="Sample381" SampleRate="32000" BaseNote="E5"/>
+    <Sample Name="SAMPLE_0_382" FileName="Sample382" SampleRate="32000" BaseNote="A2"/>
+    <Sample Name="SAMPLE_0_383" FileName="Sample383" SampleRate="32000" BaseNote="B2"/>
+    <Sample Name="SAMPLE_0_384" FileName="Sample384" SampleRate="32000" BaseNote="BF4"/>
     <Sample Name="SAMPLE_0_385" FileName="Sample385" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_386" FileName="Sample386" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_387" FileName="Sample387" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_388" FileName="Sample388" SampleRate="24000" BaseNote="AF5"/>
+    <Sample Name="SAMPLE_0_388" FileName="Sample388" SampleRate="24000" BaseNote="E2"/>
     <Sample Name="SAMPLE_0_389" FileName="Sample389" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_390" FileName="Sample390" SampleRate="32000" BaseNote="C4" VersionInclude="ntsc-1.0,ntsc-1.1"/>
     <Sample Name="SAMPLE_0_391" FileName="Sample391" SampleRate="16000" BaseNote="C4" VersionInclude="ntsc-1.0,ntsc-1.1"/>
-    <Sample Name="SAMPLE_0_392" FileName="Sample392" SampleRate="16000" BaseNote="C2" VersionInclude="ntsc-1.0,ntsc-1.1"/>
-    <Sample Name="SAMPLE_0_393" FileName="Sample393" SampleRate="22050" BaseNote="A3"/>
+    <Sample Name="SAMPLE_0_392" FileName="Sample392" SampleRate="16000" BaseNote="C6" VersionInclude="ntsc-1.0,ntsc-1.1"/>
+    <Sample Name="SAMPLE_0_393" FileName="Sample393" SampleRate="22050" BaseNote="EF4"/>
     <Sample Name="SAMPLE_0_394" FileName="Sample394" SampleRate="22050" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_395" FileName="Sample395" SampleRate="27777" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_396" FileName="Sample396" SampleRate="32000" BaseNote="D3"/>
+    <Sample Name="SAMPLE_0_396" FileName="Sample396" SampleRate="32000" BaseNote="C5"/>
     <Sample Name="SAMPLE_0_397" FileName="Sample397" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_398" FileName="Sample398" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_399" FileName="Sample399" SampleRate="32000" BaseNote="F4"/>
-    <Sample Name="SAMPLE_0_400" FileName="Sample400" SampleRate="32000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_401" FileName="Sample401" SampleRate="32000" BaseNote="BF2"/>
-    <Sample Name="SAMPLE_0_402" FileName="Sample402" SampleRate="48000" BaseNote="D3"/>
-    <Sample Name="SAMPLE_0_403" FileName="Sample403" SampleRate="32000" BaseNote="BF4"/>
-    <Sample Name="SAMPLE_0_404" FileName="Sample404" SampleRate="32000" BaseNote="BF3"/>
-    <Sample Name="SAMPLE_0_405" FileName="Sample405" SampleRate="32000" BaseNote="C6"/>
-    <Sample Name="SAMPLE_0_406" FileName="Sample406" SampleRate="32000" BaseNote="G5"/>
-    <Sample Name="SAMPLE_0_407" FileName="Sample407" SampleRate="24000" BaseNote="GF5"/>
+    <Sample Name="SAMPLE_0_399" FileName="Sample399" SampleRate="32000" BaseNote="G3"/>
+    <Sample Name="SAMPLE_0_400" FileName="Sample400" SampleRate="16000" BaseNote="D3"/>
+    <Sample Name="SAMPLE_0_401" FileName="Sample401" SampleRate="32000" BaseNote="D5"/>
+    <Sample Name="SAMPLE_0_402" FileName="Sample402" SampleRate="24000" BaseNote="BF3"/>
+    <Sample Name="SAMPLE_0_403" FileName="Sample403" SampleRate="32000" BaseNote="D3"/>
+    <Sample Name="SAMPLE_0_404" FileName="Sample404" SampleRate="16000" BaseNote="D3"/>
+    <Sample Name="SAMPLE_0_405" FileName="Sample405" SampleRate="32000" BaseNote="C2"/>
+    <Sample Name="SAMPLE_0_406" FileName="Sample406" SampleRate="32000" BaseNote="F2"/>
+    <Sample Name="SAMPLE_0_407" FileName="Sample407" SampleRate="24000" BaseNote="GF2"/>
     <Sample Name="SAMPLE_0_408" FileName="Sample408" SampleRate="32000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_409" FileName="Sample409" SampleRate="24000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_410" FileName="Sample410" SampleRate="16000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_411" FileName="Sample411" SampleRate="32000" BaseNote="DF4"/>
+    <Sample Name="SAMPLE_0_411" FileName="Sample411" SampleRate="32000" BaseNote="B3"/>
     <Sample Name="SAMPLE_0_412" FileName="Sample412" SampleRate="24000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_413" FileName="Sample413" SampleRate="32000" BaseNote="AF5"/>
-    <Sample Name="SAMPLE_0_414" FileName="Sample414" SampleRate="32000" BaseNote="E4"/>
-    <Sample Name="SAMPLE_0_415" FileName="Sample415" SampleRate="32000" BaseNote="E3"/>
+    <Sample Name="SAMPLE_0_413" FileName="Sample413" SampleRate="32000" BaseNote="E2"/>
+    <Sample Name="SAMPLE_0_414" FileName="Sample414" SampleRate="32000" BaseNote="AF3"/>
+    <Sample Name="SAMPLE_0_415" FileName="Sample415" SampleRate="32000" BaseNote="AF4"/>
     <Sample Name="SAMPLE_0_416" FileName="Sample416" SampleRate="16000" BaseNote="C4"/>
     <Sample Name="SAMPLE_0_417" FileName="Sample417" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_418" FileName="Sample418" SampleRate="22050" BaseNote="F6"/>
+    <Sample Name="SAMPLE_0_418" FileName="Sample418" SampleRate="22050" BaseNote="C2"/>
     <Sample Name="SAMPLE_0_419" FileName="Sample419" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_420" FileName="Sample420" SampleRate="32000" BaseNote="A1"/>
-    <Sample Name="SAMPLE_0_421" FileName="Sample421" SampleRate="24000" BaseNote="AF5"/>
-    <Sample Name="SAMPLE_0_422" FileName="Sample422" SampleRate="24000" BaseNote="F4"/>
-    <Sample Name="SAMPLE_0_423" FileName="Sample423" SampleRate="24000" BaseNote="BF2"/>
-    <Sample Name="SAMPLE_0_424" FileName="Sample424" SampleRate="32000" BaseNote="EF3"/>
+    <Sample Name="SAMPLE_0_420" FileName="Sample420" SampleRate="32000" BaseNote="EF6"/>
+    <Sample Name="SAMPLE_0_421" FileName="Sample421" SampleRate="24000" BaseNote="E2"/>
+    <Sample Name="SAMPLE_0_422" FileName="Sample422" SampleRate="24000" BaseNote="G3"/>
+    <Sample Name="SAMPLE_0_423" FileName="Sample423" SampleRate="24000" BaseNote="D4"/>
+    <Sample Name="SAMPLE_0_424" FileName="Sample424" SampleRate="32000" BaseNote="A4"/>
     <Sample Name="SAMPLE_0_425" FileName="Sample425" SampleRate="22050" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_426" FileName="Sample426" SampleRate="16000" BaseNote="DF6"/>
-    <Sample Name="SAMPLE_0_427" FileName="Sample427" SampleRate="22050" BaseNote="B5"/>
-    <Sample Name="SAMPLE_0_428" FileName="Sample428" SampleRate="32000" BaseNote="BF4"/>
-    <Sample Name="SAMPLE_0_429" FileName="Sample429" SampleRate="32000" BaseNote="EF4"/>
-    <Sample Name="SAMPLE_0_430" FileName="Sample430" SampleRate="16000" BaseNote="C2" VersionExclude="ntsc-1.0,ntsc-1.1"/>
+    <Sample Name="SAMPLE_0_426" FileName="Sample426" SampleRate="16000" BaseNote="B1"/>
+    <Sample Name="SAMPLE_0_427" FileName="Sample427" SampleRate="22050" BaseNote="DF2"/>
+    <Sample Name="SAMPLE_0_428" FileName="Sample428" SampleRate="32000" BaseNote="D3"/>
+    <Sample Name="SAMPLE_0_429" FileName="Sample429" SampleRate="32000" BaseNote="A3"/>
+    <Sample Name="SAMPLE_0_430" FileName="Sample430" SampleRate="16000" BaseNote="C6" VersionExclude="ntsc-1.0,ntsc-1.1"/>
     <Sample Name="SAMPLE_0_431" FileName="Sample431" SampleRate="32000" BaseNote="C4"/>
-    <Sample Name="SAMPLE_0_432" FileName="Sample432" SampleRate="32000" BaseNote="BF2"/>
+    <Sample Name="SAMPLE_0_432" FileName="Sample432" SampleRate="32000" BaseNote="D5"/>
 </SampleBank>

@@ -17,8 +17,13 @@ extern u64 cic6105TextStart[], cic6105TextEnd[];
 extern u64 aspMainTextStart[], aspMainTextEnd[];
 extern u64 aspMainDataStart[], aspMainDataEnd[];
 
+#ifndef F3DEX_GBI_PL
+extern u64 gspF3DZEX2_NoN_fifoTextStart[], gspF3DZEX2_NoN_fifoTextEnd[];
+extern u64 gspF3DZEX2_NoN_fifoDataStart[], gspF3DZEX2_NoN_fifoDataEnd[];
+#else
 extern u64 gspF3DZEX2_NoN_PosLight_fifoTextStart[], gspF3DZEX2_NoN_PosLight_fifoTextEnd[];
 extern u64 gspF3DZEX2_NoN_PosLight_fifoDataStart[], gspF3DZEX2_NoN_PosLight_fifoDataEnd[];
+#endif
 
 extern u64 gspS2DEX2d_fifoTextStart[], gspS2DEX2d_fifoTextEnd[];
 extern u64 gspS2DEX2d_fifoDataStart[], gspS2DEX2d_fifoDataEnd[];

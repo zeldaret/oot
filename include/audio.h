@@ -31,7 +31,7 @@ typedef void (*AudioCustomUpdateFunction)(void);
 #define SEQ_NUM_CHANNELS 16
 #define SEQ_IO_VAL_NONE -1
 
-#define MUTE_BEHAVIOR_3 (1 << 3)           // prevent further noteSubEus from playing
+#define MUTE_BEHAVIOR_3 (1 << 3)           // prevent further NoteSampleStates from playing
 #define MUTE_BEHAVIOR_4 (1 << 4)           // stop something in seqLayer scripts
 #define MUTE_BEHAVIOR_SOFTEN (1 << 5)      // lower volume, by default to half
 #define MUTE_BEHAVIOR_STOP_NOTES (1 << 6)  // prevent further notes from playing
@@ -586,7 +586,8 @@ typedef struct NotePlaybackState {
     /* 0x6C */ VibratoState vibratoState;
 } NotePlaybackState; // size = 0x88
 
-typedef struct NoteSubEu {
+// JAudio: "commonch"
+typedef struct NoteSampleState {
     struct {
         /* 0x00 */ volatile u8 enabled : 1;
         /* 0x00 */ u8 needsInit : 1;
@@ -620,15 +621,16 @@ typedef struct NoteSubEu {
              };
     /* 0x14 */ s16* filter;
     /* 0x18 */ char pad_18[0x8];
-} NoteSubEu; // size = 0x20
+} NoteSampleState; // size = 0x20
 
+// JAudio: "channel"
 typedef struct Note {
     /* 0x00 */ AudioListItem listItem;
     /* 0x10 */ NoteSynthesisState synthesisState;
     /* 0x30 */ NotePlaybackState playbackState;
     /* 0xB8 */ char unk_B8[0x4];
     /* 0xBC */ u32 startSamplePos; // initial position/index to start processing s16 samples
-    /* 0xC0 */ NoteSubEu noteSubEu;
+    /* 0xC0 */ NoteSampleState sampleState;
 } Note; // size = 0xE0
 
 typedef struct ReverbSettings {
@@ -737,12 +739,14 @@ typedef struct AudioSampleCache {
     /* 0x290 */ s32 numEntries;
 } AudioSampleCache; // size = 0x294
 
+// JAudio: Persistent <-> "stay"
 typedef struct AudioPersistentCache {
     /* 0x00*/ u32 numEntries;
     /* 0x04*/ AudioAllocPool pool;
     /* 0x14*/ AudioCacheEntry entries[16];
 } AudioPersistentCache; // size = 0xD4
 
+// JAudio: Temporary <-> "auto"
 typedef struct AudioTemporaryCache {
     /* 0x00*/ u32 nextSide;
     /* 0x04*/ AudioAllocPool pool;
@@ -884,7 +888,7 @@ typedef struct AudioContext {
     /* 0x0004 */ u16 unk_4;
     /* 0x0006 */ char unk_0006[0x0A];
     /* 0x0010 */ s16* curLoadedBook;
-    /* 0x0014 */ NoteSubEu* noteSubsEu;
+    /* 0x0014 */ NoteSampleState* sampleStates;
     /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
     /* 0x0B68 */ Sample* usedSamples[128];
@@ -984,7 +988,7 @@ typedef struct AudioContext {
     /* 0x3530 */ SequencePlayer seqPlayers[4];
     /* 0x3AB0 */ SequenceLayer sequenceLayers[64];
     /* 0x5AB0 */ SequenceChannel sequenceChannelNone;
-    /* 0x5B84 */ s32 noteSubEuOffset;
+    /* 0x5B84 */ s32 sampleStateOffset;
     /* 0x5B88 */ AudioListItem layerFreeList;
     /* 0x5B98 */ NotePool noteFreeLists;
     /* 0x5BD8 */ u8 threadCmdWritePos;
@@ -1003,7 +1007,7 @@ typedef struct AudioContext {
     /* 0x5C50 */ AudioCmd threadCmdBuf[0x100]; // Audio thread commands used to transfer audio requests from the graph thread to the audio thread
 } AudioContext; // size = 0x6450
 
-typedef struct NoteSubAttributes {
+typedef struct NoteSampleStateAttributes {
     /* 0x00 */ u8 reverbVol;
     /* 0x01 */ u8 gain; // Increases volume by a multiplicative scaling factor. Represented as a UQ4.4 number
     /* 0x02 */ u8 pan;
@@ -1014,7 +1018,7 @@ typedef struct NoteSubAttributes {
     /* 0x10 */ s16* filter;
     /* 0x14 */ u8 combFilterSize;
     /* 0x16 */ u16 combFilterGain;
-} NoteSubAttributes; // size = 0x18
+} NoteSampleStateAttributes; // size = 0x18
 
 typedef struct TempoData {
     /* 0x0 */ s16 unk_00; // set to 0x1C00, unused
@@ -1099,8 +1103,8 @@ void AudioThread_InitMesgQueues(void);
 void Audio_InvalDCache(void* buf, s32 size);
 void Audio_WritebackDCache(void* buf, s32 size);
 s32 osAiSetNextBuffer(void*, u32);
-void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs);
-void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput);
+void Audio_InitSampleState(Note* note, NoteSampleState* sampleState, NoteSampleStateAttributes* attrs);
+void Audio_NoteSetResamplingRate(NoteSampleState* sampleState, f32 resamplingRateInput);
 void Audio_NoteInit(Note* note);
 void Audio_NoteDisable(Note* note);
 void Audio_ProcessNotes(void);
@@ -1164,7 +1168,7 @@ void func_800F436C(Vec3f* pos, u16 sfxId, f32 arg2);
 void func_800F4414(Vec3f* pos, u16 sfxId, f32);
 void func_800F44EC(s8 arg0, s8 arg1);
 void func_800F4524(Vec3f* pos, u16 sfxId, s8 arg2);
-void func_800F4254(Vec3f* pos, u8 level);
+void Audio_PlaySwordChargeSfx(Vec3f* pos, u8 level);
 void Audio_PlaySfxRiver(Vec3f* pos, f32 freqScale);
 void Audio_PlaySfxWaterfall(Vec3f* pos, f32 freqScale);
 void Audio_SetBgmVolumeOffDuringFanfare(void);
@@ -1226,8 +1230,8 @@ extern f32 gPitchFrequencies[];
 extern u8 gDefaultShortNoteVelocityTable[16];
 extern u8 gDefaultShortNoteGateTimeTable[16];
 extern EnvelopePoint gDefaultEnvelope[4];
-extern NoteSubEu gZeroNoteSub;
-extern NoteSubEu gDefaultNoteSub;
+extern NoteSampleState gZeroNoteSampleState;
+extern NoteSampleState gDefaultNoteSampleState;
 extern u16 gHaasEffectDelaySizes[64];
 extern s16 D_8012FBA8[];
 extern f32 gHeadsetPanVolume[128];

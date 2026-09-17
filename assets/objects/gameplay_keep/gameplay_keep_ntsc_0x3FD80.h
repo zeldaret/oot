@@ -3,9 +3,9 @@
 
 #include "tex_len.h"
 #include "ultra64.h"
-#include "region.h"
+#include "versions.h"
 
-#if OOT_REGION != REGION_EU
+#if OOT_NTSC
 #define gUnusedBombchuIconTex_WIDTH 32
 #define gUnusedBombchuIconTex_HEIGHT 32
 extern u64 gUnusedBombchuIconTex[TEX_LEN(u64, gUnusedBombchuIconTex_WIDTH, gUnusedBombchuIconTex_HEIGHT, 16)];

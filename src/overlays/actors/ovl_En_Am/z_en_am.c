@@ -882,7 +882,8 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
                 }
 
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_DEAD);
-                Item_DropCollectibleRandom(play, &this->dyna.actor, &this->dyna.actor.world.pos, 0xA0);
+                Item_DropCollectibleRandom(play, &this->dyna.actor, &this->dyna.actor.world.pos,
+                                           COLLECTIBLE_DROP_RANDOM_PARAMS(COLLECTIBLE_DROP_TABLE_10, false));
 
                 for (i = 9; i >= 0; i--) {
                     dustPos.x = (sinf(dustPosScale) * 7.0f) + this->dyna.actor.world.pos.x;

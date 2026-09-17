@@ -229,6 +229,8 @@ def register_resource_handlers():
                 n64resources.GfxMicroCode.F3DEX2: dlist_resources.Ucode.f3dex2,
             }[resource_desc.ucode],
         )
+        if resource_desc.length is not None:
+            res.set_length(resource_desc.length)
         res.ignored_raw_pointers |= resource_desc.raw_pointers
         return res
 
@@ -449,7 +451,7 @@ def register_resource_handlers():
     )
 
 
-RESOURCE_HANDLERS: dict[str, ResourceHandler] = {}
+RESOURCE_HANDLERS: dict[type[ResourceDesc], ResourceHandler] = {}
 
 
 def get_resource_from_desc(
