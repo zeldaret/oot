@@ -68,7 +68,7 @@ typedef enum PlayerBoots {
     /* 0x00 */ PLAYER_BOOTS_KOKIRI,
     /* 0x01 */ PLAYER_BOOTS_IRON,
     /* 0x02 */ PLAYER_BOOTS_HOVER,
-    /* Values below are only relevant when setting regs in Player_SetBootData */
+    /* Values below are only relevant when setting regs in PlayerLib_SetBootData */
     /* 0x03 */ PLAYER_BOOTS_INDOOR,
     /* 0x04 */ PLAYER_BOOTS_IRON_UNDERWATER,
     /* 0x05 */ PLAYER_BOOTS_KOKIRI_CHILD,
@@ -315,7 +315,7 @@ typedef enum PlayerFace {
 } PlayerFace;
 
 typedef enum PlayerModelGroup {
-    /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
+    /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `PlayerLib_OverrideLimbDrawPause`)
     /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD,  //hold sword only. used for holding sword only as child link with hylian shield equipped
     /* 0x02 */ PLAYER_MODELGROUP_SWORD_AND_SHIELD, // hold sword and shield or just sword if no shield is equipped
     /* 0x03 */ PLAYER_MODELGROUP_DEFAULT, // non-specific models, for items that don't have particular link models
@@ -870,7 +870,7 @@ typedef struct Player {
     /* 0x0678 */ PlayerAgeProperties* ageProperties;
     /* 0x067C */ u32 stateFlags1;
     /* 0x0680 */ u32 stateFlags2;
-    /* 0x0684 */ Actor* autoLockOnActor; // Actor that is locked onto automatically without player input; see `Player_SetAutoLockOnActor`
+    /* 0x0684 */ Actor* autoLockOnActor; // Actor that is locked onto automatically without player input; see `PlayerLib_SetAutoLockOnActor`
     /* 0x0688 */ Actor* boomerangActor;
     /* 0x068C */ Actor* naviActor;
     /* 0x0690 */ s16 naviTextId;
@@ -990,57 +990,57 @@ typedef struct Player {
 } Player; // size = 0xA94
 
 // z_player_lib.c
-void Player_SetBootData(struct PlayState* play, Player* this);
-int Player_InBlockingCsMode(struct PlayState* play, Player* this);
-int Player_InCsMode(struct PlayState* play);
-s32 Player_CheckHostileLockOn(Player* this);
-int Player_IsChildWithHylianShield(Player* this);
-s32 Player_ActionToModelGroup(Player* this, s32 itemAction);
-void Player_SetModelsForHoldingShield(Player* this);
-void Player_SetModels(Player* this, s32 modelGroup);
-void Player_SetModelGroup(Player* this, s32 modelGroup);
+void PlayerLib_SetBootData(struct PlayState* play, Player* this);
+int PlayerLib_InBlockingCsMode(struct PlayState* play, Player* this);
+int PlayerLib_InCsMode(struct PlayState* play);
+s32 PlayerLib_CheckHostileLockOn(Player* this);
+int PlayerLib_IsChildWithHylianShield(Player* this);
+s32 PlayerLib_ActionToModelGroup(Player* this, s32 itemAction);
+void PlayerLib_SetModelsForHoldingShield(Player* this);
+void PlayerLib_SetModels(Player* this, s32 modelGroup);
+void PlayerLib_SetModelGroup(Player* this, s32 modelGroup);
 void func_8008EC70(Player* this);
-void Player_SetEquipmentData(struct PlayState* play, Player* this);
-void Player_UpdateBottleHeld(struct PlayState* play, Player* this, s32 item, s32 itemAction);
-void Player_ReleaseLockOn(Player* this);
-void Player_ClearZTargeting(Player* this);
-void Player_SetAutoLockOnActor(struct PlayState* play, Actor* actor);
+void PlayerLib_SetEquipmentData(struct PlayState* play, Player* this);
+void PlayerLib_UpdateBottleHeld(struct PlayState* play, Player* this, s32 item, s32 itemAction);
+void PlayerLib_ReleaseLockOn(Player* this);
+void PlayerLib_ClearZTargeting(Player* this);
+void PlayerLib_SetAutoLockOnActor(struct PlayState* play, Actor* actor);
 s32 func_8008EF44(struct PlayState* play, s32 ammo);
-int Player_IsBurningStickInRange(struct PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange);
-s32 Player_GetStrength(void);
-u8 Player_GetMask(struct PlayState* play);
-Player* Player_UnsetMask(struct PlayState* play);
-s32 Player_HasMirrorShieldEquipped(struct PlayState* play);
-int Player_HasMirrorShieldSetToDraw(struct PlayState* play);
-s32 Player_ActionToMagicSpell(Player* this, s32 itemAction);
-int Player_HoldsHookshot(Player* this);
+int PlayerLib_IsBurningStickInRange(struct PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange);
+s32 PlayerLib_GetStrength(void);
+u8 PlayerLib_GetMask(struct PlayState* play);
+Player* PlayerLib_UnsetMask(struct PlayState* play);
+s32 PlayerLib_HasMirrorShieldEquipped(struct PlayState* play);
+int PlayerLib_HasMirrorShieldSetToDraw(struct PlayState* play);
+s32 PlayerLib_ActionToMagicSpell(Player* this, s32 itemAction);
+int PlayerLib_HoldsHookshot(Player* this);
 int func_8008F128(Player* this);
-s32 Player_ActionToMeleeWeapon(s32 itemAction);
-s32 Player_GetMeleeWeaponHeld(Player* this);
-s32 Player_HoldsTwoHandedWeapon(Player* this);
-int Player_HoldsBrokenKnife(Player* this);
-s32 Player_ActionToBottle(Player* this, s32 itemAction);
-s32 Player_GetBottleHeld(Player* this);
-s32 Player_ActionToExplosive(Player* this, s32 itemAction);
-s32 Player_GetExplosiveHeld(Player* this);
+s32 PlayerLib_ActionToMeleeWeapon(s32 itemAction);
+s32 PlayerLib_GetMeleeWeaponHeld(Player* this);
+s32 PlayerLib_HoldsTwoHandedWeapon(Player* this);
+int PlayerLib_HoldsBrokenKnife(Player* this);
+s32 PlayerLib_ActionToBottle(Player* this, s32 itemAction);
+s32 PlayerLib_GetBottleHeld(Player* this);
+s32 PlayerLib_ActionToExplosive(Player* this, s32 itemAction);
+s32 PlayerLib_GetExplosiveHeld(Player* this);
 s32 func_8008F2BC(Player* this, s32 itemAction);
-s32 Player_GetEnvironmentalHazard(struct PlayState* play);
-void Player_DrawImpl(struct PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
+s32 PlayerLib_GetEnvironmentalHazard(struct PlayState* play);
+void PlayerLib_DrawImpl(struct PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
                      s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
                      void* data);
-s32 Player_OverrideLimbDrawGameplayCommon(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+s32 PlayerLib_OverrideLimbDrawGameplayCommon(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                           void* thisx);
-s32 Player_OverrideLimbDrawGameplayDefault(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+s32 PlayerLib_OverrideLimbDrawGameplayDefault(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                            void* thisx);
-s32 Player_OverrideLimbDrawGameplayFirstPerson(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos,
+s32 PlayerLib_OverrideLimbDrawGameplayFirstPerson(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos,
                                                Vec3s* rot, void* thisx);
-s32 Player_OverrideLimbDrawGameplayCrawling(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+s32 PlayerLib_OverrideLimbDrawGameplayCrawling(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                             void* thisx);
-u8 Player_UpdateWeaponInfo(struct PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newPosA, Vec3f* newPosB);
-void Player_DrawGetItem(struct PlayState* play, Player* this);
-void Player_PostLimbDrawGameplay(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-u32 Player_InitPauseDrawData(struct PlayState* play, u8* segment, SkelAnime* skelAnime);
-void Player_DrawPause(struct PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+u8 PlayerLib_UpdateWeaponInfo(struct PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newPosA, Vec3f* newPosB);
+void PlayerLib_DrawGetItem(struct PlayState* play, Player* this);
+void PlayerLib_PostLimbDrawGameplay(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
+u32 PlayerLib_InitPauseDrawData(struct PlayState* play, u8* segment, SkelAnime* skelAnime);
+void PlayerLib_DrawPause(struct PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
                       s32 sword, s32 tunic, s32 shield, s32 boots);
 
 // z_player_lib.c
@@ -1052,8 +1052,5 @@ extern Gfx* gPlayerLeftHandClosedDLs[];
 extern Gfx* gPlayerLeftHandBoomerangDLs[];
 extern Gfx gCullBackDList[];
 extern Gfx gCullFrontDList[];
-
-// object_table.c
-extern s16 gLinkObjectIds[2];
 
 #endif

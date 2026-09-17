@@ -226,7 +226,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
 }
 
 void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, PlayState* play) {
-    if ((this->dyna.actor.home.rot.z == 0) && !Player_InCsMode(play)) {
+    if ((this->dyna.actor.home.rot.z == 0) && !PlayerLib_InCsMode(play)) {
         Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
         BgMoriBigst_SetupDone(this, play);
     }

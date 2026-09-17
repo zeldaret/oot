@@ -95,7 +95,7 @@ void func_80AFB768(EnSi* this, PlayState* play) {
         Actor_SetScale(&this->actor, this->actor.scale.x);
         this->actor.shape.rot.y += 0x400;
 
-        if (!Player_InCsMode(play)) {
+        if (!PlayerLib_InCsMode(play)) {
             func_80AFB748(this, play);
 
             if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {

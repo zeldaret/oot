@@ -249,7 +249,7 @@ s32 func_80AADAA0(EnMm* this, PlayState* play) {
             break;
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                Player_UnsetMask(play);
+                PlayerLib_UnsetMask(play);
                 Item_Give(play, ITEM_SOLD_OUT);
                 SET_ITEMGETINF(ITEMGETINF_3B);
                 Rupees_ChangeBy(500);
@@ -422,7 +422,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
     f32 floorPolyNormalY;
     Vec3f dustPos;
 
-    if (!Player_InCsMode(play)) {
+    if (!PlayerLib_InCsMode(play)) {
         SkelAnime_Update(&this->skelAnime);
 
         if (this->curAnimIndex == 0) {

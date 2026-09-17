@@ -271,7 +271,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
     Matrix_MultVec3f(&sPosAOffset, &posA);
     Matrix_MultVec3f(&sPosBOffset, &posB);
 
-    if (Player_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB)) {
+    if (PlayerLib_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &posA, &posB);
     }
 

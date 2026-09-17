@@ -476,7 +476,7 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
 
         case OBJSWITCH_SUBTYPE_HOLD:
         case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-            if (!DynaPolyActor_IsSwitchPressed(&this->dyna) && !Player_InCsMode(play)) {
+            if (!DynaPolyActor_IsSwitchPressed(&this->dyna) && !PlayerLib_InCsMode(play)) {
                 if (this->releaseTimer <= 0) {
                     ObjSwitch_FloorReleaseInit(this);
                     if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_HOLD) {
@@ -735,7 +735,7 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
 
         case OBJSWITCH_TYPE_CRYSTAL:
         case OBJSWITCH_TYPE_CRYSTAL_TARGETABLE:
-            if (!Player_InCsMode(play) && this->disableAcTimer > 0) {
+            if (!PlayerLib_InCsMode(play) && this->disableAcTimer > 0) {
                 this->disableAcTimer--;
             }
             this->prevColFlags = this->jntSph.collider.base.acFlags;

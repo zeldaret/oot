@@ -130,7 +130,7 @@ s32 ObjOshihiki_StrongEnough(ObjOshihiki* this) {
     if (this->cantMove) {
         return 0;
     }
-    strength = Player_GetStrength();
+    strength = PlayerLib_GetStrength();
     switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
         case PUSHBLOCK_SMALL_START_ON:
         case PUSHBLOCK_MEDIUM_START_ON:

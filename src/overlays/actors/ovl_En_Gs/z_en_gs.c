@@ -206,7 +206,7 @@ void func_80A4E648(EnGs* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
         if ((sp26 >= 0) && (sp26 <= SCREEN_WIDTH) && (sp24 >= 0) && (sp24 <= SCREEN_HEIGHT) && (this->unk_19C != 3)) {
             if (Actor_OfferTalk(&this->actor, play, 40.0f) == 1) {
-                if (Player_GetMask(play) == PLAYER_MASK_TRUTH) {
+                if (PlayerLib_GetMask(play) == PLAYER_MASK_TRUTH) {
                     this->actor.textId = 0x2054;
                 } else {
                     this->actor.textId = 0x2053;

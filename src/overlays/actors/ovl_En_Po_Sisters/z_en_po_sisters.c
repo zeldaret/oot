@@ -1055,7 +1055,7 @@ void func_80ADBBF4(EnPoSisters* this, PlayState* play) {
 }
 
 void func_80ADBC88(EnPoSisters* this, PlayState* play) {
-    if (D_80ADD784 != 0 || !Player_InCsMode(play)) {
+    if (D_80ADD784 != 0 || !PlayerLib_InCsMode(play)) {
         if (this->unk_19A != 0) {
             this->unk_19A--;
         }

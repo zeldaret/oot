@@ -822,7 +822,7 @@ s16 EnHy_UpdateTalkState(PlayState* play, Actor* thisx) {
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
                     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
-                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
+                    PlayerLib_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
                     break;
 
                 case 0x7016:
@@ -986,7 +986,7 @@ void EnHy_OfferBuyBottledItem(EnHy* this, PlayState* play) {
                     break;
 
                 default:
-                    if (Player_GetMask(play) == PLAYER_MASK_NONE) {
+                    if (PlayerLib_GetMask(play) == PLAYER_MASK_NONE) {
                         this->actor.textId = 0x70ED;
                     }
                     break;
@@ -1006,7 +1006,7 @@ void EnHy_OfferBuyBottledItem(EnHy* this, PlayState* play) {
                     break;
 
                 default:
-                    if (Player_GetMask(play) == PLAYER_MASK_NONE) {
+                    if (PlayerLib_GetMask(play) == PLAYER_MASK_NONE) {
                         this->actor.textId = 0x700C;
                     }
                     break;

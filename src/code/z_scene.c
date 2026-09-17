@@ -13,7 +13,6 @@
 #include "inventory.h"
 #include "light.h"
 #include "play_state.h"
-#include "player.h"
 #include "printf.h"
 #include "regs.h"
 #include "save.h"

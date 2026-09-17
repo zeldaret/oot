@@ -198,7 +198,7 @@ s32 EnCs_GetTalkState(EnCs* this, PlayState* play) {
         case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(play)) {
                 if (this->actor.textId == 0x2026) {
-                    Player_UnsetMask(play);
+                    PlayerLib_UnsetMask(play);
                     Item_Give(play, ITEM_SOLD_OUT);
                     SET_ITEMGETINF(ITEMGETINF_3A);
                     Rupees_ChangeBy(30);

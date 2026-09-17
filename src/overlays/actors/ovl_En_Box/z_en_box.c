@@ -361,7 +361,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play) {
         Actor_SetClosestSecretDistance(&this->dyna.actor, play);
     }
 
-    if (Flags_GetTempClear(play, this->dyna.actor.room) && !Player_InCsMode(play)) {
+    if (Flags_GetTempClear(play, this->dyna.actor.room) && !PlayerLib_InCsMode(play)) {
         Flags_SetClear(play, this->dyna.actor.room);
         EnBox_SetupAction(this, EnBox_AppearInit);
         OnePointCutscene_Attention(play, &this->dyna.actor);

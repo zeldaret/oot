@@ -290,7 +290,7 @@ void BgGndIceblock_Fall(BgGndIceblock* this, PlayState* play) {
         thisx->world.pos.x = thisx->home.pos.x;
         thisx->world.pos.y = thisx->home.pos.y - 100.0f;
         thisx->world.pos.z = thisx->home.pos.z;
-        if (Player_InCsMode(play)) {
+        if (PlayerLib_InCsMode(play)) {
             Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
         }
         this->actionFunc = BgGndIceblock_Reset;
@@ -303,7 +303,7 @@ void BgGndIceblock_Hole(BgGndIceblock* this, PlayState* play) {
     thisx->velocity.y += 1.0f;
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y - 100.0f, thisx->velocity.y)) {
         thisx->velocity.y = 0.0f;
-        if (Player_InCsMode(play)) {
+        if (PlayerLib_InCsMode(play)) {
             Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
         }
         this->actionFunc = BgGndIceblock_Idle;

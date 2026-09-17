@@ -119,7 +119,7 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     sInput.cur.stick_x = sInput.cur.stick_y = 0;
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemAction = this->heldItemId = PLAYER_IA_SWORD_MASTER;
-    Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD_AND_SHIELD);
+    PlayerLib_SetModelGroup(this, PLAYER_MODELGROUP_SWORD_AND_SHIELD);
     play->playerInit(this, play, &gDarkLinkSkel);
     this->actor.naviEnemyId = NAVI_ENEMY_DARK_LINK;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
@@ -762,13 +762,13 @@ s32 EnTorch2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
                               Gfx** gfx) {
     Player* this = (Player*)thisx;
 
-    return Player_OverrideLimbDrawGameplayCommon(play, limbIndex, dList, pos, rot, &this->actor);
+    return PlayerLib_OverrideLimbDrawGameplayCommon(play, limbIndex, dList, pos, rot, &this->actor);
 }
 
 void EnTorch2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Player* this = (Player*)thisx;
 
-    Player_PostLimbDrawGameplay(play, limbIndex, dList, rot, &this->actor);
+    PlayerLib_PostLimbDrawGameplay(play, limbIndex, dList, rot, &this->actor);
 }
 
 void EnTorch2_Draw(Actor* thisx, PlayState* play2) {

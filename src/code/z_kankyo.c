@@ -2222,7 +2222,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
 
                 if ((Inventory_ReplaceItem(play, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(play, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&
-                    play->csCtx.state == 0 && !Player_InCsMode(play)) {
+                    play->csCtx.state == 0 && !PlayerLib_InCsMode(play)) {
                     Message_StartTextbox(play, 0x3066, NULL);
                 }
 

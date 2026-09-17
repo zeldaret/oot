@@ -148,7 +148,7 @@ void BgIceObjects_Idle(BgIceObjects* this, PlayState* play) {
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        if ((this->dyna.unk_150 > 0.0f) && !Player_InCsMode(play)) {
+        if ((this->dyna.unk_150 > 0.0f) && !PlayerLib_InCsMode(play)) {
             BgIceObjects_SetNextTarget(this, play);
             if (Actor_WorldDistXZToPoint(thisx, &this->targetPos) > 1.0f) {
                 thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;

@@ -122,7 +122,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
     if ((this->unk_15A == 0) && (this->scale < 0.1f)) {
         Actor_Kill(&this->actor);
     } else if ((this->actor.params == 0) && (this->colliderCylinder.base.atFlags & AT_BOUNCED)) {
-        if (Player_HasMirrorShieldEquipped(play)) {
+        if (PlayerLib_HasMirrorShieldEquipped(play)) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
             this->colliderCylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->colliderCylinder.base.atFlags |= AT_TYPE_PLAYER;

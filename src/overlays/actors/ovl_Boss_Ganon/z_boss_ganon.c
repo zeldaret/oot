@@ -4445,7 +4445,7 @@ void func_808E2544(Actor* thisx, PlayState* play) {
 
                 this->collider.base.acFlags &= ~AC_HIT;
 
-                if (!(acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD) || Player_HasMirrorShieldEquipped(play)) {
+                if (!(acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD) || PlayerLib_HasMirrorShieldEquipped(play)) {
                     Rumble_Request(this->actor.xyzDistToPlayerSq, 180, 20, 100);
                     this->unk_1C2 = 0xC;
                     this->actor.speed = -30.0f;

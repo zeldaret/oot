@@ -242,7 +242,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
             this->outOfRangeTimer++;
             return;
         }
-    } else if (IS_DAY || (Player_GetMask(play) == PLAYER_MASK_BUNNY)) {
+    } else if (IS_DAY || (PlayerLib_GetMask(play) == PLAYER_MASK_BUNNY)) {
         this->killCount = 0;
         return;
     }

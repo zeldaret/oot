@@ -366,7 +366,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             sPuzzleState = 0x10;
             sBlocksAtRest = 0;
         }
-        if ((sPuzzleState == 0x40) || ((sPuzzleState == 0x10) && !Player_InCsMode(play))) {
+        if ((sPuzzleState == 0x40) || ((sPuzzleState == 0x10) && !PlayerLib_InCsMode(play))) {
             this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z;
             this->actionFunc = BgPoEvent_BlockReset;
             if (sPuzzleState == 0x10) {

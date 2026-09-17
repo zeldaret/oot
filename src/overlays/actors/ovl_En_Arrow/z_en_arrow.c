@@ -409,7 +409,7 @@ void EnArrow_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->isCsNut || ((this->actor.params >= ARROW_NORMAL_LIT) && (player->unk_A73 != 0)) ||
-        !Player_InBlockingCsMode(play, player)) {
+        !PlayerLib_InBlockingCsMode(play, player)) {
         this->actionFunc(this, play);
     }
 
@@ -449,7 +449,7 @@ void func_809B4800(EnArrow* this, PlayState* play) {
             addBlureVertex = this->actor.params <= ARROW_LIGHT;
 
             if (this->hitActor == NULL) {
-                addBlureVertex &= Player_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB);
+                addBlureVertex &= PlayerLib_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB);
             } else {
                 if (addBlureVertex) {
                     if ((posA.x == this->weaponInfo.posA.x) && (posA.y == this->weaponInfo.posA.y) &&
