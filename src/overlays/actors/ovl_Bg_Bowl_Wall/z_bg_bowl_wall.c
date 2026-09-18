@@ -5,8 +5,8 @@
  */
 
 #include "z_bg_bowl_wall.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-#include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
+#include "src/overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
+#include "src/overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"

@@ -4643,7 +4643,7 @@ void KaleidoScope_Update(PlayState* play) {
                     pauseCtx->state = PAUSE_STATE_OFF;
                     R_UPDATE_RATE = 3;
                     R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
-                    func_800981B8(&play->objectCtx);
+                    Object_ReloadAll(&play->objectCtx);
                     func_800418D0(&play->colCtx, play);
                     if (pauseCtx->promptChoice == 0) {
                         Play_TriggerRespawn(play);
@@ -4704,7 +4704,7 @@ void KaleidoScope_Update(PlayState* play) {
             R_UPDATE_RATE = 3;
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
 
-            func_800981B8(&play->objectCtx);
+            Object_ReloadAll(&play->objectCtx);
             func_800418D0(&play->colCtx, play);
 
             switch (play->sceneId) {

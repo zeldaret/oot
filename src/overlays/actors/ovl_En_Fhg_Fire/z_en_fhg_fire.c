@@ -5,9 +5,9 @@
  */
 
 #include "z_en_fhg_fire.h"
-#include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
-#include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
-#include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "src/overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
+#include "src/overlays/actors/ovl_En_fHG/z_en_fhg.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"

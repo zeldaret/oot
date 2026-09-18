@@ -5,7 +5,7 @@
  */
 
 #include "z_en_niw.h"
-#include "overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
+#include "src/overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"

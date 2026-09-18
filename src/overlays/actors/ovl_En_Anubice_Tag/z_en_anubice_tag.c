@@ -5,7 +5,7 @@
  */
 
 #include "z_en_anubice_tag.h"
-#include "overlays/actors/ovl_En_Anubice/z_en_anubice.h"
+#include "src/overlays/actors/ovl_En_Anubice/z_en_anubice.h"
 
 #include "printf.h"
 #include "regs.h"

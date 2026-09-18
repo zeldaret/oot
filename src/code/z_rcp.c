@@ -1,11 +1,16 @@
-#include "buffers.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+
+#include "buffers.h"
 #include "gfxalloc.h"
 #include "letterbox.h"
 #include "main.h"
 #include "regs.h"
 #include "play_state.h"
+#include "room.h"
+
+#include "ultra64.h"
+#include <assert.h>
 
 Gfx sSetupDL[SETUPDL_MAX][6] = {
     {

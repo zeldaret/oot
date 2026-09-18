@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_oshihiki.h"
-#include "overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
+#include "src/overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
 
 #include "array_count.h"
 #include "gfx.h"

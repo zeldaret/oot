@@ -5,7 +5,7 @@
  */
 
 #include "z_eff_ss_fhg_flash.h"
-#include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
+#include "src/overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

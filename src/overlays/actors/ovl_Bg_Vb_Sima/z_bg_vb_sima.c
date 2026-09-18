@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_vb_sima.h"
-#include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
+#include "src/overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

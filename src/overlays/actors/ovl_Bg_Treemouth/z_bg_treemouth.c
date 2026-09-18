@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_treemouth.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"
