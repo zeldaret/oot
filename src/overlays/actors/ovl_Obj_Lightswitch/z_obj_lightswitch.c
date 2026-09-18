@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_lightswitch.h"
-#include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+#include "src/overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -418,7 +418,7 @@ void ObjLightswitch_DrawOpa(Actor* thisx, PlayState* play) {
 
     gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
                    (u8)(this->alpha >> 6));
-    gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x09, ACTOR_SETUP_OPA_DL);
 
     if (PARAMS_GET_U(thisx->params, 0, 1) == 1) {
         thisx->world.pos.x = thisx->child->world.pos.x;
@@ -464,7 +464,7 @@ void ObjLightswitch_DrawXlu(Actor* thisx, PlayState* play) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
                    (u8)(this->alpha >> 6));
-    gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
+    gSPSegment(POLY_XLU_DISP++, 0x09, gActorSetupXluDL);
 
     sp68.x = thisx->world.pos.x;
     sp68.y = thisx->world.pos.y + (thisx->shape.yOffset * thisx->scale.y);

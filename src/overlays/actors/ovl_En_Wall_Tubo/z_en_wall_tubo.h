@@ -3,19 +3,19 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
 struct EnWallTubo;
 
 typedef void (*EnWallTuboActionFunc)(struct EnWallTubo*, struct PlayState*);
 
 typedef struct EnWallTubo {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnWallTuboActionFunc actionFunc;
-    /* 0x0150 */ s16 timer;
-    /* 0x0154 */ Vec3f explosionCenter;
-    /* 0x0160 */ EnBomBowlMan* chuGirl;
-    /* 0x0164 */ Vec3f unk_164;
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ EnWallTuboActionFunc actionFunc;
+    /* 0x150 */ s16 timer;
+    /* 0x152 */ char pad_152[2];
+    /* 0x154 */ Vec3f effCenterPos;
+    /* 0x160 */ struct EnBomBowlMan* bowlingGirl;
+    /* 0x164 */ Vec3f homePos;
 } EnWallTubo; // size = 0x0170
 
 #endif

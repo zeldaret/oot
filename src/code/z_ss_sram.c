@@ -1,6 +1,9 @@
-#include "ultra64.h"
-#include "printf.h"
 #include "ss_sram.h"
+
+#include "printf.h"
+
+#include "ultra64.h"
+#include <stddef.h>
 
 typedef struct SsSramContext {
     /* 0x00 */ OSPiHandle piHandle;

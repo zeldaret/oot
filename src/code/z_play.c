@@ -1,58 +1,91 @@
-#include "libc64/malloc.h"
-#include "libc64/qrand.h"
-#include "libu64/debug.h"
+#include "play_state.h"
+
+#include "versions.h"
+#include "actor.h"
+#include "animation.h"
 #include "array_count.h"
+#include "attributes.h"
+#include "audio.h"
+#include "bgcheck.h"
 #include "buffers.h"
+#include "camera.h"
+#include "collision_check.h"
 #include "color.h"
 #include "controller.h"
+#include "cutscene.h"
+#include "cutscene_flags.h"
+#include "debug_display.h"
+#include "dma.h"
+#include "effect.h"
+#include "environment.h"
 #include "fault.h"
 #include "file_select_state.h"
+#include "frame_advance.h"
+#include "game.h"
+#include "game_over.h"
 #include "gfx.h"
 #include "gfxalloc.h"
+#include "interface.h"
+#include "item.h"
 #include "kaleido_manager.h"
 #include "letterbox.h"
+#include "light.h"
 #include "line_numbers.h"
+#include "message.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "object.h"
 #include "one_point_cutscene.h"
+#include "pause.h"
+#include "play_state.h"
+#include "player.h"
+#include "prerender.h"
 #include "printf.h"
 #include "quake.h"
 #include "regs.h"
+#include "room.h"
 #include "rumble.h"
+#include "save.h"
+#include "scene.h"
+#include "sched.h"
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "sfx_source.h"
+#include "skybox.h"
+#include "sram.h"
+#include "stdbool.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "tha.h"
 #include "title_setup_state.h"
-#include "transition_circle.h"
-#include "transition_fade.h"
+#include "transition.h"
 #include "transition_tile.h"
-#include "transition_triforce.h"
-#include "transition_wipe.h"
 #include "translation.h"
-#include "versions.h"
-#include "z_actor_dlftbls.h"
-#include "zelda_arena.h"
-#include "audio.h"
-#include "cutscene_flags.h"
-#include "debug_display.h"
-#include "effect.h"
-#include "frame_advance.h"
-#include "light.h"
-#include "play_state.h"
-#include "player.h"
-#include "save.h"
+#include "view.h"
 #include "vis.h"
+#include "z_actor_dlftbls.h"
+#include "z_math.h"
+#include "zelda_arena.h"
 
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ique-cn:224 ntsc-1.0:240 ntsc-1.1:240 ntsc-1.2:240 pal-1.0:240 pal-1.1:240"
+#include "libc64/malloc.h"
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "libu64/pad.h"
+#include "ultra64.h"
+#include <assert.h>
+#include <math.h>
+#include <stddef.h>
+#include <stdint.h>
+
+#pragma increment_block_number "gc-eu:171 gc-eu-mq:171 gc-jp:171 gc-jp-ce:171 gc-jp-mq:171 gc-us:171 gc-us-mq:171" \
+                               "ique-cn:171 ntsc-1.0:50 ntsc-1.1:50 ntsc-1.2:50 pal-1.0:50 pal-1.1:50"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
-VisMono gPlayVisMono;
+VisMono sPlayVisMono;
 Color_RGBA8_u32 gVisMonoColor;
 
 #if DEBUG_FEATURES
@@ -63,7 +96,7 @@ s16 sTransitionFillTimer;
 
 #if DEBUG_FEATURES
 void* gDebugCutsceneScript = NULL;
-UNK_TYPE D_8012D1F4 = 0; // unused
+s32 D_8012D1F4 = 0; // unused
 #endif
 
 Input* D_8012D1F8 = NULL;
@@ -261,7 +294,7 @@ void Play_Destroy(GameState* thisx) {
 
     Letterbox_Destroy();
     TransitionFade_Destroy(&this->transitionFadeFlash);
-    VisMono_Destroy(&gPlayVisMono);
+    VisMono_Destroy(&sPlayVisMono);
 
     if (gSaveContext.save.linkAge != this->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
@@ -482,7 +515,7 @@ void Play_Init(GameState* thisx) {
     TransitionFade_SetType(&this->transitionFadeFlash, TRANS_INSTANCE_TYPE_FADE_FLASH);
     TransitionFade_SetColor(&this->transitionFadeFlash, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&this->transitionFadeFlash);
-    VisMono_Init(&gPlayVisMono);
+    VisMono_Init(&sPlayVisMono);
     gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
 
@@ -1217,8 +1250,8 @@ void Play_Draw(PlayState* this) {
             if (gVisMonoColor.a > 0)
 #endif
             {
-                gPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
-                VisMono_Draw(&gPlayVisMono, &gfxP);
+                sPlayVisMono.params.color1.rgba = gVisMonoColor.rgba;
+                VisMono_Draw(&sPlayVisMono, &gfxP);
             }
 
             gSPEndDisplayList(gfxP++);
@@ -1974,8 +2007,8 @@ s32 func_800C0DB4(PlayState* this, Vec3f* pos) {
 
     waterSurfacePos = *pos;
 
-    if (WaterBox_GetSurface1(this, &this->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
-                             &waterBox) == true &&
+    if (BgCheck_GetWaterSurfaceAllHack(this, &this->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
+                                       &waterBox) == true &&
         pos->y < waterSurfacePos.y &&
         BgCheck_EntityRaycastDown3(&this->colCtx, &poly, &bgId, &waterSurfacePos) != BGCHECK_Y_MIN) {
         return true;

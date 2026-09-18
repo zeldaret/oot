@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_syokudai.h"
-#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "src/overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"
@@ -152,7 +152,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
     if (torchCount == 10) {
         torchCount = 24;
     }
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
+    if (BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
                                 &dummy) &&
         ((waterSurface - this->actor.world.pos.y) > 52.0f)) {
         this->litTimer = 0;

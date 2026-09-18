@@ -8,7 +8,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
-#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 /**
  * Tests if the player horse can be spawned

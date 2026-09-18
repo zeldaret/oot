@@ -3,40 +3,54 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
+
+#include "assets/objects/object_bg/object_bg.h"
+
+typedef enum EnBomBowlManWallState {
+    EN_BOM_BOWL_MAN_WALL_STATE_STANDING,
+    EN_BOM_BOWL_MAN_WALL_STATE_HIT,
+    EN_BOM_BOWL_MAN_WALL_STATE_DISAPPEARED
+} EnBomBowlManWallState;
+
+typedef enum EnBomBowlManGameStartStatus {
+    EN_BOM_BOWL_MAN_GAME_START_STATUS_INACTIVE,
+    EN_BOM_BOWL_MAN_GAME_START_STATUS_PAID,
+    EN_BOM_BOWL_MAN_GAME_START_STATUS_STARTED
+} EnBomBowlManGameStartStatus;
 
 struct EnBomBowlMan;
 
 typedef void (*EnBomBowlManActionFunc)(struct EnBomBowlMan*, struct PlayState*);
 
 typedef struct EnBomBowlMan {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTable[11];
-    /* 0x01D2 */ Vec3s morphTable[11];
-    /* 0x0214 */ EnBomBowlManActionFunc actionFunc;
-    /* 0x0218 */ Vec3s unk_218;
-    /* 0x021E */ char unk_21E[0x6];
-    /* 0x0224 */ Vec3s unk_224;
-    /* 0x022A */ s16 prizeRevealTimer;
-    /* 0x022C */ s16 timer;
-    /* 0x022E */ s16 dialogState;
-    /* 0x0230 */ s16 prizeIndex;
-    /* 0x0232 */ s16 startedPlaying; // set to true after starting the first round
-    /* 0x0234 */ s16 eyeTextureIndex;
-    /* 0x0236 */ s16 blinkTimer;
-    /* 0x0238 */ s16 eyeMode;
-    /* 0x023A */ s16 blinkCount;
-    /* 0x023C */ s16 playingAgain; // whether player is playing again after a game
-    /* 0x023E */ s16 wallStatus[2];
-    /* 0x0242 */ s16 prizeSelect;
-    /* 0x0244 */ s16 gameResult; // 0 = default, 1 = lost, 2 = won
-    /* 0x0248 */ Vec3f posCopy; // Set and not used
-    /* 0x0254 */ f32 frameCount;
-    /* 0x0258 */ u8 minigamePlayStatus; // 0 = default, 1 = paid, 2 = playing
-    /* 0x025C */ EnBomBowlPit* bowlPit;
-    /* 0x0260 */ EnExItem* exItem;
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ SkelAnime skelAnime;
+    /* 0x190 */ Vec3s jointTable[BOWLING_GIRL_LIMB_MAX];
+    /* 0x1D2 */ Vec3s morphTable[BOWLING_GIRL_LIMB_MAX];
+    /* 0x214 */ EnBomBowlManActionFunc actionFunc;
+    /* 0x218 */ Vec3s headRot;
+    /* 0x21E */ char pad_21E[6];
+    /* 0x224 */ Vec3s torsoRot;
+    /* 0x22A */ s16 rewardAppearTimer;
+    /* 0x22C */ s16 unk_22C; // unused
+    /* 0x22E */ s16 waitMessageState;
+    /* 0x230 */ s16 reward;
+    /* 0x232 */ s16 hasPlayedBefore;
+    /* 0x234 */ s16 eyeTexIndex;
+    /* 0x236 */ s16 eyesTimer;
+    /* 0x238 */ s16 eyesState;
+    /* 0x23A */ s16 wakingUpTimer;
+    /* 0x23C */ s16 isAskingToPlayAgain;
+    /* 0x23E */ s16 wallsState[2]; // State of the first two walls
+    /* 0x242 */ s16 rewardState;
+    /* 0x244 */ s16 gameEndStatus;
+    /* 0x246 */ char pad_246[2];
+    /* 0x248 */ Vec3f homePos;
+    /* 0x254 */ f32 curAnimFrameCount;
+    /* 0x258 */ u8 gameStartStatus;
+    /* 0x259 */ char pad_259[3];
+    /* 0x25C */ struct EnBomBowlPit* finalTargetManager;
+    /* 0x260 */ struct EnExItem* rewardItemOnCounter;
 } EnBomBowlMan; // size = 0x0264
 
 #endif
