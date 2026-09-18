@@ -6,9 +6,13 @@
  * usually highlight silhouettes.
  */
 
-#include "ultra64.h"
-#include "gfx.h"
 #include "vis.h"
+
+#include "color.h"
+#include "gfx.h"
+
+#include "ultra64.h"
+#include <stdbool.h>
 
 Gfx sVisCvgModulateBlendColorDL[] = {
     gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |

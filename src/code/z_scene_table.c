@@ -39,7 +39,7 @@
 #include "assets/scenes/dungeons/men/men_scene.h"
 #include "assets/scenes/dungeons/ydan/ydan_scene.h"
 
-#include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
+#include "src/overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
 void Scene_DrawConfigDefault(PlayState* play);
 void Scene_DrawConfigHyruleField(PlayState* play);

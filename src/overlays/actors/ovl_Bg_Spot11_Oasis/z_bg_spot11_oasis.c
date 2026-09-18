@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot11_oasis.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
