@@ -145,7 +145,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, PlayState* play) {
 
 void func_808BEFF4(BgYdanMaruta* this, PlayState* play) {
     if (this->collider.base.atFlags & AT_HIT) {
-        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->dyna.actor, 7.0f, this->dyna.actor.shape.rot.y, 6.0f);
+        Actor_SetPlayerBumpKnockdownNoDamage(play, &this->dyna.actor, 7.0f, this->dyna.actor.shape.rot.y, 6.0f);
     }
     this->dyna.actor.shape.rot.x += 0x360;
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
