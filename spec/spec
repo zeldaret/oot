@@ -4,6 +4,49 @@
 
 #include "include/versions.h"
 
+#ifdef NON_MATCHING
+// For non-matching builds we allow some includes to be repeated,
+// for simplicity compared to cluttering the matching parts of the spec.
+// Note this doesn't mean there ends up being several copies in the ROM,
+// instead only the first include of a file is considered and any subsequent one is skipped.
+#if DEBUG_FEATURES
+// boot
+skip_duplicate_include "$(BUILD_DIR)/src/libu64/debug.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/libc/string.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+// code
+skip_duplicate_include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/contramread.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/crc.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsdeletefile.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsfilestate.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsinitpak.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
+#if PLATFORM_IQUE
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
+#endif
+#endif
+#ifdef COMPILER_GCC
+skip_duplicate_include "$(BUILD_DIR)/src/libultra/libc/string.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libc/memset.o"
+skip_duplicate_include "$(BUILD_DIR)/src/libc/memmove.o"
+#endif
+#endif
+
 beginseg
     name "boot"
 
@@ -67,7 +110,7 @@ beginseg
 #endif
 
     // libgcc
-#if PLATFORM_IQUE && !defined(COMPILER_GCC)
+#if PLATFORM_IQUE && !(defined(NON_MATCHING) && defined(COMPILER_GCC))
     include "$(BUILD_DIR)/src/libgcc/__divdi3.o"
     include "$(BUILD_DIR)/src/libgcc/__moddi3.o"
     include "$(BUILD_DIR)/src/libgcc/__udivdi3.o"
@@ -93,7 +136,7 @@ beginseg
     include "$(BUILD_DIR)/data/cic6105.o"
 
     // Extra files for non-matching debug builds
-#if DEBUG_FEATURES
+#if defined(NON_MATCHING) && DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libu64/debug.o"
     include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
@@ -109,7 +152,7 @@ beginseg
 #endif
 
     // Functions that GCC-compiled code may depend on, placed in boot so they will always be loaded
-#ifdef COMPILER_GCC
+#if defined(NON_MATCHING) && defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
@@ -824,7 +867,7 @@ beginseg
     include "$(BUILD_DIR)/data/njpgdspMain.o"
 
     // Extra files for non-matching debug builds
-#if DEBUG_FEATURES
+#if defined(NON_MATCHING) && DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
     include "$(BUILD_DIR)/src/libultra/io/contramread.o"

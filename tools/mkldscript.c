@@ -12,6 +12,35 @@
 struct Segment *g_segments;
 int g_segmentsCount;
 
+static void check_duplicate_includes(void)
+{
+    bool has_duplicate = false;
+    for (int i = 0; i < g_segmentsCount; i++) {
+        for (int j = 0; j < g_segments[i].includesCount; j++) {
+            for (int m = i; m < g_segmentsCount; m++) {
+                for (int n = j + 1; n < g_segments[m].includesCount; n++) {
+                    if (strcmp(g_segments[i].includes[j].fpath, g_segments[m].includes[n].fpath) == 0) {
+                        if (!has_duplicate) {
+                            fprintf(stderr, "Duplicate includes found!\n");
+                            has_duplicate = true;
+                        }
+                        if (i == m) {
+                            fprintf(stderr, "%s is included twice in %s\n",
+                                    g_segments[i].includes[j].fpath, g_segments[i].name);
+                        } else {
+                            fprintf(stderr, "%s is included in both %s and %s\n",
+                                    g_segments[i].includes[j].fpath, g_segments[i].name, g_segments[m].name);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (has_duplicate) {
+        util_fatal_error("Duplicate includes found! (see above)\n");
+    }
+}
+
 static void write_includes(const struct Segment *seg, FILE *fout, const char *segments_dir, const char *section)
 {
     // Note sections contain a suffix wildcard as compilers other than IDO such as GCC may emit sections titled
@@ -301,6 +330,8 @@ int main(int argc, char **argv)
 
     spec = util_read_whole_file(argv[1], &size);
     parse_rom_spec(spec, &g_segments, &g_segmentsCount);
+
+    check_duplicate_includes();
 
     ldout = fopen(argv[2], "w");
     if (ldout == NULL)

@@ -17,6 +17,7 @@ typedef enum {
     STMT_name,
     STMT_number,
     STMT_romalign,
+    STMT_skip_duplicate_include,
     STMT_stack,
     STMT_increment,
     STMT_pad_text,
