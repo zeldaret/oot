@@ -81,7 +81,7 @@
 #include <stdint.h>
 
 #pragma increment_block_number "gc-eu:171 gc-eu-mq:171 gc-jp:171 gc-jp-ce:171 gc-jp-mq:171 gc-us:171 gc-us-mq:171" \
-                               "ique-cn:171 ntsc-1.0:50 ntsc-1.1:50 ntsc-1.2:50 pal-1.0:50 pal-1.1:50"
+                               "ique-cn:171 ntsc-1.0:145 ntsc-1.1:145 ntsc-1.2:145 pal-1.0:145 pal-1.1:145"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
