@@ -1,0 +1,10 @@
+<Root>
+    <File Name="code">
+        <Texture Name="gMojiFontTLUT0" Format="rgba16" Width="4" Height="4" Offset="0x0"/>
+        <Texture Name="gMojiFontTLUT1" Format="rgba16" Width="4" Height="4" Offset="0x20"/>
+        <Texture Name="gMojiFontTLUT2" Format="rgba16" Width="4" Height="4" Offset="0x40"/>
+        <Texture Name="gMojiFontTLUT3" Format="rgba16" Width="4" Height="4" Offset="0x60"/>
+        <!-- gMojiFontTex is a ci4 texture with any of the four above (distinct) palettes. For now extract it as i4 -->
+        <Texture Name="gMojiFontTex" Format="i4" Width="16" Height="128" Offset="0x80"/>
+    </File>
+</Root>
