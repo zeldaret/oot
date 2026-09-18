@@ -1,32 +1,28 @@
 #include "ultra64.h"
-#include "ultra64/leo.h"
-#include "ultra64/leoappli.h"
+#include "ultra64/leo_internal.h"
 #include "ultra64/leodrive.h"
+#include "ultra64/pi.h"
 
 extern vu16 LEOrw_flags;
-
-extern u8 LEOC2_Syndrome[2][0xE8 * 4];
-extern OSIoMesg LEOPiDmaParam;
-extern block_param_form LEOc2_param;
-
-u8 LEOc2ctrl_que_buf[8];
-OSMesgQueue LEOc2ctrl_que;
 
 u32 read_write_track(void);
 u32 leoChk_mecha_int(void);
 void leosetup_BM(void);
 u32 leochk_err_reg(void);
 
+OSMesg LEOc2ctrl_que_buf;
+OSMesgQueue LEOc2ctrl_que;
+
 void leointerrupt(void* arg) {
     u32 result;
     u32 tg_blocks;
 
-    osCreateMesgQueue(&LEOc2ctrl_que, (OSMesg*)&LEOc2ctrl_que_buf, 1);
+    osCreateMesgQueue(&LEOc2ctrl_que, &LEOc2ctrl_que_buf, 1);
 
-    while (true) {
+    while (1) {
         osStopThread(&LEOinterruptThread);
-        tg_blocks = LEOcur_command->data.readWrite.transferBlks;
-        LEOwrite_pointer = LEOcur_command->data.readWrite.buffPtr;
+        tg_blocks = LEOcur_command->data.readwrite.xfer_blks;
+        LEOwrite_pointer = LEOcur_command->data.readwrite.buff_ptr;
 
         do {
             leoLba_to_phys(LEOtgt_param.lba);
@@ -35,11 +31,9 @@ void leointerrupt(void* arg) {
             } else {
                 result = leoSeek_i(0);
             }
-
-            if (result != 0) {
+            if (result != LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                 goto complete;
             }
-
             if (LEOrw_flags & 0x2000) {
                 LEOtgt_param.rdwr_blocks = 1;
             } else if (LEOtgt_param.rdwr_blocks > tg_blocks) {
@@ -48,20 +42,19 @@ void leointerrupt(void* arg) {
             LEOtgt_param.lba += LEOtgt_param.rdwr_blocks;
             tg_blocks -= LEOtgt_param.rdwr_blocks;
             result = read_write_track();
-            if (result != 0) {
+            if (result != LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                 goto complete;
             }
-
-            LEOcur_command->data.readWrite.rwBytes = LEOwrite_pointer - (u8*)LEOcur_command->data.readWrite.buffPtr;
+            LEOcur_command->data.readwrite.rw_bytes =
+                (uintptr_t)LEOwrite_pointer - (uintptr_t)LEOcur_command->data.readwrite.buff_ptr;
         } while (tg_blocks != 0);
-        result = 0x90000; // Inaccessible?
+        result = 0x90000;
 
     complete:
         osSendMesg(&LEOcontrol_que, (OSMesg)result, OS_MESG_BLOCK);
     }
 }
 
-// static
 u32 read_write_track(void) {
     u32 message;
     u32 block;
@@ -96,7 +89,7 @@ u32 read_write_track(void) {
             LEOPiInfo->transferInfo.block[1] = LEOPiInfo->transferInfo.block[0];
             LEOPiInfo->transferInfo.block[1].C2Addr = &LEOC2_Syndrome[1];
             LEOPiInfo->transferInfo.block[1].dramAddr =
-                ((u8*)LEOPiInfo->transferInfo.block[1].dramAddr + block_param.blkbytes);
+                (u8*)LEOPiInfo->transferInfo.block[1].dramAddr + block_param.blkbytes;
         }
         message = leoChk_mecha_int();
         if (message == 0) {
@@ -115,13 +108,13 @@ u32 read_write_track(void) {
 
                 LEOPiInfo->transferInfo.cmdType = 1;
                 osWritebackDCache(block_param.pntr, block_param.blkbytes * LEOtgt_param.rdwr_blocks);
-                osEPiStartDma(LEOPiInfo, &LEOPiDmaParam, 1);
+                osEPiStartDma(LEOPiInfo, &LEOPiDmaParam, OS_WRITE);
                 osRecvMesg(&LEOdma_que, NULL, OS_MESG_BLOCK);
                 LEOasic_bm_ctl_shadow = LEOPiInfo->transferInfo.bmCtlShadow;
                 LEOasic_seq_ctl_shadow = LEOPiInfo->transferInfo.seqCtlShadow;
                 bnum = LEOPiInfo->transferInfo.blockNum;
                 message = LEOPiInfo->transferInfo.block[bnum].errStatus;
-                if (message == 0) {
+                if (message == LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                     return message;
                 }
                 goto track_end;
@@ -132,7 +125,7 @@ u32 read_write_track(void) {
                 }
                 LEOPiInfo->transferInfo.cmdType = 0;
                 osInvalDCache(block_param.pntr, block_param.blkbytes * LEOtgt_param.rdwr_blocks);
-                osEPiStartDma(LEOPiInfo, &LEOPiDmaParam, 0);
+                osEPiStartDma(LEOPiInfo, &LEOPiDmaParam, OS_READ);
                 block = 0;
                 while (LEOtgt_param.rdwr_blocks != 0) {
                     osRecvMesg(&LEOdma_que, NULL, OS_MESG_BLOCK);
@@ -153,7 +146,7 @@ u32 read_write_track(void) {
                             if (LEOtgt_param.rdwr_blocks == 1) {
                                 osEPiReadIo(LEOPiInfo, ASIC_ERR_SECTOR, &message);
                                 if (message & 0x10000000) {
-                                    message = 4;
+                                    message = LEO_SENSE_DATA_PHASE_ERROR;
                                     goto track_end;
                                 }
                             }
@@ -180,7 +173,7 @@ u32 read_write_track(void) {
                         if (LEOtgt_param.rdwr_blocks == 1) {
                             if ((*(u32*)&LEOC2_Syndrome[block][0x00] | *(u32*)&LEOC2_Syndrome[block][0x04] |
                                  *(u32*)&LEOC2_Syndrome[block][0x08] | *(u32*)&LEOC2_Syndrome[block][0x0C]) != 0) {
-                                message = 0x17;
+                                message = LEO_SENSE_UNRECOVERED_READ_ERROR;
                                 goto track_end;
                             }
                         }
@@ -194,22 +187,23 @@ u32 read_write_track(void) {
             return 0;
         }
     track_end:
-        if (message == 0x16) {
+        if (message == LEO_SENSE_WRITE_FAULT) {
             message = leochk_err_reg();
         }
     do_retry:
-        if (leoChk_err_retry(message) || (LEOrw_flags & 0x1000) || retry_cntr++ == 0x40) {
+        if ((leoChk_err_retry(message) != 0) || (LEOrw_flags & 0x1000) || (retry_cntr++ == 64)) {
             break;
         }
         if ((retry_cntr & 7) == 0) {
             message = leoSend_asic_cmd_w(0x30001, 0);
-            if (message != 0) {
+            if (message != LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                 goto do_retry;
             }
         }
-        if (message == 0x18 || (message == 0x17 && retry_cntr == 0x20)) {
+        if ((message == LEO_SENSE_NO_REFERENCE_POSITION_FOUND) ||
+            ((message == LEO_SENSE_UNRECOVERED_READ_ERROR) && (retry_cntr == 32))) {
             message = leoDetect_index_w();
-            if (message != 0) {
+            if (message != LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                 goto do_retry;
             }
         }
@@ -218,81 +212,69 @@ u32 read_write_track(void) {
         } else {
             message = leoSeek_i(0);
         }
-        if (message != 0) {
+        if (message != LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
             goto do_retry;
         }
     }
     return message;
 }
 
-// static
 u32 leoChk_mecha_int(void) {
-    u32 stat = leoWait_mecha_cmd_done(0x10001);
+    u32 stat;
     u32 index_stat;
 
-    if (stat == 0) {
+    stat = leoWait_mecha_cmd_done(0x10001);
+    if (stat == LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
         osEPiReadIo(LEOPiInfo, ASIC_CUR_TK, &index_stat);
         if ((index_stat & 0x60000000) != 0x60000000) {
-            stat = 0x18;
+            stat = LEO_SENSE_NO_REFERENCE_POSITION_FOUND;
         }
     }
     return stat;
 }
 
-// static
 void leosetup_BM(void) {
-    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, LEOasic_bm_ctl_shadow | 0x10000000);
-    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, LEOasic_bm_ctl_shadow);
-
+    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, LEOasic_bm_ctl_shadow | LEO_BM_RESET);
+    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, (u32)LEOasic_bm_ctl_shadow);
     if (LEOtgt_param.start_block != 0) {
-        LEOasic_bm_ctl_shadow = 0x5A0000;
+        LEOasic_bm_ctl_shadow = 0x005A0000;
     } else {
         LEOasic_bm_ctl_shadow = 0;
     }
-
     if (!(LEOrw_flags & 0x8000)) {
-        LEOasic_bm_ctl_shadow |= 0x40000000;
+        LEOasic_bm_ctl_shadow |= LEO_BM_MODE;
     }
-
     if (LEOtgt_param.rdwr_blocks == 2) {
-        LEOasic_bm_ctl_shadow |= 0x02000000;
+        LEOasic_bm_ctl_shadow |= LEO_BM_XFER_BLOCK;
     }
-
-    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, LEOasic_bm_ctl_shadow);
+    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, (u32)LEOasic_bm_ctl_shadow);
 }
 
-// static
 u32 leochk_err_reg(void) {
     u32 sense;
     u32 index_status;
 
     osEPiReadIo(LEOPiInfo, ASIC_ERR_SECTOR, &sense);
-    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, LEOasic_bm_ctl_shadow | 0x10000000);
-    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, LEOasic_bm_ctl_shadow);
-
+    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, LEOasic_bm_ctl_shadow | LEO_BM_RESET);
+    osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, (u32)LEOasic_bm_ctl_shadow);
     if (sense & 0x04000000) {
-        return LEO_ERROR_EJECTED_ILLEGALLY_RESUME;
+        return LEO_SENSE_EJECTED_ILLEGALLY_RESUME;
     }
-
     if (sense & 0x10000000) {
-        return LEO_ERROR_DATA_PHASE_ERROR;
+        return LEO_SENSE_DATA_PHASE_ERROR;
     }
-
-    if (sense & (0x40000000 | 0x2000000)) {
+    if (sense & 0x42000000) {
         if (LEOrw_flags & 0x8000) {
-            return LEO_ERROR_WRITE_FAULT;
+            return LEO_SENSE_WRITE_FAULT;
         }
-        return LEO_ERROR_UNRECOVERED_READ_ERROR;
+        return LEO_SENSE_UNRECOVERED_READ_ERROR;
     }
-
     if (sense & 0x80000000) {
-        return LEO_ERROR_NO_REFERENCE_POSITION_FOUND;
+        return LEO_SENSE_NO_REFERENCE_POSITION_FOUND;
     }
-
     osEPiReadIo(LEOPiInfo, ASIC_CUR_TK, &index_status);
     if ((index_status & 0x60000000) == 0x60000000) {
-        return LEO_ERROR_TRACK_FOLLOWING_ERROR;
+        return LEO_SENSE_TRACK_FOLLOWING_ERROR;
     }
-
-    return LEO_ERROR_NO_REFERENCE_POSITION_FOUND;
+    return LEO_SENSE_NO_REFERENCE_POSITION_FOUND;
 }

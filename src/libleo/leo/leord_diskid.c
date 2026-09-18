@@ -1,16 +1,11 @@
 #include "ultra64.h"
-#include "ultra64/leo.h"
-#include "ultra64/leoappli.h"
-#include "ultra64/leodrive.h"
+#include "ultra64/leo_internal.h"
 
 extern vu16 LEOrw_flags;
-extern u8 LEO_TempBuffer[0xE8];
 
-const u8 leo_disk_id_lba[] = { 14, 15 };
+STATIC const LEOCmdRead read_id_cmd = { { LEO_COMMAND_READ, 0, 0, 0, 0, 0, 0, 0, NULL }, 0xE, 1, LEO_TempBuffer, 0 };
 
-LEOCmdRead read_id_cmd = {
-    { LEO_COMMAND_READ, 0, 0, 0, 0, 0, 0, 0, 0 }, 14, 1, LEO_TempBuffer, 0,
-};
+STATIC const u8 leo_disk_id_lba[2] = { 0xE, 0xF };
 
 void leoReadDiskId(void) {
     LEOCmdRead dummy_cmd;
@@ -22,7 +17,7 @@ void leoReadDiskId(void) {
 
     // Read Disk ID to Temp Buffer
     LEOcur_command = (LEOCmd*)&dummy_cmd;
-    for (cntr = 0; cntr < (sizeof(leo_disk_id_lba)); cntr++) {
+    for (cntr = 0; cntr < 2; cntr++) {
         LEOrw_flags = 0x2000;
         dummy_cmd = read_id_cmd;
         dummy_cmd.lba = leo_disk_id_lba[cntr];
@@ -36,7 +31,7 @@ void leoReadDiskId(void) {
     LEOcur_command = (LEOCmd*)temp_pointer;
 
     // Copy Disk ID to buffer pointed by ReadDiskID command
-    temp_pointer = (u8*)LEOcur_command->data.readdiskid.bufferPointer;
+    temp_pointer = (u8*)LEOcur_command->data.readdiskid.buffer_pointer;
     for (cntr = 0; cntr < (sizeof(LEODiskID)); cntr += sizeof(u32)) {
         *(u32*)temp_pointer = *((u32*)&LEO_TempBuffer[cntr]);
         temp_pointer += sizeof(u32);
