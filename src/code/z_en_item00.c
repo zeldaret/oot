@@ -1,6 +1,6 @@
 #include "z_en_item00.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #include "libc64/qrand.h"
 #include "attributes.h"

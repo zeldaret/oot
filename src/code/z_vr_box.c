@@ -1,14 +1,19 @@
 #include "skybox.h"
 
 #include "array_count.h"
-#include "printf.h"
-#include "segment_symbols.h"
-#include "terminal.h"
-#include "ultra64.h"
+#include "dma.h"
 #include "environment.h"
 #include "game.h"
 #include "play_state.h"
+#include "printf.h"
 #include "save.h"
+#include "segment_symbols.h"
+#include "terminal.h"
+
+#include "ultra64.h"
+#include <assert.h>
+#include <stddef.h>
+#include <stdint.h>
 
 typedef struct SkyboxFaceParams {
     /* 0x000 */ s32 xStart;

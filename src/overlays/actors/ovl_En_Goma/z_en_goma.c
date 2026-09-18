@@ -5,8 +5,8 @@
  */
 
 #include "z_en_goma.h"
-#include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
