@@ -179,7 +179,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
 
     if (distToFloor < 200.0f) {
         MtxF floorMtx;
-        f32 floorHeight[2]; // One for each foot
+        f32 floorHeight[ACTOR_SHAPE_FOOT_MAX];
         f32 distToFloor;
         f32 shadowAlpha;
         f32 shadowScaleX;
@@ -198,20 +198,24 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
 
         POLY_OPA_DISP = Gfx_SetupDL(POLY_OPA_DISP, SETUPDL_44);
 
-        // feetFloorFlag is temporarily a bitfield where the bits are set if the foot is on ground
-        // feetFloorFlag & 2 is left foot, feetFloorFlag & 1 is right foot
-        actor->shape.feetFloorFlag = 0;
+        // footstepFloorFlags will accumulate bits as the loop is processed
+        actor->shape.footstepFloorFlags = 0;
 
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < ACTOR_SHAPE_FOOT_MAX; i++) {
             feetPosPtr->y += 50.0f;
             *floorHeightPtr = func_800BFCB8(play, &floorMtx, feetPosPtr);
             feetPosPtr->y -= 50.0f;
-            actor->shape.feetFloorFlag <<= 1;
+
+            // Shift bits left to make room for the current foot's bit.
+            // This works because the bit order of ACTOR_SHAPE_FOOTSTEP_* is inverse to the index order of the
+            // equivalent ACTOR_SHAPE_FOOT
+            actor->shape.footstepFloorFlags <<= 1;
             distToFloor = feetPosPtr->y - *floorHeightPtr;
 
             if ((-1.0f <= distToFloor) && (distToFloor < 500.0f)) {
                 if (distToFloor <= 0.0f) {
-                    actor->shape.feetFloorFlag++;
+                    // Set flag for current foot
+                    actor->shape.footstepFloorFlags++;
                 }
                 if (distToFloor > 30.0f) {
                     distToFloor = 30.0f;
@@ -256,14 +260,15 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
         }
 
         if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-            actor->shape.feetFloorFlag = 0;
-        } else if (actor->shape.feetFloorFlag == 3) {
-            f32 footDistY = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
+            actor->shape.footstepFloorFlags = 0;
+        } else if (actor->shape.footstepFloorFlags == (ACTOR_SHAPE_FOOTSTEP_RIGHT | ACTOR_SHAPE_FOOTSTEP_LEFT)) {
+            f32 footDistY =
+                actor->shape.feetPos[ACTOR_SHAPE_FOOT_LEFT].y - actor->shape.feetPos[ACTOR_SHAPE_FOOT_RIGHT].y;
 
-            if ((floorHeight[FOOT_LEFT] + footDistY) < (floorHeight[FOOT_RIGHT] - footDistY)) {
-                actor->shape.feetFloorFlag = 2;
+            if ((floorHeight[ACTOR_SHAPE_FOOT_LEFT] + footDistY) < (floorHeight[ACTOR_SHAPE_FOOT_RIGHT] - footDistY)) {
+                actor->shape.footstepFloorFlags = ACTOR_SHAPE_FOOTSTEP_LEFT;
             } else {
-                actor->shape.feetFloorFlag = 1;
+                actor->shape.footstepFloorFlags = ACTOR_SHAPE_FOOTSTEP_RIGHT;
             }
         }
 
@@ -274,9 +279,9 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos) {
     if (limbIndex == leftFootIndex) {
-        Matrix_MultVec3f(leftFootPos, &actor->shape.feetPos[FOOT_LEFT]);
+        Matrix_MultVec3f(leftFootPos, &actor->shape.feetPos[ACTOR_SHAPE_FOOT_LEFT]);
     } else if (limbIndex == rightFootIndex) {
-        Matrix_MultVec3f(rightFootPos, &actor->shape.feetPos[FOOT_RIGHT]);
+        Matrix_MultVec3f(rightFootPos, &actor->shape.feetPos[ACTOR_SHAPE_FOOT_RIGHT]);
     }
 }
 

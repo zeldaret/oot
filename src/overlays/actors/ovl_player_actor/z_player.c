@@ -6420,7 +6420,7 @@ void func_8083BF50(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
     f32 sp30;
 
-    sp30 = this->unk_868 - 3.0f;
+    sp30 = this->walkAnimFrame - 3.0f;
     if (sp30 < 0.0f) {
         sp30 += 29.0f;
     }
@@ -6673,7 +6673,7 @@ void func_8083C858(Player* this, PlayState* play) {
     Player_AnimChangeLoopMorph(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_run, this->modelAnimType));
 
     this->unk_89C = 0;
-    this->unk_864 = this->unk_868 = 0.0f;
+    this->unk_864 = this->walkAnimFrame = 0.0f;
 }
 
 void func_8083C8DC(Player* this, PlayState* play, s16 arg2) {
@@ -6739,7 +6739,7 @@ void Player_StartMode_MoveForward(PlayState* play, Player* this) {
 void func_8083CB2C(Player* this, s16 yaw, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_808414F8, 1);
     LinkAnimation_CopyJointToMorph(play, &this->skelAnime);
-    this->unk_864 = this->unk_868 = 0.0f;
+    this->unk_864 = this->walkAnimFrame = 0.0f;
     this->yaw = yaw;
 }
 
@@ -6759,7 +6759,7 @@ void func_8083CBF0(Player* this, s16 yaw, PlayState* play) {
 void func_8083CC9C(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_8084193C, 1);
     Player_AnimChangeLoopMorph(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_side_walkR, this->modelAnimType));
-    this->unk_868 = 0.0f;
+    this->walkAnimFrame = 0.0f;
 }
 
 void func_8083CD00(Player* this, PlayState* play) {
@@ -8005,54 +8005,86 @@ void func_80840138(Player* this, f32 arg1, s16 arg2) {
 }
 
 void func_808401B0(PlayState* play, Player* this) {
-    LinkAnimation_BlendToJoint(play, &this->skelAnime, func_808334E4(this), this->unk_868, func_80833528(this),
-                               this->unk_868, this->unk_870, this->blendTable);
+    LinkAnimation_BlendToJoint(play, &this->skelAnime, func_808334E4(this), this->walkAnimFrame, func_80833528(this),
+                               this->walkAnimFrame, this->unk_870, this->blendTable);
 }
 
-s32 func_8084021C(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
-    f32 temp;
-
-    if ((arg3 == 0.0f) && (arg1 > 0.0f)) {
-        arg3 = arg2;
+/**
+ * Tests if the player's current walk animation will strike the ground this update.
+ *
+ * @param prevAnimFrame the frame that the animation is starting at.
+ * @param playSpeed the amount that the animation frame will change by.
+ * @param animLength the duration of the animation.
+ * @param targetFrame the frame at which the walk animation will step on the ground.
+ *
+ * @returns true if prevAnimFrame + playSpeed will cross targetFrame, false otherwise.
+ *
+ * @note prevAnimFrame must be in [0, animLength)
+ */
+s32 Player_CheckFootStrike(f32 prevAnimFrame, f32 playSpeed, f32 animLength, f32 targetFrame) {
+    //! @bug When `prevAnimFrame` + `playSpeed` exceeds the range [0, animLength), the code does not account for the
+    //! case where a wraparound would cross the `targetFrame`, missing the foot strike.
+    //!
+    //! This if statement appears to be an attempt to address this, but does nothing as `targetFrame` is never 0.
+    if ((targetFrame == 0.0f) && (playSpeed > 0.0f)) {
+        targetFrame = animLength;
     }
 
-    temp = (arg0 + arg1) - arg3;
-
-    if (((temp * arg1) >= 0.0f) && (((temp - arg1) * arg1) < 0.0f)) {
-        return 1;
+    // Logically, this section is optimized to perform the following checks:
+    // when playSpeed > 0, return true if...
+    // prevAnimFrame < targetFrame AND prevAnimFrame + playSpeed >= targetFrame
+    // when playSpeed < 0, return true if...
+    // prevAnimFrame > targetFrame AND prevAnimFrame + playSpeed <= targetFrame
+    // when playSpeed == 0, always return false. A stationary player should not count as a strike.
+    if (((((prevAnimFrame + playSpeed) - targetFrame) * playSpeed) >= 0.0f) &&
+        (((((prevAnimFrame + playSpeed) - targetFrame) - playSpeed) * playSpeed) < 0.0f)) {
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
-void func_8084029C(Player* this, f32 arg1) {
+/**
+ * Advances the walking animation frame state.
+ * @param playSpeed desired animation playback rate in 30 Hz (25 Hz PAL) frame units.
+ *
+ * @note In this system, walk animations are assumed to be 29 frames long at 30 Hz. Only changes in `R_UPDATE_RATE` are
+ * accounted for.
+ */
+void Player_UpdateWalkAnimation(Player* this, f32 playSpeed) {
     f32 updateScale = R_UPDATE_RATE * 0.5f;
 
-    arg1 *= updateScale;
-    if (arg1 < -7.25) {
-        arg1 = -7.25;
-    } else if (arg1 > 7.25f) {
-        arg1 = 7.25f;
+    playSpeed *= updateScale;
+
+    // Ideally, playSpeed should be clamped before applying updateScale, so that the animation updates consistently
+    // regardless of `R_UPDATE_RATE`
+    if (playSpeed < -7.25) {
+        playSpeed = -7.25;
+    } else if (playSpeed > 7.25f) {
+        playSpeed = 7.25f;
     }
 
     if (1) {}
 
+    // If actively hovering in the air with Hover Boots
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
         (this->hoverBootsTimer != 0)) {
         Actor_PlaySfx_Flagged2(&this->actor, NA_SE_PL_HOBBERBOOTS_LV - SFX_FLAG);
-    } else if (func_8084021C(this->unk_868, arg1, 29.0f, 10.0f) || func_8084021C(this->unk_868, arg1, 29.0f, 24.0f)) {
+    } else if (Player_CheckFootStrike(this->walkAnimFrame, playSpeed, 29.0f, 10.0f) /* Right Foot */ ||
+               Player_CheckFootStrike(this->walkAnimFrame, playSpeed, 29.0f, 24.0f) /* Left Foot */) {
         Player_PlaySteppingSfx(this, this->speedXZ);
         if (this->speedXZ > 4.0f) {
             this->stateFlags2 |= PLAYER_STATE2_3;
         }
     }
 
-    this->unk_868 += arg1;
+    this->walkAnimFrame += playSpeed;
 
-    if (this->unk_868 < 0.0f) {
-        this->unk_868 += 29.0f;
-    } else if (this->unk_868 >= 29.0f) {
-        this->unk_868 -= 29.0f;
+    // clamp the animation between 0 and 29
+    if (this->walkAnimFrame < 0.0f) {
+        this->walkAnimFrame += 29.0f;
+    } else if (this->walkAnimFrame >= 29.0f) {
+        this->walkAnimFrame -= 29.0f;
     }
 }
 
@@ -8112,11 +8144,11 @@ void Player_Action_80840450(Player* this, PlayState* play) {
             return;
         }
 
-        func_8084029C(this, (this->speedXZ * 0.3f) + 1.0f);
+        Player_UpdateWalkAnimation(this, (this->speedXZ * 0.3f) + 1.0f);
         func_80840138(this, speedTarget, yawTarget);
 
-        temp2 = this->unk_868;
-        if ((temp2 < 6) || ((temp2 - 0xE) < 6)) {
+        temp2 = this->walkAnimFrame;
+        if ((temp2 < 6) || ((temp2 - 14) < 6)) {
             Math_StepToF(&this->speedXZ, 0.0f, 1.5f);
             return;
         }
@@ -8452,9 +8484,10 @@ void func_80841138(Player* this, PlayState* play) {
         s32 pad;
 
         temp1 = R_UPDATE_RATE * 0.5f;
-        func_8084029C(this, REG(35) / 1000.0f);
+        Player_UpdateWalkAnimation(this, REG(35) / 1000.0f);
         LinkAnimation_LoadToJoint(play, &this->skelAnime,
-                                  GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType), this->unk_868);
+                                  GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType),
+                                  this->walkAnimFrame);
         this->unk_864 += 1 * temp1;
         if (this->unk_864 >= 1.0f) {
             this->unk_864 = 1.0f;
@@ -8464,21 +8497,23 @@ void func_80841138(Player* this, PlayState* play) {
         temp2 = this->speedXZ - (REG(48) / 100.0f);
         if (temp2 < 0.0f) {
             temp1 = 1.0f;
-            func_8084029C(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
+            Player_UpdateWalkAnimation(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
             LinkAnimation_LoadToJoint(play, &this->skelAnime,
-                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType), this->unk_868);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType),
+                                      this->walkAnimFrame);
         } else {
             temp1 = (REG(37) / 1000.0f) * temp2;
             if (temp1 < 1.0f) {
-                func_8084029C(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
+                Player_UpdateWalkAnimation(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
             } else {
                 temp1 = 1.0f;
-                func_8084029C(this, 1.2f + ((REG(38) / 1000.0f) * temp2));
+                Player_UpdateWalkAnimation(this, 1.2f + ((REG(38) / 1000.0f) * temp2));
             }
             LinkAnimation_LoadToMorph(play, &this->skelAnime,
-                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType), this->unk_868);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_back_walk, this->modelAnimType),
+                                      this->walkAnimFrame);
             LinkAnimation_LoadToJoint(play, &this->skelAnime, &gPlayerAnim_link_normal_back_run,
-                                      this->unk_868 * (16.0f / 29.0f));
+                                      this->walkAnimFrame * (16.0f / 29.0f));
         }
     }
 
@@ -8593,9 +8628,9 @@ void func_80841860(PlayState* play, Player* this) {
 
     this->skelAnime.animation = sp38;
 
-    func_8084029C(this, (REG(30) / 1000.0f) + ((REG(32) / 1000.0f) * this->speedXZ));
+    Player_UpdateWalkAnimation(this, (REG(30) / 1000.0f) + ((REG(32) / 1000.0f) * this->speedXZ));
 
-    frame = this->unk_868 * (16.0f / 29.0f);
+    frame = this->walkAnimFrame * (16.0f / 29.0f);
     LinkAnimation_BlendToJoint(play, &this->skelAnime, sp34, frame, sp38, frame, this->unk_870, this->blendTable);
 }
 
@@ -8714,10 +8749,10 @@ void func_80841CC4(Player* this, s32 arg1, PlayState* play) {
     if ((this->modelAnimType == PLAYER_ANIMTYPE_3) || ((this->unk_89C == 0) && (this->unk_6C4 <= 0.0f))) {
         if (arg1 == 0) {
             LinkAnimation_LoadToJoint(play, &this->skelAnime,
-                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType), this->unk_868);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType), this->walkAnimFrame);
         } else {
             LinkAnimation_LoadToMorph(play, &this->skelAnime,
-                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType), this->unk_868);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType), this->walkAnimFrame);
         }
         return;
     }
@@ -8743,10 +8778,10 @@ void func_80841CC4(Player* this, s32 arg1, PlayState* play) {
 
     if (arg1 == 0) {
         LinkAnimation_BlendToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType),
-                                   this->unk_868, anim, this->unk_868, rate, this->blendTable);
+                                   this->walkAnimFrame, anim, this->walkAnimFrame, rate, this->blendTable);
     } else {
         LinkAnimation_BlendToMorph(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType),
-                                   this->unk_868, anim, this->unk_868, rate, this->blendTable);
+                                   this->walkAnimFrame, anim, this->walkAnimFrame, rate, this->blendTable);
     }
 }
 
@@ -8759,9 +8794,9 @@ void func_80841EE4(Player* this, PlayState* play) {
 
         temp1 = R_UPDATE_RATE * 0.5f;
 
-        func_8084029C(this, REG(35) / 1000.0f);
+        Player_UpdateWalkAnimation(this, REG(35) / 1000.0f);
         LinkAnimation_LoadToJoint(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_walk, this->modelAnimType),
-                                  this->unk_868);
+                                  this->walkAnimFrame);
 
         this->unk_864 += 1 * temp1;
         if (this->unk_864 >= 1.0f) {
@@ -8774,21 +8809,22 @@ void func_80841EE4(Player* this, PlayState* play) {
 
         if (temp2 < 0.0f) {
             temp1 = 1.0f;
-            func_8084029C(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
+            Player_UpdateWalkAnimation(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
 
             func_80841CC4(this, 0, play);
         } else {
             temp1 = (REG(37) / 1000.0f) * temp2;
             if (temp1 < 1.0f) {
-                func_8084029C(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
+                Player_UpdateWalkAnimation(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->speedXZ));
             } else {
                 temp1 = 1.0f;
-                func_8084029C(this, 1.2f + ((REG(38) / 1000.0f) * temp2));
+                Player_UpdateWalkAnimation(this, 1.2f + ((REG(38) / 1000.0f) * temp2));
             }
 
             func_80841CC4(this, 1, play);
 
-            LinkAnimation_LoadToJoint(play, &this->skelAnime, func_80833438(this), this->unk_868 * (20.0f / 29.0f));
+            LinkAnimation_LoadToJoint(play, &this->skelAnime, func_80833438(this),
+                                      this->walkAnimFrame * (20.0f / 29.0f));
         }
     }
 
@@ -8922,12 +8958,12 @@ s32 func_8084269C(PlayState* play, Player* this) {
     Vec3f sp2C;
 
     if ((this->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (this->floorSfxOffset == SURFACE_SFX_OFFSET_SAND)) {
-        func_8084260C(&this->actor.shape.feetPos[FOOT_LEFT], &sp2C,
-                      this->actor.floorHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
+        func_8084260C(&this->actor.shape.feetPos[ACTOR_SHAPE_FOOT_LEFT], &sp2C,
+                      this->actor.floorHeight - this->actor.shape.feetPos[ACTOR_SHAPE_FOOT_LEFT].y, 7.0f, 5.0f);
         func_800286CC(play, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
-        func_8084260C(&this->actor.shape.feetPos[FOOT_RIGHT], &sp2C,
-                      this->actor.floorHeight - this->actor.shape.feetPos[FOOT_RIGHT].y, 7.0f, 5.0f);
-        func_800286CC(play, &this->actor.shape.feetPos[FOOT_RIGHT], &D_808545B4, &D_808545C0, 50, 30);
+        func_8084260C(&this->actor.shape.feetPos[ACTOR_SHAPE_FOOT_RIGHT], &sp2C,
+                      this->actor.floorHeight - this->actor.shape.feetPos[ACTOR_SHAPE_FOOT_RIGHT].y, 7.0f, 5.0f);
+        func_800286CC(play, &this->actor.shape.feetPos[ACTOR_SHAPE_FOOT_RIGHT], &D_808545B4, &D_808545C0, 50, 30);
         return 1;
     }
 
@@ -9862,7 +9898,7 @@ void func_80844D68(Player* this, PlayState* play) {
 
 void func_80844DC8(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_80844E68, 1);
-    this->unk_868 = 0.0f;
+    this->walkAnimFrame = 0.0f;
     Player_AnimPlayLoop(play, this, D_80854360[Player_HoldsTwoHandedWeapon(this)]);
     this->av2.actionVar2 = 1;
 }
@@ -9936,13 +9972,13 @@ void Player_Action_80845000(Player* this, PlayState* play) {
 
     sp58 = ((temp2 < 0x4000) ? -1.0f : 1.0f) * sp58;
 
-    func_8084029C(this, sp58);
+    Player_UpdateWalkAnimation(this, sp58);
 
     sp58 = CLAMP(sp5C * 0.5f, 0.5f, 1.0f);
 
     LinkAnimation_BlendToJoint(play, &this->skelAnime, D_80854360[Player_HoldsTwoHandedWeapon(this)], 0.0f,
-                               D_80854370[Player_HoldsTwoHandedWeapon(this)], this->unk_868 * (21.0f / 29.0f), sp58,
-                               this->blendTable);
+                               D_80854370[Player_HoldsTwoHandedWeapon(this)], this->walkAnimFrame * (21.0f / 29.0f),
+                               sp58, this->blendTable);
 
     if (!func_80842964(this, play) && !func_80844BE4(this, play)) {
         func_80844E3C(this);
@@ -9997,20 +10033,20 @@ void Player_Action_80845308(Player* this, PlayState* play) {
         if (sp5C < 400.0f) {
             sp5C = 0.0f;
         }
-        func_8084029C(this, ((this->unk_87C >= 0) ? 1 : -1) * sp5C);
+        Player_UpdateWalkAnimation(this, ((this->unk_87C >= 0) ? 1 : -1) * sp5C);
     } else {
         sp58 = sp5C * 1.5f;
         if (sp58 < 1.5f) {
             sp58 = 1.5f;
         }
-        func_8084029C(this, sp58);
+        Player_UpdateWalkAnimation(this, sp58);
     }
 
     sp58 = CLAMP(sp5C * 0.5f, 0.5f, 1.0f);
 
     LinkAnimation_BlendToJoint(play, &this->skelAnime, D_80854360[Player_HoldsTwoHandedWeapon(this)], 0.0f,
-                               D_80854378[Player_HoldsTwoHandedWeapon(this)], this->unk_868 * (21.0f / 29.0f), sp58,
-                               this->blendTable);
+                               D_80854378[Player_HoldsTwoHandedWeapon(this)], this->walkAnimFrame * (21.0f / 29.0f),
+                               sp58, this->blendTable);
 
     if (!func_80842964(this, play) && !func_80844BE4(this, play)) {
         func_80844E3C(this);
@@ -12788,7 +12824,7 @@ void Player_Action_8084BBE4(Player* this, PlayState* play) {
             return;
         }
 
-        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) || (this->actor.shape.feetFloorFlag != 0)) {
+        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) || (this->actor.shape.footstepFloorFlags != 0)) {
             func_80837B60(this);
             if (this->av1.actionVar1 < 0) {
                 this->speedXZ = -0.8f;
