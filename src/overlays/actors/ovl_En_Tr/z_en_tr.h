@@ -40,22 +40,18 @@ typedef enum KotakeKoumeLimb {
 } KotakeKoumeLimb;
 
 typedef struct EnTr {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTable[KOTAKE_KOUME_LIMB_MAX];
-    /* 0x0232 */ Vec3s morphTable[KOTAKE_KOUME_LIMB_MAX];
-    /* 0x02D4 */ s16 unk_2D4;
-    /* 0x02D6 */ u16 timer; // Also used as an angle
-    /* 0x02D8 */ s16 cueChannel;
-    /* 0x02DC */ EnTrActionFunc actionFunc;
-    /* 0x02E0 */ s16 eyeIndex;
-    /* 0x02E2 */ s16 blinkTimer;
-    /* 0x02E4 */ AnimationHeader* animation;
-} EnTr; // size = 0x02E8
-
-typedef enum TwinrovaType {
-    /* 0 */ TR_KOUME,
-    /* 1 */ TR_KOTAKE
-} TwinrovaType;
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ SkelAnime skelAnime;
+    /* 0x190 */ Vec3s unk190[KOTAKE_KOUME_LIMB_MAX];
+    /* 0x232 */ Vec3s unk232[KOTAKE_KOUME_LIMB_MAX];
+    /* 0x2D4 */ s16 unk2D4;
+    /* 0x2D6 */ u16 unk2D6;
+    /* 0x2D8 */ s16 cueChannel;
+    /* 0x2DA */ char pad2DA[2];
+    /* 0x2DC */ EnTrActionFunc actionFunc;
+    /* 0x2E0 */ s16 unk2E0;
+    /* 0x2E2 */ s16 unk2E2;
+    /* 0x2E4 */ AnimationHeader* unk2E4;
+} EnTr; // size = 0x2E8
 
 #endif

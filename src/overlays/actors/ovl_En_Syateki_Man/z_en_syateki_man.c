@@ -497,7 +497,7 @@ void EnSyatekiMan_Update(Actor* thisx, PlayState* play) {
     Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 
-s32 EnSyatekiMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 func_80B1148C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
     s32 turnDirection;
 
@@ -522,7 +522,7 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          EnSyatekiMan_OverrideLimbDraw, NULL, this);
+                          func_80B1148C, NULL, this);
 }
 
 #if DEBUG_FEATURES

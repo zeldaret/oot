@@ -8,9 +8,9 @@
 #include "skin_matrix.h"
 
 /**
- * Update the `carriedActor`'s position based on the dynapoly actor identified by `bgId`.
+ * Update the `actor`'s position based on the dynapoly actor identified by `bgId`.
  */
-void DynaPolyActor_UpdateCarriedActorPos(CollisionContext* colCtx, s32 bgId, Actor* carriedActor) {
+void DynaPolyActor_UpdatePositionOnTop(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     MtxF prevTransform;
     MtxF prevTransformInv;
     MtxF curTransform;
@@ -35,12 +35,12 @@ void DynaPolyActor_UpdateCarriedActorPos(CollisionContext* colCtx, s32 bgId, Act
                 colCtx->dyna.bgActors[bgId].curTransform.rot.z, colCtx->dyna.bgActors[bgId].curTransform.pos.x,
                 colCtx->dyna.bgActors[bgId].curTransform.pos.y, colCtx->dyna.bgActors[bgId].curTransform.pos.z);
 
-            // Apply the movement of the dynapoly actor `bgId` over the last frame to the `carriedActor` position
+            // Apply the movement of the dynapoly actor `bgId` over the last frame to the `actor` position
             // pos = curTransform * prevTransformInv * pos
             // Note (curTransform * prevTransformInv) represents the transform relative to the previous frame
-            SkinMatrix_Vec3fMtxFMultXYZ(&prevTransformInv, &carriedActor->world.pos, &tempPos);
+            SkinMatrix_Vec3fMtxFMultXYZ(&prevTransformInv, &actor->world.pos, &tempPos);
             SkinMatrix_Vec3fMtxFMultXYZ(&curTransform, &tempPos, &pos);
-            carriedActor->world.pos = pos;
+            actor->world.pos = pos;
 
 #if DEBUG_FEATURES
             if (BGCHECK_XYZ_ABSMAX <= pos.x || pos.x <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.y ||
@@ -61,18 +61,18 @@ void DynaPolyActor_UpdateCarriedActorPos(CollisionContext* colCtx, s32 bgId, Act
 }
 
 /**
- * Update the `carriedActor`'s Y rotation based on the dynapoly actor identified by `bgId`.
+ * Update the `actor`'s Y rotation based on the dynapoly actor identified by `bgId`.
  */
-void DynaPolyActor_UpdateCarriedActorRotY(CollisionContext* colCtx, s32 bgId, Actor* carriedActor) {
+void DynaPolyActor_UpdateRotYOnTop(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
         s16 rotY = colCtx->dyna.bgActors[bgId].curTransform.rot.y - colCtx->dyna.bgActors[bgId].prevTransform.rot.y;
 
-        if (carriedActor->id == ACTOR_PLAYER) {
-            ((Player*)carriedActor)->yaw += rotY;
+        if (actor->id == ACTOR_PLAYER) {
+            ((Player*)actor)->yaw += rotY;
         }
 
-        carriedActor->shape.rot.y += rotY;
-        carriedActor->world.rot.y += rotY;
+        actor->shape.rot.y += rotY;
+        actor->world.rot.y += rotY;
     }
 }
 
@@ -90,10 +90,10 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
 }
 
 /**
- * Update the `carriedActor`'s position and Y rotation based on the dynapoly actor identified by `bgId`, according to
+ * Update the `actor`'s position and Y rotation based on the dynapoly actor identified by `bgId`, according to
  * the dynapoly actor's move flags (see `DYNA_TRANSFORM_POS` and `DYNA_TRANSFORM_ROT_Y`).
  */
-s32 DynaPolyActor_TransformCarriedActor(CollisionContext* colCtx, s32 bgId, Actor* carriedActor) {
+s32 DynaPolyActor_TransformActorOnTop(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     s32 result = false;
     DynaPolyActor* dynaActor;
 
@@ -112,12 +112,12 @@ s32 DynaPolyActor_TransformCarriedActor(CollisionContext* colCtx, s32 bgId, Acto
     }
 
     if (dynaActor->transformFlags & DYNA_TRANSFORM_POS) {
-        DynaPolyActor_UpdateCarriedActorPos(colCtx, bgId, carriedActor);
+        DynaPolyActor_UpdatePositionOnTop(colCtx, bgId, actor);
         result = true;
     }
 
     if (dynaActor->transformFlags & DYNA_TRANSFORM_ROT_Y) {
-        DynaPolyActor_UpdateCarriedActorRotY(colCtx, bgId, carriedActor);
+        DynaPolyActor_UpdateRotYOnTop(colCtx, bgId, actor);
         result = true;
     }
 

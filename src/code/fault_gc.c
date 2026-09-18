@@ -13,7 +13,7 @@
  * When entering this button combination, buttons that are &'d together must all be pressed together.
  * The L & R presses and B & A presses may be interchanged in the order they are pressed.
  *
- * "Clients" may be registered with the crash screen to extend its functionality. There are
+ * "Clients" may be registered with the crash screen to extend it's functionality. There are
  * two kinds of client, "Client" and "AddressConverterClient". Clients contribute one or
  * more pages to the crash debugger, while Address Converter Clients allow the crash screen to look up
  * the virtual addresses of dynamically allocated overlays.
@@ -26,7 +26,7 @@
  *      be displayed next to the floating-point status register.
  *  - Stack Trace
  *      This page displays a full backtrace from the crashing function back to the start of the thread. It
- *      displays the Program Counter for each function and, if applicable, the Virtual Program Counter
+ *      displays both the Program Counter for each function and if applicable the Virtual Program Counter
  *      for relocated functions in overlays.
  *  - Client Pages
  *      After the stack trace page, currently registered clients are processed and their pages are displayed.
@@ -41,8 +41,8 @@
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
 
-#pragma increment_block_number "gc-eu:160 gc-eu-dbg:160 gc-eu-dbg-2:160 gc-eu-mq:160 gc-eu-mq-dbg:160 gc-jp:160" \
-                               "gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160 ique-cn:160"
+#pragma increment_block_number "gc-eu:96 gc-eu-dbg:96 gc-eu-dbg-2:96 gc-eu-mq:96 gc-eu-mq-dbg:96 gc-jp:96 gc-jp-ce:96" \
+                               "gc-jp-mq:96 gc-us:96 gc-us-mq:96 ique-cn:64"
 
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
@@ -1022,7 +1022,7 @@ void Fault_WalkStack(uintptr_t* spPtr, uintptr_t* pcPtr, uintptr_t* raPtr) {
         return;
     }
 
-    // ensure pc is aligned and a valid pointer, if not a stack trace cannot
+    // ensure pc is aligned and a valid pointer, if not a tack trace cannot
     // be generated
     if (pc % 4 != 0 || !IS_KSEG0(pc)) {
         *pcPtr = ra;
@@ -1155,7 +1155,7 @@ void Fault_DisplayFrameBuffer(void) {
 }
 
 /**
- * Runs all registered fault clients. Each fault client displays a page
+ * Runs all registered fault client. Each fault client displays a page
  * on the crash screen.
  */
 void Fault_ProcessClients(void) {

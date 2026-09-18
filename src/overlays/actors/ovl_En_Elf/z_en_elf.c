@@ -684,7 +684,6 @@ void func_80A0329C(EnElf* this, PlayState* play) {
         }
 
         if (!(this->fairyFlags & FAIRY_FLAG_BIG)) {
-            // GI_MAX in this case allows the player to catch the actor in a bottle
             Actor_OfferGetItem(&this->actor, play, GI_MAX, 80.0f, 60.0f);
         }
     }

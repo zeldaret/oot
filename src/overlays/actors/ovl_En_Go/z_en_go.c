@@ -214,12 +214,13 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
     s16 talkState = NPC_TALK_STATE_TALKING;
     f32 xzRange;
     f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
+    EnGo* this = (EnGo*)thisx;
 
-    xzRange = thisx->xzDistToPlayer + 1.0f;
+    xzRange = this->actor.xzDistToPlayer + 1.0f;
     switch (Message_GetState(&play->msgCtx)) {
         if (play) {}
         case TEXT_STATE_CLOSING:
-            switch (thisx->textId) {
+            switch (this->actor.textId) {
                 case 0x3008:
                     SET_INFTABLE(INFTABLE_E0);
                     talkState = NPC_TALK_STATE_IDLE;
@@ -241,7 +242,7 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x3036:
-                    Actor_OfferGetItem(thisx, play, GI_TUNIC_GORON, xzRange, yRange);
+                    Actor_OfferGetItem(&this->actor, play, GI_TUNIC_GORON, xzRange, yRange);
                     SET_INFTABLE(INFTABLE_10D); // EnGo exclusive flag
                     talkState = NPC_TALK_STATE_ACTION;
                     break;
@@ -272,33 +273,33 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
             break;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(play)) {
-                switch (thisx->textId) {
+                switch (this->actor.textId) {
                     case 0x300A:
                         if (play->msgCtx.choiceIndex == 0) {
                             if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || GET_INFTABLE(INFTABLE_EB)) {
-                                thisx->textId = 0x300B;
+                                this->actor.textId = 0x300B;
                             } else {
-                                thisx->textId = 0x300C;
+                                this->actor.textId = 0x300C;
                             }
                         } else {
-                            thisx->textId = 0x300D;
+                            this->actor.textId = 0x300D;
                         }
-                        Message_ContinueTextbox(play, thisx->textId);
+                        Message_ContinueTextbox(play, this->actor.textId);
                         talkState = NPC_TALK_STATE_TALKING;
                         break;
                     case 0x3034:
                         if (play->msgCtx.choiceIndex == 0) {
                             if (GET_INFTABLE(INFTABLE_10B)) {
-                                thisx->textId = 0x3033;
+                                this->actor.textId = 0x3033;
                             } else {
-                                thisx->textId = 0x3035;
+                                this->actor.textId = 0x3035;
                             }
                         } else if (GET_INFTABLE(INFTABLE_10B)) {
-                            thisx->textId = 0x3036;
+                            this->actor.textId = 0x3036;
                         } else {
-                            thisx->textId = 0x3033;
+                            this->actor.textId = 0x3033;
                         }
-                        Message_ContinueTextbox(play, thisx->textId);
+                        Message_ContinueTextbox(play, this->actor.textId);
                         talkState = NPC_TALK_STATE_TALKING;
                         break;
                     case 0x3054:
@@ -306,8 +307,8 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
                         if (play->msgCtx.choiceIndex == 0) {
                             talkState = NPC_TALK_STATE_ACTION;
                         } else {
-                            thisx->textId = 0x3056;
-                            Message_ContinueTextbox(play, thisx->textId);
+                            this->actor.textId = 0x3056;
+                            Message_ContinueTextbox(play, this->actor.textId);
                             talkState = NPC_TALK_STATE_TALKING;
                         }
                         SET_INFTABLE(INFTABLE_B4);
@@ -317,14 +318,14 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
             break;
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                switch (thisx->textId) {
+                switch (this->actor.textId) {
                     case 0x3035:
                         SET_INFTABLE(INFTABLE_10B);
                         FALLTHROUGH;
                     case 0x3032:
                     case 0x3033:
-                        thisx->textId = 0x3034;
-                        Message_ContinueTextbox(play, thisx->textId);
+                        this->actor.textId = 0x3034;
+                        Message_ContinueTextbox(play, this->actor.textId);
                         talkState = NPC_TALK_STATE_TALKING;
                         break;
                     default:
@@ -965,7 +966,7 @@ void func_80A40B1C(EnGo* this, PlayState* play) {
 void EnGo_GetItem(EnGo* this, PlayState* play) {
     f32 xzDist;
     f32 yDist;
-    s32 getItemId;
+    s32 getItem;
 
     if (Actor_HasParent(&this->actor, play)) {
         this->interactInfo.talkState = NPC_TALK_STATE_ACTION;
@@ -975,24 +976,24 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
         this->unk_20C = 0;
         if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
-                getItemId = GI_SWORD_BIGGORON;
+                getItem = GI_SWORD_BIGGORON;
                 this->unk_20C = 1;
             }
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
-                getItemId = GI_CLAIM_CHECK;
+                getItem = GI_CLAIM_CHECK;
             }
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_GORONS_SWORD) {
-                getItemId = GI_PRESCRIPTION;
+                getItem = GI_PRESCRIPTION;
             }
         }
 
         if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0) {
-            getItemId = GI_TUNIC_GORON;
+            getItem = GI_TUNIC_GORON;
         }
 
         yDist = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzDist = this->actor.xzDistToPlayer + 1.0f;
-        Actor_OfferGetItem(&this->actor, play, getItemId, xzDist, yDist);
+        Actor_OfferGetItem(&this->actor, play, getItem, xzDist, yDist);
     }
 }
 

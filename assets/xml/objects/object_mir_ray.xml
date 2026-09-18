@@ -1,21 +1,15 @@
 <Root>
     <File Name="object_mir_ray" Segment="6">
-
-        <!-- Shield beam vertices -->
-        <Array Name="gShieldBeamImageVtx" Count="11" Offset="0x0">
+        <Array Name="object_mir_ray_000000_Vtx" Count="11" Offset="0x0">
             <Vtx/>
         </Array>
-        <Array Name="gShieldBeamGlowVtx" Count="12" Offset="0xB90">
+        <DList Name="object_mir_ray_0000B0_DL" Offset="0xB0"/>
+        <Texture Name="object_mir_ray_000188_Tex" Format="ia16" Width="16" Height="16" Offset="0x188"/>
+        <Texture Name="object_mir_ray_000388_Tex" Format="ia16" Width="32" Height="32" Offset="0x388"/>
+        <Array Name="object_mir_ray_000B90_Vtx" Count="12" Offset="0xB90">
             <Vtx/>
         </Array>
-
-        <!-- Shield beam displaylists -->
-        <DList Name="gShieldBeamImageDL" Offset="0xB0"/>
-        <DList Name="gShieldBeamGlowDL" Offset="0xC50"/>
-
-        <!-- Shield beam textures -->
-        <Texture Name="gShieldBeamImageCircleTex" Format="ia16" Width="16" Height="16" Offset="0x188"/>
-        <Texture Name="gShieldBeamImageGerudoSymbolNewTex" Format="ia16" Width="32" Height="32" Offset="0x388"/>
-        <Texture Name="gShieldBeamGlowRayTex" Format="ia16" Width="8" Height="256" Offset="0xCF8"/>
+        <DList Name="object_mir_ray_000C50_DL" Offset="0xC50"/>
+        <Texture Name="object_mir_ray_000CF8_Tex" Format="ia16" Width="8" Height="256" Offset="0xCF8"/>
     </File>
 </Root>

@@ -121,10 +121,12 @@ void EnMs_Wait(EnMs* this, PlayState* play) {
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     EnMs_SetOfferText(this, play);
-
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnMs_Talk;
-    } else if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
+        return;
+    }
+
+    if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
         Actor_OfferTalk(&this->actor, play, 90.0f);
     }
 }
@@ -137,20 +139,22 @@ void EnMs_Talk(EnMs* this, PlayState* play) {
         if ((dialogState == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) { // advanced final textbox
             this->actionFunc = EnMs_Wait;
         }
-    } else if (Message_ShouldAdvance(play)) {
-        switch (play->msgCtx.choiceIndex) {
-            case 0: // yes
-                if (gSaveContext.save.info.playerData.rupees < sPrices[BEANS_BOUGHT]) {
-                    Message_ContinueTextbox(play, 0x4069); // not enough rupees text
+    } else {
+        if (Message_ShouldAdvance(play)) {
+            switch (play->msgCtx.choiceIndex) {
+                case 0: // yes
+                    if (gSaveContext.save.info.playerData.rupees < sPrices[BEANS_BOUGHT]) {
+                        Message_ContinueTextbox(play, 0x4069); // not enough rupees text
+                        return;
+                    }
+                    Actor_OfferGetItem(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
+                    this->actionFunc = EnMs_Sell;
                     return;
-                }
-                Actor_OfferGetItem(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
-                this->actionFunc = EnMs_Sell;
-                return;
-            case 1: // no
-                Message_ContinueTextbox(play, 0x4068);
-            default:
-                return;
+                case 1: // no
+                    Message_ContinueTextbox(play, 0x4068);
+                default:
+                    return;
+            }
         }
     }
 }
@@ -160,9 +164,9 @@ void EnMs_Sell(EnMs* this, PlayState* play) {
         Rupees_ChangeBy(-sPrices[BEANS_BOUGHT]);
         this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
-    } else {
-        Actor_OfferGetItem(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
+        return;
     }
+    Actor_OfferGetItem(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
 }
 
 void EnMs_TalkAfterPurchase(EnMs* this, PlayState* play) {

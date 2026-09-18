@@ -580,7 +580,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, PlayState* play) {
 
     if (type == ENVIEWER_TYPE_9_GANONDORF) {
         SkelAnime_DrawFlexOpa(play, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                              this->skin.skelAnime.dListCount, NULL, EnViewer_Ganondorf9PostLimbDraw, this);
+                              this->skin.skelAnime.dListCount, 0, EnViewer_Ganondorf9PostLimbDraw, this);
     } else if (type == ENVIEWER_TYPE_3_GANONDORF) {
         SkelAnime_DrawFlexOpa(play, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                               this->skin.skelAnime.dListCount, EnViewer_Ganondorf3OverrideLimbDraw,
@@ -590,12 +590,12 @@ void EnViewer_DrawGanondorf(EnViewer* this, PlayState* play) {
                type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF) {
         if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[1] != NULL)) {
             SkelAnime_DrawFlexOpa(play, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                                  this->skin.skelAnime.dListCount, NULL, EnViewer_GanondorfPostLimbDrawUpdateCapeVec,
+                                  this->skin.skelAnime.dListCount, 0, EnViewer_GanondorfPostLimbDrawUpdateCapeVec,
                                   this);
             EnViewer_UpdateGanondorfCape(play, this);
         }
     } else {
-        SkelAnime_DrawOpa(play, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable, NULL, NULL, this);
+        SkelAnime_DrawOpa(play, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable, NULL, 0, this);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1511);
 }
@@ -702,7 +702,7 @@ void EnViewer_DrawImpa(EnViewer* this, PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
     SkelAnime_DrawFlexOpa(play, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                          this->skin.skelAnime.dListCount, EnViewer_ImpaOverrideLimbDraw, NULL, this);
+                          this->skin.skelAnime.dListCount, EnViewer_ImpaOverrideLimbDraw, 0, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1740);
 }
 

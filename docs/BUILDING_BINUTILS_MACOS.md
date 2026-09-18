@@ -1,33 +1,6 @@
-# Building on macOS
+# Building mips-linux-binutils on MacOS
 
-**N.B.** C++17 is required to build the asset processing program that we use (ZAPD), so check your OS version can support this before proceeding.
-
-
-## 1. Dependencies
-
-For macOS, use Homebrew to install the following dependencies:
-
-* coreutils
-* make
-* python3
-* bash
-* clang-format
-* libxml2
-* libiconv
-
-You can install them with the following commands:
-
-```bash
-brew update
-brew install coreutils make python3 bash clang-format libxml2 libiconv
-```
-
-(The repository expects Homebrew-installed programs to be either linked correctly in `$PATH` etc. or in their default locations.)
-
-
-## 2. Building mips-linux-binutils
-
-The following instructions are written for MacOS users but should apply to any Unix-like system, with maybe some modifications at the end regarding the bash_profile.
+The following instructions are written for MacOS users but should apply to any unix-like system, with maybe some modifications at the end regarding the bash_profile.
 
 Create destination dir for binutils
 ```bash
@@ -46,7 +19,7 @@ curl -O https://ftp.gnu.org/gnu/binutils/binutils-2.46.0.tar.xz
 tar xjf binutils-2.46.0.tar.xz
 ```
 
-Create and enter a build directory
+Create and enter build dir
 ```bash
 mkdir build-binutils
 cd build-binutils
@@ -63,27 +36,17 @@ make -j$(nproc)
 sudo make install
 ```
 
-Edit your `~/.bash_profile`/`~/.zprofile` (or whichever shell you use) to add the new binutils binaries to the system PATH
+Edit your ~/.bash_profile to add the new binutils binaries to the system PATH
 ```bash
 echo 'export PATH="$PATH:/opt/cross/bin"' >> ~/.bash_profile
 ```
 
-Reload `~/.bash_profile` (or just launch a new terminal tab)
+Reload ~/.bash_profile (or just launch a new terminal tab)
 ```bash
 source ~/.bash_profile
 ```
 
-If this worked, you can now delete the temporary directory `~/binutils-tmp`.
-
-
-## 3. Final note
-
-Apple's version of `make` is very out-of-date, so you should use the brew-installed `gmake` in place of `make` in this repo from now on.
-
-You should now be able to continue from [step 2](../README.md#2-clone-the-repository) of the Linux instructions.
-
-
-## 4. Building GCC (optional)
+## Building GCC (optional)
 
 If you'd like to compile with GCC instead of IDO (e.g. for modding), you can build it from source similarly to how we built binutils:
 

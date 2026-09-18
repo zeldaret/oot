@@ -2,6 +2,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "animation_curve.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -17,7 +18,6 @@
 #include "versions.h"
 #include "z_lib.h"
 #include "audio.h"
-#include "curve.h"
 #include "draw.h"
 #include "cutscene_flags.h"
 #include "effect.h"
@@ -103,32 +103,32 @@ static s16 sSfxJewelId[] = { 0 };
 
 // The object used by the effectType
 static s16 sEffectTypeObjects[] = {
-    /* 0x00 */ OBJECT_EFC_CRYSTAL_LIGHT,
-    /* 0x01 */ OBJECT_EFC_FIRE_BALL,
-    /* 0x02 */ OBJECT_GAMEPLAY_KEEP,
-    /* 0x03 */ OBJECT_EFC_LGT_SHOWER,
-    /* 0x04 */ OBJECT_GOD_LGT,
-    /* 0x05 */ OBJECT_GOD_LGT,
-    /* 0x06 */ OBJECT_GOD_LGT,
-    /* 0x07 */ OBJECT_LIGHT_RING,
-    /* 0x08 */ OBJECT_TRIFORCE_SPOT,
-    /* 0x09 */ OBJECT_GI_MEDAL,
-    /* 0x0A */ OBJECT_GI_MEDAL,
-    /* 0x0B */ OBJECT_GI_MEDAL,
-    /* 0x0C */ OBJECT_GI_MEDAL,
-    /* 0x0D */ OBJECT_GI_MEDAL,
-    /* 0x0E */ OBJECT_GI_MEDAL,
-    /* 0x0F */ OBJECT_EFC_TW,
-    /* 0x10 */ OBJECT_LIGHT_RING,
-    /* 0x11 */ OBJECT_LIGHT_RING,
-    /* 0x12 */ OBJECT_GAMEPLAY_KEEP,
-    /* 0x13 */ OBJECT_GI_JEWEL,
-    /* 0x14 */ OBJECT_GI_JEWEL,
-    /* 0x15 */ OBJECT_GI_JEWEL,
-    /* 0x16 */ OBJECT_GI_JEWEL,
-    /* 0x17 */ OBJECT_GI_M_ARROW,
-    /* 0x18 */ OBJECT_EFC_TW,
-    /* 0x19 */ OBJECT_EFC_TW,
+    OBJECT_EFC_CRYSTAL_LIGHT, // DEMO_EFFECT_CRYSTAL_LIGHT
+    OBJECT_EFC_FIRE_BALL,     // DEMO_EFFECT_FIRE_BALL
+    OBJECT_GAMEPLAY_KEEP,     // DEMO_EFFECT_BLUE_ORB
+    OBJECT_EFC_LGT_SHOWER,    // DEMO_EFFECT_LGT_SHOWER
+    OBJECT_GOD_LGT,           // DEMO_EFFECT_GOD_LGT_DIN
+    OBJECT_GOD_LGT,           // DEMO_EFFECT_GOD_LGT_NAYRU
+    OBJECT_GOD_LGT,           // DEMO_EFFECT_GOD_LGT_FARORE
+    OBJECT_LIGHT_RING,        // DEMO_EFFECT_LIGHTRING_EXPANDING
+    OBJECT_TRIFORCE_SPOT,     // DEMO_EFFECT_TRIFORCE_SPOT
+    OBJECT_GI_MEDAL,          // DEMO_EFFECT_MEDAL_FIRE
+    OBJECT_GI_MEDAL,          // DEMO_EFFECT_MEDAL_WATER
+    OBJECT_GI_MEDAL,          // DEMO_EFFECT_MEDAL_FOREST
+    OBJECT_GI_MEDAL,          // DEMO_EFFECT_MEDAL_SPIRIT
+    OBJECT_GI_MEDAL,          // DEMO_EFFECT_MEDAL_SHADOW
+    OBJECT_GI_MEDAL,          // DEMO_EFFECT_MEDAL_LIGHT
+    OBJECT_EFC_TW,            // DEMO_EFFECT_TIMEWARP_MASTERSWORD
+    OBJECT_LIGHT_RING,        // DEMO_EFFECT_LIGHTRING_SHRINKING
+    OBJECT_LIGHT_RING,        // DEMO_EFFECT_LIGHTRING_TRIFORCE
+    OBJECT_GAMEPLAY_KEEP,     // DEMO_EFFECT_LIGHT
+    OBJECT_GI_JEWEL,          // DEMO_EFFECT_JEWEL_KOKIRI
+    OBJECT_GI_JEWEL,          // DEMO_EFFECT_JEWEL_GORON
+    OBJECT_GI_JEWEL,          // DEMO_EFFECT_JEWEL_ZORA
+    OBJECT_GI_JEWEL,          // DEMO_EFFECT_DUST
+    OBJECT_GI_M_ARROW,        // DEMO_EFFECT_LIGHTARROW
+    OBJECT_EFC_TW,            // DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE
+    OBJECT_EFC_TW,            // DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL
 };
 
 static u8 sTimewarpVertexSizeIndices[] = { 1, 1, 2, 0, 1, 1, 2, 0, 1, 2, 0, 2, 1, 0, 1, 0, 2, 0, 2, 2, 0 };
@@ -482,24 +482,24 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             break;
 
         case DEMO_EFFECT_JEWEL_KOKIRI:
-            this->jewelDisplayList = gGiKokiriEmeraldGemDL;
-            this->jewelHolderDisplayList = gGiKokiriEmeraldSettingDL;
+            this->jewelDisplayList = gGiKokiriEmeraldGem;
+            this->jewelHolderDisplayList = gGiKokiriEmeraldSetting;
             this->jewel.type = DEMO_EFFECT_JEWEL_KOKIRI;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(play, this);
             break;
 
         case DEMO_EFFECT_JEWEL_GORON:
-            this->jewelDisplayList = gGiGoronRubyGemDL;
-            this->jewelHolderDisplayList = gGiGoronRubySettingDL;
+            this->jewelDisplayList = gGiGoronRubyGem;
+            this->jewelHolderDisplayList = gGiGoronRubySetting;
             this->jewel.type = DEMO_EFFECT_JEWEL_GORON;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(play, this);
             break;
 
         case DEMO_EFFECT_JEWEL_ZORA:
-            this->jewelDisplayList = gGiZoraSapphireGemDL;
-            this->jewelHolderDisplayList = gGiZoraSapphireSettingDL;
+            this->jewelDisplayList = gGiZoraSapphireGem;
+            this->jewelHolderDisplayList = gGiZoraSapphireSetting;
             this->jewel.type = DEMO_EFFECT_JEWEL_ZORA;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(play, this);
@@ -687,12 +687,12 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
 void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
     s32 effectType = PARAMS_GET_S(this->actor.params, 0, 8);
 
-    if (!SkelCurve_Init(play, &this->skelCurve, &gTimeWarpSkel, &gTimeWarpAnim)) {
+    if (!SkelCurve_Init(play, &this->skelCurve, &object_efc_tw_0012E8_Skel, &object_efc_tw_000050_Anim)) {
         ASSERT(0, "0", "../z_demo_effect.c", 1283);
     }
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
-        SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 1.0f, 1.7f);
+        SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 59.0f, 1.0f, 1.7f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_InitTimeWarpTimeblock;
 
@@ -703,12 +703,12 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
         }
     } else if (gSaveContext.sceneLayer == 5 || gSaveContext.sceneLayer == 4 ||
                (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
-        SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
         PRINTF(VT_FGCOL(CYAN) T(" 縮むバージョン \n", " Shrinking version \n") VT_RST);
     } else {
-        SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 1.0f, 1.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 59.0f, 1.0f, 1.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpPullMasterSword;
         PRINTF(VT_FGCOL(CYAN) T(" 通常 バージョン \n", " Normal version \n") VT_RST);
@@ -717,7 +717,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
 
 /**
  * Update function for the Timewarp Actor that is used when Link pulls the Mastersword
- * It changes the Background Music and updates its SkelCurve animation.
+ * It changes the Background Music and updates it's SkelCurve animation.
  */
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play) {
     if (CutsceneFlags_Get(play, 1)) {
@@ -727,7 +727,7 @@ void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play)
         }
 
         if (SkelCurve_Update(play, &this->skelCurve)) {
-            SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 60.0f, 59.0f, 0.0f);
+            SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 60.0f, 59.0f, 0.0f);
         }
     }
 }
@@ -742,7 +742,7 @@ void DemoEffect_TimewarpShrink(f32 size) {
     u8 sizes[3];
 
     // This function uses the data in obj_efc_tw offset 0x0060 to 0x01B0
-    vertices = SEGMENTED_TO_VIRTUAL(gTimeWarpVtx);
+    vertices = SEGMENTED_TO_VIRTUAL(object_efc_tw_000060_Vtx);
 
     sizes[0] = 0;
     sizes[1] = (s32)(202.0f * size);
@@ -820,7 +820,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, PlayState* play) {
     Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 
     if (SkelCurve_Update(play, &this->skelCurve)) {
-        SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 60.0f, 59.0f, 0.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &object_efc_tw_000050_Anim, 1.0f, 60.0f, 59.0f, 0.0f);
         this->updateFunc = DemoEffect_UpdateTimeWarpTimeblock;
         this->timeWarp.shrinkTimer = 0;
     }
@@ -1739,21 +1739,21 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, PlayState* play) {
     Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_effect.c", 2661);
-    gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
+    gSPDisplayList(POLY_XLU_DISP++, object_efc_crystal_light_000980_DL);
     Matrix_Pop();
     Matrix_Push();
     Matrix_RotateY(DEG_TO_RAD(120), MTXMODE_APPLY);
     Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_effect.c", 2672);
-    gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
+    gSPDisplayList(POLY_XLU_DISP++, object_efc_crystal_light_000980_DL);
     Matrix_Pop();
     Matrix_Push();
     Matrix_RotateY(DEG_TO_RAD(240), MTXMODE_APPLY);
     Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_effect.c", 2683);
-    gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
+    gSPDisplayList(POLY_XLU_DISP++, object_efc_crystal_light_000980_DL);
     Matrix_Pop();
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2688);
 }
@@ -1771,7 +1771,7 @@ void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 32, 1, 0,
                                 128 - ((frames * 20) % 128) - 1, 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, gCreationFireBallDL);
+    gSPDisplayList(POLY_XLU_DISP++, object_efc_fire_ball_000040_DL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2723);
 }
 
@@ -1810,7 +1810,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         Matrix_Push();
         MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_effect.c", 2801);
-        gSPDisplayList(POLY_XLU_DISP++, gGoldenGoddessAuraDL);
+        gSPDisplayList(POLY_XLU_DISP++, object_god_lgt_000330_DL);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         func_8002EBCC(&this->actor, play, 0);
         Matrix_Pop();
@@ -1826,7 +1826,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
         Matrix_Translate(0.0f, -140.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_demo_effect.c", 2824);
-        gSPDisplayList(POLY_OPA_DISP++, gGoldenGoddessBodyDL);
+        gSPDisplayList(POLY_OPA_DISP++, object_god_lgt_003C50_DL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2829);
@@ -1897,7 +1897,7 @@ void DemoEffect_DrawLgtShower(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (frames * 5) % 1024, 0, 256, 64, 1,
                                 (frames * 10) % 128, 512 - ((frames * 50) % 512), 32, 16));
-    gSPDisplayList(POLY_XLU_DISP++, gEnliveningLightDL);
+    gSPDisplayList(POLY_XLU_DISP++, object_efc_lgt_shower_0011D0_DL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2942);
 }
 
@@ -1915,7 +1915,7 @@ void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2) {
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (frames * 5) % 64, 512 - ((frames * 2) % 512) - 1,
                                 16, 128, 1, 0, 0, 8, 1024));
-    gSPDisplayList(POLY_XLU_DISP++, gGoldenGoddessLightRingDL);
+    gSPDisplayList(POLY_XLU_DISP++, object_light_ring_000190_DL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2978);
 }
@@ -1923,7 +1923,7 @@ void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2) {
 void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 pad;
-    Vtx* vertices = SEGMENTED_TO_VIRTUAL(gTriforceVtx);
+    Vtx* vertices = SEGMENTED_TO_VIRTUAL(object_triforce_spot_000000_Vtx);
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2994);
@@ -1942,7 +1942,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
                 vertices[93].n.a = vertices[94].n.a = vertices[95].n.a = (s8)this->triforceSpot.lightColumnOpacity;
             gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 180, 255, 255, this->triforceSpot.lightColumnOpacity);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 150, 255);
-            gSPDisplayList(POLY_XLU_DISP++, gTriforceLightColumnDL);
+            gSPDisplayList(POLY_XLU_DISP++, object_triforce_spot_000840_DL);
             Matrix_Pop();
         }
 
@@ -1960,7 +1960,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
                            Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 16, 1, 0, 0, 16, 8));
                 gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 160, this->triforceSpot.triforceSpotOpacity);
                 gDPSetEnvColor(POLY_XLU_DISP++, 170, 140, 0, 255);
-                gSPDisplayList(POLY_XLU_DISP++, gTriforceDL);
+                gSPDisplayList(POLY_XLU_DISP++, object_triforce_spot_000600_DL);
             } else {
                 func_8002EBCC(&this->actor, play, 0);
                 Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -1971,7 +1971,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
                            Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 16, 1, 0, 0, 16, 8));
                 gDPSetPrimColor(POLY_OPA_DISP++, 128, 128, 255, 255, 160, 255);
                 gDPSetEnvColor(POLY_OPA_DISP++, 170, 140, 0, 255);
-                gSPDisplayList(POLY_OPA_DISP++, gTriforceDL);
+                gSPDisplayList(POLY_OPA_DISP++, object_triforce_spot_000600_DL);
             }
         }
     }
@@ -1994,7 +1994,7 @@ void DemoEffect_DrawGetItem(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
+s32 DemoEffect_DrawTimewarpLimbs(PlayState* play, SkelAnimeCurve* skelCuve, s32 limbIndex, void* thisx) {
     s32 pad;
     DemoEffect* this = (DemoEffect*)thisx;
     u32 frames = play->gameplayFrames;
@@ -2010,13 +2010,13 @@ s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 3172);
 
     if (limbIndex == 0) {
-        s16* transform = skelCurve->jointTable[0];
+        LimbTransform* transform = &skelCuve->transforms[0];
 
-        transform[2] = transform[0] = 1024;
-        transform[1] = 1024;
+        transform->scale.y = 1024;
+        transform->scale.z = transform->scale.x = 1024;
     }
 
-    return true;
+    return 1;
 }
 
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
@@ -2027,12 +2027,9 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
         CutsceneFlags_Get(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
-
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
-        SkelCurve_Draw(&this->actor, play, &this->skelCurve, DemoEffect_OverrideLimbDrawTimeWarp, NULL, 1,
-                       &this->actor);
-
+        SkelCurve_Draw(thisx, play, &this->skelCurve, DemoEffect_DrawTimewarpLimbs, NULL, 1, this);
         CLOSE_DISPS(gfxCtx, "../z_demo_effect.c", 3216);
     }
 }

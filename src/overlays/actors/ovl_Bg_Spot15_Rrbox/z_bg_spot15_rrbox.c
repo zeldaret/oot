@@ -1,9 +1,3 @@
-/*
- * File: z_bg_spot15_rrbox.c
- * Overlay: ovl_Bg_Spot15_Rrbox
- * Description: Milk Crate
- */
-
 #include "z_bg_spot15_rrbox.h"
 
 #include "array_count.h"
@@ -99,9 +93,8 @@ void func_808B3A34(BgSpot15Rrbox* this) {
 s32 func_808B3A40(BgSpot15Rrbox* this, PlayState* play) {
     DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->bgId);
 
-    if ((dynaPolyActor != NULL) &&
-        Math3D_Dist2DSq(dynaPolyActor->actor.world.pos.x, dynaPolyActor->actor.world.pos.z,
-                        this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z) < 0.01f) {
+    if (dynaPolyActor != NULL && Math3D_Dist2DSq(dynaPolyActor->actor.world.pos.x, dynaPolyActor->actor.world.pos.z,
+                                                 this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z) < 0.01f) {
         return true;
     }
     return false;
@@ -333,10 +326,9 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
 
     Actor_MoveXZGravity(actor);
 
-    if (actor->world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
-        PRINTF(T("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n",
-                 "Warning : Lon Lon Wooden Box fell too far (%s %d)(arg_data 0x%04x)\n"),
-               "../z_bg_spot15_rrbox.c", 599, actor->params);
+    if (actor->world.pos.y <= -31990.0f) {
+        PRINTF("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
+               actor->params);
 
         Actor_Kill(actor);
 

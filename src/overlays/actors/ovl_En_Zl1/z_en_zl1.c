@@ -106,11 +106,11 @@ void EnZl1_Init(Actor* thisx, PlayState* play) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->unk_1E6 = 0;
         this->actionFunc = func_80B4BC78;
-    } else if (Flags_GetEventChkInf(EVENTCHKINF_09) && Flags_GetEventChkInf(EVENTCHKINF_25) &&
-               Flags_GetEventChkInf(EVENTCHKINF_37)) {
+    } else if ((Flags_GetEventChkInf(EVENTCHKINF_09)) && (Flags_GetEventChkInf(EVENTCHKINF_25)) &&
+               (Flags_GetEventChkInf(EVENTCHKINF_37))) {
         Actor_Kill(&this->actor);
-    } else if ((Flags_GetEventChkInf(EVENTCHKINF_09) && Flags_GetEventChkInf(EVENTCHKINF_25)) ||
-               (Flags_GetEventChkInf(EVENTCHKINF_09) && Flags_GetEventChkInf(EVENTCHKINF_37))) {
+    } else if (((Flags_GetEventChkInf(EVENTCHKINF_09)) && (Flags_GetEventChkInf(EVENTCHKINF_25))) ||
+               ((Flags_GetEventChkInf(EVENTCHKINF_09)) && (Flags_GetEventChkInf(EVENTCHKINF_37)))) {
         frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->actor.textId = 0x703D;
@@ -613,7 +613,7 @@ void EnZl1_Update(Actor* thisx, PlayState* play) {
     func_80B4AE18(this);
 }
 
-s32 EnZl1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 func_80B4C340(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnZl1* this = (EnZl1*)thisx;
 
     if ((limbIndex == 4) || (limbIndex == 3) || (limbIndex == 6) || (limbIndex == 5)) {
@@ -634,7 +634,7 @@ s32 EnZl1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void EnZl1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void func_80B4C400(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f vec = { 0.0f, 0.0f, 0.0f };
     EnZl1* this = (EnZl1*)thisx;
 
@@ -654,7 +654,7 @@ void EnZl1_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          EnZl1_OverrideLimbDraw, EnZl1_PostLimbDraw, this);
+                          func_80B4C340, func_80B4C400, this);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_girlB.c", 2046);
 }

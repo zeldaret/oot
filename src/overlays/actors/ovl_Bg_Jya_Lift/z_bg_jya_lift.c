@@ -29,7 +29,7 @@ void BgJyaLift_DelayMove(BgJyaLift* this, PlayState* play);
 void BgJyaLift_SetupMove(BgJyaLift* this);
 void BgJyaLift_Move(BgJyaLift* this, PlayState* play);
 
-static s16 sIsSpawned = false;
+static s16 D_8089A020 = 0;
 
 ActorProfile Bg_Jya_Lift_Profile = {
     /**/ ACTOR_BG_JYA_LIFT,
@@ -63,7 +63,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
     BgJyaLift* this = (BgJyaLift*)thisx;
 
     this->isSpawned = false;
-    if (sIsSpawned) {
+    if (D_8089A020) {
         Actor_Kill(thisx);
         return;
     }
@@ -77,7 +77,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
         BgJyaLift_SetInitPosY(this);
     }
     thisx->room = -1;
-    sIsSpawned = true;
+    D_8089A020 = 1;
     this->isSpawned = true;
 }
 
@@ -87,7 +87,7 @@ void BgJyaLift_Destroy(Actor* thisx, PlayState* play) {
     if (this->isSpawned) {
 
         PRINTF(T("女神リフト DT\n", "Goddess lift DT\n"));
-        sIsSpawned = false;
+        D_8089A020 = 0;
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
@@ -144,7 +144,7 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     }
     if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && !(this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)) {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
-    } else if (!(this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) &&
+    } else if (((this->dyna.interactFlags) & DYNA_INTERACT_PLAYER_ABOVE) == 0 &&
                (this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE) &&
                (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);

@@ -146,7 +146,7 @@ void ObjLift_Destroy(Actor* thisx, PlayState* play) {
 
 void ObjLift_SetupWait(ObjLift* this) {
     this->timer = sFallTimerDurations[PARAMS_GET_U(this->dyna.actor.params, 8, 3)];
-    ObjLift_SetupAction(this, ObjLift_Wait);
+    ObjLift_SetupAction(this, &ObjLift_Wait);
 }
 
 void ObjLift_Wait(ObjLift* this, PlayState* play) {

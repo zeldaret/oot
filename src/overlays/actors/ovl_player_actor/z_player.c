@@ -74,9 +74,6 @@ typedef struct GetItemEntry {
 #define CHEST_ANIM_SHORT 0
 #define CHEST_ANIM_LONG 1
 
-#define GET_ITEM_NONE \
-    { ITEM_NONE, 0, 0, 0, OBJECT_INVALID }
-
 typedef struct ExplosiveInfo {
     /* 0x00 */ u8 itemId;
     /* 0x02 */ s16 actorId;
@@ -156,6 +153,14 @@ typedef struct struct_80854B18 {
     };
 } struct_80854B18; // size = 0x08
 
+typedef struct struct_80858AC8 {
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ s16 unk_08;
+} struct_80858AC8; // size = 0x0A
+
 void Player_InitItemAction(PlayState* play, Player* this, s8 itemAction);
 
 void Player_InitDefaultIA(PlayState* play, Player* this);
@@ -188,7 +193,7 @@ void func_80839F90(Player* this, PlayState* play);
 s32 func_8083C61C(PlayState* play, Player* this);
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input);
 void func_8084FF7C(Player* this);
-void Player_UpdateBunnyEars(Player* this);
+void func_8085002C(Player* this);
 void func_80851008(PlayState* play, Player* this, void* anim);
 void func_80851030(PlayState* play, Player* this, void* anim);
 void func_80851050(PlayState* play, Player* this, void* anim);
@@ -364,22 +369,22 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 
 // .bss part 1
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64" \
-                               "ique-cn:128 ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ique-cn:128 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ique-cn:192 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ique-cn:192 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ique-cn:160 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
 
@@ -790,9 +795,9 @@ static GetItemEntry sGetItemTable[] = {
     // GI_BULLET_BAG_50
     GET_ITEM(ITEM_BULLET_BAG_50, OBJECT_GI_DEKUPOUCH, GID_BULLET_BAG_50, 0x6C, 0x80, CHEST_ANIM_LONG),
     // GI_ICE_TRAP
-    GET_ITEM_NONE,
+    { ITEM_NONE, 0, 0, 0, 0 },
     // GI_TEXT_0
-    GET_ITEM_NONE,
+    { ITEM_NONE, 0, 0, 0, 0 },
 };
 
 #define GET_PLAYER_ANIM(group, type) D_80853914[group * PLAYER_ANIMTYPE_MAX + type]
@@ -3700,7 +3705,7 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
         func_80832224(this);
         this->yaw = this->actor.shape.rot.y;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
-        this->hoverBootsTimer = 0;
+        this->unk_893 = 0;
         this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_X | UNK6AE_ROT_FOCUS_Y | UNK6AE_ROT_UPPER_X;
         Player_PlayVoiceSfx(this, NA_SE_VO_LI_LASH);
         return true;
@@ -4713,7 +4718,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed
                 }
             }
 
-            this->hoverBootsTimer = 0;
+            this->unk_893 = 0;
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         } else {
             if ((this->speedXZ > 4.0f) && !Player_CheckHostileLockOn(this)) {
@@ -4985,7 +4990,7 @@ void func_80838940(Player* this, LinkAnimationHeader* anim, f32 arg2, PlayState*
     }
 
     this->actor.velocity.y = arg2 * sWaterSpeedFactor;
-    this->hoverBootsTimer = 0;
+    this->unk_893 = 0;
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
 
     Player_PlayJumpingSfx(this);
@@ -5849,7 +5854,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                     return;
                 }
 
-                if (this->hoverBootsTimer != 0) {
+                if (this->unk_893 != 0) {
                     this->actor.velocity.y = 1.0f;
                     sPrevFloorProperty = FLOOR_PROPERTY_9;
                     return;
@@ -6319,7 +6324,7 @@ void func_8083BA90(PlayState* play, Player* this, s32 arg2, f32 xzSpeed, f32 yVe
     this->actor.velocity.y = yVelocity;
 
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
-    this->hoverBootsTimer = 0;
+    this->unk_893 = 0;
 
     Player_PlayJumpingSfx(this);
     Player_PlayVoiceSfx(this, NA_SE_VO_LI_SWORD_L);
@@ -7730,7 +7735,7 @@ s32 func_8083F524(PlayState* play, Player* this) {
 
 /**
  * Two exit walls are placed at each end of the crawlspace, separate to the two entrance walls used to enter the
- * crawlspace. These front and back exit walls are further into the crawlspace than the front and
+ * crawlspace. These front and back exit walls are further into the crawlspace relative to the front and
  * back entrance walls. When player interacts with either of these two interior exit walls, start the leaving-crawlspace
  * cutscene and return true. Else, return false
  */
@@ -8038,7 +8043,7 @@ void func_8084029C(Player* this, f32 arg1) {
     if (1) {}
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-        (this->hoverBootsTimer != 0)) {
+        (this->unk_893 != 0)) {
         Actor_PlaySfx_Flagged2(&this->actor, NA_SE_PL_HOBBERBOOTS_LV - SFX_FLAG);
     } else if (func_8084021C(this->unk_868, arg1, 29.0f, 10.0f) || func_8084021C(this->unk_868, arg1, 29.0f, 24.0f)) {
         Player_PlaySteppingSfx(this, this->speedXZ);
@@ -10763,7 +10768,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
         if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
             if (!IS_CUTSCENE_LAYER &&
-                (gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
+                (gEntranceTable[(0, gSaveContext.save.entranceIndex) + (0, gSaveContext.sceneLayer)].field &
                  ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
                 ((play->sceneId != SCENE_DODONGOS_CAVERN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
 #if OOT_VERSION < PAL_1_0
@@ -10820,7 +10825,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     }
 
     if (gSaveContext.entranceSound != 0) {
-        Actor_PlaySfx(&this->actor, ((void)0, gSaveContext.entranceSound));
+        Actor_PlaySfx(&this->actor, (0, gSaveContext.entranceSound));
         gSaveContext.entranceSound = 0;
     }
 
@@ -11030,23 +11035,23 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
 s32 Player_UpdateHoverBoots(Player* this) {
     s32 canHoverOnGround;
 
-    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && (this->hoverBootsTimer != 0)) {
-        this->hoverBootsTimer--;
+    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && (this->unk_893 != 0)) {
+        this->unk_893--;
     } else {
-        this->hoverBootsTimer = 0;
+        this->unk_893 = 0;
     }
 
     canHoverOnGround =
         (this->currentBoots == PLAYER_BOOTS_HOVER) &&
         ((this->actor.depthInWater >= 0.0f) || (func_80838144(sFloorType) >= 0) || func_8083816C(sFloorType));
 
-    if (canHoverOnGround && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->hoverBootsTimer != 0)) {
+    if (canHoverOnGround && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->unk_893 != 0)) {
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         if (!canHoverOnGround) {
-            this->hoverBootsTimer = 19;
+            this->unk_893 = 0x13;
         }
 
         return false;
@@ -11795,7 +11800,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->actor.shape.face = this->faceChange.face + ((play->gameplayFrames & 32) ? 0 : 3);
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
-            Player_UpdateBunnyEars(this);
+            func_8085002C(this);
         }
 
         if (func_8002DD6C(this) != 0) {
@@ -11961,8 +11966,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             this->stateFlags2 &= ~(PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER | PLAYER_STATE2_21);
         }
 
-        this->stateFlags1 &= ~(PLAYER_STATE1_SWINGING_BOTTLE | PLAYER_STATE1_9 | PLAYER_STATE1_CHARGING_SPIN_ATTACK |
-                               PLAYER_STATE1_SHIELDING);
+        this->stateFlags1 &=
+            ~(PLAYER_STATE1_1 | PLAYER_STATE1_9 | PLAYER_STATE1_CHARGING_SPIN_ATTACK | PLAYER_STATE1_SHIELDING);
         this->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_2 | PLAYER_STATE2_3 | PLAYER_STATE2_5 | PLAYER_STATE2_6 |
                                PLAYER_STATE2_8 | PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND | PLAYER_STATE2_12 |
                                PLAYER_STATE2_14 | PLAYER_STATE2_DO_ACTION_ENTER | PLAYER_STATE2_22 | PLAYER_STATE2_26);
@@ -12162,12 +12167,7 @@ skip_update:;
     }
 }
 
-typedef struct BunnyEarKinematics {
-    /* 0x0 */ Vec3s rot;
-    /* 0x6 */ Vec3s angVel;
-} BunnyEarKinematics; // size = 0xC
-
-static BunnyEarKinematics sBunnyEarKinematics;
+static struct_80858AC8 D_80858AC8;
 
 static Gfx* sMaskDlists[PLAYER_MASK_MAX - 1] = {
     gLinkChildKeatonMaskDL, gLinkChildSkullMaskDL, gLinkChildSpookyMaskDL, gLinkChildBunnyHoodDL,
@@ -12187,40 +12187,38 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
                     Player_PostLimbDrawGameplay, this);
 
     if ((overrideLimbDraw == Player_OverrideLimbDrawGameplayDefault) && (this->currentMask != PLAYER_MASK_NONE)) {
-        Mtx* bunnyEarMtx = GRAPH_ALLOC(play->state.gfxCtx, 2 * sizeof(Mtx));
+        Mtx* sp70 = GRAPH_ALLOC(play->state.gfxCtx, 2 * sizeof(Mtx));
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
-            Vec3s earRot;
+            Vec3s sp68;
 
-            gSPSegment(POLY_OPA_DISP++, 0x0B, bunnyEarMtx);
+            gSPSegment(POLY_OPA_DISP++, 0x0B, sp70);
 
-            // Right ear
-            earRot.x = sBunnyEarKinematics.rot.y + 0x3E2;
-            earRot.y = sBunnyEarKinematics.rot.z + 0xDBE;
-            earRot.z = sBunnyEarKinematics.rot.x - 0x348A;
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
-            MATRIX_TO_MTX(bunnyEarMtx++, "../z_player.c", 19273);
+            sp68.x = D_80858AC8.unk_02 + 0x3E2;
+            sp68.y = D_80858AC8.unk_04 + 0xDBE;
+            sp68.z = D_80858AC8.unk_00 - 0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp68);
+            MATRIX_TO_MTX(sp70++, "../z_player.c", 19273);
 
-            // Left ear
-            earRot.x = sBunnyEarKinematics.rot.y - 0x3E2;
-            earRot.y = -sBunnyEarKinematics.rot.z - 0xDBE;
-            earRot.z = sBunnyEarKinematics.rot.x - 0x348A;
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
-            MATRIX_TO_MTX(bunnyEarMtx, "../z_player.c", 19279);
+            sp68.x = D_80858AC8.unk_02 - 0x3E2;
+            sp68.y = -0xDBE - D_80858AC8.unk_04;
+            sp68.z = D_80858AC8.unk_00 - 0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp68);
+            MATRIX_TO_MTX(sp70, "../z_player.c", 19279);
         }
 
         gSPDisplayList(POLY_OPA_DISP++, sMaskDlists[this->currentMask - 1]);
     }
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-        !(this->stateFlags1 & PLAYER_STATE1_23) && ((u32)this->hoverBootsTimer != 0)) {
+        !(this->stateFlags1 & PLAYER_STATE1_23) && ((u32)this->unk_893 != 0)) {
         static s32 D_8085486C = 255;
 
-        if (this->hoverBootsTimer < 19) {
-            if (this->hoverBootsTimer >= 15) {
-                D_8085486C = (19 - this->hoverBootsTimer) * 51.0f;
-            } else if (this->hoverBootsTimer < 19) {
-                s32 sp5C = this->hoverBootsTimer;
+        if (this->unk_893 < 19) {
+            if (this->unk_893 >= 15) {
+                D_8085486C = (19 - this->unk_893) * 51.0f;
+            } else if (this->unk_893 < 19) {
+                s32 sp5C = this->unk_893;
 
                 if (sp5C > 9) {
                     sp5C = 9;
@@ -12631,10 +12629,10 @@ void Player_Action_8084B78C(Player* this, PlayState* play) {
 
 void func_8084B840(PlayState* play, Player* this, f32 arg2) {
     if (this->actor.wallBgId != BGCHECK_SCENE) {
-        DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
+        DynaPolyActor* dynaActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
 
-        if (dynaPolyActor != NULL) {
-            func_8002DFA4(dynaPolyActor, arg2, this->actor.world.rot.y);
+        if (dynaActor != NULL) {
+            func_8002DFA4(dynaActor, arg2, this->actor.world.rot.y);
         }
     }
 }
@@ -14040,7 +14038,7 @@ void Player_Action_8084EAC0(Player* this, PlayState* play) {
 }
 
 typedef enum BottleCatchType {
-    BOTTLE_CATCH_NONE, // This type does not have an associated entry in `sBottleCatchInfo`
+    BOTTLE_CATCH_NONE, // This type does not have an associated entry in `D_80854A04`
     BOTTLE_CATCH_FAIRY,
     BOTTLE_CATCH_FISH,
     BOTTLE_CATCH_BLUE_FIRE,
@@ -14054,11 +14052,11 @@ typedef struct BottleCatchInfo {
     /* 0x04 */ u8 textId;
 } BottleCatchInfo; // size = 0x06
 
-static BottleCatchInfo sBottleCatchInfo[] = {
-    { ACTOR_EN_ELF, ITEM_BOTTLE_FAIRY, PLAYER_IA_BOTTLE_FAIRY, 0x46 },         // BOTTLE_CATCH_FAIRY
-    { ACTOR_EN_FISH, ITEM_BOTTLE_FISH, PLAYER_IA_BOTTLE_FISH, 0x47 },          // BOTTLE_CATCH_FISH
-    { ACTOR_EN_ICE_HONO, ITEM_BOTTLE_BLUE_FIRE, PLAYER_IA_BOTTLE_FIRE, 0x5D }, // BOTTLE_CATCH_BLUE_FIRE
-    { ACTOR_EN_INSECT, ITEM_BOTTLE_BUG, PLAYER_IA_BOTTLE_BUG, 0x7A },          // BOTTLE_CATCH_BUGS
+static BottleCatchInfo D_80854A04[] = {
+    { ACTOR_EN_ELF, ITEM_BOTTLE_FAIRY, 0x2A, 0x46 },          // BOTTLE_CATCH_FAIRY
+    { ACTOR_EN_FISH, ITEM_BOTTLE_FISH, 0x1F, 0x47 },          // BOTTLE_CATCH_FISH
+    { ACTOR_EN_ICE_HONO, ITEM_BOTTLE_BLUE_FIRE, 0x20, 0x5D }, // BOTTLE_CATCH_BLUE_FIRE
+    { ACTOR_EN_INSECT, ITEM_BOTTLE_BUG, 0x21, 0x7A },         // BOTTLE_CATCH_BUGS
 };
 
 void Player_Action_SwingBottle(Player* this, PlayState* play) {
@@ -14072,8 +14070,8 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av1.bottleCatchType != BOTTLE_CATCH_NONE) {
             if (!this->av2.startedTextbox) {
-                // 1 is subtracted because `sBottleCatchInfo` does not have an entry for `BOTTLE_CATCH_NONE`
-                Message_StartTextbox(play, sBottleCatchInfo[this->av1.bottleCatchType - 1].textId, &this->actor);
+                // 1 is subtracted because `D_80854A04` does not have an entry for `BOTTLE_CATCH_NONE`
+                Message_StartTextbox(play, D_80854A04[this->av1.bottleCatchType - 1].textId, &this->actor);
                 Audio_PlayFanfare(NA_BGM_ITEM_GET | 0x900);
                 this->av2.startedTextbox = true;
             } else if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
@@ -14094,18 +14092,18 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
 
             // `interactRangeActor` will be set by the Get Item system. See `Actor_OfferGetItem`.
             if (this->interactRangeActor != NULL) {
-                BottleCatchInfo* catchInfo = &sBottleCatchInfo[0];
+                BottleCatchInfo* catchInfo = &D_80854A04[0];
                 s32 i;
 
-                // Try to find an `interactRangeActor` with the same ID as an entry in `sBottleCatchInfo`
-                for (i = 0; i < ARRAY_COUNT(sBottleCatchInfo); i++, catchInfo++) {
+                // Try to find an `interactRangeActor` with the same ID as an entry in `D_80854A04`
+                for (i = 0; i < ARRAY_COUNT(D_80854A04); i++, catchInfo++) {
                     if (this->interactRangeActor->id == catchInfo->actorId) {
                         break;
                     }
                 }
 
-                if (i < ARRAY_COUNT(sBottleCatchInfo)) {
-                    // 1 is added because `sBottleCatchInfo` does not have an entry for `BOTTLE_CATCH_NONE`
+                if (i < ARRAY_COUNT(D_80854A04)) {
+                    // 1 is added because `D_80854A04` does not have an entry for `BOTTLE_CATCH_NONE`
                     this->av1.bottleCatchType = i + 1;
 
                     this->av2.startedTextbox = false;
@@ -14120,11 +14118,8 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
         }
     }
 
-    //! @bug If the animation is changed at any point above (such as by func_8083C0E8() or
-    //! Player_AnimPlayOnceAdjusted()), it will change the curFrame to 0. This causes this flag to be set for one frame,
-    //! at a time when it does not look like Player is swinging the bottle.
     if (this->skelAnime.curFrame <= 7.0f) {
-        this->stateFlags1 |= PLAYER_STATE1_SWINGING_BOTTLE;
+        this->stateFlags1 |= PLAYER_STATE1_1;
     }
 }
 
@@ -14583,50 +14578,44 @@ void func_8084FF7C(Player* this) {
     }
 }
 
-/**
- * Updates the Bunny Hood's floppy ears' rotation and velocity.
- */
-void Player_UpdateBunnyEars(Player* this) {
-    Vec3s force;
-    s16 angle;
+void func_8085002C(Player* this) {
+    s32 pad;
+    s16 sp2A;
+    s16 sp28;
+    s16 sp26;
 
-    // Damping: decay by 1/8 the previous value each frame
-    sBunnyEarKinematics.angVel.x -= sBunnyEarKinematics.angVel.x >> 3;
-    sBunnyEarKinematics.angVel.y -= sBunnyEarKinematics.angVel.y >> 3;
+    D_80858AC8.unk_06 -= D_80858AC8.unk_06 >> 3;
+    D_80858AC8.unk_08 -= D_80858AC8.unk_08 >> 3;
+    D_80858AC8.unk_06 += -D_80858AC8.unk_00 >> 2;
+    D_80858AC8.unk_08 += -D_80858AC8.unk_02 >> 2;
 
-    // Elastic restorative force
-    sBunnyEarKinematics.angVel.x += -sBunnyEarKinematics.rot.x >> 2;
-    sBunnyEarKinematics.angVel.y += -sBunnyEarKinematics.rot.y >> 2;
+    sp26 = this->actor.world.rot.y - this->actor.shape.rot.y;
 
-    // Forcing from motion relative to shape frame
-    angle = this->actor.world.rot.y - this->actor.shape.rot.y;
-    force.x = (s32)(this->actor.speed * -200.0f * Math_CosS(angle) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
-    force.y = (s32)(this->actor.speed * 100.0f * Math_SinS(angle) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
+    sp28 = (s32)(this->actor.speed * -200.0f * Math_CosS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
+    sp2A = (s32)(this->actor.speed * 100.0f * Math_SinS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
 
-    sBunnyEarKinematics.angVel.x += force.x >> 2;
-    sBunnyEarKinematics.angVel.y += force.y >> 2;
+    D_80858AC8.unk_06 += sp28 >> 2;
+    D_80858AC8.unk_08 += sp2A >> 2;
 
-    // Clamp both angular velocities to [-6000, 6000]
-    if (sBunnyEarKinematics.angVel.x > 6000) {
-        sBunnyEarKinematics.angVel.x = 6000;
-    } else if (sBunnyEarKinematics.angVel.x < -6000) {
-        sBunnyEarKinematics.angVel.x = -6000;
-    }
-    if (sBunnyEarKinematics.angVel.y > 6000) {
-        sBunnyEarKinematics.angVel.y = 6000;
-    } else if (sBunnyEarKinematics.angVel.y < -6000) {
-        sBunnyEarKinematics.angVel.y = -6000;
+    if (D_80858AC8.unk_06 > 6000) {
+        D_80858AC8.unk_06 = 6000;
+    } else if (D_80858AC8.unk_06 < -6000) {
+        D_80858AC8.unk_06 = -6000;
     }
 
-    // Add angular velocity to rotations
-    sBunnyEarKinematics.rot.x += sBunnyEarKinematics.angVel.x;
-    sBunnyEarKinematics.rot.y += sBunnyEarKinematics.angVel.y;
+    if (D_80858AC8.unk_08 > 6000) {
+        D_80858AC8.unk_08 = 6000;
+    } else if (D_80858AC8.unk_08 < -6000) {
+        D_80858AC8.unk_08 = -6000;
+    }
 
-    // swivel ears outwards if bending backwards
-    if (sBunnyEarKinematics.rot.x < 0) {
-        sBunnyEarKinematics.rot.z = sBunnyEarKinematics.rot.x >> 1;
+    D_80858AC8.unk_00 += D_80858AC8.unk_06;
+    D_80858AC8.unk_02 += D_80858AC8.unk_08;
+
+    if (D_80858AC8.unk_00 < 0) {
+        D_80858AC8.unk_04 = D_80858AC8.unk_00 >> 1;
     } else {
-        sBunnyEarKinematics.rot.z = 0;
+        D_80858AC8.unk_04 = 0;
     }
 }
 

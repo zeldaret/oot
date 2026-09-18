@@ -282,11 +282,13 @@ void func_80A56900(EnHeishi4* this, PlayState* play) {
 void func_80A56994(EnHeishi4* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
-    if ((this->unk_282 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
-        Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_6C);
-        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-        this->actionFunc = func_80A56A50;
+    if (this->unk_282 == Message_GetState(&play->msgCtx)) {
+        if (Message_ShouldAdvance(play)) {
+            Message_CloseTextbox(play);
+            SET_INFTABLE(INFTABLE_6C);
+            Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
+            this->actionFunc = func_80A56A50;
+        }
     }
 }
 

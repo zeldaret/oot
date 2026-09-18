@@ -4,8 +4,8 @@
 #include "ultra64.h"
 #include "dma.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:128" \
-                               "pal-1.1:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:0" \
+                               "pal-1.1:0"
 
 ALIGNED(16) u8 sYaz0DataBuffer[0x400];
 u8* sYaz0DataBufferEnd;

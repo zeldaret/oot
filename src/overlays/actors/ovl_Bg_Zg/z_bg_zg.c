@@ -69,7 +69,8 @@ void func_808C0C50(BgZg* this) {
 }
 
 s32 func_808C0C98(BgZg* this, PlayState* play) {
-    s32 flag = PARAMS_GET_U(this->dyna.actor.params, 8, 8);
+    Actor* thisx = &this->dyna.actor;
+    s32 flag = PARAMS_GET_U(thisx->params, 8, 8);
 
     return Flags_GetSwitch(play, flag);
 }
@@ -98,9 +99,11 @@ void func_808C0CD4(BgZg* this, PlayState* play) {
 }
 
 void func_808C0D08(BgZg* this, PlayState* play) {
-    this->dyna.actor.world.pos.y += (kREG(16) + 20.0f) * 1.2f;
-    if ((((kREG(17) + 200.0f) * 1.2f) + this->dyna.actor.home.pos.y) <= this->dyna.actor.world.pos.y) {
-        Actor_Kill(&this->dyna.actor);
+    Actor* thisx = &this->dyna.actor;
+
+    thisx->world.pos.y += (kREG(16) + 20.0f) * 1.2f;
+    if ((((kREG(17) + 200.0f) * 1.2f) + thisx->home.pos.y) <= thisx->world.pos.y) {
+        Actor_Kill(thisx);
     }
 }
 
@@ -117,25 +120,25 @@ void BgZg_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgZg_Init(Actor* thisx, PlayState* play) {
-    s32 pad[2];
     BgZg* this = (BgZg*)thisx;
+    s32 pad[2];
     CollisionHeader* colHeader;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
     colHeader = NULL;
     CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
-        this->dyna.actor.scale.x *= 1.3f;
-        this->dyna.actor.scale.z *= 1.3f;
-        this->dyna.actor.scale.y *= 1.2f;
+        thisx->scale.x *= 1.3f;
+        thisx->scale.z *= 1.3f;
+        thisx->scale.y *= 1.2f;
     }
 
     this->action = 0;
     this->drawConfig = 0;
-    if (func_808C0C98(this, play)) {
-        Actor_Kill(&this->dyna.actor);
+    if (func_808C0C98(this, play) != 0) {
+        Actor_Kill(thisx);
     }
 }
 

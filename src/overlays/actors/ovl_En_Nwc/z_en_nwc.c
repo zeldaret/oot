@@ -34,8 +34,8 @@ void EnNwc_Idle(EnNwc* this, PlayState* play);
 #define CHICK_BG_WALL (1 << 1)
 
 typedef enum ChickTypes {
-    /* 0 */ CHICK_NONE,
-    /* 1 */ CHICK_NORMAL
+    CHICK_NONE,
+    CHICK_NORMAL
 } ChickTypes;
 
 ActorProfile En_Nwc_Profile = {

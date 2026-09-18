@@ -1,9 +1,3 @@
-/*
- * File: z_en_geldb.c
- * Overlay: ovl_En_GeldB
- * Description: Gerudo fighter
- */
-
 #include "z_en_geldb.h"
 
 #include "libc64/qrand.h"
@@ -252,7 +246,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     this->blinkState = 0;
     this->unkFloat = 10.0f;
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
-                       this->morphTable, GERUDO_RED_LIMB_MAX);
+                       this->morphTable, 24);
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylinderInit);
     Collider_InitTris(play, &this->blockCollider);
@@ -395,8 +389,8 @@ void EnGeldB_Wait(EnGeldB* this, PlayState* play) {
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         this->actor.velocity.y = 0.0f;
-        Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
         Actor_SpawnFloorDustRing(play, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+        Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         EnGeldB_SetupReady(this);
@@ -420,8 +414,8 @@ void EnGeldB_Flee(EnGeldB* this, PlayState* play) {
     }
     if (this->skelAnime.curFrame == 2.0f) {
         this->actor.gravity = 0.0f;
-        Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
         Actor_SpawnFloorDustRing(play, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+        Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 300.0f, 1.0f, 20.5f, 0.0f);
@@ -507,9 +501,12 @@ void EnGeldB_SetupAdvance(EnGeldB* this, PlayState* play) {
 void EnGeldB_Advance(EnGeldB* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
-    s32 absPlaySpeed;
+    s32 pad3C;
     s16 facingAngletoLink;
     Player* player = GET_PLAYER(play);
+    s32 pad30;
+    s32 pad2C;
+    f32 absPlaySpeed;
 
     if (!EnGeldB_DodgeRanged(play, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
@@ -534,9 +531,9 @@ void EnGeldB_Advance(EnGeldB* this, PlayState* play) {
 
         prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
-        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
-
+        absPlaySpeed = ABS(this->skelAnime.playSpeed);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - absPlaySpeed);
+        absPlaySpeed = ABS(this->skelAnime.playSpeed); // yes it does this twice.
         if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
             if (Rand_ZeroOne() > 0.5f) {
                 EnGeldB_SetupCircle(this);
@@ -570,12 +567,10 @@ void EnGeldB_Advance(EnGeldB* this, PlayState* play) {
             if ((play->gameplayFrames & 0x5F) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
             }
-            if (prevFrame != (s32)this->skelAnime.curFrame) {
-                s32 afterPrevFrame = absPlaySpeed + prevFrame;
-
-                if (((beforeCurFrame < 0) && (afterPrevFrame > 0)) || ((beforeCurFrame < 4) && (afterPrevFrame > 4))) {
-                    Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_LAND);
-                }
+            if ((prevFrame != (s32)this->skelAnime.curFrame) &&
+                ((beforeCurFrame < 0 && (s32)absPlaySpeed + prevFrame > 0) ||
+                 (beforeCurFrame < 4 && (s32)absPlaySpeed + prevFrame > 4))) {
+                Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_LAND);
             }
         }
     }
@@ -956,8 +951,8 @@ void EnGeldB_SpinAttack(EnGeldB* this, PlayState* play) {
     if ((s32)this->skelAnime.curFrame < 9) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     } else if ((s32)this->skelAnime.curFrame == 13) {
-        Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
         Actor_SpawnFloorDustRing(play, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+        Actor_SpawnFloorDustRing(play, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
         this->swordState = 1;
         this->actor.speed = 10.0f;
         Actor_PlaySfx(&this->actor, NA_SE_EN_GERUDOFT_ATTACK);
@@ -1123,8 +1118,8 @@ void EnGeldB_SetupJump(EnGeldB* this) {
 void EnGeldB_Jump(EnGeldB* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     if (this->actor.velocity.y >= 5.0f) {
-        func_800355B8(play, &this->leftFootPos);
         func_800355B8(play, &this->rightFootPos);
+        func_800355B8(play, &this->leftFootPos);
     }
     if (SkelAnime_Update(&this->skelAnime) &&
         (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
@@ -1463,14 +1458,14 @@ s32 EnGeldB_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2507);
-    if (limbIndex == GERUDO_RED_LIMB_NECK) {
+    if (limbIndex == 3) {
         rot->z += this->headRot.x;
         rot->x += this->headRot.y;
         rot->y += this->headRot.z;
-    } else if (limbIndex == GERUDO_RED_LIMB_HEAD) {
+    } else if (limbIndex == 6) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
-    } else if ((limbIndex == GERUDO_RED_LIMB_R_SWORD) || (limbIndex == GERUDO_RED_LIMB_L_SWORD)) {
+    } else if ((limbIndex == 11) || (limbIndex == 16)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -1496,7 +1491,7 @@ void EnGeldB_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
     EnGeldB* this = (EnGeldB*)thisx;
     s32 bodyPart = -1;
 
-    if (limbIndex == GERUDO_RED_LIMB_R_SWORD) {
+    if (limbIndex == 11) {
         Matrix_MultVec3f(&swordQuadOffset1, &this->swordCollider.dim.quad[1]);
         Matrix_MultVec3f(&swordQuadOffset0, &this->swordCollider.dim.quad[0]);
         Matrix_MultVec3f(&swordQuadOffset3, &this->swordCollider.dim.quad[3]);
@@ -1514,49 +1509,45 @@ void EnGeldB_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
             EffectBlure_AddVertex(Effect_GetByIndex(this->blureIndex), &swordTip, &swordHilt);
         }
     } else {
-        Actor_SetFeetPos(&this->actor, limbIndex, GERUDO_RED_LIMB_L_FOOT, &footOffset, GERUDO_RED_LIMB_R_FOOT,
-                         &footOffset);
+        Actor_SetFeetPos(&this->actor, limbIndex, 19, &footOffset, 22, &footOffset);
     }
-
-    if (limbIndex == GERUDO_RED_LIMB_L_FOOT) {
-        Matrix_MultVec3f(&footOffset, &this->leftFootPos);
-    } else if (limbIndex == GERUDO_RED_LIMB_R_FOOT) {
+    if (limbIndex == 19) {
         Matrix_MultVec3f(&footOffset, &this->rightFootPos);
+    } else if (limbIndex == 22) {
+        Matrix_MultVec3f(&footOffset, &this->leftFootPos);
     }
-
     if (this->iceTimer != 0) {
         switch (limbIndex) {
-            case GERUDO_RED_LIMB_NECK:
+            case 3:
                 bodyPart = 0;
                 break;
-            case GERUDO_RED_LIMB_L_SWORD:
+            case 16:
                 bodyPart = 1;
                 break;
-            case GERUDO_RED_LIMB_R_SWORD:
+            case 11:
                 bodyPart = 2;
                 break;
-            case GERUDO_RED_LIMB_L_UPPER_ARM:
+            case 12:
                 bodyPart = 3;
                 break;
-            case GERUDO_RED_LIMB_R_UPPER_ARM:
+            case 7:
                 bodyPart = 4;
                 break;
-            case GERUDO_RED_LIMB_TORSO:
+            case 2:
                 bodyPart = 5;
                 break;
-            case GERUDO_RED_LIMB_WAIST:
+            case 23:
                 bodyPart = 6;
                 break;
-            case GERUDO_RED_LIMB_L_FOOT:
+            case 19:
                 bodyPart = 7;
                 break;
-            case GERUDO_RED_LIMB_R_FOOT:
+            case 22:
                 bodyPart = 8;
                 break;
             default:
                 break;
         }
-
         if (bodyPart >= 0) {
             Vec3f limbPos;
 

@@ -1,111 +1,93 @@
 <Root>
     <File Name="object_jj" Segment="6">
-
-        <!-- Jabu Jabu animation (waggling fins etc.) -->
-        <Animation Name="gJabuJabuAnim" Offset="0x1F4C"/>
-
-        <!-- Jabu Jabu eye textures -->
-        <Texture Name="gJabuJabuEyeOpenTex" Format="rgba16" Width="16" Height="32" Offset="0x7698"/>
-        <Texture Name="gJabuJabuEyeHalfTex" Format="rgba16" Width="16" Height="32" Offset="0x7A98"/>
-        <Texture Name="gJabuJabuEyeClosedTex" Format="rgba16" Width="16" Height="32" Offset="0x7E98"/>
-
-        <!-- Jabu Jabu skeleton -->
-        <Skeleton Name="gJabuJabuSkel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
-
-        <!-- Jabu Jabu limb Vertices -->
-        <Array Name="gJabuJabuLeftFrillVtx" Count="4" Offset="0x1F60">
+        <Collision Name="gObjectJjBodyCol" Offset="0xA1C"/>
+        <Collision Name="gObjectJjHeadCol" Offset="0x1830"/>
+        <Animation Name="gObjectJjAnim" Offset="0x1F4C"/>
+        <Array Name="gObjectJjLeftGillsVtx" Count="4" Offset="0x1F60">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuRightFrillVtx" Count="4" Offset="0x1FA0">
+        <Array Name="gObjectJjRightGillsVtx" Count="4" Offset="0x1FA0">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuHeadVtx" Count="365" Offset="0x1FE0">
+        <Array Name="gObjectJjHeadVtx" Count="365" Offset="0x1FE0">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuLeftLowerFlipperVtx" Count="8" Offset="0x36B0">
+        <Array Name="gObjectJjLeftFinTipVtx" Count="8" Offset="0x36B0">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuLeftMidFlipperVtx" Count="16" Offset="0x3730">
+        <Array Name="gObjectJjLeftFinMiddleVtx" Count="16" Offset="0x3730">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuLeftUpperFlipperVtx" Count="16" Offset="0x3830">
+        <Array Name="gObjectJjLeftFinBaseVtx" Count="16" Offset="0x3830">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuRightLowerFlipperVtx" Count="8" Offset="0x3930">
+        <Array Name="gObjectJjRightFinTipVtx" Count="8" Offset="0x3930">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuRightMidFlipperVtx" Count="12" Offset="0x39B0">
+        <Array Name="gObjectJjRightFinMiddleVtx" Count="12" Offset="0x39B0">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuRightUpperFlipperVtx" Count="16" Offset="0x3A70">
+        <Array Name="gObjectJjRightFinBaseVtx" Count="16" Offset="0x3A70">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuFlukeVtx" Count="14" Offset="0x3B70">
+        <Array Name="gObjectJjTailVtx" Count="14" Offset="0x3B70">
             <Vtx/>
         </Array>
-        <Array Name="gJabuJabuBodyVtx" Count="133" Offset="0x3C50">
+        <Array Name="gObjectJjBodyVtx" Count="133" Offset="0x3C50">
             <Vtx/>
         </Array>
-
-        <!-- Jabu Jabu limb displaylists -->
-        <DList Name="gJabuJabuBodyDL" Offset="0x5690"/>
-        <DList Name="gJabuJabuLeftUpperFlipperDL" Offset="0x55B0"/>
-        <DList Name="gJabuJabuLeftMidFlipperDL" Offset="0x54D0"/>
-        <DList Name="gJabuJabuLeftLowerFlipperDL" Offset="0x5400"/>
-        <DList Name="gJabuJabuHeadDL" Offset="0x4920"/>
-        <DList Name="gJabuJabuLeftFrillDL" Offset="0x4880"/>
-        <DList Name="gJabuJabuRightFrillDL" Offset="0x47E0"/>
-        <DList Name="gJabuJabuRightUpperFlipperDL" Offset="0x4700"/>
-        <DList Name="gJabuJabuRightMidFlipperDL" Offset="0x4648"/>
-        <DList Name="gJabuJabuRightLowerFlipperDL" Offset="0x4578"/>
-        <DList Name="gJabuJabuFlukeDL" Offset="0x44A0"/>
-
-        <!-- Jabu Jabu limbs -->
-        <Limb Name="object_jj_00B858_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B858" Offset="0xB858"/>
-        <Limb Name="object_jj_00B864_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B864" Offset="0xB864"/>
-        <Limb Name="object_jj_00B870_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B870" Offset="0xB870"/>
-        <Limb Name="gJabuJabuBodyLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B87C" Offset="0xB87C"/>
-        <Limb Name="object_jj_00B888_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B888" Offset="0xB888"/>
-        <Limb Name="gJabuJabuLeftUpperFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B894" Offset="0xB894"/>
-        <Limb Name="object_jj_00B8A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8A0" Offset="0xB8A0"/>
-        <Limb Name="gJabuJabuLeftMidFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8AC" Offset="0xB8AC"/>
-        <Limb Name="gJabuJabuLeftLowerFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8B8" Offset="0xB8B8"/>
-        <Limb Name="gJabuJabuHeadLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8C4" Offset="0xB8C4"/>
-        <Limb Name="object_jj_00B8D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8D0" Offset="0xB8D0"/>
-        <Limb Name="gJabuJabuLeftFrillLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8DC" Offset="0xB8DC"/>
-        <Limb Name="object_jj_00B8E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8E8" Offset="0xB8E8"/>
-        <Limb Name="gJabuJabuRightFrillLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8F4" Offset="0xB8F4"/>
-        <Limb Name="object_jj_00B900_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B900" Offset="0xB900"/>
-        <Limb Name="gJabuJabuRightUpperFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B90C" Offset="0xB90C"/>
-        <Limb Name="object_jj_00B918_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B918" Offset="0xB918"/>
-        <Limb Name="gJabuJabuRightMidFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B924" Offset="0xB924"/>
-        <Limb Name="gJabuJabuRightLowerFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B930" Offset="0xB930"/>
-        <Limb Name="object_jj_00B93C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B93C" Offset="0xB93C"/>
-        <Limb Name="gJabuJabuFlukeLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B948" Offset="0xB948"/>
-
-        <!-- Jabu Jabu Limb textures -->
-        <Texture Name="gJabuJabuFrillTex" Format="rgba16" Width="32" Height="32" Offset="0x5B58"/>
-        <Texture Name="gJabuJabuNostrilTex" Format="rgba16" Width="32" Height="16" Offset="0x6358"/>
-        <Texture Name="gJabuJabuNoseDecorationTex" Format="rgba16" Width="8" Height="32" Offset="0x6758"/>
-        <Texture Name="gJabuJabuToothTex" Format="rgba16" Width="8" Height="16" Offset="0x6958"/>
-        <Texture Name="gJabuJabuLipTex" Format="rgba16" Width="8" Height="16" Offset="0x6A58"/>
-        <Texture Name="gJabuJabuLipMouthCornerTex" Format="rgba16" Width="16" Height="16" Offset="0x6B58"/>
-        <Texture Name="gJabuJabuDiademSideTex" Format="rgba16" Width="8" Height="16" Offset="0x6D58"/>
-        <Texture Name="gJabuJabuLateralTex" Format="rgba16" Width="16" Height="64" Offset="0x6E58"/>
-        <Texture Name="gJabuJabuEyeOrbitTex" Format="rgba16" Width="4" Height="8" Offset="0x7658"/>
-        <Texture Name="gJabuJabuDorsalTex" Format="rgba16" Width="32" Height="64" Offset="0x8298"/>
-        <Texture Name="gJabuJabuCapOuterTex" Format="rgba16" Width="4" Height="8" Offset="0x9298"/>
-        <Texture Name="gJabuJabuCapInnerTex" Format="rgba16" Width="8" Height="8" Offset="0x92D8"/>
-        <Texture Name="gJabuJabuMouthRoofTex" Format="rgba16" Width="32" Height="64" Offset="0x9358"/>
-        <Texture Name="gJabuJabuDiademCenterTex" Format="rgba16" Width="16" Height="32" Offset="0xA358"/>
-        <Texture Name="gJabuJabuFinTex" Format="rgba16" Width="16" Height="8" Offset="0xA758"/>
-        <Texture Name="gJabuJabuMouthFloorTex" Format="rgba16" Width="32" Height="64" Offset="0xA858"/>
-
-        <!-- Jabu Jabu collision -->
-        <Collision Name="gJabuJabuHeadCol" Offset="0x0A1C"/>
-        <Collision Name="gJabuJabuBodyCol" Offset="0x1830"/>
-        <Collision Name="gJabuJabuUnusedCol" Offset="0xBA8C"/>
-
-
+        <DList Name="gObjectJjTailDL" Offset="0x44A0"/>
+        <DList Name="gObjectJjRightFinTipDL" Offset="0x4578"/>
+        <DList Name="gObjectJjRightFinMiddleDL" Offset="0x4648"/>
+        <DList Name="gObjectJjRightFinBaseDL" Offset="0x4700"/>
+        <DList Name="gObjectJjRightGillsDL" Offset="0x47E0"/>
+        <DList Name="gObjectJjLeftGillsDL" Offset="0x4880"/>
+        <DList Name="gObjectJjHeadDL" Offset="0x4920"/>
+        <DList Name="gObjectJjLeftFinTipDL" Offset="0x5400"/>
+        <DList Name="gObjectJjLeftFinMiddleDL" Offset="0x54D0"/>
+        <DList Name="gObjectJjLeftFinBaseDL" Offset="0x55B0"/>
+        <DList Name="gObjectJjBodyDL" Offset="0x5690"/>
+        <Texture Name="gObjectJjGillsTex" Format="rgba16" Width="32" Height="32" Offset="0x5B58"/>
+        <Texture Name="gObjectJjNostrilTex" Format="rgba16" Width="32" Height="16" Offset="0x6358"/>
+        <Texture Name="gObjectJjFrontDecorationTex" Format="rgba16" Width="8" Height="32" Offset="0x6758"/>
+        <Texture Name="gObjectJjToothTex" Format="rgba16" Width="8" Height="16" Offset="0x6958"/>
+        <Texture Name="gObjectJjLipsTex" Format="rgba16" Width="8" Height="16" Offset="0x6A58"/>
+        <Texture Name="gObjectJjLipsCornerTex" Format="rgba16" Width="16" Height="16" Offset="0x6B58"/>
+        <Texture Name="gObjectJjJewelryDecorationTex" Format="rgba16" Width="8" Height="16" Offset="0x6D58"/>
+        <Texture Name="gObjectJjBodySkinTex" Format="rgba16" Width="16" Height="64" Offset="0x6E58"/>
+        <Texture Name="gObjectJjEyeRimSkinTex" Format="rgba16" Width="4" Height="8" Offset="0x7658"/>
+        <Texture Name="gObjectJjEyeOpenTex" Format="rgba16" Width="16" Height="32" Offset="0x7698"/>
+        <Texture Name="gObjectJjEyeHalfTex" Format="rgba16" Width="16" Height="32" Offset="0x7A98"/>
+        <Texture Name="gObjectJjEyeClosedTex" Format="rgba16" Width="16" Height="32" Offset="0x7E98"/>
+        <Texture Name="gObjectJjBodyTopSkinTex" Format="rgba16" Width="32" Height="64" Offset="0x8298"/>
+        <Texture Name="gObjectJjTopDecoration1Tex" Format="rgba16" Width="4" Height="8" Offset="0x9298"/>
+        <Texture Name="gObjectJjTopDecoration2Tex" Format="rgba16" Width="8" Height="8" Offset="0x92D8"/>
+        <Texture Name="gObjectJjPalateTex" Format="rgba16" Width="32" Height="64" Offset="0x9358"/>
+        <Texture Name="gObjectJjZoraSapphireDecorationTex" Format="rgba16" Width="16" Height="32" Offset="0xA358"/>
+        <Texture Name="gObjectJjFinsTailSkinTex" Format="rgba16" Width="16" Height="8" Offset="0xA758"/>
+        <Texture Name="gObjectJjTongueTex" Format="rgba16" Width="32" Height="64" Offset="0xA858"/>
+        <Limb Name="gObjectJjRootRootRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_ROOT_ROOT_ROOT" Offset="0xB858"/>
+        <Limb Name="gObjectJjRootRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_ROOT_ROOT" Offset="0xB864"/>
+        <Limb Name="gObjectJjRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_ROOT" Offset="0xB870"/>
+        <Limb Name="gObjectJjBodyLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_BODY" Offset="0xB87C"/>
+        <Limb Name="gObjectJjLeftFinRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_LEFT_FIN_ROOT" Offset="0xB888"/>
+        <Limb Name="gObjectJjLeftFinBaseLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_LEFT_FIN_BASE" Offset="0xB894"/>
+        <Limb Name="gObjectJjLeftFinMiddleTipRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_LEFT_FIN_MIDDLE_TIP_ROOT" Offset="0xB8A0"/>
+        <Limb Name="gObjectJjLeftFinMiddleLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_LEFT_FIN_MIDDLE" Offset="0xB8AC"/>
+        <Limb Name="gObjectJjLeftFinTipLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_LEFT_FIN_TIP" Offset="0xB8B8"/>
+        <Limb Name="gObjectJjHeadLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_HEAD" Offset="0xB8C4"/>
+        <Limb Name="gObjectJjLeftGillsRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_LEFT_GILLS_ROOT" Offset="0xB8D0"/>
+        <Limb Name="gObjectJjLeftGillsLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_LEFT_GILLS" Offset="0xB8DC"/>
+        <Limb Name="gObjectJjRightGillsRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_RIGHT_GILLS_ROOT" Offset="0xB8E8"/>
+        <Limb Name="gObjectJjRightGillsLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_RIGHT_GILLS" Offset="0xB8F4"/>
+        <Limb Name="gObjectJjRightFinRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_RIGHT_FIN_ROOT" Offset="0xB900"/>
+        <Limb Name="gObjectJjRightFinBaseLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_RIGHT_FIN_BASE" Offset="0xB90C"/>
+        <Limb Name="gObjectJjRightFinMiddleTipRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_RIGHT_FIN_MIDDLE_TIP_ROOT" Offset="0xB918"/>
+        <Limb Name="gObjectJjRightFinMiddleLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_RIGHT_FIN_MIDDLE" Offset="0xB924"/>
+        <Limb Name="gObjectJjRightFinTipLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_RIGHT_FIN_TIP" Offset="0xB930"/>
+        <Limb Name="gObjectJjTailRootLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_TAIL_ROOT" Offset="0xB93C"/>
+        <Limb Name="gObjectJjTailLimb" LimbType="Standard" EnumName="OBJECT_JJ_LIMB_TAIL" Offset="0xB948"/>
+        <Skeleton Name="gObjectJjSkel" Type="Flex" LimbType="Standard" LimbNone="OBJECT_JJ_LIMB_NONE" LimbMax="OBJECT_JJ_LIMB_MAX" EnumName="ObjectJjLimb" Offset="0xB9A8"/>
+        <Collision Name="object_jj_00BA8C_Col" Offset="0xBA8C"/>
     </File>
 </Root>

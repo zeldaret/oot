@@ -33,8 +33,6 @@ void osSyncPrintfUnused(const char* fmt, ...) {
 #if DEBUG_FEATURES
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
 #endif
-
-    va_end(args);
 }
 
 void osSyncPrintf(const char* fmt, ...) {
@@ -44,8 +42,6 @@ void osSyncPrintf(const char* fmt, ...) {
 #if DEBUG_FEATURES
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
 #endif
-
-    va_end(args);
 }
 
 // assumption
@@ -56,8 +52,6 @@ void rmonPrintf(const char* fmt, ...) {
 #if DEBUG_FEATURES
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
 #endif
-
-    va_end(args);
 }
 
 #if OOT_VERSION < PAL_1_0

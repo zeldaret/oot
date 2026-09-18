@@ -44,18 +44,18 @@ void ObjBlockstop_Destroy(Actor* thisx, PlayState* play) {
 
 void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
     ObjBlockstop* this = (ObjBlockstop*)thisx;
-    DynaPolyActor* dynaPolyActor;
+    DynaPolyActor* dynaActor;
     Vec3f sp4C;
     s32 bgId;
     s32 pad;
 
     if (BgCheck_EntityLineTest2(&play->colCtx, &this->actor.home.pos, &this->actor.world.pos, &sp4C,
                                 &this->actor.floorPoly, false, false, true, true, &bgId, &this->actor)) {
-        dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
+        dynaActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
-        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
-            if (PARAMS_GET_U(dynaPolyActor->actor.params, 0, 4) == PUSHBLOCK_HUGE_START_ON ||
-                PARAMS_GET_U(dynaPolyActor->actor.params, 0, 4) == PUSHBLOCK_HUGE_START_OFF) {
+        if (dynaActor != NULL && dynaActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
+            if (PARAMS_GET_U(dynaActor->actor.params, 0, 4) == PUSHBLOCK_HUGE_START_ON ||
+                PARAMS_GET_U(dynaActor->actor.params, 0, 4) == PUSHBLOCK_HUGE_START_OFF) {
                 Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             } else {
                 Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);

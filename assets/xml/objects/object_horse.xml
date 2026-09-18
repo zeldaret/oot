@@ -50,10 +50,10 @@
         <Limb Name="gEponaHoof4Limb" LimbType="Skin" Offset="0x9C98"/>
 
         <!-- Eyes textures -->
-        <Texture Name="gEponaEyeTLUT" Format="rgba16" Width="16" Height="16" Offset="0x9D80"/>
-        <Texture Name="gEponaEyeOpenTex" Format="ci8" Width="32" Height="16" Offset="0x9F80"  TlutOffset="0x9D80"/>
-        <Texture Name="gEponaEyeHalfTex" Format="ci8" Width="32" Height="16" Offset="0xA180"  TlutOffset="0x9D80"/>
-        <Texture Name="gEponaEyeClosedTex" Format="ci8" Width="32" Height="16" Offset="0xA380"  TlutOffset="0x9D80"/>
+        <Texture Name="gEponaEyePal" Format="rgba16" Width="16" Height="16" Offset="0x9D80"/>
+        <Texture Name="gEponaEyeOpenTex" Format="ci8" Width="32" Height="16" Offset="0x9F80" TlutOffset="0x9D80"/>
+        <Texture Name="gEponaEyeHalfTex" Format="ci8" Width="32" Height="16" Offset="0xA180" TlutOffset="0x9D80"/>
+        <Texture Name="gEponaEyeClosedTex" Format="ci8" Width="32" Height="16" Offset="0xA380" TlutOffset="0x9D80"/>
 
         <DList Name="gEponaUnusedWhiteCubeDL" Offset="0x4C0"/>
         <DList Name="gEponaUnusedWhiteRectangle1DL" Offset="0x580"/>

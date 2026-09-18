@@ -76,7 +76,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 D_80B0F074 = { 1, 2, 25, 25, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
 typedef enum EnSwAnimation {
     /* 0 */ ENSW_ANIM_0,
@@ -272,7 +272,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xE), &D_80B0F074);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xE), &sColChkInfoInit);
     this->actor.scale.x = 0.02f;
 
     if (PARAMS_GET_S(thisx->params, 13, 3) == 0) {

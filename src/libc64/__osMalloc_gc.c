@@ -28,19 +28,19 @@
 
 #define SET_DEBUG_INFO(node, file, line, arena) ArenaImpl_SetDebugInfo(node, file, line, arena)
 
-#define FILL_UNINIT_BLOCK(arena, node, size) memset(node, BLOCK_UNINIT_MAGIC, size)
+#define FILL_UNINIT_BLOCK(arena, node, size) func_80106860(node, BLOCK_UNINIT_MAGIC, size) // memset
 
 #define FILL_ALLOC_BLOCK(arena, alloc, size)   \
     if ((arena)->flag & FILL_ALLOC_BLOCK_FLAG) \
-    memset(alloc, BLOCK_ALLOC_MAGIC, size)
+    func_80106860(alloc, BLOCK_ALLOC_MAGIC, size)
 
 #define FILL_FREE_BLOCK_HEADER(arena, node)   \
     if ((arena)->flag & FILL_FREE_BLOCK_FLAG) \
-    memset(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode))
+    func_80106860(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode))
 
 #define FILL_FREE_BLOCK_CONTENTS(arena, node) \
     if ((arena)->flag & FILL_FREE_BLOCK_FLAG) \
-    memset((void*)((u32)(node) + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, (node)->size)
+    func_80106860((void*)((u32)(node) + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, (node)->size)
 
 #define CHECK_FREE_BLOCK(arena, node)          \
     if ((arena)->flag & CHECK_FREE_BLOCK_FLAG) \
@@ -222,7 +222,7 @@ void ArenaImpl_RemoveAllBlocks(Arena* arena) {
     iter = arena->head;
     while (iter != NULL) {
         next = NODE_GET_NEXT(iter);
-        memset(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode));
+        func_80106860(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode)); // memset
         iter = next;
     }
 
@@ -653,7 +653,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 node->next = newNext;
                 node->size = newSize;
-                memmove(node->next, next, sizeof(ArenaNode));
+                func_801068B0(node->next, next, sizeof(ArenaNode)); // memcpy
             } else {
                 osSyncPrintf(T("新たにメモリブロックを確保して内容を移動します\n",
                                "Allocate a new memory block and move the contents\n"));

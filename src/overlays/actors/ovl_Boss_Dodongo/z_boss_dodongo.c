@@ -1127,7 +1127,7 @@ s32 BossDodongo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_boss_dodongo.c", 3826);
     }
-    return true;
+    return 1;
 }
 
 void BossDodongo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

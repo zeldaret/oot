@@ -156,7 +156,7 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
         this->collider.base.atFlags &= ~(AT_ON | AT_HIT);
 
         relYawTowardsPlayer = thisx->yawTowardsPlayer - thisx->world.rot.y;
-        if ((relYawTowardsPlayer > -0x4000) && (relYawTowardsPlayer < 0x4000)) {
+        if ((relYawTowardsPlayer >= -0x3FFF) && (relYawTowardsPlayer < 0x4000)) {
             thisx->world.rot.y += 0x8000;
         }
 
@@ -202,10 +202,10 @@ void BgJyaGoroiwa_Wait(BgJyaGoroiwa* this, PlayState* play) {
 }
 
 void BgJyaGoroiwa_Update(Actor* thisx, PlayState* play) {
+    Player* player = GET_PLAYER(play);
     s32 pad;
     BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
-    Player* player = GET_PLAYER(play);
-    s32 bgId;
+    s32 sp38;
     Vec3f checkPos;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_TALKING | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
@@ -215,7 +215,7 @@ void BgJyaGoroiwa_Update(Actor* thisx, PlayState* play) {
         checkPos.y = this->actor.world.pos.y + 59.5f;
         checkPos.z = this->actor.world.pos.z;
         this->actor.floorHeight =
-            BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &checkPos);
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &checkPos);
         BgJyaGoroiwa_UpdateCollider(this);
         if (this->collider.base.atFlags & AT_ON) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

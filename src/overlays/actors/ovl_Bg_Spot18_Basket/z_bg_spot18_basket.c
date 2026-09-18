@@ -150,37 +150,36 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
+    Actor* actor = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     BgSpot18Basket_InitColliderJntSph(&this->dyna.actor, play);
     CollisionHeader_GetVirtual(&gGoronCityVaseCol, &colHeader);
 
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, actor, colHeader);
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 15.0f);
-    this->dyna.actor.home.pos.y += 0.01f;
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
+    Actor_ProcessInitChain(actor, sInitChain);
+    ActorShape_Init(&actor->shape, 0.0f, ActorShadow_DrawCircle, 15.0f);
+    actor->home.pos.y += 0.01f;
+    actor->world.pos.y = actor->home.pos.y;
 
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(actor->params, 8, 6))) {
         BgSpot18Basket_SetupSpinning(this);
         return;
     }
 
     BgSpot18Basket_SetupInactive(this);
-    Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT18_FUTA, this->dyna.actor.world.pos.x,
-                       this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, this->dyna.actor.shape.rot.x,
-                       this->dyna.actor.shape.rot.y + 0x1555, this->dyna.actor.shape.rot.z, -1);
+    Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_BG_SPOT18_FUTA, actor->world.pos.x, actor->world.pos.y,
+                       actor->world.pos.z, actor->shape.rot.x, actor->shape.rot.y + 0x1555, actor->shape.rot.z, -1);
 
-    if (this->dyna.actor.child == NULL) {
+    if (actor->child == NULL) {
         PRINTF_COLOR_RED();
         PRINTF(T("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "Error : Failed to spawn the change pot cover (%s %d)\n"),
                "../z_bg_spot18_basket.c", 351);
         PRINTF_RST();
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(actor);
     }
 }
 
@@ -448,13 +447,13 @@ void BgSpot18Basket_GivingPrize(BgSpot18Basket* this, PlayState* play) {
 }
 
 void BgSpot18Basket_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
-    s32 bgId;
+    s32 pad;
+    s32 temp;
 
     this->timer++;
     this->actionFunc(this, play);
-    this->dyna.actor.floorHeight = BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId,
+    this->dyna.actor.floorHeight = BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &temp,
                                                               &this->dyna.actor, &this->dyna.actor.world.pos);
     if (this->actionFunc != BgSpot18Basket_Inactive) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);

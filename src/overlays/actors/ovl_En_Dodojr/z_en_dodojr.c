@@ -649,7 +649,7 @@ s32 EnDodojr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
         Matrix_MultVec3f(&D_809F7F64, &this->headPos);
     }
 
-    return false;
+    return 0;
 }
 
 void EnDodojr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

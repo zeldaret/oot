@@ -135,8 +135,8 @@ void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
 }
 
 void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgBdanObjects* this = (BgBdanObjects*)thisx;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -153,7 +153,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
         CollisionHeader_GetVirtual(&gJabuBigOctoPlatformCol, &colHeader);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
-        thisx->world.pos.y += -79.0f;
+        thisx->world.pos.y = (f32)(thisx->world.pos.y + -79.0f);
         if (Flags_GetClear(play, thisx->room)) {
             Flags_SetSwitch(play, this->var.switchFlag);
             this->actionFunc = BgBdanObjects_SinkToFloorHeight;
@@ -169,14 +169,14 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
                 thisx->world.pos.y = thisx->home.pos.y + -70.0f;
             } else {
                 Flags_SetSwitch(play, this->var.switchFlag);
-                this->timer = 0;
+                this->unk_16A = 0;
                 this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene;
             }
         }
     } else {
         if (thisx->params == JABU_OBJECTS_TYPE_SMALL_AUTO_ELEVATOR) {
             CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
-            this->timer = 512;
+            this->unk_16A = 0x200;
             this->var.camChangeTimer = 0;
             this->actionFunc = BgBdanObjects_ElevatorOscillate;
         } else { // JABU_OBJECTS_TYPE_FALLING_PLATFORM
@@ -211,19 +211,21 @@ void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, 
     if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
             BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1);
-            this->timer = 20;
+            this->unk_16A = 0x14;
             OnePointCutscene_Init(play, 3070, -99, &this->dyna.actor, CAM_ID_MAIN);
             player->actor.world.pos.x = -1130.0f;
             player->actor.world.pos.y = -1025.0f;
             player->actor.world.pos.z = -3300.0f;
             Rumble_Request(0.0f, 255, 20, 150);
         }
-    } else if (this->timer != 0) {
-        if (this->timer != 0) {
-            this->timer--;
-        }
-        if (this->timer == 0) {
-            this->actionFunc = BgBdanObjects_OctoPlatform_RaiseToUpperPosition;
+    } else {
+        if (this->unk_16A != 0) {
+            if (this->unk_16A != 0) {
+                this->unk_16A -= 1;
+            }
+            if (this->unk_16A == 0) {
+                this->actionFunc = BgBdanObjects_OctoPlatform_RaiseToUpperPosition;
+            }
         }
     }
 
@@ -239,16 +241,16 @@ void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlaySt
         0.1f) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene;
-        this->timer = 30;
+        this->unk_16A = 0x1E;
         BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON0);
         Rumble_Request(0.0f, 255, 20, 150);
     } else {
-        if (this->timer != 0) {
-            this->timer--;
+        if (this->unk_16A != 0) {
+            this->unk_16A -= 1;
         }
-        if (this->timer == 0) {
+        if (this->unk_16A == 0) {
             Rumble_Request(0.0f, 120, 20, 10);
-            this->timer = 11;
+            this->unk_16A = 0xB;
         }
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BUYOSTAND_RISING - SFX_FLAG);
     }
@@ -261,9 +263,9 @@ void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlaySt
 void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this, PlayState* play) {
     s32 quakeIndex;
 
-    if (this->timer != 0) {
-        this->timer--;
-        if (this->timer == 0) {
+    if (this->unk_16A != 0) {
+        this->unk_16A -= 1;
+        if (this->unk_16A == 0) {
             quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
             Quake_SetSpeed(quakeIndex, 0x3A98);
             Quake_SetPerturbations(quakeIndex, 0, 1, 250, 1);
@@ -276,7 +278,7 @@ void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this
                            this->dyna.actor.world.pos.y + 140.0f, this->dyna.actor.world.pos.z, 0,
                            this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
         BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE);
-        this->timer = 10;
+        this->unk_16A = 0xA;
         this->actionFunc = BgBdanObjects_OctoPlatform_PauseBeforeDescending;
         Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     }
@@ -289,7 +291,7 @@ void BgBdanObjects_OctoPlatform_DescendWithBigOcto(BgBdanObjects* this, PlayStat
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + -70.0f,
                      this->dyna.actor.velocity.y)) {
         this->dyna.actor.world.rot.y = 0;
-        this->timer = 60;
+        this->unk_16A = 0x3C;
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 140.0f;
         this->actionFunc = BgBdanObjects_OctoPlatform_WaitForBigOctoToStartBattle;
@@ -302,12 +304,12 @@ void BgBdanObjects_OctoPlatform_DescendWithBigOcto(BgBdanObjects* this, PlayStat
         Rumble_Request(0.0f, 255, 30, 150);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
-        if (this->timer != 0) {
-            this->timer--;
+        if (this->unk_16A != 0) {
+            this->unk_16A -= 1;
         }
-        if (this->timer == 0) {
+        if (this->unk_16A == 0) {
             Rumble_Request(0.0f, 120, 20, 10);
-            this->timer = 11;
+            this->unk_16A = 0xB;
         }
         if (this->dyna.actor.child != NULL) {
             this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 140.0f;
@@ -316,25 +318,27 @@ void BgBdanObjects_OctoPlatform_DescendWithBigOcto(BgBdanObjects* this, PlayStat
 }
 
 void BgBdanObjects_OctoPlatform_PauseBeforeDescending(BgBdanObjects* this, PlayState* play) {
-    this->timer--;
+    this->unk_16A -= 1;
 
-    if (this->timer == 0) {
+    if (this->unk_16A == 0) {
         Flags_UnsetSwitch(play, this->var.switchFlag);
-    } else if (this->timer == -40) {
-        this->timer = 0;
+    } else if (this->unk_16A == -0x28) {
+        this->unk_16A = 0;
         this->actionFunc = BgBdanObjects_OctoPlatform_DescendWithBigOcto;
     }
 }
 
 void BgBdanObjects_OctoPlatform_WaitForBigOctoToStartBattle(BgBdanObjects* this, PlayState* play) {
-    if (this->timer != 0) {
-        this->timer--;
+    if (this->unk_16A != 0) {
+        this->unk_16A -= 1;
     }
-    if ((this->timer == 0) && (this->dyna.actor.child != NULL)) {
-        if (this->dyna.actor.child->params == 2) {
-            this->actionFunc = BgBdanObjects_OctoPlatform_BattleInProgress;
-        } else if (this->dyna.actor.child->params == 0) {
-            this->dyna.actor.child->params = 1;
+    if (this->unk_16A == 0) {
+        if (this->dyna.actor.child != NULL) {
+            if (this->dyna.actor.child->params == 2) {
+                this->actionFunc = BgBdanObjects_OctoPlatform_BattleInProgress;
+            } else if (this->dyna.actor.child->params == 0) {
+                this->dyna.actor.child->params = 1;
+            }
         }
     }
 }
@@ -386,8 +390,8 @@ void BgBdanObjects_DoNothing(BgBdanObjects* this, PlayState* play) {
 }
 
 void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play) {
-    if (this->timer != 0) {
-        this->timer--;
+    if (this->unk_16A != 0) {
+        this->unk_16A -= 1;
     }
     if (this->var.camChangeTimer == 0) {
         if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
@@ -400,31 +404,31 @@ void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play) {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
         if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->var.camChangeTimer != 0) {
-                this->var.camChangeTimer--;
+                this->var.camChangeTimer -= 1;
             }
         }
         if (this->var.camChangeTimer == 0) {
             if (1) {}
-            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], this->cameraSetting);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], (s16)this->cameraSetting);
             Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
         }
     }
     this->dyna.actor.world.pos.y =
-        this->dyna.actor.home.pos.y - (sinf(this->timer * (M_PI / 256.0f)) * 471.24f); // pi * 150
-    if (this->timer == 0) {
-        this->timer = 512;
+        this->dyna.actor.home.pos.y - (sinf((f32)this->unk_16A * (M_PI / 256.0f)) * 471.24f); // pi * 150
+    if (this->unk_16A == 0) {
+        this->unk_16A = 0x200;
     }
 }
 
 void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->var.switchFlag)) {
-        this->timer = 100;
+        this->unk_16A = 0x64;
         this->actionFunc = BgBdanObjects_ChangeWaterBoxLevel;
     }
 }
 
 void BgBdanObjects_ChangeWaterBoxLevel(BgBdanObjects* this, PlayState* play) {
-    if (this->timer == 0) {
+    if (this->unk_16A == 0) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 0.5f)) {
             Flags_UnsetSwitch(play, this->var.switchFlag);
             this->actionFunc = BgBdanObjects_WaitForSwitch;
@@ -440,11 +444,11 @@ void BgBdanObjects_ChangeWaterBoxLevel(BgBdanObjects* this, PlayState* play) {
 }
 
 void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play) {
-    if (this->timer != 0) {
-        this->timer--;
+    if (this->unk_16A != 0) {
+        this->unk_16A -= 1;
     }
-    Actor_PlaySfx_FlaggedTimer(&this->dyna.actor, this->timer); // play ticking sound effect
-    if (this->timer == 0) {
+    Actor_PlaySfx_FlaggedTimer(&this->dyna.actor, this->unk_16A);
+    if (this->unk_16A == 0) {
         this->actionFunc = BgBdanObjects_ChangeWaterBoxLevel;
     }
 }
@@ -452,7 +456,7 @@ void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play) {
 void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         Flags_SetSwitch(play, this->var.switchFlag);
-        this->timer = 50;
+        this->unk_16A = 0x32;
         this->actionFunc = BgBdanObjects_FallToLowerPos;
         this->dyna.actor.home.pos.y -= 200.0f;
         OnePointCutscene_Init(play, 3100, 51, &this->dyna.actor, CAM_ID_MAIN);
@@ -460,13 +464,11 @@ void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play) {
 }
 
 void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play) {
-    if (this->timer != 0) {
-        this->timer--;
+    if (this->unk_16A != 0) {
+        this->unk_16A -= 1;
     }
-
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->timer * (M_PI / 50.0f)) * 200.0f);
-
-    if (this->timer == 0) {
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->unk_16A * (M_PI / 50.0f)) * 200.0f);
+    if (this->unk_16A == 0) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->actionFunc = BgBdanObjects_DoNothing;
         // Using `CAM_ID_NONE` here defaults to the active camera

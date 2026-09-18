@@ -477,7 +477,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     Math_ApproachS(&this->actor.world.rot.z, 0, 15, this->targetDirection.z);
                     Math_ApproachF(&this->targetDirection.z, 0x500, 1.0f, 0x100);
 
-                    // Check if the Arwing should fire its laser.
+                    // Check if the Arwing should fire it's laser.
                     if ((this->frameCounter % 4) == 0 && (Rand_ZeroOne() < 0.75f) &&
                         (this->state == CLEAR_TAG_STATE_TARGET_LOCKED)) {
                         this->shouldShootLaser = true;
@@ -825,7 +825,7 @@ void EnClearTag_UpdateEffects(PlayState* play) {
                             effect->velocity.y *= -0.5f;
                             effect->timer = ((s16)Rand_ZeroFloat(20)) + 25;
                         } else {
-                            // The Debris effect is done bouncing. Set its velocity and acceleration to 0.
+                            // The Debris effect is done bounding. Set it's velocity and acceleration to 0.
                             effect->velocity.x = effect->velocity.z = effect->acceleration.y = effect->velocity.y =
                                 0.0f;
                         }

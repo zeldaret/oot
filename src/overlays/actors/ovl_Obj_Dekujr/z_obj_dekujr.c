@@ -61,7 +61,7 @@ void ObjDekujr_Init(Actor* thisx, PlayState* play) {
 
     if (gSaveContext.save.cutsceneIndex < CS_INDEX_0) {
         if (!LINK_IS_ADULT) {
-            Actor_Kill(thisx);
+            Actor_Kill(&this->actor);
             return;
         }
         this->unk_19C = 2;
@@ -71,15 +71,15 @@ void ObjDekujr_Init(Actor* thisx, PlayState* play) {
         this->unk_19B = 1;
     }
     if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-        Actor_Kill(thisx);
+        Actor_Kill(&this->actor);
     } else {
-        ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
         Collider_InitCylinder(play, &this->collider);
-        sCylinderInit.base.actor = thisx;
+        sCylinderInit.base.actor = thisx; // thisx required to match here
         Collider_SetCylinderToActor(play, &this->collider, &sCylinderInit);
-        thisx->colChkInfo.mass = MASS_IMMOVABLE;
-        thisx->textId = func_80037C30(play, 0xF);
-        Actor_SetScale(thisx, 0.4f);
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
+        this->actor.textId = func_80037C30(play, 0xF);
+        Actor_SetScale(&this->actor, 0.4f);
     }
 }
 

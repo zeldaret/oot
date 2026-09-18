@@ -1,9 +1,0 @@
-services:
-  oot:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./:/oot
-    tty: true
-    stdin_open: true

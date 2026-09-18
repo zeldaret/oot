@@ -159,13 +159,13 @@ void ObjOshihiki_ResetFloors(ObjOshihiki* this) {
 }
 
 ObjOshihiki* ObjOshihiki_GetBlockUnder(ObjOshihiki* this, PlayState* play) {
-    DynaPolyActor* dynaPolyActor;
+    DynaPolyActor* dyna;
 
     if ((this->floorBgIds[this->highestFloor] != BGCHECK_SCENE) &&
         (fabsf(this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) < 0.001f)) {
-        dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->floorBgIds[this->highestFloor]);
-        if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI)) {
-            return (ObjOshihiki*)dynaPolyActor;
+        dyna = DynaPoly_GetActor(&play->colCtx, this->floorBgIds[this->highestFloor]);
+        if ((dyna != NULL) && (dyna->actor.id == ACTOR_OBJ_OSHIHIKI)) {
+            return (ObjOshihiki*)dyna;
         }
     }
     return NULL;
@@ -387,7 +387,7 @@ s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, PlayState* play) {
 }
 
 s32 ObjOshihiki_CheckGround(ObjOshihiki* this, PlayState* play) {
-    if (this->dyna.actor.world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
+    if (this->dyna.actor.world.pos.y <= -31990.0f) {
         PRINTF(T("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n",
                  "Warning : Push/pull block fell too much (%s %d)(arg_data 0x%04x)\n"),
                "../z_obj_oshihiki.c", 809, this->dyna.actor.params);
@@ -494,7 +494,7 @@ void ObjOshihiki_SetupOnActor(ObjOshihiki* this, PlayState* play) {
 void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
     s32 bgId;
     Player* player = GET_PLAYER(play);
-    DynaPolyActor* dynaPolyActor;
+    DynaPolyActor* dynaActor;
 
     this->stateFlags |= PUSHBLOCK_ON_ACTOR;
     Actor_MoveXZGravity(&this->dyna.actor);
@@ -504,13 +504,13 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
         if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, play);
         } else {
-            dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
-            if (dynaPolyActor != NULL) {
-                DynaPolyActor_SetActorOnTop(dynaPolyActor);
-                DynaPolyActor_SetSwitchPressed(dynaPolyActor);
+            dynaActor = DynaPoly_GetActor(&play->colCtx, bgId);
+            if (dynaActor != NULL) {
+                DynaPolyActor_SetActorOnTop(dynaActor);
+                DynaPolyActor_SetSwitchPressed(dynaActor);
 
                 if ((this->timer <= 0) && (fabsf(this->dyna.unk_150) > 0.001f)) {
-                    if (ObjOshihiki_StrongEnough(this) && ObjOshihiki_NoSwitchPress(this, dynaPolyActor, play) &&
+                    if (ObjOshihiki_StrongEnough(this) && ObjOshihiki_NoSwitchPress(this, dynaActor, play) &&
                         !ObjOshihiki_CheckWall(play, this->dyna.unk_158, this->dyna.unk_150, this)) {
 
                         this->direction = this->dyna.unk_150;
@@ -532,11 +532,11 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
         if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupFall(this, play);
         } else {
-            dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
+            dynaActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
-            if ((dynaPolyActor != NULL) && (dynaPolyActor->transformFlags & DYNA_TRANSFORM_POS)) {
-                DynaPolyActor_SetActorOnTop(dynaPolyActor);
-                DynaPolyActor_SetSwitchPressed(dynaPolyActor);
+            if ((dynaActor != NULL) && (dynaActor->transformFlags & DYNA_TRANSFORM_POS)) {
+                DynaPolyActor_SetActorOnTop(dynaActor);
+                DynaPolyActor_SetSwitchPressed(dynaActor);
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             } else {
                 ObjOshihiki_SetupFall(this, play);

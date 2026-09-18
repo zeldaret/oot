@@ -67,7 +67,7 @@ static void write_linker_script(FILE *fout, struct Segment *seg)
 static void write_overlay_rules(FILE *fout, const char *ovls_dir)
 {
     for (int i = 0; i < g_segmentsCount; i++) {
-        Segment *seg = &g_segments[i];
+        struct Segment *seg = &g_segments[i];
 
         /* Write rule for partial linkage of this segment */
         fprintf(fout, "%s/%s.plf:", ovls_dir, seg->name);
@@ -159,7 +159,7 @@ int main(int argc, char **argv)
     }
 
     for (int i = 0; i < g_segmentsCount; i++) {
-        Segment *seg = &g_segments[i];
+        struct Segment *seg = &g_segments[i];
 
         // Form the full path for this segment's linker script
         strcpy(ld_outpath + seg_dir_len, seg->name);

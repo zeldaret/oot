@@ -46,7 +46,7 @@ typedef struct EnBomBowlMan {
     /* 0x244 */ s16 gameEndStatus;
     /* 0x246 */ char pad_246[2];
     /* 0x248 */ Vec3f homePos;
-    /* 0x254 */ f32 curAnimFrameCount;
+    /* 0x254 */ f32 curAnimLastFrame;
     /* 0x258 */ u8 gameStartStatus;
     /* 0x259 */ char pad_259[3];
     /* 0x25C */ struct EnBomBowlPit* finalTargetManager;

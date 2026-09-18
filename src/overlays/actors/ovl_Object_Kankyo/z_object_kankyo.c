@@ -47,11 +47,11 @@ void ObjectKankyo_SunGraveSpark(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_WaitForBeamObject(ObjectKankyo* this, PlayState* play);
 void ObjectKankyo_Beams(ObjectKankyo* this, PlayState* play);
 
-void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2);
-void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2);
-void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play);
-void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2);
-void ObjectKankyo_DrawBeams(Actor* thisx, PlayState* play2);
+void ObjectKankyo_DrawFairies(ObjectKankyo* this2, PlayState* play2);
+void ObjectKankyo_DrawSnow(ObjectKankyo* this2, PlayState* play2);
+void ObjectKankyo_DrawLightning(ObjectKankyo* this, PlayState* play);
+void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this2, PlayState* play2);
+void ObjectKankyo_DrawBeams(ObjectKankyo* this2, PlayState* play2);
 
 static void* sEffLightningTextures[] = {
     gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
@@ -175,9 +175,6 @@ void ObjectKankyo_Init(Actor* thisx, PlayState* play) {
             this->requiredObjectLoaded = false;
             ObjectKankyo_SetupAction(this, ObjectKankyo_InitBeams);
             break;
-
-        default:
-            break;
     }
 }
 
@@ -239,9 +236,6 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
 
             case 771:
                 Sfx_PlaySfxCentered(NA_SE_VO_RT_THROW);
-                break;
-
-            default:
                 break;
         }
     }
@@ -374,9 +368,6 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
                             this->effects[i].dirPhase.y += 0.08f * Rand_ZeroOne();
                             this->effects[i].dirPhase.z += 0.05f * Rand_ZeroOne();
                             break;
-
-                        default:
-                            break;
                     }
                 } else if (this->effects[i].state == 2) {
                     // scatter when the player moves or after a long enough time
@@ -473,9 +464,6 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
             case 3: // reset, never reached
                 this->effects[i].state = 0;
                 break;
-
-            default:
-                break;
         }
     }
 }
@@ -487,35 +475,34 @@ void ObjectKankyo_Update(Actor* thisx, PlayState* play) {
 }
 
 void ObjectKankyo_Draw(Actor* thisx, PlayState* play) {
-    switch (thisx->params) {
+    ObjectKankyo* this = (ObjectKankyo*)thisx;
+
+    switch (this->actor.params) {
         case 0:
-            ObjectKankyo_DrawFairies(thisx, play);
+            ObjectKankyo_DrawFairies(this, play);
             break;
 
         case 2:
-            ObjectKankyo_DrawLightning(thisx, play);
+            ObjectKankyo_DrawLightning(this, play);
             break;
 
         case 3:
-            ObjectKankyo_DrawSnow(thisx, play);
+            ObjectKankyo_DrawSnow(this, play);
             break;
 
         case 4:
-            ObjectKankyo_DrawSunGraveSpark(thisx, play);
+            ObjectKankyo_DrawSunGraveSpark(this, play);
             break;
 
         case 5:
-            ObjectKankyo_DrawBeams(thisx, play);
-            break;
-
-        default:
+            ObjectKankyo_DrawBeams(this, play);
             break;
     }
 }
 
-void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2) {
+void ObjectKankyo_DrawFairies(ObjectKankyo* this2, PlayState* play2) {
+    ObjectKankyo* this = this2;
     PlayState* play = play2;
-    ObjectKankyo* this = (ObjectKankyo*)thisx;
     f32 alphaScale;
     Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
     Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
@@ -598,9 +585,9 @@ void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2) {
     }
 }
 
-void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
+void ObjectKankyo_DrawSnow(ObjectKankyo* this2, PlayState* play2) {
+    ObjectKankyo* this = this2;
     PlayState* play = play2;
-    ObjectKankyo* this = (ObjectKankyo*)thisx;
     f32 dist;
     f32 dx;
     f32 dy;
@@ -707,9 +694,6 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
                 case 2:
                     this->effects[i].state = 0;
                     break;
-
-                default:
-                    break;
             }
 
             if (1) {}
@@ -761,16 +745,13 @@ void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
                     this->effects[0].state = 0;
                 }
                 break;
-
-            default:
-                break;
         }
     }
 }
 
-void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play) {
+void ObjectKankyo_DrawLightning(ObjectKankyo* this, PlayState* play) {
     s32 pad;
-    ObjectKankyo* this = (ObjectKankyo*)thisx;
+    s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 1182);
 
@@ -829,9 +810,9 @@ void ObjectKankyo_SunGraveSpark(ObjectKankyo* this, PlayState* play) {
     }
 }
 
-void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
+void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this2, PlayState* play2) {
+    ObjectKankyo* this = this2;
     PlayState* play = play2;
-    ObjectKankyo* this = (ObjectKankyo*)thisx;
     Vec3f start;
     Vec3f end;
     f32 weight;
@@ -927,7 +908,7 @@ void ObjectKankyo_Beams(ObjectKankyo* this, PlayState* play) {
     }
 }
 
-void ObjectKankyo_DrawBeams(Actor* thisx, PlayState* play2) {
+void ObjectKankyo_DrawBeams(ObjectKankyo* this2, PlayState* play2) {
     static Color_RGB8 sBeamPrimColors[] = {
         { 255, 255, 170 }, { 170, 255, 255 }, { 255, 170, 255 },
         { 255, 255, 170 }, { 255, 255, 170 }, { 255, 255, 170 },
@@ -935,8 +916,8 @@ void ObjectKankyo_DrawBeams(Actor* thisx, PlayState* play2) {
     static Color_RGB8 sBeamEnvColors[] = {
         { 0, 200, 0 }, { 0, 50, 255 }, { 100, 0, 200 }, { 200, 0, 0 }, { 200, 255, 0 }, { 255, 120, 0 },
     };
+    ObjectKankyo* this = this2;
     PlayState* play = play2;
-    ObjectKankyo* this = (ObjectKankyo*)thisx;
     s16 i;
     f32 beamX[] = { 430.0f, 860.0f, 430.0f, -426.0f, -862.0f, -440.0f };
     f32 beamY[] = { 551.0f, 551.0f, 551.0f, 554.0f, 551.0f, 547.0f };

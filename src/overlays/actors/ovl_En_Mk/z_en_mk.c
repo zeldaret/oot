@@ -361,12 +361,12 @@ s32 EnMk_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         rot->z += this->headRotation.x;
     }
 
-    return false;
+    return 0;
 }
 
 void EnMk_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80AAD64C = { 1000.0f, -100.0f, 0.0f };
-    EnMk* this = (EnMk*)thisx;
+    EnMk* this = thisx;
 
     if (limbIndex == 11) {
         Matrix_MultVec3f(&D_80AAD64C, &this->actor.focus.pos);

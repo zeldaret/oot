@@ -68,7 +68,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-static DamageTable sDamageTable[] = {
+static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),
     /* Deku stick    */ DMG_ENTRY(0, 0x0),
     /* Slingshot     */ DMG_ENTRY(0, 0x0),
@@ -128,7 +128,7 @@ void EnSb_Init(Actor* thisx, PlayState* play) {
     EnSb* this = (EnSb*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.colChkInfo.damageTable = sDamageTable;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 2;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_sb_Skel_002BF0, &object_sb_Anim_000194, NULL, NULL, 0);
     Collider_InitCylinder(play, &this->collider);

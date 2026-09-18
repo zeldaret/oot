@@ -4,88 +4,46 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#include "assets/objects/object_wf/object_wf.h"
+
 struct EnWf;
 
 typedef void (*EnWfActionFunc)(struct EnWf*, struct PlayState*);
 
-typedef enum EnWfLimb {
-    /*  0 */ WOLFOS_LIMB_NONE,
-    /*  1 */ WOLFOS_LIMB_ROOT,
-    /*  2 */ WOLFOS_LIMB_BACK_LEFT_THIGH,
-    /*  3 */ WOLFOS_LIMB_BACK_LEFT_SHIN,
-    /*  4 */ WOLFOS_LIMB_BACK_LEFT_PASTERN,
-    /*  5 */ WOLFOS_LIMB_BACK_LEFT_PAW,
-    /*  6 */ WOLFOS_LIMB_TAIL,
-    /*  7 */ WOLFOS_LIMB_ABDOMEN,
-    /*  8 */ WOLFOS_LIMB_BACK_RIGHT_THIGH,
-    /*  9 */ WOLFOS_LIMB_BACK_RIGHT_SHIN,
-    /* 10 */ WOLFOS_LIMB_BACK_RIGHT_PASTERN,
-    /* 11 */ WOLFOS_LIMB_BACK_RIGHT_PAW,
-    /* 12 */ WOLFOS_LIMB_THORAX,
-    /* 13 */ WOLFOS_LIMB_FRONT_RIGHT_UPPER_LEG,
-    /* 14 */ WOLFOS_LIMB_FRONT_RIGHT_LOWER_LEG,
-    /* 15 */ WOLFOS_LIMB_FRONT_RIGHT_CLAW,
-    /* 16 */ WOLFOS_LIMB_HEAD_ROOT,
-    /* 17 */ WOLFOS_LIMB_HEAD,
-    /* 18 */ WOLFOS_LIMB_EYES,
-    /* 19 */ WOLFOS_LIMB_FRONT_LEFT_UPPER_LEG,
-    /* 20 */ WOLFOS_LIMB_FRONT_LEFT_LOWER_LEG,
-    /* 21 */ WOLFOS_LIMB_FRONT_LEFT_CLAW,
-    /* 22 */ WOLFOS_LIMB_MAX
-} EnWfLimb;
-
-typedef enum EnWfAction {
-    /*  0 */ WOLFOS_ACTION_WAIT_TO_APPEAR,
-    /*  2 */ WOLFOS_ACTION_DIE = 2,
-    /*  3 */ WOLFOS_ACTION_DAMAGED,
-    /*  4 */ WOLFOS_ACTION_TURN_TOWARDS_PLAYER,
-    /*  5 */ WOLFOS_ACTION_BACKFLIP_AWAY,
-    /*  6 */ WOLFOS_ACTION_WAIT,
-    /*  7 */ WOLFOS_ACTION_BLOCKING,
-    /*  8 */ WOLFOS_ACTION_SLASH,
-    /*  9 */ WOLFOS_ACTION_RUN_AT_PLAYER,
-    /* 10 */ WOLFOS_ACTION_SEARCH_FOR_PLAYER,
-    /* 11 */ WOLFOS_ACTION_RUN_AROUND_PLAYER,
-    /* 12 */ WOLFOS_ACTION_RECOIL_FROM_BLOCKED_SLASH,
-    /* 14 */ WOLFOS_ACTION_SIDESTEP = 14,
-    /* 15 */ WOLFOS_ACTION_STUNNED
-} EnWfAction;
-
 typedef struct EnWf {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ Vec3s bodyPartsPos[10];
-    /* 0x0188 */ SkelAnime skelAnime;
-    /* 0x01CC */ Vec3s jointTable[WOLFOS_LIMB_MAX];
-    /* 0x0250 */ Vec3s morphTable[WOLFOS_LIMB_MAX];
-    /* 0x02D4 */ s32 action; // Used instead of checking the actionFunc directly (but also in range comparisons)
-    /* 0x02D8 */ char unk_2D8[4]; // Unused
-    /* 0x02DC */ EnWfActionFunc actionFunc;
-    /* 0x02E0 */ s16 unk_2E0; // Used, but has no effect
-    /* 0x02E2 */ s16 unk_2E2;
-    /* 0x02E4 */ s16 fireTimer;
-    /* 0x02E6 */ u8 damageReaction;
-    /* 0x02E8 */ s32 actionTimer; // Used to make an action last for a certain amount of time
-    /* 0x02EC */ f32 runSpeed;
-    /* 0x02F0 */ char unk_2F0[4];
-    /* 0x02F4 */ f32 unk_2F4; // Set and not used
-    /* 0x02F8 */ s16 slashStatus; // Whether to slash again or not, and whether to cry
-    /* 0x02FA */ s16 unk_2FA; // Set and not used
-    /* 0x02FC */ s16 switchFlag;
-    /* 0x02FE */ s16 runAngle;
-    /* 0x0300 */ s16 unk_300; // Set, but ineffectual (see comment in Draw)
-    /* 0x0302 */ u8 eyeIndex;
-    /* 0x0304 */ ColliderJntSph colliderJntSph;
-    /* 0x0324 */ ColliderJntSphElement colliderJntSphElements[4];
-    /* 0x0424 */ ColliderCylinder bodyColliderCylinder;
-    /* 0x0470 */ ColliderCylinder tailColliderCylinder;
-    /* 0x04BC */ Vec3f unk_4BC;
-    /* 0x04C8 */ Vec3f unk_4C8;
-    /* 0x04D4 */ Vec3s unk_4D4;
-} EnWf; // size = 0x04DC
-
-typedef enum EnWfType {
-    /* 0 */ WOLFOS_NORMAL,
-    /* 1 */ WOLFOS_WHITE
-} EnWfType;
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ Vec3s bodyPartsPos[10];
+    /* 0x188 */ SkelAnime skelAnime;
+    /* 0x1CC */ Vec3s jointTable[WOLFOS_LIMB_MAX];
+    /* 0x250 */ Vec3s morphTable[WOLFOS_LIMB_MAX];
+    /* 0x2D4 */ s32 action;
+    /* 0x2D8 */ char pad_2D8[4];
+    /* 0x2DC */ EnWfActionFunc actionFunc;
+    /* 0x2E0 */ s16 unk_2E0;
+    /* 0x2E2 */ s16 idleTimer;
+    /* 0x2E4 */ s16 onFireTimer;
+    /* 0x2E6 */ u8 lastDamageReaction;
+    /* 0x2E7 */ char pad_2E7[1];
+    /* 0x2E8 */ s32 timer;
+    /* 0x2EC */ f32 circlePlayerExtraSpeed;
+    /* 0x2F0 */ char pad_2F0[4];
+    /* 0x2F4 */ f32 unk_2F4;
+    /* 0x2F8 */ s16 attackState;
+    /* 0x2FA */ s16 unk_2FA;
+    /* 0x2FC */ s16 switchFlag;
+    /* 0x2FE */ s16 circlePlayerDirection;
+    /* 0x300 */ s16 unk_300;
+    /* 0x302 */ u8 eyeIndex;
+    /* 0x303 */ char pad_303[1];
+    /* 0x304 */ ColliderJntSph attackAndBlockCollider;
+    /* 0x324 */ ColliderJntSphElement attackAndBlockColliderElements[4];
+    /* 0x424 */ ColliderCylinder bodyCollider;
+    /* 0x470 */ ColliderCylinder tailCollider;
+    /* 0x4BC */ Vec3f unk_4BC;
+    /* 0x4C8 */ Vec3f unk_4C8;
+    /* 0x4D4 */ char pad_4D4[2];
+    /* 0x4D6 */ s16 headRot;
+    /* 0x4D8 */ char pad_4D8[4];
+} EnWf; // size = 0x4DC
 
 #endif

@@ -1,38 +1,31 @@
 #include "ultra64.h"
-#include "ultra64/leo.h"
-#include "ultra64/leoappli.h"
-#include "ultra64/leodrive.h"
+#include "ultra64/leo_internal.h"
 
 s32 LeoSpdlMotor(LEOCmd* cmdBlock, u8 mode, OSMesgQueue* mq) {
     if (!__leoActive) {
         return -1;
     }
-
-    cmdBlock->header.command = 8;
+    cmdBlock->header.command = LEO_COMMAND_START_STOP;
     cmdBlock->header.reserve1 = 0;
-
     switch (mode) {
-        case LEO_MOTOR_ACTIVE:
+        case 0:
             cmdBlock->header.control = 1;
             break;
-        case LEO_MOTOR_STANDBY:
-            cmdBlock->header.control = 2;
+        case 1:
+            cmdBlock->header.control = LEO_CONTROL_STBY;
             break;
-        case LEO_MOTOR_SLEEP:
+        case 2:
             cmdBlock->header.control = 0;
             break;
-        case LEO_MOTOR_BRAKE:
-            cmdBlock->header.control = 4;
+        case 4:
+            cmdBlock->header.control = LEO_CONTROL_BRAKE;
             break;
     }
-
     cmdBlock->header.reserve3 = 0;
-
     if (mq != NULL) {
         cmdBlock->header.post = mq;
-        cmdBlock->header.control |= 0x80;
+        cmdBlock->header.control |= LEO_CONTROL_POST;
     }
-
     leoCommand(cmdBlock);
-    return LEO_ERROR_GOOD;
+    return 0;
 }

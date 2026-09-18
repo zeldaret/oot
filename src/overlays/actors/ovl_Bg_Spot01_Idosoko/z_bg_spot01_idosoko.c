@@ -1,6 +1,6 @@
 /*
  * File: z_bg_spot01_idosoko.c
- * Overlay: ovl_Bg_Spot01_Idosoko
+ * Overlay: Bg_Spot01_Idosoko
  * Description: Stone that blocks the entrance to Bottom of the Well
  */
 
@@ -45,17 +45,17 @@ void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFun
 }
 
 void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgSpot01Idosoko* this = (BgSpot01Idosoko*)thisx;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     CollisionHeader_GetVirtual(&gKakarikoBOTWStoneCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if (!LINK_IS_ADULT) {
-        Actor_Kill(&this->dyna.actor);
+        Actor_Kill(thisx);
     } else {
         BgSpot01Idosoko_SetupAction(this, func_808ABF54);
     }

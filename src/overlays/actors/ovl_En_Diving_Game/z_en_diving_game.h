@@ -64,7 +64,7 @@ typedef enum EnDivingGameState {
 typedef enum EnDivingGameRupeePhase {
     /* 0 */ ENDIVINGGAME_RUPEE_PHASE_NONE, // No rupees underwater yet, but they might be thrown.
     /* 1 */ ENDIVINGGAME_RUPEE_PHASE_SWITCHING_CAM, // Switching to underwater view.
-    /* 2 */ ENDIVINGGAME_RUPEE_PHASE_SINKING, // Rupees are spawned and sinking, player can grab them.
+    /* 2 */ ENDIVINGGAME_RUPEE_PHASE_SINKING // Rupees are spawned and sinking, player can grab them.
 } EnDivingGameRupeePhase;
 
 #endif

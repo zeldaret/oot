@@ -1,7 +1,5 @@
 #include "ultra64.h"
-#include "ultra64/leo.h"
-#include "ultra64/leoappli.h"
-#include "ultra64/leodrive.h"
+#include "ultra64/leo_internal.h"
 
 void leoC2_single_ecc(void);
 void leoC2_double_ecc(void);
@@ -9,8 +7,6 @@ void leoC2_3_ecc(void);
 void leoC2_4_ecc(void);
 int leoAlpha_mult(int i, int k);
 int leoAlpha_div(int i, int k);
-
-extern u8 LEO_TempBuffer[0xE8];
 
 const u8 ganlog[512] = {
     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1D, 0x3A, 0x74, 0xE8, 0xCD, 0x87, 0x13, 0x26, 0x4C, 0x98, 0x2D,
@@ -96,8 +92,7 @@ int leoC2_Correction(void) {
     return 0;
 }
 
-// static
-void leoC2_single_ecc(void) {
+STATIC void leoC2_single_ecc(void) {
     u8* pointer;
     unsigned int byte;
     u8* p_s;
@@ -113,8 +108,7 @@ void leoC2_single_ecc(void) {
     }
 }
 
-// static
-void leoC2_double_ecc(void) {
+STATIC void leoC2_double_ecc(void) {
     unsigned int s0;
     unsigned int error_k;
     u8* pointer1;
@@ -140,7 +134,6 @@ void leoC2_double_ecc(void) {
         goto c2_2_1;
     }
     return;
-
 c2_2_2:
     pointer2 = &LEOc2_param.pntr[(LEOc2_param.err_pos[1] + 1) * byte];
 c2_2_1:
@@ -167,8 +160,7 @@ c2_2_1:
     } while (--byte != 0);
 }
 
-// static
-void leoC2_3_ecc(void) {
+STATIC void leoC2_3_ecc(void) {
     unsigned int s0;
     unsigned int error_i;
     unsigned int error_j;
@@ -235,7 +227,6 @@ void leoC2_3_ecc(void) {
         goto c2_3_1;
     }
     return;
-
 c2_3_3:
     pointer3 = &LEOc2_param.pntr[(LEOc2_param.err_pos[2] + 1) * byte];
 c2_3_2:
@@ -284,8 +275,7 @@ c2_3_1:
     } while (--byte != 0);
 }
 
-// static
-void leoC2_4_ecc(void) {
+STATIC void leoC2_4_ecc(void) {
     unsigned int s0;
     unsigned int R0;
     unsigned int R1;
@@ -478,16 +468,14 @@ c2_4_1:
     } while (--byte != 0);
 }
 
-// static
-int leoAlpha_mult(int i, int k) {
+STATIC int leoAlpha_mult(int i, int k) {
     if (i == 0 || k == 0) {
         return 0;
     }
     return ganlog[glog[i] + glog[k]];
 }
 
-// static
-int leoAlpha_div(int i, int k) {
+STATIC int leoAlpha_div(int i, int k) {
     if (i == 0 || k == 0) {
         return 0;
     }

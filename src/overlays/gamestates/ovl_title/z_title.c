@@ -32,15 +32,15 @@
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
 #if DEBUG_FEATURES
-void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
-    Gfx* gfx;
+void ConsoleLogo_PrintBuildInfo(Gfx** gfxp) {
+    Gfx* g;
     GfxPrint* printer;
 
-    gfx = *gfxP;
-    gfx = Gfx_SetupDL_28(gfx);
+    g = *gfxp;
+    g = Gfx_SetupDL_28(g);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
-    GfxPrint_Open(printer, gfx);
+    GfxPrint_Open(printer, g);
     GfxPrint_SetColor(printer, 255, 155, 255, 255);
     GfxPrint_SetPos(printer, 9, 21);
     GfxPrint_Printf(printer, "NOT MARIO CLUB VERSION");
@@ -49,9 +49,9 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
     GfxPrint_Printf(printer, "[Creator:%s]", gBuildCreator);
     GfxPrint_SetPos(printer, 7, 24);
     GfxPrint_Printf(printer, "[Date:%s]", gBuildDate);
-    gfx = GfxPrint_Close(printer);
+    g = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
-    *gfxP = gfx;
+    *gfxp = g;
 }
 #endif
 

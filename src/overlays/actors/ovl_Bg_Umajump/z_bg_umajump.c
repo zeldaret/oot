@@ -37,8 +37,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgUmaJump_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     BgUmaJump* this = (BgUmaJump*)thisx;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

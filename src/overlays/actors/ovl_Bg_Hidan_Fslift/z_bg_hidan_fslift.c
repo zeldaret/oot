@@ -1,6 +1,6 @@
 /*
  * File: z_bg_hidan_fslift.c
- * Overlay: ovl_Bg_Hidan_Fslift
+ * Overlay: Bg_Hidan_Fslift
  * Description: Hookshot Elevator
  */
 
@@ -44,32 +44,33 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
-    s32 pad1;
     BgHidanFslift* this = (BgHidanFslift*)thisx;
+    s32 pad1;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gFireTempleHookshotElevatorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-    if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_OBJ_HSBLOCK, this->dyna.actor.world.pos.x,
-                           this->dyna.actor.world.pos.y + 40.0f, this->dyna.actor.world.pos.z + -28.0f, 0, 0, 0,
-                           2) == NULL) {
-        Actor_Kill(&this->dyna.actor);
+    if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x,
+                           thisx->world.pos.y + 40.0f, thisx->world.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
+        Actor_Kill(thisx);
         return;
     }
     this->actionFunc = BgHidanFslift_Idle;
 }
 
 void BgHidanFslift_SetHookshotTargetPos(BgHidanFslift* this) {
-    if (this->dyna.actor.child != NULL && this->dyna.actor.child->update != NULL) {
-        this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x;
-        this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 40.0f;
-        this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + -28.0f;
-    } else {
-        this->dyna.actor.child = NULL;
+    Actor* thisx = &this->dyna.actor;
+
+    if (thisx->child != NULL && thisx->child->update != NULL) {
+        thisx->child->world.pos.x = thisx->world.pos.x;
+        thisx->child->world.pos.y = thisx->world.pos.y + 40.0f;
+        thisx->child->world.pos.z = thisx->world.pos.z + -28.0f;
+        return;
     }
+    thisx->child = NULL;
 }
 
 void BgHidanFslift_Destroy(Actor* thisx, PlayState* play) {
@@ -79,47 +80,54 @@ void BgHidanFslift_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgHidanFslift_SetupIdle(BgHidanFslift* this) {
-    this->timer = 40;
+    this->unk_168 = 0x28;
     this->actionFunc = BgHidanFslift_Idle;
 }
 
 void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play) {
     s32 nearHomePos;
+    Actor* thisx = &this->dyna.actor;
 
-    if (this->timer) {
-        this->timer--;
-    }
+    DECR(this->unk_168);
 
-    if (this->timer == 0) {
+    if (this->unk_168 == 0) {
         nearHomePos = false;
-        if ((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) < 0.5f) {
+        if ((thisx->world.pos.y - thisx->home.pos.y) < 0.5f) {
             nearHomePos = true;
         }
-        if (DynaPolyActor_IsPlayerAbove(&this->dyna) && nearHomePos) {
-            this->actionFunc = BgHidanFslift_Ascend;
-        } else if (!nearHomePos) {
+        if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
+            if (nearHomePos) {
+                this->actionFunc = BgHidanFslift_Ascend;
+                return;
+            }
+        }
+        if (!nearHomePos) {
             this->actionFunc = BgHidanFslift_Descend;
         }
     }
 }
 
 void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 4.0f)) {
-        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+    Actor* thisx = &this->dyna.actor;
+
+    if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 4.0f)) {
+        Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
         BgHidanFslift_SetupIdle(this);
     } else {
-        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        Actor_PlaySfx_Flagged(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
     BgHidanFslift_SetHookshotTargetPos(this);
 }
 
 void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play) {
+    Actor* thisx = &this->dyna.actor;
+
     if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
-        if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 790.0f, 4.0f)) {
-            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 790.0f, 4.0f)) {
+            Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
             BgHidanFslift_SetupIdle(this);
         } else {
-            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+            Actor_PlaySfx_Flagged(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
         }
     } else {
         BgHidanFslift_SetupIdle(this);
@@ -136,10 +144,8 @@ void BgHidanFslift_Update(Actor* thisx, PlayState* play) {
             this->cameraSetting = CAM_SET_DUNGEON0;
         }
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
-    } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+    } else if (DynaPolyActor_IsPlayerOnTop(&this->dyna) == 0) {
         if (this->cameraSetting != CAM_SET_NONE) {
-            // Given the values that get set to `cameraSetting`, it seems likely that it was intended to be
-            // passed to the function call below. But instead `CAM_SET_DUNGEON0` is used directly.
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }
         this->cameraSetting = CAM_SET_NONE;

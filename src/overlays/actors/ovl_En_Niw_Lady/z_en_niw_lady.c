@@ -349,13 +349,13 @@ void func_80ABA654(EnNiwLady* this, PlayState* play) {
         this->unk_26E = 0xB;
         if (!GET_ITEMGETINF(ITEMGETINF_0C)) {
             this->actor.parent = NULL;
-            this->getItemId = GI_BOTTLE_EMPTY;
+            this->unk_284 = GI_BOTTLE_EMPTY;
             Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_EMPTY, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }
         if (this->unk_26C == 1) {
-            this->getItemId = GI_RUPEE_PURPLE;
+            this->unk_284 = GI_RUPEE_PURPLE;
             Actor_OfferGetItem(&this->actor, play, GI_RUPEE_PURPLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
         }
@@ -481,7 +481,7 @@ void func_80ABAC00(EnNiwLady* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = func_80ABAC84;
     } else {
-        getItemId = this->getItemId;
+        getItemId = this->unk_284;
         if (LINK_IS_ADULT) {
             getItemId = !GET_ITEMGETINF(ITEMGETINF_2C) ? GI_POCKET_EGG : GI_COJIRO;
         }
