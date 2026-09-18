@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "assets/objects/object_nb/object_nb.h"
 
 struct EnNb;
 
@@ -13,8 +12,8 @@ typedef void (*EnNbDrawFunc)(struct EnNb*, struct PlayState*);
 typedef struct EnNb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTable[NABOORU_LIMB_MAX];
-    /* 0x0202 */ Vec3s morphTable[NABOORU_LIMB_MAX];
+    /* 0x0190 */ Vec3s jointTable[19];
+    /* 0x0202 */ Vec3s morphTable[19];
     /* 0x0274 */ s16 eyeIdx;
     /* 0x0276 */ s16 blinkTimer;
     /* 0x0278 */ s32 action;
