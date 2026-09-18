@@ -5,8 +5,8 @@
  */
 
 #include "z_en_viewer.h"
-#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
-#include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
+#include "src/overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
+#include "src/overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

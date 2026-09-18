@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_mizu_bwall.h"
-#include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
+#include "src/overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

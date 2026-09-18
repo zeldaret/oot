@@ -1,21 +1,28 @@
 #include "sram.h"
 
-#include "array_count.h"
-#include "file_select_state.h"
-#include "controller.h"
-#include "memory_utils.h"
-#include "printf.h"
-#include "terminal.h"
-#include "translation.h"
 #include "versions.h"
+#include "array_count.h"
 #include "audio.h"
+#include "controller.h"
+#include "file_select_state.h"
 #include "game.h"
 #include "interface.h"
+#include "inventory.h"
+#include "item.h"
+#include "memory_utils.h"
 #include "message.h"
 #include "ocarina.h"
+#include "printf.h"
 #include "save.h"
 #include "scene.h"
 #include "ss_sram.h"
+#include "terminal.h"
+#include "translation.h"
+
+#include "ultra64.h"
+#include <assert.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)

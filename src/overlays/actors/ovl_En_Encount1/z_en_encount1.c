@@ -1,6 +1,6 @@
 #include "z_en_encount1.h"
-#include "overlays/actors/ovl_En_Tite/z_en_tite.h"
-#include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
+#include "src/overlays/actors/ovl_En_Tite/z_en_tite.h"
+#include "src/overlays/actors/ovl_En_Reeba/z_en_reeba.h"
 
 #include "printf.h"
 #include "rand.h"

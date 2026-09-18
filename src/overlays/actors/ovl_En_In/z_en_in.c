@@ -1,5 +1,5 @@
 #include "z_en_in.h"
-#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

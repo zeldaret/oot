@@ -5,8 +5,8 @@
  */
 
 #include "z_en_dnt_jiji.h"
-#include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "libc64/math64.h"
 #include "gfx.h"
