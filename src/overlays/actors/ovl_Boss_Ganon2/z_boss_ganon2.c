@@ -1,7 +1,7 @@
 #include "z_boss_ganon2.h"
-#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
-#include "overlays/actors/ovl_Demo_Gj/z_demo_gj.h"
-#include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
+#include "src/overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
+#include "src/overlays/actors/ovl_Demo_Gj/z_demo_gj.h"
+#include "src/overlays/actors/ovl_En_Zl3/z_en_zl3.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

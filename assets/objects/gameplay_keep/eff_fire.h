@@ -7,11 +7,11 @@
 extern Vtx gEffFireVtx[];
 extern Gfx gEffFire1DL[24];
 extern Gfx gEffFire2DL[24];
-#define gDecorativeFlameMaskTex_WIDTH 32
-#define gDecorativeFlameMaskTex_HEIGHT 128
-extern u64 gDecorativeFlameMaskTex[TEX_LEN(u64, gDecorativeFlameMaskTex_WIDTH, gDecorativeFlameMaskTex_HEIGHT, 4)];
-#define gDecorativeFlameTex_WIDTH 32
-#define gDecorativeFlameTex_HEIGHT 64
-extern u64 gDecorativeFlameTex[TEX_LEN(u64, gDecorativeFlameTex_WIDTH, gDecorativeFlameTex_HEIGHT, 8)];
+#define gEffFire1Tex_WIDTH 32
+#define gEffFire1Tex_HEIGHT 128
+extern u64 gEffFire1Tex[TEX_LEN(u64, gEffFire1Tex_WIDTH, gEffFire1Tex_HEIGHT, 4)];
+#define gEffFire2Tex_WIDTH 32
+#define gEffFire2Tex_HEIGHT 64
+extern u64 gEffFire2Tex[TEX_LEN(u64, gEffFire2Tex_WIDTH, gEffFire2Tex_HEIGHT, 8)];
 
 #endif

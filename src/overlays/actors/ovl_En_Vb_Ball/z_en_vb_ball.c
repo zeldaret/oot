@@ -5,7 +5,7 @@
  */
 
 #include "z_en_vb_ball.h"
-#include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
+#include "src/overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #include "libc64/math64.h"
 #include "gfx.h"

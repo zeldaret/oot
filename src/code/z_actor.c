@@ -28,8 +28,8 @@
 #include "save.h"
 #include "skin_matrix.h"
 
-#include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
-#include "overlays/actors/ovl_En_Part/z_en_part.h"
+#include "src/overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
+#include "src/overlays/actors/ovl_En_Part/z_en_part.h"
 
 #include "assets/objects/gameplay_keep/shadow_circle.h"
 #include "assets/objects/gameplay_keep/shadow_horse.h"
@@ -41,8 +41,8 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:0" \
+                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 CollisionPoly* sCurCeilingPoly;
 s32 sCurCeilingBgId;
@@ -313,8 +313,7 @@ static AttentionColor sAttentionColors[ACTORCAT_MAX + 1] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unused extra entry
 };
 
-// unused
-Gfx D_80115FF0[] = {
+Gfx gActorSetupOpaDL[] = {
     gsSPEndDisplayList(),
 };
 
@@ -1490,8 +1489,8 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
         sp64.y = actor->prevPos.y;
         func_8002E2AC(play, actor, &sp64, flags);
         waterBoxYSurface = actor->world.pos.y;
-        if (WaterBox_GetSurface1(play, &play->colCtx, actor->world.pos.x, actor->world.pos.z, &waterBoxYSurface,
-                                 &waterBox)) {
+        if (BgCheck_GetWaterSurfaceAllHack(play, &play->colCtx, actor->world.pos.x, actor->world.pos.z,
+                                           &waterBoxYSurface, &waterBox)) {
             actor->depthInWater = waterBoxYSurface - actor->world.pos.y;
             if (actor->depthInWater < 0.0f) {
                 actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
@@ -2126,8 +2125,8 @@ s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, 
     return false;
 }
 
-#pragma increment_block_number "gc-eu:22 gc-eu-mq:22 gc-jp:22 gc-jp-ce:22 gc-jp-mq:22 gc-us:22 gc-us-mq:22" \
-                               "ntsc-1.0:22 ntsc-1.1:22 ntsc-1.2:22 pal-1.0:22 pal-1.1:22"
+#pragma increment_block_number "gc-eu:23 gc-eu-mq:23 gc-jp:23 gc-jp-ce:23 gc-jp-mq:23 gc-us:23 gc-us-mq:23" \
+                               "ntsc-1.0:23 ntsc-1.1:23 ntsc-1.2:23 pal-1.0:23 pal-1.1:23"
 
 // Local data used for Farore's Wind light (stored in BSS)
 LightInfo D_8015BC00;
@@ -4717,7 +4716,7 @@ void func_8003555C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
 Vec3f D_80116274 = { 0.0f, -0.2f, 0.0f };
 
-Gfx D_80116280[] = {
+Gfx gActorSetupXluDL[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2 | Z_UPD),
     gsDPSetAlphaCompare(G_AC_THRESHOLD),
     gsSPEndDisplayList(),
@@ -4932,21 +4931,21 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
     switch (arg1) {
         case 0:
             if (Flags_GetEventChkInf(EVENTCHKINF_09)) {
-                if (Flags_GetInfTable(INFTABLE_05)) {
+                if (Flags_GetInfTable(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE)) {
                     retTextId = 0x1048;
                 } else {
                     retTextId = 0x1047;
                 }
             } else {
                 if (Flags_GetEventChkInf(EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS)) {
-                    if (Flags_GetInfTable(INFTABLE_03)) {
+                    if (Flags_GetInfTable(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO)) {
                         retTextId = 0x1032;
                     } else {
                         retTextId = 0x1031;
                     }
                 } else {
-                    if (Flags_GetInfTable(INFTABLE_00)) {
-                        if (Flags_GetInfTable(INFTABLE_01)) {
+                    if (Flags_GetInfTable(INFTABLE_SARIA_GREETED_LINK)) {
+                        if (Flags_GetInfTable(INFTABLE_SARIA_NOTICED_FAIRY)) {
                             retTextId = 0x1003;
                         } else {
                             retTextId = 0x1002;
@@ -4966,7 +4965,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                         retTextId = 0x1045;
                     }
                 } else {
-                    if (Flags_GetEventChkInf(EVENTCHKINF_03)) {
+                    if (Flags_GetEventChkInf(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO)) {
                         if (Flags_GetInfTable(INFTABLE_0E)) {
                             retTextId = 0x1034;
                         } else {
@@ -5266,7 +5265,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 } else {
                     retTextId = 0x2010;
                 }
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_40)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 retTextId = 0x200F;
             } else {
                 retTextId = 0x200E;
@@ -5628,7 +5627,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     retTextId = 0x2040;
-                } else if (Flags_GetInfTable(INFTABLE_94)) {
+                } else if (Flags_GetInfTable(INFTABLE_INGO_TALKED_TO_CHILD_LINK_BEFORE_TALON_RETURNED)) {
                     retTextId = 0x2040;
                 } else {
                     retTextId = 0x203F;
@@ -5637,7 +5636,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 if (!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
                     if (!IS_DAY) {
                         retTextId = 0x204E;
-                    } else if (Flags_GetInfTable(INFTABLE_9A)) {
+                    } else if (Flags_GetInfTable(INFTABLE_INGO_TALKED_TO_ADULT_LINK)) {
                         retTextId = 0x2031;
                     } else {
                         retTextId = 0x2030;
@@ -5659,17 +5658,17 @@ void func_80036E50(u16 textId, s16 arg1) {
         case 0:
             switch (textId) {
                 case 0x1001:
-                    Flags_SetInfTable(INFTABLE_00);
+                    Flags_SetInfTable(INFTABLE_SARIA_GREETED_LINK);
                     return;
                 case 0x1002:
-                    Flags_SetInfTable(INFTABLE_01);
+                    Flags_SetInfTable(INFTABLE_SARIA_NOTICED_FAIRY);
                     return;
                 case 0x1031:
-                    Flags_SetEventChkInf(EVENTCHKINF_03);
-                    Flags_SetInfTable(INFTABLE_03);
+                    Flags_SetEventChkInf(EVENTCHKINF_SARIA_WAS_TOLD_ABOUT_MIDO);
+                    Flags_SetInfTable(INFTABLE_SARIA_WAS_TOLD_ABOUT_MIDO);
                     return;
                 case 0x1047:
-                    Flags_SetInfTable(INFTABLE_05);
+                    Flags_SetInfTable(INFTABLE_SARIA_SPOKE_IN_HER_HOUSE);
                     return;
             }
             return;
@@ -6024,7 +6023,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
             if (msgCtx->choiceIndex == 1) {
                 func_80035B18(play, actor, 0x2032);
             }
-            Flags_SetInfTable(INFTABLE_9A);
+            Flags_SetInfTable(INFTABLE_INGO_TALKED_TO_ADULT_LINK);
             ret = 0;
             break;
         case 0x2035:

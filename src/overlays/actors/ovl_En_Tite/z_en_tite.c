@@ -5,8 +5,8 @@
  */
 
 #include "z_en_tite.h"
-#include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "src/overlays/actors/ovl_En_Encount1/z_en_encount1.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -927,28 +927,28 @@ void EnTite_Update(Actor* thisx, PlayState* play) {
         if ((this->actor.params == TEKTITE_BLUE) && (thisx->bgCheckFlags & BGCHECKFLAG_WATER)) {
             floorPoly = thisx->floorPoly;
             if ((((play->gameplayFrames % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->backRightFootPos.x, this->backRightFootPos.z,
+                (BgCheck_GetWaterSurface(play, &play->colCtx, this->backRightFootPos.x, this->backRightFootPos.z,
                                          &waterSurfaceY, &waterBox)) &&
                 (this->backRightFootPos.y <= waterSurfaceY)) {
                 this->backRightFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(play, &this->backRightFootPos, 0, 220, 0);
             }
             if (((((play->gameplayFrames + 2) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->backLeftFootPos.x, this->backLeftFootPos.z,
+                (BgCheck_GetWaterSurface(play, &play->colCtx, this->backLeftFootPos.x, this->backLeftFootPos.z,
                                          &waterSurfaceY, &waterBox)) &&
                 (this->backLeftFootPos.y <= waterSurfaceY)) {
                 this->backLeftFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(play, &this->backLeftFootPos, 0, 220, 0);
             }
             if (((((play->gameplayFrames + 4) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->frontLeftFootPos.x, this->frontLeftFootPos.z,
+                (BgCheck_GetWaterSurface(play, &play->colCtx, this->frontLeftFootPos.x, this->frontLeftFootPos.z,
                                          &waterSurfaceY, &waterBox)) &&
                 (this->frontLeftFootPos.y <= waterSurfaceY)) {
                 this->frontLeftFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(play, &this->frontLeftFootPos, 0, 220, 0);
             }
             if (((((play->gameplayFrames + 1) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->frontRightFootPos.x, this->frontRightFootPos.z,
+                (BgCheck_GetWaterSurface(play, &play->colCtx, this->frontRightFootPos.x, this->frontRightFootPos.z,
                                          &waterSurfaceY, &waterBox)) &&
                 (this->frontRightFootPos.y <= waterSurfaceY)) {
                 this->frontRightFootPos.y = waterSurfaceY;

@@ -5,9 +5,9 @@
  */
 
 #include "z_en_g_switch.h"
-#include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+#include "src/overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "src/overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"

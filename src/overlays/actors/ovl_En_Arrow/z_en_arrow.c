@@ -294,7 +294,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                 sfxId = NA_SE_IT_SLING_REFLECT;
             }
 
-            EffectSsStone1_Spawn(play, &this->actor.world.pos, 0);
+            EffectSsStone1_Spawn(play, &this->actor.world.pos, false);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, sfxId);
             Actor_Kill(&this->actor);
         } else {

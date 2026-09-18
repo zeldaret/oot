@@ -1374,13 +1374,13 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (this->unk_22E.a == 255 || this->unk_22E.a == 0) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
-        gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
+        gSPSegment(POLY_OPA_DISP++, 0x09, ACTOR_SETUP_OPA_DL);
         POLY_OPA_DISP =
             SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
                            EnPoSisters_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->unk_22E.a);
-        gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x09, gActorSetupXluDL);
         POLY_XLU_DISP =
             SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
                            EnPoSisters_PostLimbDraw, &this->actor, POLY_XLU_DISP);

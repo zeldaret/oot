@@ -1,0 +1,168 @@
+diff --git a/Commands/CAssemblerLabel.cpp b/Commands/CAssemblerLabel.cpp
+index 3ca67dd..50ea7ae 100644
+--- a/Commands/CAssemblerLabel.cpp
++++ b/Commands/CAssemblerLabel.cpp
+@@ -1,6 +1,5 @@
+ #include "Commands/CAssemblerLabel.h"
+ 
+-#include "Archs/ARM/Arm.h"
+ #include "Core/Common.h"
+ #include "Core/FileManager.h"
+ #include "Core/Misc.h"
+@@ -26,12 +25,7 @@ CAssemblerLabel::CAssemblerLabel(const Identifier& name, const Identifier& origi
+ 
+ 	// does this need to be in validate?
+ 	if (label->getUpdateInfo())
+-	{
+-		if (&Architecture::current() != &Arm)
+-			label->setInfo(0);
+-		else
+-			label->setInfo(thumbMode.value_or(Arm.GetThumbMode()));
+-	}
++        label->setInfo(0);
+ }
+ 
+ CAssemblerLabel::CAssemblerLabel(const Identifier& name, const Identifier& originalName, Expression& value, std::optional<bool> thumbMode)
+diff --git a/Commands/CDirectiveConditional.cpp b/Commands/CDirectiveConditional.cpp
+index e2177bd..1170247 100644
+--- a/Commands/CDirectiveConditional.cpp
++++ b/Commands/CDirectiveConditional.cpp
+@@ -1,12 +1,9 @@
+ #include "Commands/CDirectiveConditional.h"
+ 
+-#include "Archs/ARM/Arm.h"
+ #include "Core/Common.h"
+ #include "Core/Misc.h"
+ #include "Util/Util.h"
+ 
+-extern CArmArchitecture Arm;
+-
+ CDirectiveConditional::CDirectiveConditional(ConditionType type)
+ {
+ 	this->type = type;
+diff --git a/Core/Assembler.cpp b/Core/Assembler.cpp
+index b1d006c..51d9c49 100644
+--- a/Core/Assembler.cpp
++++ b/Core/Assembler.cpp
+@@ -1,11 +1,7 @@
+ #include "Core/Assembler.h"
+ 
+-#include "Archs/ARM/Arm.h"
+-#include "Archs/ARM/ArmExpressionFunctions.h"
+ #include "Archs/MIPS/Mips.h"
+ #include "Archs/MIPS/MipsExpressionFunctions.h"
+-#include "Archs/SuperH/SuperH.h"
+-#include "Archs/SuperH/ShExpressionFunctions.h"
+ #include "Commands/CAssemblerCommand.h"
+ #include "Core/Allocations.h"
+ #include "Core/Common.h"
+@@ -21,9 +17,7 @@ bool encodeAssembly(std::unique_ptr<CAssemblerCommand> content, SymbolData& symD
+ {
+ 	bool Revalidate;
+ 	
+-	Arm.Pass2();
+ 	Mips.Pass2();
+-	SuperH.Pass2();
+ 
+ 	ValidateState validation;
+ 	do	// loop until everything is constant
+@@ -50,9 +44,7 @@ bool encodeAssembly(std::unique_ptr<CAssemblerCommand> content, SymbolData& symD
+ 
+ 		Revalidate = content->Validate(validation);
+ 
+-		Arm.Revalidate();
+ 		Mips.Revalidate();
+-		SuperH.Revalidate();
+ 
+ 		if (Global.memoryMode)
+ 			g_fileManager->closeFile();
+@@ -162,8 +154,6 @@ bool runArmips(ArmipsArguments& settings)
+ 	Global.FileInfo.LineNumber = 0;
+ 	Global.FileInfo.FileNum = 0;
+ 
+-	Arm.clear();
+-
+ 	ExpressionFunctionHandler::instance().reset();
+ 	registerExpressionFunctions(ExpressionFunctionHandler::instance());
+ 
+diff --git a/Parser/DirectivesParser.cpp b/Parser/DirectivesParser.cpp
+index d20d401..483d18e 100644
+--- a/Parser/DirectivesParser.cpp
++++ b/Parser/DirectivesParser.cpp
+@@ -1,8 +1,6 @@
+ #include "Parser/DirectivesParser.h"
+ 
+-#include "Archs/ARM/Arm.h"
+ #include "Archs/MIPS/Mips.h"
+-#include "Archs/SuperH/SuperH.h"
+ #include "Commands/CAssemblerLabel.h"
+ #include "Commands/CDirectiveArea.h"
+ #include "Commands/CDirectiveConditional.h"
+@@ -432,51 +430,6 @@ std::unique_ptr<CAssemblerCommand> parseDirectiveMipsArch(Parser& parser, int fl
+ 	return nullptr;
+ }
+ 
+-std::unique_ptr<CAssemblerCommand> parseDirectiveArmArch(Parser& parser, int flags)
+-{
+-	Architecture::setCurrent(Arm);
+-
+-	switch (flags)
+-	{
+-	case DIRECTIVE_ARM_GBA:
+-		Arm.SetThumbMode(true);
+-		Arm.setVersion(AARCH_GBA);
+-		return std::make_unique<ArchitectureCommand>(".gba\n.thumb", ".thumb");
+-	case DIRECTIVE_ARM_NDS:
+-		Arm.SetThumbMode(false);
+-		Arm.setVersion(AARCH_NDS);
+-		return std::make_unique<ArchitectureCommand>(".nds\n.arm", ".arm");
+-	case DIRECTIVE_ARM_3DS:
+-		Arm.SetThumbMode(false);
+-		Arm.setVersion(AARCH_3DS);
+-		return std::make_unique<ArchitectureCommand>(".3ds\n.arm", ".arm");
+-	case DIRECTIVE_ARM_BIG:
+-		Arm.SetThumbMode(false);
+-		Arm.setVersion(AARCH_BIG);
+-		return std::make_unique<ArchitectureCommand>(".arm.big\n.arm", ".arm");
+-	case DIRECTIVE_ARM_LITTLE:
+-		Arm.SetThumbMode(false);
+-		Arm.setVersion(AARCH_LITTLE);
+-		return std::make_unique<ArchitectureCommand>(".arm.little\n.arm", ".arm");
+-	}
+-
+-	return nullptr;
+-}
+-
+-std::unique_ptr<CAssemblerCommand> parseDirectiveShArch(Parser& parser, int flags)
+-{
+-	Architecture::setCurrent(SuperH);
+-
+-	switch (flags)
+-	{
+-	case DIRECTIVE_SH_SATURN:
+-		SuperH.setVersion(SHARCH_SATURN);
+-		return std::make_unique<ArchitectureCommand>(".saturn", "");
+-	}
+-
+-	return nullptr;
+-}
+-
+ std::unique_ptr<CAssemblerCommand> parseDirectiveArea(Parser& parser, int flags)
+ {
+ 	std::vector<Expression> parameters;
+@@ -820,15 +773,6 @@ const DirectiveMap directives = {
+ 	{ ".n64",             { &parseDirectiveMipsArch,        DIRECTIVE_MIPS_N64 } },
+ 	{ ".rsp",             { &parseDirectiveMipsArch,        DIRECTIVE_MIPS_RSP } },
+ 
+-	{ ".gba",             { &parseDirectiveArmArch,         DIRECTIVE_ARM_GBA } },
+-	{ ".nds",             { &parseDirectiveArmArch,         DIRECTIVE_ARM_NDS } },
+-	{ ".3ds",             { &parseDirectiveArmArch,         DIRECTIVE_ARM_3DS } },
+-	{ ".arm.big",         { &parseDirectiveArmArch,         DIRECTIVE_ARM_BIG } },
+-	{ ".arm.little",      { &parseDirectiveArmArch,         DIRECTIVE_ARM_LITTLE } },
+-
+-	{ ".saturn",          { &parseDirectiveShArch,          DIRECTIVE_SH_SATURN } },
+-	{ ".32x",             { &parseDirectiveShArch,          DIRECTIVE_SH_SATURN } },
+-
+ 	{ ".area",            { &parseDirectiveArea,            0 } },
+ 	{ ".autoregion",      { &parseDirectiveAutoRegion,      0 } },
+ 	{ ".region",          { &parseDirectiveArea,            DIRECTIVE_AREA_SHARED } },
