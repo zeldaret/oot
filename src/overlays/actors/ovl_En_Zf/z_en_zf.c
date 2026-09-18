@@ -390,12 +390,12 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
         this->actor.colChkInfo.health = 12;
         this->actor.naviEnemyId = NAVI_ENEMY_DINOLFOS;
         SkelAnime_Init(play, &this->skelAnime, &gDinolfosSkel, &gZfIdleAnim, this->jointTable, this->morphTable,
-                       ZF_LIMB_MAX);
+                       ARRAY_COUNT(this->jointTable));
     } else {
         this->actor.colChkInfo.health = 6;
         this->actor.naviEnemyId = NAVI_ENEMY_LIZALFOS;
         SkelAnime_Init(play, &this->skelAnime, &gLizalfosSkel, &gZfIdleAnim, this->jointTable, this->morphTable,
-                       ZF_LIMB_MAX);
+                       ARRAY_COUNT(this->jointTable));
     }
     if (!ENZF_IS_TYPE_PAIRED(this->actor.params)) {
         this->homePlatform = this->curPlatform = -1;

@@ -180,7 +180,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
     SkelAnime_Init(play, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable,
-                   this->morphTable, 20);
+                   this->morphTable, ARRAY_COUNT(this->jointTable));
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
 
     Collider_InitJntSph(play, &this->collider);

@@ -9,6 +9,7 @@
 #include "src/overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "src/overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
@@ -83,7 +84,7 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gBowlingGirlSkel, &gBowlingGirlSleepingAnim, this->jointTable,
-                       this->morphTable, BOWLING_GIRL_LIMB_MAX);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     PRINTF(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
     PRINTF(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST, play->bombchuBowlingStatus);
     this->homePos = this->actor.world.pos;

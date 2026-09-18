@@ -8,6 +8,7 @@
 #include "src/overlays/actors/ovl_En_Bili/z_en_bili.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -155,7 +156,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(play, &this->skelAnime, &gBariSkel, &gBariIdleAnim, this->jointTable, this->morphTable,
-                   BARI_LIMB_MAX);
+                   ARRAY_COUNT(this->jointTable));
     Collider_InitQuad(play, &this->leftTentacleCollider);
     Collider_SetQuad(play, &this->leftTentacleCollider, &this->actor, &sColliderQuadInit);
     Collider_InitQuad(play, &this->rightTentacleCollider);

@@ -89,7 +89,8 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play2) {
     s32 i;
 
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable, 17);
+    SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
 
     this->type = PARAMS_GET_U(this->actor.params, 8, 8);
     this->path = PARAMS_GET_U(this->actor.params, 0, 8);

@@ -6,6 +6,7 @@
 
 #include "z_en_hs.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -74,7 +75,7 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gCarpenterSonSkel, &gCarpenterSonSittingAnim, this->jointTable,
-                       this->morphTable, 16);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     Animation_PlayLoop(&this->skelAnime, &gCarpenterSonSittingAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

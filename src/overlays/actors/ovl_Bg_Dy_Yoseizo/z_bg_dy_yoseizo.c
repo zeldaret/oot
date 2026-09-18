@@ -10,6 +10,7 @@
 #include "src/overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
 #include "src/overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
@@ -102,7 +103,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
-                           this->jointTable, this->morphTable, 28);
+                           this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
 #if OOT_VERSION < NTSC_1_1
         if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->reward != BG_DY_YOSEIZO_REWARD_MAGIC_MAGIC)) {
             Actor_Kill(&this->actor);
@@ -112,7 +113,7 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     } else {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
-                           this->jointTable, this->morphTable, 28);
+                           this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
 #if OOT_VERSION < NTSC_1_1
         if (!gSaveContext.save.info.playerData.isMagicAcquired) {
             Actor_Kill(&this->actor);
