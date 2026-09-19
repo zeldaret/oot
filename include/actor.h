@@ -487,7 +487,7 @@ typedef struct ActorContextSceneFlags {
 typedef struct ActorContext {
     /* 0x000 */ u8 freezeFlashTimer;
     /* 0x001 */ char unk_01[0x01];
-    /* 0x002 */ u8 unk_02;
+    /* 0x002 */ u8 hammerShockwaveTimer;
     /* 0x003 */ u8 lensActive;
     /* 0x004 */ char unk_04[0x04];
     /* 0x008 */ u8 total; // total number of actors loaded
