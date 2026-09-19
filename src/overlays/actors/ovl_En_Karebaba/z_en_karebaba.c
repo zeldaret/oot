@@ -459,7 +459,8 @@ void EnKarebaba_DrawBaseShadow(EnKarebaba* this, PlayState* play) {
     Gfx_SetupDL_44Xlu(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
-    func_80038A28(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mf);
+    CollisionPoly_GetGroundMtxF(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y,
+                                this->actor.home.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
     Matrix_Scale(0.15f, 1.0f, 0.15f, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1029);

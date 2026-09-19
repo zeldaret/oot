@@ -197,7 +197,7 @@ void EnNwc_DrawChicks(EnNwc* this, PlayState* play) {
 
     for (i = 0; i < this->count; i++, chick++) {
         if ((chick->type != CHICK_NONE) && (chick->floorPoly != NULL)) {
-            func_80038A28(chick->floorPoly, chick->pos.x, chick->floorY, chick->pos.z, &floorMat);
+            CollisionPoly_GetGroundMtxF(chick->floorPoly, chick->pos.x, chick->floorY, chick->pos.z, &floorMat);
             Matrix_Put(&floorMat);
             Matrix_RotateY(BINANG_TO_RAD(chick->rot.y), MTXMODE_APPLY);
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
