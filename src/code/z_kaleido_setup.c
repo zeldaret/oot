@@ -136,8 +136,11 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->state = PAUSE_STATE_OFF;
     pauseCtx->debugState = PAUSE_DEBUG_STATE_CLOSED;
 
+    // Setting the eye xz here is irrelevant, it's set on pausing in KaleidoSetup_Update
+    // x = -PAUSE_EYE_DIST * PAUSE_ITEM_X
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
-    pauseCtx->eye.z = 64.0f;
+    pauseCtx->eye.z = -PAUSE_EYE_DIST * PAUSE_ITEM_Z;
+
     pauseCtx->promptDepthOffset = 936.0f;
     pauseCtx->itemPagePitch = pauseCtx->equipPagePitch = pauseCtx->mapPagePitch = pauseCtx->questPagePitch = 160.0f;
 
