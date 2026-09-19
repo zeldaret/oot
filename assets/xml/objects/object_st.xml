@@ -56,16 +56,16 @@
         <Array Name="object_st_Vtx_0026D0" Count="398" Offset="0x26D0">
             <Vtx/>
         </Array>
-        <DList Name="object_st_DL_003FB0" Offset="0x3FB0"/>
-        <DList Name="object_st_DL_0043D8" Offset="0x43D8"/>
-        <DList Name="object_st_DL_0045C0" Offset="0x45C0"/>
-        <DList Name="object_st_DL_004658" Offset="0x4658"/>
-        <DList Name="object_st_DL_0046F0" Offset="0x46F0"/>
-        <DList Name="object_st_DL_004788" Offset="0x4788"/>
-        <DList Name="object_st_DL_004820" Offset="0x4820"/>
-        <DList Name="object_st_DL_0048B8" Offset="0x48B8"/>
-        <DList Name="object_st_DL_004950" Offset="0x4950"/>
-        <DList Name="object_st_DL_0049E8" Offset="0x49E8"/>
+        <DList Name="gGoldSkulltulaLimb5Dlist" Offset="0x3FB0"/>
+        <DList Name="gGoldSkulltulaLimb4Dlist" Offset="0x43D8"/>
+        <DList Name="gGoldSkulltulaLimb11Dlist" Offset="0x45C0"/>
+        <DList Name="gGoldSkulltulaLimb14Dlist" Offset="0x4658"/>
+        <DList Name="gGoldSkulltulaLimb8Dlist" Offset="0x46F0"/>
+        <DList Name="gGoldSkulltulaLimb23Dlist" Offset="0x4788"/>
+        <DList Name="gGoldSkulltulaLimb26Dlist" Offset="0x4820"/>
+        <DList Name="gGoldSkulltulaLimb20Dlist" Offset="0x48B8"/>
+        <DList Name="gGoldSkulltulaLimb17Dlist" Offset="0x4950"/>
+        <DList Name="gGoldSkulltulaLimb29Dlist" Offset="0x49E8"/>
         <Array Name="gSkulltulaTokenVtx" Count="25" Offset="0x4A80">
             <Vtx/>
         </Array>
