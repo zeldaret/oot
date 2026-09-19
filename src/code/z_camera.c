@@ -1212,7 +1212,7 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecGeo* arg1, f32 yOffset, f32* arg
     }
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-        camera->player->stateFlags1 & PLAYER_STATE1_21) {
+        camera->player->stateFlags1 & PLAYER_STATE1_CLIMBING) {
         *arg3 = Camera_LERPCeilF(playerPosRot->pos.y, *arg3, CAM_GLOBAL_43, 0.1f);
         phi_f20 = playerPosRot->pos.y - *arg3;
         playerToAtOffsetTarget.y -= phi_f20;
@@ -1318,7 +1318,7 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecGeo* eyeAtDir, Vec3f* targetPos, f
     playerToAtOffsetTarget.z += lookFromOffset.z;
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-        camera->player->stateFlags1 & PLAYER_STATE1_21) {
+        camera->player->stateFlags1 & PLAYER_STATE1_CLIMBING) {
         *yPosOffset = Camera_LERPCeilF(playerPosRot->pos.y, *yPosOffset, CAM_GLOBAL_43, 0.1f);
         yPosDelta = playerPosRot->pos.y - *yPosOffset;
         playerToAtOffsetTarget.y -= yPosDelta;
@@ -2257,7 +2257,7 @@ s32 Camera_Parallel1(Camera* camera) {
     }
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-        camera->player->stateFlags1 & PLAYER_STATE1_21) {
+        camera->player->stateFlags1 & PLAYER_STATE1_CLIMBING) {
         rwData->yTarget = playerPosRot->pos.y;
         sp6A = 0;
     } else {
@@ -3030,7 +3030,7 @@ s32 Camera_Battle1(Camera* camera) {
     }
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-        camera->player->stateFlags1 & PLAYER_STATE1_21) {
+        camera->player->stateFlags1 & PLAYER_STATE1_CLIMBING) {
         isOffGround = false;
         rwData->yPosOffset = playerPosRot->pos.y;
     } else {
@@ -3354,7 +3354,7 @@ s32 Camera_KeepOn1(Camera* camera) {
             rwData->unk_0C = NULL;
         cont:
             if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-                camera->player->stateFlags1 & PLAYER_STATE1_21) {
+                camera->player->stateFlags1 & PLAYER_STATE1_CLIMBING) {
                 rwData->unk_08 = playerPosRot->pos.y;
                 isOffGround = false;
             } else {

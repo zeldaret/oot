@@ -689,7 +689,7 @@ typedef struct PlayerAgeProperties {
     /* 0xA4 */ LinkAnimationHeader* unk_A4;
     /* 0xA8 */ LinkAnimationHeader* unk_A8;
     /* 0xAC */ LinkAnimationHeader* unk_AC[4];
-    /* 0xBC */ LinkAnimationHeader* unk_BC[2];
+    /* 0xBC */ LinkAnimationHeader* sideClimbAnim[2]; // Climbing walls sideways
     /* 0xC4 */ LinkAnimationHeader* unk_C4[2];
     /* 0xCC */ LinkAnimationHeader* unk_CC[2];
 } PlayerAgeProperties; // size = 0xD4
@@ -726,7 +726,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_18 (1 << 18)
 #define PLAYER_STATE1_19 (1 << 19)
 #define PLAYER_STATE1_20 (1 << 20)
-#define PLAYER_STATE1_21 (1 << 21)
+#define PLAYER_STATE1_CLIMBING (1 << 21) // Player is on a climbable wall/ladder
 #define PLAYER_STATE1_SHIELDING (1 << 22) // Shielding in any form (regular, hylian shield as child, "shielding" with a two handed sword, etc.)
 #define PLAYER_STATE1_23 (1 << 23)
 #define PLAYER_STATE1_USING_BOOMERANG (1 << 24) // Currently using the boomerang. This includes all phases (aiming, throwing, and catching).
@@ -750,7 +750,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9) // Forces sand footstep sounds regardless of current floor type
 #define PLAYER_STATE2_10 (1 << 10)
 #define PLAYER_STATE2_11 (1 << 11)
-#define PLAYER_STATE2_12 (1 << 12)
+#define PLAYER_STATE2_CLIMB_STILL (1 << 12) // Climbing but currently not moving
 #define PLAYER_STATE2_LOCK_ON_WITH_SWITCH (1 << 13) // Actor lock-on is active, specifically with Switch Targeting. Hold Targeting checks the state of the Z button instead of this flag.
 #define PLAYER_STATE2_14 (1 << 14)
 #define PLAYER_STATE2_15 (1 << 15)
@@ -917,6 +917,7 @@ typedef struct Player {
         s8 facingUpSlope; // Player_Action_SlideOnSlope: Facing uphill when sliding on a slope
         s8 isLakeHyliaCs; // Player_Action_BlueWarpArrive: In Lake Hylia CS after Water Temple. Floating down is delayed until a specific point in the cutscene.
         s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
+        s8 isClimbWall; // Player_Action_Climbing: True if climbed wall is a climbable wall and not ladder
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {
@@ -929,6 +930,8 @@ typedef struct Player {
         s16 csDelayTimer; // Player_Action_WaitForCutscene: Number of frames to wait before responding to a cutscene
         s16 playedLandingSfx; // Player_Action_BlueWarpArrive: Played sfx when landing on the ground
         s16 appearTimer; // Player_Action_FaroresWindArrive: Counts up, appear at 20 frames (1 second)
+        s16 climbStartAnimFinished; // Player_Action_Climbing: Negative if start climb animation has not finished yet
+        s16 leftFootAbove; // Player_Action_Climbing: 1 = left foot higher up during climb
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
