@@ -338,9 +338,9 @@ void EnWallmas_WaitToDrop(EnWallmas* this, PlayState* play) {
 void EnWallmas_Drop(EnWallmas* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (!Player_InCsMode(play) && !(player->stateFlags2 & PLAYER_STATE2_4) && (player->invincibilityTimer >= 0) &&
-        (this->actor.xzDistToPlayer < 30.0f) && (this->actor.yDistToPlayer < -5.0f) &&
-        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistToPlayer)) {
+    if (!Player_InCsMode(play) && !(player->stateFlags2 & PLAYER_STATE2_PUSH_PULL) &&
+        (player->invincibilityTimer >= 0) && (this->actor.xzDistToPlayer < 30.0f) &&
+        (this->actor.yDistToPlayer < -5.0f) && (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistToPlayer)) {
         EnWallmas_SetupTakePlayer(this, play);
     }
 }

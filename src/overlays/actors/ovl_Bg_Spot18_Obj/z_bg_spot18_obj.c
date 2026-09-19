@@ -228,7 +228,7 @@ void func_808B8E20(BgSpot18Obj* this, PlayState* play) {
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
     }
 }
 
@@ -269,7 +269,7 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
         this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_PUSH_PULL;
         Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
