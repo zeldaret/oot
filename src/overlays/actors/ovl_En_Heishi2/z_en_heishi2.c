@@ -307,7 +307,7 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
                 actor = (BgSpot15Saku*)(actor->dyna.actor.next);
             } else {
                 this->gate = &actor->dyna.actor;
-                actor->unk_168 = 1;
+                actor->openFlag = 1;
                 break;
             }
         }
@@ -344,7 +344,7 @@ void func_80A53850(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgSpot15Saku*)this->gate;
-    if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
+    if ((this->unk_2F2[0] == 0) || (gate->openFlag == 0)) {
         Play_ClearCamera(play, this->subCamId);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         Message_CloseTextbox(play);
