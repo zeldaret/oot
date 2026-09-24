@@ -1,25 +1,24 @@
 #include "ultra64.h"
-#include "ultra64/leo.h"
-#include "ultra64/leoappli.h"
-#include "ultra64/leodrive.h"
+#include "ultra64/leo_internal.h"
 
 void leoClr_queue(void) {
     OSMesg clr_cmd;
 
     while (osRecvMesg(&LEOcommand_que, &clr_cmd, OS_MESG_NOBLOCK) == 0) {
-        ((LEOCmd*)clr_cmd)->header.sense = LEO_SENSE_COMMAND_TERMINATED;
-        ((LEOCmd*)clr_cmd)->header.status = LEO_STATUS_CHECK_CONDITION;
-        if (((LEOCmd*)clr_cmd)->header.control & LEO_CONTROL_POST) {
-            osSendMesg(((LEOCmd*)clr_cmd)->header.post, (OSMesg)LEO_SENSE_COMMAND_TERMINATED, OS_MESG_BLOCK);
+        ((LEOCmdHeader*)clr_cmd)->sense = LEO_SENSE_COMMAND_TERMINATED;
+        ((LEOCmdHeader*)clr_cmd)->status = LEO_STATUS_CHECK_CONDITION;
+        if (((LEOCmdHeader*)clr_cmd)->control & LEO_CONTROL_POST) {
+            osSendMesg(((LEOCmdHeader*)clr_cmd)->post, (OSMesg)LEO_ERROR_COMMAND_TERMINATED, OS_MESG_BLOCK);
         }
     }
 }
 
 void leoClr_reset(void) {
-    u32 code = leoAnalize_asic_status();
+    u32 code;
 
-    if ((code == LEO_SENSE_COMMAND_PHASE_ERROR) || (code == LEO_SENSE_DEVICE_COMMUNICATION_FAILURE) ||
-        (code == LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED)) {
+    code = leoAnalize_asic_status();
+    if (code == LEO_SENSE_COMMAND_PHASE_ERROR || code == LEO_SENSE_DEVICE_COMMUNICATION_FAILURE ||
+        code == LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED) {
         LEOcur_command->header.sense = code;
         LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
     } else {

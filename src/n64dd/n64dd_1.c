@@ -1,4 +1,6 @@
+#include "ultra64.h"
 #include "n64dd.h"
+#include "n64dd_internal.h"
 
 /**
  * Buffer used during the process of reading from the disk
