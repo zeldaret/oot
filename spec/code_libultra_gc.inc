@@ -92,4 +92,3 @@
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
-    include "$(BUILD_DIR)/src/libc/sqrt.o"
