@@ -146,115 +146,6 @@ static const char *const stmtNames[] =
     [STMT_pad_text]  = "pad_text",
 };
 
-STMTId get_stmt_id_by_stmt_name(const char *stmtName, int lineNum) {
-    STMTId stmt;
-
-    for (stmt = 0; stmt < ARRAY_COUNT(stmtNames); stmt++) {
-        if (strcmp(stmtName, stmtNames[stmt]) == 0)
-        return stmt;
-    }
-    util_fatal_error("line %i: unknown statement '%s'", lineNum, stmtName);
-    return -1;
-}
-
-bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, int lineNum, const struct Segment *segments, int segment_count) {
-    // ensure no duplicates (except for 'include' or 'pad_text')
-    if (stmt != STMT_include && stmt != STMT_pad_text &&
-        (currSeg->fields & (1 << stmt)))
-        util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtNames[stmt]);
-
-    currSeg->fields |= 1 << stmt;
-
-    // statements valid within a segment definition
-    switch (stmt)
-    {
-    case STMT_beginseg:
-        util_fatal_error("line %i: '%s' inside of a segment definition", lineNum, stmtNames[stmt]);
-        break;
-    case STMT_endseg:
-        // verify segment data
-        if (currSeg->name == NULL)
-            util_fatal_error("line %i: no name specified for segment", lineNum);
-        if (currSeg->includesCount == 0)
-            util_fatal_error("line %i: no includes specified for segment", lineNum);
-        return true;
-        break;
-    case STMT_name:
-        if (!parse_quoted_string(args, &currSeg->name))
-            util_fatal_error("line %i: invalid name", lineNum);
-        break;
-    case STMT_after:
-        if (!parse_quoted_string(args, &currSeg->after))
-            util_fatal_error("line %i: invalid name for 'after'", lineNum);
-        break;
-    case STMT_address:
-        if (!parse_number(args, &currSeg->address))
-            util_fatal_error("line %i: expected number after 'address'", lineNum);
-        break;
-    case STMT_number:
-        if (!parse_number(args, &currSeg->number))
-            util_fatal_error("line %i: expected number after 'number'", lineNum);
-        break;
-    case STMT_flags:
-        if (!parse_flags(args, &currSeg->flags))
-            util_fatal_error("line %i: invalid flags", lineNum);
-        break;
-    case STMT_align:
-        if (!parse_number(args, &currSeg->align))
-            util_fatal_error("line %i: expected number after 'align'", lineNum);
-        if (!is_pow_of_2(currSeg->align))
-            util_fatal_error("line %i: alignment is not a power of two", lineNum);
-        break;
-    case STMT_romalign:
-        if (!parse_number(args, &currSeg->romalign))
-            util_fatal_error("line %i: expected number after 'romalign'", lineNum);
-        if (!is_pow_of_2(currSeg->romalign))
-            util_fatal_error("line %i: alignment is not a power of two", lineNum);
-        break;
-    case STMT_include: {
-        char *inc;
-
-        if (!parse_quoted_string(args, &inc))
-            util_fatal_error("line %i: invalid filename", lineNum);
-
-        bool inc_is_dup = false;
-        for (int i = 0; i < segment_count; i++) {
-            for (int j = 0; j < segments[i].includesCount; j++) {
-                if (strcmp(segments[i].includes[j].fpath, inc) == 0) {
-                    inc_is_dup = true;
-                }
-            }
-        }
-
-        if (!inc_is_dup) {
-            currSeg->includesCount++;
-            currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
-            currSeg->includes[currSeg->includesCount - 1].fpath = inc;
-            currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
-        }
-    }   break;
-    case STMT_increment:
-        if (!parse_number(args, &currSeg->increment))
-            util_fatal_error("line %i: expected number after 'increment'", lineNum);
-        break;
-    case STMT_compress:
-        currSeg->compress = true;
-        break;
-    case STMT_pad_text:
-        currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;
-        break;
-    default:
-        fprintf(stderr, "warning: '%s' is not implemented\n", stmtNames[stmt]);
-        break;
-    }
-    return false;
-}
-
-/**
- * `segments` should be freed with `free_rom_spec` after use.
- * Will write to the contents of `spec` to introduce string terminating '\0's.
- * `segments` also contains pointers to inside `spec`, so `spec` should not be freed before `segments`
- */
 void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 {
     int lineNum = 1;
@@ -276,13 +167,104 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
         if (line[0] != 0 && stmtName[0] != 0)
         {
             char *args = token_split(stmtName);
-            STMTId stmt = get_stmt_id_by_stmt_name(stmtName, lineNum);
+            unsigned int stmt;
+
+            for (stmt = 0; stmt < ARRAY_COUNT(stmtNames); stmt++)
+                if (strcmp(stmtName, stmtNames[stmt]) == 0)
+                    goto got_stmt;
+            util_fatal_error("line %i: unknown statement '%s'", lineNum, stmtName);
+          got_stmt:
 
             if (currSeg != NULL)
             {
-                bool segmentEnded = parse_segment_statement(currSeg, stmt, args, lineNum, *segments, *segment_count);
-                if (segmentEnded) {
+                // ensure no duplicates (except for 'include' or 'pad_text')
+                if (stmt != STMT_include && stmt != STMT_pad_text &&
+                    (currSeg->fields & (1 << stmt)))
+                    util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
+
+                currSeg->fields |= 1 << stmt;
+
+                // statements valid within a segment definition
+                switch (stmt)
+                {
+                case STMT_beginseg:
+                    util_fatal_error("line %i: '%s' inside of a segment definition", lineNum, stmtName);
+                    break;
+                case STMT_endseg:
+                    // verify segment data
+                    if (currSeg->name == NULL)
+                        util_fatal_error("line %i: no name specified for segment", lineNum);
+                    if (currSeg->includesCount == 0)
+                        util_fatal_error("line %i: no includes specified for segment", lineNum);
                     currSeg = NULL;
+                    break;
+                case STMT_name:
+                    if (!parse_quoted_string(args, &currSeg->name))
+                        util_fatal_error("line %i: invalid name", lineNum);
+                    break;
+                case STMT_after:
+                    if (!parse_quoted_string(args, &currSeg->after))
+                        util_fatal_error("line %i: invalid name for 'after'", lineNum);
+                    break;
+                case STMT_address:
+                    if (!parse_number(args, &currSeg->address))
+                        util_fatal_error("line %i: expected number after 'address'", lineNum);
+                    break;
+                case STMT_number:
+                    if (!parse_number(args, &currSeg->number))
+                        util_fatal_error("line %i: expected number after 'number'", lineNum);
+                    break;
+                case STMT_flags:
+                    if (!parse_flags(args, &currSeg->flags))
+                        util_fatal_error("line %i: invalid flags", lineNum);
+                    break;
+                case STMT_align:
+                    if (!parse_number(args, &currSeg->align))
+                        util_fatal_error("line %i: expected number after 'align'", lineNum);
+                    if (!is_pow_of_2(currSeg->align))
+                        util_fatal_error("line %i: alignment is not a power of two", lineNum);
+                    break;
+                case STMT_romalign:
+                    if (!parse_number(args, &currSeg->romalign))
+                        util_fatal_error("line %i: expected number after 'romalign'", lineNum);
+                    if (!is_pow_of_2(currSeg->romalign))
+                        util_fatal_error("line %i: alignment is not a power of two", lineNum);
+                    break;
+                case STMT_include: {
+                    char *inc;
+
+                    if (!parse_quoted_string(args, &inc))
+                        util_fatal_error("line %i: invalid filename", lineNum);
+
+                    bool inc_is_dup = false;
+                    for (int i = 0; i < *segment_count; i++) {
+                        for (int j = 0; j < (*segments)[i].includesCount; j++) {
+                            if (strcmp((*segments)[i].includes[j].fpath, inc) == 0) {
+                                inc_is_dup = true;
+                            }
+                        }
+                    }
+
+                    if (!inc_is_dup) {
+                        currSeg->includesCount++;
+                        currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
+                        currSeg->includes[currSeg->includesCount - 1].fpath = inc;
+                        currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
+                    }
+                }   break;
+                 case STMT_increment:
+                    if (!parse_number(args, &currSeg->increment))
+                        util_fatal_error("line %i: expected number after 'increment'", lineNum);
+                    break;
+                case STMT_compress:
+                    currSeg->compress = true;
+                    break;
+                case STMT_pad_text:
+                    currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;
+                    break;
+                default:
+                    fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
+                    break;
                 }
             }
             else
