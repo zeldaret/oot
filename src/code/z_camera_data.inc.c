@@ -1264,9 +1264,10 @@ CameraModeValue sSetFireBirdsEyeModeWallClimbData[] = {
  */
 
 CameraModeValue sSetTurnAroundModeNormalData[] = {
-    CAM_FUNCDATA_KEEP4(
-        -30, 120, -10, 170, 0, 60,
-        CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, KEEPON4_FLAG_1), 25, 6),
+    CAM_FUNCDATA_KEEP4(-30, 120, -10, 170, 0, 60,
+                       CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE,
+                                           KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER),
+                       25, 6),
 };
 
 /**
