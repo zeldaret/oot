@@ -21,14 +21,6 @@ incbins:
     segment: code
     vram: 0x80114950
     size: 0xAF0
-  - name: gMojiFontTLUTs
-    segment: code
-    vram: 0x8012A760
-    size: 0x80
-  - name: gMojiFontTex
-    segment: code
-    vram: 0x8012A7E0
-    size: 0x400
   - name: aspMainData
     segment: code
     vram: 0x80155C90
@@ -73,6 +65,10 @@ assets:
   xml_path: assets/xml/code/fbdemo_wipe1.xml
   start_offset: 0x10E2C0
   end_offset: 0x10ED48
+- name: code/z_moji_data
+  xml_path: assets/xml/code/z_moji_data.xml
+  start_offset: 0x10D900
+  end_offset: 0x10DD80
 - name: misc/link_animetion
   xml_path: assets/xml/misc/link_animetion.xml
 - name: misc/z_select_static
