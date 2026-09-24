@@ -1454,7 +1454,7 @@ s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame) {
  */
 BAD_RETURN(s32) SkelAnime_Init(UNUSED PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                                AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable,
-                               UNUSED_NDEBUG s32 limbCount) {
+                               UNUSED_NDEBUG s32 tableLength) {
     SkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->limbCount + 1;
@@ -1465,7 +1465,7 @@ BAD_RETURN(s32) SkelAnime_Init(UNUSED PlayState* play, SkelAnime* skelAnime, Ske
         skelAnime->morphTable =
             ZELDA_ARENA_MALLOC(skelAnime->limbCount * sizeof(*skelAnime->morphTable), "../z_skelanime.c", 2969);
     } else {
-        ASSERT(limbCount == skelAnime->limbCount, "joint_buff_num == this->joint_num", "../z_skelanime.c", 2973);
+        ASSERT(tableLength == skelAnime->limbCount, "joint_buff_num == this->joint_num", "../z_skelanime.c", 2973);
         skelAnime->jointTable = jointTable;
         skelAnime->morphTable = morphTable;
     }
@@ -1485,7 +1485,7 @@ BAD_RETURN(s32) SkelAnime_Init(UNUSED PlayState* play, SkelAnime* skelAnime, Ske
  */
 BAD_RETURN(s32) SkelAnime_InitFlex(UNUSED PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
                                    AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable,
-                                   UNUSED_NDEBUG s32 limbCount) {
+                                   UNUSED_NDEBUG s32 tableLength) {
     FlexSkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->sh.limbCount + 1;
@@ -1499,7 +1499,7 @@ BAD_RETURN(s32) SkelAnime_InitFlex(UNUSED PlayState* play, SkelAnime* skelAnime,
         skelAnime->morphTable =
             ZELDA_ARENA_MALLOC(skelAnime->limbCount * sizeof(*skelAnime->morphTable), "../z_skelanime.c", 3048);
     } else {
-        ASSERT(limbCount == skelAnime->limbCount, "joint_buff_num == this->joint_num", "../z_skelanime.c", 3052);
+        ASSERT(tableLength == skelAnime->limbCount, "joint_buff_num == this->joint_num", "../z_skelanime.c", 3052);
         skelAnime->jointTable = jointTable;
         skelAnime->morphTable = morphTable;
     }

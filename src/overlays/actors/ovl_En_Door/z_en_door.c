@@ -135,7 +135,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     objectInfo = &sDoorInfo[0];
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_Init(play, &this->skelAnime, &gDoorSkel, &gDoorAdultOpeningLeftAnim, this->jointTable, this->morphTable,
-                   5);
+                   ARRAY_COUNT(this->jointTable));
     for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
         if (play->sceneId == objectInfo->sceneId) {
             break;

@@ -6,6 +6,7 @@
 
 #include "z_en_zl4.h"
 
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -378,7 +379,8 @@ void EnZl4_Init(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
     EnZl4* this = (EnZl4*)thisx;
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &gChildZeldaSkel, NULL, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gChildZeldaSkel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_21);
     Collider_InitCylinder(play, &this->collider);

@@ -6,6 +6,7 @@
 
 #include "z_en_tr.h"
 
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -110,7 +111,7 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
     switch (this->actor.params) {
         case TR_KOUME:
             SkelAnime_InitFlex(play, &this->skelAnime, &gKoumeSkel, &gKotakeKoumeStandingBroomOverRightShoulderAnim,
-                               this->jointTable, this->morphTable, KOTAKE_KOUME_LIMB_MAX);
+                               this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
             Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverRightShoulderAnim);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
@@ -119,7 +120,7 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
 
         case TR_KOTAKE:
             SkelAnime_InitFlex(play, &this->skelAnime, &gKotakeSkel, &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
-                               this->jointTable, this->morphTable, KOTAKE_KOUME_LIMB_MAX);
+                               this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
             Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverLeftShoulderAnim);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
