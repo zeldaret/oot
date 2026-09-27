@@ -183,8 +183,8 @@ static ColliderCylinderInit sTailCylinderInit = {
 typedef enum EnWfDamageReaction {
     ENWF_DMG_REACT_NONE,
     ENWF_DMG_REACT_STUN,
-    ENWF_DMG_REACT_6 = 6,
-    ENWF_DMG_REACT_D = 0xD,
+    ENWF_DMG_REACT_ICE_MAGIC = 6,
+    ENWF_DMG_REACT_LIGHT_MAGIC = 0xD,
     ENWF_DMG_REACT_FIRE,
     ENWF_DMG_REACT_F
 } EnWfDamageReaction;
@@ -208,8 +208,8 @@ static DamageTable sDamageTable = {
     /* Unk arrow 2   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
     /* Unk arrow 3   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
     /* Fire magic    */ DMG_ENTRY(4, ENWF_DMG_REACT_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, ENWF_DMG_REACT_6),
-    /* Light magic   */ DMG_ENTRY(3, ENWF_DMG_REACT_D),
+    /* Ice magic     */ DMG_ENTRY(0, ENWF_DMG_REACT_ICE_MAGIC),
+    /* Light magic   */ DMG_ENTRY(3, ENWF_DMG_REACT_LIGHT_MAGIC),
     /* Shield        */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
     /* Mirror Ray    */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
     /* Kokiri spin   */ DMG_ENTRY(1, ENWF_DMG_REACT_NONE),
@@ -322,20 +322,16 @@ s32 EnWf_PickAction(PlayState* play, EnWf* this, s16 mustPick) {
     s16 absRelYawTowardsPlayer;
 
     absRelWallYaw = this->actor.wallYaw - this->actor.shape.rot.y;
-    if (absRelWallYaw < 0) {
-        absRelWallYaw *= -1;
-    }
+    absRelWallYaw = ABS(absRelWallYaw);
     absRelYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (absRelYawTowardsPlayer < 0) {
-        absRelYawTowardsPlayer *= -1;
-    }
+    absRelYawTowardsPlayer = ABS(absRelYawTowardsPlayer);
 
     if (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y)) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnWf_SetupBlock(this);
             return true;
         }
-        if (play->gameplayFrames & 1) {
+        if ((play->gameplayFrames % 2) != 0) {
             EnWf_SetupBlock(this);
             return true;
         }
@@ -350,7 +346,7 @@ s32 EnWf_PickAction(PlayState* play, EnWf* this, s16 mustPick) {
         } else if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnWf_SetupBlock(this);
             return true;
-        } else if ((this->actor.xzDistToPlayer < 80.0f) && (play->gameplayFrames & 1)) {
+        } else if ((this->actor.xzDistToPlayer < 80.0f) && ((play->gameplayFrames % 2) != 0)) {
             EnWf_SetupBlock(this);
             return true;
         } else {
@@ -391,7 +387,7 @@ s32 EnWf_PickAction(PlayState* play, EnWf* this, s16 mustPick) {
 
         yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
         if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
-            (((play->gameplayFrames & 7) != 0) || (ABS(yawDiff) < 0x38E0))) {
+            (((play->gameplayFrames % 8) != 0) || (ABS(yawDiff) < 0x38E0))) {
             EnWf_SetupAttack(this);
             return true;
         } else {
@@ -468,9 +464,7 @@ void EnWf_Idle(EnWf* this, PlayState* play) {
         this->idleTimer = 0;
     }
     yaw = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (yaw < 0) {
-        yaw *= -1;
-    }
+    yaw = ABS(yaw);
     if (!EnWf_ReactToProjectile(play, this)) {
         // unk_2E0 is always 0
         if (this->unk_2E0 != 0) {
@@ -484,9 +478,7 @@ void EnWf_Idle(EnWf* this, PlayState* play) {
             return;
         }
         yaw = player->actor.shape.rot.y - this->actor.shape.rot.y;
-        if (yaw < 0) {
-            yaw *= -1;
-        }
+        yaw = ABS(yaw);
         if ((this->actor.xzDistToPlayer < 80.0f) && (player->meleeWeaponState != 0) && (yaw >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             EnWf_SetupCirclePlayer(this);
@@ -548,9 +540,7 @@ void EnWf_RunToAttack(EnWf* this, PlayState* play) {
         }
         this->skelAnime.playSpeed = this->actor.speed * 0.175f;
         var_v0_real = player->actor.shape.rot.y - this->actor.shape.rot.y;
-        if (var_v0_real < 0) {
-            var_v0_real *= -1;
-        }
+        var_v0_real = ABS(var_v0_real);
         if ((this->actor.xzDistToPlayer < (150.0f + sp50_real)) && (player->meleeWeaponState != 0) &&
             (var_v0_real >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -821,12 +811,8 @@ void EnWf_AttackBouncedOff(EnWf* this, PlayState* play) {
 
     absYawDiffWithPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
     absRelYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (absYawDiffWithPlayer < 0) {
-        absYawDiffWithPlayer *= -1;
-    }
-    if (absRelYawTowardsPlayer < 0) {
-        absRelYawTowardsPlayer *= -1;
-    }
+    absYawDiffWithPlayer = ABS(absYawDiffWithPlayer);
+    absRelYawTowardsPlayer = ABS(absRelYawTowardsPlayer);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (!Actor_IsFacingPlayer(&this->actor, 0x1554)) {
             EnWf_SetupIdle(this);
@@ -871,7 +857,7 @@ void EnWf_BackflipBackward(EnWf* this, PlayState* play) {
         if (!Actor_OtherIsLockedOn(play, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
             (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             EnWf_SetupRunToAttack(this, play);
-        } else if (play->gameplayFrames & 1) {
+        } else if ((play->gameplayFrames % 2) != 0) {
             EnWf_SetupShortCirclePlayer(this, play);
         } else {
             EnWf_SetupIdle(this);
@@ -942,15 +928,13 @@ void EnWf_Damaged(EnWf* this, PlayState* play) {
     if (!EnWf_PickAction(play, this, false) && SkelAnime_Update(&this->skelAnime) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         absRelWallYaw = this->actor.wallYaw - this->actor.shape.rot.y;
-        if (absRelWallYaw < 0) {
-            absRelWallYaw *= -1;
-        }
+        absRelWallYaw = ABS(absRelWallYaw);
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(absRelWallYaw) < 0x2EE0) &&
             (this->actor.xzDistToPlayer < 120.0f)) {
             EnWf_SetupBackflipForward(this);
         } else if (!EnWf_ReactToProjectile(play, this)) {
             if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
-                ((play->gameplayFrames & 7) != 0)) {
+                ((play->gameplayFrames % 8) != 0)) {
                 EnWf_SetupAttack(this);
             } else if (Rand_ZeroOne() > 0.5f) {
                 EnWf_SetupIdle(this);
@@ -999,7 +983,7 @@ void EnWf_BackflipForward(EnWf* this, PlayState* play) {
 }
 
 void EnWf_SetupBlock(EnWf* this) {
-    f32 animEndFrame = (f32)Animation_GetLastFrame(&gWolfosBlockAnim);
+    f32 animEndFrame = Animation_GetLastFrame(&gWolfosBlockAnim);
 
     if (this->attackState != 0) {
         this->attackState = -1;
@@ -1030,7 +1014,7 @@ void EnWf_Block(EnWf* this, PlayState* play) {
             if (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
                 if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
                     EnWf_SetupBlock(this);
-                } else if (play->gameplayFrames & 1) {
+                } else if ((play->gameplayFrames % 2) != 0) {
                     EnWf_SetupBlock(this);
                 } else {
                     EnWf_SetupBackflipBackward(this);
@@ -1038,7 +1022,7 @@ void EnWf_Block(EnWf* this, PlayState* play) {
             } else {
                 yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
                 if (!Actor_OtherIsLockedOn(play, &this->actor) &&
-                    ((play->gameplayFrames & 1) || (ABS(yawDiff) < 0x38E0))) {
+                    (((play->gameplayFrames % 2) != 0) || (ABS(yawDiff) < 0x38E0))) {
                     EnWf_SetupAttack(this);
                 } else {
                     EnWf_SetupCirclePlayer(this);
@@ -1051,7 +1035,7 @@ void EnWf_Block(EnWf* this, PlayState* play) {
                func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnWf_SetupBlock(this);
-        } else if (play->gameplayFrames & 1) {
+        } else if ((play->gameplayFrames % 2) != 0) {
             EnWf_SetupBlock(this);
         } else {
             EnWf_SetupBackflipBackward(this);
@@ -1150,9 +1134,7 @@ void EnWf_ShortCirclePlayer(EnWf* this, PlayState* play) {
             //! behindPlayerYawAbs is typically exactly -0x8000 when locking on the actor.
             //! Note the same problem of storing absolute angles into s16 variables happens elsewhere in this file, but
             //! problematic -0x8000 happens rarely in those other spots.
-            if (behindPlayerYawAbs < 0) {
-                behindPlayerYawAbs *= -1;
-            }
+            behindPlayerYawAbs = ABS(behindPlayerYawAbs);
             if (behindPlayerYawAbs >= 0x3A98) {
                 EnWf_SetupIdle(this);
                 this->timer = (Rand_ZeroOne() * 3.0f) + 1.0f;
@@ -1161,7 +1143,7 @@ void EnWf_ShortCirclePlayer(EnWf* this, PlayState* play) {
                 behindPlayerYaw = player2->actor.shape.rot.y - this->actor.yawTowardsPlayer;
                 this->actor.world.rot.y = this->actor.shape.rot.y;
                 if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
-                    (((play->gameplayFrames & 3) == 0) || (ABS(behindPlayerYaw) < 0x38E0))) {
+                    (((play->gameplayFrames % 4) == 0) || (ABS(behindPlayerYaw) < 0x38E0))) {
                     EnWf_SetupAttack(this);
                 } else {
                     EnWf_SetupRunToAttack(this, play);
@@ -1254,7 +1236,7 @@ void EnWf_CheckCollide(EnWf* this, PlayState* play) {
         }
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         this->tailCollider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_6) {
+        if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_ICE_MAGIC) {
             this->lastDamageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 #if OOT_VERSION >= PAL_1_0
@@ -1288,7 +1270,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
 
     EnWf_CheckCollide(this, play);
-    if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_6) {
+    if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_ICE_MAGIC) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 32.0f, 30.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
@@ -1322,8 +1304,8 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 25.0f;
     if (this->eyeIndex == 0) {
-        if ((Rand_ZeroOne() < 0.2f) && ((play->gameplayFrames & 3) == 0) && (this->actor.colorFilterTimer == 0)) {
-            this->eyeIndex += 1;
+        if ((Rand_ZeroOne() < 0.2f) && ((play->gameplayFrames % 4) == 0) && (this->actor.colorFilterTimer == 0)) {
+            this->eyeIndex++;
         }
     } else {
         this->eyeIndex = (this->eyeIndex + 1) & 3;
@@ -1340,7 +1322,7 @@ s32 EnWf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 }
 
 void EnWf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f D_80B37ADC = { 1200.0f, 0.0f, 0.0f };
+    static Vec3f sTailColliderOffset = { 1200.0f, 0.0f, 0.0f };
     static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
     EnWf* this = (EnWf*)thisx;
     s32 bodyPartIndex;
@@ -1350,7 +1332,7 @@ void EnWf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     bodyPartIndex = -1;
     Collider_UpdateSpheres(limbIndex, &this->attackAndBlockCollider);
     if (limbIndex == WOLFOS_LIMB_TAIL) {
-        Matrix_MultVec3f(&D_80B37ADC, &tailColliderPos);
+        Matrix_MultVec3f(&sTailColliderOffset, &tailColliderPos);
         this->tailCollider.dim.pos.x = tailColliderPos.x;
         this->tailCollider.dim.pos.y = tailColliderPos.y;
         this->tailCollider.dim.pos.z = tailColliderPos.z;
@@ -1379,7 +1361,8 @@ void EnWf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
                 bodyPartIndex = 6;
                 break;
             case 37:
-                //! @bug 37 is not a valid limb index
+                //! @bug 37 is not a valid limb index.
+                //! This means bodyPartsPos[7] stays 0,0,0 and a flame is drawn at 0,0,0 when the wolfos is on fire.
                 bodyPartIndex = 7;
                 break;
             case WOLFOS_LIMB_RIGHT_ANKLE:
@@ -1427,7 +1410,7 @@ void EnWf_Draw(Actor* thisx, PlayState* play) {
             this->actor.colorFilterTimer++;
             if (1) {}
             this->onFireTimer -= 1;
-            if ((this->onFireTimer & 3) == 0) {
+            if ((this->onFireTimer % 4) == 0) {
                 s32 bodyPartIndex = this->onFireTimer >> 2;
 
                 EffectSsEnFire_SpawnVec3s(play, &this->actor, &this->bodyPartsPos[bodyPartIndex], 75, 0, 0,

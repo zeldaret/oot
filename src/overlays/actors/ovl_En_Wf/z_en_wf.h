@@ -23,7 +23,6 @@ typedef struct EnWf {
     /* 0x2E2 */ s16 idleTimer;
     /* 0x2E4 */ s16 onFireTimer;
     /* 0x2E6 */ u8 lastDamageReaction;
-    /* 0x2E7 */ char pad_2E7[1];
     /* 0x2E8 */ s32 timer;
     /* 0x2EC */ f32 circlePlayerExtraSpeed;
     /* 0x2F0 */ char pad_2F0[4];
@@ -34,7 +33,6 @@ typedef struct EnWf {
     /* 0x2FE */ s16 circlePlayerDirection;
     /* 0x300 */ s16 unk_300;
     /* 0x302 */ u8 eyeIndex;
-    /* 0x303 */ char pad_303[1];
     /* 0x304 */ ColliderJntSph attackAndBlockCollider;
     /* 0x324 */ ColliderJntSphElement attackAndBlockColliderElements[4];
     /* 0x424 */ ColliderCylinder bodyCollider;
