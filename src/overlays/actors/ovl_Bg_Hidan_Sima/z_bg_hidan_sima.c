@@ -28,12 +28,12 @@ void BgHidanSima_Destroy(Actor* thisx, PlayState* play);
 void BgHidanSima_Update(Actor* thisx, PlayState* play);
 void BgHidanSima_Draw(Actor* thisx, PlayState* play);
 
-void func_8088E518(BgHidanSima* this, PlayState* play);
-void func_8088E5D0(BgHidanSima* this, PlayState* play);
-void func_8088E6D0(BgHidanSima* this, PlayState* play);
-void func_8088E760(BgHidanSima* this, PlayState* play);
-void func_8088E7A8(BgHidanSima* this, PlayState* play);
-void func_8088E90C(BgHidanSima* this);
+void BgHidanSima_SinkingPlatform_Idle(BgHidanSima* this, PlayState* play);
+void BgHidanSima_SinkingPlatform_WarningShake(BgHidanSima* this, PlayState* play);
+void BgHidanSima_SinkingPlatform_Sink(BgHidanSima* this, PlayState* play);
+void BgHidanSima_MovingPlatform_Idle(BgHidanSima* this, PlayState* play);
+void BgHidanSima_MovingPlatform_Move(BgHidanSima* this, PlayState* play);
+void BgHidanSima_SetFireHitbox(BgHidanSima* this);
 
 ActorProfile Bg_Hidan_Sima_Profile = {
     /**/ ACTOR_BG_HIDAN_SIMA,
@@ -102,9 +102,9 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-    if (this->dyna.actor.params == 0) {
+    if (this->dyna.actor.params == BG_HIDAN_SIMA_SINKING) {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
-    } else {
+    } else /* BG_HIDAN_SIMA_MOVING */ {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform2Col, &colHeader);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -113,10 +113,10 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     for (i = 0; i < ARRAY_COUNT(sJntSphElementsInit); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
-    if (this->dyna.actor.params == 0) {
-        this->actionFunc = func_8088E518;
-    } else {
-        this->actionFunc = func_8088E760;
+    if (this->dyna.actor.params == BG_HIDAN_SIMA_SINKING) {
+        this->actionFunc = BgHidanSima_SinkingPlatform_Idle;
+    } else /* BG_HIDAN_SIMA_MOVING */ {
+        this->actionFunc = BgHidanSima_MovingPlatform_Idle;
     }
 }
 
@@ -127,22 +127,25 @@ void BgHidanSima_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-void func_8088E518(BgHidanSima* this, PlayState* play) {
+void BgHidanSima_SinkingPlatform_Idle(BgHidanSima* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
         this->timer = 20;
         this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
+
+        // If the player gets on top of the platform before it has returned to its home position, skip the shaking
+        // animation
         if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
-            this->actionFunc = func_8088E5D0;
+            this->actionFunc = BgHidanSima_SinkingPlatform_WarningShake;
         } else {
-            this->actionFunc = func_8088E6D0;
+            this->actionFunc = BgHidanSima_SinkingPlatform_Sink;
         }
     }
 }
 
-void func_8088E5D0(BgHidanSima* this, PlayState* play) {
+void BgHidanSima_SinkingPlatform_WarningShake(BgHidanSima* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -152,7 +155,7 @@ void func_8088E5D0(BgHidanSima* this, PlayState* play) {
         this->dyna.actor.world.pos.z =
             Math_CosS(this->dyna.actor.world.rot.y + (this->timer * 0x4000)) * 5.0f + this->dyna.actor.home.pos.z;
     } else {
-        this->actionFunc = func_8088E6D0;
+        this->actionFunc = BgHidanSima_SinkingPlatform_Sink;
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
     }
@@ -162,50 +165,61 @@ void func_8088E5D0(BgHidanSima* this, PlayState* play) {
     }
 }
 
-void func_8088E6D0(BgHidanSima* this, PlayState* play) {
+void BgHidanSima_SinkingPlatform_Sink(BgHidanSima* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
+        // The platform keeps sinking for a bit after the player gets off it.
         this->timer = 20;
     } else if (this->timer != 0) {
         this->timer--;
     }
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 100.0f, 1.7f);
     if (this->timer == 0) {
-        this->actionFunc = func_8088E518;
+        this->actionFunc = BgHidanSima_SinkingPlatform_Idle;
     }
 }
 
-void func_8088E760(BgHidanSima* this, PlayState* play) {
+void BgHidanSima_MovingPlatform_Idle(BgHidanSima* this, PlayState* play) {
+    // Wait a bit before turning around.
     if (this->timer != 0) {
         this->timer--;
     }
     if (this->timer == 0) {
         this->dyna.actor.world.rot.y += 0x8000;
         this->timer = 60;
-        this->actionFunc = func_8088E7A8;
+        this->actionFunc = BgHidanSima_MovingPlatform_Move;
     }
 }
 
-void func_8088E7A8(BgHidanSima* this, PlayState* play) {
-    f32 temp;
+void BgHidanSima_MovingPlatform_Move(BgHidanSima* this, PlayState* play) {
+    f32 distanceFromHome;
 
+    // The platform moves forward for 60 frames.
     if (this->timer != 0) {
         this->timer--;
     }
+    // The sine function is used to calculate how far the platform should move relative to its home position.
+    // First, the actor's world rotation is compared against its home rotation in order do determine which direction it
+    // has to move in. Then the timer state, ranging from 59 to 0, is converted into an angle between -90 and 90
+    // degrees. The value returned by the sine wave function is incremented by 1 to obtain a range between 0.0 and 2.0.
+    // Finally, this value is multiplied by 200 units (or -200 units when returning home) to get the platform's current
+    // displacement position relative to its home position.
     if (this->dyna.actor.world.rot.y != this->dyna.actor.home.rot.y) {
-        temp = (sinf(((60 - this->timer) * 0.01667 - 0.5) * M_PI) + 1) * 200;
+        distanceFromHome = (sinf(((60 - this->timer) * 0.01667 - 0.5) * M_PI) + 1) * 200;
     } else {
-        temp = (sinf((this->timer * 0.01667 - 0.5) * M_PI) + 1) * -200;
+        distanceFromHome = (sinf((this->timer * 0.01667 - 0.5) * M_PI) + 1) * -200;
     }
-    this->dyna.actor.world.pos.x = Math_SinS(this->dyna.actor.world.rot.y) * temp + this->dyna.actor.home.pos.x;
-    this->dyna.actor.world.pos.z = Math_CosS(this->dyna.actor.world.rot.y) * temp + this->dyna.actor.home.pos.z;
+    this->dyna.actor.world.pos.x =
+        Math_SinS(this->dyna.actor.world.rot.y) * distanceFromHome + this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z =
+        Math_CosS(this->dyna.actor.world.rot.y) * distanceFromHome + this->dyna.actor.home.pos.z;
     if (this->timer == 0) {
         this->timer = 20;
-        this->actionFunc = func_8088E760;
+        this->actionFunc = BgHidanSima_MovingPlatform_Idle;
     }
     Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
 }
 
-void func_8088E90C(BgHidanSima* this) {
+void BgHidanSima_SetFireHitbox(BgHidanSima* this) {
     ColliderJntSphElement* elem;
     s32 i;
     f32 cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
@@ -224,21 +238,23 @@ void BgHidanSima_Update(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
 
     this->actionFunc(this, play);
-    if (this->dyna.actor.params != 0) {
+    // For BG_HIDAN_SIMA_MOVING, sway it up and down a bit.
+    if (this->dyna.actor.params != BG_HIDAN_SIMA_SINKING) {
         s32 temp = (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) ? this->timer : (this->timer + 80);
 
-        if (this->actionFunc == func_8088E7A8) {
+        // Advance the sway by 20 frames second when the platform moves
+        if (this->actionFunc == BgHidanSima_MovingPlatform_Move) {
             temp += 20;
         }
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - ((1.0f - cosf(temp * (M_PI / 20))) * 5.0f);
-        if (this->actionFunc == func_8088E7A8) {
-            func_8088E90C(this);
+        if (this->actionFunc == BgHidanSima_MovingPlatform_Move) {
+            BgHidanSima_SetFireHitbox(this);
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
     }
 }
 
-Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
+Gfx* BgHidanSima_DrawFire(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     MtxF mtxF;
     s32 s3;
     s32 v0;
@@ -295,15 +311,15 @@ void BgHidanSima_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_sima.c", 645);
-    if (this->dyna.actor.params == 0) {
+    if (this->dyna.actor.params == BG_HIDAN_SIMA_SINKING) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform1DL);
-    } else {
+    } else /* BG_HIDAN_SIMA_MOVING */ {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform2DL);
-        if (this->actionFunc == func_8088E7A8) {
+        if (this->actionFunc == BgHidanSima_MovingPlatform_Move) {
             POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 1, 255, 255, 0, 150);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
-            POLY_XLU_DISP = func_8088EB54(play, this, POLY_XLU_DISP);
+            POLY_XLU_DISP = BgHidanSima_DrawFire(play, this, POLY_XLU_DISP);
         }
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_hidan_sima.c", 668);
