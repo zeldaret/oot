@@ -271,7 +271,7 @@ void func_80AE7AF8(EnRl* this, PlayState* play) {
             func_80AE78D4(this, play);
             this->lightBallSpawned = 1;
         }
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 

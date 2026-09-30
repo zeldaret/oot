@@ -1604,7 +1604,7 @@ void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
 
     if (1) {}
 
-    if (BgCheck_AnyLineTest3(&play->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &bgId)) {
+    if (BgCheck_AnyLineTest3(&play->colCtx, &sp8C, &sp80, &sp74, &sp9C, true, true, true, true, &bgId)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2572);
 
         OVERLAY_DISP = Gfx_SetupDL(OVERLAY_DISP, SETUPDL_7);
