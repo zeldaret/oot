@@ -1453,7 +1453,7 @@ class DListResource(Resource, can_size_be_unknown=True):
                     "gSunDL",  # DList loads bigger chunks than the individual texture pieces (overlaps)
                 }
                 HACK_no_warn_bad_dims_Texs = {
-                    "gPoeComposerFlatHeadDL_000060E0_Tex",  # used as both rgba16 16x16 and rgba16 8x8
+                    "object_po_composer_000060E0_Tex",  # used as both rgba16 16x16 and rgba16 8x8
                     "gDekuStickTex",  # used as both i8 8x8 and i8 16x16
                     "gHilite1Tex",  # used as both rgba16 16x16 and rgba16 32x32
                     "gHilite2Tex",  # used as both rgba16 16x16 and rgba16 32x32

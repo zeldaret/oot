@@ -1268,7 +1268,7 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
 }
 
 /**
- * Chcek if the player is facing the specified actor.
+ * Check if the player is facing the specified actor.
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  */
 s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, PlayState* play) {
@@ -1283,7 +1283,7 @@ s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, PlayState* play) {
 }
 
 /**
- * Chcek if `actorB` is facing `actorA`.
+ * Check if `actorB` is facing `actorA`.
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  *
  * This function is unused in the original game.
@@ -1299,7 +1299,7 @@ s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 maxAngle) {
 }
 
 /**
- * Chcek if the specified actor is facing the player.
+ * Check if the specified actor is facing the player.
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  */
 s32 Actor_IsFacingPlayer(Actor* actor, s16 maxAngle) {
@@ -1313,7 +1313,7 @@ s32 Actor_IsFacingPlayer(Actor* actor, s16 maxAngle) {
 }
 
 /**
- * Chcek if `actorA` is facing `actorB`.
+ * Check if `actorA` is facing `actorB`.
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  *
  * This function is unused in the original game.
@@ -1329,7 +1329,7 @@ s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 maxAngle) {
 }
 
 /**
- * Chcek if the specified actor is facing the player and is nearby.
+ * Check if the specified actor is facing the player and is nearby.
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  * The minimum distance that qualifies as "nearby" is specified by `range`.
  */
@@ -1348,7 +1348,7 @@ s32 Actor_IsFacingAndNearPlayer(Actor* actor, f32 range, s16 maxAngle) {
 }
 
 /**
- * Chcek if `actorA` is facing `actorB` and is nearby.
+ * Check if `actorA` is facing `actorB` and is nearby.
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  * The minimum distance that qualifies as "nearby" is specified by `range`.
  */
@@ -3852,7 +3852,7 @@ void Actor_ChangeCategory(PlayState* play, ActorContext* actorCtx, Actor* actor,
 /**
  * Checks if a hookshot or arrow actor is going to collide with the cylinder denoted by the
  * actor's `cylRadius` and `cylHeight`.
- * The check is only peformed if the projectile actor is within the provided sphere radius.
+ * The check is only performed if the projectile actor is within the provided sphere radius.
  *
  * Returns the actor if there will be collision, NULL otherwise.
  */
