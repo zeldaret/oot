@@ -19,13 +19,15 @@ from typing import List
 CLANG_VER = 14
 
 # Clang-Format options (see .clang-format for rules applied)
-FORMAT_OPTS = "-i -style=file"
+FORMAT_OPTS_WITHOUT_INCLUDES = "-i -style=file"
+FORMAT_OPTS_WITH_INCLUDES = "-i -style=file:.clang-format-includes"
 
 # Clang-Tidy options (see .clang-tidy for checks enabled)
 TIDY_OPTS = "-p ."
 TIDY_FIX_OPTS = "--fix --fix-errors"
 
 # Clang-Apply-Replacements options (used for multiprocessing)
+# Always use .clang-format here (and ignore .clang-format-includes), as clang-tidy isn't going to touch includes anyway
 APPLY_OPTS = "--format --style=file"
 
 # Compiler options used with Clang-Tidy
@@ -72,8 +74,12 @@ def list_chunks(list: List, chunk_length: int):
         yield list[i : i + chunk_length]
 
 
-def run_clang_format(files: List[str]):
-    exec_str = f"{CLANG_FORMAT} {FORMAT_OPTS} {' '.join(files)}"
+def run_clang_format(files: List[str], with_includes: bool):
+    exec_str = (
+        f"{CLANG_FORMAT}"
+        f" {FORMAT_OPTS_WITH_INCLUDES if with_includes else FORMAT_OPTS_WITHOUT_INCLUDES}"
+        f" {' '.join(files)}"
+    )
     subprocess.run(exec_str, shell=True)
 
 
@@ -121,13 +127,20 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
     else:
         print("Formatting files with a single job (consider using -j to make this faster)")
 
-    # Format files in chunks to improve performance while still utilizing jobs
-    file_chunks = list(list_chunks(src_files, (len(src_files) // nb_jobs) + 1))
+    src_files_set = set(src_files)
+
+    format_includes_todo = set(Path("tools/format_includes_todo.txt").read_text().splitlines())
 
     print("Running clang-format...")
     # clang-format only applies changes in the given files, so it's safe to run in parallel
     with multiprocessing.get_context("fork").Pool(nb_jobs) as pool:
-        pool.map(run_clang_format, file_chunks)
+        for with_includes, files in (
+            (True, src_files_set - format_includes_todo),
+            (False, src_files_set & format_includes_todo),
+        ):
+            # Format files in chunks to improve performance while still utilizing jobs
+            file_chunks = list(list_chunks(list(files), (len(files) // nb_jobs) + 1))
+            pool.starmap(run_clang_format, [(chunk, with_includes) for chunk in file_chunks])
 
     print("Running clang-tidy...")
     if nb_jobs > 1:
@@ -137,6 +150,7 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
 
         try:
             with multiprocessing.get_context("fork").Pool(nb_jobs) as pool:
+                file_chunks = list(list_chunks(list(src_files), (len(src_files) // nb_jobs) + 1))
                 pool.map(partial(run_clang_tidy_with_export, tmp_dir), file_chunks)
 
             run_clang_apply_replacements(tmp_dir)
