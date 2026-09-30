@@ -2368,10 +2368,10 @@ void Audio_Update(void) {
     }
 }
 
-void func_800F3138(UNUSED UNK_TYPE arg0) {
+void func_800F3138(UNUSED s32 arg0) {
 }
 
-void func_800F3140(UNUSED UNK_TYPE arg0, UNUSED UNK_TYPE arg1) {
+void func_800F3140(UNUSED s32 arg0, UNUSED s32 arg1) {
 }
 
 void func_800F314C(s8 seqId) {

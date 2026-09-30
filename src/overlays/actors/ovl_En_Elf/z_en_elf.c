@@ -345,7 +345,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     SkelAnime_Init(play, &this->skelAnime, &gFairySkel, &gFairyAnim, this->jointTable, this->morphTable, 15);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
-    thisx->shape.shadowAlpha = 0xFF;
+    thisx->shape.shadowAlpha = 255;
 
     Lights_PointGlowSetInfo(&this->lightInfoGlow, thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, 255, 255,
                             255, 0);
