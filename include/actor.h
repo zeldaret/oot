@@ -33,6 +33,15 @@ typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*
 typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
 typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
 
+#define ACTOR_SHAPE_FOOTSTEP_RIGHT (1 << 0)
+#define ACTOR_SHAPE_FOOTSTEP_LEFT (1 << 1)
+
+typedef enum ActorShapeFootIndex {
+    /* 0 */ ACTOR_SHAPE_FOOT_LEFT,
+    /* 1 */ ACTOR_SHAPE_FOOT_RIGHT,
+    /* 2 */ ACTOR_SHAPE_FOOT_MAX
+} ActorShapeFootIndex;
+
 typedef struct ActorShape {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation
     /* 0x06 */ s16 face; // Used to index eyes and mouth textures. Only used by player
@@ -40,7 +49,7 @@ typedef struct ActorShape {
     /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function
     /* 0x10 */ f32 shadowScale; // Changes the size of the shadow
     /* 0x14 */ u8 shadowAlpha; // Default is 255
-    /* 0x15 */ u8 feetFloorFlag; // 0 if actor or feet aren't on ground, or 1 or 2 depending on feet positions
+    /* 0x15 */ u8 footstepFloorFlags; // 0 if actor or feet aren't on ground, ACTOR_SHAPE_FOOTSTEP_RIGHT or ACTOR_SHAPE_FOOTSTEP_LEFT depending on feet positions
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
@@ -244,11 +253,6 @@ typedef struct Actor {
     /* 0x13C */ char dbgPad[0x10];
 #endif
 } Actor; // size = 0x14C
-
-typedef enum ActorFootIndex {
-    /* 0 */ FOOT_LEFT,
-    /* 1 */ FOOT_RIGHT
-} ActorFootIndex;
 
 /*
 colorFilterParams WIP documentation
