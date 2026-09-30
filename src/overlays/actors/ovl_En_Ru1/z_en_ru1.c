@@ -397,7 +397,7 @@ s32 EnRu1_GetPlatformCamSetting(EnRu1* this) {
     if (this->bigOctoPlatform != NULL) {
         return this->bigOctoPlatform->cameraSetting;
     } else {
-        return 0;
+        return CAM_SET_NONE;
     }
 }
 
@@ -783,7 +783,7 @@ void EnRu1_EndSwimBack(EnRu1* this, PlayState* play) {
     }
 }
 
-void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
+void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, s32 arg2) {
     if ((EnRu1_CheckFountainCueMatchingId(play, 8)) && (arg2 != 0)) {
         Actor_Kill(&this->actor);
     }
@@ -2076,7 +2076,7 @@ void EnRu1_PlayStartledSfx(EnRu1* this) {
 }
 
 void EnRu1_RespondToSapphirePlatformMoving(EnRu1* this) {
-    if (EnRu1_GetPlatformCamSetting(this) == 2) {
+    if (EnRu1_GetPlatformCamSetting(this) == CAM_SET_NORMAL1) {
         EnRu1_SetEyes(this, ENRU1_EYES_UP);
         EnRu1_SetMouth(this, ENRU1_MOUTH_OPEN);
         if (this->skelAnime.mode != ANIMMODE_ONCE) {
@@ -2129,7 +2129,7 @@ void EnRu1_SetupRetrievingSapphireAnimation(EnRu1* this, PlayState* play) {
         EnRu1_StartWalkingTowardSapphire(this, play);
         this->action = ENRU1_ACTION_RETRIEVING_SAPPHIRE;
         this->drawConfig = ENRU1_DRAW_OPA;
-        thisx->shape.shadowAlpha = 0xFF;
+        thisx->shape.shadowAlpha = 255;
     }
 }
 
@@ -2166,7 +2166,7 @@ void EnRu1_EndRetrievalCutscene(EnRu1* this, PlayState* play) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE);
         Flags_SetSwitch(play, EnRu1_GetSwitchFlag(this));
-        EnRu1_SetPlatformCamSetting(this, 1);
+        EnRu1_SetPlatformCamSetting(this, CAM_SET_NORMAL0);
         this->action = ENRU1_ACTION_READY_TO_GO_HOME;
         this->actor.room = curRoomNum;
     }
@@ -2175,7 +2175,7 @@ void EnRu1_EndRetrievalCutscene(EnRu1* this, PlayState* play) {
 void EnRu1_RespondToAbduction(EnRu1* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
-    if (EnRu1_GetPlatformCamSetting(this) == 3) {
+    if (EnRu1_GetPlatformCamSetting(this) == CAM_SET_DUNGEON0) {
         thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         thisx->textId = 0x4048;
 #if !OOT_PAL_N64
@@ -2279,7 +2279,7 @@ void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = ENRU1_ACTION_WAITING_IN_SAPPHIRE_ROOM;
         this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
-        EnRu1_SetPlatformCamSetting(this, 1);
+        EnRu1_SetPlatformCamSetting(this, CAM_SET_NORMAL0);
         thisx->flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
         Actor_Kill(thisx);
@@ -2291,7 +2291,7 @@ void EnRu1_SapphireRoom_Waiting(EnRu1* this, PlayState* play) {
     if (this->bigOctoPlatform != NULL) {
         this->action = ENRU1_ACTION_READY_TO_GO_HOME;
         this->drawConfig = ENRU1_DRAW_OPA;
-        EnRu1_SetPlatformCamSetting(this, 1);
+        EnRu1_SetPlatformCamSetting(this, CAM_SET_NORMAL0);
     }
 }
 
@@ -2368,7 +2368,7 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
     if (GET_INFTABLE(INFTABLE_RUTO_MET_FIRST_TIME) && GET_INFTABLE(INFTABLE_RUTO_PLACED_ON_SWITCH) &&
-        !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) && !(EnRu1_IsAssistingLink(this, play))) {
+        !GET_INFTABLE(INFTABLE_RUTO_HAS_SAPPHIRE) && !EnRu1_IsAssistingLink(this, play)) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = thisx->room;
         this->action = ENRU1_ACTION_SPEAK_JABU_PRE_SPAWN;

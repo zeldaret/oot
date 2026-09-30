@@ -116,7 +116,7 @@ static void* sEyeTextures[] = {
 };
 
 #if DEBUG_FEATURES
-static UNK_TYPE D_80AF4118 = 0;
+static s32 D_80AF4118 = 0;
 #endif
 
 #include "z_en_ru2_cutscene_data.inc.c"
@@ -539,7 +539,7 @@ void EnRu2_Fade(EnRu2* this, PlayState* play) {
             this->drawConfig = ENRU2_DRAW_OPA;
             *fadeTimer = kREG(5) + 10.0f;
             this->alpha = 255;
-            this->actor.shape.shadowAlpha = 0xFF;
+            this->actor.shape.shadowAlpha = 255;
             return;
         }
     } else {
@@ -571,7 +571,7 @@ void EnRu2_CheckFadeOut(EnRu2* this, PlayState* play) {
             EnRu2_SpawnLightBall(this, play);
             this->isLightBall = true;
         }
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -646,7 +646,7 @@ void EnRu2_FadeInCredits(EnRu2* this) {
     fadeDuration = kREG(17) + 10.0f;
     if (fadeDuration <= *fadeTimer) {
         this->alpha = 255;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     } else {
         alpha = (*fadeTimer / fadeDuration) * 255.0f;
         this->alpha = alpha;

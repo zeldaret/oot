@@ -380,7 +380,7 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
                 this->actionFunc = func_80B0D878;
             } else {
                 this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
-                this->actor.shape.shadowAlpha = 0xFF;
+                this->actor.shape.shadowAlpha = 255;
                 this->unk_38A = 2;
                 this->actor.shape.shadowScale = 16.0f;
                 this->actor.gravity = -1.0f;

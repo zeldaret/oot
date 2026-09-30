@@ -539,7 +539,7 @@ void EnNb_CheckToFade(EnNb* this, PlayState* play) {
             this->drawMode = NB_DRAW_DEFAULT;
             *alphaTimer = kREG(5) + 10.0f;
             this->alpha = 255;
-            this->actor.shape.shadowAlpha = 0xFF;
+            this->actor.shape.shadowAlpha = 255;
             return;
         }
     } else {
@@ -571,7 +571,7 @@ void EnNb_SetupLightOrb(EnNb* this, PlayState* play) {
             this->flag = 1;
         }
 
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -819,7 +819,7 @@ void func_80AB26DC(EnNb* this, PlayState* play) {
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
     this->action = NB_ACTION_14;
     this->drawMode = NB_DRAW_KNEEL;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void EnNb_SetupKneel(EnNb* this) {
@@ -829,7 +829,7 @@ void EnNb_SetupKneel(EnNb* this) {
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
     this->action = NB_KNEEL;
     this->drawMode = NB_DRAW_KNEEL;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void EnNb_CheckIfKneeling(EnNb* this, s32 animFinished) {
@@ -849,7 +849,7 @@ void EnNb_SetupLookRight(EnNb* this) {
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
     this->action = NB_LOOK_RIGHT;
     this->drawMode = NB_DRAW_DEFAULT;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void EnNb_CheckIfLookingRight(EnNb* this, s32 animFinished) {
@@ -869,7 +869,7 @@ void EnNb_SetupLookLeft(EnNb* this) {
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
     this->action = NB_LOOK_LEFT;
     this->drawMode = NB_DRAW_LOOK_DIRECTION;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void EnNb_CheckIfLookLeft(EnNb* this, s32 animFinished) {
@@ -895,7 +895,7 @@ void EnNb_SetupRun(EnNb* this) {
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
     this->action = NB_RUN;
     this->drawMode = NB_DRAW_LOOK_DIRECTION;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void EnNb_SetupConfrontationDestroy(EnNb* this) {

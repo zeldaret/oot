@@ -971,7 +971,7 @@ void Camera_UpdateInterface(s16 interfaceField) {
 
 Vec3f Camera_BGCheckCorner(Vec3f* linePointA, Vec3f* linePointB, CamColChk* pointAColChk, CamColChk* pointBColChk) {
     Vec3f closestPoint;
-    UNUSED_NDEBUG bool result;
+    UNUSED_NDEBUG s32 result;
 
     result = func_800427B4(pointAColChk->poly, pointBColChk->poly, linePointA, linePointB, &closestPoint);
 #if DEBUG_FEATURES

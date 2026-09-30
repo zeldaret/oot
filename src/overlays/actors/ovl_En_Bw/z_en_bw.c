@@ -243,8 +243,8 @@ void func_809CEA24(EnBw* this, PlayState* play) {
         this->color1.g = sp60;
     }
     if ((((play->gameplayFrames % 4) == this->actor.params) && (this->actor.speed != 0.0f) &&
-         (sp64 =
-              BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0, 1))) ||
+         (sp64 = BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, true, false,
+                                      false, true))) ||
         (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);
@@ -253,10 +253,12 @@ void func_809CEA24(EnBw* this, PlayState* play) {
             sp62 = this->actor.world.rot.y + 0x8000;
         }
         if ((this->unk_236 != sp62) || (sp64 == 0)) {
-            if (BgCheck_AnyLineTest2(&play->colCtx, &this->unk_270, &this->unk_288, &sp68, &sp74, 1, 0, 0, 1)) {
+            if (BgCheck_AnyLineTest2(&play->colCtx, &this->unk_270, &this->unk_288, &sp68, &sp74, true, false, false,
+                                     true)) {
                 sp64 |= 2;
             }
-            if (BgCheck_AnyLineTest2(&play->colCtx, &this->unk_270, &this->unk_27C, &sp68, &sp74, 1, 0, 0, 1)) {
+            if (BgCheck_AnyLineTest2(&play->colCtx, &this->unk_270, &this->unk_27C, &sp68, &sp74, true, false, false,
+                                     true)) {
                 sp64 |= 4;
             }
             switch (sp64) {
@@ -326,7 +328,7 @@ void func_809CEA24(EnBw* this, PlayState* play) {
             }
         } else if (this->unk_221 == 0) {
             sp64 = BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &sp68, &sp74,
-                                        1, 0, 0, 1);
+                                        true, false, false, true);
             if (sp64 != 0) {
                 sp74 = SEGMENTED_TO_VIRTUAL(sp74);
                 sp60 = RAD_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));

@@ -93,7 +93,7 @@ void Skybox_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[6]); // +x face
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[8]); // +y face
         if (skyboxId == SKYBOX_CUTSCENE_MAP) {
-            // Skip the bottom face in the cutscene map
+            // Only draw the bottom face in the cutscene map
             gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[10]); // -y face
         }
     }

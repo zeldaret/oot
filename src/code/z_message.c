@@ -141,7 +141,7 @@ u16 sNextTextId = 0;
 s16 sTextIsCredits = false;
 
 #if PLATFORM_GC && OOT_PAL
-UNK_TYPE D_8014B30C = 0;
+UNUSED static s32 D_8014B30C = 0;
 #endif
 
 s16 sLastPlayedSong = 0xFF;

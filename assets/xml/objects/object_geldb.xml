@@ -21,9 +21,8 @@
         <Texture Name="gGerudoRedEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x65A8" TlutOffset="0x5D30"/>
         <Texture Name="gGerudoRedEyeShutTex" Format="ci8" Width="32" Height="32" Offset="0x6D28" TlutOffset="0x5D30"/>
 
-        <!-- These hints are currently needed for ZAPD to extract the textures properly. -->
-        <Texture Name="sGerudoRedTexHint1" Format="rgba16" Width="18" Height="14" Offset="0x5D30"/>
-        <Texture Name="sGerudoRedTexHint2" Format="ci8" Width="8" Height="8" Offset="0x5F28" TlutOffset="0x5D30"/>
+        <Texture Name="sGerudoRed_5D30_TLUT" Format="rgba16" Width="18" Height="14" Offset="0x5D30"/>
+        <Texture Name="sGerudoRed_5F28_Tex" Format="ci8" Width="8" Height="8" Offset="0x5F28" TlutOffset="0x5D30"/>
 
         <!-- Vertices -->
         <Array Name="object_geldb_Vtx_002C00" Count="30" Offset="0x2C00">

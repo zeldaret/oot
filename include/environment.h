@@ -1,5 +1,5 @@
-#ifndef ENVIRONMENT_H_
-#define ENVIRONMENT_H_
+#ifndef ENVIRONMENT_H
+#define ENVIRONMENT_H
 
 #include "z_math.h"
 #include "light.h"
