@@ -498,7 +498,7 @@ void EnFd_Destroy(Actor* thisx, PlayState* play) {
 void EnFd_Reappear(EnFd* this, PlayState* play) {
     this->actor.world.pos = this->actor.home.pos;
     this->actor.params = 0;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->coreActive = false;
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;

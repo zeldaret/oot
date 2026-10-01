@@ -282,7 +282,7 @@ class JFIFResource(Resource):
 
     def get_c_reference(self, resource_offset: int):
         if resource_offset == 0:
-            return f"&{self.symbol_name}"
+            return f"{self.symbol_name}"
         else:
             raise ValueError
 

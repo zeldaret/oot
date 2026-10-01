@@ -344,8 +344,7 @@ static EnZl3* sZelda;
 
 static Actor* D_8090EB30;
 
-// unused
-static UNK_TYPE D_8090EB34;
+UNUSED static s32 D_8090EB34;
 
 static BossGanon2Effect sEffects[BOSS_GANON2_EFFECT_COUNT];
 
@@ -353,8 +352,7 @@ static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
 
-// unused
-static UNK_TYPE D_809105DC;
+UNUSED static s32 D_809105DC;
 
 static Vec3f D_809105D8[4];
 
