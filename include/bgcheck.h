@@ -472,9 +472,8 @@ s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec
 void BgCheck_DrawDynaCollision(struct PlayState*, CollisionContext*);
 void BgCheck_DrawStaticCollision(struct PlayState*, CollisionContext*);
 #endif
-
 void func_80043334(CollisionContext* colCtx, struct Actor* actor, s32 bgId);
-s32 DynaPolyActor_TransformCarriedActor(CollisionContext* colCtx, s32 bgId, struct Actor* carriedActor);
+s32 DynaPolyActor_TransformActorOnTop(CollisionContext* colCtx, s32 bgId, struct Actor* actor);
 void DynaPolyActor_Init(struct DynaPolyActor* dynaActor, s32 transformFlags);
 void DynaPolyActor_UnsetAllInteractFlags(struct DynaPolyActor* dynaActor);
 void DynaPolyActor_SetActorOnTop(struct DynaPolyActor* dynaActor);

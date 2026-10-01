@@ -1,5 +1,5 @@
-#include "z_en_jj.h"
 #include "cutscene_commands.h"
+#include "player.h"
 
 // clang-format off
 static CutsceneData gJabuInhalingCs[] = {
