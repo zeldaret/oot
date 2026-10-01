@@ -14,6 +14,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "translation.h"
 
 #include "assets/objects/object_ge1/object_ge1.h"
 
@@ -74,6 +75,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
+typedef enum EnGe1HairType {
+    EN_GE1_HAIR_TYPE_STRANDS,
+    EN_GE1_HAIR_TYPE_FRINGE,
+    EN_GE1_HAIR_TYPE_SPIKY
+} EnGe1HairType;
+
 static Gfx* sHairDLists[3] = {
     gObjectGe1HairStrandsDL,
     gObjectGe1HairFringeDL,
@@ -108,14 +115,15 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     } else {
         this->actor.cullingVolumeDistance = 1200.0f;
     }
+
     switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
         case EN_GE1_TYPE_CHILD_ERA_WASTELAND_GATEKEEPER:
-            this->hairType = 2;
+            this->hairType = EN_GE1_HAIR_TYPE_SPIKY;
             this->actionFunc = EnGe1_ChildEraWastelandGatekeeper_OfferTalk;
             break;
 
         case EN_GE1_TYPE_WASTELAND_GATEKEEPER:
-            this->hairType = 1;
+            this->hairType = EN_GE1_HAIR_TYPE_FRINGE;
             if (EnGe1_AreAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_WastelandGatekeeper_OfferTalk;
             } else {
@@ -124,7 +132,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
             break;
 
         case EN_GE1_TYPE_SENTINEL:
-            this->hairType = 1;
+            this->hairType = EN_GE1_HAIR_TYPE_FRINGE;
             if (EnGe1_AreAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_OfferTalkGreet;
             } else {
@@ -134,11 +142,11 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
 
         case EN_GE1_TYPE_5:
             if (LINK_IS_ADULT) {
-                PRINTF(VT_FGCOL(CYAN) "谷底 ゲルド 撤退 \n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) T("谷底 ゲルド 撤退 \n", "Retreat from the Gerudo canyon floor \n") VT_RST);
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->hairType = 0;
+            this->hairType = EN_GE1_HAIR_TYPE_STRANDS;
             this->actionFunc = EnGe1_OfferTalkGeneric;
             break;
 
@@ -148,8 +156,10 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
                 return;
             }
             this->actor.attentionRangeType = ATTENTION_RANGE_3;
-            this->hairType = 0;
-            PRINTF(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
+            this->hairType = EN_GE1_HAIR_TYPE_STRANDS;
+            PRINTF(VT_FGCOL(CYAN)
+                       T("やぶさめ ゲルド EVENT_INF(0) = %x\n", "Gerudo horseback archery EVENT_INF(0) = %x\n") VT_RST,
+                   gSaveContext.eventInf[0]);
             if (GET_EVENTINF(EVENTINF_HORSES_08)) {
                 this->actionFunc = EnGe1_Archery_ChooseReward;
             } else if (EnGe1_AreAllCarpentersRescued()) {
@@ -160,7 +170,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
             break;
 
         case EN_GE1_TYPE_GTG_GATEKEEPER:
-            this->hairType = 1;
+            this->hairType = EN_GE1_HAIR_TYPE_FRINGE;
             if (EnGe1_AreAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_GTGGatekeeper_OfferTalk;
             } else {
@@ -238,9 +248,8 @@ void EnGe1_SetupPlayerCaught(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_SentinelShortSighted(EnGe1* this, PlayState* play) {
-    s16 relYawTowardsPlayer;
+    s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(relYawTowardsPlayer) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
         EnGe1_SetupPlayerCaught(this, play);
     }
@@ -252,6 +261,7 @@ void EnGe1_SentinelShortSighted(EnGe1* this, PlayState* play) {
 
 void EnGe1_WaitTalkEnd(EnGe1* this, PlayState* play) {
     this->stateFlags |= EN_GE1_STATE_FLAG_LOOK_AT_PLAYER;
+
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         switch (this->actor.textId) {
             case 0x6001:
@@ -279,9 +289,8 @@ void EnGe1_OfferTalkGreet(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_Sentinel(EnGe1* this, PlayState* play) {
-    s16 relYawTowardsPlayer;
+    s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((this->actor.xzDistToPlayer < 50.0f) ||
         ((ABS(relYawTowardsPlayer) <= 0x4300) && (this->actor.xzDistToPlayer < 400.0f))) {
         EnGe1_SetupPlayerCaught(this, play);
@@ -293,9 +302,8 @@ void EnGe1_Sentinel(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_OfferTalkGeneric(EnGe1* this, PlayState* play) {
-    u16 textId;
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GERUDO_WHITE);
 
-    textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GERUDO_WHITE);
     if (textId == 0) {
         textId = 0x6019;
     }
@@ -367,6 +375,7 @@ void EnGe1_GTGGatekeeper_WaitAnswer(EnGe1* this, PlayState* play) {
 
 void EnGe1_GTGGatekeeper_TalkNoCard(EnGe1* this, PlayState* play) {
     this->stateFlags |= EN_GE1_STATE_FLAG_LOOK_AT_PLAYER;
+
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = EnGe1_GTGGatekeeper_OfferTalk;
         EnGe1_ChangeAnimArmsCrossed(this);
@@ -433,6 +442,7 @@ void EnGe1_WastelandGatekeeper_OfferTalk(EnGe1* this, PlayState* play) {
 
 void EnGe1_ChildEraWastelandGatekeeper_WaitTalkEnd(EnGe1* this, PlayState* play) {
     this->stateFlags |= EN_GE1_STATE_FLAG_LOOK_AT_PLAYER;
+
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = EnGe1_ChildEraWastelandGatekeeper_OfferTalk;
         EnGe1_ChangeAnimArmsCrossed(this);
@@ -532,10 +542,9 @@ void EnGe1_DoNothing(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_Archery_WaitAnswer(EnGe1* this, PlayState* play) {
-    Player* player;
+    Player* player = GET_PLAYER(play);
     Actor* epona;
 
-    player = GET_PLAYER(play);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         switch (play->msgCtx.choiceIndex) {
@@ -589,17 +598,12 @@ void EnGe1_Archery_NoReward(EnGe1* this, PlayState* play) {
 
 void EnGe1_Archery_ChooseReward(EnGe1* this, PlayState* play) {
     CLEAR_EVENTINF(EVENTINF_HORSES_08);
-#if DEBUG_FEATURES
-    LogUtils_LogThreadId("../z_en_ge1.c", 1110);
-    PRINTF("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
-    if (1) {}
-    if (1) {}
-    if (1) {}
-    LogUtils_LogThreadId("../z_en_ge1.c", 1111);
+
+    LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
     // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
     // see the other occurrence of this for more details.
-    PRINTF("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", HIGH_SCORE(HS_HBA));
-#endif
+    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
+
     this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     if (HIGH_SCORE(HS_HBA) < gSaveContext.minigameScore) {
         HIGH_SCORE(HS_HBA) = gSaveContext.minigameScore;
@@ -626,6 +630,7 @@ void EnGe1_Archery_ChooseReward(EnGe1* this, PlayState* play) {
 
 void EnGe1_Archery_NoHorseWaitTalkEnd(EnGe1* this, PlayState* play) {
     this->stateFlags |= EN_GE1_STATE_FLAG_LOOK_AT_PLAYER;
+
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = EnGe1_Archery_OfferTalk;
         EnGe1_ChangeAnimArmsCrossed(this);
@@ -654,9 +659,8 @@ void EnGe1_Archery_OfferTalk(EnGe1* this, PlayState* play) {
 
 void EnGe1_TrackPlayer(EnGe1* this, PlayState* play) {
     STACK_PAD(s32);
-    s16 relYawTowardsPlayer;
+    s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -673,9 +677,8 @@ void EnGe1_TrackPlayer(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_TrackPlayerIfNear(EnGe1* this, PlayState* play) {
-    s16 relYawTowardsPlayer;
+    s16 relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(relYawTowardsPlayer) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
         Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
     } else {
