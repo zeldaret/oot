@@ -219,7 +219,7 @@ void BgHidanSima_MovingPlatform_Move(BgHidanSima* this, PlayState* play) {
     Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
 }
 
-void BgHidanSima_SetFireHitbox(BgHidanSima* this) {
+void BgHidanSima_UpdateFireCollider(BgHidanSima* this) {
     ColliderJntSphElement* elem;
     s32 i;
     f32 cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
