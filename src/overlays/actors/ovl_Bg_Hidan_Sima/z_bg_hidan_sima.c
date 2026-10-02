@@ -242,7 +242,7 @@ void BgHidanSima_Update(Actor* thisx, PlayState* play) {
     if (this->dyna.actor.params != BG_HIDAN_SIMA_SINKING) {
         s32 temp = (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) ? this->timer : (this->timer + 80);
 
-        // Advance the sway by 20 frames second when the platform moves
+        // Advance the sway by 20 frames when the platform moves
         if (this->actionFunc == BgHidanSima_MovingPlatform_Move) {
             temp += 20;
         }
