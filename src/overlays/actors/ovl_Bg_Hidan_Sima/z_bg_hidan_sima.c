@@ -33,7 +33,6 @@ void BgHidanSima_SinkingPlatform_WarningShake(BgHidanSima* this, PlayState* play
 void BgHidanSima_SinkingPlatform_Sink(BgHidanSima* this, PlayState* play);
 void BgHidanSima_MovingPlatform_Idle(BgHidanSima* this, PlayState* play);
 void BgHidanSima_MovingPlatform_Move(BgHidanSima* this, PlayState* play);
-void BgHidanSima_SetFireHitbox(BgHidanSima* this);
 
 ActorProfile Bg_Hidan_Sima_Profile = {
     /**/ ACTOR_BG_HIDAN_SIMA,
@@ -248,7 +247,7 @@ void BgHidanSima_Update(Actor* thisx, PlayState* play) {
         }
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - ((1.0f - cosf(temp * (M_PI / 20))) * 5.0f);
         if (this->actionFunc == BgHidanSima_MovingPlatform_Move) {
-            BgHidanSima_SetFireHitbox(this);
+            BgHidanSima_UpdateFireCollider(this);
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
     }
