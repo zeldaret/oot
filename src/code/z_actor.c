@@ -1149,18 +1149,18 @@ f32 func_8002DCE4(Player* player) {
     }
 }
 
-int func_8002DD6C(Player* player) {
+int Player_HoldsBowSlingshotOrHookshot(Player* player) {
     return player->stateFlags1 & PLAYER_STATE1_3;
 }
 
-int func_8002DD78(Player* player) {
-    return func_8002DD6C(player) && (player->unk_834 != 0);
+int Player_IsAimingBowSlingshotOrHookshot(Player* player) {
+    return Player_HoldsBowSlingshotOrHookshot(player) && (player->aimTimer != 0);
 }
 
 int func_8002DDA8(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    return (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) || func_8002DD78(player);
+    return (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) || Player_IsAimingBowSlingshotOrHookshot(player);
 }
 
 s32 func_8002DDE4(PlayState* play) {
