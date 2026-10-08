@@ -1,12 +1,14 @@
+// clang-format off
 #include "gfx.h"
 #include "gfx_setupdl.h"
+// clang-format on
 
 #include "buffers.h"
 #include "gfxalloc.h"
 #include "letterbox.h"
 #include "main.h"
-#include "regs.h"
 #include "play_state.h"
+#include "regs.h"
 #include "room.h"
 
 #include "ultra64.h"

@@ -1,5 +1,7 @@
+// clang-format off
 #include "object.h"
 #include "scene.h"
+// clang-format on
 
 #include "versions.h"
 #include "actor.h"
