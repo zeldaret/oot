@@ -158,7 +158,7 @@ typedef enum FloorProperty {
     /*  7 */ FLOOR_PROPERTY_7,
     /*  8 */ FLOOR_PROPERTY_8,
     /*  9 */ FLOOR_PROPERTY_9,
-    /* 11 */ FLOOR_PROPERTY_11 = 11,
+    /* 11 */ FLOOR_PROPERTY_11 = 11, // Able to jumpdive off ledge
     /* 12 */ FLOOR_PROPERTY_12
 } FloorProperty;
 
