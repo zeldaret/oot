@@ -62,14 +62,15 @@ void __osDevMgrMain(void* arg) {
                 if (stat & LEO_STATUS_MECHANIC_INTR) {
                     __osEPiRawWriteIo(ioMesg->piHandle, ASIC_BM_CTL, info->bmCtlShadow | LEO_BM_CLR_MECHANIC_INTR);
                 }
-                blockInfo->errStatus = 4;
+                blockInfo->errStatus = LEO_SENSE_DATA_PHASE_ERROR;
 
                 IO_WRITE(PI_STATUS_REG, PI_STATUS_CLR_INTR);
                 __osSetGlobalIntMask(OS_IM_CART | OS_IM_PI);
             }
             osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
 
-            if (messageSend == 1 && ioMesg->piHandle->transferInfo.block[0].errStatus == 0) {
+            if (messageSend == 1 &&
+                ioMesg->piHandle->transferInfo.block[0].errStatus == LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION) {
                 // Run the above once more
                 messageSend = 0;
                 goto readblock1;

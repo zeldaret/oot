@@ -175,12 +175,12 @@ static s16 sSlotItems[] = {
     ITEM_BOOMERANG,  ITEM_LENS_OF_TRUTH, ITEM_MAGIC_BEAN, ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
 };
 
-void KaleidoScope_DrawInventoryEditorText(Gfx** gfxP) {
+void KaleidoScope_DrawInventoryEditorText(Gfx** gfxp) {
     GfxPrint printer;
     STACK_PADS(s32, 2);
 
     GfxPrint_Init(&printer);
-    GfxPrint_Open(&printer, *gfxP);
+    GfxPrint_Open(&printer, *gfxp);
 
     GfxPrint_SetPos(&printer, 4, 2);
     GfxPrint_SetColor(&printer, 255, 60, 0, 255);
@@ -216,7 +216,7 @@ void KaleidoScope_DrawInventoryEditorText(Gfx** gfxP) {
     GfxPrint_SetPos(&printer, 28, 24);
     GfxPrint_Printf(&printer, "%s", "/4");
 
-    *gfxP = GfxPrint_Close(&printer);
+    *gfxp = GfxPrint_Close(&printer);
     GfxPrint_Destroy(&printer);
 }
 

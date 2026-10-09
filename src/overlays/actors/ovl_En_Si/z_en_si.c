@@ -46,7 +46,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 18, 2, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 D_80AFBADC = { 0, 0, 0, 0, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 ActorProfile En_Si_Profile = {
     /**/ ACTOR_EN_SI,
@@ -65,7 +65,7 @@ void EnSi_Init(Actor* thisx, PlayState* play) {
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AFBADC);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.025f);
     this->unk_19C = 0;
     this->actionFunc = func_80AFB768;

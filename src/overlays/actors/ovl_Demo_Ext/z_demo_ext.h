@@ -6,21 +6,19 @@
 
 struct DemoExt;
 
-typedef void (*DemoExtActionFunc)(struct DemoExt*, struct PlayState*);
-typedef void (*DemoExtDrawFunc)(Actor*, struct PlayState*);
-
 typedef struct DemoExt {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ s32 action;
-    /* 0x014C */ s32 drawMode;
-    /* 0x0154 */ s32 cueId;
-    /* 0x015E */ s16 scrollIncr[4];
-    /* 0x0160 */ s16 curScroll[4];
-    /* 0x0168 */ s16 rotationPitch;
-    /* 0x016C */ f32 alphaTimer;
-    /* 0x0170 */ s32 primAlpha;
-    /* 0x0174 */ s32 envAlpha;
-    /* 0x0178 */ Vec3f scale;
-} DemoExt; // size = 0x0184
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ s32 unk14C;
+    /* 0x150 */ s32 unk150;
+    /* 0x154 */ s32 cueId;
+    /* 0x158 */ s16 texScrollStep[4];
+    /* 0x160 */ s16 texScrollPos[4];
+    /* 0x168 */ s16 unk168;
+    /* 0x16A */ char pad16A[2];
+    /* 0x16C */ f32 unk16C;
+    /* 0x170 */ s32 unk170;
+    /* 0x174 */ s32 unk174;
+    /* 0x178 */ Vec3f unk178;
+} DemoExt; // size = 0x184
 
 #endif

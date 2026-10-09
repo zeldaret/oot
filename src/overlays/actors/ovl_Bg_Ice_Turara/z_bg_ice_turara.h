@@ -8,17 +8,12 @@ struct BgIceTurara;
 
 typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, struct PlayState*);
 
-typedef enum BgIceTuraraType {
-    /* 0 */ TURARA_STALAGMITE,
-    /* 1 */ TURARA_STALACTITE,
-    /* 2 */ TURARA_STALACTITE_REGROW
-} BgIceTuraraType;
-
 typedef struct BgIceTurara {
-    /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ BgIceTuraraActionFunc actionFunc;
-    /* 0x0168 */ s16 shiverTimer;
-    /* 0x016C */ ColliderCylinder collider;
+    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x164 */ BgIceTuraraActionFunc unk164;
+    /* 0x168 */ s16 unk168;
+    /* 0x16A */ char pad16A[2];
+    /* 0x16C */ ColliderCylinder collider;
 } BgIceTurara; // size = 0x01B8
 
 #endif

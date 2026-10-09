@@ -13,11 +13,11 @@ typedef struct EnTest {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3s bodyPartsPos[10];
     /* 0x188 */ SkelAnime skelAnime;
-    /* 0x1CC */ Vec3s jointTable[STALFOS_LIMB_MAX];
-    /* 0x33A */ Vec3s morphTable[STALFOS_LIMB_MAX];
+    /* 0x1CC */ Vec3s jointTable[61];
+    /* 0x33A */ Vec3s morphTable[61];
     /* 0x4A8 */ SkelAnime upperSkelanime;
-    /* 0x4EC */ Vec3s upperJointTable[STALFOS_LIMB_MAX];
-    /* 0x65A */ Vec3s upperMorphTable[STALFOS_LIMB_MAX];
+    /* 0x4EC */ Vec3s upperJointTable[61];
+    /* 0x65A */ Vec3s upperMorphTable[61];
     /* 0x7C8 */ u8 unk_7C8;
     /* 0x7CC */ EnTestActionFunc actionFunc;
     /* 0x7D0 */ Vec3s headRot;

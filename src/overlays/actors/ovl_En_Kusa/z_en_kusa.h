@@ -15,11 +15,12 @@ typedef enum EnKusaType {
 } EnKusaType;
 
 typedef struct EnKusa {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnKusaActionFunc actionFunc;
-    /* 0x0150 */ ColliderCylinder collider;
-    /* 0x019C */ s16 timer;
-    /* 0x019E */ s8 requiredObjectSlot;
-} EnKusa; // size = 0x01A0
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ EnKusaActionFunc actionFunc;
+    /* 0x150 */ ColliderCylinder collider;
+    /* 0x19C */ s16 unk19C;
+    /* 0x19E */ s8 requiredObjectSlot;
+    /* 0x19F */ char pad19F[1];
+} EnKusa; // size = 0x1A0
 
 #endif

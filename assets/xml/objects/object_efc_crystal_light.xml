@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_efc_crystal_light" Segment="6">
-        <Texture Name="gCrystalLightTex" Format="i4" Width="64" Height="64" Offset="0x0000"/>
-        <Array Name="gCrystalLightVtx" Count="24" Offset="0x800">
+        <Texture Name="object_efc_crystal_light_000000_Tex" Format="i4" Width="64" Height="64" Offset="0x0"/>
+        <Array Name="object_efc_crystal_light_000800_Vtx" Count="24" Offset="0x800">
             <Vtx/>
         </Array>
-        <DList Name="gCrystalLightDL" Offset="0x0980"/>
+        <DList Name="object_efc_crystal_light_000980_DL" Offset="0x980"/>
     </File>
 </Root>
