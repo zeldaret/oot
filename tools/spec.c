@@ -141,6 +141,7 @@ static const char *const stmtNames[] =
     [STMT_name]      = "name",
     [STMT_number]    = "number",
     [STMT_romalign]  = "romalign",
+    [STMT_skip_duplicate_include] = "skip_duplicate_include",
     [STMT_stack]     = "stack",
     [STMT_increment] = "increment",
     [STMT_pad_text]  = "pad_text",
@@ -157,7 +158,7 @@ STMTId get_stmt_id_by_stmt_name(const char *stmtName, int lineNum) {
     return -1;
 }
 
-bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, int lineNum, const struct Segment *segments, int segment_count) {
+bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, int lineNum, const struct Segment *segments, int segment_count, char **skipDuplicateIncludes, int skipDuplicateIncludesCount) {
     // ensure no duplicates (except for 'include' or 'pad_text')
     if (stmt != STMT_include && stmt != STMT_pad_text &&
         (currSeg->fields & (1 << stmt)))
@@ -226,7 +227,19 @@ bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, i
             }
         }
 
+        bool skipInclude;
         if (!inc_is_dup) {
+            skipInclude = false;
+        } else {
+            skipInclude = false;
+            for (int i = 0; i < skipDuplicateIncludesCount; i++) {
+                if (strcmp(skipDuplicateIncludes[i], inc) == 0) {
+                    skipInclude = true;
+                }
+            }
+        }
+
+        if (!skipInclude) {
             currSeg->includesCount++;
             currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
             currSeg->includes[currSeg->includesCount - 1].fpath = inc;
@@ -262,6 +275,9 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 
     struct Segment *currSeg = NULL;
 
+    char** skipDuplicateIncludes = NULL;
+    int skipDuplicateIncludesCount = 0;
+
     // iterate over lines
     while (line[0] != 0)
     {
@@ -280,7 +296,7 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 
             if (currSeg != NULL)
             {
-                bool segmentEnded = parse_segment_statement(currSeg, stmt, args, lineNum, *segments, *segment_count);
+                bool segmentEnded = parse_segment_statement(currSeg, stmt, args, lineNum, *segments, *segment_count, skipDuplicateIncludes, skipDuplicateIncludesCount);
                 if (segmentEnded) {
                     currSeg = NULL;
                 }
@@ -296,6 +312,12 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
                     break;
                 case STMT_endseg:
                     util_fatal_error("line %i: '%s' outside of a segment definition", lineNum, stmtName);
+                    break;
+                case STMT_skip_duplicate_include:
+                    skipDuplicateIncludesCount++;
+                    skipDuplicateIncludes = realloc(skipDuplicateIncludes, skipDuplicateIncludesCount * sizeof(*skipDuplicateIncludes));
+                    if (!parse_quoted_string(args, &skipDuplicateIncludes[skipDuplicateIncludesCount - 1]))
+                        util_fatal_error("line %i: invalid filename", lineNum);
                     break;
                 default:
                     fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
