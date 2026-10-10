@@ -647,8 +647,8 @@ Vtx gLinkAdultRightHandHoldingBowFirstPersonVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowFirstPersonVtx.inc.c"
 };
 
-Vtx gLinkAdultRightHandHoldingHookshotFarVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHookshotFarVtx.inc.c"
+Vtx gLinkAdultRightHandHoldingHookshotFirstPersonVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHookshotFirstPersonVtx.inc.c"
 };
 
 Vtx gLinkAdultMirrorShieldSwordAndSheathNearVtx2[] = {
@@ -891,8 +891,8 @@ Gfx gLinkAdultRightHandHoldingBowFirstPersonDL[158] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowFirstPersonDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingHookshotFarDL[196] = {
-#include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHookshotFarDL.inc.c"
+Gfx gLinkAdultRightHandHoldingHookshotFirstPersonDL[196] = {
+#include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHookshotFirstPersonDL.inc.c"
 };
 
 Gfx gLinkAdultBottleDL[35] = {
