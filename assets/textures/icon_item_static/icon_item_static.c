@@ -1,5 +1,7 @@
 #include "icon_item_static.h"
 
+#include "versions.h"
+
 // Item icons textures
 
 u64 gItemIconDekuStickTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
@@ -746,33 +748,84 @@ u64 gMagicArrowEquipEffectTex[TEX_LEN(u64, gMagicArrowEquipEffectTex_WIDTH, gMag
 };
 
 Gfx gInfoPanelBgDL[18] = {
-#include "assets/textures/icon_item_static/gInfoPanelBgDL.inc.c"
+    gsDPLoadTextureBlock(gInfoPanelBgLeftTex, G_IM_FMT_IA, G_IM_SIZ_8b, gInfoPanelBgLeftTex_WIDTH,
+                         gInfoPanelBgLeftTex_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    gsSP1Quadrangle(0, 2, 3, 1, 0),
+    gsDPLoadTextureBlock(gInfoPanelBgRightTex, G_IM_FMT_IA, G_IM_SIZ_8b, gInfoPanelBgRightTex_WIDTH,
+                         gInfoPanelBgRightTex_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    gsSP1Quadrangle(4, 6, 7, 5, 0),
+    gsDPPipeSync(),
+    gsSPEndDisplayList(),
 };
 
 Gfx gLButtonIconDL[10] = {
-#include "assets/textures/icon_item_static/gLButtonIconDL.inc.c"
+    gsDPLoadTextureBlock(gLButtonTex, G_IM_FMT_IA, G_IM_SIZ_8b, gLButtonTex_WIDTH, gLButtonTex_HEIGHT, 0,
+                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                         G_TX_NOLOD),
+    gsSP1Quadrangle(8, 10, 11, 9, 0),
+    gsDPPipeSync(),
+    gsSPEndDisplayList(),
 };
 
 Gfx gRButtonIconDL[10] = {
-#include "assets/textures/icon_item_static/gRButtonIconDL.inc.c"
+    gsDPLoadTextureBlock(gRButtonTex, G_IM_FMT_IA, G_IM_SIZ_8b, gRButtonTex_WIDTH, gRButtonTex_HEIGHT, 0,
+                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                         G_TX_NOLOD),
+    gsSP1Quadrangle(12, 14, 15, 13, 0),
+    gsDPPipeSync(),
+    gsSPEndDisplayList(),
 };
 
 Gfx gCButtonIconsDL[11] = {
-#include "assets/textures/icon_item_static/gCButtonIconsDL.inc.c"
+    gsDPPipeSync(),
+    gsDPSetPrimColor(0, 0, 255, 150, 0, 255),
+    gsDPLoadTextureBlock(gCBtnSymbolsTex, G_IM_FMT_IA, G_IM_SIZ_8b, gCBtnSymbolsTex_WIDTH, gCBtnSymbolsTex_HEIGHT, 0,
+                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                         G_TX_NOLOD),
+    gsSP1Quadrangle(0, 2, 3, 1, 0),
+    gsSPEndDisplayList(),
 };
 
 Gfx gAButtonIconDL[11] = {
-#include "assets/textures/icon_item_static/gAButtonIconDL.inc.c"
+    gsDPPipeSync(),
+#if PLATFORM_N64 || OOT_VERSION == IQUE_CN
+    gsDPSetPrimColor(0, 0, 0, 100, 255, 255),
+#else
+    gsDPSetPrimColor(0, 0, 0, 255, 100, 255),
+#endif
+    gsDPLoadTextureBlock(gABtnSymbolTex, G_IM_FMT_IA, G_IM_SIZ_8b, gABtnSymbolTex_WIDTH, gABtnSymbolTex_HEIGHT, 0,
+                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                         G_TX_NOLOD),
+    gsSP1Quadrangle(0, 2, 3, 1, 0),
+    gsSPEndDisplayList(),
 };
 
 Gfx gBButtonIconDL[11] = {
-#include "assets/textures/icon_item_static/gBButtonIconDL.inc.c"
+    gsDPPipeSync(),
+    gsDPSetPrimColor(0, 0, 50, 150, 0, 255),
+    gsDPLoadTextureBlock(gBBtnSymbolTex, G_IM_FMT_IA, G_IM_SIZ_8b, gBBtnSymbolTex_WIDTH, gBBtnSymbolTex_HEIGHT, 0,
+                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                         G_TX_NOLOD),
+    gsSP1Quadrangle(0, 2, 3, 1, 0),
+    gsSPEndDisplayList(),
 };
 
 Gfx gPromptCursorLeftDL[10] = {
-#include "assets/textures/icon_item_static/gPromptCursorLeftDL.inc.c"
+    gsDPPipeSync(),
+    gsDPLoadTextureBlock_4b(gPausePromptCursorTex, G_IM_FMT_I, gPausePromptCursorTex_WIDTH,
+                            gPausePromptCursorTex_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    gsSP1Quadrangle(4, 6, 7, 5, 0),
+    gsSPEndDisplayList(),
 };
 
 Gfx gPromptCursorRightDL[10] = {
-#include "assets/textures/icon_item_static/gPromptCursorRightDL.inc.c"
+    gsDPPipeSync(),
+    gsDPLoadTextureBlock_4b(gPausePromptCursorTex, G_IM_FMT_I, gPausePromptCursorTex_WIDTH,
+                            gPausePromptCursorTex_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    gsSP1Quadrangle(8, 10, 11, 9, 0),
+    gsSPEndDisplayList(),
 };
