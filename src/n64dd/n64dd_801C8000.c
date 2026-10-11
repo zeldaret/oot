@@ -93,7 +93,7 @@ s32 func_801C8000(struct_801D9D50* arg0) {
     return 0;
 }
 
-void func_801C819C(UNK_TYPE arg0) {
+void func_801C819C(s32 arg0) {
     if (arg0 != 0) {
         D_801D2E60 = 1;
     } else {
