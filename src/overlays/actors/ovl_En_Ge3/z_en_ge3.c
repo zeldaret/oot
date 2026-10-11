@@ -66,7 +66,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
-static void (*sActionFuncs[1])(EnGe3*, PlayState*) = { EnGe3_Idle };
+static EnGe3ActionFunc sActionFuncs[1] = { EnGe3_Idle };
 static AnimationHeader* sAnims[1] = { &gGerudoRedStandAnim };
 static u8 sAnimModes[1] = { ANIMMODE_LOOP };
 
@@ -237,7 +237,7 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
         case 0xB:
         case 0x10:
             *dList = NULL;
-            return 0;
+            return false;
 
         case 6:
             rot->x += this->headRot.y;
@@ -272,7 +272,7 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 #endif
             break;
     }
-    return 0;
+    return false;
 }
 
 void EnGe3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

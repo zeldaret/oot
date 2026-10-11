@@ -19,7 +19,6 @@ typedef struct EnGe3 {
     /* 0x300 */ Vec3s headRot;
     /* 0x306 */ Vec3s torsoRot;
     /* 0x30C */ u16 stateFlags;
-    /* 0x30E */ char pad_30E[2];
     /* 0x310 */ EnGe3ActionFunc actionFunc;
 } EnGe3; // size = 0x314
 
