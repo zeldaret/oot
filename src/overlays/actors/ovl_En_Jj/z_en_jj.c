@@ -93,8 +93,8 @@ static void* sEyeTextures[] = {
     gObjectJjEyeClosedTex,
 };
 
-void EnJj_SetupAction(EnJj* this, void (*arg1)(EnJj*, PlayState*)) {
-    this->actionFunc = arg1;
+void EnJj_SetupAction(EnJj* this, EnJjActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 void EnJj_Init(Actor* thisx, PlayState* play) {
@@ -129,7 +129,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
             this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
-            return;
+            break;
 
         case EN_JJ_TYPE_HEAD_COL:
             DynaPolyActor_Init(&this->dyna, 0);
@@ -139,7 +139,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             this->dyna.actor.update = EnJj_DoNothing;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
-            return;
+            break;
 
         case EN_JJ_TYPE_1:
             DynaPolyActor_Init(&this->dyna, 0);
@@ -148,7 +148,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             this->dyna.actor.update = EnJj_DoNothing;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
-            return;
+            break;
     }
 }
 
@@ -307,7 +307,7 @@ void EnJj_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_jj.c", 879);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
-    Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * 0.076624215f) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
+    Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * (M_PI / 41)) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
