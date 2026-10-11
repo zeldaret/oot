@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_oA11" Segment="6">
-        <!-- The commented limbs references dlists past this object size, making ZAPD crash. -->
+        <!-- The commented limbs references dlists past this object size, causing extraction to fail if uncommented. -->
         <!-- This object is not used in-game. -->
 
         <Limb Name="object_oA11_Limb_000000" LimbType="Standard" Offset="0x0"/>
