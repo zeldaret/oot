@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -39,7 +40,7 @@ EffectSsProfile Effect_Ss_G_Ripple_Profile = {
 };
 
 u32 EffectSsGRipple_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     WaterBox* waterBox;
     EffectSsGRippleInitParams* initParams = (EffectSsGRippleInitParams*)initParamsx;
@@ -63,7 +64,7 @@ u32 EffectSsGRipple_Init(PlayState* play, u32 index, EffectSs* this, void* initP
     this->rEnvColorG = 255;
     this->rEnvColorB = 255;
     this->rEnvColorA = 255;
-    this->rWaterBoxNum = WaterBox_GetSurface2(play, &play->colCtx, &initParams->pos, 3.0f, &waterBox);
+    this->rWaterBoxNum = BgCheck_FindWaterBox(play, &play->colCtx, &initParams->pos, 3.0f, &waterBox);
 
     return 1;
 }

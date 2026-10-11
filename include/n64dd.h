@@ -72,8 +72,8 @@ typedef struct struct_801E0D18 {
     /* 0x00 */ LEOCmd unk_00;
     /* 0x1C */ OSMesgQueue unk_1C;
     /* 0x38 */ LEODiskID diskId;
-    /* 0x58 */ UNK_TYPE unk_58;
-    /* 0x5C */ UNK_TYPE unk_5C;
+    /* 0x58 */ s32 unk_58;
+    /* 0x5C */ s32 unk_5C;
     /* 0x60 */ u32 unk_60;
     /* 0x64 */ u8 unk_64;
     /* 0x65 */ u8 unk_65;

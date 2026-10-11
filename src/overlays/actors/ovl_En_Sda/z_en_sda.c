@@ -6,10 +6,12 @@
 
 #include "z_en_sda.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "regs.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "play_state.h"
 #include "player.h"
@@ -80,8 +82,8 @@ static Vec3f D_80AFA180[] = {
     { 1.0f, -2.0f, -0.2f }, { 0.0f, -3.0f, -0.5f },
 };
 
-// Unused, identical to D_80AFA180
-static Vec3f D_80AFA288[] = {
+// Identical to D_80AFA180
+UNUSED static Vec3f D_80AFA288[] = {
     { -1.0f, 2.0f, -0.2f }, { 0.0f, 2.0f, -0.5f },   { 1.0f, 2.0f, -0.2f },   { -2.0f, 1.0f, -0.5f },
     { -1.0f, 1.0f, -0.2f }, { 0.0f, 1.0f, -0.2f },   { 1.0f, 1.0f, -0.2f },   { 2.0f, 1.0f, -0.5f },
     { -2.0f, 0.0f, -0.5f }, { -1.0f, 0.0f, -0.2f },  { 0.0f, 0.0f, 0.0f },    { 1.0f, 0.0f, -0.2f },
@@ -90,7 +92,7 @@ static Vec3f D_80AFA288[] = {
     { 1.0f, -2.0f, -0.2f }, { 0.0f, -3.0f, -0.5f },
 };
 
-static u32 D_80AFA390[] = { 0, 0 };
+UNUSED static u32 D_80AFA390[] = { 0, 0 };
 
 #include "assets/overlays/ovl_En_Sda/ovl_En_Sda.c"
 
@@ -103,7 +105,7 @@ void EnSda_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnSda_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnSda* this = (EnSda*)thisx;
     Player* player;
 
@@ -339,7 +341,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, PlayState* pl
 }
 
 void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 tempx;
     f32 tempz;
     s16 phi_s1;

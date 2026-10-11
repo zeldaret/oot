@@ -1,9 +1,12 @@
 #include "sfx_source.h"
 
 #include "array_count.h"
-#include "sfx.h"
 #include "play_state.h"
+#include "sfx.h"
 #include "skin_matrix.h"
+#include "z_math.h"
+
+#include "ultra64/ultratypes.h"
 
 void SfxSource_InitAll(PlayState* play) {
     SfxSource* sources = &play->sfxSources[0];

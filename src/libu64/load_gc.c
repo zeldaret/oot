@@ -1,11 +1,12 @@
 #include "libu64/overlay.h"
 #include "ultra64.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "dma.h"
 
 size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     uintptr_t end;
     OverlayRelocationSection* ovlRelocs;
     u32 relocSectionOffset = 0;

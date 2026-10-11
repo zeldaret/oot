@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_lightswitch.h"
-#include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+#include "src/overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -16,6 +16,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -105,7 +106,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjLightswitch_InitCollider(ObjLightswitch* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
@@ -152,7 +153,7 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, PlayState* play)
     f32 x;
     f32 y;
     f32 z;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->alpha >= (100 << 6)) {
         x = (CLAMP_MAX((1.0f - 1.0f / (255 << 6) * this->alpha) * 400.0f, 60.0f) - 30.0f + 30.0f) * Rand_ZeroOne();
@@ -418,7 +419,7 @@ void ObjLightswitch_DrawOpa(Actor* thisx, PlayState* play) {
 
     gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
                    (u8)(this->alpha >> 6));
-    gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x09, ACTOR_SETUP_OPA_DL);
 
     if (PARAMS_GET_U(thisx->params, 0, 1) == 1) {
         thisx->world.pos.x = thisx->child->world.pos.x;
@@ -464,7 +465,7 @@ void ObjLightswitch_DrawXlu(Actor* thisx, PlayState* play) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
                    (u8)(this->alpha >> 6));
-    gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
+    gSPSegment(POLY_XLU_DISP++, 0x09, gActorSetupXluDL);
 
     sp68.x = thisx->world.pos.x;
     sp68.y = thisx->world.pos.y + (thisx->shape.yOffset * thisx->scale.y);

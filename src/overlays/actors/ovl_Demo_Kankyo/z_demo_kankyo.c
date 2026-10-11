@@ -7,6 +7,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -82,8 +83,7 @@ static s16 sObjectIds[] = {
     OBJECT_GAMEPLAY_KEEP,  OBJECT_GAMEPLAY_KEEP,  OBJECT_GAMEPLAY_KEEP,
 };
 
-// unused, presumed to be floats
-static f32 D_8098C314[] = {
+UNUSED static f32 D_8098C314[] = {
     0.0f,
     150.0f,
 };
@@ -554,7 +554,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1186);
 
     for (i = 0; i < 30; i++) {
-        s32 pad[2];
+        STACK_PADS(s32, 2);
 
         dx = play->view.at.x - play->view.eye.x;
         dy = play->view.at.y - play->view.eye.y;
@@ -625,7 +625,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
         Matrix_Scale(sRainScale * 0.001f, sRainScale * 0.001f, sRainScale * 0.001f, MTXMODE_APPLY);
 
         for (j = 0; j < 5; j++) {
-            s32 pad1;
+            STACK_PAD(s32);
 
             if (play->sceneId != SCENE_TEMPLE_OF_TIME) {
                 if (this->unk_150[i].unk_0.x >= 0.0f) {
@@ -660,7 +660,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
 
 void DemoKankyo_DrawRock(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1376);
 
@@ -681,7 +681,7 @@ void DemoKankyo_DrawRock(Actor* thisx, PlayState* play) {
 void DemoKankyo_DrawClouds(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
-    s32 pad;
+    STACK_PAD(s32);
     f32 dx;
     f32 dy;
     f32 dz;
@@ -716,7 +716,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, PlayState* play) {
 
 void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1487);
 
@@ -732,8 +732,8 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play) {
 }
 
 void DemoKankyo_DrawLightPlane(Actor* thisx, PlayState* play) {
-    DemoKankyo* this = (DemoKankyo*)thisx;
-    s32 pad;
+    UNUSED DemoKankyo* this = (DemoKankyo*)thisx;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1514);
 
@@ -778,9 +778,8 @@ void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
 void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
     static f32 sWarpRoll;
     static f32 sWarpFoV;
-    // the following 2 vars are unused
-    static u32 D_8098CF90;
-    static u32 D_8098CF94;
+    UNUSED static s32 D_8098CF90;
+    UNUSED static s32 D_8098CF94;
     static Vec3f D_8098CF98;
 
     PlayState* play2 = (PlayState*)play;
@@ -916,10 +915,9 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
 void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play) {
     static f32 sSparklesRoll;
     static f32 sSparklesFoV;
-    // the following 3 vars are unused
-    static u32 D_8098CFAC;
-    static u32 D_8098CFB0;
-    static u32 D_8098CFB4;
+    UNUSED static s32 D_8098CFAC;
+    UNUSED static s32 D_8098CFB0;
+    UNUSED static s32 D_8098CFB4;
     static Vec3f D_8098CFB8;
 
     DemoKankyo* this = (DemoKankyo*)thisx;

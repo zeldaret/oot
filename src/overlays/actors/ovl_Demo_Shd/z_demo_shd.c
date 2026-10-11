@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "audio.h"
 #include "play_state.h"
@@ -101,7 +102,7 @@ void DemoShd_Update(Actor* thisx, PlayState* play) {
 
 void DemoShd_Draw(Actor* thisx, PlayState* play) {
     DemoShd* this = (DemoShd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     u32 unk_14E = this->unk_14E;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_shd.c", 726);

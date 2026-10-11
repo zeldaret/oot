@@ -5,12 +5,14 @@
  */
 
 #include "z_en_jsjutan.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "src/overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "tex_len.h"
@@ -45,7 +47,7 @@ static u8 sShadowTex[0x800];
 
 static Vec3s D_80A8EE10[0x90];
 
-static s32 sUnused[2] = { 0, 0 };
+UNUSED static u64 sForceAlignment = 0;
 
 #define sCarpetTex_WIDTH 32
 #define sCarpetTex_HEIGHT 64
@@ -103,7 +105,7 @@ static CollisionHeader sCol = {
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play) {
     EnJsjutan* this = (EnJsjutan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* header = NULL;
 
     this->dyna.actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
@@ -459,7 +461,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
     if (this->unk_164) {
         this->unk_164 = false;
         for (i = 0; i < ARRAY_COUNT(sShadowTex); i++) {
-            if (((u16*)sCarpetTex)[i] != 0) { // Hack to bypass ZAPD exporting textures as u64.
+            if (((u16*)sCarpetTex)[i] != 0) { // Hack to bypass textures being typed as u64[].
                 sShadowTex[i] = 0xFF;
             } else {
                 sShadowTex[i] = 0;

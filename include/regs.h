@@ -68,9 +68,9 @@ struct PlayState;
 #define R_VI_MODE_EDIT_ULX_ADJ                   SREG(53)
 #define R_VI_MODE_EDIT_LRX_ADJ                   SREG(54)
 #define R_FB_FILTER_TYPE                         SREG(80)
-#define R_FB_FILTER_PRIM_COLOR(c)                SREG(81 + (c))
+#define R_FB_FILTER_COLOR1(c)                    SREG(81 + (c))
 #define R_FB_FILTER_A                            SREG(84)
-#define R_FB_FILTER_ENV_COLOR(c)                 SREG(85 + (c))
+#define R_FB_FILTER_COLOR2(c)                    SREG(85 + (c))
 #define R_ENABLE_FB_FILTER                       SREG(88)
 #define R_PAUSE_BG_PRERENDER_STATE               SREG(94) // `PauseBgPreRenderState`
 #define R_CAM_XZ_OFFSET_UPDATE_RATE              OREG(2)

@@ -28,6 +28,14 @@
 
 #define OS_YIELD_DATA_SIZE 0xC00
 
+#ifdef _LANGUAGE_ASSEMBLY
+#include "sptaskoff.h"
+#endif
+
+#ifdef _LANGUAGE_C
+
+#include "ultratypes.h"
+
 typedef struct OSTask_t {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 flags;
@@ -64,5 +72,7 @@ typedef u32 OSYieldResult;
 #define osSpTaskStart(p) \
     osSpTaskLoad(p);     \
     osSpTaskStartGo(p);
+
+#endif
 
 #endif

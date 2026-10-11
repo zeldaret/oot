@@ -1,8 +1,10 @@
 #include "libu64/mtxuty-cvt.h"
 #include "ultra64/gs2dex.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "printf.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "ucode_disas.h"
 #include "ultra64.h"
@@ -218,7 +220,7 @@ void UCodeDisas_Init(UCodeDisas* this) {
     }
 }
 
-void UCodeDisas_Destroy(UCodeDisas* this) {
+void UCodeDisas_Destroy(UNUSED UCodeDisas* this) {
 }
 
 void UCodeDisas_SetCurUCodeImpl(UCodeDisas* this, void* ptr) {
@@ -328,7 +330,7 @@ void UCodeDisas_PrintVertices(UCodeDisas* this, Vtx* vtx, s32 count, s32 start) 
 }
 
 void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
-    u32 pad;
+    STACK_PAD(s32);
     uintptr_t addr;
     u32 rdpHalf;
     u16 linkDlLow;
@@ -1016,7 +1018,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                             }
 
                             case G_MOVEWORD: {
-                                u32 pad;
+                                STACK_PAD(s32);
                                 Gdma dma = ptr->dma;
                                 Gmovewd movewd = ptr->movewd;
 
@@ -1202,7 +1204,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                             } break;
 
                             case G_MOVEWORD: {
-                                u32 pad[2];
+                                STACK_PADS(s32, 2);
                                 Gmovewd movewd = ptr->movewd;
 
                                 switch (movewd.index) {

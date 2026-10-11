@@ -5,6 +5,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -129,7 +130,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnOkuta_Init(Actor* thisx, PlayState* play) {
     EnOkuta* this = (EnOkuta*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     WaterBox* outWaterBox;
     f32 ySurface;
     s32 floorBgId;
@@ -148,8 +149,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
         }
         thisx->floorHeight =
             BgCheck_EntityRaycastDown4(&play->colCtx, &thisx->floorPoly, &floorBgId, thisx, &thisx->world.pos);
-        //! @bug calls WaterBox_GetSurfaceImpl directly
-        if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, thisx->world.pos.x, thisx->world.pos.z, &ySurface,
+        if (!BgCheck_GetWaterSurface(play, &play->colCtx, thisx->world.pos.x, thisx->world.pos.z, &ySurface,
                                      &outWaterBox) ||
             (ySurface <= thisx->floorHeight)) {
             Actor_Kill(thisx);
@@ -303,7 +303,7 @@ void EnOkuta_WaitToAppear(EnOkuta* this, PlayState* play) {
 }
 
 void EnOkuta_Appear(EnOkuta* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.xzDistToPlayer < 160.0f) {
@@ -328,7 +328,7 @@ void EnOkuta_Appear(EnOkuta* this, PlayState* play) {
 }
 
 void EnOkuta_Hide(EnOkuta* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f, 30.0f);
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -513,7 +513,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, PlayState* play) {
             pos.x = this->actor.world.pos.x;
             pos.y = this->actor.world.pos.y + 11.0f;
             pos.z = this->actor.world.pos.z;
-            EffectSsHahen_SpawnBurst(play, &pos, 6.0f, 0, 1, 2, 15, 7, 10, gOctorokProjectileDL);
+            EffectSsHahen_SpawnBurst(play, &pos, 6.0f, 0, 1, 2, 15, OBJECT_OKUTA, 10, gOctorokProjectileDL);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
             Actor_Kill(&this->actor);
         }
@@ -596,7 +596,7 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
     if (!(player->stateFlags1 & (PLAYER_STATE1_TALKING | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, play);
-            if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
+            if (!BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
                                          &ySurface, &outWaterBox) ||
                 (ySurface < this->actor.floorHeight)) {
                 if (this->actor.colChkInfo.health != 0) {
@@ -718,7 +718,7 @@ s32 EnOkuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
 
 void EnOkuta_Draw(Actor* thisx, PlayState* play) {
     EnOkuta* this = (EnOkuta*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 

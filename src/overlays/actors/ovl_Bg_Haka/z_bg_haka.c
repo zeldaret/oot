@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -50,7 +51,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHaka_Init(Actor* thisx, PlayState* play) {
     BgHaka* this = (BgHaka*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -136,7 +137,7 @@ void BgHaka_IdleOpened(BgHaka* this, PlayState* play) {
 
 void BgHaka_IdleLockedClosed(BgHaka* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->dyna.actor.params != 0) {
         this->dyna.actor.params--;

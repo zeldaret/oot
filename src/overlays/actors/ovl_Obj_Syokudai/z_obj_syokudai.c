@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_syokudai.h"
-#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "src/overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"
@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -90,7 +91,7 @@ static s32 sLitTorchCount;
 
 void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
     static u8 sColMaterialsStand[] = { COL_MATERIAL_METAL, COL_MATERIAL_WOOD, COL_MATERIAL_WOOD };
-    s32 pad;
+    STACK_PAD(s32);
     ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 torchType = PARAMS_GET_NOSHIFT(this->actor.params, 12, 4);
 
@@ -121,7 +122,7 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
 }
 
 void ObjSyokudai_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     ObjSyokudai* this = (ObjSyokudai*)thisx;
 
     Collider_DestroyCylinder(play, &this->standCollider);
@@ -145,14 +146,13 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
     s32 interactionType;
     u32 dmgFlags;
     Vec3f tipToFlame;
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
 
     litTimeScale = torchCount;
     if (torchCount == 10) {
         torchCount = 24;
     }
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
+    if (BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
                                 &dummy) &&
         ((waterSurface - this->actor.world.pos.y) > 52.0f)) {
         this->litTimer = 0;
@@ -268,7 +268,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
 
 void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
     static Gfx* displayLists[] = { gGoldenTorchDL, gTimedTorchDL, gWoodenTorchDL };
-    s32 pad;
+    STACK_PAD(s32);
     ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 timerMax;
 

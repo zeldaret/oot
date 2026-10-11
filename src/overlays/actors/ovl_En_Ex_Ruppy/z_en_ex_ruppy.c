@@ -1,14 +1,16 @@
 #include "z_en_ex_ruppy.h"
-#include "overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
-#include "overlays/actors/ovl_En_Heishi1/z_en_heishi1.h"
+#include "src/overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
+#include "src/overlays/actors/ovl_En_Heishi1/z_en_heishi1.h"
 
 #include "libc64/qrand.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -41,7 +43,7 @@ static s16 sEnExRuppyCollectibleTypes[] = {
 };
 
 // Unused, as the function sets these directly
-static s16 sRupeeValues[] = {
+UNUSED static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
@@ -262,7 +264,7 @@ void EnExRuppy_EnterWater(EnExRuppy* this, PlayState* play) {
 void EnExRuppy_Sink(EnExRuppy* this, PlayState* play) {
     EnDivingGame* divingGame;
     Vec3f pos;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 15.0f)) {
         pos = this->actor.world.pos;
@@ -282,8 +284,8 @@ void EnExRuppy_Sink(EnExRuppy* this, PlayState* play) {
 
 void EnExRuppy_WaitInGame(EnExRuppy* this, PlayState* play) {
     EnDivingGame* divingGame;
-    Vec3f D_80A0B388 = { 0.0f, 0.1f, 0.0f };
-    Vec3f D_80A0B394 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f D_80A0B388 = { 0.0f, 0.1f, 0.0f };
+    UNUSED Vec3f D_80A0B394 = { 0.0f, 0.0f, 0.0f };
     f32 collectRadius = 30.0f;
 
     if (this->timer == 0) {
@@ -324,7 +326,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
     f32 distToBlowUp = 50.0f;
     s16 explosionScale;
     s16 explosionScaleStep;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->type == ENEXRUPPY_TYPE_BOMB_SMALL) {
         distToBlowUp = 30.0f;
@@ -392,7 +394,7 @@ void EnExRuppy_Draw(Actor* thisx, PlayState* play) {
     static void* rupeeTextures[] = {
         gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
     };
-    s32 pad;
+    STACK_PAD(s32);
     EnExRuppy* this = (EnExRuppy*)thisx;
 
     if (!this->invisible) {

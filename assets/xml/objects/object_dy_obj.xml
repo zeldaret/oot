@@ -105,7 +105,7 @@
         <Animation Name="gGreatFairyLayingSidewaysAnim" Offset="0x1DF0"/>
         <Animation Name="gGreatFairyLayingDownTransitionAnim" Offset="0x31C0"/>
         <Animation Name="gGreatFairyAfterSpellAnim" Offset="0x4344"/>
-        <Animation Name="gGreatFairyAnim_005810" Offset="0x5810"/>
+        <Animation Name="gGreatFairyGivingSpellAnim" Offset="0x5810"/>
         <Animation Name="gGreatFairyJewelFountainSpinShrinkAnim" Offset="0x5E60"/>
         <Animation Name="gGreatFairyGivingUpgradeAnim" Offset="0x69E8"/>
         <Animation Name="gGreatFairyAfterUpgradeAnim" Offset="0x7CA8"/>

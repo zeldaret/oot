@@ -1,7 +1,9 @@
 #include "z_en_a_obj.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -94,7 +96,7 @@ void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
 
 void EnAObj_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
-    s32 pad;
+    STACK_PAD(s32);
     EnAObj* this = (EnAObj*)thisx;
     f32 shadowScale = 6.0f;
 
@@ -211,7 +213,7 @@ void EnAObj_WaitFinishedTalking(EnAObj* this, PlayState* play) {
     }
 }
 
-void EnAObj_SetupWaitTalk(EnAObj* this, s16 type) {
+void EnAObj_SetupWaitTalk(EnAObj* this, UNUSED s16 type) {
     EnAObj_SetupAction(this, EnAObj_WaitTalk);
 }
 
@@ -231,7 +233,7 @@ void EnAObj_WaitTalk(EnAObj* this, PlayState* play) {
     }
 }
 
-void EnAObj_SetupBlockRot(EnAObj* this, s16 type) {
+void EnAObj_SetupBlockRot(EnAObj* this, UNUSED s16 type) {
     this->rotateState = 0;
     this->rotateWaitTimer = 10;
     this->dyna.actor.world.rot.y = 0;
@@ -239,7 +241,7 @@ void EnAObj_SetupBlockRot(EnAObj* this, s16 type) {
     EnAObj_SetupAction(this, EnAObj_BlockRot);
 }
 
-void EnAObj_BlockRot(EnAObj* this, PlayState* play) {
+void EnAObj_BlockRot(EnAObj* this, UNUSED PlayState* play) {
     if (this->rotateState == 0) {
         if (this->dyna.interactFlags != 0) {
             this->rotateState++;
@@ -278,11 +280,11 @@ void EnAObj_BlockRot(EnAObj* this, PlayState* play) {
     }
 }
 
-void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type) {
+void EnAObj_SetupBoulderFragment(EnAObj* this, UNUSED s16 type) {
     EnAObj_SetupAction(this, EnAObj_BoulderFragment);
 }
 
-void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
+void EnAObj_BoulderFragment(EnAObj* this, UNUSED PlayState* play) {
     Math_SmoothStepToF(&this->dyna.actor.speed, 1.0f, 1.0f, 0.5f, 0.0f);
     this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x >> 1;
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z >> 1;
@@ -305,13 +307,13 @@ void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
     }
 }
 
-void EnAObj_SetupBlock(EnAObj* this, s16 type) {
+void EnAObj_SetupBlock(EnAObj* this, UNUSED s16 type) {
     this->dyna.actor.cullingVolumeDownward = 1200.0f;
     this->dyna.actor.cullingVolumeScale = 720.0f;
     EnAObj_SetupAction(this, EnAObj_Block);
 }
 
-void EnAObj_Block(EnAObj* this, PlayState* play) {
+void EnAObj_Block(EnAObj* this, UNUSED PlayState* play) {
     this->dyna.actor.speed += this->dyna.unk_150;
     this->dyna.actor.world.rot.y = this->dyna.unk_158;
     this->dyna.actor.speed = CLAMP(this->dyna.actor.speed, -2.5f, 2.5f);

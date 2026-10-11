@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "actor.h"
 
-#include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
+#include "src/overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 
 typedef enum EnFireRockType {
     /* 0x00 */ FIRE_ROCK_SPAWNED_FALLING1,

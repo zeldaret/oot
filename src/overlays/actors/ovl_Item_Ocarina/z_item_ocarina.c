@@ -6,6 +6,7 @@
 
 #include "z_item_ocarina.h"
 
+#include "attributes.h"
 #include "libu64/debug.h"
 #include "segmented_address.h"
 #include "sfx.h"
@@ -66,7 +67,7 @@ void ItemOcarina_Init(Actor* thisx, PlayState* play) {
             break;
         case 3:
             ItemOcarina_SetupAction(this, ItemOcarina_WaitInWater);
-            if (!GET_EVENTCHKINF(EVENTCHKINF_80) || GET_EVENTCHKINF(EVENTCHKINF_43)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) || GET_EVENTCHKINF(EVENTCHKINF_43)) {
                 Actor_Kill(thisx);
                 return;
             }
@@ -204,7 +205,7 @@ void ItemOcarina_Update(Actor* thisx, PlayState* play) {
 }
 
 void ItemOcarina_Draw(Actor* thisx, PlayState* play) {
-    ItemOcarina* this = (ItemOcarina*)thisx;
+    UNUSED ItemOcarina* this = (ItemOcarina*)thisx;
 
     func_8002EBCC(thisx, play, 0);
     func_8002ED80(thisx, play, 0);

@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "overlays/actors/ovl_En_Go/z_en_go.h"
+#include "src/overlays/actors/ovl_En_Go/z_en_go.h"
 
 struct EnGo2;
 

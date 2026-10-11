@@ -157,7 +157,7 @@ STMTId get_stmt_id_by_stmt_name(const char *stmtName, int lineNum) {
     return -1;
 }
 
-bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, int lineNum) {
+bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, int lineNum, const struct Segment *segments, int segment_count) {
     // ensure no duplicates (except for 'include' or 'pad_text')
     if (stmt != STMT_include && stmt != STMT_pad_text &&
         (currSeg->fields & (1 << stmt)))
@@ -211,15 +211,28 @@ bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, i
         if (!is_pow_of_2(currSeg->romalign))
             util_fatal_error("line %i: alignment is not a power of two", lineNum);
         break;
-    case STMT_include:
-        currSeg->includesCount++;
-        currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
+    case STMT_include: {
+        char *inc;
 
-        if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1].fpath))
+        if (!parse_quoted_string(args, &inc))
             util_fatal_error("line %i: invalid filename", lineNum);
 
-        currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
-        break;
+        bool inc_is_dup = false;
+        for (int i = 0; i < segment_count; i++) {
+            for (int j = 0; j < segments[i].includesCount; j++) {
+                if (strcmp(segments[i].includes[j].fpath, inc) == 0) {
+                    inc_is_dup = true;
+                }
+            }
+        }
+
+        if (!inc_is_dup) {
+            currSeg->includesCount++;
+            currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
+            currSeg->includes[currSeg->includesCount - 1].fpath = inc;
+            currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
+        }
+    }   break;
     case STMT_increment:
         if (!parse_number(args, &currSeg->increment))
             util_fatal_error("line %i: expected number after 'increment'", lineNum);
@@ -267,7 +280,7 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 
             if (currSeg != NULL)
             {
-                bool segmentEnded = parse_segment_statement(currSeg, stmt, args, lineNum);
+                bool segmentEnded = parse_segment_statement(currSeg, stmt, args, lineNum, *segments, *segment_count);
                 if (segmentEnded) {
                     currSeg = NULL;
                 }
@@ -293,70 +306,6 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 
         line = nextLine;
         lineNum++;
-    }
-}
-
-/**
- * @brief Parses the spec, looking only for the segment with the name `segmentName`.
- * Returns true if the segment was found, false otherwise
- *
- * @param[out] dstSegment The Segment to be filled. Will only contain the data of the searched segment, or garbage if the segment was not found. dstSegment must be previously allocated, a stack variable is recommended
- * @param[in,out] spec A null-terminated string containing the whole spec file. This string will be modified by this function
- * @param[in] segmentName The name of the segment being searched
- */
-bool get_single_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName) {
-    bool insideSegment = false;
-    int lineNum = 1;
-    char *line = spec;
-
-    memset(dstSegment, 0, sizeof(struct Segment));
-
-    // iterate over lines
-    while (line[0] != '\0') {
-        char *nextLine = line_split(line);
-        char* stmtName = skip_whitespace(line);
-
-        if (stmtName[0] != '\0') {
-            char *args = token_split(stmtName);
-            STMTId stmt = get_stmt_id_by_stmt_name(stmtName, lineNum);
-
-            if (insideSegment) {
-                bool segmentEnded = parse_segment_statement(dstSegment, stmt, args, lineNum);
-
-                if (stmt == STMT_name) {
-                    if (strcmp(segmentName, dstSegment->name) != 0) {
-                        // Not the segment we are looking for
-                        insideSegment = false;
-                    }
-                } else if (segmentEnded) {
-                    return true;
-                }
-            } else {
-                if (stmt == STMT_beginseg) {
-                    insideSegment = true;
-                    if (dstSegment->includes != NULL) {
-                        free(dstSegment->includes);
-                    }
-                    memset(dstSegment, 0, sizeof(struct Segment));
-                }
-            }
-        }
-
-        line = nextLine;
-        lineNum++;
-    }
-
-    return false;
-}
-
-/**
- * @brief Frees the elements of the passed Segment. Will not free the pointer itself
- *
- * @param segment
- */
-void free_single_segment_elements(struct Segment *segment) {
-    if (segment->includes != NULL) {
-        free(segment->includes);
     }
 }
 

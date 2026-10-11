@@ -5,7 +5,7 @@
  */
 
 #include "z_en_butte.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

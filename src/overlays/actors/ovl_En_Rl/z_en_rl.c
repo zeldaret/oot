@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -48,7 +49,7 @@ void EnRl_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80AE72D0(EnRl* this) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* timer = &this->timer;
     s16* eyeTextureIndex = &this->eyeTextureIndex;
 
@@ -129,7 +130,7 @@ void func_80AE7544(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7590(EnRl* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player;
     Vec3f pos;
     s16 sceneId = play->sceneId;
@@ -270,7 +271,7 @@ void func_80AE7AF8(EnRl* this, PlayState* play) {
             func_80AE78D4(this, play);
             this->lightBallSpawned = 1;
         }
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -322,7 +323,7 @@ void func_80AE7D40(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7D94(EnRl* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 temp = this->eyeTextureIndex;
     void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -334,7 +335,7 @@ void func_80AE7D94(EnRl* this, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-    gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL,
                                        NULL, NULL, POLY_XLU_DISP);
@@ -372,7 +373,7 @@ void func_80AE7FD0(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7FDC(EnRl* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 temp = this->eyeTextureIndex;
     void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -384,7 +385,7 @@ void func_80AE7FDC(EnRl* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
 
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
                           &this->actor);

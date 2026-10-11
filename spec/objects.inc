@@ -44,7 +44,7 @@ beginseg
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x16A50.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/hilite4_tex.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x173D0.o"
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gFishOutOfWaterAnim.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gFishInAirAnim.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x18610.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gFishInWaterAnim.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_shockwave.o"

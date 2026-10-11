@@ -1,53 +1,55 @@
 #include "libc64/qrand.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
 #include "player.h"
 #include "skin_matrix.h"
 
-#include "overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.h"
-#include "overlays/effects/ovl_Effect_Ss_KiraKira/z_eff_ss_kirakira.h"
-#include "overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.h"
-#include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
-#include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
-#include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
-#include "overlays/effects/ovl_Effect_Ss_D_Fire/z_eff_ss_d_fire.h"
-#include "overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.h"
-#include "overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.h"
-#include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
-#include "overlays/effects/ovl_Effect_Ss_G_Magma/z_eff_ss_g_magma.h"
-#include "overlays/effects/ovl_Effect_Ss_G_Fire/z_eff_ss_g_fire.h"
-#include "overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.h"
-#include "overlays/effects/ovl_Effect_Ss_Dt_Bubble/z_eff_ss_dt_bubble.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
-#include "overlays/effects/ovl_Effect_Ss_Sibuki/z_eff_ss_sibuki.h"
-#include "overlays/effects/ovl_Effect_Ss_Sibuki2/z_eff_ss_sibuki2.h"
-#include "overlays/effects/ovl_Effect_Ss_G_Magma2/z_eff_ss_g_magma2.h"
-#include "overlays/effects/ovl_Effect_Ss_Stone1/z_eff_ss_stone1.h"
-#include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
-#include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
-#include "overlays/effects/ovl_Effect_Ss_K_Fire/z_eff_ss_k_fire.h"
-#include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "overlays/effects/ovl_Effect_Ss_Ice_Piece/z_eff_ss_ice_piece.h"
-#include "overlays/effects/ovl_Effect_Ss_En_Ice/z_eff_ss_en_ice.h"
-#include "overlays/effects/ovl_Effect_Ss_Fire_Tail/z_eff_ss_fire_tail.h"
-#include "overlays/effects/ovl_Effect_Ss_En_Fire/z_eff_ss_en_fire.h"
-#include "overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
-#include "overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Db/z_eff_ss_dead_db.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Dd/z_eff_ss_dead_dd.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Ds/z_eff_ss_dead_ds.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
-#include "overlays/effects/ovl_Effect_Ss_Ice_Smoke/z_eff_ss_ice_smoke.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.h"
+#include "src/overlays/effects/ovl_Effect_Ss_KiraKira/z_eff_ss_kirakira.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
+#include "src/overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
+#include "src/overlays/effects/ovl_Effect_Ss_D_Fire/z_eff_ss_d_fire.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.h"
+#include "src/overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.h"
+#include "src/overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
+#include "src/overlays/effects/ovl_Effect_Ss_G_Magma/z_eff_ss_g_magma.h"
+#include "src/overlays/effects/ovl_Effect_Ss_G_Fire/z_eff_ss_g_fire.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dt_Bubble/z_eff_ss_dt_bubble.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Sibuki/z_eff_ss_sibuki.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Sibuki2/z_eff_ss_sibuki2.h"
+#include "src/overlays/effects/ovl_Effect_Ss_G_Magma2/z_eff_ss_g_magma2.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Stone1/z_eff_ss_stone1.h"
+#include "src/overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "src/overlays/effects/ovl_Effect_Ss_K_Fire/z_eff_ss_k_fire.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Ice_Piece/z_eff_ss_ice_piece.h"
+#include "src/overlays/effects/ovl_Effect_Ss_En_Ice/z_eff_ss_en_ice.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Fire_Tail/z_eff_ss_fire_tail.h"
+#include "src/overlays/effects/ovl_Effect_Ss_En_Fire/z_eff_ss_en_fire.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dead_Db/z_eff_ss_dead_db.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dead_Dd/z_eff_ss_dead_dd.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dead_Ds/z_eff_ss_dead_ds.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Ice_Smoke/z_eff_ss_ice_smoke.h"
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
@@ -60,7 +62,7 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     MtxF mfScale;
     MtxF mfResult;
     MtxF mfTransBillboard;
-    s32 pad1;
+    STACK_PAD(s32);
     Mtx* mtx;
     void* objectPtr = play->objectCtx.slots[this->rgObjectSlot].segment;
 
@@ -692,8 +694,8 @@ void EffectSsSibuki_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* a
 
 void EffectSsSibuki_SpawnBurst(PlayState* play, Vec3f* pos) {
     s16 i;
-    Vec3f unusedZeroVec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f unusedZeroVec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s16 randDirection = Rand_ZeroOne() * 1.99f;
 
@@ -733,11 +735,11 @@ void EffectSsGMagma2_Spawn(PlayState* play, Vec3f* pos, Color_RGBA8* primColor, 
 
 // EffectSsStone1 Spawn Functions
 
-void EffectSsStone1_Spawn(PlayState* play, Vec3f* pos, s32 arg2) {
+void EffectSsStone1_Spawn(PlayState* play, Vec3f* pos, s32 freezeFadeFlash) {
     EffectSsStone1InitParams initParams;
 
     initParams.pos = *pos;
-    initParams.unk_C = arg2;
+    initParams.freezeFadeFlash = freezeFadeFlash;
 
     EffectSs_Spawn(play, EFFECT_SS_STONE1, 128, &initParams);
 }

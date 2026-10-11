@@ -1,42 +1,33 @@
 <Root>
     <File Name="object_bl" Segment="6">
-        <!-- Biri Animations -->
-        <Animation Name="gBiriDischargeLightningAnim" Offset="0x24"/>
-        <Animation Name="gBiriClimbAnim" Offset="0x64"/>
-        <Animation Name="gBiriDefaultAnim" Offset="0xA4"/><!-- Used in various states, not just as an idle -->
-
-        <!-- Vertices -->
+        <Animation Name="gBiriElectrifyAnim" Offset="0x24"/>
+        <Animation Name="gBiriAscendAwayAnim" Offset="0x64"/>
+        <Animation Name="gBiriMainAnim" Offset="0xA4"/>
         <Array Name="gBiriTentaclesVtx" Count="4" Offset="0xC0">
             <Vtx/>
         </Array>
-        <Array Name="gBiriInnerHoodVtx" Count="14" Offset="0x100">
+        <Array Name="gBiriCoreVtx" Count="14" Offset="0x100">
             <Vtx/>
         </Array>
-        <Array Name="gBiriOuterHoodVtx" Count="29" Offset="0x1E0">
+        <Array Name="gBiriHoodVtx" Count="29" Offset="0x1E0">
             <Vtx/>
         </Array>
-
-        <!-- Biri DLists -->
         <DList Name="gBiriTentaclesDL" Offset="0x3B0"/>
-        <DList Name="gBiriInnerHoodDL" Offset="0x448"/>
-        <DList Name="gBiriOuterHoodDL" Offset="0x530"/>
-
-        <!-- Biri Textures -->
-        <Texture Name="gBiriOuterHoodTex" Format="ia16" Width="16" Height="64" Offset="0x608"/>
-        <Texture Name="gBiriTentacles0Tex" Format="ia8" Width="48" Height="48" Offset="0xE08"/>
-        <Texture Name="gBiriTentacles1Tex" Format="ia8" Width="48" Height="48" Offset="0x1708"/>
-        <Texture Name="gBiriTentacles2Tex" Format="ia8" Width="48" Height="48" Offset="0x2008"/>
-        <Texture Name="gBiriTentacles3Tex" Format="ia8" Width="48" Height="48" Offset="0x2908"/>
-        <Texture Name="gBiriTentacles4Tex" Format="ia8" Width="48" Height="48" Offset="0x3208"/>
-        <Texture Name="gBiriTentacles5Tex" Format="ia8" Width="48" Height="48" Offset="0x3B08"/>
-        <Texture Name="gBiriTentacles6Tex" Format="ia8" Width="48" Height="48" Offset="0x4408"/>
-        <Texture Name="gBiriTentacles7Tex" Format="ia8" Width="48" Height="48" Offset="0x4D08"/>
-        <Texture Name="gBiriInnerHoodTex" Format="ia16" Width="16" Height="16" Offset="0x5608"/>
-
-        <!-- Biri Limbs and Skeleton -->
+        <DList Name="gBiriCoreDL" Offset="0x448"/>
+        <DList Name="gBiriHoodDL" Offset="0x530"/>
+        <Texture Name="gBiriHoodTex" Format="ia16" Width="16" Height="64" Offset="0x608"/>
+        <Texture Name="gBiriTentacle0Tex" Format="ia8" Width="48" Height="48" Offset="0xE08"/>
+        <Texture Name="gBiriTentacle1Tex" Format="ia8" Width="48" Height="48" Offset="0x1708"/>
+        <Texture Name="gBiriTentacle2Tex" Format="ia8" Width="48" Height="48" Offset="0x2008"/>
+        <Texture Name="gBiriTentacle3Tex" Format="ia8" Width="48" Height="48" Offset="0x2908"/>
+        <Texture Name="gBiriTentacle4Tex" Format="ia8" Width="48" Height="48" Offset="0x3208"/>
+        <Texture Name="gBiriTentacle5Tex" Format="ia8" Width="48" Height="48" Offset="0x3B08"/>
+        <Texture Name="gBiriTentacle6Tex" Format="ia8" Width="48" Height="48" Offset="0x4408"/>
+        <Texture Name="gBiriTentacle7Tex" Format="ia8" Width="48" Height="48" Offset="0x4D08"/>
+        <Texture Name="gBiriCoreTex" Format="ia16" Width="16" Height="16" Offset="0x5608"/>
         <Limb Name="gBiriRootLimb" LimbType="Standard" EnumName="BIRI_LIMB_ROOT" Offset="0x5808"/>
-        <Limb Name="gBiriInnerHoodLimb" LimbType="Standard" EnumName="BIRI_LIMB_INNER_HOOD" Offset="0x5814"/>
-        <Limb Name="gBiriOuterHoodLimb" LimbType="Standard" EnumName="BIRI_LIMB_OUTER_HOOD" Offset="0x5820"/>
+        <Limb Name="gBiriCoreLimb" LimbType="Standard" EnumName="BIRI_LIMB_CORE" Offset="0x5814"/>
+        <Limb Name="gBiriHoodLimb" LimbType="Standard" EnumName="BIRI_LIMB_HOOD" Offset="0x5820"/>
         <Limb Name="gBiriTentaclesLimb" LimbType="Standard" EnumName="BIRI_LIMB_TENTACLES" Offset="0x582C"/>
         <Skeleton Name="gBiriSkel" Type="Normal" LimbType="Standard" LimbNone="BIRI_LIMB_NONE" LimbMax="BIRI_LIMB_MAX" EnumName="BiriLimb" Offset="0x5848"/>
     </File>

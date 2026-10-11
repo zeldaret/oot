@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -71,7 +72,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgMenkuriEye_Init(Actor* thisx, PlayState* play) {
     BgMenkuriEye* this = (BgMenkuriEye*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(play, &this->collider);
@@ -128,7 +129,7 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
 
 void BgMenkuriEye_Draw(Actor* thisx, PlayState* play) {
     BgMenkuriEye* this = (BgMenkuriEye*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_menkuri_eye.c", 292);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);

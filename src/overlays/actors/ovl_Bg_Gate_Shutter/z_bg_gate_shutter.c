@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -45,7 +46,7 @@ ActorProfile Bg_Gate_Shutter_Profile = {
 
 void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     BgGateShutter* this = (BgGateShutter*)thisx;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -54,7 +55,8 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
-    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneId == SCENE_KAKARIKO_VILLAGE)) {
+    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_MASTER_SWORD)) &&
+        (play->sceneId == SCENE_KAKARIKO_VILLAGE)) {
         thisx->world.pos.x = -89.0f;
         thisx->world.pos.z = -1375.0f;
     }

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_arow_trap.h"
-#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "src/overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #include "play_state.h"
 
