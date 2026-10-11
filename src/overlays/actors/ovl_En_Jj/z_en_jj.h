@@ -32,7 +32,6 @@ typedef struct EnJj {
     /* 0x30F */ u8 eyeTimer;
     /* 0x310 */ u8 eyeExtraBlinkAmount;
     /* 0x311 */ u8 nextEyeExtraBlinkAmount;
-    /* 0x312 */ char pad_312[2];
 } EnJj; // size = 0x314
 
 #endif
