@@ -315,7 +315,7 @@ void EnSkb_SetupAttack(EnSkb* this) {
 
 void EnSkb_Attack(EnSkb* this, PlayState* play) {
     s32 temp_ft1;
-    u8 temp_v0;
+    STACK_PAD(s32);
 
     temp_ft1 = (s32)this->skelAnime.curFrame;
     if (temp_ft1 == 3) {
