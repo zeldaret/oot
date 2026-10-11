@@ -369,7 +369,7 @@ void func_80AFD540(EnSkb* this) {
 }
 
 void EnSkb_Stunned(EnSkb* this, PlayState* play) {
-    f32 temp_fv0;
+    STACK_PAD(s32);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speed = 0.0f;
