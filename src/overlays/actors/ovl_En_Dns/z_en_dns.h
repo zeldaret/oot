@@ -37,28 +37,33 @@ typedef enum EnDnsAnimation {
 
 struct EnDns;
 
+typedef u32 (*EnDnsCanBuyFunc)(struct EnDns*);
+typedef void (*EnDnsPaymentFunc)(struct EnDns*);
+
 typedef struct EnDnsPurchaseInfo {
     /* 0x00 */ s16 price;
     /* 0x02 */ s16 unk_2; // unused
-    /* 0x04 */ s32 gid;
-    /* 0x08 */ u32 (*canBuy)(struct EnDns*);
-    /* 0x0C */ void (*payment)(struct EnDns*);
+    /* 0x04 */ s32 getItemId;
+    /* 0x08 */ EnDnsCanBuyFunc canBuy;
+    /* 0x0C */ EnDnsPaymentFunc payment;
 } EnDnsPurchaseInfo;
+
+typedef void (*EnDnsActionFunc)(struct EnDns*, struct PlayState*);
 
 typedef struct EnDns {
     /* 0x0000 */ Actor actor;
     /* 0x14C */ SkelAnime skelAnime;
-    /* 0x190 */ Vec3s unk190[BUSINESS_SCRUB_LIMB_MAX];
-    /* 0x1FC */ Vec3s unk1FC[BUSINESS_SCRUB_LIMB_MAX];
-    /* 0x268 */ void (*unk268)(struct EnDns*, struct PlayState*);
+    /* 0x190 */ Vec3s jointTable[BUSINESS_SCRUB_LIMB_MAX];
+    /* 0x1FC */ Vec3s morphTable[BUSINESS_SCRUB_LIMB_MAX];
+    /* 0x268 */ EnDnsActionFunc actionFunc;
     /* 0x26C */ ColliderCylinder collider;
-    /* 0x2B8 */ s16 unk2B8;
+    /* 0x2B8 */ s16 timer;
     /* 0x2BA */ u8 animIndex;
     /* 0x2BB */ u8 isColliderEnabled;
-    /* 0x2BC */ u8 unk2BC;
-    /* 0x2BD */ u8 unk2BD;
-    /* 0x2C0 */ EnDnsPurchaseInfo* unk2C0;
-    /* 0x2C4 */ f32 unk2C4;
+    /* 0x2BC */ u8 runUpdBgCheckInfo;
+    /* 0x2BD */ u8 spawnHeartsAfterBurrow;
+    /* 0x2C0 */ EnDnsPurchaseInfo* purchaseInfo;
+    /* 0x2C4 */ f32 floorY;
 } EnDns; // size = 0x02C8
 
 #endif
