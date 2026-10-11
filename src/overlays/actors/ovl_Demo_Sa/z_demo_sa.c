@@ -471,7 +471,7 @@ void DemoSa_SageMagic_CheckFadeOut(DemoSa* this, PlayState* play) {
             DemoSa_SageMagic_SpawnLightBall(this, play);
             this->isLightBall = true;
         }
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -701,7 +701,7 @@ void DemoSa_CsBridge_LookAtLink(DemoSa* this, PlayState* play) {
         this->action = DEMOSA_ACTION_BRIDGE_LOOKING_SAD;
         this->drawConfig = DEMOSA_DRAW_OPA;
         this->isHoldingOcarina = false;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
     DemoSa_SetEyes(this, SARIA_EYE_SAD);
 }
@@ -711,7 +711,7 @@ void DemoSa_CsBridge_CheckFadeFinished(DemoSa* this) {
         this->action = DEMOSA_ACTION_BRIDGE_LOOKING_SAD;
         this->drawConfig = DEMOSA_DRAW_OPA;
         this->isHoldingOcarina = false;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -720,7 +720,7 @@ void DemoSa_CsBridge_ClutchOcarina(DemoSa* this) {
     this->action = DEMOSA_ACTION_BRIDGE_CLUTCH_OCARINA;
     this->drawConfig = DEMOSA_DRAW_OPA;
     this->isHoldingOcarina = true;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     DemoSa_SetEyes(this, SARIA_EYE_CLOSED);
 }
 
@@ -729,7 +729,7 @@ void DemoSa_CsBridge_GiveOcarina(DemoSa* this) {
     this->action = DEMOSA_ACTION_BRIDGE_GIVE_OCARINA;
     this->drawConfig = DEMOSA_DRAW_OPA;
     this->isHoldingOcarina = true;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void DemoSa_CsBridge_HoldOutOcarina(DemoSa* this, s32 animFinished) {
