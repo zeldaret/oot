@@ -73,34 +73,6 @@ void EnNb_Destroy(Actor* thisx, PlayState* play);
 void EnNb_Update(Actor* thisx, PlayState* play);
 void EnNb_Draw(Actor* thisx, PlayState* play);
 
-/*
-extern FlexSkeletonHeader D_060181C8;
-extern AnimationHeader D_06004BB4; // standing up hands on hips
-extern AnimationHeader D_06006E78;
-extern AnimationHeader D_06004E60; // getting up from crawlspace
-extern AnimationHeader D_06004BB4;
-extern AnimationHeader D_06009238;
-extern AnimationHeader D_06009694; // hands on hips standing
-extern AnimationHeader D_0600274C; // raising both arms up transition (giving medallion to link ?)
-extern AnimationHeader D_06002B4C; // raising both arms up stable (giving medallion to link ?)
-extern AnimationHeader D_06000410; // clasping hands together
-extern AnimationHeader D_06001E7C; // looking around ?
-extern AnimationHeader D_06001350; // i think this is the animation where she is in the purple thing
-extern AnimationHeader D_06001104; // transition to raising arm up in purple portal
-extern AnimationHeader D_06008BD0; // falls to the ground
-extern AnimationHeader D_060046A8; // looking in crawlspace ?
-extern AnimationHeader D_06003954; // on ground getting up ??
-extern AnimationHeader D_06004030; // looking behind her to the right
-extern AnimationHeader D_06002DBC; // freaking out
-extern AnimationHeader D_060035A8; // looking behind her
-extern AnimationHeader D_06006320; // sees unk from behind, turns and runs
-extern AnimationHeader D_06000BC0; // crossed legs
-extern AnimationHeader D_06005CA4; // crossed legs, turns head and looks behind to the right
-extern AnimationHeader D_06005614; // crossed legs, looking behind to the right
-extern Gfx D_06013158[];
-extern UNK_TYPE D_0600D8E8;
-*/
-
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COL_MATERIAL_HIT0,
@@ -120,7 +92,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static UNK_PTR sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gNabooruEyeOpenTex,
     gNabooruEyeHalfTex,
     gNabooruEyeClosedTex,
@@ -1035,7 +1007,7 @@ void func_80AB2E70(EnNb* this, PlayState* play) {
 s32 func_80AB2FC0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     UNUSED EnNb* this = (EnNb*)thisx;
 
-    if (limbIndex == 15) {
+    if (limbIndex == NABOORU_LIMB_HEAD) {
         *dList = gNabooruHeadMouthOpenDL;
     }
 
@@ -1077,7 +1049,7 @@ void EnNb_SetAlphaInCredits(EnNb* this) {
 
     if ((kREG(17) + 10.0f) <= this->alphaTimer) {
         this->alpha = 255;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     } else {
         alpha = (*alphaTimer / (kREG(17) + 10.0f)) * 255.0f;
         this->alpha = alpha;
@@ -1500,7 +1472,8 @@ void EnNb_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnNb_SetupCollider(thisx, play);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gNabooruSkel, NULL, this->jointTable, this->morphTable, 19);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gNabooruSkel, NULL, this->jointTable, this->morphTable,
+                       NABOORU_LIMB_MAX);
 
     switch (EnNb_GetType(this)) {
         case NB_TYPE_DEMO02:
@@ -1530,13 +1503,13 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     s32 ret = false;
 
     if (this->headTurnFlag != 0) {
-        if (limbIndex == 8) {
+        if (limbIndex == NABOORU_LIMB_TORSO) {
             STACK_PAD(s32);
 
             rot->x += interactInfo->torsoRot.y;
             rot->y -= interactInfo->torsoRot.x;
             ret = false;
-        } else if (limbIndex == 15) {
+        } else if (limbIndex == NABOORU_LIMB_HEAD) {
             rot->x += interactInfo->headRot.y;
             rot->z += interactInfo->headRot.x;
             ret = false;
@@ -1549,7 +1522,7 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnNb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
 
-    if (limbIndex == 15) {
+    if (limbIndex == NABOORU_LIMB_HEAD) {
         Vec3f vec1 = { 0.0f, 10.0f, 0.0f };
         Vec3f vec2;
 
