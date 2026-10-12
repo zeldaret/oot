@@ -1,5 +1,5 @@
-#ifndef _SPEC_H_
-#define _SPEC_H_
+#ifndef SPEC_H
+#define SPEC_H
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -39,7 +39,7 @@ struct Include
     int linkerPadding;
 };
 
-struct Segment
+typedef struct Segment
 {
     uint32_t fields;
     char *name;
@@ -55,10 +55,10 @@ struct Segment
     struct Include *includes;
     int includesCount;
     bool compress;
-};
+} Segment;
 
-void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count);
+void parse_rom_spec(char *spec, Segment **segments, int *segment_count);
 
-void free_rom_spec(struct Segment *segments, int segment_count);
+void free_rom_spec(Segment *segments, int segment_count);
 
 #endif
