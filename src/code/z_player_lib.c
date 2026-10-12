@@ -672,7 +672,7 @@ void Player_SetModelsForHoldingShield(Player* this) {
             } else if (this->backType == PLAYER_MODELTYPE_BACK_SHIELD) {
                 this->backType = PLAYER_MODELTYPE_BACK_SHEATH;
             }
-            this->sheathDLists = sPlayerDListGroups[this->backType] + ((void)0, gSaveContext.save.linkAge);
+            this->backDLists = sPlayerDListGroups[this->backType] + ((void)0, gSaveContext.save.linkAge);
             this->modelAnimType = PLAYER_ANIMTYPE_2;
             this->itemAction = -1;
         }
@@ -688,7 +688,7 @@ void Player_SetModels(Player* this, s32 modelGroup) {
                            ((void)0, gSaveContext.save.linkAge);
     this->rightHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND]] +
                             ((void)0, gSaveContext.save.linkAge);
-    this->sheathDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_BACK]] +
+    this->backDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_BACK]] +
                          ((void)0, gSaveContext.save.linkAge);
     this->waistDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST]] +
                         ((void)0, gSaveContext.save.linkAge);
@@ -1386,8 +1386,8 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
             }
 
             *dList = *(dLists + sDListsLodOffset);
-        } else if (limbIndex == PLAYER_LIMB_SHEATH) {
-            Gfx** dLists = this->sheathDLists;
+        } else if (limbIndex == PLAYER_LIMB_BACK) {
+            Gfx** dLists = this->backDLists;
 
             if ((this->backType == PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH) || (this->backType == PLAYER_MODELTYPE_BACK_SHIELD)) {
                 dLists += this->currentShield * 4;
@@ -1849,25 +1849,25 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, UN
             }
         }
     } else if (this->actor.scale.y >= 0.0f) {
-        if (limbIndex == PLAYER_LIMB_SHEATH) {
+        if (limbIndex == PLAYER_LIMB_BACK) {
             if ((this->rightHandType != PLAYER_MODELTYPE_RH_SHIELD) &&
                 (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
                 // Coordinates of the shield quad collider vertices, in the sheath limb's own model space.
-                static Vec3f sSheathLimbModelShieldQuadVertices[] = {
+                static Vec3f sBackLimbModelShieldQuadVertices[] = {
                     { -3000.0f, -3000.0f, -900.0f },
                     { 3000.0f, -3000.0f, -900.0f },
                     { -3000.0f, 3000.0f, -900.0f },
                     { 3000.0f, 3000.0f, -900.0f },
                 };
                 // Position and rotation of the shield on Link's back, in the sheath limb's own model space.
-                static Vec3f sSheathLimbModelShieldOnBackPos = { 630.0f, 100.0f, -30.0f };
-                static Vec3s sSheathLimbModelShieldOnBackZyxRot = { 0, 0, 0x7FFF };
+                static Vec3f sBackLimbModelShieldOnBackPos = { 630.0f, 100.0f, -30.0f };
+                static Vec3s sBackLimbModelShieldOnBackZyxRot = { 0, 0, 0x7FFF };
 
                 if (Player_IsChildWithHylianShield(this)) {
-                    Player_UpdateShieldCollider(play, this, &this->shieldQuad, sSheathLimbModelShieldQuadVertices);
+                    Player_UpdateShieldCollider(play, this, &this->shieldQuad, sBackLimbModelShieldQuadVertices);
                 }
 
-                Matrix_TranslateRotateZYX(&sSheathLimbModelShieldOnBackPos, &sSheathLimbModelShieldOnBackZyxRot);
+                Matrix_TranslateRotateZYX(&sBackLimbModelShieldOnBackPos, &sBackLimbModelShieldOnBackZyxRot);
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
@@ -1948,7 +1948,7 @@ s32 Player_OverrideLimbDrawPause(UNUSED PlayState* play, s32 limbIndex, Gfx** dL
         if (type == PLAYER_MODELTYPE_RH_SHIELD) {
             dListOffset = playerSwordAndShield[1] * 4;
         }
-    } else if (limbIndex == PLAYER_LIMB_SHEATH) {
+    } else if (limbIndex == PLAYER_LIMB_BACK) {
         type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_BACK];
         if ((type == PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH) || (type == PLAYER_MODELTYPE_BACK_SHIELD)) {
             dListOffset = playerSwordAndShield[1] * 4;

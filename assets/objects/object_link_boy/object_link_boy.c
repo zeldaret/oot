@@ -1297,8 +1297,8 @@ LodLimb gLinkAdultRightHandLimb = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandLimb.inc.c"
 };
 
-LodLimb gLinkAdultSwordInSheathLimb = {
-#include "assets/objects/object_link_boy/gLinkAdultSwordInSheathLimb.inc.c"
+LodLimb gLinkAdultBackLimb = {
+#include "assets/objects/object_link_boy/gLinkAdultBackLimb.inc.c"
 };
 
 LodLimb gLinkTorsoLimb = {

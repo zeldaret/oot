@@ -231,7 +231,7 @@
         <Limb Name="gLinkAdultRightShoulderLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_SHOULDER" Offset="0x37750"/>
         <Limb Name="gLinkAdultRightArmLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_FOREARM" Offset="0x37760"/>
         <Limb Name="gLinkAdultRightHandLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_HAND" Offset="0x37770"/>
-        <Limb Name="gLinkAdultSwordInSheathLimb" LimbType="LOD" EnumName="PLAYER_LIMB_SHEATH" Offset="0x37780"/>
+        <Limb Name="gLinkAdultBackLimb" LimbType="LOD" EnumName="PLAYER_LIMB_BACK" Offset="0x37780"/>
         <Limb Name="gLinkTorsoLimb" LimbType="LOD" EnumName="PLAYER_LIMB_TORSO" Offset="0x37790"/>
 
         <!-- Swords and shields -->

@@ -172,7 +172,7 @@
         <Limb Name="gLinkChildRightshoulderLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_SHOULDER" Offset="0x2CEC8"/>
         <Limb Name="gLinkChildRightForearmLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_FOREARM" Offset="0x2CED8"/>
         <Limb Name="gLinkChildRightHandLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_HAND" Offset="0x2CEE8"/>
-        <Limb Name="gLinkChildBackKokiriSwordInSheathLimb" LimbType="LOD" EnumName="PLAYER_LIMB_SHEATH" Offset="0x2CEF8"/>
+        <Limb Name="gLinkChildBackLimb" LimbType="LOD" EnumName="PLAYER_LIMB_BACK" Offset="0x2CEF8"/>
         <Limb Name="gLinkChildTorsoLimb" LimbType="LOD" EnumName="PLAYER_LIMB_TORSO" Offset="0x2CF08"/>
 
         <!--General DLists-->

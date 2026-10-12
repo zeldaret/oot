@@ -1178,8 +1178,8 @@ LodLimb gLinkChildRightHandLimb = {
 #include "assets/objects/object_link_child/gLinkChildRightHandLimb.inc.c"
 };
 
-LodLimb gLinkChildBackKokiriSwordInSheathLimb = {
-#include "assets/objects/object_link_child/gLinkChildBackKokiriSwordInSheathLimb.inc.c"
+LodLimb gLinkChildBackLimb = {
+#include "assets/objects/object_link_child/gLinkChildBackLimb.inc.c"
 };
 
 LodLimb gLinkChildTorsoLimb = {

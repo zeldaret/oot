@@ -406,7 +406,7 @@ static u8 sUpperBodyLimbCopyMap[PLAYER_LIMB_MAX] = {
     true,  // PLAYER_LIMB_R_SHOULDER
     true,  // PLAYER_LIMB_R_FOREARM
     true,  // PLAYER_LIMB_R_HAND
-    true,  // PLAYER_LIMB_SHEATH
+    true,  // PLAYER_LIMB_BACK
     true   // PLAYER_LIMB_TORSO
 };
 

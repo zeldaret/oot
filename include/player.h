@@ -202,7 +202,7 @@ typedef enum PlayerLimb {
     /* 0x11 */ PLAYER_LIMB_R_SHOULDER,
     /* 0x12 */ PLAYER_LIMB_R_FOREARM,
     /* 0x13 */ PLAYER_LIMB_R_HAND,
-    /* 0x14 */ PLAYER_LIMB_SHEATH,
+    /* 0x14 */ PLAYER_LIMB_BACK,
     /* 0x15 */ PLAYER_LIMB_TORSO,
     /* 0x16 */ PLAYER_LIMB_MAX
 } PlayerLimb;
@@ -224,7 +224,7 @@ typedef enum PlayerBodyPart {
     /* 0x0D */ PLAYER_BODYPART_R_SHOULDER, // PLAYER_LIMB_R_SHOULDER
     /* 0x0E */ PLAYER_BODYPART_R_FOREARM,  // PLAYER_LIMB_R_FOREARM
     /* 0x0F */ PLAYER_BODYPART_R_HAND,     // PLAYER_LIMB_R_HAND
-    /* 0x10 */ PLAYER_BODYPART_SHEATH,     // PLAYER_LIMB_SHEATH
+    /* 0x10 */ PLAYER_BODYPART_BACK,       // PLAYER_LIMB_BACK
     /* 0x11 */ PLAYER_BODYPART_TORSO,      // PLAYER_LIMB_TORSO
     /* 0x12 */ PLAYER_BODYPART_MAX
 } PlayerBodyPart;
@@ -816,7 +816,7 @@ typedef struct Player {
     /* 0x015F */ u8 currentMask; // current mask equipped from `PlayerMask`
     /* 0x0160 */ Gfx** rightHandDLists;
     /* 0x0164 */ Gfx** leftHandDLists;
-    /* 0x0168 */ Gfx** sheathDLists;
+    /* 0x0168 */ Gfx** backDLists;
     /* 0x016C */ Gfx** waistDLists;
     /* 0x0170 */ u8 giObjectLoading;
     /* 0x0174 */ DmaRequest giObjectDmaRequest;
