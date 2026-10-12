@@ -82,7 +82,8 @@ void EnGe3_Init(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, NULL, this->jointTable, this->morphTable, 24);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, NULL, this->jointTable, this->morphTable,
+                       GERUDO_RED_LIMB_MAX);
     Animation_PlayLoop(&this->skelAnime, &gGerudoRedStandAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
