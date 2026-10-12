@@ -650,10 +650,10 @@ void EnMd_UpdateAlphaByDistance(EnMd* this, PlayState* play) {
             radius = 400.0f;
         }
         this->alpha = Actor_UpdateAlphaByDistance(&this->actor, play, this->alpha, radius);
-        this->actor.shape.shadowAlpha = (u8)this->alpha;
+        this->actor.shape.shadowAlpha = this->alpha;
     } else {
         this->alpha = 255;
-        this->actor.shape.shadowAlpha = (u8)this->alpha;
+        this->actor.shape.shadowAlpha = this->alpha;
     }
 }
 
