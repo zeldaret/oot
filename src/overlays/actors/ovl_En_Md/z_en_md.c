@@ -33,9 +33,6 @@ void EnMd_BlockPath(EnMd* this, PlayState* play);
 void EnMd_ListenToOcarina(EnMd* this, PlayState* play);
 void EnMd_Walk(EnMd* this, PlayState* play);
 
-extern AnimationHeader D_60002C8;
-extern SkeletonHeader D_6007FB8;
-
 ActorProfile En_Md_Profile = {
     /**/ ACTOR_EN_MD,
     /**/ ACTORCAT_NPC,
@@ -67,6 +64,7 @@ static ColliderCylinderInit sCylinderInit = {
     },
     { 36, 46, 0, { 0, 0, 0 } },
 };
+
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnMdAnimSequence {
@@ -117,22 +115,14 @@ static AnimationInfo sAnimationInfo[] = {
     { &gMidoAnnoyedToHaltAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     { &gMidoIdleToAnnoyedAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
-Vec3f D_80AAC498 = { 400.0f, 0.0f, 0.0f };
-void* D_80AAC4A4[3] = {
-    gMidoEyeOpenTex,
-    gMidoEyeHalfTex,
-    gMidoEyeClosedTex,
-};
 
 void EnMd_ReverseAnimation(EnMd* this) {
-    f32 temp_fv0;
-    f32 temp_fv1;
+    f32 startFrame = this->skelAnime.startFrame;
+    f32 endFrame = this->skelAnime.endFrame;
 
-    temp_fv0 = this->skelAnime.startFrame;
-    temp_fv1 = this->skelAnime.endFrame;
-    this->skelAnime.startFrame = temp_fv1;
-    this->skelAnime.curFrame = temp_fv1;
-    this->skelAnime.endFrame = temp_fv0;
+    this->skelAnime.startFrame = endFrame;
+    this->skelAnime.curFrame = endFrame;
+    this->skelAnime.endFrame = startFrame;
     this->skelAnime.playSpeed = -1.0f;
 }
 
@@ -143,7 +133,7 @@ void EnMd_UpdateAnimSequence_IdleToHalt(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT);
                 this->animSequenceEntry++;
             }
@@ -158,7 +148,7 @@ void EnMd_UpdateAnimSequence_HaltToCurious(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_CURIOUS);
                 this->animSequenceEntry++;
             }
@@ -174,7 +164,7 @@ void EnMd_UpdateAnimSequence_WalkAway(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_TO_WALK);
                 this->animSequenceEntry++;
             } else {
@@ -182,7 +172,7 @@ void EnMd_UpdateAnimSequence_WalkAway(EnMd* this) {
             }
             FALLTHROUGH;
         case 2:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_WALK);
                 this->animSequenceEntry++;
             }
@@ -197,7 +187,7 @@ void EnMd_UpdateAnimSequence_TwitchIdle_Unused(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
                 this->animSequenceEntry++;
             }
@@ -213,7 +203,7 @@ void EnMd_UpdateAnimSequence_HaltToIdle(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
                 this->animSequenceEntry++;
             }
@@ -228,7 +218,7 @@ void EnMd_UpdateAnimSequence_SurpriseToAnnoyed(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
                 this->animSequenceEntry++;
             }
@@ -244,7 +234,7 @@ void EnMd_UpdateAnimSequence_SurpriseToIdle(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
                 this->animSequenceEntry++;
             }
@@ -259,7 +249,7 @@ void EnMd_UpdateAnimSequence_CuriousToAnnoyed(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
                 this->animSequenceEntry++;
             }
@@ -274,7 +264,7 @@ void EnMd_UpdateAnimSequence_AnnoyedToHalt(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT);
                 this->animSequenceEntry++;
             }
@@ -289,7 +279,7 @@ void EnMd_UpdateAnimSequence_IdleToAnnoyed(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED);
                 this->animSequenceEntry++;
             }
@@ -305,7 +295,7 @@ void EnMd_UpdateAnimSequence_StopWalking(EnMd* this) {
             this->animSequenceEntry++;
             FALLTHROUGH;
         case 1:
-            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE);
                 this->animSequenceEntry++;
             }
@@ -351,10 +341,8 @@ void EnMd_UpdateAnimSequence(EnMd* this) {
         case ENMD_ANIM_SEQ_IDLE_TO_ANNOYED:
             EnMd_UpdateAnimSequence_IdleToAnnoyed(this);
             break;
-        case 11:
+        case ENMD_ANIM_SEQ_STOP_WALKING:
             EnMd_UpdateAnimSequence_StopWalking(this);
-            break;
-        default:
             break;
     }
 }
@@ -412,9 +400,8 @@ void EnMd_UpdateAnimSequence_WithTalking(EnMd* this) {
 
 s16 EnMd_TrackMessageState(Actor* thisx, PlayState* play) {
     EnMd* this = (EnMd*)thisx;
-    s16 messageState;
+    s16 messageState = Message_GetState(&play->msgCtx);
 
-    messageState = Message_GetState(&play->msgCtx);
     if (((this->messageState == TEXT_STATE_AWAITING_NEXT) || (this->messageState == TEXT_STATE_EVENT) ||
          (this->messageState == TEXT_STATE_CLOSING) || (this->messageState == TEXT_STATE_DONE_HAS_NEXT)) &&
         (this->messageState != messageState)) {
@@ -424,10 +411,9 @@ s16 EnMd_TrackMessageState(Actor* thisx, PlayState* play) {
     return messageState;
 }
 
-u16 func_80AAACF8(PlayState* play, EnMd* this) {
-    u16 textId;
+u16 EnMd_GetTextIdKokiriForest(PlayState* play, EnMd* this) {
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MIDO);
 
-    textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MIDO);
     if (textId != 0) {
         return textId;
     }
@@ -449,7 +435,7 @@ u16 func_80AAACF8(PlayState* play, EnMd* this) {
     return 0x102F;
 }
 
-u16 func_80AAADE0(PlayState* play, EnMd* this) {
+u16 EnMd_GetTextIdMidosHouse(PlayState* play, EnMd* this) {
     this->messageEntry = 0;
     this->messageState = TEXT_STATE_NONE;
     if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
@@ -458,7 +444,7 @@ u16 func_80AAADE0(PlayState* play, EnMd* this) {
     return 0x1046;
 }
 
-u16 func_80AAAE14(PlayState* play, EnMd* this) {
+u16 EnMd_GetTextIdLostWoods(PlayState* play, EnMd* this) {
     this->messageEntry = 0;
     this->messageState = TEXT_STATE_NONE;
     if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
@@ -476,16 +462,16 @@ u16 func_80AAAE14(PlayState* play, EnMd* this) {
     }
 }
 
-u16 func_80AAAE94(PlayState* play, Actor* thisx) {
+u16 EnMd_GetTextId(PlayState* play, Actor* thisx) {
     EnMd* this = (EnMd*)thisx;
 
     switch (play->sceneId) {
         case SCENE_KOKIRI_FOREST:
-            return func_80AAACF8(play, this);
+            return EnMd_GetTextIdKokiriForest(play, this);
         case SCENE_MIDOS_HOUSE:
-            return func_80AAADE0(play, this);
+            return EnMd_GetTextIdMidosHouse(play, this);
         case SCENE_LOST_WOODS:
-            return func_80AAAE14(play, this);
+            return EnMd_GetTextIdLostWoods(play, this);
         default:
             return 0;
     }
@@ -533,43 +519,42 @@ s16 EnMd_UpdateTalkState(PlayState* play, Actor* thisx) {
     return NPC_TALK_STATE_TALKING;
 }
 
-s32 func_80AAB03C(EnMd* this, PlayState* play) {
+s32 EnMd_CheckCanSpawn(EnMd* this, PlayState* play) {
     if ((play->sceneId == SCENE_KOKIRI_FOREST) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
         !GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
-        return 1;
+        return true;
     } else if ((play->sceneId == SCENE_MIDOS_HOUSE) &&
-               ((gSaveContext.save.info.eventChkInf[1] & 0x1000) || (gSaveContext.save.info.eventChkInf[4] & 1)) &&
+               (GET_EVENTCHKINF(EVENTCHKINF_1C) || GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) &&
                !LINK_IS_ADULT) {
-        return 1;
+        return true;
     } else if (play->sceneId == SCENE_LOST_WOODS) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
-void func_80AAB0E0(EnMd* arg0) {
-    if (DECR(arg0->unk20C) == 0) {
-        arg0->unk20E += 1;
-        if (arg0->unk20E >= 3) {
-            arg0->unk20C = Rand_S16Offset(0x1E, 0x1E);
-            arg0->unk20E = 0;
+void EnMd_UpdateEyes(EnMd* this) {
+    if (DECR(this->eyeTimer) == 0) {
+        this->eyeTexIndex++;
+        if (this->eyeTexIndex >= 3) {
+            this->eyeTimer = Rand_S16Offset(30, 30);
+            this->eyeTexIndex = 0;
         }
     }
 }
 
 void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
-    Player* temp_a2;
-    s16 temp_v1;
-    s16 temp_ft1;
+    Player* player = GET_PLAYER(play);
+    s16 absRelYawTowardsPlayer;
+    s16 relYawTowardsPlayer;
     s16 canUpdateTalking;
     s16 trackingMode;
 
-    temp_a2 = GET_PLAYER(play);
     if (this->actor.xzDistToPlayer < 170.0f) {
-        temp_ft1 = (f32)this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y;
-        temp_v1 = ABS(temp_ft1);
-        if (temp_v1 <= Npc_GetTrackingPresetMaxPlayerYaw(2)) {
+        relYawTowardsPlayer = (f32)this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y;
+        absRelYawTowardsPlayer = ABS(relYawTowardsPlayer);
+        if (absRelYawTowardsPlayer <= Npc_GetTrackingPresetMaxPlayerYaw(2)) {
             trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
             canUpdateTalking = true;
         } else {
@@ -583,11 +568,11 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         trackingMode = NPC_TRACKING_FULL_BODY;
     }
-    if (this->unk190 == EnMd_Walk) {
+    if (this->actionFunc == EnMd_Walk) {
         trackingMode = NPC_TRACKING_NONE;
         canUpdateTalking = false;
     }
-    if (this->unk190 == EnMd_Watch) {
+    if (this->actionFunc == EnMd_Watch) {
         trackingMode = NPC_TRACKING_FULL_BODY;
         canUpdateTalking = true;
     }
@@ -596,7 +581,7 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
         this->interactInfo.yOffset = 40.0f;
         trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
-        this->interactInfo.trackPos = temp_a2->actor.world.pos;
+        this->interactInfo.trackPos = player->actor.world.pos;
         if (gSaveContext.save.linkAge > 0) {
             this->interactInfo.yOffset = 0.0f;
         } else {
@@ -604,56 +589,54 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
         }
     }
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
-    if ((this->unk190 != EnMd_ListenToOcarina) && canUpdateTalking) {
+    if ((this->actionFunc != EnMd_ListenToOcarina) && canUpdateTalking) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
-                          func_80AAAE94, EnMd_UpdateTalkState);
+                          EnMd_GetTextId, EnMd_UpdateTalkState);
     }
 }
 
-s32 func_80AAB370(EnMd* this, PlayState* play) {
-    Path* temp_a0;
+s32 EnMd_UpdateRotFollowPath(EnMd* this, PlayState* play) {
+    Path* path;
     STACK_PAD(s32);
-    f32 temp_fa0;
-    f32 temp_fa1;
-    Vec3s* temp_v0;
-    s32 temp_a2;
+    f32 dx;
+    f32 dz;
+    Vec3s* pointPos;
+    s32 pathIndexNoShift = ENMD_GET_PATH_INDEX_NOSHIFT(this);
 
-    temp_a2 = ENMD_GET_PATH_INDEX_NOSHIFT(this);
-    if (temp_a2 == (ENMD_PATH_NONE << 8)) {
+    if (pathIndexNoShift == (ENMD_PATH_NONE << 8)) {
         return 0;
     }
-    temp_a0 = &play->pathList[temp_a2 >> 8];
-    temp_v0 = SEGMENTED_TO_VIRTUAL(temp_a0->points);
-    temp_v0 += this->unk212;
-    temp_fa0 = (f32)temp_v0->x - this->actor.world.pos.x;
-    temp_fa1 = (f32)temp_v0->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (Math_FAtan2F(temp_fa0, temp_fa1) * 10430.378f), 4, 0xFA0, 1);
-    if (((temp_fa0 * temp_fa0) + (temp_fa1 * temp_fa1)) < 100.0f) {
-        this->unk212++;
-        if (this->unk212 >= temp_a0->count) {
-            this->unk212 = 0;
+    path = &play->pathList[pathIndexNoShift >> 8];
+    pointPos = SEGMENTED_TO_VIRTUAL(path->points);
+    pointPos += this->waypoint;
+    dx = (f32)pointPos->x - this->actor.world.pos.x;
+    dz = (f32)pointPos->z - this->actor.world.pos.z;
+    Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 4, 0xFA0, 1);
+    if ((SQ(dx) + SQ(dz)) < 100.0f) {
+        this->waypoint++;
+        if (this->waypoint >= path->count) {
+            this->waypoint = 0;
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
-s32 func_80AAB4DC(EnMd* this, PlayState* play) {
-    Path* temp_a1;
-    s32 temp_v1;
-    Vec3s* temp_a3;
+s32 EnMd_SetPosToPathEnd(EnMd* this, PlayState* play) {
+    Path* path;
+    s32 pathIndexNoShift = ENMD_GET_PATH_INDEX_NOSHIFT(this);
+    Vec3s* pointPos;
 
-    temp_v1 = ENMD_GET_PATH_INDEX_NOSHIFT(this);
-    if (temp_v1 == (ENMD_PATH_NONE << 8)) {
-        return 0;
+    if (pathIndexNoShift == (ENMD_PATH_NONE << 8)) {
+        return false;
     }
-    temp_a1 = &play->pathList[temp_v1 >> 8];
-    temp_a3 = SEGMENTED_TO_VIRTUAL(temp_a1->points);
-    temp_a3 += temp_a1->count - 1;
-    this->actor.world.pos.x = temp_a3->x;
-    this->actor.world.pos.y = temp_a3->y;
-    this->actor.world.pos.z = temp_a3->z;
-    return 1;
+    path = &play->pathList[pathIndexNoShift >> 8];
+    pointPos = SEGMENTED_TO_VIRTUAL(path->points);
+    pointPos += path->count - 1;
+    this->actor.world.pos.x = pointPos->x;
+    this->actor.world.pos.y = pointPos->y;
+    this->actor.world.pos.z = pointPos->z;
+    return true;
 }
 
 void EnMd_UpdateAlphaByDistance(EnMd* this, PlayState* play) {
@@ -666,11 +649,11 @@ void EnMd_UpdateAlphaByDistance(EnMd* this, PlayState* play) {
         } else {
             radius = 400.0f;
         }
-        this->unk210 = Actor_UpdateAlphaByDistance(&this->actor, play, this->unk210, radius);
-        this->actor.shape.shadowAlpha = (u8)this->unk210;
+        this->alpha = Actor_UpdateAlphaByDistance(&this->actor, play, this->alpha, radius);
+        this->actor.shape.shadowAlpha = (u8)this->alpha;
     } else {
-        this->unk210 = 255;
-        this->actor.shape.shadowAlpha = (u8)this->unk210;
+        this->alpha = 255;
+        this->actor.shape.shadowAlpha = (u8)this->alpha;
     }
 }
 
@@ -679,18 +662,18 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->unk258, this->unk2BE, MIDO_LIMB_MAX);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->jointTable, this->morphTable, MIDO_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-    if (func_80AAB03C(this, play) == 0) {
+    if (!EnMd_CheckCanSpawn(this, play)) {
         Actor_Kill(&this->actor);
         return;
     }
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_IDLE_DEFAULT);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
-    this->unk210 = 255;
+    this->alpha = 255;
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
     if (((play->sceneId == SCENE_KOKIRI_FOREST) && !GET_EVENTCHKINF(EVENTCHKINF_04)) ||
@@ -698,12 +681,12 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
          CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) ||
         ((play->sceneId == SCENE_LOST_WOODS) && !GET_EVENTCHKINF(EVENTCHKINF_0A))) {
         this->actor.home.pos = this->actor.world.pos;
-        this->unk190 = EnMd_BlockPath;
+        this->actionFunc = EnMd_BlockPath;
     } else {
         if (play->sceneId != SCENE_MIDOS_HOUSE) {
-            func_80AAB4DC(this, play);
+            EnMd_SetPosToPathEnd(this, play);
         }
-        this->unk190 = EnMd_Idle;
+        this->actionFunc = EnMd_Idle;
     }
 }
 
@@ -731,24 +714,22 @@ void EnMd_Watch(EnMd* this, PlayState* play) {
 }
 
 void EnMd_BlockPath(EnMd* this, PlayState* play) {
-    Player* sp2C;
-    f32 temp_fv1;
-    Player* sp24;
-    s16 temp_v0_3;
+    Player* player = GET_PLAYER(play);
+    f32 playSpeed;
+    Player* player2 = GET_PLAYER(play);
+    s16 yawTowardsPlayerFromHome;
     STACK_PAD(s32);
 
-    sp2C = GET_PLAYER(play);
-    sp24 = GET_PLAYER(play);
     EnMd_UpdateAnimSequence_WithTalking(this);
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        temp_v0_3 = Math_Vec3f_Yaw(&this->actor.home.pos, &sp24->actor.world.pos);
+        yawTowardsPlayerFromHome = Math_Vec3f_Yaw(&this->actor.home.pos, &player2->actor.world.pos);
         this->actor.world.pos.x = this->actor.home.pos.x;
-        this->actor.world.pos.x += 60.0f * Math_SinS(temp_v0_3);
+        this->actor.world.pos.x += 60.0f * Math_SinS(yawTowardsPlayerFromHome);
         this->actor.world.pos.z = this->actor.home.pos.z;
-        this->actor.world.pos.z += 60.0f * Math_CosS(temp_v0_3);
-        temp_fv1 = fabsf((f32)this->actor.yawTowardsPlayer - (f32)temp_v0_3) * 0.001f * 3.0f;
-        this->skelAnime.playSpeed = CLAMP(temp_fv1, 1.0f, 3.0f);
+        this->actor.world.pos.z += 60.0f * Math_CosS(yawTowardsPlayerFromHome);
+        playSpeed = fabsf((f32)this->actor.yawTowardsPlayer - (f32)yawTowardsPlayerFromHome) * 0.001f * 3.0f;
+        this->skelAnime.playSpeed = CLAMP(playSpeed, 1.0f, 3.0f);
     }
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
@@ -763,49 +744,48 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
         }
         EnMd_SetAnimSequence(this, ENMD_ANIM_SEQ_WALK_AWAY);
         EnMd_UpdateAnimSequence(this);
-        this->unk212 = 1;
+        this->waypoint = 1;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-        this->unk190 = EnMd_Walk;
+        this->actionFunc = EnMd_Walk;
         this->actor.speed = 1.5f;
     } else {
         if (this->skelAnime.animation == &gMidoIdleAnim) {
             Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
         }
         if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (play->sceneId == SCENE_LOST_WOODS)) {
-            if (sp2C->stateFlags2 & PLAYER_STATE2_24) {
-                sp2C->stateFlags2 |= PLAYER_STATE2_25;
-                sp2C->unk_6A8 = &this->actor;
+            if (player->stateFlags2 & PLAYER_STATE2_24) {
+                player->stateFlags2 |= PLAYER_STATE2_25;
+                player->unk_6A8 = &this->actor;
                 Message_StartOcarina(play, OCARINA_ACTION_CHECK_SARIA);
-                this->unk190 = EnMd_ListenToOcarina;
-            } else if (this->actor.xzDistToPlayer < (30.0f + (f32)this->collider.dim.radius)) {
-                sp2C->stateFlags2 |= PLAYER_STATE2_23;
+                this->actionFunc = EnMd_ListenToOcarina;
+            } else if (this->actor.xzDistToPlayer < (30.0f + this->collider.dim.radius)) {
+                player->stateFlags2 |= PLAYER_STATE2_23;
             }
         }
     }
 }
 
 void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
-    Player* temp_v0;
+    Player* player = GET_PLAYER(play);
 
-    temp_v0 = GET_PLAYER(play);
     if (play->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
-        this->unk190 = EnMd_BlockPath;
+        this->actionFunc = EnMd_BlockPath;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
         this->actor.textId = 0x1067;
         Actor_OfferTalk(&this->actor, play, (f32)this->collider.dim.radius + 30.0f);
-        this->unk190 = EnMd_BlockPath;
+        this->actionFunc = EnMd_BlockPath;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
-        temp_v0->stateFlags2 |= PLAYER_STATE2_23;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
 void EnMd_Walk(EnMd* this, PlayState* play) {
     Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     EnMd_UpdateAnimSequence(this);
-    if ((func_80AAB370(this, play) == 0) || (this->unk212 != 0)) {
+    if (!EnMd_UpdateRotFollowPath(this, play) || (this->waypoint != 0)) {
         this->actor.shape.rot = this->actor.world.rot;
     } else if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
                (play->sceneId == SCENE_KOKIRI_FOREST)) {
@@ -817,7 +797,7 @@ void EnMd_Walk(EnMd* this, PlayState* play) {
         this->skelAnime.playSpeed = 0.0f;
         this->actor.speed = 0.0f;
         this->actor.home.pos = this->actor.world.pos;
-        this->unk190 = EnMd_Watch;
+        this->actionFunc = EnMd_Watch;
     }
 }
 
@@ -828,24 +808,24 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
-    func_80AAB0E0(this);
+    EnMd_UpdateEyes(this);
     EnMd_UpdateAlphaByDistance(this, play);
     Actor_MoveXZGravity(&this->actor);
     EnMd_UpdateTalking(this, play);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    this->unk190(this, play);
+    this->actionFunc(this, play);
 }
 
-s32 func_80AABEF0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
+s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnMd* this = (EnMd*)thisx;
     Vec3s limbRot;
 
     if (limbIndex == MIDO_LIMB_HEAD) {
-        Matrix_Translate(1200.0f, 0.0f, 0.0f, 1U);
+        Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
-        Matrix_Translate(-1200.0f, 0.0f, 0.0f, 1U);
+        Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == MIDO_LIMB_TORSO) {
         limbRot = this->interactInfo.torsoRot;
@@ -854,32 +834,36 @@ s32 func_80AABEF0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
     }
     if ((limbIndex == MIDO_LIMB_TORSO) || (limbIndex == MIDO_LIMB_LEFT_UPPER_ARM) ||
         (limbIndex == MIDO_LIMB_RIGHT_UPPER_ARM)) {
-        rot->y += (Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE);
-        rot->z += (Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE);
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     return 0;
 }
 
-void func_80AAC104(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+void EnMd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnMd* this = (EnMd*)thisx;
-    Vec3f sp18;
+    Vec3f focusPosOffset = { 400.0f, 0.0f, 0.0f };
 
-    sp18 = D_80AAC498;
     if (limbIndex == MIDO_LIMB_HEAD) {
-        Matrix_MultVec3f(&sp18, &this->actor.focus.pos);
+        Matrix_MultVec3f(&focusPosOffset, &this->actor.focus.pos);
     }
 }
 
 void EnMd_Draw(Actor* thisx, PlayState* play) {
+    static void* sEyeTextures[3] = {
+        gMidoEyeOpenTex,
+        gMidoEyeHalfTex,
+        gMidoEyeClosedTex,
+    };
     EnMd* this = (EnMd*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_md.c", 1280);
-    if (this->unk210 == 255) {
-        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
-        func_80034BA0(play, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
-    } else if (this->unk210 != 0) {
-        gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_80AAC4A4[this->unk20E]));
-        func_80034CC4(play, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->unk210);
+    if (this->alpha == 255) {
+        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
+        func_80034BA0(play, &this->skelAnime, EnMd_OverrideLimbDraw, EnMd_PostLimbDraw, &this->actor, this->alpha);
+    } else if (this->alpha != 0) {
+        gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
+        func_80034CC4(play, &this->skelAnime, EnMd_OverrideLimbDraw, EnMd_PostLimbDraw, &this->actor, this->alpha);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_md.c", 1317);
 }
