@@ -5,14 +5,15 @@
  */
 
 #include "z_bg_bowl_wall.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-#include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
+#include "src/overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
+#include "src/overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "quake.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "bgcheck.h"
@@ -60,7 +61,7 @@ static s16 sWallRots[4] = {
 
 void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     BgBowlWall* this = (BgBowlWall*)thisx;
-    s32 pad1[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -86,7 +87,7 @@ void BgBowlWall_Destroy(Actor* thisx, PlayState* play) {
 void BgBowlWall_InitImpl(BgBowlWall* this, PlayState* play) {
     Actor* actor;
     EnWallTubo* target;
-    s32 pad;
+    STACK_PAD(s32);
     s16 type = this->dyna.actor.params;
 
     if (type != BG_BOWL_WALL_TYPE_FIRST_WALL) {
@@ -205,7 +206,7 @@ void BgBowlWall_Update(Actor* thisx, PlayState* play) {
 void BgBowlWall_Draw(Actor* thisx, PlayState* play) {
     u32 new_var2;
     BgBowlWall* this = (BgBowlWall*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_bowl_wall.c", 441);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);

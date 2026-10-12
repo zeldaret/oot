@@ -16,6 +16,7 @@
 #include "regs.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "versions.h"
@@ -144,7 +145,7 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, PlayState* play2) {
 
 void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
     BgHidanHamstep* this = (BgHidanHamstep*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
     Vec3f sp48[3];
     s32 i;
@@ -304,8 +305,7 @@ void func_808887C4(BgHidanHamstep* this, PlayState* play) {
 }
 
 void func_80888860(BgHidanHamstep* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     s32 quakeIndex;
 
     Actor_MoveXZGravity(&this->dyna.actor);
@@ -337,7 +337,7 @@ void func_80888860(BgHidanHamstep* this, PlayState* play) {
 }
 
 void func_808889B8(BgHidanHamstep* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgHidanHamstep* parent = (BgHidanHamstep*)this->dyna.actor.parent;
 
     func_80888734(this);
@@ -354,8 +354,7 @@ void func_808889B8(BgHidanHamstep* this, PlayState* play) {
 }
 
 void func_80888A58(BgHidanHamstep* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     s32 quakeIndex;
 
     Actor_MoveXZGravity(&this->dyna.actor);

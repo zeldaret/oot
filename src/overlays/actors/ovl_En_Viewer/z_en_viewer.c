@@ -5,8 +5,8 @@
  */
 
 #include "z_en_viewer.h"
-#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
-#include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
+#include "src/overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
+#include "src/overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -18,6 +18,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "audio.h"
@@ -629,7 +630,7 @@ s32 EnViewer_ZeldaOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, 
 }
 
 void EnViewer_ZeldaPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
         if (limbIndex == 16) {
@@ -715,7 +716,7 @@ static EnViewerDrawFunc sDrawFuncs[] = {
 
 void EnViewer_Draw(Actor* thisx, PlayState* play) {
     EnViewer* this = (EnViewer*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s16 type;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1760);

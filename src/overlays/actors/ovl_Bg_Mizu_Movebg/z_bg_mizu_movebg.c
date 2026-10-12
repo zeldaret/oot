@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_mizu_movebg.h"
-#include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
+#include "src/overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"

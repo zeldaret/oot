@@ -5,8 +5,8 @@
  */
 
 #include "z_en_bom_bowl_pit.h"
-#include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "src/overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
+#include "src/overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #include "printf.h"
 #include "regs.h"

@@ -1,8 +1,10 @@
 #include "libc64/os_malloc.h"
 
 #include "alignment.h"
+#include "attributes.h"
 #include "fault.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 
@@ -479,7 +481,7 @@ void* __osMallocR(Arena* arena, u32 size) {
     return alloc;
 }
 
-void __osFree_NoLock(Arena* arena, void* ptr) {
+void __osFree_NoLock(UNUSED_NDEBUG Arena* arena, void* ptr) {
     ArenaNode* node;
     ArenaNode* next;
     ArenaNode* prev;
@@ -623,7 +625,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
     ArenaNode* overNext2;
     ArenaNode localCopy;
     u32 blockSize;
-    s32 pad;
+    STACK_PAD(s32);
 
     newSize = ALIGN16(newSize);
     osSyncPrintf("__osRealloc(%08x, %d)\n", ptr, newSize);
@@ -713,7 +715,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
 }
 
 #if DEBUG_FEATURES
-void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, int line) {
+void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, UNUSED const char* file, UNUSED int line) {
     return __osRealloc(arena, ptr, newSize);
 }
 #endif
@@ -866,7 +868,7 @@ s32 __osCheckArena(Arena* arena) {
         arena);
     iter = arena->head;
     while (iter != NULL) {
-        //! @bug: Probably intended to be `!NODE_IS_VALID(iter)`
+        //! @bug Probably intended to be `!NODE_IS_VALID(iter)`
         if (NODE_IS_VALID(iter)) {
 #if DEBUG_FEATURES
             osSyncPrintf(VT_COL(RED, WHITE) T("おおっと！！ (%08x %08x)\n", "Oops!! (%08x %08x)\n") VT_RST, iter,

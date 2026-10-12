@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -147,7 +148,7 @@ static InitChainEntry sInitChain[3] = {
 };
 
 void EnVali_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnVali* this = (EnVali*)thisx;
     s32 bgId;
 
@@ -525,7 +526,7 @@ void EnVali_CheckCollide(EnVali* this, PlayState* play) {
 
 void EnVali_Update(Actor* thisx, PlayState* play) {
     EnVali* this = (EnVali*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((this->collider.base.atFlags & AT_HIT) || (this->leftTentacleCollider.base.atFlags & AT_HIT) ||
         (this->rightTentacleCollider.base.atFlags & AT_HIT)) {
@@ -749,7 +750,7 @@ static Gfx sBariCoreNormalCombinerDL[] = {
 
 void EnVali_Draw(Actor* thisx, PlayState* play) {
     EnVali* this = (EnVali*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vali.c", 1505);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);

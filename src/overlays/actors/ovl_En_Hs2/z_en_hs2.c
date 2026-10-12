@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -62,7 +63,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnHs2_Init(Actor* thisx, PlayState* play) {
     EnHs2* this = (EnHs2*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gCarpenterSonSkel, &gCarpenterSonSittingAnim, this->jointTable,
@@ -118,7 +119,7 @@ void EnHs2_Idle(EnHs2* this, PlayState* play) {
 
 void EnHs2_Update(Actor* thisx, PlayState* play) {
     EnHs2* this = (EnHs2*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

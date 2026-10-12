@@ -12,6 +12,7 @@
 #include "rumble.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -81,7 +82,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHidanRock_Init(Actor* thisx, PlayState* play) {
     BgHidanRock* this = (BgHidanRock*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -362,7 +363,7 @@ static void* sVerticalFlamesTexs[] = {
 };
 
 void func_8088BC40(PlayState* play, BgHidanRock* this) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
 
@@ -390,7 +391,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this) {
 
 void BgHidanRock_Draw(Actor* thisx, PlayState* play) {
     BgHidanRock* this = (BgHidanRock*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->type == 0) {
         Gfx_DrawDListOpa(play, gFireTempleStoneBlock1DL);

@@ -1,4 +1,5 @@
 #include "map.h"
+#include "attributes.h"
 #include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
@@ -711,6 +712,6 @@ void Regs_InitDataImpl(void) {
     R_GAME_OVER_RUMBLE_DECREASE_RATE = -63;
 }
 
-void Regs_InitData(PlayState* play) {
+void Regs_InitData(UNUSED PlayState* play) {
     Regs_InitDataImpl();
 }

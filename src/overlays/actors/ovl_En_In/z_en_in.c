@@ -1,8 +1,9 @@
 #include "z_en_in.h"
-#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "letterbox.h"
@@ -793,7 +794,7 @@ void EnIn_PlayerWonFirstRace(EnIn* this, PlayState* play) {
 }
 
 void EnIn_PlayerWonSecondRace(EnIn* this, PlayState* play) {
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f subCamAt;
     Vec3f subCamEye;
 

@@ -4,6 +4,7 @@
 #include "stddef.h"
 #include "stdint.h"
 #include "ultra64/convert.h"
+#include "attributes.h"
 
 #define RANGE 2.0
 
@@ -26,10 +27,10 @@ Acmd* alFxPull(void* filter, s16* outp, s32 outCount, s32 sampleOffset, Acmd* p)
     s16 output;
     s16* in_ptr;
     s16* out_ptr;
-    s16 gain;
+    UNUSED s16 gain;
     s16* prev_out_ptr = NULL;
     ALDelay* d;
-    ALDelay* pd;
+    UNUSED ALDelay* pd;
 
     // pull channels going into this effect first
     ptr = (*source->handler)(source, outp, outCount, sampleOffset, p);

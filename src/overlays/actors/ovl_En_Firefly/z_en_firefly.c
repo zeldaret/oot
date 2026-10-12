@@ -1,5 +1,5 @@
 #include "z_en_firefly.h"
-#include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
+#include "src/overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"

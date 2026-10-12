@@ -11,12 +11,19 @@
  * See the rest of the file for specifics.
  */
 
-#include "libc64/malloc.h"
-#include "libu64/debug.h"
+#include "vis.h"
+
 #include "attributes.h"
+#include "color.h"
 #include "gfx.h"
 #include "gfxalloc.h"
-#include "vis.h"
+
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "ultra64.h"
+#include <assert.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
@@ -56,7 +63,7 @@ void VisMono_Destroy(VisMono* this) {
     SYSTEM_ARENA_FREE(this->dList, "../z_vismono.c", 137);
 }
 
-void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
+void VisMono_DesaturateTLUT(UNUSED VisMono* this, u16* tlut) {
     s32 i;
 
     for (i = 0; i < 256; i++) {
@@ -77,7 +84,7 @@ void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
     }
 }
 
-Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
+Gfx* VisMono_DesaturateDList(UNUSED VisMono* this, Gfx* gfx) {
     s32 y;
     s32 height = VISMONO_CFBFRAG_HEIGHT;
     u16* cfbFrag = D_0F000000;

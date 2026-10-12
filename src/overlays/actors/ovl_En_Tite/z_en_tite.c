@@ -5,8 +5,8 @@
  */
 
 #include "z_en_tite.h"
-#include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "src/overlays/actors/ovl_En_Encount1/z_en_encount1.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -16,6 +16,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -912,7 +913,7 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
 
 void EnTite_Update(Actor* thisx, PlayState* play) {
     EnTite* this = (EnTite*)thisx;
-    char pad[0x4];
+    STACK_PAD(s32);
     CollisionPoly* floorPoly;
     WaterBox* waterBox;
     f32 waterSurfaceY;

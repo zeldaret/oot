@@ -5,9 +5,9 @@
  */
 
 #include "z_en_wall_tubo.h"
-#include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-#include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
+#include "src/overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
+#include "src/overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
+#include "src/overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 
 #include "rand.h"
 #include "regs.h"

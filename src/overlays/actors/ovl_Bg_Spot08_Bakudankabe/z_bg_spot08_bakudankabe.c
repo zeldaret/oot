@@ -5,12 +5,13 @@
  */
 
 #include "z_bg_spot08_bakudankabe.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
 #include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -103,14 +104,14 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 }
 
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 i;
     Vec3f burstDepthY;
     Vec3f burstDepthX;
@@ -167,7 +168,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
 
 void BgSpot08Bakudankabe_Init(Actor* thisx, PlayState* play) {
     BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

@@ -5,9 +5,9 @@
  */
 
 #include "z_en_bom_bowl_man.h"
-#include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
-#include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
+#include "src/overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
+#include "src/overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "src/overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -17,6 +17,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "effect.h"
 #include "play_state.h"
 #include "player.h"
@@ -371,7 +372,7 @@ void EnBomBowlMan_ShowReward(EnBomBowlMan* this, PlayState* play) {
     };
     static s16 sCounterRewardSpawnYaw[5] = { 0x4268, 0x4268, -0x3E8, 0, 0x4268 };
     s16 reward;
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_Update(&this->skelAnime);
     if (this->rewardAppearTimer == 0) {

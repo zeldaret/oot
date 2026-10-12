@@ -12,6 +12,7 @@
 #include "gfx_setupdl.h"
 #include "line_numbers.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "versions.h"
@@ -105,7 +106,7 @@ f32 func_809A9818(f32 arg0, f32 arg1) {
 void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
     static Color_RGB8 colors[] = { { 255, 255, 255 }, { 235, 170, 130 } };
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     s32 colorIdx;
 

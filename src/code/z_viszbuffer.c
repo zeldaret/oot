@@ -37,9 +37,15 @@
  * - blue: like green but even higher frequency
  */
 
-#include "ultra64.h"
-#include "gfx.h"
 #include "vis.h"
+
+#include "attributes.h"
+#include "color.h"
+#include "gfx.h"
+#include "stack_pad.h"
+
+#include "ultra64.h"
+#include <stdbool.h>
 
 // z-buffer
 extern u16 D_0E000000[];
@@ -60,12 +66,12 @@ void VisZBuffer_Init(VisZBuffer* this) {
     // clang-format on
 }
 
-void VisZBuffer_Destroy(VisZBuffer* this) {
+void VisZBuffer_Destroy(UNUSED VisZBuffer* this) {
 }
 
 void VisZBuffer_Draw(VisZBuffer* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
-    s32 pad;
+    STACK_PAD(s32);
     u16* tex = D_0E000000;
     s32 fmt = this->params.type == 0 ? G_IM_FMT_IA : G_IM_FMT_RGBA;
     s32 y;

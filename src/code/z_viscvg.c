@@ -6,9 +6,14 @@
  * usually highlight silhouettes.
  */
 
-#include "ultra64.h"
-#include "gfx.h"
 #include "vis.h"
+
+#include "attributes.h"
+#include "color.h"
+#include "gfx.h"
+
+#include "ultra64.h"
+#include <stdbool.h>
 
 Gfx sVisCvgModulateBlendColorDL[] = {
     gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
@@ -68,7 +73,7 @@ void VisCvg_Init(VisCvg* this) {
     this->params.color1.a = 255;
 }
 
-void VisCvg_Destroy(VisCvg* this) {
+void VisCvg_Destroy(UNUSED VisCvg* this) {
 }
 
 void VisCvg_Draw(VisCvg* this, Gfx** gfxP) {

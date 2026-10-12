@@ -6,6 +6,7 @@
 
 #include "z_en_syateki_niw.h"
 
+#include "attributes.h"
 #include "libc64/math64.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -13,6 +14,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -522,7 +524,7 @@ void EnSyatekiNiw_SetupRemove(EnSyatekiNiw* this, PlayState* play) {
 }
 
 void EnSyatekiNiw_Remove(EnSyatekiNiw* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 rotYTargetOffset;
     s16 screenX;
     s16 screenY;
@@ -582,10 +584,10 @@ void EnSyatekiNiw_CheckHit(EnSyatekiNiw* this, PlayState* play) {
 
 void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s16 i;
-    Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
     Vec3f vel;
     Vec3f accel;
@@ -683,7 +685,7 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
 
 s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
-    Vec3f unusedZeroVec = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f unusedZeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->headRot.x;

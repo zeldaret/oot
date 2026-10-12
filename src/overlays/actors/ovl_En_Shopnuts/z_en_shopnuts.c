@@ -5,8 +5,8 @@
  */
 
 #include "z_en_shopnuts.h"
-#include "overlays/actors/ovl_En_Dns/z_en_dns.h"
-#include "overlays/actors/ovl_En_Nutsball/z_en_nutsball.h"
+#include "src/overlays/actors/ovl_En_Dns/z_en_dns.h"
+#include "src/overlays/actors/ovl_En_Nutsball/z_en_nutsball.h"
 
 #include "gfx.h"
 #include "ichain.h"

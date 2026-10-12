@@ -5,9 +5,10 @@
  */
 
 #include "z_bg_ganon_otyuka.h"
-#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
+#include "src/overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -322,7 +323,7 @@ void BgGanonOtyuka_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
-    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
+    UNUSED BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     s16 i;
     Gfx* phi_s2;
     Gfx* phi_s1;

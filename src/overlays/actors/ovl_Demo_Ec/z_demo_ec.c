@@ -7,10 +7,12 @@
 #include "z_demo_ec.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -56,16 +58,16 @@ void DemoEc_Update(Actor* thisx, PlayState* play);
 void DemoEc_Draw(Actor* thisx, PlayState* play);
 
 typedef enum DemoEcUpdateMode {
-    /* 00 */ EC_UPDATE_COMMON,
-    /* 01 */ EC_UPDATE_INGO,
-    /* 02 */ EC_UPDATE_TALON,
-    /* 03 */ EC_UPDATE_WINDMILL_MAN,
-    /* 04 */ EC_UPDATE_KOKIRI_BOY,
-    /* 05 */ EC_UPDATE_KOKIRI_GIRL,
-    /* 06 */ EC_UPDATE_OLD_MAN,
-    /* 07 */ EC_UPDATE_BEARDED_MAN,
-    /* 08 */ EC_UPDATE_WOMAN,
-    /* 09 */ EC_UPDATE_OLD_WOMAN,
+    /*  0 */ EC_UPDATE_COMMON,
+    /*  1 */ EC_UPDATE_INGO,
+    /*  2 */ EC_UPDATE_TALON,
+    /*  3 */ EC_UPDATE_WINDMILL_MAN,
+    /*  4 */ EC_UPDATE_KOKIRI_BOY,
+    /*  5 */ EC_UPDATE_KOKIRI_GIRL,
+    /*  6 */ EC_UPDATE_OLD_MAN,
+    /*  7 */ EC_UPDATE_BEARDED_MAN,
+    /*  8 */ EC_UPDATE_WOMAN,
+    /*  9 */ EC_UPDATE_OLD_WOMAN,
     /* 10 */ EC_UPDATE_BOSS_CARPENTER,
     /* 11 */ EC_UPDATE_CARPENTER,
     /* 12 */ EC_UPDATE_DANCING_KOKIRI_BOY,
@@ -88,16 +90,16 @@ typedef enum DemoEcUpdateMode {
 } DemoEcUpdateMode;
 
 typedef enum DemoEcDrawconfig {
-    /* 00 */ EC_DRAW_COMMON,
-    /* 01 */ EC_DRAW_INGO,
-    /* 02 */ EC_DRAW_TALON,
-    /* 03 */ EC_DRAW_WINDMILL_MAN,
-    /* 04 */ EC_DRAW_KOKIRI_BOY,
-    /* 05 */ EC_DRAW_KOKIRI_GIRL,
-    /* 06 */ EC_DRAW_OLD_MAN,
-    /* 07 */ EC_DRAW_BEARDED_MAN,
-    /* 08 */ EC_DRAW_WOMAN,
-    /* 09 */ EC_DRAW_OLD_WOMAN,
+    /*  0 */ EC_DRAW_COMMON,
+    /*  1 */ EC_DRAW_INGO,
+    /*  2 */ EC_DRAW_TALON,
+    /*  3 */ EC_DRAW_WINDMILL_MAN,
+    /*  4 */ EC_DRAW_KOKIRI_BOY,
+    /*  5 */ EC_DRAW_KOKIRI_GIRL,
+    /*  6 */ EC_DRAW_OLD_MAN,
+    /*  7 */ EC_DRAW_BEARDED_MAN,
+    /*  8 */ EC_DRAW_WOMAN,
+    /*  9 */ EC_DRAW_OLD_WOMAN,
     /* 10 */ EC_DRAW_BOSS_CARPENTER,
     /* 11 */ EC_DRAW_CARPENTER,
     /* 12 */ EC_DRAW_GERUDO,
@@ -205,7 +207,7 @@ void func_8096D64C(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_UpdateEyes(DemoEc* this) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeTexIndex = &this->eyeTexIndex;
 
@@ -265,7 +267,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* 
                          PostLimbDraw postLimbDraw) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 565);
 
@@ -289,7 +291,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* 
 
 void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gfx* arg3, u8* color1, u8* color2,
                                     OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw) {
-    s32 pad;
+    STACK_PAD(s32);
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -325,7 +327,7 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 }
 
 void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 drawObjectSlot = this->drawObjectSlot;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
@@ -1095,7 +1097,7 @@ void DemoEc_UpdateFishingOwner(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_FishingOwnerPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    DemoEc* this = (DemoEc*)thisx;
+    UNUSED DemoEc* this = (DemoEc*)thisx;
 
     if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & HS_FISH_STOLE_HAT)) {
         gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
@@ -1142,7 +1144,7 @@ void DemoEc_DrawBombchuShopOwner(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_InitGorons(DemoEc* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     AnimationHeader* animation;
     f32 goronScale;
     Vec3f* scale = &this->actor.scale;
@@ -1271,10 +1273,10 @@ void DemoEc_InitNpc(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_InitCommon(DemoEc* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 primary;
     s32 type;
-    s16 pad2;
+    STACK_PAD(s16);
     s16 sp28;
     s32 primaryObjectSlot;
     s32 secondaryObjectSlot;

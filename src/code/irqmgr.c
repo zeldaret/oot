@@ -34,6 +34,7 @@
  */
 #include "libu64/debug.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "irqmgr.h"
 #include "printf.h"
 #include "stackcheck.h"
@@ -248,7 +249,7 @@ void IrqMgr_HandlePreNMI480(IrqMgr* irqMgr) {
     }
 }
 
-void IrqMgr_HandlePreNMI500(IrqMgr* irqMgr) {
+void IrqMgr_HandlePreNMI500(UNUSED IrqMgr* irqMgr) {
     IrqMgr_CheckStacks();
 }
 

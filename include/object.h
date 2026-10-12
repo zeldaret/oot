@@ -41,7 +41,7 @@ void Object_InitContext(struct PlayState* play, ObjectContext* objectCtx);
 void Object_UpdateEntries(ObjectContext* objectCtx);
 s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId);
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot);
-void func_800981B8(ObjectContext* objectCtx);
+void Object_ReloadAll(ObjectContext* objectCtx);
 
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];

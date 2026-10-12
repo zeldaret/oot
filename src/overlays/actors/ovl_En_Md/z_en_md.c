@@ -5,13 +5,14 @@
  */
 
 #include "z_en_md.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "libc64/math64.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -684,7 +685,7 @@ void EnMd_UpdateAlphaByDistance(EnMd* this, PlayState* play) {
 
 void EnMd_Init(Actor* thisx, PlayState* play) {
     EnMd* this = (EnMd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->jointTable, this->morphTable, MIDO_LIMB_MAX);
@@ -853,7 +854,7 @@ void EnMd_Walk(EnMd* this, PlayState* play) {
 
 void EnMd_Update(Actor* thisx, PlayState* play) {
     EnMd* this = (EnMd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

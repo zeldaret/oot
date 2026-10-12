@@ -8,6 +8,7 @@
 
 #include "printf.h"
 #include "regs.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
@@ -139,7 +140,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
 
 u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 skyboxConfig, u8 changeSkyboxNextConfig,
                                        u8 lightConfig, u8 changeLightNextConfig, u16 changeDuration, u8 weatherMode) {
-    s32 pad;
+    STACK_PAD(s32);
     u8 ret = false;
     Player* player = GET_PLAYER(play);
 
@@ -185,7 +186,7 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 s
 
 u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, PlayState* play, u8 skyboxConfig, u8 changeSkyboxNextConfig,
                                   u8 lightConfig, u8 changeLightNextConfig, u16 changeDuration) {
-    s32 pad;
+    STACK_PAD(s32);
     u8 ret = false;
     Player* player = GET_PLAYER(play);
 

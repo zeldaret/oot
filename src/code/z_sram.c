@@ -1,21 +1,29 @@
 #include "sram.h"
 
-#include "array_count.h"
-#include "file_select_state.h"
-#include "controller.h"
-#include "memory_utils.h"
-#include "printf.h"
-#include "terminal.h"
-#include "translation.h"
 #include "versions.h"
+#include "array_count.h"
+#include "attributes.h"
 #include "audio.h"
+#include "controller.h"
+#include "file_select_state.h"
 #include "game.h"
 #include "interface.h"
+#include "inventory.h"
+#include "item.h"
+#include "memory_utils.h"
 #include "message.h"
 #include "ocarina.h"
+#include "printf.h"
 #include "save.h"
 #include "scene.h"
 #include "ss_sram.h"
+#include "terminal.h"
+#include "translation.h"
+
+#include "ultra64.h"
+#include <assert.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
@@ -604,7 +612,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
  *  Write the contents of the Save Context to a main and backup slot in SRAM.
  *  Note: The whole Save Context is written even though only the `save` substruct is read back later
  */
-void Sram_WriteSave(SramContext* sramCtx) {
+void Sram_WriteSave(UNUSED SramContext* sramCtx) {
     u16 offset;
     u16 checksum;
     u16 j;
@@ -1014,7 +1022,7 @@ void Sram_WriteSramHeader(SramContext* sramCtx) {
     SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_HEADER_SIZE);
 }
 
-void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
+void Sram_InitSram(UNUSED_NDEBUG GameState* gameState, SramContext* sramCtx) {
     u16 i;
 
     PRINTF("sram_initialize( Game *game, Sram *sram )\n");
@@ -1074,5 +1082,5 @@ void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 
-void Sram_Init(GameState* gameState, SramContext* sramCtx) {
+void Sram_Init(UNUSED GameState* gameState, UNUSED SramContext* sramCtx) {
 }

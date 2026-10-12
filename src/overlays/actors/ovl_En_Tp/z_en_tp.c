@@ -14,6 +14,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "versions.h"
@@ -298,7 +299,7 @@ void EnTp_SetupDying(EnTp* this) {
 void EnTp_Dying(EnTp* this, PlayState* play) {
     s16 i;
     EnTp* actor;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sp78 = { 0.0f, 0.5f, 0.0f };
     Vec3f sp6C = { 0.0f, 0.0f, 0.0f };
 
@@ -369,7 +370,7 @@ void EnTp_Head_SetupHover(EnTp* this) {
 }
 
 void EnTp_Head_Hover(EnTp* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player;
 
     player = GET_PLAYER(play);
@@ -626,7 +627,7 @@ void EnTp_CheckCollide(EnTp* this, PlayState* play) {
 
 void EnTp_Update(Actor* thisx, PlayState* play) {
     Player* player;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sparkVel = { 0.0f, 0.0f, 0.0f };
     Vec3f sparkAccel = { 0.0f, -0.6f, 0.0f };
     Vec3f sparkPos;

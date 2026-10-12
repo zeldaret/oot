@@ -1,8 +1,16 @@
-#include "libu64/debug.h"
-#include "ultra64/gs2dex.h"
+#include "room.h"
+
+#include "versions.h"
+#include "actor.h"
+#include "alignment.h"
 #include "array_count.h"
+#include "attributes.h"
+#include "bgcheck.h"
 #include "buffers.h"
+#include "camera.h"
+#include "dma.h"
 #include "fault.h"
+#include "game.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "jpeg.h"
@@ -14,17 +22,27 @@
 #include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "sys_ucode.h"
 #include "terminal.h"
 #include "translation.h"
-#include "versions.h"
 #include "audio.h"
 #include "play_state.h"
 #include "player.h"
-#include "room.h"
 #include "save.h"
+#include "scene.h"
 #include "skin_matrix.h"
+#include "z_math.h"
+
+#include "libu64/debug.h"
+#include "libu64/pad.h"
+#include "ultra64.h"
+#include "ultra64/gs2dex.h"
+#include <assert.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -53,7 +71,7 @@ void (*sRoomDrawHandlers[ROOM_SHAPE_TYPE_MAX])(PlayState* play, Room* room, u32 
     Room_DrawCullable, // ROOM_SHAPE_TYPE_CULLABLE
 };
 
-void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3) {
+void func_80095AA0(UNUSED PlayState* play, UNUSED Room* room, UNUSED Input* input, UNUSED s32 arg3) {
 }
 
 void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
@@ -123,14 +141,14 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
     RoomShapeCullableEntryLinked* head = NULL;
     RoomShapeCullableEntryLinked* tail = NULL;
     RoomShapeCullableEntryLinked* iter;
-    s32 pad;
+    STACK_PAD(s32);
     RoomShapeCullableEntryLinked* insert;
     s32 j;
     s32 i;
     Vec3f pos;
     Vec3f projectedPos;
     f32 projectedW;
-    s32 pad2;
+    STACK_PAD(s32);
     RoomShapeCullableEntry* roomShapeCullableEntries;
     RoomShapeCullableEntry* roomShapeCullableEntryIter;
     f32 entryBoundsNearZ;
@@ -585,7 +603,7 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     }
 }
 
-void Room_Init(PlayState* play, Room* room) {
+void Room_Init(UNUSED PlayState* play, Room* room) {
     room->num = -1;
     room->segment = NULL;
 }
@@ -605,7 +623,7 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
     u32 frontRoomSize;
     u32 backRoomSize;
     u32 cumulRoomSize;
-    s32 pad;
+    STACK_PAD(s32);
 
     // Set roomBufferSize to the largest room
     {
@@ -620,7 +638,7 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
         }
     }
 
-    // If there any rooms are connected, find their combined size and update roomBufferSize if larger
+    // If there are any connected rooms, find their combined size and update roomBufferSize if larger
     if ((u32)play->transitionActors.count != 0) {
         RomFile* roomList = play->roomList.romFiles;
         TransitionActorEntry* transitionActor = &play->transitionActors.list[0];

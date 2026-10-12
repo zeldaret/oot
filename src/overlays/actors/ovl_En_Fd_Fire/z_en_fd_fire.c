@@ -1,9 +1,11 @@
 #include "z_en_fd_fire.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -131,7 +133,7 @@ s32 EnFdFire_CheckCollider(EnFdFire* this, PlayState* play) {
 
 void EnFdFire_Init(Actor* thisx, PlayState* play) {
     EnFdFire* this = (EnFdFire*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
@@ -219,7 +221,7 @@ void EnFdFire_Disappear(EnFdFire* this, PlayState* play) {
 
 void EnFdFire_Update(Actor* thisx, PlayState* play) {
     EnFdFire* this = (EnFdFire*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionFunc != EnFdFire_Disappear) {
         if ((this->actor.parent->update == NULL) || EnFdFire_CheckCollider(this, play)) {
@@ -247,10 +249,10 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
         { 255, 10, 0, 255 },
         { 0, 10, 255, 255 },
     };
-    s32 pad;
+    STACK_PAD(s32);
     EnFdFire* this = (EnFdFire*)thisx;
     Vec3f scale = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
     s16 sp8E;
     f32 sp88;
     f32 sp84;

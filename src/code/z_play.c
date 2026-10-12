@@ -1,54 +1,88 @@
-#include "libc64/malloc.h"
-#include "libc64/qrand.h"
-#include "libu64/debug.h"
+#include "play_state.h"
+
+#include "versions.h"
+#include "actor.h"
+#include "animation.h"
 #include "array_count.h"
+#include "attributes.h"
+#include "audio.h"
+#include "bgcheck.h"
 #include "buffers.h"
+#include "camera.h"
+#include "collision_check.h"
 #include "color.h"
 #include "controller.h"
+#include "cutscene.h"
+#include "cutscene_flags.h"
+#include "debug_display.h"
+#include "dma.h"
+#include "effect.h"
+#include "environment.h"
 #include "fault.h"
 #include "file_select_state.h"
+#include "frame_advance.h"
+#include "game.h"
+#include "game_over.h"
 #include "gfx.h"
 #include "gfxalloc.h"
+#include "interface.h"
+#include "item.h"
 #include "kaleido_manager.h"
 #include "letterbox.h"
+#include "light.h"
 #include "line_numbers.h"
+#include "message.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "object.h"
 #include "one_point_cutscene.h"
+#include "pause.h"
+#include "play_state.h"
+#include "player.h"
+#include "prerender.h"
 #include "printf.h"
 #include "quake.h"
 #include "regs.h"
+#include "room.h"
 #include "rumble.h"
+#include "save.h"
+#include "scene.h"
+#include "sched.h"
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "sfx_source.h"
+#include "skybox.h"
+#include "sram.h"
+#include "stack_pad.h"
+#include "stdbool.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "tha.h"
 #include "title_setup_state.h"
-#include "transition_circle.h"
-#include "transition_fade.h"
+#include "transition.h"
 #include "transition_tile.h"
-#include "transition_triforce.h"
-#include "transition_wipe.h"
 #include "translation.h"
-#include "versions.h"
-#include "z_actor_dlftbls.h"
-#include "zelda_arena.h"
-#include "audio.h"
-#include "cutscene_flags.h"
-#include "debug_display.h"
-#include "effect.h"
-#include "frame_advance.h"
-#include "light.h"
-#include "play_state.h"
-#include "player.h"
-#include "save.h"
+#include "view.h"
 #include "vis.h"
+#include "z_actor_dlftbls.h"
+#include "z_math.h"
+#include "zelda_arena.h"
 
-#pragma increment_block_number "gc-eu:218 gc-eu-mq:218 gc-jp:218 gc-jp-ce:218 gc-jp-mq:218 gc-us:218 gc-us-mq:218" \
-                               "ique-cn:218 ntsc-1.0:218 ntsc-1.1:218 ntsc-1.2:218 pal-1.0:218 pal-1.1:218"
+#include "libc64/malloc.h"
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "libu64/pad.h"
+#include "ultra64.h"
+#include <assert.h>
+#include <math.h>
+#include <stddef.h>
+#include <stdint.h>
+
+#pragma increment_block_number "gc-eu:171 gc-eu-mq:171 gc-jp:171 gc-jp-ce:171 gc-jp-mq:171 gc-us:171 gc-us-mq:171" \
+                               "ique-cn:171 ntsc-1.0:50 ntsc-1.1:50 ntsc-1.2:50 pal-1.0:50 pal-1.1:50"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -63,7 +97,7 @@ s16 sTransitionFillTimer;
 
 #if DEBUG_FEATURES
 void* gDebugCutsceneScript = NULL;
-UNK_TYPE D_8012D1F4 = 0; // unused
+s32 D_8012D1F4 = 0; // unused
 #endif
 
 Input* D_8012D1F8 = NULL;
@@ -295,7 +329,7 @@ void Play_Init(GameState* thisx) {
     s32 playerStartBgCamIndex;
     s32 i;
     u8 baseSceneLayer;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (gSaveContext.save.entranceIndex == ENTR_LOAD_OPENING) {
         gSaveContext.save.entranceIndex = 0;
@@ -549,7 +583,7 @@ void Play_Init(GameState* thisx) {
 void Play_Update(PlayState* this) {
     Input* input = this->state.input;
     s32 isPaused;
-    s32 pad1;
+    STACK_PAD(s32);
 
 #if DEBUG_FEATURES
     if ((SREG(1) < 0) || (DREG(0) != 0)) {
@@ -561,7 +595,7 @@ void Play_Update(PlayState* this) {
 
     if ((R_HREG_MODE == HREG_MODE_PRINT_OBJECT_TABLE) && (R_PRINT_OBJECT_TABLE_TRIGGER < 0)) {
         u32 i;
-        s32 pad2;
+        STACK_PAD(s32);
 
         R_PRINT_OBJECT_TABLE_TRIGGER = 0;
         PRINTF("object_exchange_rom_address %u\n", gObjectTableSize);
@@ -1119,7 +1153,7 @@ skip:
 
 void Play_DrawOverlayElements(PlayState* this) {
 #if PLATFORM_N64
-    s32 pad;
+    STACK_PAD(s32);
 #endif
 
     if (IS_PAUSED(&this->pauseCtx)) {
@@ -1467,7 +1501,7 @@ f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* pos) {
         f32 nx = COLPOLY_GET_NORMAL(poly.normal.x);
         f32 ny = COLPOLY_GET_NORMAL(poly.normal.y);
         f32 nz = COLPOLY_GET_NORMAL(poly.normal.z);
-        s32 pad[5];
+        STACK_PADS(s32, 5);
 
         temp1 = sqrtf(1.0f - SQ(nx));
 
