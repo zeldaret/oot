@@ -1459,14 +1459,14 @@ s32 EnGeldB_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2507);
-    if (limbIndex == 3) {
+    if (limbIndex == GERUDO_RED_LIMB_HEAD_ROOT) {
         rot->z += this->headRot.x;
         rot->x += this->headRot.y;
         rot->y += this->headRot.z;
-    } else if (limbIndex == 6) {
+    } else if (limbIndex == GERUDO_RED_LIMB_HEAD) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
-    } else if ((limbIndex == 11) || (limbIndex == 16)) {
+    } else if ((limbIndex == GERUDO_RED_LIMB_RIGHT_SWORD) || (limbIndex == GERUDO_RED_LIMB_LEFT_SWORD)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -1492,7 +1492,7 @@ void EnGeldB_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
     EnGeldB* this = (EnGeldB*)thisx;
     s32 bodyPart = -1;
 
-    if (limbIndex == 11) {
+    if (limbIndex == GERUDO_RED_LIMB_RIGHT_SWORD) {
         Matrix_MultVec3f(&swordQuadOffset1, &this->swordCollider.dim.quad[1]);
         Matrix_MultVec3f(&swordQuadOffset0, &this->swordCollider.dim.quad[0]);
         Matrix_MultVec3f(&swordQuadOffset3, &this->swordCollider.dim.quad[3]);
@@ -1510,40 +1510,41 @@ void EnGeldB_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
             EffectBlure_AddVertex(Effect_GetByIndex(this->blureIndex), &swordTip, &swordHilt);
         }
     } else {
-        Actor_SetFeetPos(&this->actor, limbIndex, 19, &footOffset, 22, &footOffset);
+        Actor_SetFeetPos(&this->actor, limbIndex, GERUDO_RED_LIMB_LEFT_FOOT, &footOffset, GERUDO_RED_LIMB_RIGHT_FOOT,
+                         &footOffset);
     }
-    if (limbIndex == 19) {
+    if (limbIndex == GERUDO_RED_LIMB_LEFT_FOOT) {
         Matrix_MultVec3f(&footOffset, &this->rightFootPos);
-    } else if (limbIndex == 22) {
+    } else if (limbIndex == GERUDO_RED_LIMB_RIGHT_FOOT) {
         Matrix_MultVec3f(&footOffset, &this->leftFootPos);
     }
     if (this->iceTimer != 0) {
         switch (limbIndex) {
-            case 3:
+            case GERUDO_RED_LIMB_HEAD_ROOT:
                 bodyPart = 0;
                 break;
-            case 16:
+            case GERUDO_RED_LIMB_LEFT_SWORD:
                 bodyPart = 1;
                 break;
-            case 11:
+            case GERUDO_RED_LIMB_RIGHT_SWORD:
                 bodyPart = 2;
                 break;
-            case 12:
+            case GERUDO_RED_LIMB_LEFT_ARM:
                 bodyPart = 3;
                 break;
-            case 7:
+            case GERUDO_RED_LIMB_RIGHT_ARM:
                 bodyPart = 4;
                 break;
-            case 2:
+            case GERUDO_RED_LIMB_TORSO:
                 bodyPart = 5;
                 break;
-            case 23:
+            case GERUDO_RED_LIMB_PELVIS:
                 bodyPart = 6;
                 break;
-            case 19:
+            case GERUDO_RED_LIMB_LEFT_FOOT:
                 bodyPart = 7;
                 break;
-            case 22:
+            case GERUDO_RED_LIMB_RIGHT_FOOT:
                 bodyPart = 8;
                 break;
             default:

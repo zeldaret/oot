@@ -233,13 +233,13 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     EnGe3* this = (EnGe3*)thisx;
 
     switch (limbIndex) {
-        case 5:
-        case 0xB:
-        case 0x10:
+        case GERUDO_RED_LIMB_VEIL:
+        case GERUDO_RED_LIMB_RIGHT_SWORD:
+        case GERUDO_RED_LIMB_LEFT_SWORD:
             *dList = NULL;
             return false;
 
-        case 6:
+        case GERUDO_RED_LIMB_HEAD:
             rot->x += this->headRot.y;
 #if OOT_VERSION >= PAL_1_1
             FALLTHROUGH;
@@ -248,16 +248,16 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
             // depending on what was drawn earlier in the frame.
             OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 547);
             switch (limbIndex) {
-                case 3:
+                case GERUDO_RED_LIMB_HEAD_ROOT:
                     break;
 
-                case 6:
+                case GERUDO_RED_LIMB_HEAD:
                     gDPPipeSync(POLY_OPA_DISP++);
                     gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
                     break;
 
-                case 11:
-                case 16:
+                case GERUDO_RED_LIMB_RIGHT_SWORD:
+                case GERUDO_RED_LIMB_LEFT_SWORD:
                     gDPPipeSync(POLY_OPA_DISP++);
                     gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
                     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, 255);
@@ -279,7 +279,7 @@ void EnGe3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     EnGe3* this = (EnGe3*)thisx;
     Vec3f focusOffset = { 600.0f, 700.0f, 0.0f };
 
-    if (limbIndex == 6) {
+    if (limbIndex == GERUDO_RED_LIMB_HEAD) {
         Matrix_MultVec3f(&focusOffset, &this->actor.focus.pos);
     }
 }
