@@ -79,7 +79,7 @@ void EnGe3_SetupAction(EnGe3* this, s32 action) {
 
 void EnGe3_Init(Actor* thisx, PlayState* play) {
     EnGe3* this = (EnGe3*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, NULL, this->jointTable, this->morphTable,
@@ -291,7 +291,7 @@ void EnGe3_Draw(Actor* thisx, PlayState* play) {
         gGerudoRedEyeHalfTex,
         gGerudoRedEyeShutTex,
     };
-    s32 pad;
+    STACK_PAD(s32);
     EnGe3* this = (EnGe3*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 614);
