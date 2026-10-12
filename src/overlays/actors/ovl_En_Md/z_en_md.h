@@ -17,21 +17,21 @@ typedef void (*EnMdActionFunc)(struct EnMd*, struct PlayState*);
 typedef struct EnMd {
     /* 0x000 */ Actor actor;
     /* 0x14C */ SkelAnime skelAnime;
-    /* 0x190 */ EnMdActionFunc unk190;
+    /* 0x190 */ EnMdActionFunc actionFunc;
     /* 0x194 */ ColliderCylinder collider;
     /* 0x1E0 */ NpcInteractInfo interactInfo;
     /* 0x208 */ u8 messageEntry;      // tracks message state changes, like with `BOX_BREAK` or `TEXTID`
     /* 0x209 */ u8 messageState;      // last known result of `Message_GetState`
     /* 0x20A */ u8 animSequenceEntry; // each one changes animation info and waits
     /* 0x20B */ u8 animSequence;
-    /* 0x20C */ s16 unk20C;
-    /* 0x20E */ s16 unk20E;
-    /* 0x210 */ s16 unk210;
-    /* 0x212 */ s16 unk212;
+    /* 0x20C */ s16 eyeTimer;
+    /* 0x20E */ s16 eyeTexIndex;
+    /* 0x210 */ s16 alpha;
+    /* 0x212 */ s16 waypoint;
     /* 0x214 */ s16 fidgetTableY[MIDO_LIMB_MAX];
     /* 0x236 */ s16 fidgetTableZ[MIDO_LIMB_MAX];
-    /* 0x258 */ Vec3s unk258[MIDO_LIMB_MAX];
-    /* 0x2BE */ Vec3s unk2BE[MIDO_LIMB_MAX];
+    /* 0x258 */ Vec3s jointTable[MIDO_LIMB_MAX];
+    /* 0x2BE */ Vec3s morphTable[MIDO_LIMB_MAX];
 } EnMd; // size = 0x0324
 
 #endif
