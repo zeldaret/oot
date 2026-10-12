@@ -4337,7 +4337,7 @@ typedef enum PlayerActionInterruptResult {
  *
  * Note that while this function can set up a new action with `sActionHandlerListIdle`, this function
  * will not set up an appropriate action for moving.
- * It is the callers responsibility to react accordingly to `PLAYER_INTERRUPT_MOVE`.
+ * It is the caller's responsibility to react accordingly to `PLAYER_INTERRUPT_MOVE`.
  *
  * @param frameRange  The number of frames, from the end of the current animation, where an interrupt can occur.
  * @return The interrupt result. See `PlayerActionInterruptResult`.
@@ -6624,7 +6624,7 @@ s32 func_8083C6B8(PlayState* play, Player* this) {
 
             Player_PlaySfx(this, NA_SE_IT_SWORD_SWING);
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_AUTO_JUMP);
-            return 1;
+            return true;
         }
 
         if (this->heldItemAction == PLAYER_IA_FISHING_POLE) {
@@ -6640,7 +6640,7 @@ s32 func_8083C6B8(PlayState* play, Player* this) {
 #endif
             {
                 Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
-                return 0;
+                return false;
             }
 
 #if OOT_VERSION < NTSC_1_1
@@ -6653,13 +6653,13 @@ s32 func_8083C6B8(PlayState* play, Player* this) {
 #endif
 
             Player_AnimPlayOnce(play, this, &gPlayerAnim_link_fishing_throw);
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_8083C858(Player* this, PlayState* play) {
@@ -14633,7 +14633,7 @@ void Player_UpdateBunnyEars(Player* this) {
 }
 
 s32 Player_ActionHandler_7(Player* this, PlayState* play) {
-    if (func_8083C6B8(play, this) == 0) {
+    if (!func_8083C6B8(play, this)) {
         if (func_8083BB20(this) != 0) {
             s32 sp24 = func_80837818(this);
 
