@@ -516,7 +516,7 @@ void func_80985B34(DemoIm* this, PlayState* play) {
             DemoIm_SpawnLightBall(this, play);
             this->unk_270 = 1;
         }
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -911,7 +911,7 @@ void func_80986BA0(DemoIm* this, PlayState* play) {
         this->action = 21;
         this->drawConfig = 1;
         this->unk_280 = 1;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -926,7 +926,7 @@ void func_80986BF8(DemoIm* this, PlayState* play) {
         this->action = 24;
         this->drawConfig = 1;
         this->unk_280 = 1;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -947,7 +947,7 @@ void func_80986CC8(DemoIm* this) {
         this->action = 26;
         this->drawConfig = 1;
         this->unk_280 = 1;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 

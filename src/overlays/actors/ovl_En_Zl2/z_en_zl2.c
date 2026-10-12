@@ -804,7 +804,7 @@ void func_80B5042C(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_0022D0, 2, -8.0f, 0);
     this->action = 5;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -822,7 +822,7 @@ void func_80B504D4(EnZl2* this, PlayState* play) {
     this->drawConfig = 1;
     this->unk_27C = 0.0f;
     EnZl2_setMouthIndex(this, 1);
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B5053C(EnZl2* this, s32 arg1) {
@@ -836,7 +836,7 @@ void func_80B50580(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_000A50, 2, -8.0f, 0);
     this->action = 9;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B505D4(EnZl2* this, s32 arg1) {
@@ -860,7 +860,7 @@ void func_80B50670(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_00B5FC, 0, -8.0f, 0);
     this->action = 13;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B506C4(EnZl2* this, PlayState* play) {
@@ -869,7 +869,7 @@ void func_80B506C4(EnZl2* this, PlayState* play) {
     this->drawConfig = 1;
     EnZl2_setEyesIndex(this, 4);
     EnZl2_setMouthIndex(this, 2);
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     func_80B4FE90(this);
 }
 
@@ -884,7 +884,7 @@ void func_80B50780(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_001670, 2, -8.0f, 0);
     this->action = 16;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     func_80B4FFF0(this, play);
     EnZl2_setEyesIndex(this, 3);
 }
@@ -900,7 +900,7 @@ void func_80B5082C(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_002B14, 2, -8.0f, 0);
     this->action = 18;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B50880(EnZl2* this, s32 arg1) {
@@ -916,7 +916,7 @@ void func_80B508C8(EnZl2* this, PlayState* play) {
     this->action = 20;
     this->drawConfig = 1;
     EnZl2_setEyesIndex(this, 6);
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B50928(EnZl2* this, s32 arg1) {
@@ -1287,7 +1287,7 @@ void func_80B515D8(EnZl2* this, PlayState* play) {
     func_80B4EDB8(this, play, 0);
     this->action = 26;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1301,7 +1301,7 @@ void func_80B51678(EnZl2* this) {
     func_80B4FD00(this, &gZelda2Anime1Anim_007D0C, 2, -8.0f, 0);
     this->action = 27;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1315,7 +1315,7 @@ void func_80B51704(EnZl2* this) {
     func_80B4FD00(this, &gZelda2Anime1Anim_0090D8, 2, -8.0f, 0);
     this->action = 28;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1329,7 +1329,7 @@ void func_80B51790(EnZl2* this) {
     func_80B4FD00(this, &gZelda2Anime1Anim_005F40, 2, -8.0f, 0);
     this->action = 29;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B517E0(EnZl2* this, s32 arg1) {
@@ -1343,7 +1343,7 @@ void func_80B51824(EnZl2* this) {
     func_80B4FD00(this, &gZelda2Anime1Anim_0022D0, 2, -8.0f, 0);
     this->action = 30;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1358,7 +1358,7 @@ void func_80B518C0(EnZl2* this) {
     func_80B4FD00(this, SEGMENTED_TO_VIRTUAL(&gZelda2Anime1Anim_004900), 2, -8.0f, 0);
     this->action = 32;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
