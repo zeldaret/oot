@@ -403,7 +403,8 @@ u64 gLinkAdultSwordGuardTex[TEX_LEN(u64, gLinkAdultSwordGuardTex_WIDTH, gLinkAdu
 
 #define gLinkAdultMasterSheathBandTex_WIDTH 32
 #define gLinkAdultMasterSheathBandTex_HEIGHT 16
-u64 gLinkAdultMasterSheathBandTex[TEX_LEN(u64, gLinkAdultMasterSheathBandTex_WIDTH, gLinkAdultMasterSheathBandTex_HEIGHT, 8)] = {
+u64 gLinkAdultMasterSheathBandTex[TEX_LEN(u64, gLinkAdultMasterSheathBandTex_WIDTH,
+                                          gLinkAdultMasterSheathBandTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMasterSheathBandTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
