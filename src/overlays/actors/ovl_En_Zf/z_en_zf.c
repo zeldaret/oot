@@ -6,6 +6,7 @@
 
 #include "z_en_zf.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
 #include "gfx.h"
@@ -15,6 +16,7 @@
 #include "regs.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -243,7 +245,7 @@ static AnimationHeader* D_80B4A280[] = {
     &gZfRunAwayLandAnim,
 };
 
-static Vec3f D_80B4A28C = { 1100.0f, -700.0f, 0.0f };
+UNUSED static Vec3f D_80B4A28C = { 1100.0f, -700.0f, 0.0f };
 static Vec3f D_80B4A298 = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80B4A2A4 = { 300.0f, -1700.0f, 0.0f };
 static Vec3f D_80B4A2B0 = { -600.0f, 300.0f, 0.0f };
@@ -348,7 +350,7 @@ s16 EnZf_TestNoFloorAheadShape(EnZf* this, PlayState* play, f32 distance) {
 
 void EnZf_Init(Actor* thisx, PlayState* play) {
     f32 yDiff;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     EffectBlureInit1 swordBlure;
     EnZf* this = (EnZf*)thisx;
@@ -604,7 +606,7 @@ s32 EnZf_FindPlatformCloseToPlayer(Vec3f* thisPos, s16 curPlatform, s16 fallback
 }
 
 s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Actor* playerFocusActor;
 
@@ -760,7 +762,7 @@ void EnZf_SetupIdle(EnZf* this) {
 
 void EnZf_Idle(EnZf* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 absYawTowardsPlayerRelToHead;
     s16 absYawDiffWithPlayer;
 
@@ -833,7 +835,7 @@ void EnZf_SetupMainWalk(EnZf* this, PlayState* play) {
 void EnZf_MainWalk(EnZf* this, PlayState* play) {
     s32 prevFrame;
     s32 beforeCurFrame;
-    s32 pad1;
+    STACK_PAD(s32);
     s16 absYawDiff;
     s16 playerPlatform = -1;
     f32 maxTargetPlatformDistForJump = 350.0f;
@@ -1017,7 +1019,7 @@ void EnZf_SetupTurnTowardsPlayer(EnZf* this) {
 }
 
 void EnZf_TurnTowardsPlayer(EnZf* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 relYawTowardsPlayer;
     s16 yawSpeed;
     Player* player = GET_PLAYER(play);
@@ -1091,7 +1093,7 @@ void EnZf_Sidestep(EnZf* this, PlayState* play) {
     s16 playerYawOpposite;
     s32 beforeCurFrame;
     s32 prevFrame;
-    s32 pad;
+    STACK_PAD(s32);
     f32 absPlaySpeed;
     Player* player = GET_PLAYER(play);
     f32 sp3C = 0.0f;
@@ -1478,9 +1480,9 @@ void EnZf_Paired_JumpAway(EnZf* this, PlayState* play) {
     f32 animPlaySpeed = 1.0f;
     f32 var_fs0 = 550.0f;
     f32 candidateDistance;
-    s32 pad;
+    STACK_PAD(s32);
     f32 candidateSpeed;
-    s32 pad2;
+    STACK_PAD(s32);
     s16 yawTowardsTargetPlatform;
     s32 prevActionState;
     s32 floorAheadFlags;
@@ -1752,7 +1754,7 @@ void EnZf_CirclePlayer(EnZf* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 prevFrame;
     s32 beforeCurFrame;
-    s32 pad;
+    STACK_PAD(s32);
     f32 extraRadius = 0.0f;
     f32 absPlaySpeed;
 
@@ -1961,7 +1963,7 @@ void EnZf_UpdateHeadRot(EnZf* this, PlayState* play) {
 }
 
 void EnZf_CheckCollide(EnZf* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 dropParams;
 
     if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action <= ENZF_ACTION_STUNNED)) {
@@ -2004,7 +2006,7 @@ void EnZf_CheckCollide(EnZf* this, PlayState* play) {
 
 void EnZf_Update(Actor* thisx, PlayState* play) {
     EnZf* this = (EnZf*)thisx;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     EnZf_CheckCollide(this, play);
     if (this->actor.colChkInfo.damageReaction != ENZF_DMG_REACT_6) {

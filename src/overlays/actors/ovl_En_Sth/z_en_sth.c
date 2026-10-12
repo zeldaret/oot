@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -143,7 +144,7 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnSth_SetupShapeColliderUpdate2AndDraw(EnSth* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     Collider_InitCylinder(play, &this->collider);
@@ -154,7 +155,7 @@ void EnSth_SetupShapeColliderUpdate2AndDraw(EnSth* this, PlayState* play) {
 }
 
 void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16* params;
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, play);
@@ -186,7 +187,7 @@ void EnSth_WaitForObject(EnSth* this, PlayState* play) {
 }
 
 void EnSth_FacePlayer(EnSth* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 diffRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(diffRot) <= 0x4000) {
@@ -321,7 +322,7 @@ void EnSth_Update(Actor* thisx, PlayState* play) {
 
 void EnSth_Update2(Actor* thisx, PlayState* play) {
     EnSth* this = (EnSth*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -397,7 +398,7 @@ void EnSth_Draw(Actor* thisx, PlayState* play) {
         { 190, 110, 0 }, { 0, 180, 110 }, { 0, 255, 80 }, { 255, 160, 60 }, { 190, 230, 250 }, { 240, 230, 120 },
     };
     EnSth* this = (EnSth*)thisx;
-    Color_RGB8* envColor1;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sth.c", 2133);
 

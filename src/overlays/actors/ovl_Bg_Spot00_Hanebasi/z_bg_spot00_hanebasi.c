@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "cutscene_flags.h"
@@ -62,7 +63,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f chainPos;
     CollisionHeader* colHeader = NULL;
 
@@ -211,7 +212,7 @@ void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play)
 }
 
 void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
     Player* player;
 
@@ -226,7 +227,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
 
                 if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&
                     (player->actor.world.pos.z > 1080.0f) && (player->actor.world.pos.z < 1700.0f) &&
-                    (!(Play_InCsMode(play)))) {
+                    !Play_InCsMode(play)) {
                     SET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;

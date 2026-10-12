@@ -7,9 +7,11 @@
 #include "z_en_ganon_mant.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "rand.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "tex_len.h"
@@ -70,7 +72,7 @@ static f32 sBackSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 0.5f, 0.25f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
-static f32 D_80A24DB4[] = {
+UNUSED static f32 D_80A24DB4[] = {
     0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
@@ -79,7 +81,7 @@ static f32 sSideSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.0f,
 };
 
-static f32 D_80A24E00[] = {
+UNUSED static f32 D_80A24E00[] = {
     0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
@@ -87,7 +89,7 @@ static f32 sDistMultipliers[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f, 1.7f,
 };
 
-static f32 D_80A24E48[] = {
+UNUSED static f32 D_80A24E48[] = {
     1.8f,
 };
 
@@ -103,7 +105,7 @@ static u16 sVerticesMap[GANON_MANT_NUM_STRANDS * GANON_MANT_NUM_JOINTS] = {
     MAP_STRAND_TO_VTX(3),  MAP_STRAND_TO_VTX(2),  MAP_STRAND_TO_VTX(1), MAP_STRAND_TO_VTX(0),
 };
 
-static u64 sForceAlignment = 0;
+UNUSED static u64 sForceAlignment = 0;
 
 #define gMantTex_WIDTH 32
 #define gMantTex_HEIGHT 64
@@ -150,7 +152,7 @@ void EnGanonMant_Destroy(Actor* thisx, PlayState* play) {
  * Randomly zeros portions of the cloak texture
  */
 void EnGanonMant_Tear(EnGanonMant* this) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 i;
     s16 areaX;
     s16 areaY;
@@ -194,7 +196,7 @@ void EnGanonMant_UpdateStrand(PlayState* play, EnGanonMant* this, Vec3f* root, V
     f32 xDiff;
     f32 zDiff;
     f32 gravity;
-    s32 pad[4];
+    STACK_PADS(s32, 4);
     f32 yaw;
     s16 i;
     f32 x;
@@ -393,7 +395,7 @@ void EnGanonMant_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnGanonMant_DrawCloak(PlayState* play, EnGanonMant* this) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ganon_mant.c", 564);
 

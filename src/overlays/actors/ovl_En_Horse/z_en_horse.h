@@ -91,16 +91,16 @@ typedef enum HorseType {
 } HorseType;
 
 typedef enum HorseParamType {
-    /* 00 */ HORSE_PTYPE_0,
-    /* 01 */ HORSE_PTYPE_1,
-    /* 02 */ HORSE_PTYPE_INACTIVE, // Waits for Epona's Song to appear
-    /* 03 */ HORSE_PTYPE_INGO_SPAWNED_RIDING,
-    /* 04 */ HORSE_PTYPE_4,
-    /* 05 */ HORSE_PTYPE_5,
-    /* 06 */ HORSE_PTYPE_6,
-    /* 07 */ HORSE_PTYPE_7,
-    /* 08 */ HORSE_PTYPE_HORSEBACK_ARCHERY,
-    /* 09 */ HORSE_PTYPE_PLAYER_SPAWNED_RIDING,
+    /*  0 */ HORSE_PTYPE_0,
+    /*  1 */ HORSE_PTYPE_1,
+    /*  2 */ HORSE_PTYPE_INACTIVE, // Waits for Epona's Song to appear
+    /*  3 */ HORSE_PTYPE_INGO_SPAWNED_RIDING,
+    /*  4 */ HORSE_PTYPE_4,
+    /*  5 */ HORSE_PTYPE_5,
+    /*  6 */ HORSE_PTYPE_6,
+    /*  7 */ HORSE_PTYPE_7,
+    /*  8 */ HORSE_PTYPE_HORSEBACK_ARCHERY,
+    /*  9 */ HORSE_PTYPE_PLAYER_SPAWNED_RIDING,
     /* 10 */ HORSE_PTYPE_10,
     /* 11 */ HORSE_PTYPE_11
 } HorseParamType;

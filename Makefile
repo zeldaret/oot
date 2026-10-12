@@ -214,7 +214,6 @@ ifeq ($(NON_MATCHING),1)
   COMPARE := 0
 endif
 
-PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
 EXPECTED_DIR := expected/$(BUILD_DIR)
 BASEROM_DIR := baseroms/$(VERSION)
@@ -360,8 +359,13 @@ LD_OFORMAT := $(shell $(LD) --print-output-format)
 INC := -Iinclude -Iinclude/libc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
+CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-missing-braces
 CHECK_WARNINGS += -Werror=implicit-int -Werror=implicit-function-declaration -Werror=int-conversion -Werror=incompatible-pointer-types
+
+# Actors and effets are mostly callback functions and often don't use all arguments,
+# ignore those warnings entirely in these directories.
+$(BUILD_DIR)/src/overlays/actors/%.o: CHECK_WARNINGS += -Wno-unused-parameter
+$(BUILD_DIR)/src/overlays/effects/%.o: CHECK_WARNINGS += -Wno-unused-parameter
 
 # The `cpp` command behaves differently on macOS (it behaves as if
 # `-traditional-cpp` was passed) so we use `gcc -E` instead.
@@ -819,7 +823,6 @@ $(BUILD_DIR)/src/%.o: PREPROCESS := ./tools/preprocess.sh -v $(VERSION) -i $(ICO
 endif
 
 else
-# Note that if adding additional assets directories for modding reasons these flags must also be used there
 $(BUILD_DIR)/assets/%.o: CFLAGS += -fno-zero-initialized-in-bss -fno-toplevel-reorder
 $(BUILD_DIR)/src/%.o: CFLAGS += -fexec-charset=euc-jp
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast

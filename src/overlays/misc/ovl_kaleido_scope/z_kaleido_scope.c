@@ -1,5 +1,6 @@
 #include "z_kaleido_scope.h"
 
+#include "attributes.h"
 #include "libc64/sleep.h"
 #include "array_count.h"
 #include "controller.h"
@@ -17,6 +18,7 @@
 #include "segmented_address.h"
 #include "seqcmd.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "title_setup_state.h"
@@ -910,8 +912,9 @@ static s16 sCursorColors[][3] = {
 static void* sSavePromptMessageTexs[] =
     LANGUAGE_ARRAY(gPauseSavePromptJPNTex, gPauseSavePromptENGTex, gPauseSavePromptGERTex, gPauseSavePromptFRATex);
 
-static void* sSaveConfirmationTexs[] = LANGUAGE_ARRAY(gPauseSaveConfirmationJPNTex, gPauseSaveConfirmationENGTex,
-                                                      gPauseSaveConfirmationGERTex, gPauseSaveConfirmationFRATex);
+UNUSED static void* sSaveConfirmationTexs[] =
+    LANGUAGE_ARRAY(gPauseSaveConfirmationJPNTex, gPauseSaveConfirmationENGTex, gPauseSaveConfirmationGERTex,
+                   gPauseSaveConfirmationFRATex);
 
 static void* sContinuePromptTexs[] =
     LANGUAGE_ARRAY(gContinuePlayingJPNTex, gContinuePlayingENGTex, gContinuePlayingGERTex, gContinuePlayingFRATex);
@@ -1140,7 +1143,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
 
 void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 955);
 
@@ -1690,7 +1693,7 @@ void KaleidoScope_DrawUIOverlay(PlayState* play) {
     };
     static s16 sLRSelectedPrimTimer = 20;
     static s16 sLRSelectedPrimState = 0;
-    static s16 D_8082AE08[] = {
+    UNUSED static s16 D_8082AE08[] = {
         10, 16, 16, 17, 12, 13, 18, 17, 17, 19, 13, 21, 20, 21, 14, 15, 15, 15, 11, 14,
     };
     static s16 D_8082AE30[] = {
@@ -3617,7 +3620,7 @@ void KaleidoScope_UpdateCursorVtx(PlayState* play) {
 void KaleidoScope_LoadDungeonMap(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 #if PLATFORM_N64 || OOT_PAL
-    s32 pad;
+    STACK_PAD(s32);
 #endif
 
     DMA_REQUEST_SYNC(interfaceCtx->mapSegment,

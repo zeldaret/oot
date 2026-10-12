@@ -243,7 +243,7 @@ void Audio_NotePortamentoInit(Note* note) {
 /**
  * original name: Nas_EnvInit
  */
-void Audio_AdsrInit(AdsrState* adsr, EnvelopePoint* envelope, s16* volOut) {
+void Audio_AdsrInit(AdsrState* adsr, EnvelopePoint* envelope, UNUSED s16* volOut) {
     adsr->action.asByte = 0;
     adsr->delay = 0;
     adsr->envelope = envelope;

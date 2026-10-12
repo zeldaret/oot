@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "attributes.h"
 
 #define _osVirtualToPhysical(ptr)              \
     if (ptr != NULL) {                         \
@@ -52,7 +53,7 @@ void osSpTaskLoad(OSTask* intp) {
     }
 }
 
-void osSpTaskStartGo(OSTask* tp) {
+void osSpTaskStartGo(UNUSED OSTask* tp) {
     while (__osSpDeviceBusy()) {
         ;
     }

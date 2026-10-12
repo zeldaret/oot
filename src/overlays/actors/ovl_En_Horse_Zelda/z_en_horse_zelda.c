@@ -12,6 +12,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -124,7 +125,7 @@ void EnHorseZelda_GetFieldPosition(HorsePosSpeed* data, s32 index, Vec3f* fieldP
 }
 
 void EnHorseZelda_Move(EnHorseZelda* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f fieldPos;
     s16 yawDiff;
 
@@ -226,9 +227,9 @@ void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play) {
 }
 
 void EnHorseZelda_SetRotate(EnHorseZelda* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionPoly* poly;
-    s32 pad2;
+    STACK_PAD(s32);
     Vec3f checkPos;
     s32 bgId;
 
@@ -241,7 +242,7 @@ void EnHorseZelda_SetRotate(EnHorseZelda* this, PlayState* play) {
 
 void EnHorseZelda_Update(Actor* thisx, PlayState* play) {
     EnHorseZelda* this = (EnHorseZelda*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     sActionFuncs[this->action](this, play);
     this->actor.speed = 0.0f;

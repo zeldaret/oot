@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "play_state.h"
 #include "save.h"
@@ -45,10 +46,10 @@ void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFun
 }
 
 void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgSpot01Idosoko* this = (BgSpot01Idosoko*)thisx;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    STACK_PAD(s32);
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

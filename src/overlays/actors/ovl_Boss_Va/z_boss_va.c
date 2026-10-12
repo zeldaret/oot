@@ -18,6 +18,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
@@ -1255,7 +1256,7 @@ void BossVa_SetupBodyPhase3(BossVa* this) {
 }
 
 void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s32 i;
     s16 sp62;
@@ -1948,7 +1949,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
     s16 sp8E;
     u32 sp88;
     Vec3f sp7C;
-    s32 pad3;
+    STACK_PAD(s32);
 
     boomerang = BossVa_FindBoomerang(play);
 
@@ -2181,8 +2182,7 @@ void BossVa_SetupZapperDeath(BossVa* this, PlayState* play) {
 
 void BossVa_ZapperDeath(BossVa* this, PlayState* play) {
     f32 sp3C = 55.0f;
-    f32 tmpf1;
-    f32 tmpf2;
+    STACK_PAD(s32);
 
     BossVa_AttachToBody(this);
     if (((play->gameplayFrames % 32) == 0) && (sCsState <= DEATH_BODY_TUMORS)) {
@@ -2269,7 +2269,7 @@ void BossVa_SetupZapperEnraged(BossVa* this, PlayState* play) {
 
 void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 tmp16;
     s16 sp6C;
     s16 sp6A;
@@ -2561,7 +2561,7 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
     EnBoom* boomerang;
     Vec3f sp54 = GET_BODY(this)->unk_1D8;
     s16 sp52;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->unk_1A4 += Rand_ZeroOne() * 0.5f;
     sp52 = this->timer2 & 0x1FF;
@@ -2651,7 +2651,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
     s16 sp52;
     s16 sp50;
     f32 sp4C;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->unk_1A4 += Rand_ZeroOne() * 0.5f;
     sp52 = this->timer2 & 0x1FF;
@@ -2762,7 +2762,7 @@ void BossVa_SetupBariPhase3Stunned(BossVa* this, PlayState* play) {
 }
 
 void BossVa_BariPhase3Stunned(BossVa* this, PlayState* play) {
-    s32 sp44_pad;
+    STACK_PAD(s32);
     Vec3f sp40 = GET_BODY(this)->unk_1D8;
 
     this->actor.world.rot.x = Math_Vec3f_Pitch(&GET_BODY(this)->actor.world.pos, &this->actor.world.pos);
@@ -2885,7 +2885,7 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
 
 s32 BossVa_BodyOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossVa* this = (BossVa*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4156);
 
@@ -2914,7 +2914,7 @@ s32 BossVa_BodyOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 void BossVa_BodyPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossVa* this = (BossVa*)thisx;
     Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4192);
 
@@ -2990,7 +2990,7 @@ s32 BossVa_SupportOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, 
 void BossVa_SupportPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossVa* this = (BossVa*)thisx;
     Vec3f sp20 = { 0.0f, 0.0f, 0.0f };
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->onCeiling) {
         switch (limbIndex) {
@@ -3161,7 +3161,7 @@ s32 BossVa_BariOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 }
 
 void BossVa_BariPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    BossVa* this = (BossVa*)thisx;
+    UNUSED BossVa* this = (BossVa*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4494);
 
@@ -3189,7 +3189,7 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     Vec3f sp8C = { -15.0f, 40.0f, 0.0f };
     Vec3f sp80 = { 15.0f, 40.0f, 0.0f };
     Vec3f sp74 = { -15.0f, 40.0f, 0.0f };
-    Color_RGBA8 unused = { 250, 250, 230, 200 };
+    UNUSED Color_RGBA8 unused = { 250, 250, 230, 200 };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4542);
 
@@ -3299,7 +3299,7 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4673);
 }
 
-static s32 sUnkValue = 0x009B0000; // Unreferenced? Possibly a color
+UNUSED static s32 sUnkValue = 0x009B0000; // Possibly a color
 
 void BossVa_UpdateEffects(PlayState* play) {
     BossVaEffect* effect = sEffects;
@@ -3949,7 +3949,7 @@ void BossVa_SpawnGore(PlayState* play, BossVaEffect* effect, Vec3f* pos, s16 yaw
 
 void BossVa_SpawnZapperCharge(PlayState* play, BossVaEffect* effect, BossVa* this, Vec3f* pos, Vec3s* rot, s16 scale,
                               u8 mode) {
-    Vec3f unused = { 0.0f, -1000.0f, 0.0f };
+    UNUSED Vec3f unused = { 0.0f, -1000.0f, 0.0f };
     s16 i;
 
     for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {

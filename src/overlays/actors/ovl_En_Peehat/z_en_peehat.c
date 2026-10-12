@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
@@ -139,8 +140,8 @@ static ColliderQuadInit sQuadInit = {
 };
 
 typedef enum EnPeehatDamageReaction {
-    /* 00 */ PEAHAT_DMG_REACT_ATTACK = 0,
-    /* 06 */ PEAHAT_DMG_REACT_LIGHT_ICE_ARROW = 6,
+    /*  0 */ PEAHAT_DMG_REACT_ATTACK = 0,
+    /*  6 */ PEAHAT_DMG_REACT_LIGHT_ICE_ARROW = 6,
     /* 12 */ PEAHAT_DMG_REACT_FIRE = 12,
     /* 13 */ PEAHAT_DMG_REACT_HOOKSHOT = 13,
     /* 14 */ PEAHAT_DMG_REACT_BOOMERANG = 14,
@@ -183,14 +184,14 @@ static DamageTable sDamageTable = {
 };
 
 typedef enum PeahatState {
-    /* 00 */ PEAHAT_STATE_DYING,
-    /* 01 */ PEAHAT_STATE_EXPLODE,
-    /* 03 */ PEAHAT_STATE_3 = 3,
-    /* 04 */ PEAHAT_STATE_4,
-    /* 05 */ PEAHAT_STATE_FLY,
-    /* 07 */ PEAHAT_STATE_ATTACK_RECOIL = 7,
-    /* 08 */ PEAHAT_STATE_8,
-    /* 09 */ PEAHAT_STATE_9,
+    /*  0 */ PEAHAT_STATE_DYING,
+    /*  1 */ PEAHAT_STATE_EXPLODE,
+    /*  3 */ PEAHAT_STATE_3 = 3,
+    /*  4 */ PEAHAT_STATE_4,
+    /*  5 */ PEAHAT_STATE_FLY,
+    /*  7 */ PEAHAT_STATE_ATTACK_RECOIL = 7,
+    /*  8 */ PEAHAT_STATE_8,
+    /*  9 */ PEAHAT_STATE_9,
     /* 10 */ PEAHAT_STATE_LANDING,
     /* 12 */ PEAHAT_STATE_RETURN_HOME = 12,
     /* 13 */ PEAHAT_STATE_STUNNED,
@@ -374,7 +375,7 @@ void EnPeehat_Flying_SetStateGround(EnPeehat* this) {
                      ANIMMODE_ONCE, 0.0f);
     this->seekPlayerTimer = 400;
     this->unk_2D4 = 0;
-    this->unk_2FA = 0; //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+    this->unk_2FA = 0; //! @bug overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
     this->state = PEAHAT_STATE_4;
     EnPeehat_SetupAction(this, EnPeehat_Flying_StateGrounded);
 }
@@ -495,7 +496,7 @@ void EnPeehat_Flying_StateRise(EnPeehat* this, PlayState* play) {
             }
         }
         if (SkelAnime_Update(&this->skelAnime) || this->animTimer == 0) {
-            //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+            //! @bug overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
             this->unk_2FA = 0;
             EnPeehat_Flying_SetStateFly(this);
         } else {
@@ -881,7 +882,7 @@ void EnPeehat_SetStateExplode(EnPeehat* this) {
 }
 
 void EnPeehat_StateExplode(EnPeehat* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (this->animTimer == 5) {
         EnBom* bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,

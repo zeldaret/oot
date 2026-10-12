@@ -1,10 +1,12 @@
 #include "skin.h"
 
 #include "actor.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "play_state.h"
 #include "segmented_address.h"
 #include "skin_matrix.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_math.h"
 
@@ -56,7 +58,7 @@ void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* mod
 void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3) {
     s32 modifCount;
     SkinLimb** skeleton;
-    SkinLimb* limb;
+    STACK_PAD(s32);
     SkinAnimatedLimbData* data;
     SkinLimbModif* modif;
     SkinLimbVtx* vtxEntry;
@@ -170,10 +172,10 @@ void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s
 /**
  * Draw a limb of type SKIN_LIMB_TYPE_NORMAL, of the skeleton `skin` at index `limbIndex`
  */
-void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlags) {
+void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, UNUSED s32 drawFlags) {
     Gfx* gfx = dlistOverride;
     SkinLimb** skeleton;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 395);
 

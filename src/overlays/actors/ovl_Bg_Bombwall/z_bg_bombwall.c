@@ -10,6 +10,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -91,8 +92,7 @@ ActorProfile Bg_Bombwall_Profile = {
 };
 
 void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -122,7 +122,7 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
     s32 j;
     Vec3f vecs[3];
     Vec3f sp80;
-    s32 pad;
+    STACK_PAD(s32);
     BgBombwall* this = (BgBombwall*)thisx;
     f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);

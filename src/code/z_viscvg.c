@@ -8,6 +8,7 @@
 
 #include "vis.h"
 
+#include "attributes.h"
 #include "color.h"
 #include "gfx.h"
 
@@ -72,7 +73,7 @@ void VisCvg_Init(VisCvg* this) {
     this->params.color1.a = 255;
 }
 
-void VisCvg_Destroy(VisCvg* this) {
+void VisCvg_Destroy(UNUSED VisCvg* this) {
 }
 
 void VisCvg_Draw(VisCvg* this, Gfx** gfxP) {

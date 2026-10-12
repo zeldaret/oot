@@ -1,6 +1,7 @@
 #include "z_kaleido_scope.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
 #include "printf.h"
@@ -9,6 +10,7 @@
 #include "ocarina.h"
 #include "play_state.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
@@ -75,11 +77,11 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         gOcarinaBtnIconCLeftTex,  // OCARINA_BTN_C_LEFT
         gOcarinaBtnIconCUpTex,    // OCARINA_BTN_C_UP
     };
-    static u16 D_8082A144[] = {
+    UNUSED static u16 D_8082A144[] = {
         0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC,
     };
     static s16 sPlayedSongBtnsAlpha[SONG_MAX_LENGTH] = { 0 };
-    static s32 sUnused1 = 0;
+    UNUSED static s32 sUnused1 = 0;
 
     static s16 sSongsPrimRed[] = {
         150, // QUEST_SONG_MINUET
@@ -161,7 +163,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         /* QUEST_SKULL_TOKEN */ { QUEST_STONE_OF_AGONY, QUEST_SONG_LULLABY, CURSOR_TO_LEFT, QUEST_HEART_PIECE },
         /* QUEST_HEART_PIECE */ { CURSOR_NONE, QUEST_SONG_TIME, QUEST_GERUDOS_CARD, QUEST_MEDALLION_SHADOW },
     };
-    static s32 sUnused2 = 0;
+    UNUSED static s32 sUnused2 = 0;
 
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
@@ -176,7 +178,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     s16 cursor;
     s16 i;
     s16 targetColorIndex;
-    s16 pad2;
+    STACK_PAD(s16);
     s16 cursorItem;
     s16 gsTokenDigits[3];
 

@@ -9,6 +9,7 @@
 
 #include "printf.h"
 #include "regs.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "play_state.h"
@@ -41,7 +42,7 @@ void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
 
 void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     BgBomGuard* this = (BgBomGuard*)thisx;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

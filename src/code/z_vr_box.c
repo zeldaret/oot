@@ -8,6 +8,7 @@
 #include "printf.h"
 #include "save.h"
 #include "segment_symbols.h"
+#include "stack_pad.h"
 #include "terminal.h"
 
 #include "ultra64.h"
@@ -91,7 +92,7 @@ s32 Skybox_CalculateFace256(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 roomVtxS
     s32 zPoints[9 * 5];
     s32 tcS[9 * 5];
     s32 tcT[9 * 5];
-    s32 pad;
+    STACK_PAD(s32);
 
     // Collect all vertex positions for this face
     switch (faceNum) {
@@ -255,7 +256,7 @@ s32 Skybox_CalculateFace128(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 roomVtxS
     s32 zPoints[5 * 5];
     s32 tcS[5 * 5];
     s32 tcT[5 * 5];
-    s32 pad;
+    STACK_PAD(s32);
 
     // Collect all vertex positions for this face
     switch (faceNum) {
@@ -471,7 +472,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
     s16 i;
     u8 skybox1Index;
     u8 skybox2Index;
-    s32 pad;
+    STACK_PAD(s32);
     s32 skyboxConfig;
 
     switch (skyboxId) {

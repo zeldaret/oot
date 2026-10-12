@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "tex_len.h"
 #include "translation.h"
@@ -178,7 +179,7 @@ void ArrowFire_Hit(ArrowFire* this, PlayState* play) {
 void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
     EnArrow* arrow;
     f32 distanceScaled;
-    s32 pad;
+    STACK_PAD(s32);
 
     arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {

@@ -12,6 +12,7 @@
 #include "one_point_cutscene.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
@@ -94,7 +95,7 @@ s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         return 0;
     } else {
-        s32 pad;
+        STACK_PAD(s32);
         Actor* temp_a3 = this->dyna.actor.child;
         Player* player = GET_PLAYER(play);
         Vec3f sp20;

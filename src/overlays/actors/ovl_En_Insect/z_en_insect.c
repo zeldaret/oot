@@ -9,11 +9,13 @@
 
 #include "libc64/qrand.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "terminal.h"
 #include "translation.h"
@@ -125,7 +127,7 @@ f32 EnInsect_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
 }
 
 s32 EnInsect_InBottleRange(EnInsect* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f pos;
 
@@ -134,7 +136,7 @@ s32 EnInsect_InBottleRange(EnInsect* this, PlayState* play) {
         pos.y = player->actor.world.pos.y;
         pos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f + player->actor.world.pos.z;
 
-        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
+        //! @bug this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
         //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
         //! world rotation.
         if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= SQ(20.0f)) {
@@ -275,7 +277,7 @@ void EnInsect_SetupSlowDown(EnInsect* this) {
 }
 
 void EnInsect_SlowDown(EnInsect* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 type;
     f32 playSpeed;
 
@@ -312,8 +314,7 @@ void EnInsect_SetupCrawl(EnInsect* this) {
 }
 
 void EnInsect_Crawl(EnInsect* this, PlayState* play) {
-    s32 pad1;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     s16 yaw;
     s16 type = PARAMS_GET_U(this->actor.params, 0, 2);
 
@@ -357,9 +358,8 @@ void EnInsect_SetupRunFromPlayer(EnInsect* this) {
 }
 
 void EnInsect_RunFromPlayer(EnInsect* this, PlayState* play) {
-    s32 pad1;
-    s32 pad2;
-    s16 pad3;
+    STACK_PADS(s32, 2);
+    STACK_PAD(s16);
     s16 frames;
     s16 yaw;
     s16 playerIsClose = this->actor.xzDistToPlayer < 40.0f;
@@ -440,8 +440,8 @@ void EnInsect_SetupDig(EnInsect* this) {
 
 void EnInsect_Dig(EnInsect* this, PlayState* play) {
     static Vec3f accel = { 0.0f, 0.0f, 0.0f };
-    static Vec3f unused = { 0.0f, 0.0f, 0.0f };
-    s32 pad[2];
+    UNUSED static Vec3f unused = { 0.0f, 0.0f, 0.0f };
+    STACK_PADS(s32, 2);
     Vec3f velocity;
 
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 0.5f, 0.0f);
@@ -481,9 +481,9 @@ void EnInsect_SetupWalkOnWater(EnInsect* this) {
 }
 
 void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
-    f32 temp_f0;
+    STACK_PAD(s32);
     s16 temp_v1;
-    s16 pad;
+    STACK_PAD(s16);
     s16 type;
     Vec3f ripplePoint;
 
@@ -577,11 +577,11 @@ void EnInsect_SetupDropped(EnInsect* this) {
 }
 
 void EnInsect_Dropped(EnInsect* this, PlayState* play) {
-    s32 temp_a0;
+    STACK_PAD(s32);
     s32 sp50;
     f32 phi_f0;
     EnInsect* thisTemp = this;
-    s32 temp_a1;
+    STACK_PAD(s32);
     f32 distanceSq;
     f32 phi_f2;
     s16 type;

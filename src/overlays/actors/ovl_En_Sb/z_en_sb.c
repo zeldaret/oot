@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_en_item00.h"
@@ -301,7 +302,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play) {
 }
 
 void EnSb_Bounce(EnSb* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 currentFrame;
     f32 frameCount;
 
@@ -460,7 +461,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
 
 void EnSb_Update(Actor* thisx, PlayState* play) {
     EnSb* this = (EnSb*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->isDead) {
         if (this->actor.depthInWater > 0.0f) {

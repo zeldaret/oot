@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -224,7 +225,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
             player->actor.textId = 0x500C;
             this->actionFunc = EnDs_OfferBluePotion;
         } else {
-            s16 pad;
+            STACK_PAD(s16);
 
             if (INV_CONTENT(ITEM_ODD_MUSHROOM) == ITEM_ODD_MUSHROOM) {
                 player->actor.textId = 0x5049;

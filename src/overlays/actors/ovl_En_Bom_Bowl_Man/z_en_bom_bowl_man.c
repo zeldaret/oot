@@ -17,6 +17,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "effect.h"
 #include "play_state.h"
 #include "player.h"
@@ -371,7 +372,7 @@ void EnBomBowlMan_ShowReward(EnBomBowlMan* this, PlayState* play) {
     };
     static s16 sCounterRewardSpawnYaw[5] = { 0x4268, 0x4268, -0x3E8, 0, 0x4268 };
     s16 reward;
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_Update(&this->skelAnime);
     if (this->rewardAppearTimer == 0) {

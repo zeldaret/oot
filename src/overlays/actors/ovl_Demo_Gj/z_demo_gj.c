@@ -15,6 +15,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -261,7 +262,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     CollisionHeader* newHeader;
 
     if (header != NULL) {
@@ -304,12 +305,12 @@ void DemoGj_DrawCommon(DemoGj* this, PlayState* play, Gfx* displayList) {
 }
 
 void DemoGj_DrawRotated(DemoGj* this, PlayState* play, Gfx* displayList) {
-    s32 pad;
+    STACK_PAD(s32);
     GraphicsContext* gfxCtx;
     s16 x = this->rotationVec.x;
     s16 y = this->rotationVec.y;
     s16 z = this->rotationVec.z;
-    s32 pad2;
+    STACK_PAD(s32);
     Mtx* matrix;
 
     gfxCtx = play->state.gfxCtx;
@@ -477,7 +478,7 @@ s32 DemoGj_IsGanondorfFloatingInAir(DemoGj* this, PlayState* play) {
 
 void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
     Actor* actor = &this->dyna.actor;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f* pos = &actor->world.pos;
     Vec3s* unk_172;
     f32 xDistance;
@@ -1012,7 +1013,7 @@ void func_8097AEE8(DemoGj* this, PlayState* play) {
     ColliderCylinder* collider1 = &this->colliderCylinders[1];
     ColliderCylinder* collider2 = &this->colliderCylinders[2];
     Vec3f* actorPos = &this->dyna.actor.world.pos;
-    s32 pad;
+    STACK_PAD(s32);
     s16 yaw = this->dyna.actor.world.rot.y;
     f32 cos = Math_CosS(yaw);
     f32 sin = Math_SinS(yaw);
@@ -1031,11 +1032,11 @@ void func_8097AEE8(DemoGj* this, PlayState* play) {
 }
 
 void DemoGj_SetCylindersAsAC(DemoGj* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Collider* collider0 = &this->colliderCylinders[0].base;
     Collider* collider1 = &this->colliderCylinders[1].base;
     Collider* collider2 = &this->colliderCylinders[2].base;
-    s32 pad2[3];
+    STACK_PADS(s32, 3);
 
     CollisionCheck_SetAC(play, &play->colChkCtx, collider0);
     CollisionCheck_SetAC(play, &play->colChkCtx, collider1);
@@ -1146,7 +1147,7 @@ void func_8097B450(DemoGj* this, PlayState* play) {
     ColliderCylinder* collider1 = &this->colliderCylinders[1];
     ColliderCylinder* collider2 = &this->colliderCylinders[2];
     Vec3f* actorPos = &this->dyna.actor.world.pos;
-    s32 pad;
+    STACK_PAD(s32);
     s16 yaw = this->dyna.actor.world.rot.y;
     f32 cos = Math_CosS(yaw);
     f32 sin = Math_SinS(yaw);
@@ -1165,11 +1166,11 @@ void func_8097B450(DemoGj* this, PlayState* play) {
 }
 
 void DemoGj_SetCylindersAsAC2(DemoGj* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Collider* cylinder0 = &this->colliderCylinders[0].base;
     Collider* cylinder1 = &this->colliderCylinders[1].base;
     Collider* cylinder2 = &this->colliderCylinders[2].base;
-    s32 pad2[3];
+    STACK_PADS(s32, 3);
 
     CollisionCheck_SetAC(play, &play->colChkCtx, cylinder0);
     CollisionCheck_SetAC(play, &play->colChkCtx, cylinder1);
@@ -1308,7 +1309,7 @@ void func_8097B9BC(DemoGj* this, PlayState* play) {
 void func_8097BA48(DemoGj* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     ColliderCylinder* collider = &this->colliderCylinders[0];
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(thisx);
