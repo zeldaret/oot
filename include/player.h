@@ -338,7 +338,7 @@ typedef enum PlayerModelGroupEntry {
     /* 0x00 */ PLAYER_MODELGROUPENTRY_ANIM,
     /* 0x01 */ PLAYER_MODELGROUPENTRY_LEFT_HAND,
     /* 0x02 */ PLAYER_MODELGROUPENTRY_RIGHT_HAND,
-    /* 0x03 */ PLAYER_MODELGROUPENTRY_SHEATH,
+    /* 0x03 */ PLAYER_MODELGROUPENTRY_BACK,
     /* 0x04 */ PLAYER_MODELGROUPENTRY_WAIST,
     /* 0x05 */ PLAYER_MODELGROUPENTRY_MAX
 } PlayerModelGroupEntry;
@@ -362,11 +362,11 @@ typedef enum PlayerModelType {
     /* 0x0D */ PLAYER_MODELTYPE_RH_OCARINA, // holding ocarina (child: fairy ocarina, adult: OoT)
     /* 0x0E */ PLAYER_MODELTYPE_RH_OOT, // holding OoT
     /* 0x0F */ PLAYER_MODELTYPE_RH_HOOKSHOT, // holding hookshot (child: empty hand)
-    // sheath
-    /* 0x10 */ PLAYER_MODELTYPE_SHEATH_16, // sheathed kokiri/master sword?
-    /* 0x11 */ PLAYER_MODELTYPE_SHEATH_17, // empty sheath?
-    /* 0x12 */ PLAYER_MODELTYPE_SHEATH_18, // sword sheathed and shield on back?
-    /* 0x13 */ PLAYER_MODELTYPE_SHEATH_19, // empty sheath and shield on back?
+    // back
+    /* 0x10 */ PLAYER_MODELTYPE_BACK_SWORD_IN_SHEATH, // sheathed sword
+    /* 0x11 */ PLAYER_MODELTYPE_BACK_SHEATH, // empty sheath
+    /* 0x12 */ PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH, // shield and sword sheathed
+    /* 0x13 */ PLAYER_MODELTYPE_BACK_SHIELD, // empty sheath and shield
     // waist
     /* 0x14 */ PLAYER_MODELTYPE_WAIST,
     /* 0x15 */ PLAYER_MODELTYPE_MAX,
@@ -812,7 +812,7 @@ typedef struct Player {
     /* 0x015B */ u8 modelAnimType;
     /* 0x015C */ u8 leftHandType;
     /* 0x015D */ u8 rightHandType;
-    /* 0x015E */ u8 sheathType;
+    /* 0x015E */ u8 backType;
     /* 0x015F */ u8 currentMask; // current mask equipped from `PlayerMask`
     /* 0x0160 */ Gfx** rightHandDLists;
     /* 0x0164 */ Gfx** leftHandDLists;

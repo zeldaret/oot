@@ -239,52 +239,52 @@ EnvHazardTextTriggerEntry sEnvHazardTextTriggers[] = {
 // Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]
 u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX] = {
     /* PLAYER_MODELGROUP_0 */
-    { PLAYER_ANIMTYPE_2, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_SHEATH_16,
+    { PLAYER_ANIMTYPE_2, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_BACK_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD */
-    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_19,
+    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_BACK_SHIELD,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_SWORD_AND_SHIELD */
-    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_SHEATH_17,
+    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_BACK_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_DEFAULT */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_4 */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_BGS */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_BGS, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_19,
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_BGS, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_BACK_SHIELD,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_BOW_SLINGSHOT */
-    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_CLOSED, PLAYER_MODELTYPE_RH_BOW_SLINGSHOT, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_CLOSED, PLAYER_MODELTYPE_RH_BOW_SLINGSHOT, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_EXPLOSIVES */
-    { PLAYER_ANIMTYPE_5, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_5, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_BOOMERANG */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOOMERANG, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOOMERANG, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_HOOKSHOT */
-    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_HOOKSHOT, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_HOOKSHOT, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_10 */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_CLOSED, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_CLOSED, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_HAMMER */
-    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_HAMMER, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_HAMMER, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_OCARINA */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OCARINA, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OCARINA, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_OOT */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OOT, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OOT, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_BOTTLE */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOTTLE, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOTTLE, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_SWORD */
-    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_19,
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_BACK_SHIELD,
       PLAYER_MODELTYPE_WAIST },
 };
 
@@ -311,27 +311,27 @@ Gfx* sPlayerRightHandShieldDLs[PLAYER_SHIELD_MAX * 4] = {
     gLinkChildRightHandClosedFarDL,
 };
 
-Gfx* D_80125D28[(PLAYER_SHIELD_MAX + 2) * 4] = {
+Gfx* sPlayerBackShieldSwordInSheathDLs[(PLAYER_SHIELD_MAX + 2) * 4] = {
     // PLAYER_SHIELD_NONE
-    gLinkAdultMasterSwordAndSheathNearDL,
-    gLinkChildSwordAndSheathNearDL,
-    gLinkAdultMasterSwordAndSheathFarDL,
-    gLinkChildSwordAndSheathFarDL,
+    gLinkAdultBackMasterSwordInSheathNearDL,
+    gLinkChildBackKokiriSwordInSheathNearDL,
+    gLinkAdultBackMasterSwordInSheathFarDL,
+    gLinkChildBackKokiriSwordInSheathFarDL,
     // PLAYER_SHIELD_DEKU
-    gLinkAdultMasterSwordAndSheathNearDL,
-    gLinkChildDekuShieldSwordAndSheathNearDL,
-    gLinkAdultMasterSwordAndSheathFarDL,
-    gLinkChildDekuShieldSwordAndSheathFarDL,
+    gLinkAdultBackMasterSwordInSheathNearDL,
+    gLinkChildBackDekuShieldKokiriSwordInSheathNearDL,
+    gLinkAdultBackMasterSwordInSheathFarDL,
+    gLinkChildBackDekuShieldKokiriSwordInSheathFarDL,
     // PLAYER_SHIELD_HYLIAN
-    gLinkAdultHylianShieldSwordAndSheathNearDL,
-    gLinkChildHylianShieldSwordAndSheathNearDL,
-    gLinkAdultHylianShieldSwordAndSheathFarDL,
-    gLinkChildHylianShieldSwordAndSheathFarDL,
+    gLinkAdultBackHylianShieldSwordInSheathNearDL,
+    gLinkChildBackHylianShieldSwordInSheathNearDL,
+    gLinkAdultBackHylianShieldSwordInSheathFarDL,
+    gLinkChildBackHylianShieldSwordInSheathFarDL,
     // PLAYER_SHIELD_MIRROR
-    gLinkAdultMirrorShieldSwordAndSheathNearDL,
-    gLinkChildSwordAndSheathNearDL,
-    gLinkAdultMirrorShieldSwordAndSheathFarDL,
-    gLinkChildSwordAndSheathFarDL,
+    gLinkAdultBackMirrorShieldMasterSwordInSheathNearDL,
+    gLinkChildBackKokiriSwordInSheathNearDL,
+    gLinkAdultBackMirrorShieldMasterSwordInSheathFarDL,
+    gLinkChildBackKokiriSwordInSheathFarDL,
     // PLAYER_SHIELD_NONE (child, no sword)
     NULL,
     NULL,
@@ -339,42 +339,42 @@ Gfx* D_80125D28[(PLAYER_SHIELD_MAX + 2) * 4] = {
     NULL,
     // PLAYER_SHIELD_DEKU (child, no sword)
     NULL,
-    gLinkChildDekuShieldWithMatrixDL,
+    gLinkChildBackDekuShieldDL,
     NULL,
-    gLinkChildDekuShieldWithMatrixDL,
+    gLinkChildBackDekuShieldDL,
 };
 
-Gfx* D_80125D88[(PLAYER_SHIELD_MAX + 2) * 4] = {
+Gfx* sPlayerBackShieldDLs[(PLAYER_SHIELD_MAX + 2) * 4] = {
     // PLAYER_SHIELD_NONE
-    gLinkAdultSheathNearDL,
-    gLinkChildSheathNearDL,
-    gLinkAdultSheathFarDL,
-    gLinkChildSheathFarDL,
+    gLinkAdultBackMasterSheathNearDL,
+    gLinkChildBackKokiriSheathNearDL,
+    gLinkAdultBackMasterSheathFarDL,
+    gLinkChildBackKokiriSheathFarDL,
     // PLAYER_SHIELD_DEKU
-    gLinkAdultSheathNearDL,
-    gLinkChildDekuShieldAndSheathNearDL,
-    gLinkAdultSheathFarDL,
-    gLinkChildDekuShieldAndSheathFarDL,
+    gLinkAdultBackMasterSheathNearDL,
+    gLinkChildBackDekuShieldKokiriSheathNearDL,
+    gLinkAdultBackMasterSheathFarDL,
+    gLinkChildBackDekuShieldKokiriSheathFarDL,
     // PLAYER_SHIELD_HYLIAN
-    gLinkAdultHylianShieldAndSheathNearDL,
-    gLinkChildHylianShieldAndSheathNearDL,
-    gLinkAdultHylianShieldAndSheathFarDL,
-    gLinkChildHylianShieldAndSheathFarDL,
+    gLinkAdultBackHylianShieldMasterSheathNearDL,
+    gLinkChildBackHylianShieldKokiriSheathNearDL,
+    gLinkAdultBackHylianShieldMasterSheathFarDL,
+    gLinkChildBackHylianShieldKokiriSheathFarDL,
     // PLAYER_SHIELD_MIRROR
-    gLinkAdultMirrorShieldAndSheathNearDL,
-    gLinkChildSheathNearDL,
-    gLinkAdultMirrorShieldAndSheathFarDL,
-    gLinkChildSheathFarDL,
+    gLinkAdultBackMirrorShieldMasterSheathNearDL,
+    gLinkChildBackKokiriSheathNearDL,
+    gLinkAdultBackMirrorShieldMasterSheathFarDL,
+    gLinkChildBackKokiriSheathFarDL,
     // PLAYER_SHIELD_NONE (child, no sword)
     NULL,
     NULL,
     NULL,
     NULL,
     // PLAYER_SHIELD_DEKU (child, no sword)
-    gLinkAdultSheathNearDL,
-    gLinkChildDekuShieldWithMatrixDL,
-    gLinkAdultSheathNearDL,
-    gLinkChildDekuShieldWithMatrixDL,
+    gLinkAdultBackMasterSheathNearDL,
+    gLinkChildBackDekuShieldDL,
+    gLinkAdultBackMasterSheathNearDL,
+    gLinkChildBackDekuShieldDL,
 };
 
 Gfx* gPlayerLeftHandBgsDLs[] = {
@@ -440,18 +440,18 @@ Gfx* sPlayerRightHandBowSlingshotDLs[] = {
     gLinkChildRightHandHoldingSlingshotFarDL,
 };
 
-Gfx* D_80125E78[] = {
-    gLinkAdultMasterSwordAndSheathNearDL,
-    gLinkChildSwordAndSheathNearDL,
-    gLinkAdultMasterSwordAndSheathFarDL,
-    gLinkChildSwordAndSheathFarDL,
+Gfx* sPlayerBackSwordInSheathDLs[] = {
+    gLinkAdultBackMasterSwordInSheathNearDL,
+    gLinkChildBackKokiriSwordInSheathNearDL,
+    gLinkAdultBackMasterSwordInSheathFarDL,
+    gLinkChildBackKokiriSwordInSheathFarDL,
 };
 
-Gfx* D_80125E88[] = {
-    gLinkAdultSheathNearDL,
-    gLinkChildSheathNearDL,
-    gLinkAdultSheathFarDL,
-    gLinkChildSheathFarDL,
+Gfx* sPlayerBackSheathDLs[] = {
+    gLinkAdultBackMasterSheathNearDL,
+    gLinkChildBackKokiriSheathNearDL,
+    gLinkAdultBackMasterSheathFarDL,
+    gLinkChildBackKokiriSheathFarDL,
 };
 
 Gfx* sPlayerWaistDLs[] = {
@@ -554,10 +554,10 @@ Gfx** sPlayerDListGroups[PLAYER_MODELTYPE_MAX] = {
     sPlayerRightHandOcarinaDLs,       // PLAYER_MODELTYPE_RH_OCARINA
     sPlayerRightHandOotDLs,           // PLAYER_MODELTYPE_RH_OOT
     sPlayerRightHandHookshotDLs,      // PLAYER_MODELTYPE_RH_HOOKSHOT
-    D_80125E78,                       // PLAYER_MODELTYPE_SHEATH_16
-    D_80125E88,                       // PLAYER_MODELTYPE_SHEATH_17
-    D_80125D28,                       // PLAYER_MODELTYPE_SHEATH_18
-    D_80125D88,                       // PLAYER_MODELTYPE_SHEATH_19
+    sPlayerBackSwordInSheathDLs,      // PLAYER_MODELTYPE_BACK_SWORD_IN_SHEATH
+    sPlayerBackSheathDLs,             // PLAYER_MODELTYPE_BACK_SHEATH
+    sPlayerBackShieldSwordInSheathDLs,// PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH
+    sPlayerBackShieldDLs,             // PLAYER_MODELTYPE_BACK_SHIELD
     sPlayerWaistDLs,                  // PLAYER_MODELTYPE_WAIST
 };
 
@@ -667,12 +667,12 @@ void Player_SetModelsForHoldingShield(Player* this) {
             this->rightHandType = PLAYER_MODELTYPE_RH_SHIELD;
             this->rightHandDLists =
                 sPlayerDListGroups[PLAYER_MODELTYPE_RH_SHIELD] + ((void)0, gSaveContext.save.linkAge);
-            if (this->sheathType == PLAYER_MODELTYPE_SHEATH_18) {
-                this->sheathType = PLAYER_MODELTYPE_SHEATH_16;
-            } else if (this->sheathType == PLAYER_MODELTYPE_SHEATH_19) {
-                this->sheathType = PLAYER_MODELTYPE_SHEATH_17;
+            if (this->backType == PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH) {
+                this->backType = PLAYER_MODELTYPE_BACK_SWORD_IN_SHEATH;
+            } else if (this->backType == PLAYER_MODELTYPE_BACK_SHIELD) {
+                this->backType = PLAYER_MODELTYPE_BACK_SHEATH;
             }
-            this->sheathDLists = sPlayerDListGroups[this->sheathType] + ((void)0, gSaveContext.save.linkAge);
+            this->sheathDLists = sPlayerDListGroups[this->backType] + ((void)0, gSaveContext.save.linkAge);
             this->modelAnimType = PLAYER_ANIMTYPE_2;
             this->itemAction = -1;
         }
@@ -682,13 +682,13 @@ void Player_SetModelsForHoldingShield(Player* this) {
 void Player_SetModels(Player* this, s32 modelGroup) {
     this->leftHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND];
     this->rightHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
-    this->sheathType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH];
+    this->backType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_BACK];
 
     this->leftHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND]] +
                            ((void)0, gSaveContext.save.linkAge);
     this->rightHandDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND]] +
                             ((void)0, gSaveContext.save.linkAge);
-    this->sheathDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH]] +
+    this->sheathDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_BACK]] +
                          ((void)0, gSaveContext.save.linkAge);
     this->waistDLists = sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST]] +
                         ((void)0, gSaveContext.save.linkAge);
@@ -1389,17 +1389,17 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
         } else if (limbIndex == PLAYER_LIMB_SHEATH) {
             Gfx** dLists = this->sheathDLists;
 
-            if ((this->sheathType == PLAYER_MODELTYPE_SHEATH_18) || (this->sheathType == PLAYER_MODELTYPE_SHEATH_19)) {
+            if ((this->backType == PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH) || (this->backType == PLAYER_MODELTYPE_BACK_SHIELD)) {
                 dLists += this->currentShield * 4;
                 if (!LINK_IS_ADULT && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
                     (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                     dLists += PLAYER_SHIELD_MAX * 4;
                 }
             } else if (!LINK_IS_ADULT &&
-                       ((this->sheathType == PLAYER_MODELTYPE_SHEATH_16) ||
-                        (this->sheathType == PLAYER_MODELTYPE_SHEATH_17)) &&
+                       ((this->backType == PLAYER_MODELTYPE_BACK_SWORD_IN_SHEATH) ||
+                        (this->backType == PLAYER_MODELTYPE_BACK_SHEATH)) &&
                        (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
-                dLists = D_80125D28 + PLAYER_SHIELD_MAX * 4;
+                dLists = sPlayerBackShieldSwordInSheathDLs + PLAYER_SHIELD_MAX * 4;
             }
 
             *dList = *(dLists + sDListsLodOffset);
@@ -1949,8 +1949,8 @@ s32 Player_OverrideLimbDrawPause(UNUSED PlayState* play, s32 limbIndex, Gfx** dL
             dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_SHEATH) {
-        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH];
-        if ((type == PLAYER_MODELTYPE_SHEATH_18) || (type == PLAYER_MODELTYPE_SHEATH_19)) {
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_BACK];
+        if ((type == PLAYER_MODELTYPE_BACK_SHIELD_SWORD_IN_SHEATH) || (type == PLAYER_MODELTYPE_BACK_SHIELD)) {
             dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_WAIST) {

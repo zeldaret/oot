@@ -231,67 +231,67 @@
         <Limb Name="gLinkAdultRightShoulderLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_SHOULDER" Offset="0x37750"/>
         <Limb Name="gLinkAdultRightArmLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_FOREARM" Offset="0x37760"/>
         <Limb Name="gLinkAdultRightHandLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_HAND" Offset="0x37770"/>
-        <Limb Name="gLinkAdultSwordAndSheathLimb" LimbType="LOD" EnumName="PLAYER_LIMB_SHEATH" Offset="0x37780"/>
+        <Limb Name="gLinkAdultSwordInSheathLimb" LimbType="LOD" EnumName="PLAYER_LIMB_SHEATH" Offset="0x37780"/>
         <Limb Name="gLinkTorsoLimb" LimbType="LOD" EnumName="PLAYER_LIMB_TORSO" Offset="0x37790"/>
 
         <!-- Swords and shields -->
-        <Array Name="gLinkAdultMasterSwordAndSheathNearVtx" Count="97" Offset="0x12E68">
+        <Array Name="gLinkAdultBackMasterSwordInSheathNearVtx" Count="97" Offset="0x12E68">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultMasterSwordAndSheathNearDL" Offset="0x23160"/>
-        <Array Name="gLinkAdultMasterSwordAndSheathFarVtx" Count="48" Offset="0x1A638">
+        <DList Name="gLinkAdultBackMasterSwordInSheathNearDL" Offset="0x23160"/>
+        <Array Name="gLinkAdultBackMasterSwordInSheathFarVtx" Count="48" Offset="0x1A638">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultMasterSwordAndSheathFarDL" Offset="0x27F00"/>
+        <DList Name="gLinkAdultBackMasterSwordInSheathFarDL" Offset="0x27F00"/>
 
-        <Array Name="gLinkAdultHylianShieldSwordAndSheathNearVtx" Count="125" Offset="0xEFB8">
+        <Array Name="gLinkAdultBackHylianShieldSwordInSheathNearVtx" Count="125" Offset="0xEFB8">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultHylianShieldSwordAndSheathNearDL" Offset="0x20A78"/>
-        <Array Name="gLinkAdultHylianShieldSwordAndSheathFarVtx" Count="55" Offset="0x18358">
+        <DList Name="gLinkAdultBackHylianShieldSwordInSheathNearDL" Offset="0x20A78"/>
+        <Array Name="gLinkAdultBackHylianShieldSwordInSheathFarVtx" Count="55" Offset="0x18358">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultHylianShieldSwordAndSheathFarDL" Offset="0x25FB8"/>
+        <DList Name="gLinkAdultBackHylianShieldSwordInSheathFarDL" Offset="0x25FB8"/>
 
-        <Array Name="gLinkAdultHylianShieldAndSheathNearVtx" Count="54" Offset="0xF788">
+        <Array Name="gLinkAdultBackHylianShieldMasterSheathNearVtx" Count="54" Offset="0xF788">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultHylianShieldAndSheathNearDL" Offset="0x20E70"/>
-        <Array Name="gLinkAdultHylianShieldAndSheathFarVtx" Count="31" Offset="0x186C8">
+        <DList Name="gLinkAdultBackHylianShieldMasterSheathNearDL" Offset="0x20E70"/>
+        <Array Name="gLinkAdultBackHylianShieldMasterSheathFarVtx" Count="31" Offset="0x186C8">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultHylianShieldAndSheathFarDL" Offset="0x262B8"/>
+        <DList Name="gLinkAdultBackHylianShieldMasterSheathFarDL" Offset="0x262B8"/>
 
         <!-- TODO distinguish those two Vtx[] Vtx1 and Vtx2 (also elsewhere) -->
-        <Array Name="gLinkAdultMirrorShieldAndSheathNearVtx1" Count="68" Offset="0x10398">
+        <Array Name="gLinkAdultBackMirrorShieldMasterSheathNearVtx1" Count="68" Offset="0x10398">
             <Vtx/>
         </Array>
-        <Array Name="gLinkAdultMirrorShieldAndSheathNearVtx2" Count="10" Offset="0x20598">
+        <Array Name="gLinkAdultBackMirrorShieldMasterSheathNearVtx2" Count="10" Offset="0x20598">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultMirrorShieldAndSheathNearDL" Offset="0x216B0"/>
-        <Array Name="gLinkAdultMirrorShieldAndSheathFarVtx1" Count="46" Offset="0x18D78">
+        <DList Name="gLinkAdultBackMirrorShieldMasterSheathNearDL" Offset="0x216B0"/>
+        <Array Name="gLinkAdultBackMirrorShieldMasterSheathFarVtx1" Count="46" Offset="0x18D78">
             <Vtx/>
         </Array>
-        <Array Name="gLinkAdultMirrorShieldAndSheathFarVtx2" Count="10" Offset="0x20938">
+        <Array Name="gLinkAdultBackMirrorShieldMasterSheathFarVtx2" Count="10" Offset="0x20938">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultMirrorShieldAndSheathFarDL" Offset="0x26910"/>
+        <DList Name="gLinkAdultBackMirrorShieldMasterSheathFarDL" Offset="0x26910"/>
 
-        <Array Name="gLinkAdultMirrorShieldSwordAndSheathNearVtx1" Count="139" Offset="0xFAE8">
+        <Array Name="gLinkAdultBackMirrorShieldMasterSwordInSheathNearVtx1" Count="139" Offset="0xFAE8">
             <Vtx/>
         </Array>
-        <Array Name="gLinkAdultMirrorShieldSwordAndSheathNearVtx2" Count="10" Offset="0x204F8">
+        <Array Name="gLinkAdultBackMirrorShieldMasterSwordInSheathNearVtx2" Count="10" Offset="0x204F8">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultMirrorShieldSwordAndSheathNearDL" Offset="0x211B8"/>
-        <Array Name="gLinkAdultMirrorShieldSwordAndSheathFarVtx1" Count="76" Offset="0x188B8">
+        <DList Name="gLinkAdultBackMirrorShieldMasterSwordInSheathNearDL" Offset="0x211B8"/>
+        <Array Name="gLinkAdultBackMirrorShieldMasterSwordInSheathFarVtx1" Count="76" Offset="0x188B8">
             <Vtx/>
         </Array>
-        <Array Name="gLinkAdultMirrorShieldSwordAndSheathFarVtx2" Count="10" Offset="0x20898">
+        <Array Name="gLinkAdultBackMirrorShieldMasterSwordInSheathFarVtx2" Count="10" Offset="0x20898">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultMirrorShieldSwordAndSheathFarDL" Offset="0x264F0"/>
+        <DList Name="gLinkAdultBackMirrorShieldMasterSwordInSheathFarDL" Offset="0x264F0"/>
 
         <Array Name="gLinkAdultLeftHandHoldingBgsNearVtx" Count="118" Offset="0x14448">
             <Vtx/>
@@ -311,14 +311,14 @@
         </Array>
         <DList Name="gLinkAdultHandHoldingBrokenGiantsKnifeFarDL" Offset="0x291E8"/>
 
-        <Array Name="gLinkAdultSheathNearVtx" Count="26" Offset="0x15CD8">
+        <Array Name="gLinkAdultBackMasterSheathNearVtx" Count="26" Offset="0x15CD8">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultSheathNearDL" Offset="0x249D8"/>
-        <Array Name="gLinkAdultSheathFarVtx" Count="14" Offset="0x1A938">
+        <DList Name="gLinkAdultBackMasterSheathNearDL" Offset="0x249D8"/>
+        <Array Name="gLinkAdultBackMasterSheathFarVtx" Count="14" Offset="0x1A938">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultSheathFarDL" Offset="0x28150"/>
+        <DList Name="gLinkAdultBackMasterSheathFarDL" Offset="0x28150"/>
 
         <Array Name="gLinkAdultRightHandHoldingHylianShieldNearVtx" Count="78" Offset="0x121D8">
             <Vtx/>
@@ -349,7 +349,7 @@
 
         <Texture Name="gLinkAdultShieldHandleTex" Format="ci8" Width="8" Height="16" Offset="0xD4B8" TlutOffset="0xCD48"/>
         <Texture Name="gLinkAdultHylianShieldBackTex" Format="ci8" Width="16" Height="32" Offset="0xD938" TlutOffset="0xCB40"/>
-        <Texture Name="gLinkAdultSheathBandTex" Format="ci8" Width="32" Height="16" Offset="0xE838" TlutOffset="0xCB40"/>
+        <Texture Name="gLinkAdultMasterSheathBandTex" Format="ci8" Width="32" Height="16" Offset="0xE838" TlutOffset="0xCB40"/>
 
         <Texture Name="gLinkAdultMirrorShieldLowerDesignTex" Format="ia16" Width="32" Height="64" Offset="0xB280"/>
         <Texture Name="gLinkAdultMirrorShieldUpperDesignTex" Format="ia8" Width="64" Height="32" Offset="0xC280"/>
@@ -519,7 +519,7 @@
         <Texture Name="gLinkAdultHoverBootsFeatherTex" Format="rgba16" Width="32" Height="16" Offset="0xAE80"/>
 
         <!-- Sword and sheath-->
-        <Texture Name="gLinkAdultSheathTex" Format="ci8" Width="32" Height="32" Offset="0xDC38" TlutOffset="0xCB40"/>
+        <Texture Name="gLinkAdultMasterSheathTex" Format="ci8" Width="32" Height="32" Offset="0xDC38" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultSwordPommelTex" Format="ci8" Width="16" Height="16" Offset="0xD0B8" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultSwordGuardTex" Format="ci8" Width="32" Height="32" Offset="0xE438" TlutOffset="0xCB40"/>
 
