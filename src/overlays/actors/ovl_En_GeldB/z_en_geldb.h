@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#include "assets/objects/object_geldb/object_geldb.h"
+
 struct EnGeldB;
 
 typedef void (*EnGeldBActionFunc)(struct EnGeldB*, struct PlayState*);
@@ -12,8 +14,8 @@ typedef struct EnGeldB {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s bodyPartsPos[10];
     /* 0x0188 */ SkelAnime skelAnime;
-    /* 0x01CC */ Vec3s jointTable[24];
-    /* 0x025C */ Vec3s morphTable[24];
+    /* 0x01CC */ Vec3s jointTable[GERUDO_RED_LIMB_MAX];
+    /* 0x025C */ Vec3s morphTable[GERUDO_RED_LIMB_MAX];
     /* 0x02EC */ s32 action;
     /* 0x02F0 */ char unk_2F0[4];
     /* 0x02F4 */ EnGeldBActionFunc actionFunc;
