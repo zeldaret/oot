@@ -12,13 +12,13 @@ void util_fatal_error(const char *msgfmt, ...)
 {
     va_list args;
 
-    fputs("error: ", stderr);
+    fputs("\x1b[31m" "error: ", stderr);
 
     va_start(args, msgfmt);
     vfprintf(stderr, msgfmt, args);
     va_end(args);
 
-    fputc('\n', stderr);
+    fputs("\x1b[m" "\n", stderr);
 
     exit(1);
 }

@@ -9,7 +9,7 @@
 #include "spec.h"
 #include "util.h"
 
-struct Segment* g_segments;
+Segment* g_segments;
 int g_segmentsCount;
 
 static void write_dmadata_table(FILE *fout)

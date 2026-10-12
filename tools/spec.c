@@ -11,9 +11,9 @@
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
 
-static struct Segment *add_segment(struct Segment **segments, int *segments_count)
+static Segment *add_segment(Segment **segments, int *segments_count)
 {
-    struct Segment *seg;
+    Segment *seg;
 
     (*segments_count)++;
     *segments = realloc(*segments, *segments_count * sizeof(**segments));
@@ -146,12 +146,25 @@ static const char *const stmtNames[] =
     [STMT_pad_text]  = "pad_text",
 };
 
-void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
+static unsigned int parse_statement_name(const char *stmtName, int lineNum)
+{
+    unsigned int stmt;
+    for (stmt = 0; stmt < ARRAY_COUNT(stmtNames); stmt++)
+    {
+        if (strcmp(stmtName, stmtNames[stmt]) == 0)
+        {
+            return stmt;
+        }
+    }
+    util_fatal_error("line %i: unknown statement '%s'", lineNum, stmtName);
+}
+
+void parse_rom_spec(char *spec, Segment **segments, int *segment_count)
 {
     int lineNum = 1;
     char *line = spec;
 
-    struct Segment *currSeg = NULL;
+    Segment *currSeg = NULL;
 
     // iterate over lines
     while (line[0] != 0)
@@ -167,13 +180,7 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
         if (line[0] != 0 && stmtName[0] != 0)
         {
             char *args = token_split(stmtName);
-            unsigned int stmt;
-
-            for (stmt = 0; stmt < ARRAY_COUNT(stmtNames); stmt++)
-                if (strcmp(stmtName, stmtNames[stmt]) == 0)
-                    goto got_stmt;
-            util_fatal_error("line %i: unknown statement '%s'", lineNum, stmtName);
-          got_stmt:
+            unsigned int stmt = parse_statement_name(stmtName, lineNum);
 
             if (currSeg != NULL)
             {
@@ -291,7 +298,7 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
     }
 }
 
-void free_rom_spec(struct Segment *segments, int segment_count)
+void free_rom_spec(Segment *segments, int segment_count)
 {
     int i;
 

@@ -6,10 +6,10 @@
 #include "spec.h"
 #include "util.h"
 
-struct Segment* g_segments;
+Segment* g_segments;
 int g_segmentsCount;
 
-static void write_progbits_section(FILE *fout, struct Segment *seg, const char *section_name, bool with_padding)
+static void write_progbits_section(FILE *fout, Segment *seg, const char *section_name, bool with_padding)
 {
     fprintf(fout, "    .%s :\n    {\n", section_name);
 
@@ -22,7 +22,7 @@ static void write_progbits_section(FILE *fout, struct Segment *seg, const char *
     fprintf(fout, "    }\n");
 }
 
-static void write_noload_section(FILE *fout, struct Segment *seg, const char *section_name)
+static void write_noload_section(FILE *fout, Segment *seg, const char *section_name)
 {
     fprintf(fout, "    .%s (NOLOAD) :\n    {\n", section_name);
 
@@ -39,7 +39,7 @@ static void write_noload_section(FILE *fout, struct Segment *seg, const char *se
  * however in the iQue version we have bss files that are created partway through linking that need
  * special handling in the linker script.
  */
-static void write_linker_script(FILE *fout, struct Segment *seg)
+static void write_linker_script(FILE *fout, Segment *seg)
 {
     fprintf(fout,
        "OUTPUT_ARCH (mips)\n"
@@ -67,7 +67,7 @@ static void write_linker_script(FILE *fout, struct Segment *seg)
 static void write_overlay_rules(FILE *fout, const char *ovls_dir)
 {
     for (int i = 0; i < g_segmentsCount; i++) {
-        struct Segment *seg = &g_segments[i];
+        Segment *seg = &g_segments[i];
 
         /* Write rule for partial linkage of this segment */
         fprintf(fout, "%s/%s.plf:", ovls_dir, seg->name);
@@ -159,7 +159,7 @@ int main(int argc, char **argv)
     }
 
     for (int i = 0; i < g_segmentsCount; i++) {
-        struct Segment *seg = &g_segments[i];
+        Segment *seg = &g_segments[i];
 
         // Form the full path for this segment's linker script
         strcpy(ld_outpath + seg_dir_len, seg->name);
