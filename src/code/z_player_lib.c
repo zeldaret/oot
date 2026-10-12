@@ -536,7 +536,7 @@ Gfx* sFirstPersonRightHandHoldingWeaponDLs[] = {
     gLinkChildRightArmStretchedSlingshotDL,
 };
 
-// Indexed by model types (left hand, right hand, sheath or waist)
+// Indexed by model types (left hand, right hand, back or waist)
 Gfx** sPlayerDListGroups[PLAYER_MODELTYPE_MAX] = {
     gPlayerLeftHandOpenDLs,           // PLAYER_MODELTYPE_LH_OPEN
     gPlayerLeftHandClosedDLs,         // PLAYER_MODELTYPE_LH_CLOSED
@@ -1852,14 +1852,14 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, UN
         if (limbIndex == PLAYER_LIMB_BACK) {
             if ((this->rightHandType != PLAYER_MODELTYPE_RH_SHIELD) &&
                 (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
-                // Coordinates of the shield quad collider vertices, in the sheath limb's own model space.
+                // Coordinates of the shield quad collider vertices, in the back limb's own model space.
                 static Vec3f sBackLimbModelShieldQuadVertices[] = {
                     { -3000.0f, -3000.0f, -900.0f },
                     { 3000.0f, -3000.0f, -900.0f },
                     { -3000.0f, 3000.0f, -900.0f },
                     { 3000.0f, 3000.0f, -900.0f },
                 };
-                // Position and rotation of the shield on Link's back, in the sheath limb's own model space.
+                // Position and rotation of the shield on Link's back, in the back limb's own model space.
                 static Vec3f sBackLimbModelShieldOnBackPos = { 630.0f, 100.0f, -30.0f };
                 static Vec3s sBackLimbModelShieldOnBackZyxRot = { 0, 0, 0x7FFF };
 
