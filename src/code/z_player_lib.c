@@ -236,7 +236,7 @@ EnvHazardTextTriggerEntry sEnvHazardTextTriggers[] = {
     { ENV_HAZARD_TEXT_TRIGGER_UNDERWATER, 0x401D }, // PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1
 };
 
-// Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]
+// Used to map model groups to model types for [animation, left hand, right hand, back, waist]
 u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX] = {
     /* PLAYER_MODELGROUP_0 */
     { PLAYER_ANIMTYPE_2, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_BACK_SWORD_IN_SHEATH,
