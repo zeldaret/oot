@@ -8,6 +8,7 @@
 #include "src/overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
