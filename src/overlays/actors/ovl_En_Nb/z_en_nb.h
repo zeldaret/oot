@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
+
 #include "assets/objects/object_nb/object_nb.h"
 
 struct EnNb;
