@@ -76,7 +76,7 @@ extern Gfx gLinkAdultRightArmOutNearDL[97];
 extern Gfx gLinkAdultRightHandOutNearDL[112];
 extern Gfx gLinkAdultLeftArmOutNearDL[85];
 extern Gfx gLinkAdultRightHandHoldingBowFirstPersonDL[158];
-extern Gfx gLinkAdultRightHandHoldingHookshotFarDL[196];
+extern Gfx gLinkAdultRightHandHoldingHookshotFirstPersonDL[196];
 extern Gfx gLinkAdultBottleDL[35];
 extern Gfx gLinkAdultHookshotChainDL[23];
 extern Gfx gLinkAdultBowStringDL[12];
