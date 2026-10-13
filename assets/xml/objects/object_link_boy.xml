@@ -431,10 +431,10 @@
             <Vtx/>
         </Array>
         <DList Name="gLinkAdultRightHandHoldingHookshotNearDL" Offset="0x24D70"/>
-        <Array Name="gLinkAdultRightHandHoldingHookshotFarVtx" Count="294" Offset="0x1F298">
+        <Array Name="gLinkAdultRightHandHoldingHookshotFirstPersonVtx" Count="294" Offset="0x1F298">
             <Vtx/>
         </Array>
-        <DList Name="gLinkAdultRightHandHoldingHookshotFarDL" Offset="0x2A738"/>
+        <DList Name="gLinkAdultRightHandHoldingHookshotFirstPersonDL" Offset="0x2A738"/>
         <Array Name="gLinkAdultHookshotChainVtx" Count="24" Offset="0x2AE70">
             <Vtx/>
         </Array>
