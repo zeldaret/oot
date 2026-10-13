@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_oB2" Segment="6">
-        <!-- The commented limbs references dlists in a wrong offset, making ZAPD crash. -->
+        <!-- The commented limbs references dlists in a wrong offset, causing extraction to fail if uncommented. -->
         <!-- This object is not used in-game. -->
 
         <Limb Name="object_oB2_Limb_000000" LimbType="Standard" Offset="0x0"/>

@@ -486,7 +486,7 @@ Gfx* sPlayerRightHandOotDLs[] = {
 Gfx* sPlayerRightHandHookshotDLs[] = {
     gLinkAdultRightHandHoldingHookshotNearDL,
     gLinkChildRightHandNearDL,
-    gLinkAdultRightHandHoldingHookshotNearDL, // The 'far' display list exists but is not used
+    gLinkAdultRightHandHoldingHookshotNearDL, // No 'far' display list
     gLinkChildRightHandFarDL,
 };
 
@@ -1428,7 +1428,7 @@ s32 Player_OverrideLimbDrawGameplayFirstPerson(PlayState* play, s32 limbIndex, G
             *dList = sFirstPersonForearmDLs[(void)0, gSaveContext.save.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
             *dList = Player_HoldsHookshot(this)
-                         ? gLinkAdultRightHandHoldingHookshotFarDL
+                         ? gLinkAdultRightHandHoldingHookshotFirstPersonDL
                          : sFirstPersonRightHandHoldingWeaponDLs[(void)0, gSaveContext.save.linkAge];
         } else {
             *dList = NULL;
@@ -1604,7 +1604,7 @@ void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
 
     if (1) {}
 
-    if (BgCheck_AnyLineTest3(&play->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &bgId)) {
+    if (BgCheck_AnyLineTest3(&play->colCtx, &sp8C, &sp80, &sp74, &sp9C, true, true, true, true, &bgId)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2572);
 
         OVERLAY_DISP = Gfx_SetupDL(OVERLAY_DISP, SETUPDL_7);
