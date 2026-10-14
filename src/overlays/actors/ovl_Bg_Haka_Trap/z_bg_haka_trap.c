@@ -149,13 +149,12 @@ static InitChainEntry sInitChain[] = {
 void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     static s32 sSpikedCrusherFlip = false;
 
-    s32* spikedCrusherFlipPtr;
+    STACK_PAD(s32);
     BgHakaTrap* this = (BgHakaTrap*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->dyna.actor.params &= 0xFF;
-    spikedCrusherFlipPtr = &sSpikedCrusherFlip;
     if (this->dyna.actor.params != BG_HAKA_TRAP_FAN_BLADE) {
         Collider_InitCylinder(play, &this->colliderCylinder);
         Collider_SetCylinder(play, &this->colliderCylinder, &this->dyna.actor, &sCylinderInit);
@@ -177,7 +176,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
             if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_CRUSHER) {
                 CollisionHeader_GetVirtual(&gShadowTempleSpikedCrusherCol, &colHeader);
                 this->timer = 30;
-                if (*spikedCrusherFlipPtr) {
+                if (sSpikedCrusherFlip) {
                     this->actionFunc = BgHakaTrap_SpikedCrusher_Lift;
                     sSpikedCrusherFlip = false;
                 } else {
@@ -191,15 +190,15 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 // Assigns the height the crusher rises on first "tug". The final -25 offset is missing in other
                 // calculations of this variable.
                 this->spikedCrusherStepY = this->dyna.actor.floorHeight + 50.0f - 25.0f;
-                this->colliderCylinder.dim.radius = 0xA;
-                this->colliderCylinder.dim.height = 0x28;
+                this->colliderCylinder.dim.radius = 10;
+                this->colliderCylinder.dim.height = 40;
             } else {
                 if (this->dyna.actor.params == BG_HAKA_TRAP_SPIKED_WALL_EAST) {
                     CollisionHeader_GetVirtual(&gShadowTempleSpikedWallEastCol, &colHeader);
                     // Shift the home position toward the center of the room. This will become the target position that
                     // triggers the crush.
                     this->dyna.actor.home.pos.x -= 200.0f;
-                } else /* HAKA_TRAP_SPIKED_WALL_WEST */ {
+                } else /* BG_HAKA_TRAP_SPIKED_WALL_WEST */ {
                     // Shift the home position toward the center of the room. This will become the target position that
                     // triggers the crush.
                     this->dyna.actor.home.pos.x += 200.0f;
@@ -217,7 +216,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
         }
     } else {
-        // Initialize HAKA_TRAP_FAN_BLADE
+        // Initialize BG_HAKA_TRAP_FAN_BLADE
         this->timer = 40;
         this->actionFunc = BgHakaTrap_FanBlade_Idle;
         this->dyna.actor.cullingVolumeScale = 500.0f;
@@ -418,7 +417,7 @@ void BgHakaTrap_SpikedCrusher_Fall(BgHakaTrap* this, PlayState* play) {
         this->dyna.actor.velocity.y = 0.0f;
         this->timer = 30;
         this->spikedCrusherStepY = (s16)this->dyna.actor.world.pos.y + 50.0f;
-        this->spikedCrusherStepY = MIN(this->dyna.actor.home.pos.y, this->spikedCrusherStepY);
+        this->spikedCrusherStepY = CLAMP_MAX(this->spikedCrusherStepY, this->dyna.actor.home.pos.y);
         this->actionFunc = BgHakaTrap_SpikedCrusher_Lift;
     }
 }
@@ -506,7 +505,7 @@ void BgHakaTrap_FanBlade_FullGust(BgHakaTrap* this, PlayState* play) {
 
 void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->actionFunc(this, play);
 
@@ -535,12 +534,11 @@ void BgHakaTrap_SpikedWall_UpdateCollider(BgHakaTrap* this) {
     Collider_SetTrisVertices(&this->spikedWallCollider, 1, &vtx[0], &vtx[2], &vtx[1]);
 }
 
-Gfx* D_80881028[5] = {
-    gShadowTempleGuillotineDL,     gShadowTempleSpikedCrusherDL, gShadowTempleSpikedWallEastDL,
-    gShadowTempleSpikedWallWestDL, gShadowTempleFanBladeDL,
-};
-
 void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
+    static Gfx* sDisplayLists[5] = {
+        gShadowTempleGuillotineDL,     gShadowTempleSpikedCrusherDL, gShadowTempleSpikedWallEastDL,
+        gShadowTempleSpikedWallWestDL, gShadowTempleFanBladeDL,
+    };
     static Color_RGBA8 sFogBlack = { 0, 0, 0, 0 };
     BgHakaTrap* this = (BgHakaTrap*)thisx;
     STACK_PAD(s32);
@@ -548,7 +546,7 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc == BgHakaTrap_SpikedWall_Burn) {
         func_80026230(play, &sFogBlack, this->timer + 20, 40);
     }
-    Gfx_DrawDListOpa(play, D_80881028[this->dyna.actor.params]);
+    Gfx_DrawDListOpa(play, sDisplayLists[this->dyna.actor.params]);
     if (this->actionFunc == BgHakaTrap_SpikedWall_CloseIn) {
         BgHakaTrap_SpikedWall_UpdateCollider(this);
     }
