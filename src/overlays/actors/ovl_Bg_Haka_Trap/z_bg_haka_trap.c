@@ -506,7 +506,7 @@ void BgHakaTrap_FanBlade_FullGust(BgHakaTrap* this, PlayState* play) {
 
 void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->actionFunc(this, play);
 

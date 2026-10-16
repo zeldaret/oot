@@ -26,7 +26,6 @@
         <Array Name="gLinkPauseAdultShieldJointTable" Count="24" Offset="0x2280">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
-
         <PlayerAnimation Name="gPlayerAnim_clink_demo_DDbox_open" Offset="0x2310"/>
         <PlayerAnimation Name="gPlayerAnim_clink_demo_Tbox_open" Offset="0x2318"/>
         <PlayerAnimation Name="gPlayerAnim_clink_demo_atozusari" Offset="0x2320"/>

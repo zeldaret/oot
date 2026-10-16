@@ -47,16 +47,16 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
 }
 
 void BgPushbox_Init(Actor* thisx, PlayState* play) {
-    STACK_PAD(s32);
     BgPushbox* this = (BgPushbox*)thisx;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
     STACK_PAD(s32);
 
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gBlockSmallCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     BgPushbox_SetupAction(this, BgPushbox_UpdateImpl);
 }
 
@@ -67,12 +67,14 @@ void BgPushbox_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play) {
-    this->dyna.actor.speed += this->dyna.unk_150 * 0.2f;
-    this->dyna.actor.speed = CLAMP(this->dyna.actor.speed, -1.0f, 1.0f);
-    Math_StepToF(&this->dyna.actor.speed, 0.0f, 0.2f);
-    this->dyna.actor.world.rot.y = this->dyna.unk_158;
-    Actor_MoveXZGravity(&this->dyna.actor);
-    Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 20.0f, 40.0f, 40.0f,
+    Actor* thisx = &this->dyna.actor;
+
+    thisx->speed += this->dyna.unk_150 * 0.2f;
+    thisx->speed = (thisx->speed < -1.0f) ? -1.0f : ((thisx->speed > 1.0f) ? 1.0f : thisx->speed);
+    Math_StepToF(&thisx->speed, 0.0f, 0.2f);
+    thisx->world.rot.y = this->dyna.unk_158;
+    Actor_MoveXZGravity(thisx);
+    Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 40.0f, 40.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 }

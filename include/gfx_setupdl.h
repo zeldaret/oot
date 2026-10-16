@@ -96,15 +96,15 @@ Gfx* Gfx_SetupDL_64(Gfx* gfx);
 Gfx* Gfx_SetupDL_34(Gfx* gfx);
 void Gfx_SetupDL_44Xlu(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_36Opa(struct GraphicsContext* gfxCtx);
-void Gfx_SetupDL_28Opa(struct GraphicsContext* gfxCtx);
 Gfx* Gfx_SetupDL_28(Gfx* gfx);
+void Gfx_SetupDL_28Opa(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_38Xlu(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_4Xlu(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_37Opa(struct GraphicsContext* gfxCtx);
 Gfx* Gfx_SetupDL_39(Gfx* gfx);
 void Gfx_SetupDL_39Opa(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_39Overlay(struct GraphicsContext* gfxCtx);
-void Gfx_SetupDL_39Ptr(Gfx** gfxP);
+void Gfx_SetupDL_39Ptr(Gfx** gfxp);
 void Gfx_SetupDL_40Opa(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_41Opa(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_47Xlu(struct GraphicsContext* gfxCtx);
@@ -117,6 +117,6 @@ void Gfx_SetupDL_27Xlu(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_60NoCDXlu(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_61Xlu(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_56Opa(struct GraphicsContext* gfxCtx);
-void Gfx_SetupDL_56Ptr(Gfx** gfxP);
+void Gfx_SetupDL_56Ptr(Gfx** gfxp);
 
 #endif
