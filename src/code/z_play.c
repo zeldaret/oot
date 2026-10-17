@@ -1,4 +1,6 @@
+// clang-format off
 #include "play_state.h"
+// clang-format on
 
 #include "versions.h"
 #include "actor.h"

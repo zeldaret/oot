@@ -1,4 +1,6 @@
+// clang-format off
 #include "ss_sram.h"
+// clang-format on
 
 #include "printf.h"
 

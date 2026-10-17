@@ -1,4 +1,6 @@
+// clang-format off
 #include "view.h"
+// clang-format on
 
 #include "avoid_ub.h"
 #include "gfx.h"
