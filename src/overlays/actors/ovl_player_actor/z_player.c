@@ -2303,7 +2303,7 @@ LinkAnimationHeader* func_80833438(Player* this) {
 }
 
 int func_808334B4(Player* this) {
-    return func_808332E4(this) && (this->unk_834 != 0);
+    return func_808332E4(this) && (this->aimTimer != 0);
 }
 
 LinkAnimationHeader* func_808334E4(Player* this) {
@@ -2323,7 +2323,7 @@ LinkAnimationHeader* func_80833528(Player* this) {
 }
 
 LinkAnimationHeader* func_8083356C(Player* this) {
-    if (func_8002DD78(this)) {
+    if (Player_IsAimingBowSlingshotOrHookshot(this)) {
         return &gPlayerAnim_link_bow_side_walk;
     } else {
         return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_side_walk, this->modelAnimType);
@@ -2801,7 +2801,7 @@ s32 func_8083442C(Player* this, PlayState* play) {
         Player_SetUpperActionFunc(this, func_808351D4);
 
         this->stateFlags1 |= PLAYER_STATE1_9;
-        this->unk_834 = 14;
+        this->aimTimer = 14;
 
         if (this->unk_860 >= 0) {
             Player_PlaySfx(this, D_80854398[ABS(this->unk_860) - 1]);
@@ -2852,7 +2852,7 @@ void func_80834644(PlayState* play, Player* this) {
     }
 
     Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
-    this->unk_834 = 0;
+    this->aimTimer = 0;
     this->idleType = PLAYER_IDLE_DEFAULT;
     Player_DetachHeldActor(play, this);
     this->stateFlags1 &= ~PLAYER_STATE1_START_CHANGING_HELD_ITEM;
@@ -2950,7 +2950,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
          (sUseHeldItem =
               (sUseHeldItem || ((this->modelAnimType != PLAYER_ANIMTYPE_3) && (play->shootingGalleryStatus == 0)))))) {
         Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
-        this->unk_834 = 0;
+        this->aimTimer = 0;
         this->idleType = PLAYER_IDLE_DEFAULT;
         sHeldItemButtonIsHeldDown = sUseHeldItem;
 
@@ -3029,7 +3029,7 @@ s32 func_80834D2C(Player* this, PlayState* play) {
         LinkAnimation_PlayOnce(play, &this->upperSkelAnime, anim);
     } else {
         Player_SetUpperActionFunc(this, func_80835884);
-        this->unk_834 = 10;
+        this->aimTimer = 10;
         LinkAnimation_PlayOnce(play, &this->upperSkelAnime, &gPlayerAnim_link_boom_throw_wait2waitR);
     }
 
@@ -3164,8 +3164,8 @@ s32 func_808351D4(Player* this, PlayState* play) {
         this->unk_836 = 2;
     }
 
-    if (this->unk_834 > 10) {
-        this->unk_834--;
+    if (this->aimTimer > 10) {
+        this->aimTimer--;
     }
 
     func_80834EB8(this, play);
@@ -3181,7 +3181,7 @@ s32 func_808351D4(Player* this, PlayState* play) {
                 func_808350A4(play, this);
             }
         }
-        this->unk_834 = 10;
+        this->aimTimer = 10;
         Player_ZeroSpeedXZ(this);
     } else {
         this->stateFlags1 |= PLAYER_STATE1_9;
@@ -3209,13 +3209,13 @@ s32 func_808353D8(Player* this, PlayState* play) {
             }
         }
     } else {
-        if (this->unk_834 != 0) {
-            this->unk_834--;
+        if (this->aimTimer != 0) {
+            this->aimTimer--;
         }
 
         if (Player_IsZTargeting(this) || (this->unk_6AD != 0) || (this->stateFlags1 & PLAYER_STATE1_20)) {
-            if (this->unk_834 == 0) {
-                this->unk_834++;
+            if (this->aimTimer == 0) {
+                this->aimTimer++;
             }
 
             return true;
@@ -3228,7 +3228,7 @@ s32 func_808353D8(Player* this, PlayState* play) {
             LinkAnimation_PlayOnce(play, &this->upperSkelAnime, &gPlayerAnim_link_bow_bow_shoot_end);
         }
 
-        this->unk_834 = 0;
+        this->aimTimer = 0;
     }
 
     return true;
@@ -3367,7 +3367,7 @@ s32 func_808358F0(Player* this, PlayState* play) {
 s32 func_808359FC(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->upperSkelAnime)) {
         Player_SetUpperActionFunc(this, func_80835B60);
-        this->unk_834 = 0;
+        this->aimTimer = 0;
     } else if (LinkAnimation_OnFrame(&this->upperSkelAnime, 6.0f)) {
         f32 posX = (Math_SinS(this->actor.shape.rot.y) * 10.0f) + this->actor.world.pos.x;
         f32 posZ = (Math_CosS(this->actor.shape.rot.y) * 10.0f) + this->actor.world.pos.z;
@@ -5903,7 +5903,7 @@ s32 func_8083AD4C(PlayState* play, Player* this) {
     s32 camMode;
 
     if (this->unk_6AD == 2) {
-        if (func_8002DD6C(this)) {
+        if (Player_HoldsBowSlingshotOrHookshot(this)) {
             if (LINK_IS_ADULT) {
                 camMode = CAM_MODE_AIM_ADULT;
             } else {
@@ -7117,7 +7117,7 @@ void func_8083DC54(Player* this, PlayState* play) {
     Vec3f sp34;
 
     if (this->focusActor != NULL) {
-        if (func_8002DD78(this) || func_808334B4(this)) {
+        if (Player_IsAimingBowSlingshotOrHookshot(this) || func_808334B4(this)) {
             func_8083DB98(this, true);
         } else {
             func_8083DB98(this, false);
@@ -7138,11 +7138,11 @@ void func_8083DC54(Player* this, PlayState* play) {
         Math_SmoothStepToS(&this->actor.focus.rot.x, sp46, 14, 4000, 30);
     }
 
-    func_80836AB8(this, func_8002DD78(this) || func_808334B4(this));
+    func_80836AB8(this, Player_IsAimingBowSlingshotOrHookshot(this) || func_808334B4(this));
 }
 
 void func_8083DDC8(Player* this, PlayState* play) {
-    if (!func_8002DD78(this) && !func_808334B4(this) && (this->speedXZ > 5.0f)) {
+    if (!Player_IsAimingBowSlingshotOrHookshot(this) && !func_808334B4(this) && (this->speedXZ > 5.0f)) {
         s16 targetPitch;
         s16 targetRoll;
 
@@ -7908,7 +7908,7 @@ s32 func_8083FC68(Player* this, f32 arg1, s16 arg2) {
     f32 temp;
 
     if (this->focusActor != NULL) {
-        func_8083DB98(this, func_8002DD78(this) || func_808334B4(this));
+        func_8083DB98(this, Player_IsAimingBowSlingshotOrHookshot(this) || func_808334B4(this));
     }
 
     temp = fabsf(sp1C) / 32768.0f;
@@ -7926,7 +7926,7 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, PlayState* play) {
     s16 sp2E = *arg2 - this->parallelYaw;
     u16 sp2C = ABS(sp2E);
 
-    if ((func_8002DD78(this) || func_808334B4(this)) && (this->focusActor == NULL)) {
+    if ((Player_IsAimingBowSlingshotOrHookshot(this) || func_808334B4(this)) && (this->focusActor == NULL)) {
         *arg1 *= Math_SinS(sp2C);
 
         if (*arg1 != 0.0f) {
@@ -10938,7 +10938,8 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                         } else {
                             doAction = DO_ACTION_CHECK;
                         }
-                    } else if (!func_8002DD78(this) && !(this->stateFlags1 & PLAYER_STATE1_20)) {
+                    } else if (!Player_IsAimingBowSlingshotOrHookshot(this) &&
+                               !(this->stateFlags1 & PLAYER_STATE1_20)) {
                         doAction = DO_ACTION_FASTER;
                     }
                 } else if ((this->stateFlags2 & PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER) && (this->talkActor != NULL)) {
@@ -11401,7 +11402,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                     camMode = CAM_MODE_LEDGE_HANG;
                 }
             } else if (this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE)) {
-                if (func_8002DD78(this) || func_808334B4(this)) {
+                if (Player_IsAimingBowSlingshotOrHookshot(this) || func_808334B4(this)) {
                     camMode = CAM_MODE_Z_AIM;
                 } else if (this->stateFlags1 & PLAYER_STATE1_21) {
                     camMode = CAM_MODE_Z_WALL_CLIMB;
@@ -11800,7 +11801,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             Player_UpdateBunnyEars(this);
         }
 
-        if (func_8002DD6C(this) != 0) {
+        if (Player_HoldsBowSlingshotOrHookshot(this) != 0) {
             func_8084FF7C(this);
         }
 
@@ -12367,7 +12368,7 @@ s16 func_8084ABD8(PlayState* play, Player* this, s32 arg2, s16 arg3) {
     s16 temp2;
     s16 temp3;
 
-    if (!func_8002DD78(this) && !func_808334B4(this) && !arg2) {
+    if (!Player_IsAimingBowSlingshotOrHookshot(this) && !func_808334B4(this) && !arg2) {
         temp2 = sControlInput->rel.stick_y * 240.0f;
         Math_SmoothStepToS(&this->actor.focus.rot.x, temp2, 14, 4000, 30);
 
@@ -12390,7 +12391,9 @@ s16 func_8084ABD8(PlayState* play, Player* this, s32 arg2, s16 arg3) {
     }
 
     this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_Y;
-    return func_80836AB8(this, (play->shootingGalleryStatus != 0) || func_8002DD78(this) || func_808334B4(this)) - arg3;
+    return func_80836AB8(this, (play->shootingGalleryStatus != 0) || Player_IsAimingBowSlingshotOrHookshot(this) ||
+                                   func_808334B4(this)) -
+           arg3;
 }
 
 void func_8084AEEC(Player* this, f32* arg1, f32 arg2, s16 arg3) {
@@ -12493,7 +12496,7 @@ void Player_Action_8084B1D8(Player* this, PlayState* play) {
         Player_DecelerateToZero(this);
     }
 
-    if ((this->unk_6AD == 2) && (func_8002DD6C(this) || func_808332E4(this))) {
+    if ((this->unk_6AD == 2) && (Player_HoldsBowSlingshotOrHookshot(this) || func_808332E4(this))) {
         Player_UpdateUpperBody(this, play);
     }
 
@@ -12502,7 +12505,7 @@ void Player_Action_8084B1D8(Player* this, PlayState* play) {
         (func_8083AD4C(play, this) == CAM_MODE_NORMAL) ||
         (((this->unk_6AD == 2) &&
           (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_R) || Player_FriendlyLockOnOrParallel(this) ||
-           (!func_8002DD78(this) && !func_808334B4(this)))) ||
+           (!Player_IsAimingBowSlingshotOrHookshot(this) && !func_808334B4(this)))) ||
          ((this->unk_6AD == 1) &&
           CHECK_BTN_ANY(sControlInput->press.button,
                         BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT)))) {
@@ -12524,7 +12527,7 @@ s32 func_8084B3CC(PlayState* play, Player* this) {
         func_80832564(play, this);
         Player_SetupAction(play, this, Player_Action_8084FA54, 0);
 
-        if (!func_8002DD6C(this) || Player_HoldsHookshot(this)) {
+        if (!Player_HoldsBowSlingshotOrHookshot(this) || Player_HoldsHookshot(this)) {
             Player_UseItem(play, this, 3);
         }
 
@@ -13377,7 +13380,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
         if ((this->csAction != PLAYER_CSACTION_NONE) ||
             (!func_8084C9BC(this, play) && !Player_ActionHandler_13(this, play))) {
             if (this->focusActor != NULL) {
-                if (func_8002DD78(this)) {
+                if (Player_IsAimingBowSlingshotOrHookshot(this)) {
                     this->upperLimbRot.y = func_8083DB98(this, true) - this->actor.shape.rot.y;
                     this->upperLimbRot.y = CLAMP(this->upperLimbRot.y, -0x4AAA, 0x4AAA);
                     this->actor.focus.rot.y = this->actor.shape.rot.y + this->upperLimbRot.y;
@@ -13387,7 +13390,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
                     func_8083DB98(this, false);
                 }
             } else {
-                if (func_8002DD78(this)) {
+                if (Player_IsAimingBowSlingshotOrHookshot(this)) {
                     this->upperLimbRot.y = func_8084ABD8(play, this, true, -5000) - this->actor.shape.rot.y;
                     this->upperLimbRot.y += 5000;
                     this->upperLimbYawSecondary = -5000;

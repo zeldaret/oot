@@ -896,7 +896,7 @@ typedef struct Player {
     /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x082C */ UpperActionFunc upperActionFunc;
     /* 0x0830 */ f32 upperAnimInterpWeight;
-    /* 0x0834 */ s16 unk_834;
+    /* 0x0834 */ s16 aimTimer; // Non-zero while a bow, slingshot, hookshot or boomerang is raised to aim. Readying a shot sets 14, counting down to 10 (the string only follows the hand at <= 10); firing sets 10, counting down to 0 before the item is lowered (held at 1 while Z-Targeting or in first person)
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 putAwayCooldownTimer;
     /* 0x0838 */ f32 speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
