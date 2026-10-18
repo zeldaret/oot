@@ -34,6 +34,8 @@ double round(double);
 long lroundf(float);
 long lround(double);
 
+f32 fmodf(f32 x, f32 y);
+
 f32 fabsf(f32 f);
 #ifdef __sgi
 #pragma intrinsic(fabsf)
