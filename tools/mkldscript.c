@@ -9,10 +9,10 @@
 #include "spec.h"
 #include "util.h"
 
-struct Segment *g_segments;
+Segment *g_segments;
 int g_segmentsCount;
 
-static void write_includes(const struct Segment *seg, FILE *fout, const char *segments_dir, const char *section)
+static void write_includes(const Segment *seg, FILE *fout, const char *segments_dir, const char *section)
 {
     // Note sections contain a suffix wildcard as compilers other than IDO such as GCC may emit sections titled
     // e.g. .rodata.cstN, .rodata.strN.M, .text.FUNCNAME depending on their settings.
@@ -94,7 +94,7 @@ static void write_ld_script(FILE *fout, uint32_t entrypoint_addr, const char *ma
     uint32_t last_romalign = 0;
 
     for (i = 0; i < g_segmentsCount; i++) {
-        const struct Segment *seg = &g_segments[i];
+        const Segment *seg = &g_segments[i];
 
         fprintf(fout, "    /* %s */\n\n", seg->name);
 
@@ -310,7 +310,6 @@ int main(int argc, char **argv)
     write_ld_script(ldout, entrypoint_addr, argv[3], argv[4]);
     fclose(ldout);
 
-    free_rom_spec(g_segments, g_segmentsCount);
     free(spec);
     return EXIT_SUCCESS;
 }

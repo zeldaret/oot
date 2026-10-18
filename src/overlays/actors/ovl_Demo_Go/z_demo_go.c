@@ -62,7 +62,7 @@ ActorProfile Demo_Go_Profile = {
     /**/ DemoGo_Draw,
 };
 
-s32 DemoGo_GetCueChannel(DemoGo* this) {
+UNK_TYPE DemoGo_GetCueChannel(DemoGo* this) {
     s32 ret;
 
     switch (this->actor.params) {
@@ -107,7 +107,7 @@ void func_8097C930(DemoGo* this) {
     STACK_PADS(s32, 3);
 
     if (DECR(*something) == 0) {
-        *something = Rand_S16Offset(60, 60);
+        *something = Rand_S16Offset(0x3C, 0x3C);
     }
     *other = *something;
     if (*other >= 3) {
@@ -374,7 +374,7 @@ void func_8097D29C(DemoGo* this, PlayState* play) {
 void DemoGo_Draw(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
+    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == 0) {
         PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
                                "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;

@@ -9,18 +9,19 @@ struct EnChanger;
 typedef void (*EnChangerActionFunc)(struct EnChanger*, struct PlayState*);
 
 typedef struct EnChanger {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnChangerActionFunc actionFunc;
-    /* 0x0150 */ struct EnBox* leftChest;
-    /* 0x0154 */ struct EnBox* rightChest;
-    /* 0x0158 */ struct EnBox* finalChest;
-    /* 0x015C */ s16 leftChestNum;
-    /* 0x015E */ s16 rightChestNum;
-    /* 0x0160 */ s16 leftChestGetItemId;
-    /* 0x0162 */ s16 rightChestGetItemId;
-    /* 0x0164 */ s16 selectedChest;
-    /* 0x0166 */ s16 timer;
-    /* 0x0168 */ s16 roomChestsOpened;
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ EnChangerActionFunc unk14C;
+    /* 0x150 */ struct EnBox* unk150;
+    /* 0x154 */ struct EnBox* unk154;
+    /* 0x158 */ struct EnBox* unk158;
+    /* 0x15C */ s16 unk15C_l;
+    /* 0x15E */ s16 unk15E_r;
+    /* 0x160 */ s16 unk160;
+    /* 0x162 */ s16 unk162;
+    /* 0x164 */ s16 unk164;
+    /* 0x166 */ s16 unk166;
+    /* 0x168 */ s16 unk168;
+    /* 0x16A */ char pad16A[2];
 } EnChanger; // size = 0x016C
 
 #endif

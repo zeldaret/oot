@@ -6,7 +6,7 @@
 #include "z_math.h"
 #include "color.h"
 
-void Lib_MemSet(u8* dest, size_t len, u8 val);
+void Lib_MemSet(u8* dest, size_t size, u8 val);
 f32 Math_CosS(s16 angle);
 f32 Math_SinS(s16 angle);
 s32 Math_ScaledStepToS(s16* pValue, s16 target, s16 step);

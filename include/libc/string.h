@@ -7,7 +7,10 @@ char* strchr(const char*, int);
 size_t strlen(const char*);
 
 void* memcpy(void*, const void*, size_t);
-void* memmove(void* dest, const void* src, size_t len);
-void* memset(void* dest, int val, size_t len);
+#ifdef BBPLAYER
+#define func_80106860 memset
+#endif
+void* func_80106860(void* ptr, int val, size_t size);
+void* func_801068B0(void* dst, void* src, size_t size);
 
 #endif

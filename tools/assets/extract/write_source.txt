@@ -345,6 +345,7 @@ assets/objects/object_torch2/object_torch2.c
 assets/objects/object_toryo/object_toryo.c
 assets/objects/object_tp/object_tp.c
 assets/objects/object_trap/object_trap.c
+assets/objects/object_triforce_spot/object_triforce_spot.c
 assets/objects/object_tr/object_tr.c
 assets/objects/object_ts/object_ts.c
 assets/objects/object_tsubo/object_tsubo.c
@@ -370,6 +371,7 @@ assets/overlays/ovl_Boss_Sst/ovl_Boss_Sst.c
 assets/overlays/ovl_Demo_Shd/ovl_Demo_Shd.c
 assets/overlays/ovl_En_Bili/ovl_En_Bili.c
 assets/overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c
+assets/overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c
 assets/overlays/ovl_En_Mag/ovl_En_Mag.c
 assets/overlays/ovl_En_Sda/ovl_En_Sda.c
 assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c

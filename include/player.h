@@ -706,7 +706,7 @@ typedef struct WeaponInfo {
 #define LEDGE_DIST_MAX 399.96002f
 
 #define PLAYER_STATE1_0 (1 << 0)
-#define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1) // Bottle is swung; Bottle is active and can catch things
+#define PLAYER_STATE1_1 (1 << 1) // Bottle is swung; Bottle is active and can catch things
 #define PLAYER_STATE1_2 (1 << 2)
 #define PLAYER_STATE1_3 (1 << 3)
 #define PLAYER_STATE1_HOSTILE_LOCK_ON (1 << 4) // Currently locked onto a hostile actor. Triggers a "battle" variant of many actions.
@@ -916,7 +916,7 @@ typedef struct Player {
         s8 startedAnim; // Player_Action_TimeTravelEnd: Started playing the animation that was previously frozen
         s8 facingUpSlope; // Player_Action_SlideOnSlope: Facing uphill when sliding on a slope
         s8 isLakeHyliaCs; // Player_Action_BlueWarpArrive: In Lake Hylia CS after Water Temple. Floating down is delayed until a specific point in the cutscene.
-        s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
+        s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `D_80854A04`, corresponds to actor caught in a bottle
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {
@@ -954,7 +954,7 @@ typedef struct Player {
     /* 0x0890 */ u8 unk_890;
     /* 0x0891 */ u8 bodyShockTimer;
     /* 0x0892 */ u8 unk_892;
-    /* 0x0893 */ u8 hoverBootsTimer;
+    /* 0x0893 */ u8 unk_893;
     /* 0x0894 */ s16 fallStartHeight; // last truncated Y position before falling
     /* 0x0896 */ s16 fallDistance; // truncated Y distance the player has fallen so far (positive is down)
     /* 0x0898 */ s16 floorPitch; // angle of the floor slope in the direction of current world yaw (positive for ascending slope)

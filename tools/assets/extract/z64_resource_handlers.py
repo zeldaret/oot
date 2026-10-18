@@ -107,7 +107,7 @@ def register_resource_handlers():
             )
         elif resource_desc.limb_type == z64resources.LimbType.CURVE:
             assert resource_desc.type == z64resources.SkeletonType.CURVE
-            res = skelcurve_resources.CurveSkeletonHeaderResource(
+            res = skelcurve_resources.SkelCurveLimbListResource(
                 file, offset, resource_desc.symbol_name
             )
         else:
@@ -116,7 +116,7 @@ def register_resource_handlers():
                 resource_desc.limb_type,
             )
         # TODO check is this works for SkeletonSkinResource
-        # TODO implement for CurveSkeletonHeaderResource
+        # TODO implement for SkelCurveLimbListResource
         if resource_desc.limb_enum_name is not None:
             res.set_enum_name(resource_desc.limb_enum_name)
         if resource_desc.limb_enum_none_member_name is not None:
@@ -364,7 +364,7 @@ def register_resource_handlers():
         resource_desc: z64resources.CurveAnimationResourceDesc,
     ):
         # TODO use resource_desc.skeleton
-        return skelcurve_resources.CurveAnimationHeaderResource(
+        return skelcurve_resources.TransformUpdateIndexResource(
             file, resource_desc.offset, resource_desc.symbol_name
         )
 
