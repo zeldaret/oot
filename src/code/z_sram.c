@@ -1,4 +1,6 @@
+// clang-format off
 #include "sram.h"
+// clang-format on
 
 #include "versions.h"
 #include "array_count.h"
