@@ -4698,18 +4698,15 @@ Actor* Actor_FindNearby(PlayState* play, Actor* refActor, s16 actorId, u8 actorC
 s32 Actor_MeleeCombatResponse(PlayState* play, Actor* actor, f32 range, s16 actorFaceMax, s16 playerFaceMax,
                               s16 actorShapeRotY) {
     Player* player = GET_PLAYER(play);
-    s16 playerFaceActorYawDiff;
-    s16 actorFacePlayerYawDiff;
+    s16 playerFaceActorYawDiff = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
+    s16 actorFacePlayerYawDiff = actor->yawTowardsPlayer - actorShapeRotY;
 
-    playerFaceActorYawDiff = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
-    actorFacePlayerYawDiff = actor->yawTowardsPlayer - actorShapeRotY;
-
-    if ((actor->xzDistToPlayer <= range) && (player->meleeWeaponState != 0) &&
-        (playerFaceMax >= ABS(playerFaceActorYawDiff)) && (actorFaceMax >= ABS(actorFacePlayerYawDiff))) {
-        return true;
-    } else {
-        return false;
+    if ((actor->xzDistToPlayer <= range) && (player->meleeWeaponState != 0)) {
+        if ((playerFaceMax >= ABS(playerFaceActorYawDiff)) && (actorFaceMax >= ABS(actorFacePlayerYawDiff))) {
+            return true;
+        }
     }
+    return false;
 }
 
 void func_8003555C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
