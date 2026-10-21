@@ -367,7 +367,8 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
 
                     // Handles Dark Link's reaction to sword attack other than jumpslashes
 
-                    if (func_800354B4(play, &this->actor, 120.0f, 0x7FFF, 0x7FFF, this->actor.world.rot.y)) {
+                    if (Actor_MeleeCombatResponse(play, &this->actor, 120.0f, 0x7FFF, 0x7FFF,
+                                                  this->actor.world.rot.y)) {
                         if ((player->meleeWeaponAnimation == PLAYER_MWA_STAB_1H) &&
                             (this->actor.xzDistToPlayer < 90.0f)) {
 

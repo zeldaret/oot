@@ -326,7 +326,7 @@ s32 EnWf_PickAction(PlayState* play, EnWf* this, s16 mustPick) {
     absRelYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     absRelYawTowardsPlayer = ABS(absRelYawTowardsPlayer);
 
-    if (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y)) {
+    if (Actor_MeleeCombatResponse(play, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y)) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnWf_SetupBlock(this);
             return true;
@@ -337,7 +337,7 @@ s32 EnWf_PickAction(PlayState* play, EnWf* this, s16 mustPick) {
         }
     }
 
-    if (func_800354B4(play, &this->actor, 100.0f, 0x5DC0, 0x2AA8, this->actor.shape.rot.y)) {
+    if (Actor_MeleeCombatResponse(play, &this->actor, 100.0f, 0x5DC0, 0x2AA8, this->actor.shape.rot.y)) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(absRelWallYaw) < 0x2EE0) &&
             (this->actor.xzDistToPlayer < 120.0f)) {
@@ -1011,7 +1011,7 @@ void EnWf_Block(EnWf* this, PlayState* play) {
         relYawTowardsPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         if ((ABS(relYawTowardsPlayer) <= 0x4000) && (this->actor.xzDistToPlayer < 60.0f) &&
             (ABS(this->actor.yDistToPlayer) < 50.0f)) {
-            if (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
+            if (Actor_MeleeCombatResponse(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
                 if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
                     EnWf_SetupBlock(this);
                 } else if ((play->gameplayFrames % 2) != 0) {
@@ -1032,7 +1032,7 @@ void EnWf_Block(EnWf* this, PlayState* play) {
             EnWf_SetupCirclePlayer(this);
         }
     } else if ((this->timer == 0) &&
-               func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
+               Actor_MeleeCombatResponse(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnWf_SetupBlock(this);
         } else if ((play->gameplayFrames % 2) != 0) {

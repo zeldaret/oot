@@ -278,7 +278,7 @@ void EnIk_InitImpl(Actor* thisx, PlayState* play) {
 
 s32 EnIk_HandleBlocking(EnIk* this, PlayState* play) {
     if (((this->armorStatusFlag != 0) || (this->actor.params == IK_TYPE_NABOORU)) &&
-        (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0) &&
+        Actor_MeleeCombatResponse(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) &&
         (play->gameplayFrames & 1)) {
         EnIk_SetupStopAndBlock(this);
         return true;
