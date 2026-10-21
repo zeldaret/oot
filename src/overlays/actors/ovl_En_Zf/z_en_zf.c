@@ -662,7 +662,7 @@ s32 EnZf_DinolfosPickAction(PlayState* play, EnZf* this) {
 
     absRelWallYaw = this->actor.wallYaw - this->actor.shape.rot.y;
     absRelWallYaw = ABS(absRelWallYaw);
-    if (func_800354B4(play, &this->actor, 100.0f, 0x5DC0, 0x2AA8, this->actor.shape.rot.y) != 0) {
+    if (Actor_MeleeCombatResponse(play, &this->actor, 100.0f, 0x5DC0, 0x2AA8, this->actor.shape.rot.y)) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(absRelWallYaw) < 0x2EE0) &&
             (this->actor.xzDistToPlayer < 80.0f)) {

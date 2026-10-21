@@ -301,7 +301,7 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
     angleToLink = thisx->yawTowardsPlayer - thisx->shape.rot.y;
     angleToLink = ABS(angleToLink);
 
-    if (func_800354B4(play, thisx, 100.0f, 0x2710, 0x3E80, thisx->shape.rot.y)) {
+    if (Actor_MeleeCombatResponse(play, thisx, 100.0f, 0x2710, 0x3E80, thisx->shape.rot.y)) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnGeldB_SetupSpinDodge(this, play);
             return true;
@@ -310,7 +310,7 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
             return true;
         }
     }
-    if (func_800354B4(play, thisx, 100.0f, 0x5DC0, 0x2AA8, thisx->shape.rot.y)) {
+    if (Actor_MeleeCombatResponse(play, thisx, 100.0f, 0x5DC0, 0x2AA8, thisx->shape.rot.y)) {
         thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
         if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) < 0x2EE0) &&
             (thisx->xzDistToPlayer < 90.0f)) {
@@ -1171,7 +1171,7 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play) {
         angleToLink = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         if ((ABS(angleToLink) <= 0x4000) && (this->actor.xzDistToPlayer < 40.0f) &&
             (ABS(this->actor.yDistToPlayer) < 50.0f)) {
-            if (func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
+            if (Actor_MeleeCombatResponse(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
                 if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
                     EnGeldB_SetupSpinDodge(this, play);
                 } else if (play->gameplayFrames & 1) {
@@ -1192,7 +1192,7 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play) {
             EnGeldB_SetupCircle(this);
         }
     } else if ((this->timer == 0) &&
-               func_800354B4(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
+               Actor_MeleeCombatResponse(play, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnGeldB_SetupSpinDodge(this, play);
         } else if (!EnGeldB_DodgeRanged(play, this)) {
