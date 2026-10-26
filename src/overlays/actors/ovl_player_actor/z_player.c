@@ -1831,7 +1831,7 @@ void func_80832440(PlayState* play, Player* this) {
     Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
 
     this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20 | PLAYER_STATE1_21);
-    this->stateFlags2 &= ~(PLAYER_STATE2_4 | PLAYER_STATE2_7 | PLAYER_STATE2_CRAWLING);
+    this->stateFlags2 &= ~(PLAYER_STATE2_GRABBING_PUSHING_PULLING | PLAYER_STATE2_7 | PLAYER_STATE2_CRAWLING);
 
     this->actor.shape.rot.x = 0;
     this->actor.shape.yOffset = 0.0f;
@@ -7850,7 +7850,7 @@ s32 Player_ActionHandler_5(Player* this, PlayState* play) {
 
 s32 func_8083F9D0(PlayState* play, Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
-        ((this->stateFlags2 & PLAYER_STATE2_4) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
+        ((this->stateFlags2 & PLAYER_STATE2_GRABBING_PUSHING_PULLING) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
         DynaPolyActor* wallPolyActor = NULL;
 
         if (this->actor.wallBgId != BGCHECK_SCENE) {
@@ -7858,7 +7858,7 @@ s32 func_8083F9D0(PlayState* play, Player* this) {
         }
 
         if (&wallPolyActor->actor == this->unk_3C4) {
-            if (this->stateFlags2 & PLAYER_STATE2_4) {
+            if (this->stateFlags2 & PLAYER_STATE2_GRABBING_PUSHING_PULLING) {
                 return 1;
             } else {
                 return 0;
@@ -7868,19 +7868,19 @@ s32 func_8083F9D0(PlayState* play, Player* this) {
 
     func_80839FFC(this, play);
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_wait_end);
-    this->stateFlags2 &= ~PLAYER_STATE2_4;
+    this->stateFlags2 &= ~PLAYER_STATE2_GRABBING_PUSHING_PULLING;
     return 1;
 }
 
 void func_8083FAB8(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_8084B898, 0);
-    this->stateFlags2 |= PLAYER_STATE2_4;
+    this->stateFlags2 |= PLAYER_STATE2_GRABBING_PUSHING_PULLING;
     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_push_start);
 }
 
 void func_8083FB14(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_8084B9E4, 0);
-    this->stateFlags2 |= PLAYER_STATE2_4;
+    this->stateFlags2 |= PLAYER_STATE2_GRABBING_PUSHING_PULLING;
     Player_AnimPlayOnce(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_start, this->modelAnimType));
 }
 
@@ -12672,11 +12672,11 @@ void Player_Action_8084B898(Player* this, PlayState* play) {
         } else if (temp == 0) {
             func_8083F72C(this, &gPlayerAnim_link_normal_push_end, play);
         } else {
-            this->stateFlags2 |= PLAYER_STATE2_4;
+            this->stateFlags2 |= PLAYER_STATE2_GRABBING_PUSHING_PULLING;
         }
     }
 
-    if (this->stateFlags2 & PLAYER_STATE2_4) {
+    if (this->stateFlags2 & PLAYER_STATE2_GRABBING_PUSHING_PULLING) {
         func_8084B840(play, this, 2.0f);
         this->speedXZ = 2.0f;
     }
@@ -12721,11 +12721,11 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
         } else if (temp1 == 0) {
             func_8083F72C(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_pull_end, this->modelAnimType), play);
         } else {
-            this->stateFlags2 |= PLAYER_STATE2_4;
+            this->stateFlags2 |= PLAYER_STATE2_GRABBING_PUSHING_PULLING;
         }
     }
 
-    if (this->stateFlags2 & PLAYER_STATE2_4) {
+    if (this->stateFlags2 & PLAYER_STATE2_GRABBING_PUSHING_PULLING) {
         Vec3f sp5C;
         f32 temp2;
         CollisionPoly* sp54;
@@ -12743,7 +12743,7 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
                 return;
             }
         }
-        this->stateFlags2 &= ~PLAYER_STATE2_4;
+        this->stateFlags2 &= ~PLAYER_STATE2_GRABBING_PUSHING_PULLING;
     }
 }
 

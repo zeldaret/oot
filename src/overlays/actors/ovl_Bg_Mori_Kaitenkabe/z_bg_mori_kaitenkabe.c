@@ -125,7 +125,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, PlayState* play) {
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_GRABBING_PUSHING_PULLING;
     }
 }
 
@@ -158,7 +158,7 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play) {
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_GRABBING_PUSHING_PULLING;
     }
     Math_Vec3f_Copy(&player->actor.world.pos, &this->lockedPlayerPos);
 }

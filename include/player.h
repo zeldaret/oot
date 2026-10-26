@@ -742,7 +742,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER (1 << 1) // Can accept a talk offer. "Speak" or "Check" is shown on the A button.
 #define PLAYER_STATE2_2 (1 << 2)
 #define PLAYER_STATE2_3 (1 << 3)
-#define PLAYER_STATE2_4 (1 << 4)
+#define PLAYER_STATE2_GRABBING_PUSHING_PULLING (1 << 4) // Currently grabbing, pushing, or pulling a dynapoly actor. 
 #define PLAYER_STATE2_5 (1 << 5)
 #define PLAYER_STATE2_6 (1 << 6)
 #define PLAYER_STATE2_7 (1 << 7)
