@@ -6,10 +6,10 @@
 #include "spec.h"
 #include "util.h"
 
-struct Segment* g_segments;
+Segment* g_segments;
 int g_segmentsCount;
 
-static void write_progbits_section(FILE *fout, struct Segment *seg, const char *section_name, bool with_padding)
+static void write_progbits_section(FILE *fout, Segment *seg, const char *section_name, bool with_padding)
 {
     fprintf(fout, "    .%s :\n    {\n", section_name);
 
@@ -22,7 +22,7 @@ static void write_progbits_section(FILE *fout, struct Segment *seg, const char *
     fprintf(fout, "    }\n");
 }
 
-static void write_noload_section(FILE *fout, struct Segment *seg, const char *section_name)
+static void write_noload_section(FILE *fout, Segment *seg, const char *section_name)
 {
     fprintf(fout, "    .%s (NOLOAD) :\n    {\n", section_name);
 
@@ -39,7 +39,7 @@ static void write_noload_section(FILE *fout, struct Segment *seg, const char *se
  * however in the iQue version we have bss files that are created partway through linking that need
  * special handling in the linker script.
  */
-static void write_linker_script(FILE *fout, struct Segment *seg)
+static void write_linker_script(FILE *fout, Segment *seg)
 {
     fprintf(fout,
        "OUTPUT_ARCH (mips)\n"
