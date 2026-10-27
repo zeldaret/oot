@@ -101,7 +101,7 @@
     include "$(BUILD_DIR)/src/libultra/gu/rotate.o"
     include "$(BUILD_DIR)/src/libultra/os/getcurrfaultedthread.o"
     include "$(BUILD_DIR)/src/libultra/bb/sk/skapi.o"
-#ifndef COMPILER_GCC
+#if !(defined(NON_MATCHING) && defined(COMPILER_GCC))
     include "$(BUILD_DIR)/src/libultra/bb/sa/common.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/motor.o"
