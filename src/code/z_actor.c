@@ -2402,7 +2402,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     u32* categoryFreezeMaskP;
     u32 freezeExceptionFlag;
     u32 canFreezeCategory;
-    Actor* sp74;
+    Actor* talkActor;
     ActorEntry* actorEntry;
 
     player = GET_PLAYER(play);
@@ -2414,7 +2414,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     }
 #endif
 
-    sp74 = NULL;
+    talkActor = NULL;
     freezeExceptionFlag = 0;
 
     if (play->numActorEntries != 0) {
@@ -2446,7 +2446,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     }
 
     if ((player->stateFlags1 & PLAYER_STATE1_TALKING) && ((player->actor.textId & 0xFF00) != 0x600)) {
-        sp74 = player->talkActor;
+        talkActor = player->talkActor;
     }
 
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, categoryFreezeMaskP++) {
@@ -2472,7 +2472,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                 actor = actor->next;
             } else if ((freezeExceptionFlag != 0 && !(actor->flags & freezeExceptionFlag)) ||
                        (freezeExceptionFlag == 0 && canFreezeCategory &&
-                        !((sp74 == actor) || (player->naviActor == actor) || (player->heldActor == actor) ||
+                        !((talkActor == actor) || (player->naviActor == actor) || (player->heldActor == actor) ||
                           (actor->parent == &player->actor)))) {
                 CollisionCheck_ResetDamage(&actor->colChkInfo);
                 actor = actor->next;
@@ -2610,9 +2610,10 @@ void Actor_Draw(PlayState* play, Actor* actor) {
 #endif
 
     if (actor->colorFilterTimer != 0) {
+        // Override the environment fog settings to apply a color filter to the actor.
         Color_RGBA8 color = { 0, 0, 0, 255 };
 
-        if (actor->colorFilterParams & COLORFILTER_COLORFLAG_GRAY) {
+        if (actor->colorFilterParams & COLORFILTER_COLORFLAG_WHITE) {
             color.r = color.g = color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
         } else if (actor->colorFilterParams & COLORFILTER_COLORFLAG_RED) {
             color.r = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
@@ -2621,19 +2622,22 @@ void Actor_Draw(PlayState* play, Actor* actor) {
         }
 
         if (actor->colorFilterParams & COLORFILTER_BUFFLAG_XLU) {
-            func_80026860(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
+            EffSsDead_ApplyColorFilterXlu2(play, &color, actor->colorFilterTimer,
+                                           COLORFILTER_GET_DURATION(actor->colorFilterParams));
         } else {
-            func_80026400(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
+            EffSsDead_ApplyColorFilterOpa2(play, &color, actor->colorFilterTimer,
+                                           COLORFILTER_GET_DURATION(actor->colorFilterParams));
         }
     }
 
     actor->draw(actor, play);
 
+    // If a color filter was applied to the last drawn actor, restore the environment fog
     if (actor->colorFilterTimer != 0) {
         if (actor->colorFilterParams & COLORFILTER_BUFFLAG_XLU) {
-            func_80026A6C(play);
+            EffSsDead_RestoreEnvironmentFogXlu(play);
         } else {
-            func_80026608(play);
+            EffSsDead_RestoreEnvironmentFogOpa(play);
         }
     }
 
@@ -4197,9 +4201,19 @@ void func_8003424C(PlayState* play, Vec3f* arg1) {
     CollisionCheck_SpawnShieldParticlesMetal(play, arg1);
 }
 
+/**
+ * Configures the actor to be drawn with a color filter.
+ * @param actor the actor to update.
+ * @param colorFlag assigns the color
+ * @param colorIntensityMax the target color intensity to display. Valid range between 0 and 255, though the least
+ * significant 3 bits of precision are lost. The COLORFILTER_INTENSITY_FLAG_NO_SFX flag is also passed in here, which is
+ * used to disable the `NA_SE_EN_LIGHT_ARROW_HIT` sfx.
+ * @param bufFlag the display buffer to write the fog settings to.
+ * @param duration number of frames to apply the color filter. Valid range between 0 and 255.
+ */
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration) {
-    //! @bug This first comparison is always false as COLORFILTER_COLORFLAG_GRAY is out of range of an s16.
-    if ((colorFlag == COLORFILTER_COLORFLAG_GRAY) && !(colorIntensityMax & COLORFILTER_INTENSITY_FLAG)) {
+    //! @bug This first comparison is always false as COLORFILTER_COLORFLAG_WHITE is out of range of an s16.
+    if ((colorFlag == COLORFILTER_COLORFLAG_WHITE) && !(colorIntensityMax & COLORFILTER_INTENSITY_FLAG_NO_SFX)) {
         Actor_PlaySfx(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 

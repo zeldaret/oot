@@ -197,7 +197,7 @@ void EnFloormas_Destroy(Actor* thisx, PlayState* play) {
 void EnFloormas_MakeInvulnerable(EnFloormas* this) {
     this->collider.base.colMaterial = COL_MATERIAL_HARD;
     this->collider.base.acFlags |= AC_HARD;
-    this->actionTarget = 0x28;
+    this->actionTarget = 40;
 }
 
 void EnFloormas_MakeVulnerable(EnFloormas* this) {
@@ -425,7 +425,7 @@ void EnFloormas_SetupFreeze(EnFloormas* this) {
     Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
     this->actor.speed = 0.0f;
     if (this->actor.colChkInfo.damageReaction == 4) {
-        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_OPA, 80);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_WHITE, 255, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
         if (this->actor.scale.x > 0.004f) {
@@ -1084,7 +1084,7 @@ void EnFloormas_Update(Actor* thisx, PlayState* play) {
             }
 
             if (this->actionTarget == 0) {
-                this->actionTarget = 0x28;
+                this->actionTarget = 40;
             }
         }
     }
@@ -1113,7 +1113,7 @@ void EnFloormas_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
     }
 }
 
-static Color_RGBA8 sMergeColor = { 0, 255, 0, 0 };
+static Color_RGBA8 sInvincibleColor = { 0, 255, 0, 0 };
 
 void EnFloormas_Draw(Actor* thisx, PlayState* play) {
     EnFloormas* this = (EnFloormas*)thisx;
@@ -1122,14 +1122,14 @@ void EnFloormas_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (this->collider.base.colMaterial == COL_MATERIAL_HARD) {
-        func_80026230(play, &sMergeColor, this->actionTarget % 0x28, 0x28);
+        EffSsDead_ApplyColorFilterOpa1(play, &sInvincibleColor, this->actionTarget % 40, 40);
     }
 
     POLY_OPA_DISP =
         SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                            EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_OPA_DISP);
     if (this->collider.base.colMaterial == COL_MATERIAL_HARD) {
-        func_80026608(play);
+        EffSsDead_RestoreEnvironmentFogOpa(play);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_floormas.c", 2340);
@@ -1142,13 +1142,13 @@ void EnFloormas_DrawHighlighted(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (this->collider.base.colMaterial == COL_MATERIAL_HARD) {
-        func_80026690(play, &sMergeColor, this->actionTarget % 0x28, 0x28);
+        EffSsDead_ApplyColorFilterXlu1(play, &sInvincibleColor, this->actionTarget % 40, 40);
     }
     POLY_XLU_DISP =
         SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                            EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_XLU_DISP);
     if (this->collider.base.colMaterial == COL_MATERIAL_HARD) {
-        func_80026A6C(play);
+        EffSsDead_RestoreEnvironmentFogXlu(play);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_floormas.c", 2374);

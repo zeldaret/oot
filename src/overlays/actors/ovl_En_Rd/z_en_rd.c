@@ -767,13 +767,13 @@ void EnRd_SetupStunned(EnRd* this) {
         this->stunnedBySunsSong = true;
         this->sunsSongStunTimer = 600;
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
-        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, COLORFILTER_INTENSITY_FLAG | 200,
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_WHITE, COLORFILTER_INTENSITY_FLAG_NO_SFX | 200,
                              COLORFILTER_BUFFLAG_OPA, 255);
     } else if (this->damageReaction == REDEAD_DMG_REACT_HOOKSHOT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
-        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 200, COLORFILTER_BUFFLAG_OPA, 80);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_WHITE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     }
 
     EnRd_SetupAction(this, EnRd_Stunned);
@@ -783,7 +783,7 @@ void EnRd_Stunned(EnRd* this, PlayState* play) {
     if (this->stunnedBySunsSong && (this->sunsSongStunTimer != 0)) {
         this->sunsSongStunTimer--;
         if (this->sunsSongStunTimer >= 255) {
-            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 200, COLORFILTER_BUFFLAG_OPA, 255);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_WHITE, 200, COLORFILTER_BUFFLAG_OPA, 255);
         }
 
         if (this->sunsSongStunTimer == 0) {

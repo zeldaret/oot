@@ -479,7 +479,7 @@ void EnBb_SetupDeath(EnBb* this, PlayState* play) {
         this->actor.speed = -7.0f;
         this->timer = 5;
         this->actor.shape.rot.x += 0x4E20;
-        EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_BUBLE_DEAD, 1, 1, 0x28);
+        EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_BUBLE_DEAD, 1, 1, 40);
     }
     this->action = BB_KILL;
     EnBb_SetupAction(this, EnBb_Death);
@@ -503,7 +503,7 @@ void EnBb_Death(EnBb* this, PlayState* play) {
             BodyBreak_Alloc(&this->bodyBreak, 12, play);
         }
 
-        if ((this->dmgEffect == 7) || (this->dmgEffect == 5)) {
+        if ((this->damageReaction == 7) || (this->damageReaction == 5)) {
             enpartType = 11;
         }
 
@@ -1103,12 +1103,12 @@ void EnBb_SetupStunned(EnBb* this) {
             EnBb_KillFlameTrail(this);
         }
     }
-    switch (this->dmgEffect) {
+    switch (this->damageReaction) {
         case 8:
-            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 200, COLORFILTER_BUFFLAG_OPA, 80);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_WHITE, 200, COLORFILTER_BUFFLAG_OPA, 80);
             break;
         case 9:
-            this->fireIceTimer = 0x30;
+            this->fireIceTimer = 48;
             FALLTHROUGH;
         case 15:
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -1172,19 +1172,20 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
     }
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->dmgEffect = this->actor.colChkInfo.damageReaction;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, false);
-        switch (this->dmgEffect) {
+        switch (this->damageReaction) {
             case 7:
                 this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage;
                 FALLTHROUGH;
             case 5:
-                this->fireIceTimer = 0x30;
-                //! @bug
-                //! Setting fireIceTimer here without calling Actor_SetColorFilter causes a crash if the bubble is
-                //! killed in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
-                //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
-                goto block_15;
+                //! @bug Actor_SetColorFilter crash. See also EnBb_Draw for more details.
+                //! EnBb_Draw assumes that if fireIceTimer is enabled, Actor_SetColorFilter was also called to
+                //! apply a color filter to the actor. But for White Bubbles, the damage of Fire Arrows and Din's Fire
+                //! will kill in a single hit. In this case, Actor_SetColorFilter will never be called, which
+                //! leads to a crash later on in EnBb_Draw.
+                this->fireIceTimer = 48;
+                goto default_case;
             case 6:
                 this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage;
                 break;
@@ -1197,9 +1198,9 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                 }
                 break;
             default:
-            block_15:
-                if ((this->dmgEffect == 14) || (this->dmgEffect == 12) || (this->dmgEffect == 11) ||
-                    (this->dmgEffect == 10) || (this->dmgEffect == 7) || (this->dmgEffect == 5)) {
+            default_case:
+                if ((this->damageReaction == 14) || (this->damageReaction == 12) || (this->damageReaction == 11) ||
+                    (this->damageReaction == 10) || (this->damageReaction == 7) || (this->damageReaction == 5)) {
                     if ((this->action != BB_DOWN) || (this->timer < 190)) {
                         Actor_ApplyDamage(&this->actor);
                     }
@@ -1220,11 +1221,6 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                         EnBb_KillFlameTrail(this);
                     }
                     EnBb_SetupDeath(this, play);
-                    //! @bug
-                    //! Because Din's Fire kills the bubble in a single hit, Actor_SetColorFilter is never called and
-                    //! colorFilterParams is never set. And because Din's Fire halts updating during its cutscene,
-                    //! EnBb_Death doesn't kill the bubble on the next frame like it should. This combines with
-                    //! the bug in EnBb_Draw below to crash the game.
                 } else if ((this->actor.params == ENBB_WHITE) &&
                            ((this->action == BB_WHITE) || (this->action == BB_STUNNED))) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
@@ -1317,12 +1313,22 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
                               this);
 
             if (this->fireIceTimer != 0) {
+                // increment colorFilterTimer to counteract Actor_UpdateAll decrementing it, preventing the applied
+                // filter from changing over time.
                 this->actor.colorFilterTimer++;
-                //! @bug
-                //! The purpose of this is to counteract Actor_UpdateAll decrementing colorFilterTimer. However,
-                //! the above bugs mean unk_2A8 can be nonzero without damage effects ever having been set.
-                //! This routine will then increment colorFilterTimer, and on the next frame Actor_Draw will try
-                //! to draw the unset colorFilterParams. This causes a divide-by-zero error, crashing the game.
+
+                //! @bug Actor_SetColorFilter crash.
+                //! When a White Bubble is hit with a Fire Arrow or Din's Fire, EnBb_CollisionCheck will set
+                //! fireIceTimer without calling Actor_SetColorFilter to set colorFilterTimer and colorFilterParams.
+                //! When that happens, incrementing colorFilterTimer here can enable to the color filter,
+                //! which leads to a divide-by-zero error due to colorFilterParams being zero, crashing the game.
+                //!
+                //! Incrementing colorFilterTimer here isn't enough to trigger the crash on it's own, because
+                //! Actor_UpdateAll decrements colorFilterTimer back to 0. However, the decrement is conditional to
+                //! Actor.update being called. As such, actions like casting Din's Fire that block Actor.update from
+                //! being called will cause colorFilterTimer to stay at 1 when Actor_Draw is called, trigering the
+                //! crash.
+
                 if (1) {}
                 this->fireIceTimer--;
                 if ((this->fireIceTimer % 4) == 0) {
@@ -1333,12 +1339,12 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
                     sp70.y = this->actor.world.pos.y + sFireIceOffsets[index].y;
                     sp70.z = this->actor.world.pos.z + sFireIceOffsets[index].z;
 
-                    if ((this->dmgEffect != 7) && (this->dmgEffect != 5)) {
+                    if ((this->damageReaction != 7) && (this->damageReaction != 5)) {
                         EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &sp70, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5,
                                                        0xFF, 0.8f);
                     } else {
                         sp70.y -= 17.0f;
-                        EffectSsEnFire_SpawnVec3f(play, &this->actor, &sp70, 0x28, 1, 0, -1);
+                        EffectSsEnFire_SpawnVec3f(play, &this->actor, &sp70, 40, 1, 0, -1);
                     }
                 }
             }
