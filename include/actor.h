@@ -799,7 +799,7 @@ void Gfx_DrawDListOpa(struct PlayState* play, Gfx* dlist);
 void Gfx_DrawDListXlu(struct PlayState* play, Gfx* dlist);
 
 Actor* Actor_FindNearby(struct PlayState* play, Actor* refActor, s16 actorId, u8 actorCategory, f32 range);
-s32 Actor_MeleeCombatResponse(struct PlayState* play, Actor* actor, f32 range, s16 actorFaceMax, s16 playerFaceMax,
+s32 Actor_ShouldRespondToMeleeCombat(struct PlayState* play, Actor* actor, f32 range, s16 actorFaceMax, s16 playerFaceMax,
                               s16 actorShapeRotY);
 void func_8003555C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void func_800355B8(struct PlayState* play, Vec3f* pos);
