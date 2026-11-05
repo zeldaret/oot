@@ -26,6 +26,9 @@ ctx.c
 tools/*dSYM/
 graphs/
 
+AGENTS.md
+CLAUDE.md
+
 # Per-user configuration
 # If you want to use your own gitignore rules without modifying this file:
 # - use `git config core.excludesFile path/to/my_gitignore_file`
