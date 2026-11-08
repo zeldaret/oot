@@ -1,6 +1,6 @@
+#include "ultra64.h"
 #include "n64dd.h"
-
-// Padding in .rodata suggests that this array is in a separate file
+#include "n64dd_internal.h"
 
 /**
  * Region-specific "error number" headers used in N64DD error handling.
