@@ -21,9 +21,9 @@ typedef struct BgHakaGate {
 
 typedef enum BgHakaGateType {
     BGHAKAGATE_STATUE,
-    BGHAKAGATE_FLOOR,
+    BGHAKAGATE_FLOOR_TRAP,
     BGHAKAGATE_GATE,
-    BGHAKAGATE_SKULL
+    BGHAKAGATE_SKULL_TORCH_HEAD
 } BgHakaGateType;
 
 #endif
