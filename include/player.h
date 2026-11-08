@@ -752,7 +752,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_11 (1 << 11)
 #define PLAYER_STATE2_12 (1 << 12)
 #define PLAYER_STATE2_LOCK_ON_WITH_SWITCH (1 << 13) // Actor lock-on is active, specifically with Switch Targeting. Hold Targeting checks the state of the Z button instead of this flag.
-#define PLAYER_STATE2_14 (1 << 14)
+#define PLAYER_STATE2_FROZEN (1 << 14) // Used to draw the ice block encasing Link when frozen
 #define PLAYER_STATE2_15 (1 << 15)
 #define PLAYER_STATE2_DO_ACTION_ENTER (1 << 16) // Sets the "Enter On A" DoAction
 #define PLAYER_STATE2_17 (1 << 17)
@@ -917,6 +917,7 @@ typedef struct Player {
         s8 facingUpSlope; // Player_Action_SlideOnSlope: Facing uphill when sliding on a slope
         s8 isLakeHyliaCs; // Player_Action_BlueWarpArrive: In Lake Hylia CS after Water Temple. Floating down is delayed until a specific point in the cutscene.
         s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
+        s8 iceScale; // Player_Action_Frozen: Used to scale the drawn ice encasing when growing.
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {
