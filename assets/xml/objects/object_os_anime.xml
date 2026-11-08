@@ -3,8 +3,8 @@
         <Animation Name="gObjOsAnim_00B4" Offset="0x0B4"/>
         <Animation Name="gObjOsAnim_0170" Offset="0x170"/>
         <Animation Name="gObjOsAnim_0228" Offset="0x228"/>
-        <Animation Name="gObjOsAnim_0718" Offset="0x718"/>
-        <Animation Name="gObjOsAnim_07D0" Offset="0x7D0"/>
+        <Animation Name="gCuccoLadyArmsOutAnim" Offset="0x718"/>
+        <Animation Name="gCuccoLadyIdleAnim" Offset="0x7D0"/>
         <Animation Name="gObjOsAnim_0894" Offset="0x894"/>
         <Animation Name="gObjOsAnim_092C" Offset="0x92C"/>
         <Animation Name="gObjOsAnim_0BFC" Offset="0xBFC"/>
@@ -63,7 +63,7 @@
         <Animation Name="gKokiriLeaningForwardAnim" Offset="0x98EC"/> <!-- unused -->
         <Animation Name="gKokiriSittingCrossedLegsAnim" Offset="0x99A4"/>
         <Animation Name="gKokiriStandUpAnim" Offset="0x9B64"/>
-        <Animation Name="gObjOsAnim_9F94" Offset="0x9F94"/>
-        <Animation Name="gObjOsAnim_A630" Offset="0xA630"/>
+        <Animation Name="gCuccoLadyHandsTogetherAnim" Offset="0x9F94"/>
+        <Animation Name="gCuccoLadyWorriedAnim" Offset="0xA630"/>
     </File>
 </Root>
