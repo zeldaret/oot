@@ -551,12 +551,24 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     static s16 textFadeDirection = 0;
     static s16 textFadeTimer = 0;
     static u8 noControllerFontIndices[] = {
-        FILENAME_UPPERCASE('N'), FILENAME_UPPERCASE('O'), FILENAME_UPPERCASE('C'), FILENAME_UPPERCASE('O'),
-        FILENAME_UPPERCASE('N'), FILENAME_UPPERCASE('T'), FILENAME_UPPERCASE('R'), FILENAME_UPPERCASE('O'),
-        FILENAME_UPPERCASE('L'), FILENAME_UPPERCASE('L'), FILENAME_UPPERCASE('E'), FILENAME_UPPERCASE('R'),
+        // clang-format off
+        FILENAME_UPPERCASE('N'),
+        FILENAME_UPPERCASE('O'),
+        FILENAME_UPPERCASE('C'),
+        FILENAME_UPPERCASE('O'),
+        FILENAME_UPPERCASE('N'),
+        FILENAME_UPPERCASE('T'),
+        FILENAME_UPPERCASE('R'),
+        FILENAME_UPPERCASE('O'),
+        FILENAME_UPPERCASE('L'),
+        FILENAME_UPPERCASE('L'),
+        FILENAME_UPPERCASE('E'),
+        FILENAME_UPPERCASE('R'),
+        // clang-format on
     };
     // For iQue, the word "PRESS" is drawn below as a Chinese character instead (gTitlePressCHN)
     static u8 pressStartFontIndices[] = {
+    // clang-format off
 #if !PLATFORM_IQUE
         FILENAME_UPPERCASE('P'),
         FILENAME_UPPERCASE('R'),
@@ -569,6 +581,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         FILENAME_UPPERCASE('A'),
         FILENAME_UPPERCASE('R'),
         FILENAME_UPPERCASE('T'),
+        // clang-format on
     };
     static void* effectMaskTextures[] = {
         gTitleEffectMask00Tex, gTitleEffectMask01Tex, gTitleEffectMask02Tex,

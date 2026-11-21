@@ -127,7 +127,7 @@ static_assert(sizeof(double) == sizeof(uint64_t), "Double is assumed to be 64-bi
 #define F64_GET_SGN(bits)    (((bits) >> 63) & 1)               //  1-bit
 #define F64_GET_EXP(bits)    ((((bits) >> 52) & 0x7FF) - 0x3FF) // 15-bit
 #define F64_GET_MANT_H(bits) (((bits) >> 32) & 0xFFFFF)         // 20-bit
-#define F64_GET_MANT_L(bits) ((bits)&0xFFFFFFFF)                // 32-bit
+#define F64_GET_MANT_L(bits) ((bits) & 0xFFFFFFFF)              // 32-bit
 
 static void
 f64_to_f80(double f64, uint8_t *f80)

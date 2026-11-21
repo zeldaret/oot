@@ -37,7 +37,7 @@ FMT_C_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 FMT_H_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.h))
 FMT_FILES := $(FMT_C_FILES) $(FMT_H_FILES)
 
-CLANG_FORMAT := clang-format-14
+CLANG_FORMAT := clang-format-19
 FORMAT_ARGS := -i -style=file
 
 $(shell mkdir -p $(BUILD_DIR) $(foreach dir,$(SRC_DIRS) $(LIB_DIRS),$(BUILD_DIR)/$(dir)))
