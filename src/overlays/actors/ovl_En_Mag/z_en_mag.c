@@ -568,7 +568,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     };
     // For iQue, the word "PRESS" is drawn below as a Chinese character instead (gTitlePressCHN)
     static u8 pressStartFontIndices[] = {
-        // clang-format off
+    // clang-format off
 #if !PLATFORM_IQUE
         FILENAME_UPPERCASE('P'),
         FILENAME_UPPERCASE('R'),
