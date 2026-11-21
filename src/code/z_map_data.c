@@ -1,6 +1,8 @@
 #include "map.h"
 #include "save.h"
 
+#include "assets/textures/map_grand_static/map_grand_static.h"
+
 static s16 sFloorTexIndexOffset[10][8] = {
     { 0, 0, 0, 0, 2, 4, 6, 8 }, { 0, 0, 0, 0, 0, 0, 0, 2 },
     { 0, 0, 0, 0, 0, 0, 0, 2 }, { 0, 0, 0, 0, 0, 2, 4, 6 },
@@ -186,13 +188,57 @@ static u16 sDgnMinimapTexIndexOffset[10] = {
 };
 
 static u16 sOwMinimapTexSize[24] = {
-    2920, 2560, 1560, 2784, 2976, 2040, 3240, 2336, 2080, 2600, 1792, 1888,
-    3400, 1792, 1888, 2040, 3120, 2304, 2176, 1888, 1560, 3240, 2600, 3400,
+    sizeof(gHyruleFieldMinimapTex),
+    sizeof(gKakarikoVillageMinimapTex),
+    sizeof(gGraveyardMinimapTex),
+    sizeof(gZorasRiverMinimapTex),
+    sizeof(gKokiriForestMinimapTex),
+    sizeof(gSacredMeadowMinimapTex),
+    sizeof(gLakeHyliaMinimapTex),
+    sizeof(gZorasDomainMinimapTex),
+    sizeof(gZorasFountainMinimapTex),
+    sizeof(gGerudoValleyMinimapTex),
+    sizeof(gLostWoodsMinimapTex),
+    sizeof(gDesertColossusMinimapTex),
+    sizeof(gGerudosFortressMinimapTex),
+    sizeof(gHauntedWastelandMinimapTex),
+    sizeof(gHyruleCastleAreaMinimapTex),
+    sizeof(gDeathMountainTrailMinimapTex),
+    sizeof(gDeathMountainCraterMinimapTex),
+    sizeof(gGoronCityMinimapTex),
+    sizeof(gLonLonRanchMinimapTex),
+    sizeof(gOutsideGanonsCastleMinimapTex),
+    sizeof(gExploredShadowGraveyardMinimapTex),
+    sizeof(gDrainedLakeHyliaMinimapTex),
+    sizeof(gGerudoValleyWithBrokenBridgeMinimapTex),
+    sizeof(gGerudosFortressWithArcheryMinimapTex),
 };
 
 static u16 sOwMinimapTexOffset[24] = {
-    0x0000, 0x0B68, 0x1568, 0x1B80, 0x2660, 0x3200, 0x39F8, 0x46A0, 0x4FC0, 0x57E0, 0x6208, 0x6908,
-    0x7068, 0x7DB0, 0x84B0, 0x8C10, 0x9408, 0xA038, 0xA938, 0xB1B8, 0xB918, 0xBF30, 0xCBD8, 0xD600,
+    0x0000, // gHyruleFieldMinimapTex, SCENE_HYRULE_FIELD
+    0x0B68, // gKakarikoVillageMinimapTex, SCENE_KAKARIKO_VILLAGE
+    0x1568, // gGraveyardMinimapTex, SCENE_GRAVEYARD
+    0x1B80, // gZorasRiverMinimapTex, SCENE_ZORAS_RIVER
+    0x2660, // gKokiriForestMinimapTex, SCENE_KOKIRI_FOREST
+    0x3200, // gSacredMeadowMinimapTex, SCENE_SACRED_FOREST_MEADOW
+    0x39F8, // gLakeHyliaMinimapTex, SCENE_LAKE_HYLIA
+    0x46A0, // gZorasDomainMinimapTex, SCENE_ZORAS_DOMAIN
+    0x4FC0, // gZorasFountainMinimapTex, SCENE_ZORAS_FOUNTAIN
+    0x57E0, // gGerudoValleyMinimapTex, SCENE_GERUDO_VALLEY
+    0x6208, // gLostWoodsMinimapTex, SCENE_LOST_WOODS
+    0x6908, // gDesertColossusMinimapTex, SCENE_DESERT_COLOSSUS
+    0x7068, // gGerudosFortressMinimapTex, SCENE_GERUDOS_FORTRESS
+    0x7DB0, // gHauntedWastelandMinimapTex, SCENE_HAUNTED_WASTELAND
+    0x84B0, // gHyruleCastleAreaMinimapTex, SCENE_HYRULE_CASTLE
+    0x8C10, // gDeathMountainTrailMinimapTex, SCENE_DEATH_MOUNTAIN_TRAIL
+    0x9408, // gDeathMountainCraterMinimapTex, SCENE_DEATH_MOUNTAIN_CRATER
+    0xA038, // gGoronCityMinimapTex, SCENE_GORON_CITY
+    0xA938, // gLonLonRanchMinimapTex, SCENE_LON_LON_RANCH
+    0xB1B8, // gOutsideGanonsCastleMinimapTex, SCENE_OUTSIDE_GANONS_CASTLE
+    0xB918, // gExploredShadowGraveyardMinimapTex
+    0xBF30, // gDrainedLakeHyliaMinimapTex
+    0xCBD8, // gGerudoValleyWithBrokenBridgeMinimapTex
+    0xD600, // gGerudosFortressWithArcheryMinimapTex
 };
 
 static s16 sOwMinimapPosX[24] = {
@@ -224,11 +270,57 @@ static s16 sDgnCompassInfo[10][4] = {
 };
 
 static s16 sOwMinimapWidth[24] = {
-    80, 80, 80, 96, 96, 48, 80, 64, 64, 80, 64, 64, 80, 64, 64, 48, 80, 64, 64, 64, 80, 80, 80, 80,
+    gHyruleFieldMinimapTex_WIDTH,
+    gKakarikoVillageMinimapTex_WIDTH,
+    gGraveyardMinimapTex_WIDTH,
+    gZorasRiverMinimapTex_WIDTH,
+    gKokiriForestMinimapTex_WIDTH,
+    gSacredMeadowMinimapTex_WIDTH,
+    gLakeHyliaMinimapTex_WIDTH,
+    gZorasDomainMinimapTex_WIDTH,
+    gZorasFountainMinimapTex_WIDTH,
+    gGerudoValleyMinimapTex_WIDTH,
+    gLostWoodsMinimapTex_WIDTH,
+    gDesertColossusMinimapTex_WIDTH,
+    gGerudosFortressMinimapTex_WIDTH,
+    gHauntedWastelandMinimapTex_WIDTH,
+    gHyruleCastleAreaMinimapTex_WIDTH,
+    gDeathMountainTrailMinimapTex_WIDTH,
+    gDeathMountainCraterMinimapTex_WIDTH,
+    gGoronCityMinimapTex_WIDTH,
+    gLonLonRanchMinimapTex_WIDTH,
+    gOutsideGanonsCastleMinimapTex_WIDTH,
+    gExploredShadowGraveyardMinimapTex_WIDTH,
+    gDrainedLakeHyliaMinimapTex_WIDTH,
+    gGerudoValleyWithBrokenBridgeMinimapTex_WIDTH,
+    gGerudosFortressWithArcheryMinimapTex_WIDTH,
 };
 
 static s16 sOwMinimapHeight[24] = {
-    73, 64, 39, 58, 62, 85, 81, 73, 65, 65, 56, 59, 85, 56, 59, 85, 78, 72, 68, 59, 39, 81, 65, 85,
+    gHyruleFieldMinimapTex_HEIGHT,
+    gKakarikoVillageMinimapTex_HEIGHT,
+    gGraveyardMinimapTex_HEIGHT,
+    gZorasRiverMinimapTex_HEIGHT,
+    gKokiriForestMinimapTex_HEIGHT,
+    gSacredMeadowMinimapTex_HEIGHT,
+    gLakeHyliaMinimapTex_HEIGHT,
+    gZorasDomainMinimapTex_HEIGHT,
+    gZorasFountainMinimapTex_HEIGHT,
+    gGerudoValleyMinimapTex_HEIGHT,
+    gLostWoodsMinimapTex_HEIGHT,
+    gDesertColossusMinimapTex_HEIGHT,
+    gGerudosFortressMinimapTex_HEIGHT,
+    gHauntedWastelandMinimapTex_HEIGHT,
+    gHyruleCastleAreaMinimapTex_HEIGHT,
+    gDeathMountainTrailMinimapTex_HEIGHT,
+    gDeathMountainCraterMinimapTex_HEIGHT,
+    gGoronCityMinimapTex_HEIGHT,
+    gLonLonRanchMinimapTex_HEIGHT,
+    gOutsideGanonsCastleMinimapTex_HEIGHT,
+    gExploredShadowGraveyardMinimapTex_HEIGHT,
+    gDrainedLakeHyliaMinimapTex_HEIGHT,
+    gGerudoValleyWithBrokenBridgeMinimapTex_HEIGHT,
+    gGerudosFortressWithArcheryMinimapTex_HEIGHT,
 };
 
 static s16 sOwEntranceIconPosX[24] = {
