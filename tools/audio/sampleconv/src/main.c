@@ -25,16 +25,16 @@
 #include "container/aiff.h"
 
 static const codec_spec codecs[] = {
-    {"pcm16",        SAMPLE_TYPE_PCM16,       16, false, pcm16_enc_dec, pcm16_enc_dec},
-    { "vadpcm",      SAMPLE_TYPE_VADPCM,      9,  true,  vadpcm_dec,    vadpcm_enc   },
-    { "vadpcm-half", SAMPLE_TYPE_VADPCM_HALF, 5,  true,  vadpcm_dec,    vadpcm_enc   },
- // { "pcm8",        SAMPLE_TYPE_PCM8,        TODO, TODO,  pcm8_dec, pcm8_enc },
+    { "pcm16",       SAMPLE_TYPE_PCM16,       16, false, pcm16_enc_dec, pcm16_enc_dec },
+    { "vadpcm",      SAMPLE_TYPE_VADPCM,      9,  true,  vadpcm_dec,    vadpcm_enc    },
+    { "vadpcm-half", SAMPLE_TYPE_VADPCM_HALF, 5,  true,  vadpcm_dec,    vadpcm_enc    },
+    // { "pcm8",        SAMPLE_TYPE_PCM8,        TODO, TODO,  pcm8_dec, pcm8_enc },
 };
 
 static const container_spec containers[] = {
-    {".wav",   wav_read,  wav_write },
-    { ".aiff", aiff_read, aiff_write},
-    { ".aifc", aifc_read, aifc_write},
+    { ".wav",  wav_read,  wav_write  },
+    { ".aiff", aiff_read, aiff_write },
+    { ".aifc", aifc_read, aifc_write },
 };
 
 static bool

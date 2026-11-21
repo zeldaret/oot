@@ -70,7 +70,7 @@ void
 aifc_dispose(aifc_data *af);
 
 // Subtract 21, if negative wrap into [0, 128)
-#define NOTE_MIDI_TO_Z64(b) (((b)-21 < 0) ? ((b)-21 + 128) : ((b)-21))
+#define NOTE_MIDI_TO_Z64(b) (((b) - 21 < 0) ? ((b) - 21 + 128) : ((b) - 21))
 
 #define CC4_CHECK(buf, str) \
     ((buf)[0] == (str)[0] && (buf)[1] == (str)[1] && (buf)[2] == (str)[2] && (buf)[3] == (str)[3])
