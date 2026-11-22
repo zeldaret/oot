@@ -75,13 +75,13 @@ void BgGateShutter_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgGateShutter_WaitForGuard(BgGateShutter* this, PlayState* play) {
-    if (this->openingState == 1 && !GET_INFTABLE(INFTABLE_76)) {
+    if (this->openingState == GATE_SHUTTER_REQUEST_OPEN && !GET_INFTABLE(INFTABLE_76)) {
         this->timer = 2;
         this->actionFunc = BgGateShutter_Open;
-    } else if (this->openingState == 2) {
+    } else if (this->openingState == GATE_SHUTTER_REQUEST_REOPEN) {
         this->timer = 2;
         this->actionFunc = BgGateShutter_Open;
-    } else if (this->openingState < 0) {
+    } else if (this->openingState < GATE_SHUTTER_REQUEST_NONE) {
         this->timer = 2;
         this->actionFunc = BgGateShutter_Close;
     }
@@ -96,7 +96,7 @@ void BgGateShutter_Open(BgGateShutter* this, PlayState* play) {
         Math_ApproachF(&thisx->world.pos.z, -1375.0f, 0.8f, 0.3f);
         if (thisx->world.pos.x < -89.0f) {
             Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
-            this->timer = 0x1E;
+            this->timer = 30;
             this->actionFunc = BgGateShutter_Cooldown;
         }
     }
@@ -104,7 +104,7 @@ void BgGateShutter_Open(BgGateShutter* this, PlayState* play) {
 
 void BgGateShutter_Cooldown(BgGateShutter* this, PlayState* play) {
     if (this->timer == 0) {
-        this->openingState = 0;
+        this->openingState = GATE_SHUTTER_REQUEST_NONE;
         this->actionFunc = BgGateShutter_WaitForGuard;
     }
 }
