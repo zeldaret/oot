@@ -1,6 +1,7 @@
 #include "z_en_bigokuta.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -9,6 +10,7 @@
 #include "rumble.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -172,7 +174,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // possibly color data
-static u32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
+UNUSED static u32 sUnk[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     EnBigokuta* this = (EnBigokuta*)thisx;
@@ -497,7 +499,7 @@ void func_809BDB90(EnBigokuta* this, PlayState* play) {
 void func_809BDC08(EnBigokuta* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 phi_v0;
-    s16 pad;
+    STACK_PAD(s16);
     s16 phi_v1;
     Vec3f sp28;
 
@@ -891,7 +893,7 @@ void EnBigokuta_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->actionFunc != func_809BE26C) || (this->unk_196 != 0) || (this->unk_198 != 0)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
         if (this->unk_196 & 1) {
             if ((this->actionFunc == func_809BE180 && this->unk_196 >= 8) ||
@@ -910,7 +912,7 @@ void EnBigokuta_Draw(Actor* thisx, PlayState* play) {
                               EnBigokuta_OverrideLimbDraw, NULL, this);
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, (this->actor.scale.y * (255 / 0.033f)));
         POLY_XLU_DISP = SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, NULL, NULL, NULL, POLY_XLU_DISP);

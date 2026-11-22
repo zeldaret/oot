@@ -12,6 +12,7 @@
 #include "effect.h"
 #include "play_state.h"
 #include "skin_matrix.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_dodongo/object_dodongo.h"
 
@@ -77,7 +78,7 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfScale;
     MtxF mfResult;
     MtxF mfTransBillboard;
-    s32 pad;
+    STACK_PAD(s32);
     void* objectPtr;
     Mtx* mtx;
     f32 scale;

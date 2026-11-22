@@ -12,6 +12,7 @@
 #include "one_point_cutscene.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -61,7 +62,7 @@ void BgMoriHashira4_SetupAction(BgMoriHashira4* this, BgMoriHashira4ActionFunc a
 }
 
 void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
@@ -70,7 +71,7 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, PlayState* play, Collisio
 
 #if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        s32 pad2;
+        STACK_PAD(s32);
 
         PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
                  "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
@@ -80,7 +81,7 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, PlayState* play, Collisio
 }
 
 void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 8, 6);
@@ -111,7 +112,7 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriHashira4_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -161,7 +162,7 @@ void BgMoriHashira4_GateOpen(BgMoriHashira4* this, PlayState* play) {
 }
 
 void BgMoriHashira4_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     if (this->actionFunc != NULL) {
@@ -170,7 +171,7 @@ void BgMoriHashira4_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriHashira4_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 339);

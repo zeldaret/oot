@@ -6,6 +6,7 @@
 
 #include "z_en_okarina_effect.h"
 
+#include "attributes.h"
 #include "printf.h"
 #include "regs.h"
 #include "sequence.h"
@@ -45,7 +46,7 @@ void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFun
 }
 
 void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play) {
-    EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
+    UNUSED EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
 #if OOT_VERSION < PAL_1_0

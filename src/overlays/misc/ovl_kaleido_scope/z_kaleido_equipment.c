@@ -6,6 +6,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "play_state.h"
 #include "player.h"
@@ -79,7 +80,7 @@ void KaleidoScope_DrawEquipmentImage(PlayState* play, void* texture, u32 width, 
     s32 textureHeight;
     s32 remainingSize;
     s32 textureSize;
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_equipment.c", 68);
@@ -691,7 +692,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
     if ((pauseCtx->mainState == PAUSE_MAIN_STATE_EQUIP_CHANGED) && (sEquipTimer == 9)) {
 #ifndef AVOID_UB
-        //! @bug: This function shouldn't take any arguments
+        //! @bug This function shouldn't take any arguments
         KaleidoScope_ProcessPlayerPreRender(play);
 #else
         KaleidoScope_ProcessPlayerPreRender();

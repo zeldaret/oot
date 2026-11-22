@@ -8,6 +8,7 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -43,8 +44,7 @@ void BgInGate_SetupAction(BgInGate* this, BgInGateActionFunc actionFunc) {
 
 void BgInGate_Init(Actor* thisx, PlayState* play) {
     BgInGate* this = (BgInGate*)thisx;
-
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

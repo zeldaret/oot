@@ -91,16 +91,16 @@
 
         <Texture Name="gGraveyardKidTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1970"/>
         <Texture Name="gGraveyardKidGradientTex" Format="ci8" Width="8" Height="8" Offset="0x1B70" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidPantsTex' Format="ci8" Width="16" Height="16" Offset="0x3C70" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidBoot1Tex' Format="ci8" Width="8" Height="16" Offset="0x3BF0" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidBoot2Tex' Format="ci8" Width="8" Height="8" Offset="0x3BB0" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidHairTex' Format="ci8" Width="16" Height="16" Offset="0x1BB0" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidEarTex' Format="ci8" Width="8" Height="8" Offset="0x1CB0" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidNoseTex' Format="ci8" Width="8" Height="8" Offset="0x1CF0" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidMouthTex' Format="rgba16" Width="32" Height="16" Offset="0x1D30"/>
-        <Texture Name='gGraveyardKidShirt1Tex' Format="ci8" Width="16" Height="16" Offset="0x3A30" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidShirt2Tex' Format="ci8" Width="8" Height="8" Offset="0x3B30" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidFingersTex' Format="ci8" Width="16" Height="16" Offset="0x3930" TlutOffset="0x1970"/>
-        <Texture Name='gGraveyardKidStickTex' Format="ci8" Width="8" Height="8" Offset="0x3B70" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidPantsTex" Format="ci8" Width="16" Height="16" Offset="0x3C70" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidBoot1Tex" Format="ci8" Width="8" Height="16" Offset="0x3BF0" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidBoot2Tex" Format="ci8" Width="8" Height="8" Offset="0x3BB0" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidHairTex" Format="ci8" Width="16" Height="16" Offset="0x1BB0" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidEarTex" Format="ci8" Width="8" Height="8" Offset="0x1CB0" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidNoseTex" Format="ci8" Width="8" Height="8" Offset="0x1CF0" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidMouthTex" Format="rgba16" Width="32" Height="16" Offset="0x1D30"/>
+        <Texture Name="gGraveyardKidShirt1Tex" Format="ci8" Width="16" Height="16" Offset="0x3A30" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidShirt2Tex" Format="ci8" Width="8" Height="8" Offset="0x3B30" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidFingersTex" Format="ci8" Width="16" Height="16" Offset="0x3930" TlutOffset="0x1970"/>
+        <Texture Name="gGraveyardKidStickTex" Format="ci8" Width="8" Height="8" Offset="0x3B70" TlutOffset="0x1970"/>
    </File>
 </Root>

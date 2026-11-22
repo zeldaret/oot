@@ -1,5 +1,6 @@
 #include "z_kaleido_scope.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "language_array.h"
@@ -7,6 +8,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_ucode.h"
 #include "versions.h"
 #include "play_state.h"
@@ -416,7 +418,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     };
     static s16 pointPulseStage = 1;
     static s16 pointPulseTimer = 20;
-    static s16 D_8082A5B8[] = { 64, 64, 64, 28 };
+    UNUSED static s16 D_8082A5B8[] = { 64, 64, 64, 28 };
     static s16 areaBoxPosX[] = {
         -41,  // WORLD_MAP_AREA_HYRULE_FIELD
         19,   // WORLD_MAP_AREA_KAKARIKO_VILLAGE
@@ -646,7 +648,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
 #if PLATFORM_N64 && OOT_VERSION != NTSC_1_2
     if (0) {
-        s32 pad[3];
+        STACK_PADS(s32, 3);
     }
 #endif
 

@@ -2,9 +2,10 @@
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
+#include "attributes.h"
 
 void leoSeek(void) {
-    u32 tgt_tk; // Unused
+    UNUSED u32 tgt_tk;
     u8 sense_code;
     u8 retry_cntr = 20;
 

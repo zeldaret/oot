@@ -2,6 +2,7 @@
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
+#include "attributes.h"
 
 extern u16 LEOrw_flags; // N.B. NOT volatile in this file!
 
@@ -9,8 +10,8 @@ void leoWrite(void) {
     u32 message;
     u32 start_lba;
     u32 xfer_blk;
-    u32 write_bytes = 0;
-    u8 retry_count = 0;
+    UNUSED u32 write_bytes = 0;
+    UNUSED u8 retry_count = 0;
 
     start_lba = LEOcur_command->data.readWrite.lba;
     xfer_blk = LEOcur_command->data.readWrite.transferBlks;

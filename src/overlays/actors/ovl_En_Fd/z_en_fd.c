@@ -6,6 +6,7 @@
 
 #include "z_en_fd.h"
 
+#include "attributes.h"
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -14,6 +15,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -343,7 +345,7 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, PlayState* play) {
     s32 bgId;
     Vec3f colPoint;
     s16 angle;
-    s32 pad;
+    STACK_PAD(s32);
 
     // Check to see if `actor` is within 400 units of `this`
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &actor->world.pos) > 400.0f) {
@@ -496,7 +498,7 @@ void EnFd_Destroy(Actor* thisx, PlayState* play) {
 void EnFd_Reappear(EnFd* this, PlayState* play) {
     this->actor.world.pos = this->actor.home.pos;
     this->actor.params = 0;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->coreActive = false;
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;
@@ -673,7 +675,7 @@ void EnFd_WaitForCore(EnFd* this, PlayState* play) {
 
 void EnFd_Update(Actor* thisx, PlayState* play) {
     EnFd* this = (EnFd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->firstUpdateFlag) {
         func_800F5ACC(NA_BGM_MINI_BOSS);
@@ -734,8 +736,8 @@ s32 EnFd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
 void EnFd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
     EnFd* this = (EnFd*)thisx;
-    Vec3f unused0 = { 6800.0f, 0.0f, 0.0f };
-    Vec3f unused1 = { 6800.0f, 0.0f, 0.0f };
+    UNUSED Vec3f unused0 = { 6800.0f, 0.0f, 0.0f };
+    UNUSED Vec3f unused1 = { 6800.0f, 0.0f, 0.0f };
     Vec3f initialPos = { 0.0f, 0.0f, 0.0f };
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
@@ -784,7 +786,7 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
         { 255, 0, 0, 255 },
     };
     u32 frames;
-    s32 pad;
+    STACK_PAD(s32);
 
     frames = play->state.frames;
 
@@ -805,7 +807,7 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                     0xFF - (u8)(frames * 6), 8, 0x40));
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPSegment(POLY_XLU_DISP++, 0x9, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x09, gActorSetupXluDL);
 
         POLY_XLU_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
@@ -903,7 +905,7 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
     };
     s16 i;
     s16 idx;
-    s16 pad;
+    STACK_PAD(s16);
     s16 materialFlag;
     EnFdEffect* eff = this->effects;
 

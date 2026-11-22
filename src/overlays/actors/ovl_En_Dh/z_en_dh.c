@@ -15,6 +15,7 @@
 #include "rand.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
@@ -170,7 +171,7 @@ void EnDh_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_dh_Skel_007E88, &object_dh_Anim_005880, this->jointTable,
-                       this->limbRotTable, 16);
+                       this->morphTable, 16);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = MASS_HEAVY;
@@ -185,7 +186,7 @@ void EnDh_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnDh_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDh* this = (EnDh*)thisx;
 
     func_800F5B58();
@@ -365,7 +366,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
             break;
         case 3:
             if ((this->actor.xzDistToPlayer <= 100.0f) && (Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360))) {
-                s32 pad;
+                STACK_PAD(s32);
 
                 Animation_Change(&this->skelAnime, &object_dh_Anim_004658, 1.0f, 20.0f,
                                  Animation_GetLastFrame(&object_dh_Anim_004658), ANIMMODE_ONCE, -6.0f);
@@ -502,7 +503,7 @@ void EnDh_Death(EnDh* this, PlayState* play) {
 }
 
 void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s32 lastHealth;
 
@@ -536,10 +537,10 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
 }
 
 void EnDh_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDh* this = (EnDh*)thisx;
     Player* player = GET_PLAYER(play);
-    s32 pad40;
+    STACK_PAD(s32);
 
     EnDh_CollisionCheck(this, play);
     this->actionFunc(this, play);
@@ -582,21 +583,21 @@ void EnDh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 }
 
 void EnDh_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDh* this = (EnDh*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dh.c", 1099);
     if (this->alpha == 255) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
-        gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         POLY_OPA_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-        gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
+        gSPSegment(POLY_XLU_DISP++, 0x08, gActorSetupXluDL);
         POLY_XLU_DISP = SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
     }

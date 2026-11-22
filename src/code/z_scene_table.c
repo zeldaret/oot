@@ -8,6 +8,7 @@
 #include "segment_symbols.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -39,7 +40,7 @@
 #include "assets/scenes/dungeons/men/men_scene.h"
 #include "assets/scenes/dungeons/ydan/ydan_scene.h"
 
-#include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
+#include "src/overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
 void Scene_DrawConfigDefault(PlayState* play);
 void Scene_DrawConfigHyruleField(PlayState* play);
@@ -277,7 +278,7 @@ void* sDCLavaFloorTextures[] = {
 
 void Scene_DrawConfigDodongosCavern(PlayState* play) {
     u32 gameplayFrames;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* displayListHead = GRAPH_ALLOC(play->state.gfxCtx, 2 * sizeof(Gfx[3]));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", LN6(4905, 5001));

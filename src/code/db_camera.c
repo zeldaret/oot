@@ -9,6 +9,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "camera.h"
 #include "cutscene.h"
@@ -446,7 +447,7 @@ void DebugCamera_PrintF32Bytes(f32 value) {
 }
 
 void DebugCamera_PrintU16Bytes(u16 value) {
-    u16 pad;
+    STACK_PAD(s16);
     u16 b = value;
     char* a = (char*)&b;
 
@@ -454,7 +455,7 @@ void DebugCamera_PrintU16Bytes(u16 value) {
 }
 
 void DebugCamera_PrintS16Bytes(s16 value) {
-    u16 pad;
+    STACK_PAD(s16);
     s16 b = value;
     char* a = (char*)&b;
 
@@ -588,7 +589,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
     UNUSED Vec3f* at;
     Vec3f* phi_s0;
     Vec3f spD8;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f* sp90;
     Vec3f* sp80;
     Vec3f* sp7C;
@@ -1652,7 +1653,7 @@ s32 DebugCamera_LoadCallback(char* c) {
 }
 
 s32 DebugCamera_SaveCallback(char* c) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 ret;
     u32 freeSize;
     s32 off;
@@ -1722,7 +1723,7 @@ void DebugCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorIndex) {
     DebugCamera_ScreenTextColored(20 + x, y, colorIndex, str + 0x14);
 }
 
-void DebugCamera_PrintAllCuts(Camera* cam) {
+void DebugCamera_PrintAllCuts(UNUSED Camera* cam) {
     s32 i;
 
     SFX_PLAY_CENTERED(NA_SE_SY_GET_RUPY);
@@ -1751,8 +1752,7 @@ char D_8012D128[] = GFXP_KATAKANA "ﾄ-ﾀﾙ         ";
 char D_8012D13C[] = GFXP_KATAKANA "ｷ-     /   ";
 
 s32 func_800B91B0(Camera* cam, DebugCam* debugCam) {
-    s32 pointCount;
-    s32 curPoint;
+    STACK_PADS(s32, 2);
 
     while (sDebugCamCuts[D_8016110C].letter == '?') {
         D_8016110C++;
@@ -1822,7 +1822,7 @@ s32 func_800B91B0(Camera* cam, DebugCam* debugCam) {
     return D_8016110C | 0x8000;
 }
 
-void DebugCamera_Reset(Camera* cam, DebugCam* debugCam) {
+void DebugCamera_Reset(UNUSED Camera* cam, DebugCam* debugCam) {
     s32 i;
 
     D_801612EA = '*';

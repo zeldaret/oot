@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "play_state.h"
+#include "stack_pad.h"
 
 #define FLAGS 0
 
@@ -54,9 +55,9 @@ void EnSceneChange_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnSceneChange_Draw(Actor* thisx, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Gfx* displayList;
-    s32 pad2[2];
+    STACK_PADS(s32, 2);
     Gfx* displayListHead;
 
     displayList = GRAPH_ALLOC(play->state.gfxCtx, 0x3C0);

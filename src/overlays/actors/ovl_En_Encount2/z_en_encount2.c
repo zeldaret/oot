@@ -1,5 +1,5 @@
 #include "z_en_encount2.h"
-#include "overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.h"
+#include "src/overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.h"
 
 #include "libc64/qrand.h"
 #include "attributes.h"
@@ -8,6 +8,7 @@
 #include "quake.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -75,7 +76,7 @@ void EnEncount2_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnEncount2_Wait(EnEncount2* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 quakeIndex;
     s16 spawnerState;
     Player* player = GET_PLAYER(play);

@@ -2,10 +2,11 @@
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
+#include "attributes.h"
 
 u32 LeoDriveExist(void) {
     u32 data;
-    u32 saveMask;
+    UNUSED u32 saveMask;
     u32 stat;
     u32 latency;
     u32 pulse;

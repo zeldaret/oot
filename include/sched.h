@@ -68,7 +68,7 @@ typedef struct Scheduler {
 } Scheduler; // size = 0x258
 
 void Sched_Notify(Scheduler* sc);
-void Sched_Init(Scheduler* sc, void* stack, OSPri priority, u8 viModeType, UNK_TYPE arg4, IrqMgr* irqMgr);
+void Sched_Init(Scheduler* sc, void* stack, OSPri priority, u8 viModeType, s32 arg4, IrqMgr* irqMgr);
 void Sched_FlushTaskQueue(void);
 
 extern Scheduler gScheduler;

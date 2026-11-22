@@ -3,6 +3,7 @@
  */
 #include "ultra64.h"
 #include "audio.h"
+#include "stack_pad.h"
 
 /**
  * original name: Nas_smzSetParam
@@ -11,7 +12,7 @@ void Audio_InitSampleState(Note* note, NoteSampleState* sampleState, NoteSampleS
     f32 volLeft;
     f32 volRight;
     s32 halfPanIndex;
-    u64 pad;
+    STACK_PADS(s32, 3);
     u8 strongLeft;
     u8 strongRight;
     f32 vel;
@@ -171,7 +172,7 @@ void Audio_NoteDisable(Note* note) {
  * original name: Nas_UpdateChannel
  */
 void Audio_ProcessNotes(void) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     NoteAttributes* attrs;
     NoteSampleState* sampleState2;
     NoteSampleState* sampleState;
@@ -828,7 +829,7 @@ Note* Audio_FindNodeWithPrioLessThan(AudioListItem* list, s32 limit) {
  * original name: Nas_EntryTrack
  */
 void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16 instId;
     NotePlaybackState* playbackState = &note->playbackState;
     NoteSampleState* sampleState = &note->sampleState;

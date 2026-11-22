@@ -8,6 +8,11 @@ struct BgHidanSima;
 
 typedef void (*BgHidanSimaActionFunc)(struct BgHidanSima*, struct PlayState*);
 
+typedef enum BgHidanSimaParams {
+    /* 0 */ BG_HIDAN_SIMA_SINKING,
+    /* 1 */ BG_HIDAN_SIMA_MOVING
+} BgHidanSimaParams;
+
 typedef struct BgHidanSima {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgHidanSimaActionFunc actionFunc;

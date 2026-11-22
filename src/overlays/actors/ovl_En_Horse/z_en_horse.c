@@ -5,11 +5,12 @@
  */
 
 #include "z_en_horse.h"
-#include "overlays/actors/ovl_En_In/z_en_in.h"
+#include "src/overlays/actors/ovl_En_In/z_en_in.h"
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
+#include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -20,6 +21,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -36,6 +38,8 @@
 #include "assets/scenes/overworld/spot09/spot09_scene.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
+
+#define INGO_FLAG_LASHING (1 << 0)
 
 typedef void (*EnHorseCsFunc)(EnHorse*, PlayState*, CsCmdActorCue*);
 typedef void (*EnHorseActionFunc)(EnHorse*, PlayState*);
@@ -399,9 +403,14 @@ static InitChainEntry sInitChain[] = {
 
 static u8 sResetNoInput[] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0 };
 
-static s32 sIdleAnimIds[] = { 1, 3, 0, 3, 1, 0 };
+static s32 sIdleAnimIds[] = { ENHORSE_ANIM_WHINNEY, ENHORSE_ANIM_REARING, ENHORSE_ANIM_IDLE,
+                              ENHORSE_ANIM_REARING, ENHORSE_ANIM_WHINNEY, ENHORSE_ANIM_IDLE };
 
-static s16 sIngoAnimations[] = { 7, 6, 2, 2, 1, 1, 0, 0, 0, 0 };
+static s16 sIngoAnimations[] = { ENIN_HORSE_ANIM_WHOOPING,        ENIN_HORSE_ANIM_SITTING_UPRIGHT,
+                                 ENIN_HORSE_ANIM_REARING,         ENIN_HORSE_ANIM_REARING,
+                                 ENIN_HORSE_ANIM_SITTING_FORWARD, ENIN_HORSE_ANIM_SITTING_FORWARD,
+                                 ENIN_HORSE_ANIM_SLOW_RIDE,       ENIN_HORSE_ANIM_SLOW_RIDE,
+                                 ENIN_HORSE_ANIM_SLOW_RIDE,       ENIN_HORSE_ANIM_SLOW_RIDE };
 
 void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
 void EnHorse_CsJumpInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
@@ -584,7 +593,7 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
 
     if (distSq < SQ(300.0f)) {
         if (this->actor.xzDistToPlayer < 130.0f || this->colliderJntSph.elements[0].base.ocElemFlags & OCELEM_HIT) {
-            s32 pad;
+            STACK_PAD(s32);
 
             if (Math_SinS(this->actor.yawTowardsPlayer - this->actor.world.rot.y) > 0.0f) {
                 this->actor.world.rot.y -= 280;
@@ -609,7 +618,7 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
         } else {
             this->actor.speed -= 0.47f;
         }
-        this->ingoRaceFlags |= 1;
+        this->ingoRaceFlags |= INGO_FLAG_LASHING;
         return;
     }
 
@@ -618,7 +627,7 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
     } else {
         this->actor.speed -= 0.4f;
     }
-    this->ingoRaceFlags &= ~0x1;
+    this->ingoRaceFlags &= ~INGO_FLAG_LASHING;
 }
 
 void EnHorse_PlayWalkingSfx(EnHorse* this) {
@@ -1624,7 +1633,7 @@ void EnHorse_Stub1(EnHorse* this) {
 }
 
 void EnHorse_LowJump(EnHorse* this, PlayState* play) {
-    Vec3f pad;
+    STACK_PADS(s32, 3);
     Vec3s* jointTable;
     f32 curFrame;
     f32 y;
@@ -1697,7 +1706,7 @@ void EnHorse_Stub2(EnHorse* this) {
 }
 
 void EnHorse_HighJump(EnHorse* this, PlayState* play) {
-    Vec3f pad;
+    STACK_PADS(s32, 3);
     Vec3s* jointTable;
     f32 curFrame;
     f32 y;
@@ -2011,18 +2020,19 @@ void EnHorse_InitIngoHorse(EnHorse* this) {
     }
 }
 
-void EnHorse_SetIngoAnimation(s32 index, f32 curFrame, s32 arg2, s16* animIdxOut, f32* curFrameOut) {
+void EnHorse_SetIngoAnimation(s32 index, f32 curFrame, s32 isLashing, s16* animIdxOut, f32* curFrameOut) {
     *animIdxOut = sIngoAnimations[index];
     *curFrameOut = curFrame;
-    if ((index == 3) || (index == 7) || (index == 8) || (index == 4)) {
+    if ((index == ENHORSE_ANIM_REARING) || (index == ENHORSE_ANIM_LOW_JUMP) || (index == ENHORSE_ANIM_HIGH_JUMP) ||
+        (index == ENHORSE_ANIM_WALK)) {
         *curFrameOut = 0.0f;
     }
-    if (arg2 == 1) {
-        if (index == 5) {
-            *animIdxOut = 4;
+    if (isLashing == INGO_FLAG_LASHING) {
+        if (index == ENHORSE_ANIM_TROT) {
+            *animIdxOut = ENIN_HORSE_ANIM_LASHING_SLOW;
             *curFrameOut = curFrame;
-        } else if (index == 6) {
-            *animIdxOut = 3;
+        } else if (index == ENHORSE_ANIM_GALLOP) {
+            *animIdxOut = ENIN_HORSE_ANIM_LASHING_FAST;
             *curFrameOut = curFrame;
         }
     }
@@ -2113,13 +2123,13 @@ void EnHorse_UpdateIngoRace(EnHorse* this, PlayState* play) {
     }
 
     if (this->stateFlags & ENHORSE_INGO_WON) {
-        ((EnIn*)this->rider)->animationIdx = 7;
-        ((EnIn*)this->rider)->unk_1E0 = 0;
+        ((EnIn*)this->rider)->horsebackAnimationIdx = ENIN_HORSE_ANIM_WHOOPING;
+        ((EnIn*)this->rider)->horsebackAnimFrame = 0;
         return;
     }
 
-    EnHorse_SetIngoAnimation(this->animationIdx, this->skin.skelAnime.curFrame, this->ingoRaceFlags & 1,
-                             &((EnIn*)this->rider)->animationIdx, &((EnIn*)this->rider)->unk_1E0);
+    EnHorse_SetIngoAnimation(this->animationIdx, this->skin.skelAnime.curFrame, this->ingoRaceFlags & INGO_FLAG_LASHING,
+                             &((EnIn*)this->rider)->horsebackAnimationIdx, &((EnIn*)this->rider)->horsebackAnimFrame);
 }
 
 void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
@@ -2853,7 +2863,7 @@ s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, Collisio
         return 1; // No floor
     }
 
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, pos->x, pos->z, &waterY, &waterBox) == 1 &&
+    if (BgCheck_GetWaterSurface(play, &play->colCtx, pos->x, pos->z, &waterY, &waterBox) == true &&
         *floorHeight < waterY) {
         return 2; // Water
     }
@@ -2920,10 +2930,10 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
     f32 dist;
     f32 waterHeight;
     WaterBox* waterBox;
-    s32 pad;
+    STACK_PAD(s32);
 
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterHeight,
-                                &waterBox) == 1 &&
+    if (BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterHeight,
+                                &waterBox) == true &&
         this->actor.floorHeight < waterHeight) {
         EnHorse_ObstructMovement(this, play, 1, galloping);
         return;
@@ -3021,7 +3031,7 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
 s32 EnHorse_GetMountSide(EnHorse* this, PlayState* play);
 
 void EnHorse_MountDismount(EnHorse* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 mountSide;
     Player* player = GET_PLAYER(play);
 
@@ -3115,12 +3125,11 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     Vec3f startPos;
     Vec3f endPos;
     Vec3f obstaclePos;
-    f32 pad3;
+    STACK_PAD(s32);
     f32 intersectDist;
     CollisionPoly* wall = NULL;
     CollisionPoly* obstacleFloor = NULL;
@@ -3129,7 +3138,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     f32 behindObstacleHeight;
     f32 ny;
     s32 movingFast;
-    s32 pad5;
+    STACK_PAD(s32);
     DynaPolyActor* dynaPoly;
     Vec3f intersect;
     Vec3f obstacleTop;
@@ -3318,7 +3327,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 void EnHorse_CheckBoost(EnHorse* thisx, PlayState* play2) {
     EnHorse* this = (EnHorse*)thisx;
     PlayState* play = play2;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->action == ENHORSE_ACT_MOUNTED_WALK || this->action == ENHORSE_ACT_MOUNTED_TROT ||
         this->action == ENHORSE_ACT_MOUNTED_GALLOP) {
@@ -3399,7 +3408,7 @@ void EnHorse_RegenBoost(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_UpdatePlayerDir(EnHorse* this, PlayState* play) {
-    EnHorse* pad;
+    STACK_PAD(s32);
     s16 angle;
     f32 s;
     f32 c;
@@ -3676,14 +3685,13 @@ void EnHorse_RandomOffset(Vec3f* src, f32 dist, Vec3f* dst) {
 
 void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     EnHorse* this = (EnHorse*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sp94 = { 0.0f, 0.0f, 0.0f };
     Vec3f hoofOffset = { 5.0f, -4.0f, 5.0f };
     Vec3f riderOffset = { 600.0f, -1670.0f, 0.0f };
     Vec3f sp70;
-    Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp58 = { 0.0f, -1.0f, 0.0f };
-
+    UNUSED Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp58 = { 0.0f, -1.0f, 0.0f };
     f32 frame = this->skin.skelAnime.curFrame;
     Vec3f center;
     Vec3f newCenter;
@@ -3817,8 +3825,7 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
 }
 
-// unused
-static s32 D_80A667DC[] = { 0, 3, 7, 14 };
+UNUSED static s32 D_80A667DC[] = { 0, 3, 7, 14 };
 
 s32 EnHorse_OverrideLimbDraw(Actor* thisx, PlayState* play, s32 limbIndex, Skin* arg3) {
     static void* eyeTextures[] = {

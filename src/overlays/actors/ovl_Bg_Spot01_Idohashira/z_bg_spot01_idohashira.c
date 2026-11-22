@@ -12,6 +12,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -120,7 +121,7 @@ void func_808AAD3C(PlayState* play, Vec3f* vec, u32 arg2) {
 }
 
 void func_808AAE6C(BgSpot01Idohashira* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sp30 = this->dyna.actor.world.pos;
 
     sp30.y += kREG(15);
@@ -130,7 +131,7 @@ void func_808AAE6C(BgSpot01Idohashira* this, PlayState* play) {
 }
 
 void func_808AAF34(BgSpot01Idohashira* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (this->unk_170 != 0) {
         Vec3f dest;
@@ -167,7 +168,7 @@ s32 BgSpot01Idohashira_NotInCsMode(PlayState* play) {
 }
 
 CsCmdActorCue* BgSpot01Idohashira_GetCue(PlayState* play, s32 cueChannel) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CsCmdActorCue* cue = NULL;
 
     if (!BgSpot01Idohashira_NotInCsMode(play)) {
@@ -203,11 +204,11 @@ s32 func_808AB29C(BgSpot01Idohashira* this, PlayState* play) {
     Vec3f* thisPos;
     f32 endX;
     f32 temp_f0;
-    s32 pad2;
+    STACK_PAD(s32);
     Vec3f initPos;
     f32 endZ;
     f32 tempY;
-    f32 tempZ;
+    STACK_PAD(s32);
 
     cue = BgSpot01Idohashira_GetCue(play, 2);
 
@@ -308,7 +309,7 @@ void BgSpot01Idohashira_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
     CollisionHeader* colHeader;
 

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ru2.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "array_count.h"
 #include "gfx.h"
@@ -16,6 +16,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -61,16 +62,16 @@ void EnRu2_DrawXlu(EnRu2* this, PlayState* play);
 void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play);
 
 typedef enum {
-    /* 00 */ ENRU2_SETUP_WATER_MEDALLION_CS,
-    /* 01 */ ENRU2_AWAIT_BLUE_WARP,
-    /* 02 */ ENRU2_RISE_THROUGH_BLUE_WARP,
-    /* 03 */ ENRU2_SAGE_OF_WATER_DIALOG,
-    /* 04 */ ENRU2_RAISE_ARMS,
-    /* 05 */ ENRU2_AWAIT_SPAWN_WATER_MEDALLION,
-    /* 06 */ ENRU2_FINISH_WATER_MEDALLION_CS,
-    /* 07 */ ENRU2_WATER_TRIAL_INVISIBLE,
-    /* 08 */ ENRU2_WATER_TRIAL_FADE,
-    /* 09 */ ENRU2_AWAIT_SPAWN_LIGHT_BALL,
+    /*  0 */ ENRU2_SETUP_WATER_MEDALLION_CS,
+    /*  1 */ ENRU2_AWAIT_BLUE_WARP,
+    /*  2 */ ENRU2_RISE_THROUGH_BLUE_WARP,
+    /*  3 */ ENRU2_SAGE_OF_WATER_DIALOG,
+    /*  4 */ ENRU2_RAISE_ARMS,
+    /*  5 */ ENRU2_AWAIT_SPAWN_WATER_MEDALLION,
+    /*  6 */ ENRU2_FINISH_WATER_MEDALLION_CS,
+    /*  7 */ ENRU2_WATER_TRIAL_INVISIBLE,
+    /*  8 */ ENRU2_WATER_TRIAL_FADE,
+    /*  9 */ ENRU2_AWAIT_SPAWN_LIGHT_BALL,
     /* 10 */ ENRU2_CREDITS_INVISIBLE,
     /* 11 */ ENRU2_CREDITS_FADE_IN,
     /* 12 */ ENRU2_CREDITS_VISIBLE,
@@ -84,9 +85,9 @@ typedef enum {
 } EnRu2Action;
 
 typedef enum {
-    /* 00 */ ENRU2_DRAW_NOTHING,
-    /* 01 */ ENRU2_DRAW_OPA,
-    /* 02 */ ENRU2_DRAW_XLU
+    /* 0 */ ENRU2_DRAW_NOTHING,
+    /* 1 */ ENRU2_DRAW_OPA,
+    /* 2 */ ENRU2_DRAW_XLU
 } EnRu2DrawConfig;
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -115,7 +116,7 @@ static void* sEyeTextures[] = {
 };
 
 #if DEBUG_FEATURES
-static UNK_TYPE D_80AF4118 = 0;
+static s32 D_80AF4118 = 0;
 #endif
 
 #include "z_en_ru2_cutscene_data.inc.c"
@@ -169,7 +170,7 @@ void EnRu2_InitCollider(Actor* thisx, PlayState* play) {
 }
 
 void EnRu2_UpdateCollider(EnRu2* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
@@ -182,7 +183,7 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnRu2_UpdateEyes(EnRu2* this) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeIndex = &this->eyeIndex;
 
@@ -362,7 +363,7 @@ void EnRu2_SpawnWaterMedallion(EnRu2* this, PlayState* play) {
  * This function will loop endlessly if the current sage cutscene is not for the Water Medallion.
  */
 void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player;
     s16 yaw;
 
@@ -541,7 +542,7 @@ void EnRu2_Fade(EnRu2* this, PlayState* play) {
             this->drawConfig = ENRU2_DRAW_OPA;
             *fadeTimer = kREG(5) + 10.0f;
             this->alpha = 255;
-            this->actor.shape.shadowAlpha = 0xFF;
+            this->actor.shape.shadowAlpha = 255;
             return;
         }
     } else {
@@ -573,7 +574,7 @@ void EnRu2_CheckFadeOut(EnRu2* this, PlayState* play) {
             EnRu2_SpawnLightBall(this, play);
             this->isLightBall = true;
         }
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -605,7 +606,7 @@ void EnRu2_AwaitSpawnLightBall(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_DrawXlu(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* tex = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -617,7 +618,7 @@ void EnRu2_DrawXlu(EnRu2* this, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-    gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL,
                                        NULL, NULL, POLY_XLU_DISP);
@@ -648,7 +649,7 @@ void EnRu2_FadeInCredits(EnRu2* this) {
     fadeDuration = kREG(17) + 10.0f;
     if (fadeDuration <= *fadeTimer) {
         this->alpha = 255;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     } else {
         alpha = (*fadeTimer / fadeDuration) * 255.0f;
         this->alpha = alpha;
@@ -830,12 +831,12 @@ void EnRu2_EncounterBeginningHandler(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_DialogCameraHandler(EnRu2* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     MessageContext* msgCtx;
-    s32 pad2;
+    STACK_PAD(s32);
     u8 dialogState;
     Player* player;
-    s32 pad3;
+    STACK_PAD(s32);
 
     msgCtx = &play->msgCtx;
     dialogState = Message_GetState(msgCtx);
@@ -966,7 +967,7 @@ void EnRu2_DrawNothing(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_DrawOpa(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* tex = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -978,7 +979,7 @@ void EnRu2_DrawOpa(EnRu2* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
 
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL, this);
 

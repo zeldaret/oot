@@ -299,7 +299,7 @@ void* gzip_malloc(size_t size) {
     return ret;
 }
 
-void gzip_free(void* ptr) {
+void gzip_free(UNUSED void* ptr) {
     gzip_malloc_tmp = 0;
     gzip_malloc_addr = gzip_mem_buff;
 }

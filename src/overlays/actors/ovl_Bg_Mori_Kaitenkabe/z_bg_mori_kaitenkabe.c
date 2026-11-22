@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -58,7 +59,7 @@ void BgMoriKaitenkabe_CrossProduct(Vec3f* dest, Vec3f* v1, Vec3f* v2) {
 }
 
 void BgMoriKaitenkabe_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -80,7 +81,7 @@ void BgMoriKaitenkabe_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriKaitenkabe_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -163,14 +164,14 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play) {
 }
 
 void BgMoriKaitenkabe_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     this->actionFunc(this, play);
 }
 
 void BgMoriKaitenkabe_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 347);

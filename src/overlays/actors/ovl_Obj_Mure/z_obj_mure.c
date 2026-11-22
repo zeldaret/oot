@@ -5,11 +5,13 @@
  */
 
 #include "z_obj_mure.h"
-#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
+#include "src/overlays/actors/ovl_En_Fish/z_en_fish.h"
+#include "src/overlays/actors/ovl_En_Insect/z_en_insect.h"
 
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "play_state.h"
 
@@ -57,7 +59,7 @@ static s32 sMaxChildSpawns[] = { 12, 9, 8, 0 };
 
 static s16 sSpawnActorIds[] = { ACTOR_EN_KUSA, 0, ACTOR_EN_FISH, ACTOR_EN_INSECT, ACTOR_EN_BUTTE };
 
-static s16 sSpawnParams[] = { 0, 2, -1, INSECT_TYPE_PERMANENT, -1 };
+static s16 sSpawnParams[] = { 0, 2, EN_FISH_TYPE_NORMAL, INSECT_TYPE_PERMANENT, -1 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
@@ -152,7 +154,7 @@ void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
     Actor* actor = &this->actor;
     s32 i;
     Vec3f pos;
-    s32 pad;
+    STACK_PAD(s32);
     s32 maxChildren = ObjMure_GetMaxChildSpawns(this);
 
     for (i = 0; i < maxChildren; i++) {

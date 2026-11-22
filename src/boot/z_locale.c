@@ -1,5 +1,6 @@
 #include "libu64/debug.h"
 #include "alignment.h"
+#include "attributes.h"
 #include "carthandle.h"
 #include "line_numbers.h"
 #include "padmgr.h"
@@ -29,6 +30,9 @@ typedef struct LocaleCartInfo {
 void Locale_Init(void) {
 #if !PLATFORM_GC
     ALIGNED(4) u8 regionInfo[4];
+#if PLATFORM_IQUE
+    UNUSED
+#endif
     u8 countryCode;
 
     osEPiReadIo(gCartHandle, 0x3C, (u32*)regionInfo);

@@ -1,17 +1,19 @@
 #include "array_count.h"
+#include "attributes.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "zelda_arena.h"
 #include "actor.h"
 #include "play_state.h"
 #include "skin.h"
 #include "skin_matrix.h"
 
-#include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
+#include "src/overlays/actors/ovl_En_fHG/z_en_fhg.h"
 
 /**
  * Initialises the Vtx buffers used for limb at index `limbIndex`
  */
-void Skin_InitAnimatedLimb(PlayState* play, Skin* skin, s32 limbIndex) {
+void Skin_InitAnimatedLimb(UNUSED PlayState* play, Skin* skin, s32 limbIndex) {
     s32 i;
     SkinLimb** skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     SkinAnimatedLimbData* animatedLimbData =
@@ -116,7 +118,7 @@ void Skin_Free(PlayState* play, Skin* skin) {
 }
 
 s32 func_800A698C(Skin* skin, SkinLimb** skeleton, MtxF* limbMatrices, u8 parentIndex, u8 limbIndex) {
-    s32 pad;
+    STACK_PAD(s32);
     SkinLimb* limb = SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]);
     MtxF* mtx;
     s32 ret;
@@ -153,7 +155,7 @@ s32 func_800A698C(Skin* skin, SkinLimb** skeleton, MtxF* limbMatrices, u8 parent
  */
 s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, s32 setTranslation) {
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
     f32 yRot;
     f32 xRot;
     f32 zRot;

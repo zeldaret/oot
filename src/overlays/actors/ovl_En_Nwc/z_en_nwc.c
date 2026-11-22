@@ -9,6 +9,7 @@
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -209,7 +210,7 @@ void EnNwc_DrawChicks(EnNwc* this, PlayState* play) {
 }
 
 void EnNwc_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnNwc* this = (EnNwc*)thisx;
     ColliderJntSphElementInit elementInits[16];
     ColliderJntSphElementInit* element;
@@ -236,7 +237,7 @@ void EnNwc_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnNwc_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnNwc* this = (EnNwc*)thisx;
 
     Collider_FreeJntSph(play, &this->collider);
@@ -247,7 +248,7 @@ void EnNwc_Idle(EnNwc* this, PlayState* play) {
 }
 
 void EnNwc_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnNwc* this = (EnNwc*)thisx;
 
     this->updateFunc(this, play);
@@ -255,7 +256,7 @@ void EnNwc_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnNwc_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnNwc* this = (EnNwc*)thisx;
 
     EnNwc_DrawChicks(this, play);

@@ -10,9 +10,10 @@
 #include "stdlib.h"
 #include "string.h"
 
-#include "ultra64/ultratypes.h"
+#include "ultra64/ultratypes.h" // IWYU pragma: export
 #include "unk.h"
 
+// IWYU pragma: begin_exports
 #include "ultra64/libc.h"
 #include "ultra64/xstdio.h"
 #include "ultra64/exception.h"
@@ -39,6 +40,7 @@
 #include "ultra64/siint.h"
 #include "ultra64/ucode.h"
 #include "ultra64/version.h"
+// IWYU pragma: end_exports
 
 union uObjBg;
 

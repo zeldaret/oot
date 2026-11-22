@@ -228,7 +228,7 @@ void func_801CA6A0(struct_801CA704* arg0) {
     arg0->charTexBuf = NULL;
 }
 
-void func_801CA6D8(struct_801CA704* arg0) {
+void func_801CA6D8(UNUSED struct_801CA704* arg0) {
 }
 
 s32 func_801CA6E4(struct_801CA704* arg0, const char* fmt, va_list args) {

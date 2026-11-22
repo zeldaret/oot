@@ -1,3 +1,4 @@
+#include "attributes.h"
 #include "controller.h"
 #include "letterbox.h"
 #if PLATFORM_N64
@@ -5,6 +6,7 @@
 #endif
 #include "printf.h"
 #include "regs.h"
+#include "stack_pad.h"
 #include "audio.h"
 #include "play_state.h"
 #include "save.h"
@@ -67,7 +69,7 @@ void KaleidoSetup_Update(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
 #if PLATFORM_N64
-    s32 pad;
+    STACK_PAD(s32);
 #endif
 
     if (!IS_PAUSED(pauseCtx) && play->gameOverCtx.state == GAMEOVER_INACTIVE &&
@@ -189,7 +191,7 @@ void KaleidoSetup_Init(PlayState* play) {
 #endif
 }
 
-void KaleidoSetup_Destroy(PlayState* play) {
+void KaleidoSetup_Destroy(UNUSED PlayState* play) {
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_40 != NULL)) {
         B_80121220->unk_40();

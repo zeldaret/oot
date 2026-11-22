@@ -2,6 +2,7 @@
 #include "synthInternals.h"
 #include "stdbool.h"
 #include "stddef.h"
+#include "attributes.h"
 
 // WARNING: THE FOLLOWING CONSTANT MUST BE KEPT IN SYNC WITH SCALING IN MICROCODE!!!
 #define SCALE 16384
@@ -211,7 +212,7 @@ void alEnvmixerNew(ALEnvMixer* e, ALHeap* hp) {
 }
 
 void alLoadNew(ALLoadFilter* f, ALDMANew dmaNew, ALHeap* hp) {
-    s32 i;
+    UNUSED s32 i;
 
     // init filter superclass
     alFilterNew(&f->filter, alAdpcmPull, alLoadParam, AL_ADPCM);

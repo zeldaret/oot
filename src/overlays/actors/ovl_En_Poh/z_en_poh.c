@@ -12,6 +12,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -199,7 +200,7 @@ static Vec3f D_80AE1B60 = { 0.0f, 3.0f, 0.0f };
 static Vec3f D_80AE1B6C = { 0.0f, 0.0f, 0.0f };
 
 void EnPoh_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnItem00* collectible;
     EnPoh* this = (EnPoh*)thisx;
 
@@ -621,8 +622,7 @@ void func_80ADF15C(EnPoh* this, PlayState* play) {
     Vec3f vec;
     f32 multiplier;
     f32 newScale;
-    s32 pad;
-    s32 pad1;
+    STACK_PADS(s32, 2);
 
     this->unk_198++;
     if (this->unk_198 < 8) {
@@ -1000,7 +1000,7 @@ void func_80AE089C(EnPoh* this) {
 
 void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
     EnPoh* this = (EnPoh*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f checkPos;
     s32 bgId;
 
@@ -1092,12 +1092,12 @@ void EnPoh_DrawRegular(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (this->lightColor.a == 255 || this->lightColor.a == 0) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, this->lightColor.a);
-        gSPSegment(POLY_OPA_DISP++, 0x08, D_80116280 + 2);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->lightColor.a);
-        gSPSegment(POLY_XLU_DISP++, 0x08, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x08, gActorSetupXluDL);
         POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
@@ -1132,7 +1132,7 @@ void EnPoh_DrawComposer(Actor* thisx, PlayState* play) {
                    Gfx_EnvColor(play->state.gfxCtx, sp90->r, sp90->g, sp90->b, this->lightColor.a));
         gSPSegment(POLY_OPA_DISP++, 0x0B,
                    Gfx_EnvColor(play->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
-        gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
+        gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
         POLY_OPA_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
@@ -1146,7 +1146,7 @@ void EnPoh_DrawComposer(Actor* thisx, PlayState* play) {
                    Gfx_EnvColor(play->state.gfxCtx, sp90->r, sp90->g, sp90->b, this->lightColor.a));
         gSPSegment(POLY_XLU_DISP++, 0x0B,
                    Gfx_EnvColor(play->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
-        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
         POLY_XLU_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_XLU_DISP);
@@ -1187,7 +1187,7 @@ void EnPoh_DrawSoul(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, this->info->lanternDisplayList);
         if (this->infoIdx == EN_POH_INFO_COMPOSER) {
             Color_RGBA8* envColor = (this->actor.params == EN_POH_SHARP) ? &D_80AE1B4C : &D_80AE1B50;
-            s32 pad;
+            STACK_PAD(s32);
 
             gSPDisplayList(POLY_OPA_DISP++, gPoeComposerLanternBottomDL);
             gDPPipeSync(POLY_OPA_DISP++);

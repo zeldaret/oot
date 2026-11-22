@@ -1,10 +1,11 @@
 #include "z_en_encount1.h"
-#include "overlays/actors/ovl_En_Tite/z_en_tite.h"
-#include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
+#include "src/overlays/actors/ovl_En_Tite/z_en_tite.h"
+#include "src/overlays/actors/ovl_En_Reeba/z_en_reeba.h"
 
 #include "printf.h"
 #include "rand.h"
 #include "regs.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -38,7 +39,7 @@ ActorProfile En_Encount1_Profile = {
 };
 
 void EnEncount1_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnEncount1* this = (EnEncount1*)thisx;
     f32 spawnRange;
 
@@ -323,7 +324,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
 }
 
 void EnEncount1_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnEncount1* this = (EnEncount1*)thisx;
 
     if (this->timer != 0) {

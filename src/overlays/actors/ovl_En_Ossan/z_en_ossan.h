@@ -82,30 +82,30 @@ typedef struct EnOssan {
 } EnOssan; // size = 0x02D8
 
 typedef enum OssanType {
-    /* 00 */ OSSAN_TYPE_KOKIRI,
-    /* 01 */ OSSAN_TYPE_KAKARIKO_POTION,
-    /* 02 */ OSSAN_TYPE_BOMBCHUS,
-    /* 03 */ OSSAN_TYPE_MARKET_POTION,
-    /* 04 */ OSSAN_TYPE_BAZAAR,
-    /* 05 */ OSSAN_TYPE_ADULT,
-    /* 06 */ OSSAN_TYPE_TALON,
-    /* 07 */ OSSAN_TYPE_ZORA,
-    /* 08 */ OSSAN_TYPE_GORON,
-    /* 09 */ OSSAN_TYPE_INGO,
+    /*  0 */ OSSAN_TYPE_KOKIRI,
+    /*  1 */ OSSAN_TYPE_KAKARIKO_POTION,
+    /*  2 */ OSSAN_TYPE_BOMBCHUS,
+    /*  3 */ OSSAN_TYPE_MARKET_POTION,
+    /*  4 */ OSSAN_TYPE_BAZAAR,
+    /*  5 */ OSSAN_TYPE_ADULT,
+    /*  6 */ OSSAN_TYPE_TALON,
+    /*  7 */ OSSAN_TYPE_ZORA,
+    /*  8 */ OSSAN_TYPE_GORON,
+    /*  9 */ OSSAN_TYPE_INGO,
     /* 10 */ OSSAN_TYPE_MASK
 } OssanType;
 
 typedef enum EnOssanState {
-    /* 00 */ OSSAN_STATE_IDLE,
-    /* 01 */ OSSAN_STATE_START_CONVERSATION,
-    /* 02 */ OSSAN_STATE_FACING_SHOPKEEPER,
-    /* 03 */ OSSAN_STATE_TALKING_TO_SHOPKEEPER,
-    /* 04 */ OSSAN_STATE_LOOK_SHELF_LEFT,
-    /* 05 */ OSSAN_STATE_LOOK_SHELF_RIGHT,
-    /* 06 */ OSSAN_STATE_BROWSE_LEFT_SHELF,
-    /* 07 */ OSSAN_STATE_BROWSE_RIGHT_SHELF,
-    /* 08 */ OSSAN_STATE_LOOK_SHOPKEEPER, // From looking at shelf
-    /* 09 */ OSSAN_STATE_SELECT_ITEM,     // Select most items
+    /*  0 */ OSSAN_STATE_IDLE,
+    /*  1 */ OSSAN_STATE_START_CONVERSATION,
+    /*  2 */ OSSAN_STATE_FACING_SHOPKEEPER,
+    /*  3 */ OSSAN_STATE_TALKING_TO_SHOPKEEPER,
+    /*  4 */ OSSAN_STATE_LOOK_SHELF_LEFT,
+    /*  5 */ OSSAN_STATE_LOOK_SHELF_RIGHT,
+    /*  6 */ OSSAN_STATE_BROWSE_LEFT_SHELF,
+    /*  7 */ OSSAN_STATE_BROWSE_RIGHT_SHELF,
+    /*  8 */ OSSAN_STATE_LOOK_SHOPKEEPER, // From looking at shelf
+    /*  9 */ OSSAN_STATE_SELECT_ITEM,     // Select most items
     /* 10 */ OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL,
     /* 11 */ OSSAN_STATE_SELECT_ITEM_WEIRD_EGG,
     /* 12 */ OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED, // Handles two unfinished shop items

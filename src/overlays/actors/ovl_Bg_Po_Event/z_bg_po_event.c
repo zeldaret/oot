@@ -14,6 +14,7 @@
 #include "one_point_cutscene.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -208,7 +209,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgPoEvent_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgPoEvent* this = (BgPoEvent*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -235,7 +236,7 @@ void BgPoEvent_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgPoEvent_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgPoEvent* this = (BgPoEvent*)thisx;
 
     if (this->type >= 2) {
@@ -594,7 +595,7 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, PlayState* play) {
 }
 
 void BgPoEvent_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgPoEvent* this = (BgPoEvent*)thisx;
 
     this->actionFunc(this, play);
@@ -608,13 +609,13 @@ void BgPoEvent_Draw(Actor* thisx, PlayState* play) {
         gPoSistersAmyBlockDL,     gPoSistersAmyBethBlockDL, gPoSistersJoellePaintingDL,
         gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL,
     };
-    s32 pad;
+    STACK_PAD(s32);
     BgPoEvent* this = (BgPoEvent*)thisx;
     u8 alpha;
     Vec3f sp58;
     Vec3f sp4C;
     f32 sp48;
-    s32 pad2;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_po_event.c", 1481);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

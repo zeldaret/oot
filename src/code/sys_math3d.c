@@ -1,6 +1,7 @@
 #include "sys_math3d.h"
 
 #include "printf.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "ultra64.h"
@@ -160,7 +161,7 @@ void Math3D_FindPointOnPlaneIntersect(f32 planeAAxis1Norm, f32 planeAAxis2Norm, 
  */
 s32 Math3D_PlaneVsPlaneNewLine(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
                                f32 planeBC, f32 planeBDist, InfiniteLine* intersect) {
-    char pad[4];
+    STACK_PAD(s32);
     Vec3f planeANormal;
     Vec3f planeBNormal;
     f32 dirX;
@@ -636,7 +637,7 @@ s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max) {
         ret |= 0x10;
     }
 
-    //! @bug: The next 2 conditions are the same check.
+    //! @bug The next 2 conditions are the same check.
     if ((-min->x - min->y + max->z) < (-point->x - point->y + point->z)) {
         ret |= 0x20;
     }
@@ -996,7 +997,7 @@ s32 Math3D_TriChkPointParaYImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f
     }
 
     if (fabsf(ny) > 0.5f) {
-        // Do a check on each face of the triangle, if the point is within `chkDist` units return true.
+        // Do a check on each edge of the triangle, if the point is within `chkDist` units return true.
         if (Math3D_PointDistSqToLine2D(z, x, v0->z, v0->x, v1->z, v1->x, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
@@ -1641,7 +1642,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     f32 fracB;
     f32 fracBase;
     f32 zero = 0.0f;
-    f32 pad;
+    STACK_PAD(s32);
     f32 cylRadiusSq;
     f32 radSqDiff;
     f32 distCent2;
@@ -1833,7 +1834,7 @@ s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
     Vec3f cylIntersectCenter;
     Vec3f midpointv0v1;
     Vec3f diffMidpointIntersect;
-    s32 pad;
+    STACK_PAD(s32);
 
     cylBottom = (f32)cyl->pos.y + cyl->yShift;
     cylTop = cyl->height + cylBottom;

@@ -11,6 +11,7 @@
 #include "one_point_cutscene.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -75,7 +76,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaZou_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgHakaZou* this = (BgHakaZou*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -232,7 +233,7 @@ void BgHakaZou_SpawnSkullWallRubble(BgHakaZou* this, PlayState* play) {
     Vec3f actorSpawnPos;
     f32 sin;
     f32 cos;
-    s32 pad;
+    STACK_PAD(s32);
 
     sin = Math_SinS(this->dyna.actor.shape.rot.y - 0x4000) * 40.0f;
     cos = Math_CosS(this->dyna.actor.shape.rot.y - 0x4000) * 40.0f;
@@ -261,13 +262,14 @@ void BgHakaZou_SpawnRubbleParticles(BgHakaZou* this, PlayState* play) {
     fragmentPos.y = this->collider.dim.pos.y;
     fragmentPos.z = this->collider.dim.pos.z;
 
-    EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombableRubbleDL);
+    EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, OBJECT_HAKACH_OBJECTS, 40, gBotwBombableRubbleDL);
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             fragmentPos.x = this->collider.dim.pos.x + (((j * 2) - 1) * num);
             fragmentPos.z = this->collider.dim.pos.z + (((i * 2) - 1) * num);
-            EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombableRubbleDL);
+            EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, OBJECT_HAKACH_OBJECTS, 40,
+                                     gBotwBombableRubbleDL);
             func_800286CC(play, &fragmentPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
