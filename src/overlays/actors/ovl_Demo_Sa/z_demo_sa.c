@@ -5,8 +5,8 @@
  */
 
 #include "z_demo_sa.h"
-#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -15,6 +15,7 @@
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sequence.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -137,7 +138,7 @@ void DemoSa_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DemoSa_Blink(DemoSa* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16* eyeIndex = &this->eyeIndex;
     s16* blinkTimer = &this->blinkTimer;
 
@@ -236,7 +237,7 @@ void DemoSa_SetStartPosRotFromCue(DemoSa* this, PlayState* play, s32 cueChannel)
 }
 
 void DemoSa_AnimationChange(DemoSa* this, AnimationHeader* animHeaderSeg, u8 mode, f32 morphFrames, s32 playReversed) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
     f32 startFrame;
@@ -287,7 +288,7 @@ void DemoSa_CsForestMedallion_Rise(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_CsForestMedallion_CheckCutscene(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_FOREST) && !IS_CUTSCENE_LAYER) {
@@ -391,7 +392,7 @@ void DemoSa_Action_EndMedallionCs(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_InitTrialOrSealingGanon(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gSariaSealGanonAnim);
 
@@ -406,7 +407,7 @@ void DemoSa_InitTrialOrSealingGanon(DemoSa* this, PlayState* play) {
 void DemoSa_SageMagic_LowerEyes(DemoSa* this) {
     f32 curFrame = this->skelAnime.curFrame;
 
-    if ((this->skelAnime.mode == 2) && (curFrame >= 32.0f)) {
+    if ((this->skelAnime.mode == ANIMMODE_ONCE) && (curFrame >= 32.0f)) {
         DemoSa_SetEyes(this, SARIA_EYE_HALF);
         DemoSa_SetMouth(this, SARIA_MOUTH_CLOSED2);
     }
@@ -470,7 +471,7 @@ void DemoSa_SageMagic_CheckFadeOut(DemoSa* this, PlayState* play) {
             DemoSa_SageMagic_SpawnLightBall(this, play);
             this->isLightBall = true;
         }
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -502,11 +503,11 @@ void DemoSa_Action_AwaitLightBall(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* eyeTexture = sEyeTextures[eyeIndex];
     s16 mouthIndex = this->mouthIndex;
-    s32 pad2;
+    STACK_PAD(s32);
     void* mouthTexture = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -518,7 +519,7 @@ void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTexture));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-    gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, gActorSetupXluDL);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL,
                                        NULL, NULL, POLY_XLU_DISP);
@@ -700,7 +701,7 @@ void DemoSa_CsBridge_LookAtLink(DemoSa* this, PlayState* play) {
         this->action = DEMOSA_ACTION_BRIDGE_LOOKING_SAD;
         this->drawConfig = DEMOSA_DRAW_OPA;
         this->isHoldingOcarina = false;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
     DemoSa_SetEyes(this, SARIA_EYE_SAD);
 }
@@ -710,7 +711,7 @@ void DemoSa_CsBridge_CheckFadeFinished(DemoSa* this) {
         this->action = DEMOSA_ACTION_BRIDGE_LOOKING_SAD;
         this->drawConfig = DEMOSA_DRAW_OPA;
         this->isHoldingOcarina = false;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
@@ -719,7 +720,7 @@ void DemoSa_CsBridge_ClutchOcarina(DemoSa* this) {
     this->action = DEMOSA_ACTION_BRIDGE_CLUTCH_OCARINA;
     this->drawConfig = DEMOSA_DRAW_OPA;
     this->isHoldingOcarina = true;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     DemoSa_SetEyes(this, SARIA_EYE_CLOSED);
 }
 
@@ -728,7 +729,7 @@ void DemoSa_CsBridge_GiveOcarina(DemoSa* this) {
     this->action = DEMOSA_ACTION_BRIDGE_GIVE_OCARINA;
     this->drawConfig = DEMOSA_DRAW_OPA;
     this->isHoldingOcarina = true;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void DemoSa_CsBridge_HoldOutOcarina(DemoSa* this, s32 animFinished) {
@@ -845,10 +846,10 @@ void DemoSa_DrawNothing(DemoSa* this, PlayState* play) {
 }
 
 void DemoSa_DrawOpa(DemoSa* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeIndex = this->eyeIndex;
     void* eyeTex = sEyeTextures[eyeIndex];
-    s32 pad2;
+    STACK_PAD(s32);
     s16 mouthIndex = this->mouthIndex;
     void* mouthTex = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -861,7 +862,7 @@ void DemoSa_DrawOpa(DemoSa* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, ACTOR_SETUP_OPA_DL);
 
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           DemoSa_OverrideLimbDraw, NULL, &this->actor);

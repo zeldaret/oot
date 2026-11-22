@@ -11,6 +11,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -63,7 +64,7 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfResult;
     MtxF mfTransBillboard;
     Mtx* mtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     s16 intensity;
 

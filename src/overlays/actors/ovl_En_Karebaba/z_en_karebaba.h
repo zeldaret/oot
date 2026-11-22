@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#include "assets/objects/object_dekubaba/object_dekubaba.h"
+
 struct EnKarebaba;
 
 typedef void (*EnKarebabaActionFunc)(struct EnKarebaba*, struct PlayState*);
@@ -12,8 +14,8 @@ typedef struct EnKarebaba {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnKarebabaActionFunc actionFunc;
-    /* 0x0194 */ Vec3s jointTable[8];
-    /* 0x01C4 */ Vec3s morphTable[8];
+    /* 0x0194 */ Vec3s jointTable[DEKUBABA_HEAD_LIMB_MAX];
+    /* 0x01C4 */ Vec3s morphTable[DEKUBABA_HEAD_LIMB_MAX];
     /* 0x01F4 */ struct CollisionPoly* boundFloor;
     /* 0x01F8 */ ColliderCylinder headCollider;
     /* 0x0244 */ ColliderCylinder bodyCollider;

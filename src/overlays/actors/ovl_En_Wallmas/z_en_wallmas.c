@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -442,10 +443,10 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
         if (!LINK_IS_ADULT) {
-            //! @bug: This is an unsafe cast, although the sound effect will still play
+            //! @bug This is an unsafe cast, although the sound effect will still play
             Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
         } else {
-            //! @bug: This is an unsafe cast, although the sound effect will still play
+            //! @bug This is an unsafe cast, although the sound effect will still play
             Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_DAMAGE_S);
         }
 
@@ -469,10 +470,10 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
 
         if (this->timer == -0x1E) {
             if (!LINK_IS_ADULT) {
-                //! @bug: This is an unsafe cast, although the sound effect will still play
+                //! @bug This is an unsafe cast, although the sound effect will still play
                 Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_TAKEN_AWAY_KID);
             } else {
-                //! @bug: This is an unsafe cast, although the sound effect will still play
+                //! @bug This is an unsafe cast, although the sound effect will still play
                 Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_TAKEN_AWAY);
             }
         }
@@ -556,7 +557,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
 
 void EnWallmas_Update(Actor* thisx, PlayState* play) {
     EnWallmas* this = (EnWallmas*)thisx;
-    char pad[4];
+    STACK_PAD(s32);
 
     EnWallmas_ColUpdate(this, play);
     this->actionFunc(this, play);
@@ -600,7 +601,7 @@ void EnWallmas_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 xzScale;
     MtxF mf;
 

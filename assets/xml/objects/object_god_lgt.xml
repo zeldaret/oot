@@ -5,7 +5,7 @@
             <Vtx/>
         </Array>
         <DList Name="gGoldenGoddessAuraDL" Offset="0x0330"/>
-        <Texture Name="gGoldenGoddessAuraHTailTex" Format="i8" Width="32" Height="32" Offset="0x0530"/>
+        <Texture Name="gGoldenGoddessAuraTailTex" Format="i8" Width="32" Height="32" Offset="0x0530"/>
         <Texture Name="gGoldenGoddessAuraHeadTex" Format="i8" Width="64" Height="64" Offset="0x0930"/>
         <Texture Name="gGoldenGoddessAuraMaskTex" Format="i8" Width="16" Height="96" Offset="0x1930"/>
         <Array Name="gGoldenGoddessBodyVtx" Count="466" Offset="0x1F30">

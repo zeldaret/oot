@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "effect.h"
 #include "play_state.h"
@@ -86,7 +87,7 @@ void EffectSsHitMark_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTransBillboard;
     Mtx* mtx;
     f32 scale;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_hitmark.c", 297);
 

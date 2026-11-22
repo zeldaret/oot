@@ -1,16 +1,23 @@
 #include "view.h"
 
-#include "libc64/malloc.h"
-#include "libu64/debug.h"
 #include "avoid_ub.h"
 #include "gfx.h"
 #include "letterbox.h"
 #include "main.h"
 #include "printf.h"
 #include "regs.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
+#include "z_math.h"
+
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "ultra64.h"
+#include <assert.h>
+#include <stdbool.h>
+#include <string.h>
 
 vu32 sLogOnNextViewInit = true;
 
@@ -159,7 +166,7 @@ void View_ApplyLetterbox(View* view) {
     s32 uly;
     s32 lrx;
     s32 lry;
-    s32 pad;
+    STACK_PAD(s32);
 
     letterboxSize = Letterbox_GetSize();
 
@@ -486,14 +493,14 @@ s32 View_ApplyOrthoToOverlay(View* view) {
  */
 s32 View_ApplyPerspectiveToOverlay(View* view) {
     GraphicsContext* gfxCtx = view->gfxCtx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 aspect;
     s32 width;
     s32 height;
     Vp* vp;
     Mtx* projection;
     Mtx* viewing;
-    s32 pad1;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 816);
 

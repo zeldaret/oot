@@ -7,6 +7,7 @@
 #include "z_bg_spot18_futa.h"
 
 #include "ichain.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -40,7 +41,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot18Futa_Init(Actor* thisx, PlayState* play) {
     BgSpot18Futa* this = (BgSpot18Futa*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

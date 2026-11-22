@@ -21,8 +21,8 @@ static const u8 ymdupper[6] = { 99, 12, 31, 23, 59, 59 };
 static const u8 dayupper[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 void leoReadTimer(void) {
-    u8* rdparam;
-    u8 data[4];
+    UNUSED u8* rdparam;
+    UNUSED u8 data[4];
     u8 sense_code;
     __LOCTime time;
 
@@ -47,7 +47,7 @@ void leoReadTimer(void) {
 }
 
 void leoSetTimer(void) {
-    LEOCmdReadTimer rd_timer;
+    UNUSED LEOCmdReadTimer rd_timer;
     u8* p_tmp = &LEOcur_command->data.time.yearlo;
     u32 year;
     u32 month;

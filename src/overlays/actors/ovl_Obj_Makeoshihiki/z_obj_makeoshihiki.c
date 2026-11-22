@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_makeoshihiki.h"
-#include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+#include "src/overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
 #include "printf.h"
 #include "sfx.h"

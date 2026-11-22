@@ -6,6 +6,7 @@
 
 #include "z_en_horse_normal.h"
 
+#include "attributes.h"
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
 #include "array_count.h"
@@ -15,6 +16,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -143,24 +145,20 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
-// Unused
-static EnHorseNormalUnkStruct1 D_80A6D428[] = {
+UNUSED static EnHorseNormalUnkStruct1 D_80A6D428[] = {
     { { 1058, 1, 384 }, 7 },    { { 1653, 39, -381 }, 6 }, { { 1606, 1, -1048 }, 6 }, { { 1053, 1, -1620 }, 6 },
     { { -1012, 1, -1633 }, 7 }, { { -1655, 1, -918 }, 6 }, { { -1586, 1, -134 }, 6 }, { { -961, 1, 403 }, 7 },
 };
 
-// Unused
-static EnHorseNormalUnkStruct2 D_80A6D468 = { ARRAY_COUNT(D_80A6D428), D_80A6D428 };
+UNUSED static EnHorseNormalUnkStruct2 D_80A6D468 = { ARRAY_COUNT(D_80A6D428), D_80A6D428 };
 
-// Unused
-static EnHorseNormalUnkStruct1 D_80A6D470[] = {
+UNUSED static EnHorseNormalUnkStruct1 D_80A6D470[] = {
     { { 88, 0, 2078 }, 10 },       { { 2482, 376, 4631 }, 7 },    { { 2228, -28, 6605 }, 12 },
     { { 654, -100, 8864 }, 7 },    { { -297, -500, 10667 }, 12 }, { { -5303, -420, 10640 }, 10 },
     { { -6686, -500, 7760 }, 10 }, { { -5260, 100, 5411 }, 7 },   { { -3573, -269, 3893 }, 10 },
 };
 
-// Unused
-static EnHorseNormalUnkStruct2 D_80A6D4B8 = { ARRAY_COUNT(D_80A6D470), D_80A6D470 };
+UNUSED static EnHorseNormalUnkStruct2 D_80A6D4B8 = { ARRAY_COUNT(D_80A6D470), D_80A6D470 };
 
 void func_80A6B250(EnHorseNormal* this) {
     static s32 D_80A6D4C0[] = { 0, 16 };
@@ -199,7 +197,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
     EnHorseNormal* this = (EnHorseNormal*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01f);
@@ -306,7 +304,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, PlayState* play) {
     Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     f32 dx;
     f32 dz;
-    s32 pad;
+    STACK_PAD(s32);
 
     pointPos += this->waypoint;
     dx = pointPos->x - this->actor.world.pos.x;
@@ -381,7 +379,7 @@ void EnHorseNormal_Wander(EnHorseNormal* this, PlayState* play) {
     static s32 D_80A6D4F4[] = { 0, 1, 4, 5, 6, 2, 3 };
     static s32 D_80A6D510[] = { 0, 0, 2, 2, 1, 1, 1, 3, 3 };
     s32 phi_t0 = this->animationIdx;
-    s32 pad;
+    STACK_PAD(s32);
 
     switch (D_80A6D510[this->animationIdx]) {
         case 0:
@@ -560,9 +558,9 @@ void EnHorseNormal_WaitClone(EnHorseNormal* this, PlayState* play) {
 }
 
 void func_80A6C8E0(EnHorseNormal* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     CollisionPoly* groundPoly;
-    s32 pad2;
+    STACK_PAD(s32);
     Vec3f checkPos;
     s32 bgId;
 
@@ -580,7 +578,7 @@ static EnHorseNormalActionFunc sActionFuncs[] = {
 
 void EnHorseNormal_Update(Actor* thisx, PlayState* play) {
     EnHorseNormal* this = (EnHorseNormal*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     sActionFuncs[this->action](this, play);
     Actor_MoveXZGravity(&this->actor);

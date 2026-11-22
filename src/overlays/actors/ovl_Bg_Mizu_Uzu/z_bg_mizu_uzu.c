@@ -10,6 +10,7 @@
 #include "sfx.h"
 #include "play_state.h"
 #include "player.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
@@ -41,10 +42,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgMizuUzu_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMizuUzu* this = (BgMizuUzu*)thisx;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);

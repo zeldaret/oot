@@ -1,5 +1,5 @@
 #include "z_en_skj.h"
-#include "overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
+#include "src/overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -9,6 +9,7 @@
 #include "regs.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -143,16 +144,16 @@ typedef enum SkullKidOcarinaGameState {
 } SkullKidOcarinaGameState;
 
 typedef enum SkullKidAction {
-    /* 00 */ SKJ_ACTION_FADE,
-    /* 01 */ SKJ_ACTION_WAIT_TO_SHOOT_NEEDLE,
-    /* 02 */ SKJ_ACTION_SARIA_SONG_IDLE,
-    /* 03 */ SKJ_ACTION_WAIT_FOR_DEATH_ANIM,
-    /* 04 */ SKJ_ACTION_PICK_NEXT_FIHGT_ACTION,
-    /* 05 */ SKJ_ACTION_WAIT_FOR_LAND_ANIM,
-    /* 06 */ SKJ_ACTION_RESET_FIGHT,
-    /* 07 */ SKJ_ACTION_FIGHT,
-    /* 08 */ SKJ_ACTION_NEEDLE_RECOVER,
-    /* 09 */ SKJ_ACTION_SPAWN_DEATH_EFFECT,
+    /*  0 */ SKJ_ACTION_FADE,
+    /*  1 */ SKJ_ACTION_WAIT_TO_SHOOT_NEEDLE,
+    /*  2 */ SKJ_ACTION_SARIA_SONG_IDLE,
+    /*  3 */ SKJ_ACTION_WAIT_FOR_DEATH_ANIM,
+    /*  4 */ SKJ_ACTION_PICK_NEXT_FIHGT_ACTION,
+    /*  5 */ SKJ_ACTION_WAIT_FOR_LAND_ANIM,
+    /*  6 */ SKJ_ACTION_RESET_FIGHT,
+    /*  7 */ SKJ_ACTION_FIGHT,
+    /*  8 */ SKJ_ACTION_NEEDLE_RECOVER,
+    /*  9 */ SKJ_ACTION_SPAWN_DEATH_EFFECT,
     /* 10 */ SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE,
     /* 11 */ SKJ_ACTION_SARIA_SONG_WAIT_FOR_SONG,
     /* 12 */ SKJ_ACTION_SARIA_SONG_AFTER_SONG,
@@ -386,7 +387,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
     s16 type = PARAMS_GET_U(thisx->params, 10, 6);
     EnSkj* this = (EnSkj*)thisx;
     PlayState* play = play2;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(thisx, sInitChain);
     switch (type) {
@@ -485,7 +486,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
 }
 
 void EnSkj_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnSkj* this = (EnSkj*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -515,7 +516,7 @@ f32 EnSkj_GetItemYRange(EnSkj* this) {
 }
 
 s32 EnSkj_ShootNeedle(EnSkj* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f pos;
     Vec3f pos2;
     EnSkjneedle* needle;
@@ -832,7 +833,7 @@ void EnSkj_SetupStand(EnSkj* this) {
 void EnSkj_Fight(EnSkj* this, PlayState* play) {
     Vec3f pos1;
     Vec3f pos2;
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     f32 prevPosX;
     f32 prevPosZ;
     f32 phi_f14;
@@ -1055,7 +1056,7 @@ void EnSkj_SetupTalk(EnSkj* this) {
 }
 
 void EnSkj_SariaSongTalk(EnSkj* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         if (GET_ITEMGETINF(ITEMGETINF_16)) {
@@ -1310,7 +1311,7 @@ void EnSkj_LeaveOcarinaGame(EnSkj* this, PlayState* play) {
 
 void EnSkj_Update(Actor* thisx, PlayState* play) {
     Vec3f dropPos;
-    s32 pad;
+    STACK_PAD(s32);
     EnSkj* this = (EnSkj*)thisx;
 
     D_80B01EA0 = Actor_TalkOfferAccepted(&this->actor, play);
@@ -1673,7 +1674,7 @@ Gfx* EnSkj_OpaqueDL(GraphicsContext* gfxCtx, u32 alpha) {
 }
 
 void EnSkj_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnSkj* this = (EnSkj*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj.c", 2475);

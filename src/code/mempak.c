@@ -8,8 +8,10 @@
  * 'ZELDA DEMO TOOL', encoded according to the N64 Font Code described in section 26.3 of the N64 Programming Manual.
  */
 #include "mempak.h"
+#include "attributes.h"
 #include "padmgr.h"
 #include "printf.h"
+#include "stack_pad.h"
 
 #define MEMPAK_MAX_FILES 11
 
@@ -41,7 +43,7 @@ u8 sMempakExtName[PFS_FILE_EXT_LEN] = { 0 };
  */
 s32 Mempak_Init(s32 controllerNum) {
     OSMesgQueue* serialEventQueue;
-    s32 pad;
+    STACK_PAD(s32);
     s32 ret = false;
 
     serialEventQueue = PadMgr_AcquireSerialEventQueue(&gPadMgr);
@@ -55,7 +57,7 @@ s32 Mempak_Init(s32 controllerNum) {
     return ret;
 }
 
-s32 Mempak_GetFreeBytes(s32 controllerNum) {
+s32 Mempak_GetFreeBytes(UNUSED s32 controllerNum) {
     return sMempakFreeBytes;
 }
 
@@ -69,7 +71,7 @@ s32 Mempak_GetFreeBytes(s32 controllerNum) {
  * @param end End file letter (inclusive)
  * @return a bitfield where set bits indicate that the file exists
  */
-s32 Mempak_FindFiles(s32 controllerNum, char start, char end) {
+s32 Mempak_FindFiles(UNUSED s32 controllerNum, char start, char end) {
     OSMesgQueue* serialEventQueue;
     s32 error;
     char letter;
@@ -108,11 +110,11 @@ s32 Mempak_FindFiles(s32 controllerNum, char start, char end) {
  * @param size Size in bytes
  * @return true if the operation completed successfully, false otherwise
  */
-s32 Mempak_Write(s32 controllerNum, char letter, void* buffer, s32 offset, s32 size) {
+s32 Mempak_Write(UNUSED s32 controllerNum, char letter, void* buffer, s32 offset, s32 size) {
     OSMesgQueue* serialEventQueue;
     s32 error;
     s32 ret = false;
-    s32 pad;
+    STACK_PAD(s32);
 
     serialEventQueue = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
@@ -139,11 +141,11 @@ s32 Mempak_Write(s32 controllerNum, char letter, void* buffer, s32 offset, s32 s
  * @param size Size in bytes
  * @return true if the operation completed successfully, false otherwise
  */
-s32 Mempak_Read(s32 controllerNum, char letter, void* buffer, s32 offset, s32 size) {
+s32 Mempak_Read(UNUSED s32 controllerNum, char letter, void* buffer, s32 offset, s32 size) {
     OSMesgQueue* serialEventQueue;
     s32 error;
     s32 ret = false;
-    s32 pad;
+    STACK_PAD(s32);
 
     serialEventQueue = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
@@ -171,12 +173,12 @@ s32 Mempak_Read(s32 controllerNum, char letter, void* buffer, s32 offset, s32 si
  * @param size File size
  * @return true if the operation completed successfully, false otherwise
  */
-s32 Mempak_CreateFile(s32 controllerNum, char* letter, s32 size) {
+s32 Mempak_CreateFile(UNUSED s32 controllerNum, char* letter, s32 size) {
     OSMesgQueue* serialEventQueue;
     s32 error;
     s32 ret = false;
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
 
     serialEventQueue = PadMgr_AcquireSerialEventQueue(&gPadMgr);
 
@@ -236,7 +238,7 @@ s32 Mempak_CreateFile(s32 controllerNum, char* letter, s32 size) {
  * @param letter Memory pak file letter, in the range 'A' to ('A' + MEMPAK_MAX_FILES)
  * @return true if the operation completed successfully, false otherwise
  */
-s32 Mempak_DeleteFile(s32 controllerNum, char letter) {
+s32 Mempak_DeleteFile(UNUSED s32 controllerNum, char letter) {
     OSMesgQueue* serialEventQueue;
     s32 error;
     s32 ret = false;
@@ -261,11 +263,11 @@ s32 Mempak_DeleteFile(s32 controllerNum, char letter) {
  * @param letter Memory pak file letter, in the range 'A' to ('A' + MEMPAK_MAX_FILES)
  * @return the size of the file, or 0 if the operation failed for any reason
  */
-s32 Mempak_GetFileSize(s32 controllerNum, char letter) {
+s32 Mempak_GetFileSize(UNUSED s32 controllerNum, char letter) {
     OSMesgQueue* serialEventQueue = PadMgr_AcquireSerialEventQueue(&gPadMgr);
     OSPfsState state;
     s32 error = osPfsFileState(&sMempakPfsHandle, sMempakFiles[MEMPAK_LETTER_TO_INDEX(letter)], &state);
-    s32 pad;
+    STACK_PAD(s32);
 
     PadMgr_ReleaseSerialEventQueue(&gPadMgr, serialEventQueue);
 

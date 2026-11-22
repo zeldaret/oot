@@ -5,7 +5,7 @@
  */
 
 #include "z_en_niw_girl.h"
-#include "overlays/actors/ovl_En_Niw/z_en_niw.h"
+#include "src/overlays/actors/ovl_En_Niw/z_en_niw.h"
 
 #include "libc64/math64.h"
 #include "gfx.h"
@@ -13,6 +13,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -68,10 +69,10 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
     EnNiwGirl* this = (EnNiwGirl*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f vec1;
     Vec3f vec2;
-    s32 pad2;
+    STACK_PAD(s32);
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gNiwGirlSkel, &gNiwGirlRunAnim, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(play, &this->collider);
@@ -160,7 +161,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, PlayState* play) {
                      -10.0f);
     this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.textId = 0x7000;
-    if (GET_EVENTCHKINF(EVENTCHKINF_80) && (this->unk_27A == 0)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;
     }
     switch (Player_GetMask(play)) {
@@ -267,7 +268,7 @@ static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 void EnNiwGirl_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
     EnNiwGirl* this = (EnNiwGirl*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sp4C = sConstVec3f;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_niw_girl.c", 573);

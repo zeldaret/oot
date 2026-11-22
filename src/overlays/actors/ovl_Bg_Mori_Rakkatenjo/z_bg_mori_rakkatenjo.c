@@ -14,6 +14,7 @@
 #include "quake.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -61,7 +62,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -98,7 +99,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriRakkatenjo_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -164,7 +165,7 @@ void BgMoriRakkatenjo_SetupFall(BgMoriRakkatenjo* this) {
 
 void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, PlayState* play) {
     static f32 bounceVel[] = { 4.0f, 1.5f, 0.4f, 0.1f };
-    s32 pad;
+    STACK_PAD(s32);
     Actor* thisx = &this->dyna.actor;
     s32 quakeIndex;
 
@@ -239,7 +240,7 @@ void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play2) {
 }
 
 void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 497);

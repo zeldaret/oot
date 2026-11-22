@@ -1,5 +1,6 @@
 #include "is_debug.h"
 
+#include "attributes.h"
 #include "ultra64.h"
 #include "versions.h"
 
@@ -66,7 +67,7 @@ void func_800015F4(void) {
 #endif
 
 #if DEBUG_FEATURES
-void* is_proutSyncPrintf(void* arg, const char* str, size_t count) {
+void* is_proutSyncPrintf(UNUSED void* arg, const char* str, size_t count) {
     u32 data;
     s32 pos;
     s32 start;
@@ -95,7 +96,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, size_t count) {
         u32 addr = (u32)&gISVDbgPrnAdrs->data + (start & 0xFFFFFFC);
         s32 shift = ((3 - (start & 3)) * 8);
 
-        if (*str) {
+        if (*str != '\0') {
             osEPiReadIo(sISVHandle, addr, &data);
             osEPiWriteIo(sISVHandle, addr, (*str << shift) | (data & ~(0xFF << shift)));
 

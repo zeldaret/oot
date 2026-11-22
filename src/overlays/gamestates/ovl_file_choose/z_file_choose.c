@@ -20,6 +20,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -79,7 +80,7 @@ static InitialLanguageCursorInfo sInitialLanguageCursors[] = {
 };
 #endif
 
-static s16 sUnused = 106;
+UNUSED static s16 sUnused = 106;
 
 static s16 sScreenFillAlpha = 255;
 
@@ -186,7 +187,7 @@ void FileSelect_DrawImageRGBA32(GraphicsContext* gfxCtx, s16 centerX, s16 center
     u32 textureHeight;
     s32 remainingSize;
     s32 textureSize;
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     OPEN_DISPS(gfxCtx, "../z_file_choose.c", UNK_LINE);
@@ -397,12 +398,14 @@ void FileSelect_InitModeUpdate(GameState* thisx) {
 #endif
 }
 
-void FileSelect_InitModeDraw(GameState* thisx) {
 #if OOT_PAL_N64
+void FileSelect_InitModeDraw(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
 
     Gfx_SetupDL_39Opa(this->state.gfxCtx);
     FileSelect_DrawInitialLanguageMenu(this);
+#else
+void FileSelect_InitModeDraw(UNUSED GameState* thisx) {
 #endif
 }
 
@@ -634,7 +637,7 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
 /**
  * Update function for `CM_UNUSED_31`
  */
-void FileSelect_UnusedCM31(GameState* thisx) {
+void FileSelect_UnusedCM31(UNUSED GameState* thisx) {
 }
 
 /**
@@ -731,8 +734,8 @@ void FileSelect_PulsateCursor(GameState* thisx) {
     static s16 cursorAlphaTargets[] = { 70, 200 };
     FileSelectState* this = (FileSelectState*)thisx;
     s16 alphaStep;
-    SramContext* sramCtx = &this->sramCtx;
-    Input* debugInput = &this->state.input[2];
+    UNUSED_NDEBUG SramContext* sramCtx = &this->sramCtx;
+    UNUSED_NDEBUG Input* debugInput = &this->state.input[2];
 
 #if OOT_PAL && DEBUG_FEATURES
     if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
@@ -1378,7 +1381,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
     s16 quadVtxIndex;
     s16 temp;
     s16 isActive;
-    s16 pad;
+    STACK_PAD(s16);
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1940);
 
@@ -2325,12 +2328,12 @@ void FileSelect_InitContext(GameState* thisx) {
 #endif
 }
 
-void FileSelect_Destroy(GameState* thisx) {
+void FileSelect_Destroy(UNUSED GameState* thisx) {
 }
 
 void FileSelect_Init(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     u32 size = (uintptr_t)_title_staticSegmentRomEnd - (uintptr_t)_title_staticSegmentRomStart;
 
 #if PLATFORM_N64

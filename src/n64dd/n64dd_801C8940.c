@@ -3,6 +3,7 @@
 
 #include "libc64/sleep.h"
 #include "attributes.h"
+#include "stack_pad.h"
 
 s32 D_801D2EA0 = 0;
 u8* D_801D2EA4 = NULL;
@@ -176,7 +177,7 @@ s32 func_801C8DC0(struct_801E0D18* arg0) {
 }
 
 s32 func_801C8E70(struct_801E0D18* arg0) {
-    s32 temp_a0;
+    STACK_PAD(s32);
     s32 temp_v0;
 
     while (true) {

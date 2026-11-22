@@ -5,7 +5,7 @@
  */
 
 #include "z_en_torch.h"
-#include "overlays/actors/ovl_En_Box/z_en_box.h"
+#include "src/overlays/actors/ovl_En_Box/z_en_box.h"
 
 #include "play_state.h"
 #include "save.h"

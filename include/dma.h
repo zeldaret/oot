@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "alignment.h"
-#include "romfile.h"
+#include "romfile.h" // IWYU pragma: export
 
 typedef struct DmaRequest {
     /* 0x00 */ uintptr_t    vromAddr; // VROM address (source)

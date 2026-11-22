@@ -5,7 +5,7 @@
  */
 
 #include "z_en_zl2.h"
-#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+#include "src/overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 #include "libc64/math64.h"
 #include "gfx.h"
@@ -14,6 +14,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -119,7 +120,7 @@ void EnZl2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnZl2_UpdateEyes(EnZl2* this) {
-    s32 pad[4];
+    STACK_PADS(s32, 4);
     s16* eyeTexIndex2 = &this->eyeTexIndex2;
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeTexIndex = &this->eyeTexIndex;
@@ -352,7 +353,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
         }
 
         if (arg2 == 2) {
-            s32 pad;
+            STACK_PAD(s32);
 
             if ((this->action == 5) || (this->action == 30)) {
                 s32 temp_t0;
@@ -458,14 +459,14 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 }
 
 s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
-    s32 pad;
+    STACK_PAD(s32);
     EnZl2* this = (EnZl2*)thisx;
 
     if (limbIndex == 14) {
         Mtx* sp74 = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 7);
         MtxF sp34;
         Vec3s sp2C;
-        s16 pad2;
+        STACK_PAD(s16);
         s16* unk_1DC = this->unk_1DC;
 
         gSPSegment((*gfx)++, 0x0C, sp74);
@@ -566,7 +567,7 @@ s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
 
 void EnZl2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZl2* this = (EnZl2*)thisx;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (limbIndex == 10) {
         if ((this->unk_254 != 0) && (play->csCtx.curFrame >= 900)) {
@@ -774,7 +775,7 @@ void func_80B50278(EnZl2* this, PlayState* play) {
 }
 
 void func_80B50304(EnZl2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     ActorShape* shape = &this->actor.shape;
     CsCmdActorCue* cue = EnZl2_GetCue(play, 0);
     f32 cueXDelta;
@@ -803,7 +804,7 @@ void func_80B5042C(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_0022D0, 2, -8.0f, 0);
     this->action = 5;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -821,7 +822,7 @@ void func_80B504D4(EnZl2* this, PlayState* play) {
     this->drawConfig = 1;
     this->unk_27C = 0.0f;
     EnZl2_setMouthIndex(this, 1);
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B5053C(EnZl2* this, s32 arg1) {
@@ -835,7 +836,7 @@ void func_80B50580(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_000A50, 2, -8.0f, 0);
     this->action = 9;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B505D4(EnZl2* this, s32 arg1) {
@@ -859,7 +860,7 @@ void func_80B50670(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_00B5FC, 0, -8.0f, 0);
     this->action = 13;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B506C4(EnZl2* this, PlayState* play) {
@@ -868,7 +869,7 @@ void func_80B506C4(EnZl2* this, PlayState* play) {
     this->drawConfig = 1;
     EnZl2_setEyesIndex(this, 4);
     EnZl2_setMouthIndex(this, 2);
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     func_80B4FE90(this);
 }
 
@@ -883,7 +884,7 @@ void func_80B50780(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_001670, 2, -8.0f, 0);
     this->action = 16;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     func_80B4FFF0(this, play);
     EnZl2_setEyesIndex(this, 3);
 }
@@ -899,7 +900,7 @@ void func_80B5082C(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_002B14, 2, -8.0f, 0);
     this->action = 18;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B50880(EnZl2* this, s32 arg1) {
@@ -915,7 +916,7 @@ void func_80B508C8(EnZl2* this, PlayState* play) {
     this->action = 20;
     this->drawConfig = 1;
     EnZl2_setEyesIndex(this, 6);
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B50928(EnZl2* this, s32 arg1) {
@@ -1261,7 +1262,7 @@ void func_80B514F8(EnZl2* this, PlayState* play) {
 void func_80B5154C(EnZl2* this, PlayState* play) {
     CutsceneContext* csCtx;
 
-    if (this->skelAnime.mode != 0) {
+    if (this->skelAnime.mode != ANIMMODE_LOOP) {
         EnZl2_UpdateEyes(this);
     } else {
         csCtx = &play->csCtx;
@@ -1286,7 +1287,7 @@ void func_80B515D8(EnZl2* this, PlayState* play) {
     func_80B4EDB8(this, play, 0);
     this->action = 26;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1300,7 +1301,7 @@ void func_80B51678(EnZl2* this) {
     func_80B4FD00(this, &gZelda2Anime1Anim_007D0C, 2, -8.0f, 0);
     this->action = 27;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1314,7 +1315,7 @@ void func_80B51704(EnZl2* this) {
     func_80B4FD00(this, &gZelda2Anime1Anim_0090D8, 2, -8.0f, 0);
     this->action = 28;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1328,7 +1329,7 @@ void func_80B51790(EnZl2* this) {
     func_80B4FD00(this, &gZelda2Anime1Anim_005F40, 2, -8.0f, 0);
     this->action = 29;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B517E0(EnZl2* this, s32 arg1) {
@@ -1342,7 +1343,7 @@ void func_80B51824(EnZl2* this) {
     func_80B4FD00(this, &gZelda2Anime1Anim_0022D0, 2, -8.0f, 0);
     this->action = 30;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1357,7 +1358,7 @@ void func_80B518C0(EnZl2* this) {
     func_80B4FD00(this, SEGMENTED_TO_VIRTUAL(&gZelda2Anime1Anim_004900), 2, -8.0f, 0);
     this->action = 32;
     this->drawConfig = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->unk_27C = 0.0f;
 }
 
@@ -1471,7 +1472,7 @@ void func_80B51D0C(EnZl2* this, PlayState* play) {
 }
 
 void func_80B51D24(EnZl2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     u32 sfxId;
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -1521,7 +1522,7 @@ void func_80B51EA8(EnZl2* this) {
 void func_80B51EBC(EnZl2* this, PlayState* play) {
     ActorShape* shape = &this->actor.shape;
     CsCmdActorCue* cue = EnZl2_GetCue(play, 0);
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     this->actor.world.rot.y = shape->rot.y = cue->rot.y;
     func_80B4FD00(this, &gZelda2Anime1Anim_00B224, 0, 0.0f, 0);
@@ -1610,10 +1611,10 @@ void func_80B52114(EnZl2* this, PlayState* play) {
 }
 
 void func_80B521A0(EnZl2* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     ObjectContext* objectCtx = &play->objectCtx;
     s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME1);
-    s32 pad2;
+    STACK_PAD(s32);
 
 #if DEBUG_FEATURES
     if (objectSlot < 0) {
@@ -1645,7 +1646,7 @@ void EnZl2_Update(Actor* thisx, PlayState* play) {
 void EnZl2_Init(Actor* thisx, PlayState* play) {
     EnZl2* this = (EnZl2*)thisx;
     ActorShape* shape = &thisx->shape;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     shape->shadowAlpha = 0;
@@ -1678,7 +1679,7 @@ void func_80B523BC(EnZl2* this, PlayState* play) {
 }
 
 void func_80B523C8(EnZl2* this, PlayState* play) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16 eyeTexIndex = this->eyeTexIndex;
     s16 eyeTexIndex2 = this->eyeTexIndex2;
     void* eyeTex = sEyeTextures[eyeTexIndex];
@@ -1686,7 +1687,7 @@ void func_80B523C8(EnZl2* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
     s16 mouthTexIndex = this->mouthTexIndex;
     void* mouthTex = sMouthTextures[mouthTexIndex];
-    s32 pad1;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl2.c", 1623);
 
@@ -1696,7 +1697,7 @@ void func_80B523C8(EnZl2* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex2));
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0B, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x0B, ACTOR_SETUP_OPA_DL);
 
     POLY_OPA_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, this, POLY_OPA_DISP);
@@ -1705,13 +1706,13 @@ void func_80B523C8(EnZl2* this, PlayState* play) {
 }
 
 void func_80B525D4(EnZl2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;
     SkelAnime* skelAnime = &this->skelAnime;
     void* mouthTex = sMouthTextures[mouthTexIndex];
-    s32 pad1;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl2.c", 1663);
 
@@ -1721,7 +1722,7 @@ void func_80B525D4(EnZl2* this, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
-    gSPSegment(POLY_XLU_DISP++, 0x0B, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 0x0B, gActorSetupXluDL);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl2_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);

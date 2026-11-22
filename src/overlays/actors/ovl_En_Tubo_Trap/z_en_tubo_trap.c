@@ -5,12 +5,13 @@
  */
 
 #include "z_en_tubo_trap.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_en_item00.h"
@@ -285,7 +286,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, PlayState* play) {
 
 void EnTuboTrap_Update(Actor* thisx, PlayState* play) {
     EnTuboTrap* this = (EnTuboTrap*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->actionFunc(this, play);
     Actor_MoveXZGravity(&this->actor);

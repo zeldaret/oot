@@ -12,6 +12,7 @@
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
@@ -289,9 +290,9 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
 void func_80A9CB18(EnKz* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
+#if OOT_VERSION < PAL_1_0
     f32 yaw;
 
-#if OOT_VERSION < PAL_1_0
     yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
     yaw -= this->actor.shape.rot.y;
     if (fabsf(yaw) > 1820.0f) {
@@ -389,7 +390,7 @@ s32 EnKz_SetMovedPos(EnKz* this, PlayState* play) {
 
 void EnKz_Init(Actor* thisx, PlayState* play) {
     EnKz* this = (EnKz*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_InitFlex(play, &this->skelanime, &gKzSkel, NULL, this->jointTable, this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
@@ -433,7 +434,7 @@ void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
 }
 
 void EnKz_SetupMweep(EnKz* this, PlayState* play) {
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f subCamAt;
     Vec3f subCamEye;
 
@@ -453,7 +454,7 @@ void EnKz_SetupMweep(EnKz* this, PlayState* play) {
 }
 
 void EnKz_Mweep(EnKz* this, PlayState* play) {
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f subCamAt;
     Vec3f subCamEye;
 
@@ -534,7 +535,7 @@ void EnKz_StartTimer(EnKz* this, PlayState* play) {
 
 void EnKz_Update(Actor* thisx, PlayState* play) {
     EnKz* this = (EnKz*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (LINK_IS_ADULT && !GET_INFTABLE(INFTABLE_138)) {
         SET_INFTABLE(INFTABLE_138);

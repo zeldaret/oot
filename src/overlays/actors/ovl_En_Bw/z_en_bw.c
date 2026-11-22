@@ -14,6 +14,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "versions.h"
@@ -174,7 +175,7 @@ void EnBw_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnBw_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnBw* this = (EnBw*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider1);
@@ -242,8 +243,8 @@ void func_809CEA24(EnBw* this, PlayState* play) {
         this->color1.g = sp60;
     }
     if ((((play->gameplayFrames % 4) == (u32)this->actor.params) && (this->actor.speed != 0.0f) &&
-         (sp64 =
-              BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0, 1))) ||
+         (sp64 = BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, true, false,
+                                      false, true))) ||
         (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);
@@ -252,10 +253,12 @@ void func_809CEA24(EnBw* this, PlayState* play) {
             sp62 = this->actor.world.rot.y + 0x8000;
         }
         if ((this->unk_236 != sp62) || (sp64 == 0)) {
-            if (BgCheck_AnyLineTest2(&play->colCtx, &this->unk_270, &this->unk_288, &sp68, &sp74, 1, 0, 0, 1)) {
+            if (BgCheck_AnyLineTest2(&play->colCtx, &this->unk_270, &this->unk_288, &sp68, &sp74, true, false, false,
+                                     true)) {
                 sp64 |= 2;
             }
-            if (BgCheck_AnyLineTest2(&play->colCtx, &this->unk_270, &this->unk_27C, &sp68, &sp74, 1, 0, 0, 1)) {
+            if (BgCheck_AnyLineTest2(&play->colCtx, &this->unk_270, &this->unk_27C, &sp68, &sp74, true, false, false,
+                                     true)) {
                 sp64 |= 4;
             }
             switch (sp64) {
@@ -325,7 +328,7 @@ void func_809CEA24(EnBw* this, PlayState* play) {
             }
         } else if (this->unk_221 == 0) {
             sp64 = BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &sp68, &sp74,
-                                        1, 0, 0, 1);
+                                        true, false, false, true);
             if (sp64 != 0) {
                 sp74 = SEGMENTED_TO_VIRTUAL(sp74);
                 sp60 = RAD_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
@@ -766,7 +769,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
     EnBw* this = (EnBw*)thisx;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
-    s32 pad[3]; // probably an unused Vec3f
+    STACK_PADS(s32, 3); // probably an unused Vec3f
     Color_RGBA8 sp50 = { 255, 200, 0, 255 };
     Color_RGBA8 sp4C = { 255, 80, 0, 255 };
     Color_RGBA8 sp48 = { 0, 0, 0, 255 };
@@ -876,7 +879,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
     if (this->color1.a == 0xFF) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
-        gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, ACTOR_SETUP_OPA_DL);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_OPA_DISP);
     } else {
@@ -884,7 +887,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->color1.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
-        gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
+        gSPSegment(POLY_XLU_DISP++, 0x08, gActorSetupXluDL);
         POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
     }

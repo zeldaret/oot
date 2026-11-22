@@ -12,6 +12,7 @@
 #include "one_point_cutscene.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -62,7 +63,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
     CollisionHeader* colHeader = NULL;
 

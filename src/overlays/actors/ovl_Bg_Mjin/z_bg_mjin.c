@@ -6,6 +6,7 @@
 
 #include "z_bg_mjin.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -44,7 +45,7 @@ ActorProfile Bg_Mjin_Profile = {
     /**/ NULL,
 };
 
-extern UNK_TYPE D_06000000;
+extern u64 D_06000000[];
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
@@ -108,7 +109,7 @@ void BgMjin_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgMjin_Draw(Actor* thisx, PlayState* play) {
-    BgMjin* this = (BgMjin*)thisx;
+    UNUSED BgMjin* this = (BgMjin*)thisx;
     Gfx* dlist;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 250);
@@ -120,7 +121,7 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
             gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         }
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_06000000));
         dlist = gWarpPadBaseDL;
     } else {
         dlist = gOcarinaWarpPadDL;

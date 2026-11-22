@@ -5,11 +5,12 @@
  */
 
 #include "z_en_nutsball.h"
-#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "effect.h"
 #include "play_state.h"
@@ -74,7 +75,7 @@ static Gfx* sDLists[] = {
 
 void EnNutsball_Init(Actor* thisx, PlayState* play) {
     EnNutsball* this = (EnNutsball*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawCircle, 13.0f);
     Collider_InitCylinder(play, &this->collider);
@@ -155,7 +156,7 @@ void EnNutsball_Projectile(EnNutsball* this, PlayState* play) {
 void EnNutsball_Update(Actor* thisx, PlayState* play) {
     EnNutsball* this = (EnNutsball*)thisx;
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_TALKING | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
         (this->actionFunc == EnNutsball_WaitForObject)) {

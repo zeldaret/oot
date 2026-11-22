@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -81,7 +82,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaGate_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgHakaGate* this = (BgHakaGate*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -146,7 +147,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
 }
 
 void BgHakaGate_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgHakaGate* this = (BgHakaGate*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -311,7 +312,7 @@ void BgHakaGate_FalseSkull(BgHakaGate* this, PlayState* play) {
 }
 
 void BgHakaGate_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgHakaGate* this = (BgHakaGate*)thisx;
 
     this->actionFunc(this, play);

@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -70,7 +71,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgGndSoulmeiro_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -171,7 +172,7 @@ void func_8087AF38(BgGndSoulmeiro* this, PlayState* play) {
 }
 
 void func_8087B284(BgGndSoulmeiro* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (!Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         this->actor.draw = BgGndSoulmeiro_Draw;

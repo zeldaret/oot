@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "translation.h"
@@ -176,7 +177,7 @@ void MirRay_MakeShieldLight(MirRay* this, PlayState* play) {
 }
 
 void MirRay_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     MirRay* this = (MirRay*)thisx;
     MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
 
@@ -253,7 +254,7 @@ void MirRay_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void MirRay_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     MirRay* this = (MirRay*)thisx;
     Player* player = GET_PLAYER(play);
 
@@ -282,7 +283,7 @@ void MirRay_SetIntensity(MirRay* this, PlayState* play) {
     f32 temp_f0;
     f32 temp_f0_2;
     f32 temp_f2_2;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     MtxF* shieldMtx = &player->shieldMf;
 
@@ -347,7 +348,7 @@ void MirRay_SetupReflectionPolys(MirRay* this, PlayState* play, MirRayShieldRefl
         posB.x = sp60[0] + posA.x;
         posB.y = sp60[1] + posA.y;
         posB.z = sp60[2] + posA.z;
-        if (BgCheck_AnyLineTest1(&play->colCtx, &posA, &posB, &posResult, &outPoly, 1)) {
+        if (BgCheck_AnyLineTest1(&play->colCtx, &posA, &posB, &posResult, &outPoly, true)) {
             reflection[i].reflectionPoly = outPoly;
         } else {
             reflection[i].reflectionPoly = NULL;
@@ -488,7 +489,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 i;
     MirRayShieldReflection reflection[6];
-    s32 pad;
+    STACK_PAD(s32);
 
     this->reflectIntensity = 0.0f;
     if ((D_80B8E670 == 0) && !this->unLit && Player_HasMirrorShieldSetToDraw(play)) {

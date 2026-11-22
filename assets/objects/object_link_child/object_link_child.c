@@ -282,28 +282,28 @@ Vtx gLinkChildLeftFistAndBoomerangNearVtx[] = {
 #include "assets/objects/object_link_child/gLinkChildLeftFistAndBoomerangNearVtx.inc.c"
 };
 
-Vtx gLinkChildHylianShieldSwordAndSheathNearVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildHylianShieldSwordAndSheathNearVtx.inc.c"
+Vtx gLinkChildBackHylianShieldSwordInSheathNearVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackHylianShieldSwordInSheathNearVtx.inc.c"
 };
 
-Vtx gLinkChildHylianShieldAndSheathNearVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildHylianShieldAndSheathNearVtx.inc.c"
+Vtx gLinkChildBackHylianShieldKokiriSheathNearVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackHylianShieldKokiriSheathNearVtx.inc.c"
 };
 
-Vtx gLinkChildDekuShieldSwordAndSheathNearVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldSwordAndSheathNearVtx.inc.c"
+Vtx gLinkChildBackDekuShieldKokiriSwordInSheathNearVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldKokiriSwordInSheathNearVtx.inc.c"
 };
 
-Vtx gLinkChildDekuShieldAndSheathNearVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldAndSheathNearVtx.inc.c"
+Vtx gLinkChildBackDekuShieldKokiriSheathNearVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldKokiriSheathNearVtx.inc.c"
 };
 
-Vtx gLinkChildSwordAndSheathNearVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildSwordAndSheathNearVtx.inc.c"
+Vtx gLinkChildBackKokiriSwordInSheathNearVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackKokiriSwordInSheathNearVtx.inc.c"
 };
 
-Vtx gLinkChildSheathNearVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildSheathNearVtx.inc.c"
+Vtx gLinkChildBackKokiriSheathNearVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackKokiriSheathNearVtx.inc.c"
 };
 
 Vtx gLinkChildLeftHandHoldingMasterSwordVtx[] = {
@@ -354,28 +354,28 @@ Vtx gLinkChildLeftFistAndBoomerangFarVtx[] = {
 #include "assets/objects/object_link_child/gLinkChildLeftFistAndBoomerangFarVtx.inc.c"
 };
 
-Vtx gLinkChildHylianShieldSwordAndSheathFarVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildHylianShieldSwordAndSheathFarVtx.inc.c"
+Vtx gLinkChildBackHylianShieldSwordInSheathFarVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackHylianShieldSwordInSheathFarVtx.inc.c"
 };
 
-Vtx gLinkChildHylianShieldAndSheathFarVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildHylianShieldAndSheathFarVtx.inc.c"
+Vtx gLinkChildBackHylianShieldKokiriSheathFarVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackHylianShieldKokiriSheathFarVtx.inc.c"
 };
 
-Vtx gLinkChildDekuShieldSwordAndSheathFarVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldSwordAndSheathFarVtx.inc.c"
+Vtx gLinkChildBackDekuShieldKokiriSwordInSheathFarVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldKokiriSwordInSheathFarVtx.inc.c"
 };
 
-Vtx gLinkChildDekuShieldAndSheathFarVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldAndSheathFarVtx.inc.c"
+Vtx gLinkChildBackDekuShieldKokiriSheathFarVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldKokiriSheathFarVtx.inc.c"
 };
 
-Vtx gLinkChildSwordAndSheathFarVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildSwordAndSheathFarVtx.inc.c"
+Vtx gLinkChildBackKokiriSwordInSheathFarVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackKokiriSwordInSheathFarVtx.inc.c"
 };
 
-Vtx gLinkChildSheathFarVtx[] = {
-#include "assets/objects/object_link_child/gLinkChildSheathFarVtx.inc.c"
+Vtx gLinkChildBackKokiriSheathFarVtx[] = {
+#include "assets/objects/object_link_child/gLinkChildBackKokiriSheathFarVtx.inc.c"
 };
 
 Vtx gLinkChildLeftFistAndKokiriSwordFarVtx[] = {
@@ -446,28 +446,28 @@ Gfx gLinkChildLeftFistAndBoomerangNearDL[73] = {
 #include "assets/objects/object_link_child/gLinkChildLeftFistAndBoomerangNearDL.inc.c"
 };
 
-Gfx gLinkChildHylianShieldSwordAndSheathNearDL[83] = {
-#include "assets/objects/object_link_child/gLinkChildHylianShieldSwordAndSheathNearDL.inc.c"
+Gfx gLinkChildBackHylianShieldSwordInSheathNearDL[83] = {
+#include "assets/objects/object_link_child/gLinkChildBackHylianShieldSwordInSheathNearDL.inc.c"
 };
 
-Gfx gLinkChildHylianShieldAndSheathNearDL[69] = {
-#include "assets/objects/object_link_child/gLinkChildHylianShieldAndSheathNearDL.inc.c"
+Gfx gLinkChildBackHylianShieldKokiriSheathNearDL[69] = {
+#include "assets/objects/object_link_child/gLinkChildBackHylianShieldKokiriSheathNearDL.inc.c"
 };
 
-Gfx gLinkChildDekuShieldSwordAndSheathNearDL[85] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldSwordAndSheathNearDL.inc.c"
+Gfx gLinkChildBackDekuShieldKokiriSwordInSheathNearDL[85] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldKokiriSwordInSheathNearDL.inc.c"
 };
 
-Gfx gLinkChildDekuShieldAndSheathNearDL[71] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldAndSheathNearDL.inc.c"
+Gfx gLinkChildBackDekuShieldKokiriSheathNearDL[71] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldKokiriSheathNearDL.inc.c"
 };
 
-Gfx gLinkChildSwordAndSheathNearDL[56] = {
-#include "assets/objects/object_link_child/gLinkChildSwordAndSheathNearDL.inc.c"
+Gfx gLinkChildBackKokiriSwordInSheathNearDL[56] = {
+#include "assets/objects/object_link_child/gLinkChildBackKokiriSwordInSheathNearDL.inc.c"
 };
 
-Gfx gLinkChildSheathNearDL[39] = {
-#include "assets/objects/object_link_child/gLinkChildSheathNearDL.inc.c"
+Gfx gLinkChildBackKokiriSheathNearDL[39] = {
+#include "assets/objects/object_link_child/gLinkChildBackKokiriSheathNearDL.inc.c"
 };
 
 Gfx gLinkChildLeftHandHoldingMasterSwordDL[131] = {
@@ -518,28 +518,28 @@ Gfx gLinkChildLeftFistAndBoomerangFarDL[50] = {
 #include "assets/objects/object_link_child/gLinkChildLeftFistAndBoomerangFarDL.inc.c"
 };
 
-Gfx gLinkChildHylianShieldSwordAndSheathFarDL[76] = {
-#include "assets/objects/object_link_child/gLinkChildHylianShieldSwordAndSheathFarDL.inc.c"
+Gfx gLinkChildBackHylianShieldSwordInSheathFarDL[76] = {
+#include "assets/objects/object_link_child/gLinkChildBackHylianShieldSwordInSheathFarDL.inc.c"
 };
 
-Gfx gLinkChildHylianShieldAndSheathFarDL[62] = {
-#include "assets/objects/object_link_child/gLinkChildHylianShieldAndSheathFarDL.inc.c"
+Gfx gLinkChildBackHylianShieldKokiriSheathFarDL[62] = {
+#include "assets/objects/object_link_child/gLinkChildBackHylianShieldKokiriSheathFarDL.inc.c"
 };
 
-Gfx gLinkChildDekuShieldSwordAndSheathFarDL[77] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldSwordAndSheathFarDL.inc.c"
+Gfx gLinkChildBackDekuShieldKokiriSwordInSheathFarDL[77] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldKokiriSwordInSheathFarDL.inc.c"
 };
 
-Gfx gLinkChildDekuShieldAndSheathFarDL[66] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldAndSheathFarDL.inc.c"
+Gfx gLinkChildBackDekuShieldKokiriSheathFarDL[66] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldKokiriSheathFarDL.inc.c"
 };
 
-Gfx gLinkChildSwordAndSheathFarDL[52] = {
-#include "assets/objects/object_link_child/gLinkChildSwordAndSheathFarDL.inc.c"
+Gfx gLinkChildBackKokiriSwordInSheathFarDL[52] = {
+#include "assets/objects/object_link_child/gLinkChildBackKokiriSwordInSheathFarDL.inc.c"
 };
 
-Gfx gLinkChildSheathFarDL[38] = {
-#include "assets/objects/object_link_child/gLinkChildSheathFarDL.inc.c"
+Gfx gLinkChildBackKokiriSheathFarDL[38] = {
+#include "assets/objects/object_link_child/gLinkChildBackKokiriSheathFarDL.inc.c"
 };
 
 Gfx gLinkChildLeftFistAndKokiriSwordFarDL[78] = {
@@ -870,8 +870,8 @@ Mtx gLinkChildDekuShieldMtx =
 #include "assets/objects/object_link_child/gLinkChildDekuShieldMtx.inc.c"
     ;
 
-Gfx gLinkChildDekuShieldWithMatrixDL[3] = {
-#include "assets/objects/object_link_child/gLinkChildDekuShieldWithMatrixDL.inc.c"
+Gfx gLinkChildBackDekuShieldDL[3] = {
+#include "assets/objects/object_link_child/gLinkChildBackDekuShieldDL.inc.c"
 };
 
 // Masks
@@ -1178,8 +1178,8 @@ LodLimb gLinkChildRightHandLimb = {
 #include "assets/objects/object_link_child/gLinkChildRightHandLimb.inc.c"
 };
 
-LodLimb gLinkChildSwordAndSheathLimb = {
-#include "assets/objects/object_link_child/gLinkChildSwordAndSheathLimb.inc.c"
+LodLimb gLinkChildBackLimb = {
+#include "assets/objects/object_link_child/gLinkChildBackLimb.inc.c"
 };
 
 LodLimb gLinkChildTorsoLimb = {

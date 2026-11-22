@@ -5,6 +5,7 @@
  */
 
 #include "libc64/qrand.h"
+#include "attributes.h"
 #include "libu64/gfxprint.h"
 #include "alloca.h"
 #include "array_count.h"
@@ -22,6 +23,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "ultra64.h"
@@ -65,13 +67,13 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
 }
 
 #if PLATFORM_N64
-void func_80800AD0_unknown(MapSelectState* this, s32 arg1) {
+void func_80800AD0_unknown(UNUSED MapSelectState* this, UNUSED s32 arg1) {
     if (D_80121212 != 0) {
         n64dd_SetDiskVersion(1);
     }
 }
 
-void func_80800B08_unknown(MapSelectState* this, s32 arg1) {
+void func_80800B08_unknown(UNUSED MapSelectState* this, UNUSED s32 arg1) {
     if (D_80121212 != 0) {
         n64dd_SetDiskVersion(0);
     }
@@ -290,7 +292,7 @@ static MapSelectEntry sMapSelectEntries[] = {
 
 void MapSelect_UpdateMenu(MapSelectState* this) {
     Input* input = &this->state.input[0];
-    s32 pad;
+    STACK_PAD(s32);
     MapSelectEntry* selectedEntry;
 
     if (this->verticalInputAccumulator == 0) {
@@ -538,7 +540,7 @@ static const char* sLoadingMessages[] = {
     T(GFXP_HIRAGANA "ｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡", "Don't worry, don't worry. Take a break, take a break."),
 };
 
-void MapSelect_PrintLoadingMessage(MapSelectState* this, GfxPrint* printer) {
+void MapSelect_PrintLoadingMessage(UNUSED MapSelectState* this, GfxPrint* printer) {
     s32 randomMsg;
 
     GfxPrint_SetPos(printer, 10, 15);
@@ -552,13 +554,13 @@ static const char* sAgeLabels[] = {
     T(GFXP_HIRAGANA "5(ﾜｶｽｷﾞ)", "5(very young)"),
 };
 
-void MapSelect_PrintAgeSetting(MapSelectState* this, GfxPrint* printer, s32 age) {
+void MapSelect_PrintAgeSetting(UNUSED MapSelectState* this, GfxPrint* printer, s32 age) {
     GfxPrint_SetPos(printer, 4, 26);
     GfxPrint_SetColor(printer, 255, 255, 55, 255);
     GfxPrint_Printf(printer, "Age:%s", sAgeLabels[age]);
 }
 
-void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16 csIndex) {
+void MapSelect_PrintCutsceneSetting(UNUSED MapSelectState* this, GfxPrint* printer, u16 csIndex) {
     char* label;
 
     GfxPrint_SetPos(printer, 4, 25);
@@ -687,7 +689,7 @@ void MapSelect_Main(GameState* thisx) {
     MapSelect_Draw(this);
 }
 
-void MapSelect_Destroy(GameState* thisx) {
+void MapSelect_Destroy(UNUSED GameState* thisx) {
     PRINTF("%c", BEL);
     PRINTF(T("*** view_cleanupはハングアップするので、呼ばない ***\n",
              "*** view_cleanup will hang, so it won't be called ***\n"));

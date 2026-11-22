@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 #include "save.h"
@@ -45,7 +46,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgSpot18Shutter* this = (BgSpot18Shutter*)thisx;
     s32 param = PARAMS_GET_U(this->dyna.actor.params, 8, 1);
     CollisionHeader* colHeader = NULL;

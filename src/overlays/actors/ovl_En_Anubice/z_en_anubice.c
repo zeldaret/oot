@@ -5,8 +5,8 @@
  */
 
 #include "z_en_anubice.h"
-#include "overlays/actors/ovl_En_Anubice_Tag/z_en_anubice_tag.h"
-#include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
+#include "src/overlays/actors/ovl_En_Anubice_Tag/z_en_anubice_tag.h"
+#include "src/overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 
 #include "libc64/math64.h"
 #include "array_count.h"
@@ -15,6 +15,7 @@
 #include "printf.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -333,7 +334,7 @@ void EnAnubice_Die(EnAnubice* this, PlayState* play) {
     f32 rotX;
     Vec3f baseFireEffectPos = { 0.0f, 0.0f, 0.0f };
     Vec3f rotatedFireEffectPos = { 0.0f, 0.0f, 0.0f };
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.shadowScale, 0.4f, 0.25f);

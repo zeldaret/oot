@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "attributes.h"
 
 #define MOTOR_ID 0x80
 
@@ -6,8 +7,8 @@
 OSPifRam __MotorDataBuf[MAXCONTROLLERS];
 #endif
 
-s32 __osMotorAccess(OSPfs* pfs, s32 vibrate) {
 #ifndef BBPLAYER
+s32 __osMotorAccess(OSPfs* pfs, s32 vibrate) {
     s32 i;
     s32 ret;
     u8* ptr = (u8*)&__MotorDataBuf[pfs->channel];
@@ -47,6 +48,7 @@ s32 __osMotorAccess(OSPfs* pfs, s32 vibrate) {
 
     return ret;
 #else
+s32 __osMotorAccess(UNUSED OSPfs* pfs, UNUSED s32 vibrate) {
     return PFS_ERR_INVALID;
 #endif
 }
@@ -76,8 +78,8 @@ void _MakeMotorData(s32 channel, OSPifRam* mdata) {
 }
 #endif
 
-s32 osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, s32 channel) {
 #ifndef BBPLAYER
+s32 osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, s32 channel) {
     s32 ret;
     u8 temp[BLOCKSIZE];
 
@@ -133,6 +135,7 @@ s32 osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, s32 channel) {
     pfs->status = PFS_MOTOR_INITIALIZED;
     return 0; // "Recognized rumble pak"
 #else
+s32 osMotorInit(UNUSED OSMesgQueue* ctrlrqueue, UNUSED OSPfs* pfs, UNUSED s32 channel) {
     return PFS_ERR_DEVICE;
 #endif
 }

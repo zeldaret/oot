@@ -1,13 +1,18 @@
 #include "vi_mode.h"
 
-#include "libu64/debug.h"
-#include "ultra64/viint.h"
+#include "versions.h"
+#include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
 #include "main.h"
 #include "printf.h"
 #include "regs.h"
-#include "versions.h"
+
+#include "libu64/debug.h"
+#include "libu64/pad.h"
+#include "ultra64.h"
+#include "ultra64/viint.h"
+#include <stdbool.h>
 
 void ViMode_LogPrint(OSViMode* osViMode) {
     LOG_ADDRESS("osvimodep", osViMode, "../z_vimode.c", 87);
@@ -245,7 +250,7 @@ void ViMode_Init(ViMode* viMode) {
     ViMode_Save(viMode);
 }
 
-void ViMode_Destroy(ViMode* viMode) {
+void ViMode_Destroy(UNUSED ViMode* viMode) {
 }
 
 void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures) {

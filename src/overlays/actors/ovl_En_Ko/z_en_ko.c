@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -323,7 +324,7 @@ u16 EnKo_GetTextIdChild(PlayState* play, Actor* thisx) {
     EnKo* this = (EnKo*)thisx;
     switch (ENKO_TYPE) {
         case ENKO_TYPE_CHILD_FADO:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 return 0x10DA;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -331,7 +332,7 @@ u16 EnKo_GetTextIdChild(PlayState* play, Actor* thisx) {
             }
             return GET_INFTABLE(INFTABLE_B7) ? 0x10D8 : 0x10D7;
         case ENKO_TYPE_CHILD_0:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 return 0x1025;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -339,7 +340,7 @@ u16 EnKo_GetTextIdChild(PlayState* play, Actor* thisx) {
             }
             return 0x1004;
         case ENKO_TYPE_CHILD_1:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 return 0x1023;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -350,12 +351,12 @@ u16 EnKo_GetTextIdChild(PlayState* play, Actor* thisx) {
             }
             return 0x1005;
         case ENKO_TYPE_CHILD_2:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 return 0x1022;
             }
             return 0x1007;
         case ENKO_TYPE_CHILD_3:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 return 0x1021;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -366,7 +367,7 @@ u16 EnKo_GetTextIdChild(PlayState* play, Actor* thisx) {
             }
             return 0x1008;
         case ENKO_TYPE_CHILD_4:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 return 0x1097;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -377,7 +378,7 @@ u16 EnKo_GetTextIdChild(PlayState* play, Actor* thisx) {
             }
             return 0x100A;
         case ENKO_TYPE_CHILD_5:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 return 0x10B0;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -388,7 +389,7 @@ u16 EnKo_GetTextIdChild(PlayState* play, Actor* thisx) {
             }
             return 0x100C;
         case ENKO_TYPE_CHILD_6:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 return 0x10B5;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -625,7 +626,7 @@ s32 EnKo_GetForestQuestState(EnKo* this) {
 
     if (!LINK_IS_ADULT) {
         // Obtained Zelda's Letter
-        if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
             return ENKO_FQS_CHILD_SARIA;
         }
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -1118,7 +1119,7 @@ s32 EnKo_GetForestQuestState2(EnKo* this) {
         return CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST) ? ENKO_FQS_ADULT_SAVED : ENKO_FQS_ADULT_ENEMY;
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        return GET_EVENTCHKINF(EVENTCHKINF_40) ? ENKO_FQS_CHILD_SARIA : ENKO_FQS_CHILD_STONE;
+        return GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER) ? ENKO_FQS_CHILD_SARIA : ENKO_FQS_CHILD_STONE;
     }
     return ENKO_FQS_CHILD_START;
 }
@@ -1300,7 +1301,7 @@ void func_80A995CC(EnKo* this, PlayState* play) {
 void EnKo_Update(Actor* thisx, PlayState* play) {
     ColliderCylinder* collider;
     EnKo* this = (EnKo*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionFunc != func_80A99048) {
         if ((s32)this->modelAlpha != 0) {
@@ -1333,7 +1334,7 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     void* eyeTexture;
     Vec3s limbRot;
     u8 headId;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (limbIndex == 15) {
         gSPSegment((*gfx)++, 0x06, play->objectCtx.slots[this->headObjectSlot].segment);

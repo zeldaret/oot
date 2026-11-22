@@ -21,6 +21,7 @@
 #include "audiothread_cmd.h"
 #include "seqcmd.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "ultra64.h"
 #include "ultra64/abi.h"
 #include "audio.h"
@@ -43,7 +44,7 @@ ActiveSequence gActiveSeqs[4];
 void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration) {
     u8 channelIndex;
     u16 skipTicks;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (!gStartSeqDisabled || (seqPlayerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
@@ -105,7 +106,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     u8 channelIndex;
     u8 i;
     f32 freqScaleTarget;
-    s32 pad;
+    STACK_PAD(s32);
 
 #if DEBUG_FEATURES
     if (gAudioDebugPrintSeqCmd && (cmd & SEQCMD_OP_MASK) != (SEQCMD_OP_SET_SEQPLAYER_IO << 28)) {
@@ -483,7 +484,7 @@ void Audio_UpdateActiveSequences(void) {
     u8 setupVal2;
     u8 setupVal1;
     u16 seqId;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     u16 channelMask;
     u32 retMsg;
     f32 volume;

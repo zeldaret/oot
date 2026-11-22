@@ -15,6 +15,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -136,13 +137,15 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play2) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.save.dayTime < CLOCK_TIME(17, 18) - 1) || IS_DAY) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        if (((gSaveContext.save.dayTime < CLOCK_TIME(17, 18) - 1) || IS_DAY) &&
+            !GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE)) {
             this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.save.dayTime > CLOCK_TIME(17, 18) - 1) || !IS_DAY || GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        if ((gSaveContext.save.dayTime > CLOCK_TIME(17, 18) - 1) || !IS_DAY ||
+            GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_CASTLE)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);
@@ -406,9 +409,9 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
     EnHeishi1* this = (EnHeishi1*)thisx;
     s16 path;
     u8 i;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
-    s32 pad2;
+    STACK_PAD(s32);
     Camera* activeCam;
 
     this->activeTimer++;
@@ -506,7 +509,7 @@ s32 EnHeishi1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 }
 
 void EnHeishi1_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
