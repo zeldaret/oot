@@ -10,10 +10,10 @@
         <Texture Name="gZorasDomainMinimapTex" Format="ia4" Width="64" Height="73" Offset="0x46A0"/>
         <Texture Name="gZorasFountainMinimapTex" Format="ia4" Width="64" Height="65" Offset="0x4FC0"/>
         <Texture Name="gGerudoValleyMinimapTex" Format="ia4" Width="80" Height="65" Offset="0x57E0"/>
-        <Texture Name="gHauntedWastelandMinimapTex" Format="ia4" Width="64" Height="56" Offset="0x6208"/>
+        <Texture Name="gLostWoodsMinimapTex" Format="ia4" Width="64" Height="56" Offset="0x6208"/>
         <Texture Name="gDesertColossusMinimapTex" Format="ia4" Width="64" Height="59" Offset="0x6908"/>
-        <Texture Name="gGerudosFortessMinimapTex" Format="ia4" Width="80" Height="85" Offset="0x7068"/>
-        <Texture Name="gLostWoodsMinimapTex" Format="ia4" Width="64" Height="56" Offset="0x7DB0"/>
+        <Texture Name="gGerudosFortressMinimapTex" Format="ia4" Width="80" Height="85" Offset="0x7068"/>
+        <Texture Name="gHauntedWastelandMinimapTex" Format="ia4" Width="64" Height="56" Offset="0x7DB0"/>
         <Texture Name="gHyruleCastleAreaMinimapTex" Format="ia4" Width="64" Height="59" Offset="0x84B0"/>
         <Texture Name="gDeathMountainTrailMinimapTex" Format="ia4" Width="48" Height="85" Offset="0x8C10"/>
         <Texture Name="gDeathMountainCraterMinimapTex" Format="ia4" Width="80" Height="78" Offset="0x9408"/>
@@ -23,6 +23,6 @@
         <Texture Name="gExploredShadowGraveyardMinimapTex" Format="ia4" Width="80" Height="39" Offset="0xB918"/>
         <Texture Name="gDrainedLakeHyliaMinimapTex" Format="ia4" Width="80" Height="81" Offset="0xBF30"/>
         <Texture Name="gGerudoValleyWithBrokenBridgeMinimapTex" Format="ia4" Width="80" Height="65" Offset="0xCBD8"/>
-        <Texture Name="gGerudosFortressMinimapTex" Format="ia4" Width="80" Height="85" Offset="0xD600"/>
+        <Texture Name="gGerudosFortressWithArcheryMinimapTex" Format="ia4" Width="80" Height="85" Offset="0xD600"/>
      </File>
 </Root>
