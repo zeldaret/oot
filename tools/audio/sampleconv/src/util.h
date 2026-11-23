@@ -98,13 +98,13 @@
 
 #define CHUNK_WRITE_RAW(file, data, length) FWRITE(file, data, length)
 
-#define CHUNK_END(file, start, endian_func)           \
-    do {                                              \
-        long end = ftell(out);                        \
-        uint32_t size = endian_func(end - (start)-8); \
-        fseek(out, (start) + 4, SEEK_SET);            \
-        FWRITE(out, &size, 4);                        \
-        fseek(out, end, SEEK_SET);                    \
+#define CHUNK_END(file, start, endian_func)             \
+    do {                                                \
+        long end = ftell(out);                          \
+        uint32_t size = endian_func(end - (start) - 8); \
+        fseek(out, (start) + 4, SEEK_SET);              \
+        FWRITE(out, &size, 4);                          \
+        fseek(out, end, SEEK_SET);                      \
     } while (0)
 
 __attribute__((format(printf, 1, 2))) NORETURN void

@@ -40,15 +40,15 @@ read_samplebank_xml(samplebank *sb, xmlDocPtr doc)
     //     <Blob Name="" Path=""/>
 
     static const xml_attr_spec header_spec = {
-        {"Name",         false, xml_parse_c_identifier, offsetof(samplebank, name)        },
-        { "Index",       false, xml_parse_int,          offsetof(samplebank, index)       },
-        { "Medium",      false, xml_parse_c_identifier, offsetof(samplebank, medium)      },
-        { "CachePolicy", false, xml_parse_c_identifier, offsetof(samplebank, cache_policy)},
-        { "BufferBug",   true,  xml_parse_bool,         offsetof(samplebank, buffer_bug)  },
+        { "Name",        false, xml_parse_c_identifier, offsetof(samplebank, name)         },
+        { "Index",       false, xml_parse_int,          offsetof(samplebank, index)        },
+        { "Medium",      false, xml_parse_c_identifier, offsetof(samplebank, medium)       },
+        { "CachePolicy", false, xml_parse_c_identifier, offsetof(samplebank, cache_policy) },
+        { "BufferBug",   true,  xml_parse_bool,         offsetof(samplebank, buffer_bug)   },
     };
     static const xml_attr_spec entry_spec = {
-        {"Name",  false, xml_parse_c_identifier, offsetof(samplebank_xml_entry, name)},
-        { "Path", false, xml_parse_string,       offsetof(samplebank_xml_entry, path)},
+        { "Name", false, xml_parse_c_identifier, offsetof(samplebank_xml_entry, name) },
+        { "Path", false, xml_parse_string,       offsetof(samplebank_xml_entry, path) },
     };
 
     xmlNodePtr root = xmlDocGetRootElement(doc);

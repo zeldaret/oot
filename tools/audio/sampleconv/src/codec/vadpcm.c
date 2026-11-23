@@ -82,8 +82,8 @@ compressed_expanded_codebook(int16_t **book_data_out, int32_t ***table, int orde
 
     int n = 0;
     for (int32_t i = 0; i < npredictors; i++) { // For each matrix
-        for (int32_t j = 0; j < order; j++) { // For each column
-            for (int32_t k = 0; k < 8; k++) // For each row
+        for (int32_t j = 0; j < order; j++) {   // For each column
+            for (int32_t k = 0; k < 8; k++)     // For each row
                 book_data[n++] = table[i][k][j];
         }
     }
