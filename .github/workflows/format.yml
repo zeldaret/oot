@@ -16,7 +16,7 @@ jobs:
 
       - name: Install package requirements
         run: |
-          sudo apt-get install -y python3 clang-format-14 clang-tidy-14
+          sudo apt-get install -y python3 clang-format-19 clang-tidy-19
 
       - name: Check formatting
         run: python3 tools/check_format.py
