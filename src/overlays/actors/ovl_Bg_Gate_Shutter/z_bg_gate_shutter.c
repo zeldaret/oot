@@ -27,10 +27,10 @@ void BgGateShutter_Destroy(Actor* thisx, PlayState* play);
 void BgGateShutter_Update(Actor* thisx, PlayState* play);
 void BgGateShutter_Draw(Actor* thisx, PlayState* play);
 
-void func_8087828C(BgGateShutter* this, PlayState* play);
-void func_80878300(BgGateShutter* this, PlayState* play);
-void func_808783AC(BgGateShutter* this, PlayState* play);
-void func_808783D4(BgGateShutter* this, PlayState* play);
+void BgGateShutter_WaitForGuard(BgGateShutter* this, PlayState* play);
+void BgGateShutter_Open(BgGateShutter* this, PlayState* play);
+void BgGateShutter_Cooldown(BgGateShutter* this, PlayState* play);
+void BgGateShutter_Close(BgGateShutter* this, PlayState* play);
 
 ActorProfile Bg_Gate_Shutter_Profile = {
     /**/ ACTOR_BG_GATE_SHUTTER,
@@ -52,9 +52,9 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gKakarikoGuardGateCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-    this->somePos.x = thisx->world.pos.x;
-    this->somePos.y = thisx->world.pos.y;
-    this->somePos.z = thisx->world.pos.z;
+    this->homePos.x = thisx->world.pos.x;
+    this->homePos.y = thisx->world.pos.y;
+    this->homePos.z = thisx->world.pos.z;
     if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_MASTER_SWORD)) &&
         (play->sceneId == SCENE_KAKARIKO_VILLAGE)) {
         thisx->world.pos.x = -89.0f;
@@ -65,7 +65,7 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     thisx->scale.z = 1.0f;
     PRINTF("\n\n");
     PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 柵でたなぁ ☆☆☆☆☆ \n", " ☆☆☆☆☆ There's a fence ☆☆☆☆☆ \n") VT_RST);
-    this->actionFunc = func_8087828C;
+    this->actionFunc = BgGateShutter_WaitForGuard;
 }
 
 void BgGateShutter_Destroy(Actor* thisx, PlayState* play) {
@@ -74,53 +74,53 @@ void BgGateShutter_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_8087828C(BgGateShutter* this, PlayState* play) {
-    if (this->openingState == 1 && !GET_INFTABLE(INFTABLE_76)) {
-        this->unk_178 = 2;
-        this->actionFunc = func_80878300;
-    } else if (this->openingState == 2) {
-        this->unk_178 = 2;
-        this->actionFunc = func_80878300;
-    } else if (this->openingState < 0) {
-        this->unk_178 = 2;
-        this->actionFunc = func_808783D4;
+void BgGateShutter_WaitForGuard(BgGateShutter* this, PlayState* play) {
+    if (this->openingState == GATE_SHUTTER_REQUEST_OPEN && !GET_INFTABLE(INFTABLE_76)) {
+        this->timer = 2;
+        this->actionFunc = BgGateShutter_Open;
+    } else if (this->openingState == GATE_SHUTTER_REQUEST_REOPEN) {
+        this->timer = 2;
+        this->actionFunc = BgGateShutter_Open;
+    } else if (this->openingState < GATE_SHUTTER_REQUEST_NONE) {
+        this->timer = 2;
+        this->actionFunc = BgGateShutter_Close;
     }
 }
 
-void func_80878300(BgGateShutter* this, PlayState* play) {
+void BgGateShutter_Open(BgGateShutter* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if (this->unk_178 == 0) {
+    if (this->timer == 0) {
         Actor_PlaySfx(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->world.pos.x -= 2.0f;
         Math_ApproachF(&thisx->world.pos.z, -1375.0f, 0.8f, 0.3f);
         if (thisx->world.pos.x < -89.0f) {
             Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
-            this->unk_178 = 0x1E;
-            this->actionFunc = func_808783AC;
+            this->timer = 30;
+            this->actionFunc = BgGateShutter_Cooldown;
         }
     }
 }
 
-void func_808783AC(BgGateShutter* this, PlayState* play) {
-    if (this->unk_178 == 0) {
-        this->openingState = 0;
-        this->actionFunc = func_8087828C;
+void BgGateShutter_Cooldown(BgGateShutter* this, PlayState* play) {
+    if (this->timer == 0) {
+        this->openingState = GATE_SHUTTER_REQUEST_NONE;
+        this->actionFunc = BgGateShutter_WaitForGuard;
     }
 }
 
-void func_808783D4(BgGateShutter* this, PlayState* play) {
+void BgGateShutter_Close(BgGateShutter* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if (this->unk_178 == 0) {
+    if (this->timer == 0) {
         Actor_PlaySfx(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->world.pos.x += 2.0f;
         Math_ApproachF(&thisx->world.pos.z, -1350.0f, 0.8f, 0.3f);
         if (thisx->world.pos.x > 90.0f) {
             thisx->world.pos.x = 91.0f;
             Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
-            this->unk_178 = 30;
-            this->actionFunc = func_808783AC;
+            this->timer = 30;
+            this->actionFunc = BgGateShutter_Cooldown;
         }
     }
 }
@@ -128,8 +128,8 @@ void func_808783D4(BgGateShutter* this, PlayState* play) {
 void BgGateShutter_Update(Actor* thisx, PlayState* play) {
     BgGateShutter* this = (BgGateShutter*)thisx;
 
-    if (this->unk_178 != 0) {
-        this->unk_178--;
+    if (this->timer != 0) {
+        this->timer--;
     }
     this->actionFunc(this, play);
 }
