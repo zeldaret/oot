@@ -215,8 +215,6 @@ exit:
     return rv;
 }
 
-
-
 // ********************************************************************************************************************
 // Format Packing and Unpacking
 // ********************************************************************************************************************
@@ -559,8 +557,6 @@ n64texconv_data_sync(struct color *texels, uint8_t *color_indices, size_t ntexel
     return 0;
 }
 
-
-
 // ********************************************************************************************************************
 // Palette
 // ********************************************************************************************************************
@@ -804,8 +800,6 @@ n64texconv_palette_to_c_file(const char *out_path, struct n64_palette *pal, bool
     free(bin);
     return rv;
 }
-
-
 
 // ********************************************************************************************************************
 // Image
@@ -1133,12 +1127,12 @@ n64texconv_image_reformat(struct n64_image *img, int fmt, int siz, struct n64_pa
 
     // Sync texels to format
     n64texconv_image_sync(new_img);
-    //#pragma GCC diagnostic push
-    //#pragma GCC diagnostic ignored "-Wanalyzer-malloc-leak"
-    // Annoyingly the GCC static analyzer considers pal to be leaked here, but it's reachable by the assignment
-    // to new_img...
+    // #pragma GCC diagnostic push
+    // #pragma GCC diagnostic ignored "-Wanalyzer-malloc-leak"
+    //  Annoyingly the GCC static analyzer considers pal to be leaked here, but it's reachable by the assignment
+    //  to new_img...
     return new_img;
-    //#pragma GCC diagnostic pop
+    // #pragma GCC diagnostic pop
 }
 
 /**
@@ -1328,8 +1322,6 @@ n64texconv_image_to_c_file(const char *out_path, struct n64_image *img, bool pad
     free(bin);
     return rv;
 }
-
-
 
 // ********************************************************************************************************************
 // Others

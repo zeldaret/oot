@@ -34,17 +34,17 @@ void
 read_soundfont_info(soundfont *sf, xmlNodePtr node)
 {
     static const xml_attr_spec spec = {
-        {"Name",             false, xml_parse_c_identifier, offsetof(soundfont, info.name)             },
-        { "Index",           false, xml_parse_int,          offsetof(soundfont, info.index)            },
-        { "Medium",          false, xml_parse_c_identifier, offsetof(soundfont, info.medium)           },
-        { "CachePolicy",     false, xml_parse_c_identifier, offsetof(soundfont, info.cache_policy)     },
-        { "SampleBank",      false, xml_parse_string,       offsetof(soundfont, info.bank_path)        },
-        { "Indirect",        true,  xml_parse_int,          offsetof(soundfont, info.pointer_index)    },
-        { "SampleBankDD",    true,  xml_parse_string,       offsetof(soundfont, info.bank_path_dd)     },
-        { "IndirectDD",      true,  xml_parse_int,          offsetof(soundfont, info.pointer_index_dd) },
-        { "LoopsHaveFrames", true,  xml_parse_bool,         offsetof(soundfont, info.loops_have_frames)},
-        { "NumInstruments",  true,  xml_parse_uint,         offsetof(soundfont, info.num_instruments)  },
-        { "PadToSize",       true,  xml_parse_uint,         offsetof(soundfont, info.pad_to_size)      },
+        { "Name",            false, xml_parse_c_identifier, offsetof(soundfont, info.name)              },
+        { "Index",           false, xml_parse_int,          offsetof(soundfont, info.index)             },
+        { "Medium",          false, xml_parse_c_identifier, offsetof(soundfont, info.medium)            },
+        { "CachePolicy",     false, xml_parse_c_identifier, offsetof(soundfont, info.cache_policy)      },
+        { "SampleBank",      false, xml_parse_string,       offsetof(soundfont, info.bank_path)         },
+        { "Indirect",        true,  xml_parse_int,          offsetof(soundfont, info.pointer_index)     },
+        { "SampleBankDD",    true,  xml_parse_string,       offsetof(soundfont, info.bank_path_dd)      },
+        { "IndirectDD",      true,  xml_parse_int,          offsetof(soundfont, info.pointer_index_dd)  },
+        { "LoopsHaveFrames", true,  xml_parse_bool,         offsetof(soundfont, info.loops_have_frames) },
+        { "NumInstruments",  true,  xml_parse_uint,         offsetof(soundfont, info.num_instruments)   },
+        { "PadToSize",       true,  xml_parse_uint,         offsetof(soundfont, info.pad_to_size)       },
     };
     sf->info.num_instruments = 0;
     sf->info.num_drums = 0;

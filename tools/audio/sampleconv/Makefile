@@ -4,7 +4,7 @@ CFLAGS := -Wall -Wextra -MMD
 OPTFLAGS := -O3
 LDFLAGS :=
 
-CLANG_FORMAT := clang-format-14
+CLANG_FORMAT := clang-format-19
 FORMAT_ARGS := -i -style=file
 
 SRC_DIRS := $(shell find src -type d)
