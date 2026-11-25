@@ -5,6 +5,7 @@
 #include "quest_hint.h"
 #include "quest_hint_commands.h"
 #include "save.h"
+#include "upgrade.h"
 
 QuestHintCmd sChildSariaQuestHints[] = {
     QUEST_HINT_STRENGTH_UPG(SKIP, 0, false, 3),

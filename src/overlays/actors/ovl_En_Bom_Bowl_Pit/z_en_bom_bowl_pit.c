@@ -15,6 +15,7 @@
 #include "player.h"
 #include "save.h"
 #include "sfx.h"
+#include "upgrade.h"
 #include "z_lib.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
