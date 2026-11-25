@@ -1,10 +1,12 @@
+// clang-format off
 #include "sample_state.h"
+// clang-format on
 
+#include "attributes.h"
 #include "controller.h"
 #include "dma.h"
 #include "game.h"
 #include "gfx.h"
-#include "attributes.h"
 #include "gfx_setupdl.h"
 #include "play_state.h"
 #include "regs.h"
