@@ -1,7 +1,5 @@
 #include "ultra64.h"
-#include "ultra64/leo.h"
-#include "ultra64/leoappli.h"
-#include "ultra64/leodrive.h"
+#include "ultra64/leo_internal.h"
 
 s32 LeoLBAToByte(s32 startlba, u32 nlbas, s32* bytes) {
     u32 resbytes;
