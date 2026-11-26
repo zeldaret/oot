@@ -713,12 +713,12 @@ void EnSyatekiNiw_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc != EnSyatekiNiw_SetupRemove) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         if (this->sootTimer != 0) {
-            func_80026230(play, &sootShade, 0, 20);
+            EffSsDead_ApplyColorFilterOpa1(play, &sootShade, 0, 20);
         }
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               SyatekiNiw_OverrideLimbDraw, NULL, this);
-        func_80026608(play);
+        EffSsDead_RestoreEnvironmentFogOpa(play);
         EnSyatekiNiw_DrawEffects(this, play);
     }
 }

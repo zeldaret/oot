@@ -544,14 +544,14 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
 
     if (this->actionFunc == BgHakaTrap_SpikedWall_Burn) {
-        func_80026230(play, &sFogBlack, this->timer + 20, 40);
+        EffSsDead_ApplyColorFilterOpa1(play, &sFogBlack, this->timer + 20, 40);
     }
     Gfx_DrawDListOpa(play, sDisplayLists[this->dyna.actor.params]);
     if (this->actionFunc == BgHakaTrap_SpikedWall_CloseIn) {
         BgHakaTrap_SpikedWall_UpdateCollider(this);
     }
     if (this->actionFunc == BgHakaTrap_SpikedWall_Burn) {
-        func_80026608(play);
+        EffSsDead_RestoreEnvironmentFogOpa(play);
     }
     if ((this->actionFunc == BgHakaTrap_SpikedCrusher_Lift) && ((u8)this->isSpikedCrusherStationary == 0)) {
         Vec3f sfxPos;

@@ -298,7 +298,7 @@ void EnWallmas_SetupStun(EnWallmas* this) {
 
     this->actor.speed = 0.0f;
     if (this->actor.colChkInfo.damageReaction == 4) {
-        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_OPA, 80);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_WHITE, 255, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
         Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);

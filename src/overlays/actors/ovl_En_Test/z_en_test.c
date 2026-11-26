@@ -1315,7 +1315,7 @@ void EnTest_SetupStunned(EnTest* this) {
     this->actor.speed = -4.0f;
 
     if (this->lastDamageReaction == STALFOS_DMG_REACT_LIGHT) {
-        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 120, COLORFILTER_BUFFLAG_OPA, 80);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_WHITE, 120, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
 
