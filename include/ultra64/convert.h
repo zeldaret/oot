@@ -1,6 +1,8 @@
 #ifndef ULTRA64_CONVERT_H
 #define ULTRA64_CONVERT_H
 
+#include "ultratypes.h"
+
 #define OS_CLOCK_RATE           62500000LL
 #define OS_CPU_COUNTER          (OS_CLOCK_RATE*3/4)
 

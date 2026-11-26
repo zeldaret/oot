@@ -2,6 +2,7 @@
 #define ULTRA64_PRINTF_H
 
 #include "stdarg.h"
+#include "stddef.h"
 
 // IDO doesn't support long double types, improve portability for compilers supporting them
 #ifdef __sgi

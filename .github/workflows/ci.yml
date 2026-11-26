@@ -57,6 +57,15 @@ jobs:
       - name: Setup
         run: make -j $(nproc) VERSION=${{ matrix.version }} setup
 
+      # Check if headers "compile" properly on their own.
+      # Otherwise headers could cause compilation to fail when included as first
+      # header in a file, if they miss including other headers they depend on.
+      # Compiling the source successfully does not guarantee this can't be an
+      # issue, as source .c files may happen to include the depended-upon
+      # headers earlier before including an otherwise faulty header.
+      - name: Check headers
+        run: make -j $(nproc) VERSION=${{ matrix.version }} -f .github/scripts/check_headers.mk check_headers
+
       - name: Build ${{ matrix.version }}
         id: build
         run: make -j $(nproc) VERSION=${{ matrix.version }}
