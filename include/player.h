@@ -764,16 +764,16 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_23 (1 << 23)
 #define PLAYER_STATE2_24 (1 << 24)
 #define PLAYER_STATE2_25 (1 << 25)
-#define PLAYER_STATE2_26 (1 << 26)
+#define PLAYER_STATE2_DARK_LINK_ROOM_REFLECTION (1 << 26) // Set by Dark Link's room as long as Dark Link is not spawned. Causes Link's reflection to be drawn in the water.
 #define PLAYER_STATE2_USING_OCARINA (1 << 27) // Playing the ocarina or warping out from an ocarina warp song
 #define PLAYER_STATE2_IDLE_FIDGET (1 << 28) // Playing a fidget idle animation (under typical circumstances, see `Player_ChooseNextIdleAnim` for more info)
 #define PLAYER_STATE2_29 (1 << 29)
 #define PLAYER_STATE2_30 (1 << 30)
 #define PLAYER_STATE2_31 (1 << 31)
 
-#define PLAYER_STATE3_0 (1 << 0)
+#define PLAYER_STATE3_DARK_LINK_FALL (1 << 0) // Set on Dark Link when damaged to remove collision detection and allow him to fall through the floor
 #define PLAYER_STATE3_1 (1 << 1)
-#define PLAYER_STATE3_2 (1 << 2)
+#define PLAYER_STATE3_DARK_LINK_IMMOBILIZED (1 << 2) // Set on Link when Dark Link has jumped onto his sword. Set on Dark Link when Link uses Deku Nut. Inhibits action functions.
 #define PLAYER_STATE3_3 (1 << 3)
 #define PLAYER_STATE3_4 (1 << 4)
 #define PLAYER_STATE3_5 (1 << 5)
