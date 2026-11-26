@@ -25,11 +25,11 @@ void BgJyaKanaami_Destroy(Actor* thisx, PlayState* play);
 void BgJyaKanaami_Update(Actor* thisx, PlayState* play);
 void BgJyaKanaami_Draw(Actor* thisx, PlayState* play);
 
-void func_80899880(BgJyaKanaami* this);
-void func_80899894(BgJyaKanaami* this, PlayState* play);
-void func_8089993C(BgJyaKanaami* this);
-void func_80899950(BgJyaKanaami* this, PlayState* play);
-void func_80899A08(BgJyaKanaami* this);
+void BgJyaKanaami_SetupWaitForSwitch(BgJyaKanaami* this);
+void BgJyaKanaami_WaitForSwitch(BgJyaKanaami* this, PlayState* play);
+void BgJyaKanaami_SetupFall(BgJyaKanaami* this);
+void BgJyaKanaami_Fall(BgJyaKanaami* this, PlayState* play);
+void BgJyaKanaami_SetupFallen(BgJyaKanaami* this);
 
 ActorProfile Bg_Jya_Kanaami_Profile = {
     /**/ ACTOR_BG_JYA_KANAAMI,
@@ -74,10 +74,10 @@ void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
 
     BgJyaKanaami_InitDynaPoly(this, play, &gKanaamiCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
-        func_80899A08(this);
+    if (Flags_GetSwitch(play, BGJYAKANAAMI_GET_SWITCH_FLAG(&this->dyna.actor))) {
+        BgJyaKanaami_SetupFallen(this);
     } else {
-        func_80899880(this);
+        BgJyaKanaami_SetupWaitForSwitch(this);
     }
     PRINTF(T("(jya 金網)(arg_data 0x%04x)\n", "(jya wire mesh)(arg_data 0x%04x)\n"), this->dyna.actor.params);
 }
@@ -88,35 +88,36 @@ void BgJyaKanaami_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_80899880(BgJyaKanaami* this) {
-    this->actionFunc = func_80899894;
-    this->unk_16A = 0;
+void BgJyaKanaami_SetupWaitForSwitch(BgJyaKanaami* this) {
+    this->actionFunc = BgJyaKanaami_WaitForSwitch;
+    this->fallDelayTimer = 0;
 }
 
-void func_80899894(BgJyaKanaami* this, PlayState* play) {
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) || this->unk_16A > 0) {
-        if (this->dyna.actor.world.pos.x > -1000.0f && this->unk_16A == 0) {
+void BgJyaKanaami_WaitForSwitch(BgJyaKanaami* this, PlayState* play) {
+    if (Flags_GetSwitch(play, BGJYAKANAAMI_GET_SWITCH_FLAG(&this->dyna.actor)) || this->fallDelayTimer > 0) {
+        // Only the grating in room 2 plays a cutscene; the one in room 3 (x = -1569) falls without one
+        if (this->dyna.actor.world.pos.x > -1000.0f && this->fallDelayTimer == 0) {
             OnePointCutscene_Init(play, 3450, -99, &this->dyna.actor, CAM_ID_MAIN);
         }
-        this->unk_16A++;
-        if (this->unk_16A >= 10) {
-            func_8089993C(this);
+        this->fallDelayTimer++;
+        if (this->fallDelayTimer >= 10) {
+            BgJyaKanaami_SetupFall(this);
         }
     }
 }
 
-void func_8089993C(BgJyaKanaami* this) {
-    this->actionFunc = func_80899950;
-    this->unk_168 = 0;
+void BgJyaKanaami_SetupFall(BgJyaKanaami* this) {
+    this->actionFunc = BgJyaKanaami_Fall;
+    this->fallSpeed = 0;
 }
 
-void func_80899950(BgJyaKanaami* this, PlayState* play) {
+void BgJyaKanaami_Fall(BgJyaKanaami* this, PlayState* play) {
     STACK_PADS(s32, 2);
     s32 quakeIndex;
 
-    this->unk_168 += 0x20;
-    if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
-        func_80899A08(this);
+    this->fallSpeed += 0x20;
+    if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->fallSpeed)) {
+        BgJyaKanaami_SetupFallen(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
 
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
@@ -126,7 +127,7 @@ void func_80899950(BgJyaKanaami* this, PlayState* play) {
     }
 }
 
-void func_80899A08(BgJyaKanaami* this) {
+void BgJyaKanaami_SetupFallen(BgJyaKanaami* this) {
     this->actionFunc = NULL;
     this->dyna.actor.world.rot.x = 0x4000;
 }
