@@ -25,14 +25,14 @@ void BgSpot12Gate_Destroy(Actor* thisx, PlayState* play);
 void BgSpot12Gate_Update(Actor* thisx, PlayState* play);
 void BgSpot12Gate_Draw(Actor* thisx, PlayState* play);
 
-void func_808B30C0(BgSpot12Gate* this);
-void func_808B30D8(BgSpot12Gate* this, PlayState* play);
-void func_808B3134(BgSpot12Gate* this);
-void func_808B314C(BgSpot12Gate* this, PlayState* play);
-void func_808B317C(BgSpot12Gate* this);
-void func_808B318C(BgSpot12Gate* this, PlayState* play);
-void func_808B3274(BgSpot12Gate* this);
-void func_808B3298(BgSpot12Gate* this, PlayState* play);
+void BgSpot12Gate_SetupWaitForSwitch(BgSpot12Gate* this);
+void BgSpot12Gate_WaitForSwitch(BgSpot12Gate* this, PlayState* play);
+void BgSpot12Gate_SetupWaitForCutscene(BgSpot12Gate* this);
+void BgSpot12Gate_WaitForCutscene(BgSpot12Gate* this, PlayState* play);
+void BgSpot12Gate_SetupOpen(BgSpot12Gate* this);
+void BgSpot12Gate_Open(BgSpot12Gate* this, PlayState* play);
+void BgSpot12Gate_SetupOpened(BgSpot12Gate* this);
+void BgSpot12Gate_Opened(BgSpot12Gate* this, PlayState* play);
 
 ActorProfile Bg_Spot12_Gate_Profile = {
     /**/ ACTOR_BG_SPOT12_GATE,
@@ -78,10 +78,10 @@ void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
-        func_808B3274(this);
+    if (Flags_GetSwitch(play, BGSPOT12GATE_GET_SWITCH_FLAG(&this->dyna.actor))) {
+        BgSpot12Gate_SetupOpened(this);
     } else {
-        func_808B30C0(this);
+        BgSpot12Gate_SetupWaitForSwitch(this);
     }
 }
 
@@ -91,40 +91,40 @@ void BgSpot12Gate_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808B30C0(BgSpot12Gate* this) {
-    this->actionFunc = func_808B30D8;
+void BgSpot12Gate_SetupWaitForSwitch(BgSpot12Gate* this) {
+    this->actionFunc = BgSpot12Gate_WaitForSwitch;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
 }
 
-void func_808B30D8(BgSpot12Gate* this, PlayState* play) {
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
-        func_808B3134(this);
+void BgSpot12Gate_WaitForSwitch(BgSpot12Gate* this, PlayState* play) {
+    if (Flags_GetSwitch(play, BGSPOT12GATE_GET_SWITCH_FLAG(&this->dyna.actor))) {
+        BgSpot12Gate_SetupWaitForCutscene(this);
         OnePointCutscene_Init(play, 4160, -99, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
-void func_808B3134(BgSpot12Gate* this) {
-    this->actionFunc = func_808B314C;
-    this->unk_168 = 40;
+void BgSpot12Gate_SetupWaitForCutscene(BgSpot12Gate* this) {
+    this->actionFunc = BgSpot12Gate_WaitForCutscene;
+    this->timer = 40;
 }
 
-void func_808B314C(BgSpot12Gate* this, PlayState* play) {
-    if (this->unk_168 <= 0) {
-        func_808B317C(this);
+void BgSpot12Gate_WaitForCutscene(BgSpot12Gate* this, PlayState* play) {
+    if (this->timer <= 0) {
+        BgSpot12Gate_SetupOpen(this);
     }
 }
 
-void func_808B317C(BgSpot12Gate* this) {
-    this->actionFunc = func_808B318C;
+void BgSpot12Gate_SetupOpen(BgSpot12Gate* this) {
+    this->actionFunc = BgSpot12Gate_Open;
 }
 
-void func_808B318C(BgSpot12Gate* this, PlayState* play) {
+void BgSpot12Gate_Open(BgSpot12Gate* this, PlayState* play) {
     STACK_PAD(s32);
 
     Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f,
                      this->dyna.actor.velocity.y)) {
-        func_808B3274(this);
+        BgSpot12Gate_SetupOpened(this);
 
         {
             s32 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
@@ -140,19 +140,19 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     }
 }
 
-void func_808B3274(BgSpot12Gate* this) {
-    this->actionFunc = func_808B3298;
+void BgSpot12Gate_SetupOpened(BgSpot12Gate* this) {
+    this->actionFunc = BgSpot12Gate_Opened;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 200.0f;
 }
 
-void func_808B3298(BgSpot12Gate* this, PlayState* play) {
+void BgSpot12Gate_Opened(BgSpot12Gate* this, PlayState* play) {
 }
 
 void BgSpot12Gate_Update(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    if (this->unk_168 > 0) {
-        this->unk_168--;
+    if (this->timer > 0) {
+        this->timer--;
     }
     this->actionFunc(this, play);
 }
