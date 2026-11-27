@@ -91,8 +91,8 @@ void BgSpot12Gate_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgSpot12Gate_SetupWaitForSwitch(BgSpot12Gate* this) {
-    this->actionFunc = BgSpot12Gate_WaitForSwitch;
+void BgSpot12Gate_SetupWaitForSwitchFlag(BgSpot12Gate* this) {
+    this->actionFunc = BgSpot12Gate_WaitForSwitchFlag;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
 }
 
