@@ -25,8 +25,8 @@ void BgSpot12Gate_Destroy(Actor* thisx, PlayState* play);
 void BgSpot12Gate_Update(Actor* thisx, PlayState* play);
 void BgSpot12Gate_Draw(Actor* thisx, PlayState* play);
 
-void BgSpot12Gate_SetupWaitForSwitch(BgSpot12Gate* this);
-void BgSpot12Gate_WaitForSwitch(BgSpot12Gate* this, PlayState* play);
+void BgSpot12Gate_SetupWaitForSwitchFlag(BgSpot12Gate* this);
+void BgSpot12Gate_WaitForSwitchFlag(BgSpot12Gate* this, PlayState* play);
 void BgSpot12Gate_SetupWaitForCutscene(BgSpot12Gate* this);
 void BgSpot12Gate_WaitForCutscene(BgSpot12Gate* this, PlayState* play);
 void BgSpot12Gate_SetupOpen(BgSpot12Gate* this);
@@ -81,7 +81,7 @@ void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     if (Flags_GetSwitch(play, BGSPOT12GATE_GET_SWITCH_FLAG(&this->dyna.actor))) {
         BgSpot12Gate_SetupOpened(this);
     } else {
-        BgSpot12Gate_SetupWaitForSwitch(this);
+        BgSpot12Gate_SetupWaitForSwitchFlag(this);
     }
 }
 
@@ -96,7 +96,7 @@ void BgSpot12Gate_SetupWaitForSwitchFlag(BgSpot12Gate* this) {
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
 }
 
-void BgSpot12Gate_WaitForSwitch(BgSpot12Gate* this, PlayState* play) {
+void BgSpot12Gate_WaitForSwitchFlag(BgSpot12Gate* this, PlayState* play) {
     if (Flags_GetSwitch(play, BGSPOT12GATE_GET_SWITCH_FLAG(&this->dyna.actor))) {
         BgSpot12Gate_SetupWaitForCutscene(this);
         OnePointCutscene_Init(play, 4160, -99, &this->dyna.actor, CAM_ID_MAIN);
