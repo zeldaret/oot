@@ -496,7 +496,7 @@ wav_write(container_data *in, const char *path, bool matching)
         .product = 0,
         .sample_period = htole32(1000000000 / in->sample_rate),
         .unity_note = htole32(smpl_unity_note),
-        ._pad = {0, 0, 0},
+        ._pad = { 0, 0, 0 },
         .fine_tune = smpl_fine_tune,
         .format = 0,
         .offset = 0,

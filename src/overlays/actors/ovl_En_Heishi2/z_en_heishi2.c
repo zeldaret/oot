@@ -478,7 +478,7 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
                 gate = gate->next;
             } else {
                 this->gate = gate;
-                ((BgGateShutter*)gate)->openingState = 1;
+                ((BgGateShutter*)gate)->openingState = GATE_SHUTTER_REQUEST_OPEN;
                 break;
             }
         }
@@ -519,7 +519,7 @@ void func_80A53F30(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgGateShutter*)this->gate;
-    if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
+    if ((this->unk_2F2[0] == 0) || (gate->openingState == GATE_SHUTTER_REQUEST_NONE)) {
         Play_ClearCamera(play, this->subCamId);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         if (this->unk_30A != 2) {
@@ -640,10 +640,10 @@ void func_80A543A0(EnHeishi2* this, PlayState* play) {
             } else {
                 this->gate = gate;
                 if (this->unk_30A != 2) {
-                    ((BgGateShutter*)gate)->openingState = -1;
+                    ((BgGateShutter*)gate)->openingState = GATE_SHUTTER_REQUEST_CLOSE;
                     break;
                 } else {
-                    ((BgGateShutter*)gate)->openingState = 2;
+                    ((BgGateShutter*)gate)->openingState = GATE_SHUTTER_REQUEST_REOPEN;
                     break;
                 }
             }

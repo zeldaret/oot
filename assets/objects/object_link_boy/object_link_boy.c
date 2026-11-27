@@ -382,10 +382,10 @@ u64 gLinkAdultClosedHandSideTex[TEX_LEN(u64, gLinkAdultClosedHandSideTex_WIDTH, 
 #include "assets/objects/object_link_boy/gLinkAdultClosedHandSideTex.ci8.tlut_gLinkAdultTLUT6.inc.c"
 };
 
-#define gLinkAdultSheathTex_WIDTH 32
-#define gLinkAdultSheathTex_HEIGHT 32
-u64 gLinkAdultSheathTex[TEX_LEN(u64, gLinkAdultSheathTex_WIDTH, gLinkAdultSheathTex_HEIGHT, 8)] = {
-#include "assets/objects/object_link_boy/gLinkAdultSheathTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
+#define gLinkAdultMasterSheathTex_WIDTH 32
+#define gLinkAdultMasterSheathTex_HEIGHT 32
+u64 gLinkAdultMasterSheathTex[TEX_LEN(u64, gLinkAdultMasterSheathTex_WIDTH, gLinkAdultMasterSheathTex_HEIGHT, 8)] = {
+#include "assets/objects/object_link_boy/gLinkAdultMasterSheathTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultArmOutUpperGauntletTex_WIDTH 32
@@ -401,10 +401,11 @@ u64 gLinkAdultSwordGuardTex[TEX_LEN(u64, gLinkAdultSwordGuardTex_WIDTH, gLinkAdu
 #include "assets/objects/object_link_boy/gLinkAdultSwordGuardTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
-#define gLinkAdultSheathBandTex_WIDTH 32
-#define gLinkAdultSheathBandTex_HEIGHT 16
-u64 gLinkAdultSheathBandTex[TEX_LEN(u64, gLinkAdultSheathBandTex_WIDTH, gLinkAdultSheathBandTex_HEIGHT, 8)] = {
-#include "assets/objects/object_link_boy/gLinkAdultSheathBandTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
+#define gLinkAdultMasterSheathBandTex_WIDTH 32
+#define gLinkAdultMasterSheathBandTex_HEIGHT 16
+u64 gLinkAdultMasterSheathBandTex[TEX_LEN(u64, gLinkAdultMasterSheathBandTex_WIDTH,
+                                          gLinkAdultMasterSheathBandTex_HEIGHT, 8)] = {
+#include "assets/objects/object_link_boy/gLinkAdultMasterSheathBandTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultSwordEmblemTex_WIDTH 16
@@ -435,20 +436,20 @@ u64 gLinkAdultArmOutSleeveTex[TEX_LEN(u64, gLinkAdultArmOutSleeveTex_WIDTH, gLin
 
 // Various vertices and DLs
 
-Vtx gLinkAdultHylianShieldSwordAndSheathNearVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultHylianShieldSwordAndSheathNearVtx.inc.c"
+Vtx gLinkAdultBackHylianShieldSwordInSheathNearVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackHylianShieldSwordInSheathNearVtx.inc.c"
 };
 
-Vtx gLinkAdultHylianShieldAndSheathNearVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultHylianShieldAndSheathNearVtx.inc.c"
+Vtx gLinkAdultBackHylianShieldMasterSheathNearVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackHylianShieldMasterSheathNearVtx.inc.c"
 };
 
-Vtx gLinkAdultMirrorShieldSwordAndSheathNearVtx1[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldSwordAndSheathNearVtx1.inc.c"
+Vtx gLinkAdultBackMirrorShieldMasterSwordInSheathNearVtx1[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSwordInSheathNearVtx1.inc.c"
 };
 
-Vtx gLinkAdultMirrorShieldAndSheathNearVtx1[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldAndSheathNearVtx1.inc.c"
+Vtx gLinkAdultBackMirrorShieldMasterSheathNearVtx1[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSheathNearVtx1.inc.c"
 };
 
 Vtx gLinkAdultLeftHandNearVtx[] = {
@@ -479,8 +480,8 @@ Vtx gLinkAdultRightHandHoldingBowNearVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowNearVtx.inc.c"
 };
 
-Vtx gLinkAdultMasterSwordAndSheathNearVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMasterSwordAndSheathNearVtx.inc.c"
+Vtx gLinkAdultBackMasterSwordInSheathNearVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMasterSwordInSheathNearVtx.inc.c"
 };
 
 Vtx gLinkAdultLeftHandHoldingHammerNearVtx[] = {
@@ -503,8 +504,8 @@ Vtx gLinkAdultRightHandHoldingOotNearVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingOotNearVtx.inc.c"
 };
 
-Vtx gLinkAdultSheathNearVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultSheathNearVtx.inc.c"
+Vtx gLinkAdultBackMasterSheathNearVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMasterSheathNearVtx.inc.c"
 };
 
 Vtx gLinkAdultLeftHandOutNearVtx[] = {
@@ -555,20 +556,20 @@ Vtx gLinkAdultRightHoverBootVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHoverBootVtx.inc.c"
 };
 
-Vtx gLinkAdultHylianShieldSwordAndSheathFarVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultHylianShieldSwordAndSheathFarVtx.inc.c"
+Vtx gLinkAdultBackHylianShieldSwordInSheathFarVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackHylianShieldSwordInSheathFarVtx.inc.c"
 };
 
-Vtx gLinkAdultHylianShieldAndSheathFarVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultHylianShieldAndSheathFarVtx.inc.c"
+Vtx gLinkAdultBackHylianShieldMasterSheathFarVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackHylianShieldMasterSheathFarVtx.inc.c"
 };
 
-Vtx gLinkAdultMirrorShieldSwordAndSheathFarVtx1[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldSwordAndSheathFarVtx1.inc.c"
+Vtx gLinkAdultBackMirrorShieldMasterSwordInSheathFarVtx1[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSwordInSheathFarVtx1.inc.c"
 };
 
-Vtx gLinkAdultMirrorShieldAndSheathFarVtx1[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldAndSheathFarVtx1.inc.c"
+Vtx gLinkAdultBackMirrorShieldMasterSheathFarVtx1[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSheathFarVtx1.inc.c"
 };
 
 Vtx gLinkAdultLeftHandFarVtx[] = {
@@ -599,12 +600,12 @@ Vtx gLinkAdultRightHandHoldingBowFarVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowFarVtx.inc.c"
 };
 
-Vtx gLinkAdultMasterSwordAndSheathFarVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMasterSwordAndSheathFarVtx.inc.c"
+Vtx gLinkAdultBackMasterSwordInSheathFarVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMasterSwordInSheathFarVtx.inc.c"
 };
 
-Vtx gLinkAdultSheathFarVtx[] = {
-#include "assets/objects/object_link_boy/gLinkAdultSheathFarVtx.inc.c"
+Vtx gLinkAdultBackMasterSheathFarVtx[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMasterSheathFarVtx.inc.c"
 };
 
 Vtx gLinkAdultLeftHandHoldingHammerFarVtx[] = {
@@ -651,12 +652,12 @@ Vtx gLinkAdultRightHandHoldingHookshotFirstPersonVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHookshotFirstPersonVtx.inc.c"
 };
 
-Vtx gLinkAdultMirrorShieldSwordAndSheathNearVtx2[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldSwordAndSheathNearVtx2.inc.c"
+Vtx gLinkAdultBackMirrorShieldMasterSwordInSheathNearVtx2[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSwordInSheathNearVtx2.inc.c"
 };
 
-Vtx gLinkAdultMirrorShieldAndSheathNearVtx2[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldAndSheathNearVtx2.inc.c"
+Vtx gLinkAdultBackMirrorShieldMasterSheathNearVtx2[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSheathNearVtx2.inc.c"
 };
 
 Vtx gLinkAdultRightHandHoldingMirrorShieldNearVtx2[] = {
@@ -667,32 +668,32 @@ Vtx gLinkAdultBottleVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultBottleVtx.inc.c"
 };
 
-Vtx gLinkAdultMirrorShieldSwordAndSheathFarVtx2[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldSwordAndSheathFarVtx2.inc.c"
+Vtx gLinkAdultBackMirrorShieldMasterSwordInSheathFarVtx2[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSwordInSheathFarVtx2.inc.c"
 };
 
-Vtx gLinkAdultMirrorShieldAndSheathFarVtx2[] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldAndSheathFarVtx2.inc.c"
+Vtx gLinkAdultBackMirrorShieldMasterSheathFarVtx2[] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSheathFarVtx2.inc.c"
 };
 
 Vtx gLinkAdultRightHandHoldingMirrorShieldFarVtx2[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingMirrorShieldFarVtx2.inc.c"
 };
 
-Gfx gLinkAdultHylianShieldSwordAndSheathNearDL[127] = {
-#include "assets/objects/object_link_boy/gLinkAdultHylianShieldSwordAndSheathNearDL.inc.c"
+Gfx gLinkAdultBackHylianShieldSwordInSheathNearDL[127] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackHylianShieldSwordInSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultHylianShieldAndSheathNearDL[105] = {
-#include "assets/objects/object_link_boy/gLinkAdultHylianShieldAndSheathNearDL.inc.c"
+Gfx gLinkAdultBackHylianShieldMasterSheathNearDL[105] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackHylianShieldMasterSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultMirrorShieldSwordAndSheathNearDL[159] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldSwordAndSheathNearDL.inc.c"
+Gfx gLinkAdultBackMirrorShieldMasterSwordInSheathNearDL[159] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSwordInSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultMirrorShieldAndSheathNearDL[127] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldAndSheathNearDL.inc.c"
+Gfx gLinkAdultBackMirrorShieldMasterSheathNearDL[127] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSheathNearDL.inc.c"
 };
 
 Gfx gLinkAdultLeftHandNearDL[72] = {
@@ -723,8 +724,8 @@ Gfx gLinkAdultRightHandHoldingBowNearDL[119] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowNearDL.inc.c"
 };
 
-Gfx gLinkAdultMasterSwordAndSheathNearDL[80] = {
-#include "assets/objects/object_link_boy/gLinkAdultMasterSwordAndSheathNearDL.inc.c"
+Gfx gLinkAdultBackMasterSwordInSheathNearDL[80] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMasterSwordInSheathNearDL.inc.c"
 };
 
 Gfx gLinkAdultLeftHandHoldingHammerNearDL[157] = {
@@ -747,8 +748,8 @@ Gfx gLinkAdultRightHandHoldingOotNearDL[104] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingOotNearDL.inc.c"
 };
 
-Gfx gLinkAdultSheathNearDL[48] = {
-#include "assets/objects/object_link_boy/gLinkAdultSheathNearDL.inc.c"
+Gfx gLinkAdultBackMasterSheathNearDL[48] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMasterSheathNearDL.inc.c"
 };
 
 Gfx gLinkAdultLeftHandOutNearDL[67] = {
@@ -799,20 +800,20 @@ Gfx gLinkAdultRightHoverBootDL[65] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHoverBootDL.inc.c"
 };
 
-Gfx gLinkAdultHylianShieldSwordAndSheathFarDL[96] = {
-#include "assets/objects/object_link_boy/gLinkAdultHylianShieldSwordAndSheathFarDL.inc.c"
+Gfx gLinkAdultBackHylianShieldSwordInSheathFarDL[96] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackHylianShieldSwordInSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultHylianShieldAndSheathFarDL[71] = {
-#include "assets/objects/object_link_boy/gLinkAdultHylianShieldAndSheathFarDL.inc.c"
+Gfx gLinkAdultBackHylianShieldMasterSheathFarDL[71] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackHylianShieldMasterSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultMirrorShieldSwordAndSheathFarDL[132] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldSwordAndSheathFarDL.inc.c"
+Gfx gLinkAdultBackMirrorShieldMasterSwordInSheathFarDL[132] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSwordInSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultMirrorShieldAndSheathFarDL[105] = {
-#include "assets/objects/object_link_boy/gLinkAdultMirrorShieldAndSheathFarDL.inc.c"
+Gfx gLinkAdultBackMirrorShieldMasterSheathFarDL[105] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMirrorShieldMasterSheathFarDL.inc.c"
 };
 
 Gfx gLinkAdultLeftHandFarDL[51] = {
@@ -843,12 +844,12 @@ Gfx gLinkAdultRightHandHoldingBowFarDL[111] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowFarDL.inc.c"
 };
 
-Gfx gLinkAdultMasterSwordAndSheathFarDL[74] = {
-#include "assets/objects/object_link_boy/gLinkAdultMasterSwordAndSheathFarDL.inc.c"
+Gfx gLinkAdultBackMasterSwordInSheathFarDL[74] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMasterSwordInSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultSheathFarDL[39] = {
-#include "assets/objects/object_link_boy/gLinkAdultSheathFarDL.inc.c"
+Gfx gLinkAdultBackMasterSheathFarDL[39] = {
+#include "assets/objects/object_link_boy/gLinkAdultBackMasterSheathFarDL.inc.c"
 };
 
 Gfx gLinkAdultLeftHandHoldingHammerFarDL[134] = {
@@ -1297,8 +1298,8 @@ LodLimb gLinkAdultRightHandLimb = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandLimb.inc.c"
 };
 
-LodLimb gLinkAdultSwordAndSheathLimb = {
-#include "assets/objects/object_link_boy/gLinkAdultSwordAndSheathLimb.inc.c"
+LodLimb gLinkAdultBackLimb = {
+#include "assets/objects/object_link_boy/gLinkAdultBackLimb.inc.c"
 };
 
 LodLimb gLinkTorsoLimb = {

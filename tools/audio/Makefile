@@ -4,7 +4,7 @@ ifeq ($(shell which xml2-config),)
   $(error xml2-config not found. Did you install libxml2-dev?)
 endif
 
-CLANG_FORMAT := clang-format-14
+CLANG_FORMAT := clang-format-19
 FORMAT_ARGS := -i -style=file
 
 CC := gcc

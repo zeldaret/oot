@@ -113,10 +113,10 @@ typedef enum AnimSfxType {
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
 
-#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame)&0x7FF)))
+#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame) & 0x7FF)))
 
-#define ANIMSFX_GET_TYPE(data) ((data)&0x7800)
-#define ANIMSFX_GET_FRAME(data) ((data)&0x7FF)
+#define ANIMSFX_GET_TYPE(data) ((data) & 0x7800)
+#define ANIMSFX_GET_FRAME(data) ((data) & 0x7FF)
 
 typedef struct AnimSfxEntry {
     /* 0x00 */ u16 sfxId;
@@ -411,7 +411,7 @@ static u8 sUpperBodyLimbCopyMap[PLAYER_LIMB_MAX] = {
     true,  // PLAYER_LIMB_R_SHOULDER
     true,  // PLAYER_LIMB_R_FOREARM
     true,  // PLAYER_LIMB_R_HAND
-    true,  // PLAYER_LIMB_SHEATH
+    true,  // PLAYER_LIMB_BACK
     true   // PLAYER_LIMB_TORSO
 };
 
