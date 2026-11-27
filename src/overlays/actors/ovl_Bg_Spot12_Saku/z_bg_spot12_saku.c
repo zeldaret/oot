@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot12_saku.c
  * Overlay: ovl_Bg_Spot12_Saku
- * Description:
+ * Description: Gerudo Training Ground entrance shutter (Gerudo Fortress)
  */
 
 #include "z_bg_spot12_saku.h"
@@ -24,12 +24,12 @@ void BgSpot12Saku_Destroy(Actor* thisx, PlayState* play);
 void BgSpot12Saku_Update(Actor* thisx, PlayState* play);
 void BgSpot12Saku_Draw(Actor* thisx, PlayState* play);
 
-void func_808B3550(BgSpot12Saku* this);
-void func_808B357C(BgSpot12Saku* this, PlayState* play);
-void func_808B35E4(BgSpot12Saku* this);
-void func_808B3604(BgSpot12Saku* this, PlayState* play);
-void func_808B3714(BgSpot12Saku* this);
-void func_808B37AC(BgSpot12Saku* this, PlayState* play);
+void BgSpot12Saku_SetupWaitForSwitchFlag(BgSpot12Saku* this);
+void BgSpot12Saku_WaitForSwitchFlag(BgSpot12Saku* this, PlayState* play);
+void BgSpot12Saku_SetupOpen(BgSpot12Saku* this);
+void BgSpot12Saku_Open(BgSpot12Saku* this, PlayState* play);
+void BgSpot12Saku_SetupOpened(BgSpot12Saku* this);
+void BgSpot12Saku_Opened(BgSpot12Saku* this, PlayState* play);
 
 ActorProfile Bg_Spot12_Saku_Profile = {
     /**/ ACTOR_BG_SPOT12_SAKU,
@@ -50,11 +50,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
-void func_808B3420(BgSpot12Saku* this, PlayState* play, CollisionHeader* collision, s32 flags) {
+void BgSpot12Saku_InitDynaPoly(BgSpot12Saku* this, PlayState* play, CollisionHeader* collision, s32 transformFlags) {
     STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, flags);
+    DynaPolyActor_Init(&this->dyna, transformFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -72,12 +72,12 @@ void func_808B3420(BgSpot12Saku* this, PlayState* play, CollisionHeader* collisi
 void BgSpot12Saku_Init(Actor* thisx, PlayState* play) {
     BgSpot12Saku* this = (BgSpot12Saku*)thisx;
 
-    func_808B3420(this, play, &gGerudoFortressGTGShutterCol, 0);
+    BgSpot12Saku_InitDynaPoly(this, play, &gGerudoFortressGTGShutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
-        func_808B3714(this);
+    if (Flags_GetSwitch(play, BGSPOT12SAKU_GET_SWITCH_FLAG(&this->dyna.actor))) {
+        BgSpot12Saku_SetupOpened(this);
     } else {
-        func_808B3550(this);
+        BgSpot12Saku_SetupWaitForSwitchFlag(this);
     }
 }
 
@@ -87,53 +87,58 @@ void BgSpot12Saku_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808B3550(BgSpot12Saku* this) {
-    this->actionFunc = func_808B357C;
+void BgSpot12Saku_SetupWaitForSwitchFlag(BgSpot12Saku* this) {
+    this->actionFunc = BgSpot12Saku_WaitForSwitchFlag;
     this->dyna.actor.scale.x = 0.1f;
     this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
     this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
 }
 
-void func_808B357C(BgSpot12Saku* this, PlayState* play) {
-    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
-        func_808B35E4(this);
+void BgSpot12Saku_WaitForSwitchFlag(BgSpot12Saku* this, PlayState* play) {
+    if (Flags_GetSwitch(play, BGSPOT12SAKU_GET_SWITCH_FLAG(&this->dyna.actor))) {
+        BgSpot12Saku_SetupOpen(this);
         this->timer = 20;
         OnePointCutscene_Init(play, 4170, -99, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
-void func_808B35E4(BgSpot12Saku* this) {
+void BgSpot12Saku_SetupOpen(BgSpot12Saku* this) {
+    // The caller only sets the timer after this function returns, so the timer is always 0 here and the shutter
+    // starts opening on the next frame. The timer then counts down without anything else reading it
     if (this->timer == 0) {
-        this->actionFunc = func_808B3604;
+        this->actionFunc = BgSpot12Saku_Open;
     }
 }
 
-void func_808B3604(BgSpot12Saku* this, PlayState* play) {
-    f32 temp_ret = Math_SmoothStepToF(&this->dyna.actor.scale.x, 0.001f / 0.14f, 0.16f, 0.0022f, 0.001f);
-    f32 temp_f18 = ((0.1f - this->dyna.actor.scale.x) * 840.0f);
+void BgSpot12Saku_Open(BgSpot12Saku* this, PlayState* play) {
+    f32 scaleStepRemaining = Math_SmoothStepToF(&this->dyna.actor.scale.x, 0.001f / 0.14f, 0.16f, 0.0022f, 0.001f);
+    f32 slideOffset = ((0.1f - this->dyna.actor.scale.x) * 840.0f);
 
+    // The model is 840 units wide on either side of its origin. Shifting the actor sideways by the width lost to the
+    // shrinking X scale keeps one edge in place, so the shutter appears to retract toward that edge
     this->dyna.actor.world.pos.x =
-        this->dyna.actor.home.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
+        this->dyna.actor.home.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * slideOffset);
     this->dyna.actor.world.pos.z =
-        this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
-    if (fabsf(temp_ret) < 0.0001f) {
-        func_808B3714(this);
+        this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * slideOffset);
+    if (fabsf(scaleStepRemaining) < 0.0001f) {
+        BgSpot12Saku_SetupOpened(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 
-void func_808B3714(BgSpot12Saku* this) {
-    this->actionFunc = func_808B37AC;
+void BgSpot12Saku_SetupOpened(BgSpot12Saku* this) {
+    this->actionFunc = BgSpot12Saku_Opened;
     this->dyna.actor.scale.x = 0.001f / 0.14f;
+    // 78 is the sideways offset BgSpot12Saku_Open reaches at this scale: (0.1 - 0.001 / 0.14) * 840
     this->dyna.actor.world.pos.x =
         this->dyna.actor.home.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
     this->dyna.actor.world.pos.z =
         this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
 }
 
-void func_808B37AC(BgSpot12Saku* this, PlayState* play) {
+void BgSpot12Saku_Opened(BgSpot12Saku* this, PlayState* play) {
 }
 
 void BgSpot12Saku_Update(Actor* thisx, PlayState* play) {
