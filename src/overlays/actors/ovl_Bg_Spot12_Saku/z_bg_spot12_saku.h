@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#define BGSPOT12SAKU_GET_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 0, 6)
+
 struct BgSpot12Saku;
 
 typedef void (*BgSpot12SakuActionFunc)(struct BgSpot12Saku*, struct PlayState*);
