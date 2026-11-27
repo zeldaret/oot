@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_efc_lgt_shower" Segment="6">
-        <Texture Name="gEnliveningLightTex" Format="i8" Width="64" Height="64" Offset="0x0000"/>
-        <Array Name="gEnliveningLightVtx" Count="29" Offset="0x1000">
+        <Texture Name="object_efc_lgt_shower_000000_Tex" Format="i8" Width="64" Height="64" Offset="0x0"/>
+        <Array Name="object_efc_lgt_shower_001000_Vtx" Count="29" Offset="0x1000">
             <Vtx/>
         </Array>
-        <DList Name="gEnliveningLightDL" Offset="0x11D0"/>
+        <DList Name="object_efc_lgt_shower_0011D0_DL" Offset="0x11D0"/>
     </File>
 </Root>

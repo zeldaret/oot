@@ -320,6 +320,9 @@ def print_summary(version: str, csv: bool, only_not_ok: bool):
             expected_object_files, comparison_data_list
         ):
             c_path = expected_object.relative_to(expected_dir).with_suffix(".c")
+            if not c_path.exists():
+                c_path = c_path.with_suffix(".s")
+                assert c_path.exists()
             data = data_async.get()
 
             insts1 = data.insts1

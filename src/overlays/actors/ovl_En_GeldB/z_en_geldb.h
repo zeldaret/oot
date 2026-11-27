@@ -38,8 +38,8 @@ typedef struct EnGeldB {
     /* 0x036C */ ColliderQuad swordCollider;
     /* 0x03EC */ ColliderTris blockCollider;
     /* 0x040C */ ColliderTrisElement blockElements[2];
-    /* 0x04C4 */ Vec3f rightFootPos;
-    /* 0x04D0 */ Vec3f leftFootPos;
+    /* 0x04C4 */ Vec3f leftFootPos;
+    /* 0x04D0 */ Vec3f rightFootPos;
     /* 0x04DC */ Vec3s headRot;
 } EnGeldB; // size = 0x04E4
 

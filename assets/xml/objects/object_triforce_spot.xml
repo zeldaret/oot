@@ -1,16 +1,15 @@
 <Root>
     <File Name="object_triforce_spot" Segment="6">
-        <Array Name="gTriforceVtx" Count="86" Offset="0x0000">
+        <Array Name="object_triforce_spot_000000_Vtx" Count="86" Offset="0x0">
             <Vtx/>
         </Array>
-        <Array Name="gTriforceLightColumnVtx" Count="10" Offset="0x560">
+        <Array Name="object_triforce_spot_000560_Vtx" Count="10" Offset="0x560">
             <Vtx/>
         </Array>
-        <DList Name="gTriforceDL" Offset="0x0600"/>
-        <DList Name="gTriforceLightColumnDL" Offset="0x0840"/>
-
-        <Texture Name="gTriforceTex" Format="i8" Width="64" Height="64" Offset="0x0910"/>
-        <Texture Name="gTriforceColumnSide1Tex" Format="i8" Width="64" Height="32" Offset="0x1910"/>
-        <Texture Name="gTriforceColumnSide2Tex" Format="i8" Width="64" Height="32" Offset="0x2110"/>
+        <DList Name="object_triforce_spot_000600_DL" Offset="0x600"/>
+        <DList Name="object_triforce_spot_000840_DL" Offset="0x840"/>
+        <Texture Name="object_triforce_spot_000910_Tex" Format="i8" Width="64" Height="64" Offset="0x910"/>
+        <Texture Name="object_triforce_spot_001910_Tex" Format="i8" Width="64" Height="32" Offset="0x1910"/>
+        <Texture Name="object_triforce_spot_002110_Tex" Format="i8" Width="64" Height="32" Offset="0x2110"/>
     </File>
 </Root>

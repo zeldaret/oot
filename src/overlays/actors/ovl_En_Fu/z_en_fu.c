@@ -88,8 +88,8 @@ typedef enum EnFuFace {
 } EnFuFace;
 
 void EnFu_Init(Actor* thisx, PlayState* play) {
-    STACK_PAD(s32);
     EnFu* this = (EnFu*)thisx;
+    STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable,
@@ -147,8 +147,9 @@ void func_80A1DA04(EnFu* this, PlayState* play) {
 }
 
 void EnFu_WaitChild(EnFu* this, PlayState* play) {
-    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_WINDMILL_MAN);
+    u16 textId;
 
+    textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_WINDMILL_MAN);
     if (textId == 0) {
         textId = GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL) ? 0x5033 : 0x5032;
     }
@@ -203,7 +204,6 @@ void func_80A1DBD4(EnFu* this, PlayState* play) {
 
 void EnFu_WaitForPlayback(EnFu* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-
     player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 7, player has played back the song
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
@@ -214,7 +214,6 @@ void EnFu_WaitForPlayback(EnFu* this, PlayState* play) {
 
 void EnFu_TeachSong(EnFu* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-
     player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
@@ -250,8 +249,8 @@ void EnFu_WaitAdult(EnFu* this, PlayState* play) {
 }
 
 void EnFu_Update(Actor* thisx, PlayState* play) {
-    STACK_PAD(s32);
     EnFu* this = (EnFu*)thisx;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

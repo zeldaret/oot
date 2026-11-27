@@ -92,7 +92,7 @@ s32 View_Apply(View* view, s32 mask);
 s32 View_ApplyOrthoToOverlay(View* view);
 s32 View_ApplyPerspectiveToOverlay(View* view);
 s32 View_UpdateViewingMatrix(View* view);
-s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP);
+s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp);
 #if DEBUG_FEATURES
 s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
 #endif

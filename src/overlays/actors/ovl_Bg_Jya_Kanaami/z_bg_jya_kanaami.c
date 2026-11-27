@@ -1,7 +1,7 @@
 /*
  * File: z_bg_jya_kanaami.c
- * Overlay: ovl_Bg_Jya_Kanaami
- * Description: Climbable grating/bridge (Spirit Temple)
+ * Overlay: Bg_Jya_Kanaami
+ * Description: Climbable Metal Grating (Fire Temple)
  */
 
 #include "z_bg_jya_kanaami.h"

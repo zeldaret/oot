@@ -3,11 +3,11 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "curve.h"
+#include "animation_curve.h"
 
 struct DemoEffect;
 
-typedef void (*DemoEffectFunc)(struct DemoEffect*, struct PlayState*);
+typedef void (*DemoEffectFunc)(struct DemoEffect* this, struct PlayState* play);
 
 typedef struct DemoEffectFireBall {
     /* 0x00 */ u8 timer;
@@ -79,7 +79,7 @@ typedef struct DemoEffectDust {
 
 typedef struct DemoEffect {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelCurve skelCurve;
+    /* 0x014C */ SkelAnimeCurve skelCurve;
     /* 0x016C */ u8 requiredObjectSlot;
     /* 0x0170 */ Gfx* jewelDisplayList;
     /* 0x0174 */ Gfx* jewelHolderDisplayList;

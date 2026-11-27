@@ -1,10 +1,10 @@
 <Root>
     <File Name="object_efc_fire_ball" Segment="6">
-        <Array Name="gCreationFireBallVtx" Count="4" Offset="0x0">
+        <Array Name="object_efc_fire_ball_000000_Vtx" Count="4" Offset="0x0">
             <Vtx/>
         </Array>
-        <DList Name="gCreationFireBallDL" Offset="0x0040"/>
-        <Texture Name="gCreationFireBallMaskTex" Format="i8" Width="32" Height="32" Offset="0x0100"/>
-        <Texture Name="gCreationFireBallFlameEffectTex" Format="i8" Width="32" Height="64" Offset="0x0500"/>
+        <DList Name="object_efc_fire_ball_000040_DL" Offset="0x40"/>
+        <Texture Name="object_efc_fire_ball_000100_Tex" Format="i8" Width="32" Height="32" Offset="0x100"/>
+        <Texture Name="object_efc_fire_ball_000500_Tex" Format="i8" Width="32" Height="64" Offset="0x500"/>
     </File>
 </Root>

@@ -9,11 +9,12 @@ struct BgJyaHaheniron;
 typedef void (*BgJyaHahenironActionFunc)(struct BgJyaHaheniron*, struct PlayState*);
 
 typedef struct BgJyaHaheniron {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ BgJyaHahenironActionFunc actionFunc;
-    /* 0x0150 */ ColliderJntSph collider;
-    /* 0x0170 */ ColliderJntSphElement colliderElements[1];
-    /* 0x01B0 */ s16 timer;
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ BgJyaHahenironActionFunc unk14C;
+    /* 0x150 */ ColliderJntSph collider;
+    /* 0x170 */ ColliderJntSphElement colliderElements[1];
+    /* 0x1B0 */ s16 unk1B0;
+    /* 0x1B2 */ char pad1B2[2];
 } BgJyaHaheniron; // size = 0x01B4
 
 #endif

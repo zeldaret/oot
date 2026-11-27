@@ -229,7 +229,7 @@ void BgHakaHuta_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgHakaHuta_Draw(Actor* thisx, PlayState* play) {
-    BgHakaHuta* this = (BgHakaHuta*)thisx;
+    STACK_PAD(s32);
 
     Gfx_DrawDListOpa(play, gBotwCoffinLidDL);
 }

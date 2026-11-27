@@ -9,7 +9,7 @@
 #include "spec.h"
 #include "util.h"
 
-struct Segment* g_segments;
+Segment* g_segments;
 int g_segmentsCount;
 
 static void write_dmadata_table(FILE *fout)
@@ -103,7 +103,6 @@ int main(int argc, char **argv)
     write_compress_ranges(compress_ranges_out);
     fclose(compress_ranges_out);
 
-    free_rom_spec(g_segments, g_segmentsCount);
     free(spec);
 
     return 0;

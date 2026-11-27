@@ -19,6 +19,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_jj/object_jj.h"
 
@@ -98,7 +99,7 @@ void EnJj_SetupAction(EnJj* this, EnJjActionFunc actionFunc) {
 }
 
 void EnJj_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnJj* this = (EnJj*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -303,7 +304,7 @@ void EnJj_Update(Actor* thisx, PlayState* play) {
 
 void EnJj_Draw(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_jj.c", 879);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);

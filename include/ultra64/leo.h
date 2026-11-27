@@ -1,140 +1,178 @@
-#ifndef ULTRA64_LEO_H
-#define ULTRA64_LEO_H
+
+/*---------------------------------------------------------------------*
+        Copyright (C) 1998 Nintendo.
+
+        $RCSfile: leo.h,v $
+        $Revision: 1.29 $
+        $Date: 1998/12/21 07:30:15 $
+ *---------------------------------------------------------------------*/
+
+#ifndef _LEO_H_
+#define _LEO_H_
 
 #ifdef _LANGUAGE_C_PLUS_PLUS
 extern "C" {
 #endif
 
-#include "pi.h"
 #include "leoappli.h"
 
 #if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
-typedef u32 LEOError;
+/**************************************************************************
+ *
+ * Type definitions
+ *
+ */
+typedef u32     LEOError;
 
-typedef u8 LEOSpdlMode;
+typedef	u8	LEOSpdlMode;
 
-typedef u8 LEOStatus;
+typedef u8	LEOStatus;
 
-typedef struct LEOVersion {
-    /* 0x0 */ u8 driver;     // version of sw
-    /* 0x1 */ u8 drive;      // version of hw
-    /* 0x2 */ u8 deviceType; // dev type, always 00
-    /* 0x3 */ u8 nDevices;   // # of devices, always 01
-} LEOVersion; // size = 0x4
+typedef struct
+{
+  u8    drive;			/* version of hw */
+  u8    driver;			/* version of sw */
+  u8	deviceType;		/* dev type, always 00 */
+  u8	ndevices;		/* # of devices, always 01 */
+} LEOVersion;
 
-typedef struct LEOCapacity {
-    /* 0x0 */ u32 startLBA;
-    /* 0x4 */ u32 endLBA;
-    /* 0x8 */ u32 nbytes;
-} LEOCapacity; // size = 0xC
+typedef	struct
+{
+  u32	startLBA;
+  u32	endLBA;
+  u32	nbytes;
+} LEOCapacity;
 
-typedef struct LEODiskTime {
-    /* 0x0 */ u8 pad;
-    /* 0x1 */ u8 yearhi;
-    /* 0x2 */ u8 yearlo;
-    /* 0x3 */ u8 month;
-    /* 0x4 */ u8 day;
-    /* 0x5 */ u8 hour;
-    /* 0x6 */ u8 minute;
-    /* 0x7 */ u8 second;
-} LEODiskTime; // size = 0x8
+typedef struct
+{
+  u8	pad;
+  u8	yearhi;
+  u8	yearlo;
+  u8	month;
+  u8	day;
+  u8	hour;
+  u8	minute;
+  u8	second;
+} LEODiskTime;
 
-typedef struct LEOSerialNum {
-    /* 0x0 */ u64 lineNumber;
-    /* 0x8 */ LEODiskTime time;
-} LEOSerialNum; // size = 0x10
+typedef	struct
+{
+  u64		lineNumber;
+  LEODiskTime	time;
+} LEOSerialNum;
 
-typedef struct LEODiskID {
-    /* 0x0 */ u8 gameName[4];
-    /* 0x4 */ u8 gameVersion;
-    /* 0x5 */ u8 diskNumber;
-    /* 0x6 */ u8 ramUsage;
-    /* 0x7 */ u8 diskUsage;
-    /* 0x8 */ LEOSerialNum serialNumber;
-    /* 0x18 */ u8 company[2];
-    /* 0x1A */ u8 freeArea[6];
-} LEODiskID; // size = 0x20
+typedef struct
+{
+  u8		gameName[4];
+  u8		gameVersion;
+  u8		diskNumber;
+  u8		ramUsage;
+  u8		diskUsage;
+  LEOSerialNum	serialNumber;
+  u8		company[2];
+  u8		freeArea[6];
+} LEODiskID;
 
-// Not attempting to number this struct until required since it's scary
-typedef struct LEOCmd {
-    /* 0x00 */ LEOCmdHeader header;
-    union {
-        struct {
-            /* 0x0C */ u32 lba;
-            /* 0x10 */ u32 transferBlks;
-            /* 0x14 */ void* buffPtr;
-            /* 0x18 */ u32 rwBytes;
+typedef struct
+{
+  LEOCmdHeader		header;
+  union
+  {
+    struct
+    {
+      u32           lba;
+      u32           xfer_blks;
+      void         *buff_ptr;
+      u32           rw_bytes;
 #ifdef _LONGCMD
-            /* 0x1C */ u32 size;
+      u32           size;
 #endif
-        } readWrite;
-        struct {
-            /* 0x0C */ u32 lba;
-        } seek;
-        struct {
-            /* 0x0C */ void* bufferPointer;
-        } readdiskid;
-        /* 0x0C */ LEODiskTime time;
-        struct {
-            /* 0x0C */ u8 reserve1;
-            /* 0x0D */ u8 reserve2;
-            /* 0x0E */ u8 standbyTime;
-            /* 0x0F */ u8 sleepTime;
-            /* 0x10 */ u32 reserve3;
-        } modeSelect;
-    } data;
-} LEOCmd; // size = 0x1C
+    } readwrite;
+    struct
+    {
+      u32           lba;
+    } seek;
+    struct
+    {
+      void         *buffer_pointer;
+    } readdiskid;
+    LEODiskTime	    time;
+    struct
+    {
+      u8	    reserve1;
+      u8	    reserve2;
+      u8	    standby_time;
+      u8	    sleep_time;
+      u32	    reserve3;
+    } modeselect;
+
+  } data;
+
+} LEOCmd;
 
 
-#define _nbytes readwrite.rwBytes
-#define _result header.status
-
-#endif // defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
+#define	_nbytes		readwrite.rw_bytes
+#define	_result		header.status
 
 
-#define LEO_SW_VERSION 6 // This will be returned by LeoInquiry command
 
-#define OS_PRIORITY_LEOMGR OS_PRIORITY_PIMGR
+#endif /* defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) */
 
-#define DDROM_FONT_START     0x000A0000
-#define DDROM_WAVEDATA_START 0x00140000
+/**************************************************************************
+ *
+ * Global definitions
+ *
+ */
+#define	LEO_SW_VERSION		6	/* This will be returned by */
+					/* LeoInquiry command       */
+
+#define	OS_PRIORITY_LEOMGR	OS_PRIORITY_PIMGR
+
+/*
+ * Drive Rom offset address
+ */
+#define	DDROM_FONT_START	0x000a0000
+#define	DDROM_WAVEDATA_START	0x00140000
 
 /*
  * Definition for osLeoSpdlMotor()
  */
-#define ACTIVE  0
-#define STANDBY 1
-#define SLEEP   2
-#define BRAKE   4
+#define ACTIVE			0
+#define	STANDBY			1
+#define	SLEEP			2
+#define	BRAKE			4
 
-#define LEO_MOTOR_ACTIVE  0
-#define LEO_MOTOR_STANDBY 1
-#define LEO_MOTOR_SLEEP   2
-#define LEO_MOTOR_BRAKE   4
+#define LEO_MOTOR_ACTIVE        0
+#define LEO_MOTOR_STANDBY       1
+#define LEO_MOTOR_SLEEP         2
+#define	LEO_MOTOR_BRAKE		4
 
-#define NUM_LBAS 4292
+#define	NUM_LBAS		4292 	/* total number of LBAs */
 
-#define BLK_SIZE_ZONE0 19720
-#define BLK_SIZE_ZONE1 18360
-#define BLK_SIZE_ZONE2 17680
-#define BLK_SIZE_ZONE3 16320
-#define BLK_SIZE_ZONE4 14960
-#define BLK_SIZE_ZONE5 13600
-#define BLK_SIZE_ZONE6 12240
-#define BLK_SIZE_ZONE7 10880
-#define BLK_SIZE_ZONE8  9520
+#define BLK_SIZE_ZONE0		19720
+#define BLK_SIZE_ZONE1		18360
+#define BLK_SIZE_ZONE2		17680
+#define BLK_SIZE_ZONE3		16320
+#define BLK_SIZE_ZONE4		14960
+#define BLK_SIZE_ZONE5		13600
+#define BLK_SIZE_ZONE6		12240
+#define BLK_SIZE_ZONE7		10880
+#define BLK_SIZE_ZONE8		9520
 
-#define MAX_BLK_SIZE BLK_SIZE_ZONE0
-#define MIN_BLK_SIZE BLK_SIZE_ZONE8
+#define	MAX_BLK_SIZE		BLK_SIZE_ZONE0
+#define	MIN_BLK_SIZE		BLK_SIZE_ZONE8
 
-#define LEO_ERROR_GOOD                              0
-#define LEO_ERROR_DRIVE_NOT_READY                   1
-#define LEO_ERROR_DIAGNOSTIC_FAILURE                2
-#define LEO_ERROR_COMMAND_PHASE_ERROR               3
-#define LEO_ERROR_DATA_PHASE_ERROR                  4
-#define LEO_ERROR_REAL_TIME_CLOCK_FAILURE           5
-#define LEO_ERROR_BUSY                              8
+/*
+ * Error codes
+ */
+#define LEO_ERROR_GOOD                             0
+#define LEO_ERROR_DRIVE_NOT_READY                  1
+#define LEO_ERROR_DIAGNOSTIC_FAILURE               2
+#define LEO_ERROR_COMMAND_PHASE_ERROR              3
+#define LEO_ERROR_DATA_PHASE_ERROR                 4
+#define LEO_ERROR_REAL_TIME_CLOCK_FAILURE          5
+#define LEO_ERROR_BUSY				   8
 #define LEO_ERROR_INCOMPATIBLE_MEDIUM_INSTALLED    11
 #define LEO_ERROR_UNKNOWN_FORMAT                   11
 #define LEO_ERROR_NO_SEEK_COMPLETE                 21
@@ -150,65 +188,92 @@ typedef struct LEOCmd {
 #define LEO_ERROR_COMMAND_TERMINATED               34
 #define LEO_ERROR_QUEUE_FULL                       35
 #define LEO_ERROR_ILLEGAL_TIMER_VALUE              36
-#define LEO_ERROR_WAITING_NMI                      37
+#define LEO_ERROR_WAITING_NMI			   37
 #define LEO_ERROR_DEVICE_COMMUNICATION_FAILURE     41
 #define LEO_ERROR_MEDIUM_NOT_PRESENT               42
 #define LEO_ERROR_POWERONRESET_DEVICERESET_OCCURED 43
-#define LEO_ERROR_RAMPACK_NOT_CONNECTED            44
+#define LEO_ERROR_RAMPACK_NOT_CONNECTED		   44
 #define LEO_ERROR_MEDIUM_MAY_HAVE_CHANGED          47
-#define LEO_ERROR_EJECTED_ILLEGALLY_RESUME         49
+#define LEO_ERROR_EJECTED_ILLEGALLY_RESUME	   49
 
-#define LEO_ERROR_NOT_BOOTED_DISK                  45
+/*
+ * Reserved
+ */
+#define LEO_ERROR_NOT_BOOTED_DISK		   45
 #define LEO_ERROR_DIDNOT_CHANGED_DISK_AS_EXPECTED  46
 
-#define LEO_ERROR_RTC_NOT_SET_CORRECTLY            48
-#define LEO_ERROR_DIAGNOSTIC_FAILURE_RESET         50
-#define LEO_ERROR_EJECTED_ILLEGALLY_RESET          51
+/*
+ * Error codes only used in IPL
+ */
+#define LEO_ERROR_RTC_NOT_SET_CORRECTLY		   48
+#define LEO_ERROR_DIAGNOSTIC_FAILURE_RESET	   50
+#define LEO_ERROR_EJECTED_ILLEGALLY_RESET	   51
 
 #if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
+/**************************************************************************
+ *
+ * Macro definitions
+ *
+ */
 #define GET_ERROR(x) ((x).header.sense)
 
-extern LEODiskID leoBootID;
-extern OSPiHandle* __osDiskHandle; // For exceptasm to get disk info
 
-// Initialize routine
-s32 LeoCreateLeoManager(OSPri comPri, OSPri intPri, OSMesg* cmdBuf, s32 cmdMsgCnt);
-s32 LeoCJCreateLeoManager(OSPri comPri, OSPri intPri, OSMesg* cmdBuf, s32 cmdMsgCnt);
-s32 LeoCACreateLeoManager(OSPri comPri, OSPri intPri, OSMesg* cmdBuf, s32 cmdMsgCnt);
-u32 LeoDriveExist(void);
+/**************************************************************************
+ *
+ * Extern variables
+ *
+ */
+extern	LEODiskID	leoBootID;
+extern	OSPiHandle      *__osDiskHandle; /* For exceptasm to get disk info*/
 
-// Synchronous functions
-s32 LeoClearQueue(void);
-s32 LeoByteToLBA(s32 startlba, u32 nbytes, s32* lba);
-s32 LeoLBAToByte(s32 startlba, u32 nlbas, s32* bytes);
-s32 LeoReadCapacity(LEOCapacity* cap, s32 dir);
-s32 LeoInquiry(LEOVersion* ver);
-s32 LeoTestUnitReady(LEOStatus* status);
 
-// Asynchronous functions
-s32 LeoSpdlMotor(LEOCmd* cmdBlock, LEOSpdlMode mode, OSMesgQueue* mq);
-s32 LeoSeek(LEOCmd* cmdBlock, u32 lba, OSMesgQueue* mq);
-s32 LeoRezero(LEOCmd* cmdBlock, OSMesgQueue* mq);
-s32 LeoReadWrite(LEOCmd* cmdBlock, s32 direction, u32 LBA, void* vAddr, u32 nLBAs, OSMesgQueue* mq);
-s32 LeoReadDiskID(LEOCmd* cmdBlock, LEODiskID* vaddr, OSMesgQueue* mq);
-s32 LeoSetRTC(LEOCmd* cmdBlock, LEODiskTime* RTCdata, OSMesgQueue* mq);
-s32 LeoReadRTC(LEOCmd* cmdBlock, OSMesgQueue* mq);
-s32 LeoModeSelectAsync(LEOCmd* cmdBlock, u32 standby, u32 sleep, OSMesgQueue* mq);
+/**************************************************************************
+ *
+ * Function prototypes
+ *
+ */
+/* Initialize routine */
+extern	s32 LeoCreateLeoManager(OSPri comPri, OSPri intPri,
+				OSMesg *cmdBuf, s32 cmdMsgCnt);
+extern	s32 LeoCJCreateLeoManager(OSPri comPri, OSPri intPri,
+				  OSMesg *cmdBuf, s32 cmdMsgCnt);
+extern	s32 LeoCACreateLeoManager(OSPri comPri, OSPri intPri,
+				  OSMesg *cmdBuf, s32 cmdMsgCnt);
+extern  u32 LeoDriveExist(void);
 
-// Font routines
-int LeoGetKAdr(int sjis);
-int LeoGetAAdr(int code, int* dx, int* dy, int* cy);
-int LeoGetAAdr2(u32 ccode, int* dx, int* dy, int* cy);
+/* Synchronous functions */
+extern	s32 LeoClearQueue(void);
+extern s32 LeoByteToLBA(s32 startlba, u32 nbytes, s32* lba);
+extern s32 LeoLBAToByte(s32 startlba, u32 nlbas, s32* bytes);
+extern	s32 LeoReadCapacity(LEOCapacity *cap, s32 dir);
+extern	s32 LeoInquiry(LEOVersion *ver);
+extern	s32 LeoTestUnitReady(LEOStatus *status);
 
-// Boot function
-void LeoBootGame(void* entry);
+/* Asynchronous functions */
+extern	s32 LeoSpdlMotor(LEOCmd *cmdBlock, LEOSpdlMode mode, OSMesgQueue *mq);
+extern	s32 LeoSeek(LEOCmd *cmdBlock, u32 lba, OSMesgQueue *mq);
+extern	s32 LeoRezero(LEOCmd *cmdBlock, OSMesgQueue *mq);
+extern	s32 LeoReadWrite(LEOCmd *cmdBlock, s32 direction,
+			 u32 LBA, void *vAddr, u32 nLBAs, OSMesgQueue *mq);
+extern	s32 LeoReadDiskID(LEOCmd *cmdBlock, LEODiskID *vaddr, OSMesgQueue *mq);
+extern  s32 LeoSetRTC(LEOCmd *cmdBlock, LEODiskTime *RTCdata, OSMesgQueue *mq);
+extern	s32 LeoReadRTC(LEOCmd *cmdBlock, OSMesgQueue *mq);
+extern  s32 LeoModeSelectAsync(LEOCmd *cmdBlock, u32 standby,
+			       u32 sleep, OSMesgQueue *mq);
 
-#endif  // defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
+/* Font routines */
+extern	int LeoGetKAdr(int sjis);
+extern	int LeoGetAAdr(int code,int *dx,int *dy, int *cy);
+extern	int LeoGetAAdr2(u32 ccode,int *dx,int *dy, int *cy);
+
+/* Boot function */
+extern  void LeoBootGame(void *entry);
+
+#endif  /* defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) */
 
 #ifdef _LANGUAGE_C_PLUS_PLUS
 }
 #endif
 
-#endif
-
+#endif /* !_LEO_H */

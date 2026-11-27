@@ -71,7 +71,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_STOP),
+    ICHAIN_VEC3F_DIV1000(scale, 0x19, ICHAIN_STOP),
 };
 
 void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
@@ -79,15 +79,15 @@ void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
 }
 
 void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
-    STACK_PAD(s32);
     BgTokiSwd* this = (BgTokiSwd*)thisx;
+    STACK_PAD(s32);
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     this->actor.shape.yOffset = 800.0f;
     BgTokiSwd_SetupAction(this, func_808BAF40);
 
     if (LINK_IS_ADULT) {
-        this->actor.draw = NULL;
+        thisx->draw = NULL;
     }
 
     if (gSaveContext.sceneLayer == 5) {
@@ -96,8 +96,8 @@ void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
-    Collider_UpdateCylinder(&this->actor, &this->collider);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    Collider_UpdateCylinder(thisx, &this->collider);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, PlayState* play) {
