@@ -23,12 +23,12 @@ void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play);
 void BgJyaAmishutter_Update(Actor* thisx, PlayState* play);
 void BgJyaAmishutter_Draw(Actor* thisx, PlayState* play);
 
-void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this);
-void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupWaitForPlayerNear(BgJyaAmishutter* this);
+void BgJyaAmishutter_WaitForPlayerNear(BgJyaAmishutter* this);
 void BgJyaAmishutter_SetupRaise(BgJyaAmishutter* this);
 void BgJyaAmishutter_Raise(BgJyaAmishutter* this);
-void BgJyaAmishutter_SetupWaitForPlayerToLeave(BgJyaAmishutter* this);
-void BgJyaAmishutter_WaitForPlayerToLeave(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupWaitForPlayerFar(BgJyaAmishutter* this);
+void BgJyaAmishutter_WaitForPlayerFar(BgJyaAmishutter* this);
 void BgJyaAmishutter_SetupLower(BgJyaAmishutter* this);
 void BgJyaAmishutter_Lower(BgJyaAmishutter* this);
 
@@ -76,7 +76,7 @@ void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
 
     BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    BgJyaAmishutter_SetupWaitForPlayer(this);
+    BgJyaAmishutter_SetupWaitForPlayerNear(this);
 }
 
 void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
@@ -85,11 +85,11 @@ void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
-    this->actionFunc = BgJyaAmishutter_WaitForPlayer;
+void BgJyaAmishutter_SetupWaitForPlayerNear(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_WaitForPlayerNear;
 }
 
-void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this) {
+void BgJyaAmishutter_WaitForPlayerNear(BgJyaAmishutter* this) {
     if ((this->dyna.actor.xzDistToPlayer < 60.0f) && (fabsf(this->dyna.actor.yDistToPlayer) < 30.0f)) {
         BgJyaAmishutter_SetupRaise(this);
     }
@@ -101,18 +101,18 @@ void BgJyaAmishutter_SetupRaise(BgJyaAmishutter* this) {
 
 void BgJyaAmishutter_Raise(BgJyaAmishutter* this) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 100.0f, 3.0f)) {
-        BgJyaAmishutter_SetupWaitForPlayerToLeave(this);
+        BgJyaAmishutter_SetupWaitForPlayerFar(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
-void BgJyaAmishutter_SetupWaitForPlayerToLeave(BgJyaAmishutter* this) {
-    this->actionFunc = BgJyaAmishutter_WaitForPlayerToLeave;
+void BgJyaAmishutter_SetupWaitForPlayerFar(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_WaitForPlayerFar;
 }
 
-void BgJyaAmishutter_WaitForPlayerToLeave(BgJyaAmishutter* this) {
+void BgJyaAmishutter_WaitForPlayerFar(BgJyaAmishutter* this) {
     // Unlike the check that raises the grate, this only considers horizontal distance, and the range is much larger.
     // The grate stays raised regardless of the player's height until they are well away from it.
     if (this->dyna.actor.xzDistToPlayer > 300.0f) {
@@ -128,7 +128,7 @@ void BgJyaAmishutter_Lower(BgJyaAmishutter* this) {
     // The player's position is not checked while lowering. The grate always returns fully to its home position
     // before it can be raised again.
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f)) {
-        BgJyaAmishutter_SetupWaitForPlayer(this);
+        BgJyaAmishutter_SetupWaitForPlayerNear(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
