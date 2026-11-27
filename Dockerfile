@@ -13,8 +13,8 @@ RUN apt-get install -y \
         python3-pip \
         git \
         curl \
-        clang-tidy-14 \
-        clang-format-14
+        clang-tidy-19 \
+        clang-format-19
 RUN apt-get install -y ./gcc-toolchain-mips64-x86_64.deb
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
