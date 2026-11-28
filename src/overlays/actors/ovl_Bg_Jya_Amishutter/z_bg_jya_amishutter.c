@@ -23,14 +23,14 @@ void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play);
 void BgJyaAmishutter_Update(Actor* thisx, PlayState* play);
 void BgJyaAmishutter_Draw(Actor* thisx, PlayState* play);
 
-void BgJyaAmishutter_SetupWaitForPlayerNear(BgJyaAmishutter* this);
-void BgJyaAmishutter_WaitForPlayerNear(BgJyaAmishutter* this);
-void BgJyaAmishutter_SetupRaise(BgJyaAmishutter* this);
-void BgJyaAmishutter_Raise(BgJyaAmishutter* this);
-void BgJyaAmishutter_SetupWaitForPlayerFar(BgJyaAmishutter* this);
-void BgJyaAmishutter_WaitForPlayerFar(BgJyaAmishutter* this);
-void BgJyaAmishutter_SetupLower(BgJyaAmishutter* this);
-void BgJyaAmishutter_Lower(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupClosed(BgJyaAmishutter* this);
+void BgJyaAmishutter_Closed(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupOpening(BgJyaAmishutter* this);
+void BgJyaAmishutter_Opening(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupOpen(BgJyaAmishutter* this);
+void BgJyaAmishutter_Opened(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupClosing(BgJyaAmishutter* this);
+void BgJyaAmishutter_Closing(BgJyaAmishutter* this);
 
 ActorProfile Bg_Jya_Amishutter_Profile = {
     /**/ ACTOR_BG_JYA_AMISHUTTER,
@@ -76,7 +76,7 @@ void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
 
     BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    BgJyaAmishutter_SetupWaitForPlayerNear(this);
+    BgJyaAmishutter_SetupClosed(this);
 }
 
 void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
@@ -85,50 +85,50 @@ void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgJyaAmishutter_SetupWaitForPlayerNear(BgJyaAmishutter* this) {
-    this->actionFunc = BgJyaAmishutter_WaitForPlayerNear;
+void BgJyaAmishutter_SetupClosed(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_Closed;
 }
 
-void BgJyaAmishutter_WaitForPlayerNear(BgJyaAmishutter* this) {
+void BgJyaAmishutter_Closed(BgJyaAmishutter* this) {
     if ((this->dyna.actor.xzDistToPlayer < 60.0f) && (fabsf(this->dyna.actor.yDistToPlayer) < 30.0f)) {
-        BgJyaAmishutter_SetupRaise(this);
+        BgJyaAmishutter_SetupOpening(this);
     }
 }
 
-void BgJyaAmishutter_SetupRaise(BgJyaAmishutter* this) {
-    this->actionFunc = BgJyaAmishutter_Raise;
+void BgJyaAmishutter_SetupOpening(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_Opening;
 }
 
-void BgJyaAmishutter_Raise(BgJyaAmishutter* this) {
+void BgJyaAmishutter_Opening(BgJyaAmishutter* this) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 100.0f, 3.0f)) {
-        BgJyaAmishutter_SetupWaitForPlayerFar(this);
+        BgJyaAmishutter_SetupOpen(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
-void BgJyaAmishutter_SetupWaitForPlayerFar(BgJyaAmishutter* this) {
-    this->actionFunc = BgJyaAmishutter_WaitForPlayerFar;
+void BgJyaAmishutter_SetupOpen(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_Opened;
 }
 
-void BgJyaAmishutter_WaitForPlayerFar(BgJyaAmishutter* this) {
-    // Unlike the check that raises the grate, this only considers horizontal distance, and the range is much larger.
-    // The grate stays raised regardless of the player's height until they are well away from it.
+void BgJyaAmishutter_Opened(BgJyaAmishutter* this) {
+    // Unlike the check that opens the grate, this only considers horizontal distance, and the range is much larger.
+    // The grate stays open regardless of the player's height until they are well away from it.
     if (this->dyna.actor.xzDistToPlayer > 300.0f) {
-        BgJyaAmishutter_SetupLower(this);
+        BgJyaAmishutter_SetupClosing(this);
     }
 }
 
-void BgJyaAmishutter_SetupLower(BgJyaAmishutter* this) {
-    this->actionFunc = BgJyaAmishutter_Lower;
+void BgJyaAmishutter_SetupClosing(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_Closing;
 }
 
-void BgJyaAmishutter_Lower(BgJyaAmishutter* this) {
-    // The player's position is not checked while lowering. The grate always returns fully to its home position
-    // before it can be raised again.
+void BgJyaAmishutter_Closing(BgJyaAmishutter* this) {
+    // The player's position is not checked while closing. The grate always returns fully to its home position
+    // before it can open again.
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f)) {
-        BgJyaAmishutter_SetupWaitForPlayerNear(this);
+        BgJyaAmishutter_SetupClosed(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
