@@ -1,7 +1,7 @@
 /*
  * File: z_bg_jya_amishutter.c
  * Overlay: Bg_Jya_Amishutter
- * Description: Circular metal grate. Lifts up when you get close to it.
+ * Description: Circular metal grate. Lifts up when you get close to it. (Spirit Temple)
  */
 
 #include "z_bg_jya_amishutter.h"
@@ -23,14 +23,14 @@ void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play);
 void BgJyaAmishutter_Update(Actor* thisx, PlayState* play);
 void BgJyaAmishutter_Draw(Actor* thisx, PlayState* play);
 
-void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this);
-void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this);
-void func_80893428(BgJyaAmishutter* this);
-void func_80893438(BgJyaAmishutter* this);
-void func_808934B0(BgJyaAmishutter* this);
-void func_808934C0(BgJyaAmishutter* this);
-void func_808934FC(BgJyaAmishutter* this);
-void func_8089350C(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupClosed(BgJyaAmishutter* this);
+void BgJyaAmishutter_Closed(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupOpening(BgJyaAmishutter* this);
+void BgJyaAmishutter_Opening(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupOpen(BgJyaAmishutter* this);
+void BgJyaAmishutter_Opened(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupClosing(BgJyaAmishutter* this);
+void BgJyaAmishutter_Closing(BgJyaAmishutter* this);
 
 ActorProfile Bg_Jya_Amishutter_Profile = {
     /**/ ACTOR_BG_JYA_AMISHUTTER,
@@ -51,11 +51,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, CollisionHeader* collision, s32 flag) {
+void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, CollisionHeader* collision,
+                                  s32 transformFlags) {
     STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, flag);
+    DynaPolyActor_Init(&this->dyna, transformFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -75,7 +76,7 @@ void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
 
     BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    BgJyaAmishutter_SetupWaitForPlayer(this);
+    BgJyaAmishutter_SetupClosed(this);
 }
 
 void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
@@ -84,46 +85,50 @@ void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
-    this->actionFunc = BgJyaAmishutter_WaitForPlayer;
+void BgJyaAmishutter_SetupClosed(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_Closed;
 }
 
-void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this) {
+void BgJyaAmishutter_Closed(BgJyaAmishutter* this) {
     if ((this->dyna.actor.xzDistToPlayer < 60.0f) && (fabsf(this->dyna.actor.yDistToPlayer) < 30.0f)) {
-        func_80893428(this);
+        BgJyaAmishutter_SetupOpening(this);
     }
 }
 
-void func_80893428(BgJyaAmishutter* this) {
-    this->actionFunc = func_80893438;
+void BgJyaAmishutter_SetupOpening(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_Opening;
 }
 
-void func_80893438(BgJyaAmishutter* this) {
+void BgJyaAmishutter_Opening(BgJyaAmishutter* this) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 100.0f, 3.0f)) {
-        func_808934B0(this);
+        BgJyaAmishutter_SetupOpen(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
-void func_808934B0(BgJyaAmishutter* this) {
-    this->actionFunc = func_808934C0;
+void BgJyaAmishutter_SetupOpen(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_Opened;
 }
 
-void func_808934C0(BgJyaAmishutter* this) {
+void BgJyaAmishutter_Opened(BgJyaAmishutter* this) {
+    // Unlike the check that opens the grate, this only considers horizontal distance, and the range is much larger.
+    // The grate stays open regardless of the player's height until they are well away from it.
     if (this->dyna.actor.xzDistToPlayer > 300.0f) {
-        func_808934FC(this);
+        BgJyaAmishutter_SetupClosing(this);
     }
 }
 
-void func_808934FC(BgJyaAmishutter* this) {
-    this->actionFunc = func_8089350C;
+void BgJyaAmishutter_SetupClosing(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_Closing;
 }
 
-void func_8089350C(BgJyaAmishutter* this) {
+void BgJyaAmishutter_Closing(BgJyaAmishutter* this) {
+    // The player's position is not checked while closing. The grate always returns fully to its home position
+    // before it can open again.
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f)) {
-        BgJyaAmishutter_SetupWaitForPlayer(this);
+        BgJyaAmishutter_SetupClosed(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
